@@ -69,6 +69,9 @@ SIGNALS = {
             re.compile(r"(?:脑子进水|脑子有[病坑问题]|没脑子|不长脑子|不长[点心眼]|缺心眼)"),
             re.compile(r"(?:骗[人子]|没诚意|没[点个]?诚意|忽[悠人]|唬[弄人])"),
             re.compile(r"为什么.{0,4}(?:没[人有]|就[没不]|还不|都不)"),
+            # JS parity: universal denial & accusatory assertions (polysemy-03)
+            re.compile(r"没有任何[一个]?"),
+            re.compile(r"(?:^|[\s，。！？…、]|[你他她它这那])(?:一定|肯定|绝对|分明|明显|摆明了).{0,4}(?:是|在).{0,6}(?:没|不|骗|偷|懒|敷衍|划水|搞|弄)"),
         ],
         "weak": [
             # Existing
@@ -98,6 +101,7 @@ SIGNALS = {
             re.compile(r"[并絕]非"),
             re.compile(r"不是[这那]?[样么]?"),
             re.compile(r"请[问請]"),
+            re.compile(r"不是(?:没有|没).{0,6}"),  # JS parity: "不是没有道理" double-negation concession
         ],
         "weak": [
             re.compile(r"因为"),
@@ -115,6 +119,7 @@ SIGNALS = {
             re.compile(r"[强牛][啊呀]?$", re.MULTILINE),
             re.compile(r"厉害"),
             re.compile(r"太[强棒牛]了"),
+            re.compile(r"太(?:绝|好|赞|神|妙)[了啦]?"),  # JS parity: 太绝了/太好了/太赞了
             re.compile(r"牛逼"),
             re.compile(r"(?<![不没])[真太]?[好棒赞](?![说得地话意思了])"),
             re.compile(r"[👍👏🔥💯]"),
@@ -124,12 +129,14 @@ SIGNALS = {
         ],
         "weak": [
             re.compile(r"不错"),
-            re.compile(r"可以[啊呀]?"),
+            re.compile(r"可以[啊呀呢哈哦]"),  # JS parity: requires positive qualifier
+            re.compile(r"经典"),  # JS parity: 经典 used positively
             re.compile(r"爱了"),
             re.compile(r"喜欢"),
             re.compile(r"学到了"),
             re.compile(r"感谢"),
             re.compile(r"谢谢"),
+            re.compile(r"试试看"),  # JS parity: encouraging suggestion
         ],
     },
     "reassurance": {
@@ -161,6 +168,9 @@ SIGNALS = {
             re.compile(r"[我真]?太菜了"),
             re.compile(r"[我]?不行"),
             re.compile(r"我[不]?配"),
+            re.compile(r"去死[了]?算[了]?"),  # JS parity: self-harm context
+            re.compile(r"[活生].{0,4}没意[思义]"),  # JS parity: nihilistic self-talk
+            re.compile(r"不想[活活]了"),  # JS parity: suicidal ideation as intensifier
         ],
         "weak": [
             re.compile(r"我[还也]?[需还]要?学"),
@@ -295,6 +305,22 @@ def classify_scenario(text: str) -> dict:
     if _has_negation_scope(clean):
         scores["praise"] = scores["praise"] // 2
         scores["argument"] = scores["argument"] // 2
+
+    # ── Step 3.2: Comparative negation (没有X那么/这么) ──
+    # JS parity: "这个没有那个好用" — comparative, not praise.
+    # Zero out praise and argument when a comparative 没有 pattern is present.
+    if re.search(r"没有.{0,8}(?:那么|这么|那样|这样|那个|这个)", clean):
+        scores["praise"] = 0
+        scores["argument"] = 0
+
+    # ── Step 3.3: Laughter + positive context override ──
+    # JS parity: when 哈哈哈/笑死 co-occurs with explicit positive signals
+    # (好活, 太绝了, 太有才了, etc.), the laughter is genuine amusement, not mockery.
+    if re.search(r"(?:哈哈哈+|笑死[我了]?)", clean) and re.search(
+        r"(?:好活|太绝了|太有才了|当赏|厉害|牛逼|太[强棒牛]了|[👍👏🔥💯])", clean
+    ) and scores.get("praise", 0) >= 3:
+        scores["praise"] = scores["praise"] + 2
+        scores["taunting"] = scores["taunting"] // 2
 
     # ── Step 4: Cross-scenario suppression ──
     if scores["taunting"] >= 3:

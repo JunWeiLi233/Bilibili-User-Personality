@@ -1,0 +1,67 @@
+{
+  "version": "2.1.0",
+  "source": "debug",
+  "timestamp": "2026-06-27T00:05:00Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/debug-260627-0000/results.tsv",
+  "findings": [
+    {
+      "severity": "low",
+      "description": "3 stale git worktrees (resolver-1/2/3) wasting 72MB disk",
+      "file_line": ".claude/worktrees/resolver-1,resolver-2,resolver-3",
+      "fix": "git worktree remove .claude/worktrees/resolver-1; git branch -D resolver-agent-1; repeat for 2 and 3"
+    },
+    {
+      "severity": "low",
+      "description": "Backup dictionary files (24MB) in server/data/ with no cleanup mechanism",
+      "file_line": "server/data/_dict_backup_*.json",
+      "fix": "Delete old backups or add a cleanup script. Keep only the most recent."
+    },
+    {
+      "severity": "low",
+      "description": "Root-level orphan temp files from past scrapes (358KB)",
+      "file_line": "_browser_tieba_results.json, _danmaku_matches.json",
+      "fix": "Move to .claude/ or delete if no longer needed."
+    },
+    {
+      "severity": "low",
+      "description": "console.log in production server code instead of structured logger",
+      "file_line": "server/index.js:33, server/routes/deepseek.js:74",
+      "fix": "Replace with a logging utility that can be disabled in production."
+    },
+    {
+      "severity": "medium",
+      "description": "Large monolithic service files that should be split for maintainability",
+      "file_line": "server/services/deepseekKeywordTrainer.js (375KB), keywordHarvest.js (351KB), commentCoverage.js (184KB)",
+      "fix": "Split into focused modules by responsibility. deepseekKeywordTrainer.js: separate API client, term generator, evidence scorer, dictionary merger."
+    },
+    {
+      "severity": "low",
+      "description": "Deep JSX nesting in src/main.jsx (>5 levels)",
+      "file_line": "src/main.jsx:1016",
+      "fix": "Extract nested JSX into separate components (KeywordChip, ResearchPanel, etc.)."
+    },
+    {
+      "severity": "low",
+      "description": "Massive test file: test_corpus_contracts.py is 1.8MB with 1814 tests in a single file",
+      "file_line": "python_backend/tests/test_corpus_contracts.py",
+      "fix": "Split by contract family into test_contracts_attack.py, test_contracts_cooperation.py, etc."
+    },
+    {
+      "severity": "low",
+      "description": "Seed results duplicated across 4 directories (seed_results, seed_results_deep, batch2, batch3)",
+      "file_line": ".claude/seed_results*/",
+      "fix": "Deduplicate and consolidate into a single directory. Archive or delete old batches."
+    },
+    {
+      "severity": "low",
+      "description": ".gitignore missing 10 patterns for generated/analysis files",
+      "file_line": ".gitignore",
+      "fix": "Add patterns: _browser_tieba_results.json, _danmaku_matches.json, db_selected*, extracted_uids*, all_entries.json, selected_users_report*, analyze_*_users.js, personality_analysis_data*, collect_uids.py, extract_uids.py"
+    }
+  ],
+  "config": {
+    "scope": "entire project",
+    "symptom": "find tech debts"
+  }
+}

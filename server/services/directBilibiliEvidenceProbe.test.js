@@ -317,12 +317,13 @@ test('buildBilibiliViewUrl supports BVID and aid lookups', () => {
   assert.equal(buildBilibiliViewUrl({}), null);
 });
 
-test('buildBilibiliReplyUrl requires aid and bounds page size', () => {
+test('buildBilibiliReplyUrl uses page-based pagination after main endpoint deprecation', () => {
   const url = buildBilibiliReplyUrl({ aid: '123' }, 2, 100);
 
   assert.equal(url.searchParams.get('type'), '1');
   assert.equal(url.searchParams.get('oid'), '123');
-  assert.equal(url.searchParams.get('next'), '2');
+  assert.equal(url.searchParams.get('sort'), '2');
+  assert.equal(url.searchParams.get('pn'), '2');
   assert.equal(url.searchParams.get('ps'), '50');
   assert.equal(buildBilibiliReplyUrl({ bvid: 'BVmissingAid' }), null);
 });

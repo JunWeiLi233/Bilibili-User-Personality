@@ -224,14 +224,15 @@ const ENDPOINT_BUCKET_DEFAULTS = {
   '/x/web-interface/search':     { burst: 5,  sustain: 1 },   // search: strict
   '/x/web-interface/wbi/search': { burst: 5,  sustain: 1 },
   '/x/v2/reply':                 { burst: 10, sustain: 3 },   // comments: moderate
-  '/x/v2/reply/main':            { burst: 10, sustain: 3 },
+  '/x/v2/reply/main':            { burst: 10, sustain: 3 },   // deprecated, kept as fallback
   '/x/v2/reply/reply':           { burst: 10, sustain: 3 },
   '/x/v2/reply/search':          { burst: 10, sustain: 3 },
   '/x/web-interface/view':       { burst: 12, sustain: 4 },   // video info: loose
   '/x/web-interface/card':       { burst: 12, sustain: 4 },   // user card: loose
   '/x/space/arc/search':         { burst: 8,  sustain: 2 },   // space: normal
   '/x/polymer/web-dynamic':      { burst: 8,  sustain: 2 },   // dynamics: normal
-  '/x/v1/dm/list.so':            { burst: 15, sustain: 5 },   // danmaku XML: loose
+  '/x/v2/dm/web/view':           { burst: 10, sustain: 3 },   // danmaku protobuf
+  '/x/v1/dm/list.so':            { burst: 15, sustain: 5 },   // deprecated, kept as fallback
   '/x/web-interface/popular':    { burst: 6,  sustain: 2 },   // popular: moderate
   '/x/v3/fav/resource/list':     { burst: 6,  sustain: 2 },   // favorites: moderate
 };
@@ -473,14 +474,16 @@ function ensureCookies(randomFn, nowFn) {
 
   const envCookie = (process.env.BILIBILI_COOKIE || '').trim();
   if (envCookie) {
+    const keys = [];
     for (const part of envCookie.split(/;\s*/)) {
       const eq = part.indexOf('=');
       if (eq > 0) {
         const name = part.slice(0, eq).trim();
         const value = part.slice(eq + 1).trim();
-        if (name && value) cookieJar.set(name, value);
+        if (name && value) { cookieJar.set(name, value); keys.push(name); }
       }
     }
+    console.log(`[bilibili-crawler] Loaded ${keys.length} cookie(s) from BILIBILI_COOKIE env: ${keys.join(', ')}`);
     return;
   }
 
@@ -494,6 +497,8 @@ function ensureCookies(randomFn, nowFn) {
     'buvid4',
     `${randomHex(8, r)}-${randomHex(4, r)}-${randomHex(4, r)}-${randomHex(4, r)}-${randomHex(12, r)}-${epochSec}-1`,
   );
+  // buvid_fp reduces HTTP 412s on guest requests
+  cookieJar.set('buvid_fp', `${randomHex(32, r)}`);
   cookieJar.set('b_nut', String(epochSec));
   cookieJar.set(
     '_uuid',
@@ -502,6 +507,8 @@ function ensureCookies(randomFn, nowFn) {
   cookieJar.set('b_lsid', `${randomHex(8, r)}_${randomHex(10, r)}`);
   cookieJar.set('bsource', 'search_bing');
   cookieJar.set('home_feed', 'recommend');
+  cookieJar.set('enable_web_push', 'DISABLE');
+  cookieJar.set('header_theme_version', 'undefined');
 }
 
 export function normalizeBilibiliCookie(value) {
@@ -807,6 +814,43 @@ export async function fetchText(url, referer = 'https://www.bilibili.com', optio
   return response.text();
 }
 
+export async function fetchBuffer(url, referer = 'https://www.bilibili.com', options = {}) {
+  const config = fetchConfigWithSignal({ ...readCrawlerConfig(options.env), ...(options.config || {}) }, options.signal);
+  const nowFn = options.nowFn || Date.now;
+  const randomFn = options.randomFn || Math.random;
+  const requestCookie = normalizeBilibiliCookie(options.bilibiliCookie || options.cookie);
+  await scheduleBilibiliRequest({ ...options, config });
+  if (isEndpointExhausted(url)) {
+    throw new Error(`Bilibili endpoint exhausted (WAF early-exit): ${endpointKey(url)}`);
+  }
+  const waitFn = options.waitFn || wait;
+  const bucket = getEndpointBucket(url, nowFn, options.env);
+  const tokenWaitMs = await bucket.take(waitFn);
+  const fetchImpl = options.fetchImpl || fetch;
+  const response = await fetchWithTimeout(
+    fetchImpl,
+    url,
+    {
+      headers: buildHeaders(url, referer, randomFn, nowFn, requestCookie),
+      ...(config.signal ? { signal: config.signal } : {}),
+    },
+    config,
+  );
+  if (!response.ok) {
+    const status = Number(response.status);
+    if (isWafResponse(status)) {
+      applyWafCooldown(url, config, nowFn, randomFn);
+    } else if ([412, 429].includes(status)) {
+      applyBlockCooldown(config, nowFn, randomFn);
+    }
+    throw new Error(`HTTP ${response.status} from ${url}`);
+  }
+  captureSetCookies(response);
+  consecutiveBlocks = 0;
+  if (proxyRotator) proxyRotator.markSuccess(proxyRotator.current());
+  return response.arrayBuffer();
+}
+
 export function parseBvidPool(raw) {
   return String(raw || '')
     .split(/[\s,，]+/)
@@ -912,21 +956,23 @@ export async function discoverVideosByKeyword(query, limit = 6, deps = {}) {
   const videos = [];
   const seen = new Set();
   for (let page = 1; page <= searchPages && videos.length < pageSize; page += 1) {
-    const url = new URL('https://api.bilibili.com/x/web-interface/search/type');
-    url.searchParams.set('search_type', 'video');
+    const url = new URL('https://api.bilibili.com/x/web-interface/search/all/v2');
     url.searchParams.set('keyword', keyword);
     url.searchParams.set('page', String(page));
-    url.searchParams.set('page_size', String(pageSize));
     if (order) url.searchParams.set('order', order);
     const data = await requestJson(url.toString(), `https://search.bilibili.com/all?keyword=${encodeURIComponent(keyword)}`);
     if (data.code !== 0) {
       throw new Error(data.message || `video search failed with code ${data.code}`);
     }
-    for (const item of data.data?.result || []) {
-      if (!item?.bvid || seen.has(item.bvid)) continue;
-      seen.add(item.bvid);
-      videos.push(videoObjectFromSearchItem(item));
-      if (videos.length >= pageSize) break;
+    const groups = Array.isArray(data.data?.result) ? data.data.result : [];
+    for (const group of groups) {
+      if (group.result_type !== 'video') continue;
+      for (const item of group.data || []) {
+        if (!item?.bvid || seen.has(item.bvid)) continue;
+        seen.add(item.bvid);
+        videos.push(videoObjectFromSearchItem(item));
+        if (videos.length >= pageSize) break;
+      }
     }
   }
   return videos;
@@ -1151,26 +1197,28 @@ export async function fetchRepliesForObject(object, uid, pages, deps = {}) {
   let next = 0;
   const pageCount = Math.max(1, pages);
   for (let index = 0; index < pageCount; index += 1) {
-    const url = `https://api.bilibili.com/x/v2/reply/main?type=${encodeURIComponent(object.replyType || 1)}&oid=${encodeURIComponent(object.oid)}&mode=3&next=${next}&ps=20`;
+    // Primary: /x/v2/reply (main is blocked/deprecated)
+    let url = `https://api.bilibili.com/x/v2/reply?type=${encodeURIComponent(object.replyType || 1)}&oid=${encodeURIComponent(object.oid)}&pn=${index + 1}&ps=20&sort=2`;
     let data = await requestJson(url, object.sourceUrl || 'https://www.bilibili.com');
+    let useCursor = false;
     if (data.code !== 0) {
-      const legacyUrl = `https://api.bilibili.com/x/v2/reply?type=${encodeURIComponent(object.replyType || 1)}&oid=${encodeURIComponent(object.oid)}&pn=${index + 1}&ps=20&sort=2`;
-      data = await requestJson(legacyUrl, object.sourceUrl || 'https://www.bilibili.com');
+      // Fallback: /x/v2/reply/main with cursor-based pagination
+      url = `https://api.bilibili.com/x/v2/reply/main?type=${encodeURIComponent(object.replyType || 1)}&oid=${encodeURIComponent(object.oid)}&mode=3&next=${next}&ps=20`;
+      data = await requestJson(url, object.sourceUrl || 'https://www.bilibili.com');
       if (data.code !== 0) break;
-      for (const reply of data.data?.replies || []) {
-        collectReplyForUid(reply, uid, object, found);
-      }
-      const page = data.data?.page;
-      if (!page || index + 1 >= Math.ceil(Number(page.count || 0) / Math.max(Number(page.size || 20), 1))) break;
-      await humanPause(600, 1600);
-      continue;
+      useCursor = true;
     }
     for (const reply of data.data?.replies || []) {
       collectReplyForUid(reply, uid, object, found);
     }
-    const cursor = data.data?.cursor;
-    if (!cursor || cursor.is_end || cursor.next == null) break;
-    next = cursor.next;
+    if (useCursor) {
+      const cursor = data.data?.cursor;
+      if (!cursor || cursor.is_end || cursor.next == null) break;
+      next = cursor.next;
+    } else {
+      const page = data.data?.page;
+      if (!page || index + 1 >= Math.ceil(Number(page.count || 0) / Math.max(Number(page.size || 20), 1))) break;
+    }
     await humanPause(600, 1600);
   }
   return found;
@@ -1260,15 +1308,96 @@ export async function parseDanmakuXmlWithPython(xml, video, options = {}) {
   return Array.isArray(result?.comments) ? result.comments : [];
 }
 
+export function parseDanmakuProtobuf(buffer, video) {
+  const items = [];
+  if (!(buffer instanceof ArrayBuffer) || buffer.byteLength === 0) return items;
+  try {
+    const bytes = new Uint8Array(buffer);
+    // Decode protobuf as UTF-8 and extract Chinese text segments
+    // Protobuf embeds danmaku text as UTF-8 strings; non-text bytes become noise
+    const text = new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+    // Scan for Chinese text segments (>=2 chars, <120 chars, contains CJK)
+    let current = '';
+    let index = 0;
+    for (let i = 0; i < text.length; i++) {
+      const cp = text.codePointAt(i);
+      // CJK Unified Ideographs + CJK punctuation ranges
+      const isCJK = (cp >= 0x4E00 && cp <= 0x9FFF)
+        || (cp >= 0x3400 && cp <= 0x4DBF)
+        || (cp >= 0x3000 && cp <= 0x303F)
+        || (cp >= 0xFF00 && cp <= 0xFFEF);
+      const isPrintable = cp >= 0x20 && cp <= 0x7E;
+      if (isCJK || isPrintable) {
+        current += text[i];
+        // Handle surrogate pairs
+        if (cp >= 0xD800 && cp <= 0xDBFF) {
+          if (i + 1 < text.length) {
+            current += text[i + 1];
+            i++;
+          }
+        }
+      } else {
+        if (current.length >= 2 && current.length < 120
+          && /[一-鿿]/.test(current)
+          && !current.startsWith('{')
+          && !current.startsWith('http')) {
+          // Filter system messages and UI labels
+          if (!/开启后|全站视频|弹幕|^[0-9]/.test(current)) {
+            items.push({
+              bvid: video.bvid,
+              oid: String(video.oid || ''),
+              replyType: Number(video.replyType || 1),
+              sourceTitle: video.title || '',
+              sourceUrl: video.sourceUrl || '',
+              rpid: `danmaku-${video.cid || video.oid || video.bvid}-${index}`,
+              like: 0,
+              ctime: 0,
+              uname: '',
+              mid: '',
+              message: current.trim(),
+              kind: 'danmaku',
+            });
+            index += 1;
+          }
+        }
+        current = '';
+      }
+    }
+  } catch {
+    // Protobuf parse failures are non-fatal; return whatever we extracted
+  }
+  return items;
+}
+
 async function fetchDanmakuForVideo(video, deps = {}) {
   const cid = String(video?.cid || '').trim();
   if (!cid) return [];
-  const requestText = deps.fetchText || fetchText;
-  const xml = await requestText(`https://api.bilibili.com/x/v1/dm/list.so?oid=${encodeURIComponent(cid)}`, video.sourceUrl);
-  if (deps.usePythonParser || deps.runPythonParse) {
-    return parseDanmakuXmlWithPython(xml, video, { runPythonParse: deps.runPythonParse });
+  // Try new protobuf endpoint first, fall back to legacy XML
+  try {
+    const requestBuffer = deps.fetchBuffer || fetchBuffer;
+    const buffer = await requestBuffer(
+      `https://api.bilibili.com/x/v2/dm/web/view?oid=${encodeURIComponent(cid)}&type=1`,
+      video.sourceUrl,
+    );
+    const items = parseDanmakuProtobuf(buffer, video);
+    if (items.length > 0) return items;
+  } catch {
+    // Fall through to legacy endpoint
   }
-  return parseDanmakuXml(xml, video);
+  // Legacy XML fallback
+  try {
+    const requestText = deps.fetchText || fetchText;
+    const xml = await requestText(
+      `https://api.bilibili.com/x/v1/dm/list.so?oid=${encodeURIComponent(cid)}`,
+      video.sourceUrl,
+    );
+    if (deps.usePythonParser || deps.runPythonParse) {
+      return parseDanmakuXmlWithPython(xml, video, { runPythonParse: deps.runPythonParse });
+    }
+    return parseDanmakuXml(xml, video);
+  } catch {
+    return [];
+  }
 }
 
 function replySubtreeMatches(reply, deepenMatch) {
@@ -1334,38 +1463,39 @@ export async function fetchRepliesForVideo(input, options = {}, deps = {}) {
     if (total > shown && replySubtreeMatches(reply, deepenMatch)) deepenRoots.add(rpid);
   };
   let next = 0;
-  let useLegacy = false;
-  let legacyPage = 1;
+  let useFallback = false;
+  let fallbackPage = 1;
   for (let index = 0; index < pages; index += 1) {
-    if (!useLegacy) {
-      const url = `https://api.bilibili.com/x/v2/reply/main?type=${encodeURIComponent(video.replyType || 1)}&oid=${encodeURIComponent(video.oid)}&mode=3&next=${next}&ps=20`;
+    if (!useFallback) {
+      // Primary: /x/v2/reply (main is blocked/deprecated)
+      const url = `https://api.bilibili.com/x/v2/reply?type=${encodeURIComponent(video.replyType || 1)}&oid=${encodeURIComponent(video.oid)}&pn=${index + 1}&ps=20&sort=2`;
       let data = await requestJson(url, video.sourceUrl);
       if (data.code !== 0) {
-        useLegacy = true;
-        legacyPage = index + 1;
+        useFallback = true;
+        fallbackPage = 1;
+        // Retry this iteration with the fallback
       } else {
         for (const reply of data.data?.replies || []) {
           collectPublicReply(reply, video, comments);
           queueDeepenRoot(reply);
         }
-        const cursor = data.data?.cursor;
-        if (!cursor || cursor.is_end || cursor.next == null) break;
-        next = cursor.next;
+        const page = data.data?.page;
+        if (!page || index + 1 >= Math.ceil(Number(page.count || 0) / Math.max(Number(page.size || 20), 1))) break;
         await humanPause(600, 1600);
         continue;
       }
     }
-    if (useLegacy) {
-      const legacyUrl = `https://api.bilibili.com/x/v2/reply?type=${encodeURIComponent(video.replyType || 1)}&oid=${encodeURIComponent(video.oid)}&pn=${legacyPage}&ps=20&sort=2`;
-      let data = await requestJson(legacyUrl, video.sourceUrl);
+    if (useFallback) {
+      const fallbackUrl = `https://api.bilibili.com/x/v2/reply/main?type=${encodeURIComponent(video.replyType || 1)}&oid=${encodeURIComponent(video.oid)}&mode=3&next=${next}&ps=20`;
+      let data = await requestJson(fallbackUrl, video.sourceUrl);
       if (data.code !== 0) break;
       for (const reply of data.data?.replies || []) {
         collectPublicReply(reply, video, comments);
         queueDeepenRoot(reply);
       }
-      const page = data.data?.page;
-      if (!page || legacyPage >= Math.ceil(Number(page.count || 0) / Math.max(Number(page.size || 20), 1))) break;
-      legacyPage += 1;
+      const cursor = data.data?.cursor;
+      if (!cursor || cursor.is_end || cursor.next == null) break;
+      next = cursor.next;
       await humanPause(600, 1600);
     }
   }
@@ -1602,7 +1732,11 @@ export async function validateSession(deps = {}) {
     }
     sessionAuthenticated = false;
     lastSessionCheck = Date.now();
-    console.warn('[bilibili-crawler] Session invalid — falling back to unauthenticated mode');
+    const reason = data?.code !== 0
+      ? `API code ${data?.code}: ${data?.message || 'no message'}`
+      : 'isLogin=false (cookie expired or invalid)';
+    console.warn(`[bilibili-crawler] Session invalid — ${reason}`);
+    console.warn(`[bilibili-crawler] → Check your SESSDATA cookie. Open public/export-cookie.html in a browser to refresh it.`);
     return { isLogin: false, mid: '', uname: '' };
   } catch (error) {
     console.warn(`[bilibili-crawler] Session check failed: ${error.message}`);

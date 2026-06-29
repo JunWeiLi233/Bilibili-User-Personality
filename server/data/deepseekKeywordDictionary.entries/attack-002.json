@@ -1,2277 +1,2277 @@
 {
   "version": 1,
-  "updatedAt": null,
+  "updatedAt": "2026-06-29T14:44:40.775Z",
   "family": "attack",
   "shard": 2,
-  "shardCount": 5,
+  "shardCount": 3,
   "entries": [
-    {
-      "term": "吸特乐",
-      "family": "attack",
-      "meaning": "谐音梗，指吸毒者或讽刺希特勒，带有侮辱性",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "吹假牛",
-      "family": "attack",
-      "meaning": "指虚假宣传或夸大，常用于打假场合",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:44:27.937Z"
-    },
-    {
-      "term": "吾命休矣",
-      "family": "attack",
-      "meaning": "表示绝望或困境的调侃说法，源自游戏或影视台词，用于自嘲或表达无奈",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "周处",
-      "family": "attack",
-      "meaning": "对《明日方舟》玩家的贬称，恶意调侃其极端行为",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "呵呵",
-      "family": "attack",
-      "meaning": "网络冷笑，表示不屑、嘲讽或敷衍",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T02:31:01.844Z"
-    },
-    {
-      "term": "哈人",
-      "family": "attack",
-      "meaning": "表示惊讶或讽刺对方言论吓人，常用于吐槽",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T15:03:26.562Z"
-    },
-    {
-      "term": "哈哈哈",
-      "family": "attack",
-      "meaning": "笑声连写，表示嘲讽、轻蔑或觉得好笑",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "哈皮",
-      "family": "attack",
-      "meaning": "方言骂人话，相当于傻逼，用于侮辱性指责",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:28:19.308Z"
-    },
-    {
-      "term": "哪根葱",
-      "family": "attack",
-      "meaning": "轻蔑地质疑对方身份或重要性",
-      "risk": "high",
-      "confidence": 0.88,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T09:27:02.637Z"
-    },
-    {
-      "term": "哪都有你",
-      "family": "attack",
-      "meaning": "抱怨某人频繁出现，略带阴阳怪气",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "商单只能吹",
-      "family": "attack",
-      "meaning": "讽刺商业合作内容只能吹捧，攻击自媒体或广告行为",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:30:42.315Z"
-    },
-    {
-      "term": "啊对对对",
-      "senses": [
-        {
-          "id": "啊对对对-1",
-          "family": "attack",
-          "meaning": "敷衍式嘲讽回应，表示不屑争辩",
-          "risk": "medium",
-          "contextHints": [
-            "你",
-            "懒得",
-            "对对对"
-          ],
-          "contextAntiHints": [
-            "赞同",
-            "同意",
-            "确实"
-          ],
-          "scenario": "taunting"
-        },
-        {
-          "id": "啊对对对-2",
-          "family": "evasion",
-          "meaning": "回避争论，用敷衍态度退出讨论",
-          "risk": "low",
-          "contextHints": [
-            "懒得",
-            "不想",
-            "行了吧"
-          ],
-          "contextAntiHints": [],
-          "scenario": "argument"
-        }
-      ],
-      "defaultSense": "啊对对对-1"
-    },
-    {
-      "term": "喜欢我",
-      "family": "attack",
-      "meaning": "固定嘲讽句式，常用于描述对方劣势或愚蠢行为",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:42:36.814Z"
-    },
-    {
-      "term": "嘎嘎乱杀",
-      "family": "attack",
-      "meaning": "形容产品性能极强，压倒性优势",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "嘬嘬嘬",
-      "family": "attack",
-      "meaning": "拟声词，用于嘲讽或挑衅",
-      "risk": "high",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "嘴臭",
-      "family": "attack",
-      "meaning": "指说话难听、爱骂人，常用于攻击他人或批评他人说话方式",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T02:55:25.093Z"
-    },
-    {
-      "term": "回旋镖",
-      "family": "attack",
-      "meaning": "言论或行为反噬自身，带嘲讽意味",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "回旋镖来喽",
-      "family": "attack",
-      "meaning": "比喻自己说过的话反伤自身，常用于嘲讽对方被自己的言行打脸",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "回旋镖镖镖正中自己",
-      "family": "attack",
-      "meaning": "指批评或攻击最后反弹到自己身上，用于嘲讽",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "团建",
-      "family": "attack",
-      "meaning": "指粉丝或水军集体到某评论区刷屏、攻击的行为",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
-    },
-    {
-      "term": "图穷匕见",
-      "family": "attack",
-      "meaning": "讽刺对方在讨论中最终暴露真实意图或攻击目的",
-      "risk": "high",
-      "confidence": 0.78,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "圈米",
-      "family": "attack",
-      "meaning": "指圈钱，贬义形容利用粉丝赚钱",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "圈米不赖",
-      "family": "attack",
-      "meaning": "指圈钱，贬义形容利用粉丝赚钱",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "在第几层",
-      "family": "attack",
-      "meaning": "出自‘我在第几层’梗，用于讽刺对方理解不到位或故作高深",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 496740423,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "地图炮",
-      "family": "attack",
-      "meaning": "无差别攻击某个地域或群体",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T04:50:48.392Z"
-    },
-    {
-      "term": "地狱笑话",
-      "family": "attack",
-      "meaning": "指涉及灾难、死亡或禁忌的黑色幽默梗",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:25:58.906Z"
-    },
-    {
-      "term": "地雷女",
-      "family": "attack",
-      "meaning": "网络流行语，指情绪不稳定、容易因小事发怒的女生，常带贬义或标签化",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "地雷系",
-      "family": "attack",
-      "meaning": "指一种融合哥特与洛丽塔风格的装扮，但也可用于指代具有地雷性格的人，有贬义倾向",
-      "risk": "high",
-      "confidence": 0.7,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "坏笑",
-      "family": "attack",
-      "meaning": "B站坏笑表情，表示嘲讽或阴阳怪气",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "坤哥",
-      "family": "attack",
-      "meaning": "对蔡徐坤的戏称，常带有调侃、玩梗甚至黑称色彩",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "坤坤",
-      "family": "attack",
-      "meaning": "指明星蔡徐坤，常被用于玩梗、调侃，有时暗含讽刺或侮辱",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "坤巴",
-      "family": "attack",
-      "meaning": "‘几把’的谐音粗口，用于表达强烈不满或贬低",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "垃圾",
-      "family": "attack",
-      "meaning": "直接贬低某人或物，侮辱性表达",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:30:42.315Z"
-    },
-    {
-      "term": "垃圾电影",
-      "family": "attack",
-      "meaning": "直接辱骂电影为垃圾，表达强烈厌恶和贬低",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "基本盘",
-      "family": "attack",
-      "meaning": "指固定支持某群体的核心粉丝，常含贬义",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "堵住人民嘴",
-      "family": "attack",
-      "meaning": "指责言论封锁，攻击性政治话术",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:50:38.468Z"
-    },
-    {
-      "term": "堵桥狗",
-      "family": "attack",
-      "meaning": "指在游戏桥上堵路击杀的玩家，贬低性称呼",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "塌房",
-      "family": "attack",
-      "meaning": "指偶像恋爱、负面新闻等导致人设崩塌，粉丝圈常用语",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "复制",
-      "family": "attack",
-      "meaning": "指游戏直接复制他人作品，同义于抄袭但带反讽",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "复活赛",
-      "family": "attack",
-      "meaning": "指被封禁的UP主回归的比喻，带有嘲讽意味",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "大串子",
-      "family": "attack",
-      "meaning": "指故意带节奏、引战的人，多用于指责对方是间谍或反串表演",
-      "risk": "high",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T04:30:29.183Z"
-    },
-    {
-      "term": "大厨",
-      "family": "attack",
-      "meaning": "讽刺弹幕以专业大厨自居，对家常做法指手画脚",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "大嘘",
-      "family": "attack",
-      "meaning": "源自日语的‘大谎言’，在网络中用于讽刺、揭露虚假",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "大比兜",
-      "family": "attack",
-      "meaning": "指耳光，用于嘲笑或侮辱性调侃",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 7163008357321159,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "大波波",
-      "family": "attack",
-      "meaning": "B站用户或梗，指代特定人物，常用于调侃阴谋论",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "大聪明",
-      "family": "attack",
-      "meaning": "反讽某人自以为聪明实则愚蠢",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T03:31:44.894Z"
-    },
-    {
-      "term": "大表猪",
-      "family": "attack",
-      "meaning": "讽刺性称呼，指'大表哥'（选手或指挥）战术愚蠢，带侮辱性",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "大飞",
-      "family": "attack",
-      "meaning": "Faker的黑称，贬低其表现或状态",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "天兵",
-      "family": "attack",
-      "meaning": "讽刺美军或强大军事力量，含嘲讽",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "天兵天将",
-      "family": "attack",
-      "meaning": "讽刺美军或强大军事力量，含嘲讽",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "太唐",
-      "family": "attack",
-      "meaning": "唐指唐氏，嘲讽他人行为滑稽或愚蠢",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "太唐了",
-      "family": "attack",
-      "meaning": "讽刺他人行为唐突、搞笑或低质量，表达不满或嘲讽",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "太懂了",
-      "family": "attack",
-      "meaning": "讽刺对方自以为很懂，阴阳怪气地否定或贬低",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "太生草了",
-      "family": "attack",
-      "meaning": "网络用语，源自日语相扑，表示搞笑、荒诞，常用于评论视频内容好笑又离谱",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "太神了",
-      "family": "attack",
-      "meaning": "反讽感叹，表面惊叹实则嘲讽对方的言论愚蠢或自大",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "太装了",
-      "family": "attack",
-      "meaning": "直接批评某人虚伪、做作，语气轻蔑",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "太超前了",
-      "family": "attack",
-      "meaning": "反讽，表面赞扬实则批评观点脱离现实、荒诞不经",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "太逆天",
-      "family": "attack",
-      "meaning": "表示极度离谱、夸张，常用于讽刺或表达不满",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T08:45:23.468Z"
-    },
-    {
-      "term": "太阴了",
-      "family": "attack",
-      "meaning": "‘太阴险了’的简写，指责对方行为不光明",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "失踪人口",
-      "family": "attack",
-      "meaning": "调侃长时间不出现的人",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "头铁",
-      "family": "attack",
-      "meaning": "形容固执、不听劝、硬要对着干",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "夺舍",
-      "family": "attack",
-      "meaning": "讽刺演员特质取代或污染角色，质疑角色刻画脱离原初设定",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "奥利给",
-      "family": "attack",
-      "meaning": "网络梗，在此语境中暗讽奇怪礼物的代称",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "女孩",
-      "family": "attack",
-      "meaning": "网络暗语，指中国女孩，多用于贬义",
-      "risk": "high",
-      "confidence": 0.6,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
-    },
-    {
-      "term": "女拳",
-      "family": "attack",
-      "meaning": "侮辱性称呼，指极端女权阵营",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "奶龙",
-      "family": "attack",
-      "meaning": "指代某网络热门卡通形象，常被用于替换画作主体以产生嘲讽或荒诞效果",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-27T21:28:19.308Z"
-    },
-    {
-      "term": "奸商",
-      "family": "attack",
-      "meaning": "指斥商家为奸诈商人",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T14:55:15.253Z"
-    },
-    {
-      "term": "好似",
-      "family": "attack",
-      "meaning": "谐音“好死”，诅咒某人死亡或倒霉，带强烈攻击性",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "好死",
-      "family": "attack",
-      "meaning": "幸灾乐祸的欢呼，意为'死得好'，常带攻击性",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:05:42.367Z"
-    },
-    {
-      "term": "好自为之",
-      "family": "attack",
-      "meaning": "固定话术，表面为善意提醒实则讽刺警告",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "好自为之吧",
-      "family": "attack",
-      "meaning": "固定话术，源自网络，用于警告或威胁对方，暗示对方要承担后果",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "好车",
-      "family": "attack",
-      "meaning": "反讽或调侃，指坦克或载具在某些条件下表现好，实际有调侃意味",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "好骂",
-      "family": "attack",
-      "meaning": "赞扬他人骂得好，常用于支持攻击某一方",
-      "risk": "medium",
-      "confidence": 0.88,
-      "evidenceCount": 10,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "如何呢",
-      "family": "attack",
-      "meaning": "与‘那咋了’类似，用反问表达敷衍、轻视",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 961654337959,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "如何呢又能怎",
-      "family": "attack",
-      "meaning": "与‘那咋了’类似，用反问表达敷衍、轻视",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 2627288510623,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "妈妈生的",
-      "family": "attack",
-      "meaning": "表达无语、嘲讽或无奈，源于B站梗",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "妙界夺舍",
-      "family": "attack",
-      "meaning": "指UP主频繁接妙界（广告品牌）的广告，如同被夺舍，带有讽刺过度商业化之意",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "妹宝",
-      "family": "attack",
-      "meaning": "贬义称呼女性角色或主播，表示过度亲昵",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "姐妹",
-      "family": "attack",
-      "meaning": "用女性称谓戏称疑似同性恋的男性，带嘲讽或调侃",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:44:27.937Z"
-    },
-    {
-      "term": "媚富",
-      "family": "attack",
-      "meaning": "讽刺讨好富人、拜金的行为",
-      "risk": "high",
-      "confidence": 0.88,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "媚男",
-      "family": "attack",
-      "meaning": "指责女性刻意讨好男性，贬低其行为或人设",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "子涵",
-      "family": "attack",
-      "meaning": "指代过度焦虑、无理纠缠的家长，源于网络段子中的典型名字，用作讽刺",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "孙笑川",
-      "family": "attack",
-      "meaning": "网络骂战角色，常被用于调侃或攻击",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "孙笑川啦",
-      "family": "attack",
-      "meaning": "网络骂战角色，常被用于调侃或攻击",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 1875400072,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "孙笑川指使你发的是吧",
-      "family": "attack",
-      "meaning": "引用孙笑川梗追究发帖动机，用于调侃或问责",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "学会了快删了",
-      "family": "attack",
-      "meaning": "调侃话术，表面要求删除教程，实为称赞内容实用，带有阴阳怪气效果",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "学新闻学",
-      "family": "attack",
-      "meaning": "讽刺新闻学或新闻从业者的梗，常用来贬低对方言论可信度",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "学新闻学的",
-      "family": "attack",
-      "meaning": "讽刺新闻学或新闻从业者的梗，常用来贬低对方言论可信度",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 2143314368,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "完全get不到",
-      "family": "attack",
-      "meaning": "完全不能理解或感受其魅力，表示不认可",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1544239790,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "定时炸弹",
-      "family": "attack",
-      "meaning": "夸张比喻，形容产品存在严重隐患，带有攻击性",
-      "risk": "medium",
-      "confidence": 0.65,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:42:36.814Z"
-    },
-    {
-      "term": "宛宛类卿",
-      "family": "attack",
-      "meaning": "指某人与他人相似作为替代品，带讽刺或调侃意味",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 662320564,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "宛宛类卿那个",
-      "family": "attack",
-      "meaning": "指某人与他人相似作为替代品，带讽刺或调侃意味",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 1071657184,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "寂寞就去找个班上",
-      "family": "attack",
-      "meaning": "讽刺对方因为无聊、话多而闲得慌，建议去工作，带攻击性",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "对号入座",
-      "family": "attack",
-      "meaning": "讽刺他人认为某个批评是针对自己的",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "对对对",
-      "senses": [
-        {
-          "id": "对对对-1",
-          "family": "attack",
-          "meaning": "敷衍式嘲讽：用重复对对对表达不耐烦",
-          "risk": "medium",
-          "contextHints": [
-            "你",
-            "行了吧"
-          ],
-          "contextAntiHints": [
-            "赞同",
-            "同意",
-            "支持"
-          ],
-          "scenario": "taunting"
-        },
-        {
-          "id": "对对对-2",
-          "family": "evasion",
-          "meaning": "用敷衍态度回避深入讨论",
-          "risk": "low",
-          "contextHints": [],
-          "contextAntiHints": [],
-          "scenario": "argument"
-        }
-      ],
-      "defaultSense": "对对对-1"
-    },
-    {
-      "term": "对线",
-      "family": "attack",
-      "meaning": "网络用语，指直接交锋、对峙，常带调侃或攻击性",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T03:13:28.187Z"
-    },
-    {
-      "term": "尊重祝福",
-      "family": "attack",
-      "meaning": "表面表达祝福实为讽刺对方选择不干预，常用于不满但不想争辩",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "小丑",
-      "family": "attack",
-      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
-      "risk": "medium",
-      "confidence": 0.95,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
-    },
-    {
-      "term": "小丑了",
-      "family": "attack",
-      "meaning": "指某人行为可笑，用于嘲讽",
-      "risk": "high",
-      "confidence": 0.95,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "小丑皇",
-      "family": "attack",
-      "meaning": "自嘲或夸张自称，源自游戏梗",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
-    },
-    {
-      "term": "小丑皮尔斯",
-      "family": "attack",
-      "meaning": "用于自嘲或讽刺他人，常指可笑或被耍弄的人",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "小人国国王",
-      "family": "attack",
-      "meaning": "讽刺bin选手自负或装逼",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "小人退散",
-      "family": "attack",
-      "meaning": "诅咒或驱赶小人，表达对负面人的排斥",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "小作文",
-      "family": "attack",
-      "meaning": "指主播或用户发的长文解释或借口，常用来讽刺敷衍、逃避责任的行为。",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "小受",
-      "family": "attack",
-      "meaning": "阴阳怪气称呼同性恋中的被动方",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "小号",
-      "family": "attack",
-      "meaning": "指低等级或新注册账号，用于质疑对方身份真实性，暗示水军或诈骗",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:25:58.906Z"
-    },
-    {
-      "term": "小子",
-      "family": "attack",
-      "meaning": "带有贬义的称呼，可能指某支球队的粉丝或球员，含轻蔑意味",
-      "risk": "high",
-      "confidence": 0.65,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T04:39:58.941Z"
-    },
-    {
-      "term": "小日子",
-      "family": "attack",
-      "meaning": "对日本人的戏称，带轻视或调侃意味",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "小日本",
-      "family": "attack",
-      "meaning": "用侮辱性称呼和绝对化断言表示敌意",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 650085312366,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "小日本都是坏人",
-      "family": "attack",
-      "meaning": "用侮辱性称呼和绝对化断言表示敌意",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 1776066102630,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "小白",
-      "family": "attack",
-      "meaning": "指不熟悉技术的新手用户",
-      "risk": "neutral",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T02:32:30.551Z"
-    },
-    {
-      "term": "小粉红",
-      "family": "attack",
-      "meaning": "中文互联网弹幕式嘲讽、阵营指称或戏谑表达",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1733560832968,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "小趴菜",
-      "family": "attack",
-      "meaning": "网络用语，指实力弱、很菜的人，带有轻蔑或自嘲意味",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "小馋猫",
-      "family": "attack",
-      "meaning": "调侃对方贪心或想占便宜，带有轻微讽刺的固定话术",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T02:31:01.844Z"
-    },
-    {
-      "term": "小鬼",
-      "family": "attack",
-      "meaning": "指极端无脑的粉丝或跟风者，带有贬义，常用于批评某个群体的盲从行为",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:25:58.906Z"
-    },
-    {
-      "term": "小鸟伏特加",
-      "family": "attack",
-      "meaning": "网络恶搞，模仿俄式综艺，带嘲讽意味",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "小黑子",
-      "family": "attack",
-      "meaning": "指故意黑别人的黑粉或喷子，常用于攻击对方立场不纯或刻意找茬",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
-    },
-    {
-      "term": "小黑子梗",
-      "family": "attack",
-      "meaning": "指代黑粉玩梗阴阳怪气",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
-    },
-    {
-      "term": "小黑子露出鸡脚了吧",
-      "family": "attack",
-      "meaning": "用于讽刺黑粉露馅，源自蔡徐坤梗",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
-    },
-    {
-      "term": "少爷甲",
-      "family": "attack",
-      "meaning": "指游戏内的一种装备（可能指氪金外观），用于讽刺氪金或战损刷分行为",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "少羽",
-      "family": "attack",
-      "meaning": "特定人物称呼，用于调侃或攻击性言论（如缺少父母）",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "尬黑",
-      "family": "attack",
-      "meaning": "讽刺对方毫无理由地恶意批评",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:40:15.240Z"
-    },
-    {
-      "term": "尬黑了",
-      "family": "attack",
-      "meaning": "讽刺对方强行抹黑，带有轻蔑",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T15:09:15.125Z"
-    },
-    {
-      "term": "就这水平",
-      "family": "attack",
-      "meaning": "互联网中文表达模式 - 攻击性表达",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "屎山代码",
-      "family": "attack",
-      "meaning": "程序员圈梗，形容混乱难以维护的代码，略带讽刺",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "山地佬",
-      "family": "attack",
-      "meaning": "对山地自行车爱好者的蔑称，类似公路佬",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T04:49:45.210Z"
-    },
-    {
-      "term": "岁月神偷",
-      "family": "attack",
-      "meaning": "化用电影名，指某人在职业生涯中通过不正当手段窃取他人成就（尤其是偷走人生机会），带有讽刺意味",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:46:28.457Z"
-    },
-    {
-      "term": "岂不美哉",
-      "family": "attack",
-      "meaning": "古代语气词，现代用于反讽，表面说好实际贬低",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "工具人",
-      "family": "attack",
-      "meaning": "贬低角色或人物缺乏独立人格，仅作为剧情工具",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T03:27:22.063Z"
-    },
-    {
-      "term": "左右脑互搏",
-      "family": "attack",
-      "meaning": "讽刺对方逻辑矛盾，自己打自己脸",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T03:27:22.063Z"
-    },
-    {
-      "term": "巨婴",
-      "family": "attack",
-      "meaning": "形容成年人行为幼稚、过度自我中心",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "差不多得了",
-      "family": "attack",
-      "meaning": "表示对对方言论的不耐烦，希望对方停止",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:08:14.298Z"
-    },
-    {
-      "term": "差评",
-      "family": "attack",
-      "meaning": "以缺少黑丝为由给出差评，是对内容或着装的不满表达，常见于跳舞类视频的调侃或嘲讽",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 824275146822,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "布什戈门",
-      "family": "attack",
-      "meaning": "“不是哥们”的谐音梗，表示惊讶、质疑或调侃",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "布什戈门理论",
-      "family": "attack",
-      "meaning": "虚构的数学理论，用于讽刺或玩梗，表示胡编乱造",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "带节奏",
-      "family": "attack",
-      "meaning": "指争议、带节奏的行为，常含贬义",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "干得好啊",
-      "family": "attack",
-      "meaning": "反讽句式，表面称赞实则表达不满或调侃",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "平庸之恶",
-      "family": "attack",
-      "meaning": "以“早九八五”谐音朝九晚五结合985，讽刺滥用哲学概念形容平庸工作",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 496740423,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "幻神",
-      "family": "attack",
-      "meaning": "游戏《游戏王》中三张最强卡，引申为绝对实力或运气极好，常被用于炫耀或调侃",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "幼态审美",
-      "family": "attack",
-      "meaning": "声称其他游戏角色设计均为幼态审美，含有贬低和绝对化的攻击",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 1071657184,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "幽默",
-      "family": "attack",
-      "meaning": "反讽，表示对方言论可笑、不切实际",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T08:45:17.044Z"
-    },
-    {
-      "term": "应激",
-      "family": "attack",
-      "meaning": "网络用语，指对某事过度反应、一惊一乍",
-      "risk": "high",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:50:38.468Z"
-    },
-    {
-      "term": "废铜烂铁",
-      "family": "attack",
-      "meaning": "贬低物品或技术，形容无用或低价值",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "开合",
-      "family": "attack",
-      "meaning": "指人肉搜索、公开他人隐私信息，是网络暴力行为",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-31T02:33:13.826Z"
-    },
-    {
-      "term": "开智了",
-      "family": "attack",
-      "meaning": "反讽对方醒悟得太晚或实际未醒悟",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "开玩笑",
-      "family": "attack",
-      "meaning": "讽刺或质疑对方建议，带有轻蔑语气",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:37:30.212Z"
-    },
-    {
-      "term": "开盒",
-      "family": "attack",
-      "meaning": "人肉搜索并公开他人个人信息，进行网络暴力",
-      "risk": "high",
-      "confidence": 0.95,
-      "evidenceCount": 1083475520605,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "开盒了",
-      "family": "attack",
-      "meaning": "人肉搜索并公开他人个人信息，进行网络暴力",
-      "risk": "high",
-      "confidence": 0.95,
-      "evidenceCount": 1480055085525,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "开除野核",
-      "family": "attack",
-      "meaning": "讽刺选手或英雄被剥夺野核称号，常用于电竞圈阴阳怪气",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "开香槟",
-      "family": "attack",
-      "meaning": "提前庆祝、轻敌，带有败人品后被打脸的嘲讽",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T14:55:39.468Z"
-    },
-    {
-      "term": "异议",
-      "family": "attack",
-      "meaning": "逆转裁判梗，表示强烈反驳或质疑",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
-    },
-    {
-      "term": "异食癖",
-      "family": "attack",
-      "meaning": "调侃他人品味奇特的行为",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T03:31:44.894Z"
-    },
     {
       "term": "引流",
       "family": "attack",
-      "meaning": "指责故意吸引流量",
-      "risk": "high",
-      "confidence": 0.85,
+      "meaning": "指责对方故意提及无关内容吸引流量，带有恶意",
+      "risk": "medium",
+      "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:18:50.366Z"
+      "updatedAt": "2026-06-29T14:10:53.282Z"
     },
     {
-      "term": "引蛇出洞",
+      "term": "弟弟",
       "family": "attack",
-      "meaning": "引用政治历史用语，讽刺真实专家被引诱出并打压",
+      "meaning": "讽刺对方水平低",
       "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:30:59.566Z"
     },
     {
-      "term": "张口就来",
-      "senses": [
-        {
-          "id": "张口就来-1",
-          "family": "attack",
-          "meaning": "指责对方不经思考就发言",
-          "risk": "medium",
-          "contextHints": [
-            "胡",
-            "瞎",
-            "乱"
-          ],
-          "contextAntiHints": [],
-          "scenario": "argument"
-        },
-        {
-          "id": "张口就来-2",
-          "family": "evidence",
-          "meaning": "质疑对方缺乏证据的断言",
-          "risk": "medium",
-          "contextHints": [
-            "证据",
-            "数据",
-            "来源"
-          ],
-          "contextAntiHints": [
-            "胡",
-            "瞎"
-          ],
-          "scenario": "argument"
-        }
-      ],
-      "defaultSense": "张口就来-1"
-    },
-    {
-      "term": "张口就来的",
+      "term": "弱智",
       "family": "attack",
-      "meaning": "指责对方不负责任、无证据地乱说话",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 1505151621,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "meaning": "贬低对方智商，类似智障但语气稍轻",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:17:29.003Z"
     },
     {
-      "term": "张嘴逼逼叨叨",
+      "term": "强洗",
       "family": "attack",
-      "meaning": "口语化指责对方乱说话、废话多，带有侮辱性",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 1516865728847,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "强国",
-      "family": "attack",
-      "meaning": "阴阳怪气地称赞强大，常反讽",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1261395142,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "meaning": "强行洗白，无视事实进行辩护，攻击性更强。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.971Z"
     },
     {
       "term": "彩笔",
       "family": "attack",
-      "meaning": "骂人话，谐音'菜逼'，指技术差",
+      "meaning": "谐音菜B，嘲讽技术差、操作烂",
       "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T00:58:05.457Z"
-    },
-    {
-      "term": "彩虹屁",
-      "family": "attack",
-      "meaning": "拍马屁、过誉赞美，讽刺性表达",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T15:06:21.629Z"
-    },
-    {
-      "term": "往自己脸上贴金",
-      "family": "attack",
-      "meaning": "讽刺某人自我美化、夸大其词",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:35:46.716Z"
-    },
-    {
-      "term": "很懂嘛",
-      "family": "attack",
-      "meaning": "配合doge使用，阴阳怪气讽刺对方自以为很懂",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 662320564,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "很懂嘛老铁",
-      "family": "attack",
-      "meaning": "配合doge使用，阴阳怪气讽刺对方自以为很懂",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 1071657184,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "很难绷",
-      "family": "attack",
-      "meaning": "网络用语，表示难以忍受、感到好笑或无奈，常用于表达对荒谬情况的讽刺",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "律师函",
-      "family": "attack",
-      "meaning": "威胁要发律师函，常用于嘲讽或警告",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "律师函警告",
-      "family": "attack",
-      "meaning": "威胁要发律师函，常用于嘲讽或警告",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "微博投票绷不住了",
-      "family": "attack",
-      "meaning": "对微博投票结果表示无语或讽刺，常用于比赛评选中",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
-    },
-    {
-      "term": "微表情",
-      "family": "attack",
-      "meaning": "暗示对方掩饰真实想法，常用于质疑或攻击",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "心电感应",
-      "family": "attack",
-      "meaning": "讽刺那种无需分析就能直接从音乐中听出具体叙事的玄幻解读方式，暗指听众仿佛拥有超能力",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "心里没点b数",
-      "family": "attack",
-      "meaning": "指责对方不自知，带有攻击性",
-      "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
     },
     {
-      "term": "必锤",
+      "term": "心态爆炸",
       "family": "attack",
-      "meaning": "威胁或预言对方迟早会倒霉，常见于网络骂战",
+      "meaning": "描述情绪完全失控，进入暴躁或沮丧状态",
       "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 824275146822,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "快乐教育",
-      "family": "attack",
-      "meaning": "对教育理念的讽刺性表达",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T05:07:17.632Z"
-    },
-    {
-      "term": "怎么哪哪都有你",
-      "family": "attack",
-      "meaning": "抱怨某人频繁出现，略带阴阳怪气",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 2143314368,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
     },
     {
       "term": "急了",
-      "senses": [
-        {
-          "id": "急了-1",
-          "family": "attack",
-          "meaning": "嘲讽对方情绪失控，攻击性用法",
-          "risk": "medium",
-          "contextHints": [
-            "你",
-            "哈哈哈",
-            "破防",
-            "急眼",
-            "典"
-          ],
-          "contextAntiHints": [
-            "别",
-            "慢慢",
-            "马上",
-            "市场",
-            "不急"
-          ],
-          "scenario": "taunting"
-        },
-        {
-          "id": "急了-2",
-          "family": "cooperation",
-          "meaning": "中性或关心的催促/安抚",
-          "risk": "positive",
-          "contextHints": [
-            "别",
-            "慢慢来",
-            "不急",
-            "马上到",
-            "没事"
-          ],
-          "contextAntiHints": [],
-          "scenario": "reassurance"
-        }
-      ],
-      "defaultSense": "急了-1"
+      "family": "attack",
+      "meaning": "指责对方情绪激动、无法理性讨论，常用于贬低对手心态",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "急了就咬人",
+      "family": "attack",
+      "meaning": "将对方比作急了会咬人的动物，侮辱性极强的人身攻击用语",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "急了属于是",
+      "family": "attack",
+      "meaning": "网络句式，强调对方急了，带嘲讽",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.670Z"
     },
     {
       "term": "急了急了",
       "family": "attack",
-      "meaning": "Bilibili danmaku 攻击性表达",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
+      "meaning": "重复强调对方已经情绪失控，刻意激怒对手的挑衅用语",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
     },
     {
-      "term": "急了的人都是",
+      "term": "急急国王",
       "family": "attack",
-      "meaning": "指责对方因心虚而急，用于贬低或嘲讽",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T10:09:26.684Z"
-    },
-    {
-      "term": "急死了",
-      "family": "attack",
-      "meaning": "讽刺对方情绪激动、急于反驳，常加[星星眼]加强阴阳怪气",
-      "risk": "medium",
-      "confidence": 0.83,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T08:47:17.849Z"
-    },
-    {
-      "term": "恋丑癖",
-      "family": "attack",
-      "meaning": "形容喜欢丑陋事物的癖好，用于讽刺或自嘲",
+      "meaning": "讽刺对方急躁失态，常用于看对方破防而嘲弄。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.971Z"
+    },
+    {
+      "term": "急眼",
+      "family": "attack",
+      "meaning": "讽刺对方着急恼怒",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "急眼了",
+      "family": "attack",
+      "meaning": "讽刺对方因被戳中痛点而情绪激动，常用于贬低对手",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.574Z"
+    },
+    {
+      "term": "急转直下",
+      "family": "attack",
+      "meaning": "讽刺对方面对批评后态度骤变，暴露真实想法",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.189Z"
+    },
+    {
+      "term": "性别对立",
+      "family": "attack",
+      "meaning": "挑起男女矛盾",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:38:16.293Z"
+    },
+    {
+      "term": "恨国党",
+      "family": "attack",
+      "meaning": "讽刺仇恨中国者",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
     },
     {
       "term": "恰烂钱",
       "family": "attack",
-      "meaning": "指UP主为了利益接低质广告或做违背初心的事情，讽刺其唯利是图",
+      "meaning": "指赚取不道德或低劣的钱，常见于指责主播或UP主。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T05:29:28.725Z"
+    },
+    {
+      "term": "恰饭",
+      "family": "attack",
+      "meaning": "讽刺接广告或商业合作",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.418Z"
+    },
+    {
+      "term": "恶人先告状",
+      "family": "attack",
+      "meaning": "讽刺有错在先的人反而指责别人",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.341Z"
     },
     {
-      "term": "恶堕",
+      "term": "恶臭",
       "family": "attack",
-      "meaning": "指角色从善良堕入邪恶，常用于批判剧情或角色，带有贬义",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "恶堕控",
-      "family": "attack",
-      "meaning": "指角色从善良堕入邪恶，常用于批判剧情或角色，带有贬义",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "您配吗",
-      "family": "attack",
-      "meaning": "反问对方是否具备资格，常用于嘲讽和居高临下的质疑",
+      "meaning": "网络黑话，形容某人言行令人反感、恶心",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:21:38.613Z"
     },
     {
-      "term": "惨案",
+      "term": "您开心就好",
       "family": "attack",
-      "meaning": "自嘲或调侃糟糕情况（如视频数据差、遭遇不利），带讽刺意味",
+      "meaning": "\"Whatever makes you happy\" – passive-aggressive way to end an argument while implying the other person is unreasonable.",
       "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:42:14.529Z"
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.714Z"
+    },
+    {
+      "term": "情商",
+      "family": "attack",
+      "meaning": "讽刺对方说话做事不得体，语境下常为负面评价",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:38:16.293Z"
     },
     {
       "term": "意淫",
       "family": "attack",
-      "meaning": "贬低对方空想、不切实际，用于嘲讽",
+      "meaning": "侮辱对方凭幻想自我满足，常用于否定。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:59:19.247Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T05:08:34.165Z"
     },
     {
-      "term": "感觉自己很屌",
+      "term": "感恩",
       "family": "attack",
-      "meaning": "口语化吐槽，讽刺对方傲慢或自以为是",
+      "meaning": "反讽式使用，表达对不合理要求的不满",
       "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T12:10:11.781Z"
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
-      "term": "慢脚",
+      "term": "愣头青",
       "family": "attack",
-      "meaning": "对快手平台的贬称，谐音'快手'，常用于嘲讽",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "meaning": "嘲讽冲动无脑、不思考后果的人",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "慕洋犬",
+      "family": "attack",
+      "meaning": "讽刺崇洋媚外",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "憨包",
+      "family": "attack",
+      "meaning": "Yunnan dialect for \"fool/simpleton.\"",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "憨批",
+      "family": "attack",
+      "meaning": "Sichuan dialect for \"idiot/dumbass\" – stronger than just \"fool.\"",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
     },
     {
       "term": "懂哥",
       "family": "attack",
-      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
+      "meaning": "讽刺那些假装什么都懂、喜欢指手画脚的人",
       "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
     },
     {
-      "term": "懿粉",
+      "term": "懂王",
       "family": "attack",
-      "meaning": "对孙颖莎粉丝的贬称，样本中与‘懿症’相关",
+      "meaning": "嘲讽自以为是、什么都知道的人",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "戆大",
+      "family": "attack",
+      "meaning": "Shanghainese for \"idiot/imbecile\" – a blunt insult.",
       "risk": "high",
-      "confidence": 0.7,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "戏精",
+      "family": "attack",
+      "meaning": "讽刺某人过于做作或在网上表演博关注。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:29:28.725Z"
     },
     {
       "term": "成分",
       "family": "attack",
-      "meaning": "网络用语，指人的立场、背景或品德，常带有质疑或贬义，用于攻击他人的动机或属性",
-      "risk": "medium",
-      "confidence": 0.83,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
-    },
-    {
-      "term": "我上我也行",
-      "family": "attack",
-      "meaning": "嘲讽或自嘲的常见表达，表示换作自己也能做到",
-      "risk": "medium",
-      "confidence": 0.85,
+      "meaning": "指某人的背景或立场，用于鉴定阵营",
+      "risk": "low",
+      "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-05-31T16:51:24.141Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
-      "term": "我不信",
+      "term": "成分复杂",
       "family": "attack",
-      "meaning": "源自电视节目的经典质疑句式，用于讽刺或挑衅性地表达不信",
+      "meaning": "\"Your composition is complex\" – means you have a suspicious background/multiple allegiances, often used to accuse someone of being a shill or troll.",
       "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T14:11:47.756Z"
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.714Z"
     },
     {
-      "term": "我不懂啊",
+      "term": "我不管",
       "family": "attack",
-      "meaning": "假装不懂，实则讽刺对方炫耀不值一提",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T01:02:48.549Z"
+      "meaning": "拒绝理性讨论，任性表态",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
     },
     {
-      "term": "我不李姐",
+      "term": "我即世界",
       "family": "attack",
-      "meaning": "谐音‘我不理解’，表达对荒唐行为的讽刺与不认同",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 14822598791688486,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "我去",
-      "family": "attack",
-      "meaning": "感叹词'卧槽'的拼音缩写，表达惊讶、震惊，常带有负面情绪",
+      "meaning": "讽刺对方以自我为中心，无视他人",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:42:36.814Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.596Z"
     },
     {
-      "term": "我命由我",
+      "term": "我吐了",
       "family": "attack",
-      "meaning": "原为台词，现常被用作狂妄自大的表态，用于讽刺",
+      "meaning": "表达厌恶反感",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "我急了",
+      "family": "attack",
+      "meaning": "自嘲式承认情绪激动，常被对方用来嘲讽",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.670Z"
+    },
+    {
+      "term": "战兔局",
+      "family": "attack",
+      "meaning": "讽刺内部宣传",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "战忽局",
+      "family": "attack",
+      "meaning": "讽刺对外宣传",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "战术后仰",
+      "family": "attack",
+      "meaning": "嘲讽对方言论或行为过于自信，用动作梗表示不屑。",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:59:20.625Z"
     },
     {
-      "term": "我命由我不由天",
+      "term": "战狼",
       "family": "attack",
-      "meaning": "原为台词，现常被用作狂妄自大的表态，用于讽刺",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "我真绷不住",
-      "family": "attack",
-      "meaning": "表示忍不住笑或无奈，常用来嘲讽对方言论荒谬",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "我破防",
-      "family": "attack",
-      "meaning": "被戳中痛点后情绪失控，常用于嘲讽对方反应过度",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T23:59:04.117Z"
-    },
-    {
-      "term": "我草",
-      "family": "attack",
-      "meaning": "粗口，表达惊讶或不满",
+      "meaning": "讽刺极端爱国且好斗的人",
       "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "我草点了",
-      "family": "attack",
-      "meaning": "粗口，表达惊讶或不满",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 1875400072,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "我赢麻了",
-      "family": "attack",
-      "meaning": "讽刺对方自以为胜利或过度得意，也表示赢家通吃的嘲讽",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T01:08:14.298Z"
-    },
-    {
-      "term": "我都不好意思点破你",
-      "family": "attack",
-      "meaning": "委婉指出对方问题，带讽刺意味",
-      "risk": "low",
-      "confidence": 0.7,
-      "evidenceCount": 803742888,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "我酸了",
-      "family": "attack",
-      "meaning": "表达羡慕嫉妒的自嘲式网络用语，常带有轻微阴阳怪气",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "我阐述你的梦",
-      "family": "attack",
-      "meaning": "用阴阳怪气的方式讽刺比亚迪或汽车品牌文化，常见于B站车评区",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "戴佳伟",
-      "family": "attack",
-      "meaning": "戴佳伟的缩写，代指主播，常出现在对其的嘲讽弹幕中",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T19:53:42.879Z"
-    },
-    {
-      "term": "手撕",
-      "family": "attack",
-      "meaning": "形容激烈攻击、撕逼",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
     },
     {
       "term": "手残",
       "family": "attack",
-      "meaning": "形容操作差、手笨，常用于游戏自嘲或贬低",
-      "risk": "low",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "meaning": "嘲讽对方操作笨拙，反应慢，常与菜鸡连用",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.162Z"
     },
     {
-      "term": "手镯",
+      "term": "手残党",
       "family": "attack",
-      "meaning": "调侃手铐，指被抓，常用于反讽犯罪者落网",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "托子",
-      "family": "attack",
-      "meaning": "指责游戏中有内部人员或水军诱导消费",
+      "meaning": "嘲笑操作不灵活的人，常为自我解嘲",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
     },
     {
-      "term": "托子满天飞",
+      "term": "扒皮",
       "family": "attack",
-      "meaning": "夸张形容游戏内托很多",
+      "meaning": "揭露对方真面目，带有强烈攻击性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.185Z"
+    },
+    {
+      "term": "打拳",
+      "family": "attack",
+      "meaning": "指激进女权或性别对立，具攻击性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.596Z"
+    },
+    {
+      "term": "打脸",
+      "family": "attack",
+      "meaning": "讽刺之前言行被事实推翻",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
     },
     {
       "term": "扣帽子",
       "family": "attack",
-      "meaning": "指责对方武断定性、贴标签",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:05:24.755Z"
-    },
-    {
-      "term": "扶贫",
-      "family": "attack",
-      "meaning": "粉丝圈用语，指蔡徐坤粉丝帮助其他明星提升热度，含讽刺和不屑之意",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T03:31:44.894Z"
-    },
-    {
-      "term": "找个班上",
-      "family": "attack",
-      "meaning": "讽刺对方因为无聊、话多而闲得慌，建议去工作，带攻击性",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 1875400072,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "找茬",
-      "family": "attack",
-      "meaning": "故意挑刺、找麻烦的行为",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T04:09:04.619Z"
-    },
-    {
-      "term": "抄袭",
-      "family": "attack",
-      "meaning": "指责作品抄袭，属于严重指控，带攻击性",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "抄袭文",
-      "family": "attack",
-      "meaning": "指责作品抄袭，属于严重指控，带攻击性",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 2143314368,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "把我看笑了",
-      "family": "attack",
-      "meaning": "嘲讽他人表现滑稽，带有强烈揶揄意味",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T08:06:21.560Z"
-    },
-    {
-      "term": "投射",
-      "family": "attack",
-      "meaning": "心理学名词，用于指责他人将自己的负面特质投射到别人身上，带有贬义",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
-    },
-    {
-      "term": "抖机灵",
-      "family": "attack",
-      "meaning": "批评对方耍小聪明、不正经",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "抖音",
-      "family": "attack",
-      "meaning": "抖音缩写，常用来表达对平台或用户行为的不满",
-      "risk": "low",
-      "confidence": 0.6,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:05:42.367Z"
-    },
-    {
-      "term": "抖音化",
-      "family": "attack",
-      "meaning": "指内容生态或用户行为向抖音靠拢，带有贬义，批评同质化",
-      "risk": "medium",
-      "confidence": 0.82,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "抖音化了",
-      "family": "attack",
-      "meaning": "指内容生态或用户行为向抖音靠拢，带有贬义，批评同质化",
-      "risk": "medium",
-      "confidence": 0.82,
-      "evidenceCount": 1875400072,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "抠抠搜搜",
-      "family": "attack",
-      "meaning": "形容小气、吝啬、不舍得花钱，常见于抱怨或批评公司、品牌",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "抠抠搜搜的",
-      "family": "attack",
-      "meaning": "形容小气、吝啬、不舍得花钱，常见于抱怨或批评公司、品牌",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "抠搜",
-      "family": "attack",
-      "meaning": "形容吝啬、小气，用于吐槽游戏系统或人",
-      "risk": "medium",
-      "confidence": 0.65,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "抠比",
-      "family": "attack",
-      "meaning": "侮辱性称呼，形容人非常小气、吝啬",
-      "risk": "high",
-      "confidence": 0.7,
-      "evidenceCount": 549516764548,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "抠鼻",
-      "family": "attack",
-      "meaning": "表情符号，表示轻蔑、不屑、嘲讽",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
-    },
-    {
-      "term": "披艺术人格皮",
-      "family": "attack",
-      "meaning": "指责对方伪装成艺术人格以达到目的，含贬义",
+      "meaning": "指责对方贴标签",
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:35:46.716Z"
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "批斗",
+      "family": "attack",
+      "meaning": "模拟文革式集体批判，带侮辱性。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.377Z"
+    },
+    {
+      "term": "批皮",
+      "family": "attack",
+      "meaning": "指责对方伪装身份或立场，达到不可告人目的",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.189Z"
+    },
+    {
+      "term": "批皮黑",
+      "family": "attack",
+      "meaning": "伪装成粉丝的黑子，内部瓦解粉丝群体",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:45:01.411Z"
+    },
+    {
+      "term": "批站",
+      "family": "attack",
+      "meaning": "对B站的蔑称，带有侮辱性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.574Z"
+    },
+    {
+      "term": "找存在感",
+      "family": "attack",
+      "meaning": "讽刺对方通过惹事来获得关注",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.335Z"
+    },
+    {
+      "term": "抄作业",
+      "family": "attack",
+      "meaning": "讽刺对方模仿、缺乏原创。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.165Z"
+    },
+    {
+      "term": "抛开事实不谈",
+      "family": "attack",
+      "meaning": "网络黑话，讽刺对方无视事实、片面强调情感",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:02:28.049Z"
+    },
+    {
+      "term": "披皮",
+      "family": "attack",
+      "meaning": "假装粉丝实则黑子，用于指责对方身份。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.258Z"
+    },
+    {
+      "term": "披皮黑",
+      "family": "attack",
+      "meaning": "指披着粉丝外衣的抹黑者",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
     },
     {
       "term": "抬杠",
       "family": "attack",
-      "meaning": "指责对方无理争辩、吹毛求疵",
+      "meaning": "指责对方故意作对、无理反驳",
       "risk": "medium",
-      "confidence": 0.65,
+      "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "updatedAt": "2026-06-29T05:33:28.335Z"
+    },
+    {
+      "term": "抱团",
+      "family": "attack",
+      "meaning": "指责对方结成群伙针对他人，暗示其不敢单挑",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.742Z"
     },
     {
       "term": "抱团取暖",
       "family": "attack",
-      "meaning": "指意见相同的人互相支持，暗讽小圈子互相安慰、拒绝理性讨论",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "抽象",
-      "family": "attack",
-      "meaning": "网络用语，指难以理解、无厘头或反逻辑，常带贬义",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "拉了",
-      "family": "attack",
-      "meaning": "网络用语，意为表现差劲、拉胯，常用于评价人或事物不如预期",
+      "meaning": "讽刺弱势群体互相安慰，带有贬义",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:35:46.716Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.415Z"
     },
     {
-      "term": "拉倒",
+      "term": "抱走",
       "family": "attack",
-      "meaning": "粗口版'拉倒'，语气强烈，表达放弃或否定，带有攻击性",
+      "meaning": "粉丝表示不参与争吵，实则暗含攻击",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.418Z"
+    },
+    {
+      "term": "抽象骡子",
+      "family": "attack",
+      "meaning": "\"Abstract mule\" – an insult from \"抽象\" (abstract) streaming culture, calling someone a stubborn fool.",
       "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
     },
     {
-      "term": "拉小群",
+      "term": "拉一踩一",
       "family": "attack",
-      "meaning": "指私下建立小团体排挤他人，常见于饭圈或职场吐槽",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "拉胯",
-      "family": "attack",
-      "meaning": "形容表现差劲，常用于吐槽表演或作品质量低",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T08:44:43.578Z"
-    },
-    {
-      "term": "拉跨",
-      "family": "attack",
-      "meaning": "形容性能或表现极差，带贬义",
+      "meaning": "同上",
       "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
     },
     {
       "term": "拉踩",
       "family": "attack",
-      "meaning": "讽刺踩一捧一的行为",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
-    {
-      "term": "拒绝黄赌毒",
-      "family": "attack",
-      "meaning": "借用官方宣传歌曲名进行讽刺，暗示场合可能需要表态唱此类歌曲",
-      "risk": "medium",
-      "confidence": 0.85,
+      "meaning": "讽刺通过贬低一方来抬高另一方",
+      "risk": "high",
+      "confidence": 0.8,
       "evidenceCount": 4,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
+      "updatedAt": "2026-06-29T13:55:05.670Z"
     },
     {
-      "term": "招笑",
+      "term": "拉踩引战",
       "family": "attack",
-      "meaning": "表示可笑、搞笑，用于讽刺对方表现差",
+      "meaning": "粉丝圈攻击，通过对比捧一踩一引发争斗",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.147Z"
+    },
+    {
+      "term": "拉黑",
+      "family": "attack",
+      "meaning": "指拒绝与对方交流，常作为党同伐异手段",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T14:30:59.566Z"
+    },
+    {
+      "term": "招魂",
+      "family": "attack",
+      "meaning": "讽刺粉丝怀念已退出或过气的偶像。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.377Z"
+    },
+    {
+      "term": "招黑",
+      "family": "attack",
+      "meaning": "招致讨厌",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "拱火",
+      "family": "attack",
+      "meaning": "挑拨",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "拳头硬了",
+      "family": "attack",
+      "meaning": "表达愤怒，攻击对方行为惹人冒火",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.185Z"
+    },
+    {
+      "term": "挂人",
+      "family": "attack",
+      "meaning": "指责公开曝光他人隐私或言论，引发网暴",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "挂逼",
+      "family": "attack",
+      "meaning": "\"Cheater/hacker\" – someone using hacks or exploits in multiplayer games.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "挑拨离间",
+      "family": "attack",
+      "meaning": "离间",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "捂嘴",
+      "family": "attack",
+      "meaning": "指通过删除评论等方式压制不同声音",
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:44:27.937Z"
+      "updatedAt": "2026-06-29T05:36:27.886Z"
     },
     {
-      "term": "拟人",
+      "term": "捞女",
       "family": "attack",
-      "meaning": "贬低对方不配为人，只是模仿人的东西",
+      "meaning": "\"Gold digger\" – a woman who only dates for money, often used to shame female dating behavior.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.714Z"
+    },
+    {
+      "term": "捞翔",
+      "family": "attack",
+      "meaning": "Henan dialect originally meaning \"old fellow,\" but used by outsiders as a regional slur against Henan people.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "捧一踩一",
+      "family": "attack",
+      "meaning": "同拉踩",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "捧杀",
+      "family": "attack",
+      "meaning": "过度夸奖导致失败",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "掉分车队",
+      "family": "attack",
+      "meaning": "\"Deranking team\" – a group intentionally losing to drop their rank, accused of ruining matches.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "掐架",
+      "family": "attack",
+      "meaning": "指互相争吵攻击",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.418Z"
+    },
+    {
+      "term": "控评",
+      "family": "attack",
+      "meaning": "控制评论以压制不同声音，常被攻击方指责。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:07:00.720Z"
+    },
+    {
+      "term": "摆烂",
+      "family": "attack",
+      "meaning": "指责放弃游戏、故意不打好的人",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
+    },
+    {
+      "term": "摆烂仔",
+      "family": "attack",
+      "meaning": "贬称喜欢摆烂的玩家",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "撒币",
+      "family": "attack",
+      "meaning": "Homophone for \"idiot\" (傻逼) while literally meaning \"scatter coins\" – a disguised insult.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "撕番",
+      "family": "attack",
+      "meaning": "争夺番位",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "撕逼",
+      "family": "attack",
+      "meaning": "粗俗地形容激烈争吵",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:08:52.297Z"
+    },
+    {
+      "term": "撸狗",
+      "family": "attack",
+      "meaning": "侮辱英雄联盟玩家，贬低其游戏品味或水平",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "收收味",
+      "family": "attack",
+      "meaning": "要求对方收敛令人不适的言行气息，常用于批评那些过于张扬的人",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "收钱办事",
+      "family": "attack",
+      "meaning": "指控对方为利益发表言论，常用于否定对方观点。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.971Z"
+    },
+    {
+      "term": "无效输出",
+      "family": "attack",
+      "meaning": "指说了等于没说，讽刺对方发言无用",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.596Z"
+    },
+    {
+      "term": "无能狂怒",
+      "family": "attack",
+      "meaning": "讽刺对方愤怒却无作为",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "无脑",
+      "family": "attack",
+      "meaning": "贬低他人缺乏独立思考，盲目跟从",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "无脑吹",
+      "family": "attack",
+      "meaning": "讽刺对方不思考就一味吹捧",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "无脑黑",
+      "family": "attack",
+      "meaning": "讽刺对方无理由地恶意贬低",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.670Z"
+    },
+    {
+      "term": "无语子",
+      "family": "attack",
+      "meaning": "表示对对方言论感到无语、嫌弃",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.866Z"
+    },
+    {
+      "term": "既视感",
+      "family": "attack",
+      "meaning": "讽刺对方言论老套或者抄袭",
+      "risk": "low",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.341Z"
+    },
+    {
+      "term": "普信",
+      "family": "attack",
+      "meaning": "讽刺普通却自信的人，源自脱口秀段子，用于贬低对方不自量力",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "普信女",
+      "family": "attack",
+      "meaning": "\"Ordinary but overconfident woman\" – same as above but targeting women, used in gender flame wars.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.714Z"
+    },
+    {
+      "term": "普信男",
+      "family": "attack",
+      "meaning": "\"Ordinary but overconfident man\" – a man who is average yet has excessive self-esteem; often used to mock male arrogance.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.714Z"
+    },
+    {
+      "term": "智商税",
+      "family": "attack",
+      "meaning": "嘲讽对方花钱购买无价值产品，暗示其因智商不足而被收割",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "智障",
+      "family": "attack",
+      "meaning": "直接辱骂对方智商低下，恶意攻击",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "暗讽",
+      "family": "attack",
+      "meaning": "暗中讽刺",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "暴民",
+      "family": "attack",
+      "meaning": "指网络暴力参与者，贬义",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:48:08.549Z"
+    },
+    {
+      "term": "暴论",
+      "family": "attack",
+      "meaning": "形容对方发表极端荒谬的言论。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.377Z"
+    },
+    {
+      "term": "杀疯了",
+      "family": "attack",
+      "meaning": "指某人攻击性极强，势不可挡。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.693Z"
+    },
+    {
+      "term": "杠精",
+      "family": "attack",
+      "meaning": "指责对方无论什么话题都喜欢抬杠反驳，纯粹为反对而反对",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "来电了",
+      "family": "attack",
+      "meaning": "讽刺台湾网民恢复上网，用于政治攻击。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.165Z"
+    },
+    {
+      "term": "果粉",
+      "family": "attack",
+      "meaning": "讽刺苹果粉丝",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "果蛆",
+      "family": "attack",
+      "meaning": "侮辱苹果粉丝，带有强烈贬损。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.165Z"
+    },
+    {
+      "term": "柠檬",
+      "family": "attack",
+      "meaning": "同“柠檬精”，简版酸话攻击",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.189Z"
+    },
+    {
+      "term": "柠檬精",
+      "family": "attack",
+      "meaning": "指斥对方因嫉妒而发表酸言酸语，贬低其心态",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.742Z"
+    },
+    {
+      "term": "查一下成分",
+      "family": "attack",
+      "meaning": "\"Check your components\" – instruction to investigate someone's post history to determine which faction they belong to.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.714Z"
+    },
+    {
+      "term": "格局小了",
+      "family": "attack",
+      "meaning": "讽刺对方目光短浅、心胸狭隘",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.866Z"
+    },
+    {
+      "term": "梗小鬼",
+      "family": "attack",
+      "meaning": "指滥用网络梗、不分场合刷梗的人，用于贬低",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:53:55.942Z"
+    },
+    {
+      "term": "棒杀",
+      "family": "attack",
+      "meaning": "过度贬低",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "正主",
+      "family": "attack",
+      "meaning": "指偶像本人，常被粉丝用于攻击时划清界限或贬低对方。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "正义执行",
+      "family": "attack",
+      "meaning": "讽刺对方打着正义旗号行攻击之实，常用于反转打脸。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:51:09.796Z"
+    },
+    {
+      "term": "此地无银三百两",
+      "family": "attack",
+      "meaning": "讽刺对方越掩饰越暴露心虚",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.189Z"
+    },
+    {
+      "term": "殖人",
+      "family": "attack",
+      "meaning": "贬称推崇西方价值观的人",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "母人",
+      "family": "attack",
+      "meaning": "贬低女性玩家，带有强烈性别歧视和侮辱性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "毒唯",
+      "family": "attack",
+      "meaning": "毒瘤唯粉",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T14:13:06.835Z"
+    },
+    {
+      "term": "毒瘤",
+      "family": "attack",
+      "meaning": "指责团队中的祸害，破坏游戏体验",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "气急败坏",
+      "family": "attack",
+      "meaning": "讽刺对方愤怒失态",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "氪金母猪",
+      "family": "attack",
+      "meaning": "讽刺过度花钱充值游戏，没有理性消费观念的玩家",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "水军",
+      "family": "attack",
+      "meaning": "中文互联网弹幕式嘲讽、阵营指称或戏谑表达",
+      "risk": "medium",
+      "confidence": 0.94,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:17:29.003Z"
+    },
+    {
+      "term": "汉奸",
+      "family": "attack",
+      "meaning": "叛国者，严重政治侮辱，指责对方出卖民族",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:53:54.423Z"
+    },
+    {
+      "term": "汗流浃背了吧",
+      "family": "attack",
+      "meaning": "\"Are you sweating?\" (Douyin challenge) – mocking someone's discomfort or pressure.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "沸羊羊",
+      "family": "attack",
+      "meaning": "\"Boiling Sheep\" (Pleasant Goat character) – metaphor for a simp who is overly eager to please but gets rejected, referencing an episode where he works hard for nothing.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.714Z"
+    },
+    {
+      "term": "泉水挂机狗",
+      "family": "attack",
+      "meaning": "\"Fountain AFK dog\" – a player who goes AFK at spawn, ruining the game.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "泉水指挥官",
+      "family": "attack",
+      "meaning": "\"Fountain commander\" – a dead player who keeps giving orders from the spawn point, a backseat gamer.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "泰裤辣",
+      "family": "attack",
+      "meaning": "\"Too cool\" from a streamer – used sarcastically to label something cringeworthy rather than actually cool.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "洋盘",
+      "family": "attack",
+      "meaning": "Shanghainese for someone who is flashy but actually clueless; a show-off who is naive.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "洗地",
+      "family": "attack",
+      "meaning": "指责他人为错误行为或负面事件强行辩护、粉饰太平",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "洗地狗",
+      "family": "attack",
+      "meaning": "侮辱为某方辩护的人",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "洗白",
+      "family": "attack",
+      "meaning": "为负面洗地",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:07:00.720Z"
+    },
+    {
+      "term": "洗脑包",
+      "family": "attack",
+      "meaning": "指对方传播的虚假或片面的洗脑信息",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.335Z"
+    },
+    {
+      "term": "流汗黄豆",
+      "family": "attack",
+      "meaning": "用表情表达无语、嘲讽",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "流量",
+      "family": "attack",
+      "meaning": "讽刺靠粉丝经济而非实力出名",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "海军",
+      "family": "attack",
+      "meaning": "指华为的水军，常用于阵营攻击。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.377Z"
+    },
+    {
+      "term": "海狗",
+      "family": "attack",
+      "meaning": "讽刺海归或崇洋者",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "海王",
+      "family": "attack",
+      "meaning": "讽刺广撒网的感情骗子",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "深井冰",
+      "family": "attack",
+      "meaning": "谐音神经病，直接侮辱",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.185Z"
+    },
+    {
+      "term": "混分巨兽",
+      "family": "attack",
+      "meaning": "夸张讽刺专门混分的玩家",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "混圈",
+      "family": "attack",
+      "meaning": "贬低对方只在小圈子内寻求认同",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:10:53.282Z"
+    },
+    {
+      "term": "混子",
+      "family": "attack",
+      "meaning": "指责不认真玩、混分混经验的人",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "添狗",
+      "family": "attack",
+      "meaning": "\"Simper/licking dog\" – someone who fawns over another person desperately, often with a sexual connotation.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "渣男",
+      "family": "attack",
+      "meaning": "侮辱性称呼，指玩弄感情、不负责任的男性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.147Z"
+    },
+    {
+      "term": "温和派",
+      "family": "attack",
+      "meaning": "讽刺自称温和实则立场模糊的人",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "滑坡",
+      "family": "attack",
+      "meaning": "指滑坡谬误，讽刺对方逻辑推导极端",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T13:54:12.258Z"
+    },
+    {
+      "term": "滑坡谬误",
+      "family": "attack",
+      "meaning": "指责对方使用极端类推进行攻击。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.258Z"
+    },
+    {
+      "term": "滑稽",
+      "family": "attack",
+      "meaning": "中文互联网弹幕式嘲讽、阵营指称或戏谑表达",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
+    },
+    {
+      "term": "滚蛋",
+      "family": "attack",
+      "meaning": "命令对方滚开",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:56:44.192Z"
+    },
+    {
+      "term": "演员",
+      "family": "attack",
+      "meaning": "\"Actor\" – someone intentionally playing poorly or throwing a game, pretending to be bad.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "演员玩家",
+      "family": "attack",
+      "meaning": "同上，特指具有演员行为的玩家",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "澄清",
+      "family": "attack",
+      "meaning": "针对攻击进行解释，有时为反击",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "激进派",
+      "family": "attack",
+      "meaning": "讽刺立场极端、不妥协的人",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "炸号",
+      "family": "attack",
+      "meaning": "账号被封禁，常用于攻击对方",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.418Z"
+    },
+    {
+      "term": "炸鱼",
+      "family": "attack",
+      "meaning": "\"Bombing fish\" – a high-skill player creating a new account to stomp low-rank players, smurfing.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "点草",
+      "family": "attack",
+      "meaning": "指直接点名攻击或辱骂某人，意图明确，攻击性强。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.971Z"
+    },
+    {
+      "term": "烂梗",
+      "family": "attack",
+      "meaning": "批评对方使用的网络梗已经过时或毫无创意，令人反感",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "爆孝如雷了",
+      "family": "attack",
+      "meaning": "谐音爆笑如雷，讽刺粉丝对偶像的维护行为夸张到令人发笑",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 954392677,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "爆破",
+      "family": "attack",
+      "meaning": "组织粉丝集体攻击他人评论区或社交账号。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "爬墙",
+      "family": "attack",
+      "meaning": "粉丝转向其他偶像，用于攻击不忠诚",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.574Z"
+    },
+    {
+      "term": "爬开",
+      "family": "attack",
+      "meaning": "命令对方离开，表示厌恶",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:56:44.192Z"
+    },
+    {
+      "term": "爸爸",
+      "family": "attack",
+      "meaning": "网络用语中自称父亲占便宜",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T13:54:47.905Z"
+    },
+    {
+      "term": "爹味",
+      "family": "attack",
+      "meaning": "讽刺对方喜欢说教",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "爹味十足",
+      "family": "attack",
+      "meaning": "同爹味",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "牧羊犬",
+      "family": "attack",
+      "meaning": "讽刺跟随西方",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:27:58.158Z"
+    },
+    {
+      "term": "狗东西",
+      "family": "attack",
+      "meaning": "辱骂对方是狗",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:56:44.192Z"
+    },
+    {
+      "term": "狗分",
+      "family": "attack",
+      "meaning": "\"Dog points\" – accusing someone of playing cowardly or only caring about rank score (e.g., hiding, ratting).",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "狗叫",
+      "family": "attack",
+      "meaning": "将对方言论贬低为狗叫声，完全否定其表达价值和意义",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "狗叫什么",
+      "family": "attack",
+      "meaning": "呵斥对方言论时使用，带有侮辱性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "狗头",
+      "family": "attack",
+      "meaning": "用狗头表情表示反讽，攻击性调侃",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:56:44.192Z"
+    },
+    {
+      "term": "狗粉丝",
+      "family": "attack",
+      "meaning": "\"Dog fans,\" followers of controversial streamers known for trolling and offensive humor; used as a disparaging label.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "狗罕见",
+      "family": "attack",
+      "meaning": "侮辱对方是罕见（汉奸）的狗",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.185Z"
+    },
+    {
+      "term": "狗腿子",
+      "family": "attack",
+      "meaning": "骂对方是走狗、帮凶，用于阵营攻击",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:53:55.942Z"
+    },
+    {
+      "term": "狗都不玩",
+      "family": "attack",
+      "meaning": "极端贬低某游戏或产品，表达强烈厌恶",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.341Z"
+    },
+    {
+      "term": "狗都不理",
+      "family": "attack",
+      "meaning": "贬低对方的内容毫无价值，连狗都不看",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.866Z"
+    },
+    {
+      "term": "狗都不看",
+      "family": "attack",
+      "meaning": "贬低内容质量低到连狗都不愿意看，极端否定作品价值",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "独美",
+      "family": "attack",
+      "meaning": "讽刺只顾自己",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "猎马人",
+      "family": "attack",
+      "meaning": "极端侮辱词，攻击对方家人",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.574Z"
+    },
+    {
+      "term": "猪鼻",
+      "family": "attack",
+      "meaning": "辱骂对方蠢得像猪一样，常见于游戏对战中的嘲讽用语",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "玩不起",
+      "family": "attack",
+      "meaning": "讽刺对方认输或逃避，不遵循规则",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:48:08.549Z"
+    },
+    {
+      "term": "玻璃心",
+      "family": "attack",
+      "meaning": "嘲讽心理脆弱，无法接受批评或玩笑的人",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "理不直气也壮",
+      "family": "attack",
+      "meaning": "讽刺对方没理却态度强硬",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.341Z"
+    },
+    {
+      "term": "理中客",
+      "family": "attack",
+      "meaning": "讽刺装作理性中立客观实则偏袒一方",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T14:21:38.613Z"
+    },
+    {
+      "term": "理塘丁真",
+      "family": "attack",
+      "meaning": "借丁真现象讽刺对方反驳观点时缺乏逻辑",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.189Z"
+    },
+    {
+      "term": "理塘最强传说",
+      "family": "attack",
+      "meaning": "\"The strongest legend of Litang\" – making fun of Dingzhen's fame, implying something is overhyped or silly.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "甩锅",
+      "family": "attack",
+      "meaning": "指把责任推给别人",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "甩锅侠",
+      "family": "attack",
+      "meaning": "\"Blame-shifting hero\" – a teammate who always blames others for their own mistakes.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "电子烟",
+      "family": "attack",
+      "meaning": "谐音'典子烟'，讽刺对方言论经典",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.670Z"
+    },
+    {
+      "term": "电子阳痿",
+      "family": "attack",
+      "meaning": "\"Digital impotence\" – burnout from excessive gaming where one can no longer enjoy playing, used to mock or self-deprecate.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "电棍",
+      "family": "attack",
+      "meaning": "主播黑称，用于攻击其言论极端或行为像电击一样刺激。",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:59:20.625Z"
+    },
+    {
+      "term": "男拳",
+      "family": "attack",
+      "meaning": "贬低激进男权主义者，类似女拳的反击",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:45:01.411Z"
+    },
+    {
+      "term": "疯批",
+      "family": "attack",
+      "meaning": "侮辱对方精神或行为疯狂，攻击性强，常用于骂战。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.971Z"
+    },
+    {
+      "term": "疯狂输出",
+      "family": "attack",
+      "meaning": "连续不断发表攻击性言论。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.693Z"
+    },
+    {
+      "term": "疯魔",
+      "family": "attack",
+      "meaning": "形容沉迷某事到失去理智，带嘲讽贬义",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:10:53.282Z"
+    },
+    {
+      "term": "白嫖",
+      "family": "attack",
+      "meaning": "讽刺不花钱却指手画脚的粉丝",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "白嫖怪",
+      "family": "attack",
+      "meaning": "贬低不充钱只享用免费内容的玩家，带鄙视意味",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "白莲花",
+      "family": "attack",
+      "meaning": "讽刺表面纯洁无辜实则心机深重的人，常见于女性之间的攻击",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "盒武器",
+      "family": "attack",
+      "meaning": "指利用他人隐私作为攻击武器的行为",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:53:55.942Z"
+    },
+    {
+      "term": "直男癌",
+      "family": "attack",
+      "meaning": "指责有性别歧视或大男子主义思想的男性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "直钩",
+      "family": "attack",
+      "meaning": "指极其明显的钓鱼，讽刺对方上钩",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.596Z"
+    },
+    {
+      "term": "看热闹不嫌事大",
+      "family": "attack",
+      "meaning": "讽刺旁观者唯恐天下不乱",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.415Z"
+    },
+    {
+      "term": "看看你的",
+      "family": "attack",
+      "meaning": "嘲讽对方没有资格发言，要求其展示自身实力以证明资格",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "眼瞎",
+      "family": "attack",
+      "meaning": "骂人看不见明显东西，常见于游戏失误",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "睿智",
+      "family": "attack",
+      "meaning": "反讽用法，将弱智谐音为睿智来嘲笑对方愚蠢",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "石砸狗叫",
+      "family": "attack",
+      "meaning": "讽刺对方被戳到痛点后跳脚反驳",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.867Z"
+    },
+    {
+      "term": "破大防",
+      "family": "attack",
+      "meaning": "加强版破防",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "破防",
+      "family": "attack",
+      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
+      "risk": "medium",
+      "confidence": 0.94,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T13:54:47.905Z"
+    },
+    {
+      "term": "硬吹",
+      "family": "attack",
+      "meaning": "讽刺强行吹捧，不顾实际情况",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.189Z"
+    },
+    {
+      "term": "硬洗",
+      "family": "attack",
+      "meaning": "批评对方生硬地为明显错误辩解，辩护手段拙劣却不肯放弃",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "硬黑",
+      "family": "attack",
+      "meaning": "指责对方无理由乱黑",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.596Z"
+    },
+    {
+      "term": "碰瓷",
+      "family": "attack",
+      "meaning": "指责对方故意与高人绑定蹭热度，类似恶意营销",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.742Z"
+    },
+    {
+      "term": "碾压",
+      "family": "attack",
+      "meaning": "实力碾压，同时有嘲讽意味。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.693Z"
+    },
+    {
+      "term": "祖安",
+      "family": "attack",
+      "meaning": "指代游戏内粗口骂战文化，或形容玩家暴躁",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "祖安人",
+      "family": "attack",
+      "meaning": "指擅长用脏话攻击他人的网民",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "神友",
+      "family": "attack",
+      "meaning": "\"Shenyou\" – members of a certain online community associated with contrarian or anti-establishment views, often used pejoratively.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "神操作",
+      "family": "attack",
+      "meaning": "反讽糟糕的操作，表面夸实则骂",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:30:37.163Z"
+    },
+    {
+      "term": "神神",
+      "family": "attack",
+      "meaning": "讽刺神棍或某些宗教",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "禁言",
+      "family": "attack",
+      "meaning": "指限制他人发言，常被吐槽为权力滥用",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "离谱",
+      "family": "attack",
+      "meaning": "贬低对方逻辑或行为反常",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:38:16.293Z"
+    },
+    {
+      "term": "秽土转生",
+      "family": "attack",
+      "meaning": "指被封禁的账号或内容重新出现，带讽刺。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.377Z"
+    },
+    {
+      "term": "空瓶",
+      "family": "attack",
+      "meaning": "谐音控评，指粉丝有组织地刷正面评价压制批评",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:53:55.942Z"
+    },
+    {
+      "term": "立人设",
+      "family": "attack",
+      "meaning": "指刻意塑造虚假形象，用于攻击明星或网红的虚伪。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.971Z"
+    },
+    {
+      "term": "笑死",
+      "family": "attack",
+      "meaning": "用夸张笑声嘲讽对方言行可笑，表达蔑视",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:21:38.613Z"
+    },
+    {
+      "term": "简中",
+      "family": "attack",
+      "meaning": "贬称简体中文网络环境或用户",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "管人痴",
+      "family": "attack",
+      "meaning": "\"VTuber simp\" – derogatory term for overzealous VTuber fans who obsess over streamers.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "米卫兵",
+      "family": "attack",
+      "meaning": "\"Mihoyo defender\" – label for someone who vehemently defends Mihoyo games, often used negatively.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
+    },
+    {
+      "term": "米孝子",
+      "family": "attack",
+      "meaning": "特指对小米品牌盲目维护的极端粉丝，也泛指类似品牌狂热者",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "米猴",
+      "family": "attack",
+      "meaning": "侮辱小米粉丝，模仿米粉读音。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.165Z"
+    },
+    {
+      "term": "米粉",
+      "family": "attack",
+      "meaning": "讽刺小米粉丝",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.005Z"
+    },
+    {
+      "term": "米线",
+      "family": "attack",
+      "meaning": "“下限”的谐音，讽刺对方底线低、行为无下限。",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:59:20.625Z"
+    },
+    {
+      "term": "粉圈",
+      "family": "attack",
+      "meaning": "同上",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:55:05.670Z"
+    },
+    {
+      "term": "粉头",
+      "family": "attack",
+      "meaning": "指粉丝领袖，带贬义，暗示煽动粉丝",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.596Z"
+    },
+    {
+      "term": "粉红",
+      "family": "attack",
+      "meaning": "标签化爱国青年网民，常在政治讨论中用于贬低对方为无脑爱国者",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "粉转黑",
+      "family": "attack",
+      "meaning": "从粉丝变成黑子，常用于攻击",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:48:08.549Z"
+    },
+    {
+      "term": "精分",
+      "family": "attack",
+      "meaning": "嘲讽对方逻辑混乱、自相矛盾，像人格分裂",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.189Z"
+    },
+    {
+      "term": "精日",
+      "family": "attack",
+      "meaning": "讽刺精神日本人，过度崇拜日本",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "精神股东",
+      "family": "attack",
+      "meaning": "嘲讽那些没有实际利益却像股东一样狂热维护某事物的人",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "精神胜利",
+      "family": "attack",
+      "meaning": "讽刺对方使用阿Q精神自我安慰，实则失败还不认输。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:59:20.625Z"
+    },
+    {
+      "term": "精神胜利法",
+      "family": "attack",
+      "meaning": "讽刺阿Q式自欺欺人",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:33:20.366Z"
+    },
+    {
+      "term": "精美",
+      "family": "attack",
+      "meaning": "讽刺精神美国人，过度崇拜美国",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "精韩",
+      "family": "attack",
+      "meaning": "讽刺精神韩国人，过度崇拜韩国",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.219Z"
+    },
+    {
+      "term": "素质三连",
+      "family": "attack",
+      "meaning": "连续素质三连骂，通常为攻击。",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.693Z"
+    },
+    {
+      "term": "红卫兵",
+      "family": "attack",
+      "meaning": "讽刺极端维护者，历史敏感梗",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.303Z"
+    },
+    {
+      "term": "纯路人",
+      "family": "attack",
+      "meaning": "讽刺假装中立实则立场鲜明，常用于粉圈互撕",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.189Z"
+    },
+    {
+      "term": "线下真实",
+      "family": "attack",
+      "meaning": "威胁将网络冲突延伸至现实，暴力恐吓",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:36:27.886Z"
+    },
+    {
+      "term": "经典",
+      "family": "attack",
+      "meaning": "讽刺对方言论或行为典型且可笑，常用于反驳",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:15:08.401Z"
+    },
+    {
+      "term": "结晶",
+      "family": "attack",
+      "meaning": "攻击固化思想的结晶粉，无法沟通",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.185Z"
+    },
+    {
+      "term": "结晶粉",
+      "family": "attack",
+      "meaning": "嘲讽粉丝的忠诚度已经结晶固化，即使偶像犯错也会无条件洗白",
+      "risk": "high",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.685Z"
+    },
+    {
+      "term": "绝绝子",
+      "family": "attack",
+      "meaning": "Originally means \"awesome,\" but often used sarcastically to mock over-enthusiasm.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:11:18.715Z"
     }
   ]
 }

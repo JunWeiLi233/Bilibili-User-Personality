@@ -86,7 +86,7 @@ Migration follows a strict compare-before-replace pattern. Python CLIs must prod
 - For behavior changes, use TDD: write/verify a failing test first, implement the smallest fix, then rerun relevant tests.
 - Preserve JS behavior during migration. Add or update JS/Python comparison commands before replacing JS runtime paths.
 - Do not stage generated files in `server/data/deepseekKeywordDictionary.*/` or `server/data/keywordCoverage*` unless the task explicitly asks for harvested data output.
-- Do not commit secrets or real production config. `set-deepseek-env.ps1` contains API keys and is gitignored; use `set-deepseek-env.example.ps1` as the safe template.
+- Do not commit secrets or real production config. **NEVER put a real API key, token, or cookie in source code** — not as a literal, not as a default argument, not in agent-generated scripts. Use env vars exclusively with `""` or error-out as fallback. `set-deepseek-env.ps1` contains API keys and is gitignored; use `set-deepseek-env.example.ps1` as the safe template with placeholder values. If you generate a new script that needs an API key: (a) read it from the environment only, (b) never provide a real key as a default, (c) if the file accidentally contains a secret-like string, add it to `.gitignore` immediately before committing.
 - Documentation-only tasks must not modify business code.
 - Many Chinese strings in `src/main.jsx` and `src/languageUnderstanding.js` have known encoding issues. Treat Chinese text edits carefully and verify encoding before broad rewrites.
 

@@ -1,0 +1,2277 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-29T14:44:40.775Z",
+  "family": "cooperation",
+  "shard": 3,
+  "shardCount": 4,
+  "entries": [
+    {
+      "term": "我理解",
+      "family": "cooperation",
+      "meaning": "表达同理心认知，缓和语气",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我理解你",
+      "family": "cooperation",
+      "meaning": "表达共情，降低防御心理，推动理性交流。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.422Z"
+    },
+    {
+      "term": "我理解你的意思",
+      "family": "cooperation",
+      "meaning": "表达同理心，缓和争论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "我的初步看法",
+      "family": "cooperation",
+      "meaning": "限定为初步看法，非最终结论",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我的推测是",
+      "family": "cooperation",
+      "meaning": "强调是推测，非确定事实",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我的理解是",
+      "family": "cooperation",
+      "meaning": "陈述个人理解，暗示可能有偏差",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我的看法是",
+      "family": "cooperation",
+      "meaning": "明确表达主观意见，避免绝对化。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:51:09.801Z"
+    },
+    {
+      "term": "我目光短浅",
+      "family": "cooperation",
+      "meaning": "承认缺乏长远考虑，表达改进意愿。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我看这样吧",
+      "family": "cooperation",
+      "meaning": "提议决定",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "我站你说的",
+      "family": "cooperation",
+      "meaning": "站队支持",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "我能力不足",
+      "family": "cooperation",
+      "meaning": "承认能力欠缺，降低他人期待，避免指责。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我自己觉得",
+      "family": "cooperation",
+      "meaning": "主观表达，不具强制力",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我虚心接受",
+      "family": "cooperation",
+      "meaning": "表达愿意接纳他人观点，促进合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:47:01.435Z"
+    },
+    {
+      "term": "我补充一下",
+      "family": "cooperation",
+      "meaning": "礼貌性地增加信息",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "我补充一句",
+      "family": "cooperation",
+      "meaning": "礼貌地添加信息，不否定对方，共同完善讨论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "我补充一点",
+      "family": "cooperation",
+      "meaning": "追加相关信息，丰富讨论内容，表现合作姿态",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.308Z"
+    },
+    {
+      "term": "我要说的是",
+      "family": "cooperation",
+      "meaning": "直接引出个人看法，强调后续重要性。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:51:09.801Z"
+    },
+    {
+      "term": "我见识短",
+      "family": "cooperation",
+      "meaning": "自谦知识有限，为错误观点铺垫，缓和批评。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我觉得",
+      "family": "cooperation",
+      "meaning": "合作讨论或条件化表达",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "我觉得你可能误会了",
+      "family": "cooperation",
+      "meaning": "委婉指出对方理解偏差，使用假设语气减少对抗。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:36:27.891Z"
+    },
+    {
+      "term": "我觉得可以",
+      "family": "cooperation",
+      "meaning": "表达有限度同意，留有商量余地。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "我觉得可以理解",
+      "family": "cooperation",
+      "meaning": "表示认可对方的做法或想法",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "我觉得吧",
+      "family": "cooperation",
+      "meaning": "弱化断言语气，表明这是个人主观看法，为讨论留出余地。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "我觉得差不多",
+      "family": "cooperation",
+      "meaning": "非精确判断，留出差异",
+      "risk": "positive",
+      "confidence": 0.84,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我觉得有道理",
+      "family": "cooperation",
+      "meaning": "认可对方逻辑，缓和分歧，推动对话",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.746Z"
+    },
+    {
+      "term": "我认为",
+      "family": "cooperation",
+      "meaning": "合作讨论或条件化表达",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
+    },
+    {
+      "term": "我认为不对",
+      "family": "cooperation",
+      "meaning": "否定对方观点",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "我认可",
+      "family": "cooperation",
+      "meaning": "正式认可对方观点或能力，建立信任。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.870Z"
+    },
+    {
+      "term": "我认可你的一部分",
+      "family": "cooperation",
+      "meaning": "选择性同意，既保留立场又表达尊重",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:47:01.435Z"
+    },
+    {
+      "term": "我认可你的努力",
+      "family": "cooperation",
+      "meaning": "肯定付出，维持关系",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "我认同",
+      "family": "cooperation",
+      "meaning": "表示同意对方观点，建立共识",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:59:20.629Z"
+    },
+    {
+      "term": "我认同你的看法",
+      "family": "cooperation",
+      "meaning": "明确一致意见，巩固共识",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "我讲一下我的看法",
+      "family": "cooperation",
+      "meaning": "主动分享但不强加",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我试着理解",
+      "family": "cooperation",
+      "meaning": "主动努力共情，减少对立",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "我误判了",
+      "family": "cooperation",
+      "meaning": "承认判断失误，展现反思态度，推动对话。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我说两句",
+      "family": "cooperation",
+      "meaning": "谦逊开场，控制发言篇幅",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "我说句公道话",
+      "family": "cooperation",
+      "meaning": "标榜中立立场，试图在争论中扮演调停角色，促进对话。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我说的对吧",
+      "family": "cooperation",
+      "meaning": "寻求确认，加强互动",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:59:20.629Z"
+    },
+    {
+      "term": "我说话直",
+      "family": "cooperation",
+      "meaning": "提前预警直截了当的风格，减少被冒犯感。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:51:09.801Z"
+    },
+    {
+      "term": "我负荆请罪",
+      "family": "cooperation",
+      "meaning": "引用典故表示彻底认错，诚意满满，消除芥蒂。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我赔不是",
+      "family": "cooperation",
+      "meaning": "表达歉意，主动化解矛盾，恢复关系。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我赞同",
+      "family": "cooperation",
+      "meaning": "正式表示支持，强化合作信号。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.870Z"
+    },
+    {
+      "term": "我赞同你的观点",
+      "family": "cooperation",
+      "meaning": "直接表达同意，强化合作氛围。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.600Z"
+    },
+    {
+      "term": "我赞成",
+      "family": "cooperation",
+      "meaning": "用于支持观点，推动协作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:59:20.629Z"
+    },
+    {
+      "term": "我赞成大部分",
+      "family": "cooperation",
+      "meaning": "几乎全面同意，仅保留微小异议",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "我还没查证",
+      "family": "cooperation",
+      "meaning": "承认信息未核实，降低权威",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我还没说完",
+      "family": "cooperation",
+      "meaning": "提醒对方耐心，避免抢话，维护对话秩序。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "我这就改",
+      "family": "cooperation",
+      "meaning": "承诺立即改正，展现诚意",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:47:01.435Z"
+    },
+    {
+      "term": "我这里再补充一点",
+      "family": "cooperation",
+      "meaning": "追加信息，深化讨论",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "我退一步",
+      "family": "cooperation",
+      "meaning": "主动降低立场，促成和解",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "我退一步讲",
+      "family": "cooperation",
+      "meaning": "让步姿态提出假设，降低己方立场硬度，引导对方思考。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:29:28.730Z"
+    },
+    {
+      "term": "我退让一步",
+      "family": "cooperation",
+      "meaning": "主动让步以化解僵局",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:47:01.435Z"
+    },
+    {
+      "term": "我部分同意",
+      "family": "cooperation",
+      "meaning": "有限度认可，既坚持又妥协",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "我重新审视",
+      "family": "cooperation",
+      "meaning": "承诺复盘，显示诚意",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "我附和",
+      "family": "cooperation",
+      "meaning": "跟随对方观点，避免唱反调，维持氛围和谐。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.870Z"
+    },
+    {
+      "term": "我隐约记得",
+      "family": "cooperation",
+      "meaning": "模糊记忆，降低确定性",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "或多或少",
+      "family": "cooperation",
+      "meaning": "承认差异普遍，减少绝对化，利于合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:45:01.416Z"
+    },
+    {
+      "term": "或许",
+      "family": "cooperation",
+      "meaning": "合作讨论或条件化表达",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:24:07.816Z"
+    },
+    {
+      "term": "或许你是对的",
+      "family": "cooperation",
+      "meaning": "让步性认可，缓和冲突",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "或许是",
+      "family": "cooperation",
+      "meaning": "限定词，用不确定性软化断言，留出讨论余地",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:53:55.946Z"
+    },
+    {
+      "term": "或许有误",
+      "family": "cooperation",
+      "meaning": "预判自己可能错误，降低攻击性，留有余地",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.341Z"
+    },
+    {
+      "term": "所以",
+      "family": "cooperation",
+      "meaning": "因果结论词，总结前文，推动合作行动。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "所以呢",
+      "family": "cooperation",
+      "meaning": "要求结论",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "所以我的观点是",
+      "family": "cooperation",
+      "meaning": "明确结论",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "打个比方",
+      "family": "cooperation",
+      "meaning": "比喻说明",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "打开天窗说亮话",
+      "family": "cooperation",
+      "meaning": "强调开诚布公，消除隐藏意图。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:01:19.200Z"
+    },
+    {
+      "term": "承认错误",
+      "family": "cooperation",
+      "meaning": "正式认错，展示诚意。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "折中",
+      "family": "cooperation",
+      "meaning": "简略表示采取中间立场或调和意见",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "抛砖引玉",
+      "family": "cooperation",
+      "meaning": "用自己观点引出更优见解，体现合作姿态",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "按你说的来",
+      "family": "cooperation",
+      "meaning": "让步接受对方观点，推动合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.193Z"
+    },
+    {
+      "term": "按理说",
+      "family": "cooperation",
+      "meaning": "引用常规逻辑，引导理性讨论，减少情绪",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "换个思路",
+      "family": "cooperation",
+      "meaning": "提议改变讨论方向，避免僵持",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "换个角度",
+      "family": "cooperation",
+      "meaning": "提示视角转换",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:54:47.905Z"
+    },
+    {
+      "term": "换个角度来看",
+      "family": "cooperation",
+      "meaning": "建议视角转换，促进理解与妥协",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.341Z"
+    },
+    {
+      "term": "换个角度看",
+      "family": "cooperation",
+      "meaning": "提议多角度思考，非对立，推动建设性对话",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "换位思考",
+      "family": "cooperation",
+      "meaning": "移情思考",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "换句话讲",
+      "family": "cooperation",
+      "meaning": "重新表述，促进理解",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.223Z"
+    },
+    {
+      "term": "换句话说",
+      "family": "cooperation",
+      "meaning": "重新表述，澄清原意",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "换而言之",
+      "family": "cooperation",
+      "meaning": "同义转换，促进理解",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.579Z"
+    },
+    {
+      "term": "换言之",
+      "family": "cooperation",
+      "meaning": "换种说法，促进理解",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.223Z"
+    },
+    {
+      "term": "据我了解",
+      "family": "cooperation",
+      "meaning": "以了解程度为准，避免错漏",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "据我所知",
+      "family": "cooperation",
+      "meaning": "限定信息来源，展示谨慎态度",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "据我所见",
+      "family": "cooperation",
+      "meaning": "亲身所见为限，不妄下断语",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "据我观察",
+      "family": "cooperation",
+      "meaning": "基于个人经验陈述，留出讨论空间。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:51:09.801Z"
+    },
+    {
+      "term": "探讨一下",
+      "family": "cooperation",
+      "meaning": "商量建议",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "提前声明",
+      "family": "cooperation",
+      "meaning": "预先说明立场或限制条件，避免误解。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.263Z"
+    },
+    {
+      "term": "插一句",
+      "family": "cooperation",
+      "meaning": "临时补充，保持对话流畅",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "插一句嘴",
+      "family": "cooperation",
+      "meaning": "表示临时插入意见，常带谦逊语气，维持对话流畅",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.308Z"
+    },
+    {
+      "term": "插个话",
+      "family": "cooperation",
+      "meaning": "礼貌打断，加入观点",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "摆事实讲道理",
+      "family": "cooperation",
+      "meaning": "倡导用证据和逻辑",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "支持",
+      "family": "cooperation",
+      "meaning": "表达拥护，强化合作。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:27:58.158Z"
+    },
+    {
+      "term": "改日再聊",
+      "family": "cooperation",
+      "meaning": "改日讨论",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "故而",
+      "family": "cooperation",
+      "meaning": "书面因果，较古雅，用于正式合作协商。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:45:25.473Z"
+    },
+    {
+      "term": "敲黑板",
+      "family": "cooperation",
+      "meaning": "强调重要信息，类似‘划重点’",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "整体上讲",
+      "family": "cooperation",
+      "meaning": "宏观概述，留出细节讨论空间",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "斗胆说一句",
+      "family": "cooperation",
+      "meaning": "自谦表达，降低挑战权威的冒犯感",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "无论",
+      "family": "cooperation",
+      "meaning": "无条件包容，扩大范围",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
+    },
+    {
+      "term": "无论怎样",
+      "family": "cooperation",
+      "meaning": "让步标记，承认对方论据后做出最终结论，表示包容",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:53:55.946Z"
+    },
+    {
+      "term": "既然",
+      "family": "cooperation",
+      "meaning": "基于已知事实引出后续推论或建议",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T14:30:59.566Z"
+    },
+    {
+      "term": "既然你这么说",
+      "family": "cooperation",
+      "meaning": "基于对方立场回应，体现尊重与适应性",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "明人不说暗话",
+      "family": "cooperation",
+      "meaning": "提倡坦率交流",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "是我乌鸦嘴",
+      "family": "cooperation",
+      "meaning": "承认说坏话应验，自嘲以缓和气氛。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我事后诸葛亮",
+      "family": "cooperation",
+      "meaning": "自嘲事后才明白，承认之前的失误。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我以己度人",
+      "family": "cooperation",
+      "meaning": "承认用自己的想法揣测别人，表达歉意。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我傲慢",
+      "family": "cooperation",
+      "meaning": "承认态度高傲，表达谦卑以推进对话。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我双标",
+      "family": "cooperation",
+      "meaning": "承认标准不一，自我批评以示公平。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我吹毛求疵",
+      "family": "cooperation",
+      "meaning": "承认苛求细节，自我批评以缓和指责。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我好为人师",
+      "family": "cooperation",
+      "meaning": "承认喜欢教训别人，自嘲并收敛。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我小人之心",
+      "family": "cooperation",
+      "meaning": "自认心胸狭隘，承认错误以争取宽容。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我带节奏",
+      "family": "cooperation",
+      "meaning": "承认引导舆论方向，表示纠正立场。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我引战",
+      "family": "cooperation",
+      "meaning": "承认挑起争论，表达和解意愿。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我强词夺理",
+      "family": "cooperation",
+      "meaning": "承认无理争辩，表达认输和妥协。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我愚蠢",
+      "family": "cooperation",
+      "meaning": "自认愚笨，通过贬低自己来化解对立情绪。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我手欠",
+      "family": "cooperation",
+      "meaning": "承认动作多余或错误，自我批评以平息对方不满。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我抬杠",
+      "family": "cooperation",
+      "meaning": "承认故意争辩，表示停止对抗的态度。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我推卸责任",
+      "family": "cooperation",
+      "meaning": "承认逃避责任，道歉并承诺改正。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我搞错了",
+      "family": "cooperation",
+      "meaning": "承认错误，主动承担失误，表示愿意改正。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:01:19.200Z"
+    },
+    {
+      "term": "是我无理取闹",
+      "family": "cooperation",
+      "meaning": "承认胡搅蛮缠，表示停止闹腾并道歉。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我杠精",
+      "family": "cooperation",
+      "meaning": "自嘲喜欢抬杠，认错以缓和争论。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我毒奶",
+      "family": "cooperation",
+      "meaning": "自嘲预测失败，用幽默承认错误。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我没说清楚",
+      "family": "cooperation",
+      "meaning": "承认自己在表达上的不足，为对方理解偏差提供台阶",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:47:01.435Z"
+    },
+    {
+      "term": "是我狡辩",
+      "family": "cooperation",
+      "meaning": "承认强行辩解，表示放弃辩护并认错。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我献丑了",
+      "family": "cooperation",
+      "meaning": "自谦水平不足，表示请多指教。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我玻璃心",
+      "family": "cooperation",
+      "meaning": "承认自己敏感脆弱，示弱以获取理解。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我班门弄斧",
+      "family": "cooperation",
+      "meaning": "承认在行家面前卖弄，表示谦逊。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我甩锅",
+      "family": "cooperation",
+      "meaning": "承认推卸责任，表示愿意承担。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我目光短浅",
+      "family": "cooperation",
+      "meaning": "承认视野局限，暗示愿意听取他人意见。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我糊涂",
+      "family": "cooperation",
+      "meaning": "自嘲智力不足，谦卑认错，降低对方敌意。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:15:47.382Z"
+    },
+    {
+      "term": "是我脑残",
+      "family": "cooperation",
+      "meaning": "自嘲智商不足，表示认错和谦逊，避免冲突。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我舔狗",
+      "family": "cooperation",
+      "meaning": "自嘲讨好行为，表示放下姿态。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我造次了",
+      "family": "cooperation",
+      "meaning": "承认言行冒犯，郑重道歉以修复关系。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我钻牛角尖",
+      "family": "cooperation",
+      "meaning": "承认过于纠结细节，表示愿意退一步。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我错了",
+      "family": "cooperation",
+      "meaning": "主动认错，降低姿态，为后续合作铺平道路。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.870Z"
+    },
+    {
+      "term": "是我键盘侠",
+      "family": "cooperation",
+      "meaning": "承认网上言行过激，自律并回归理性。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我闲得蛋疼",
+      "family": "cooperation",
+      "meaning": "自嘲没事找事，用粗俗幽默认错。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我阴阳怪气",
+      "family": "cooperation",
+      "meaning": "承认说话带刺，表示歉意并改进沟通方式。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我马后炮",
+      "family": "cooperation",
+      "meaning": "承认事后发表意见，表示延迟的反思。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "是我鸡蛋里挑骨头",
+      "family": "cooperation",
+      "meaning": "承认过分挑剔，表示愿意宽容。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:39:49.421Z"
+    },
+    {
+      "term": "暂且",
+      "family": "cooperation",
+      "meaning": "临时认可，暗示可再议，促进对话延续",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:45:01.416Z"
+    },
+    {
+      "term": "暂且同意",
+      "family": "cooperation",
+      "meaning": "临时性接受，为后续让步留空间",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:08:34.170Z"
+    },
+    {
+      "term": "暂且按下不表",
+      "family": "cooperation",
+      "meaning": "搁置不议",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "暂且搁置",
+      "family": "cooperation",
+      "meaning": "搁置争议",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "暂时先这样",
+      "family": "cooperation",
+      "meaning": "临时性让步，保持合作进程",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.193Z"
+    },
+    {
+      "term": "暂时想到这些",
+      "family": "cooperation",
+      "meaning": "表示思考未穷尽，欢迎补充",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "更准确地说",
+      "family": "cooperation",
+      "meaning": "修正表述",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "有一句说一句",
+      "family": "cooperation",
+      "meaning": "强调诚实, 不夸大",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "有一说一",
+      "family": "cooperation",
+      "meaning": "合作讨论或条件化表达",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "有一说一你这点对",
+      "family": "cooperation",
+      "meaning": "先肯定再转折，正面引导合作讨论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "有一说一啊",
+      "family": "cooperation",
+      "meaning": "口语版客观标记，用于强调真实性",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "有一说一确实",
+      "family": "cooperation",
+      "meaning": "强化赞同，同时保留客观姿态",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "有不同意见",
+      "family": "cooperation",
+      "meaning": "宣布持有歧见",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "有可能",
+      "family": "cooperation",
+      "meaning": "保持开放，不排除可能性",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "有待商榷",
+      "family": "cooperation",
+      "meaning": "提出异议但保持开放，邀请讨论",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.746Z"
+    },
+    {
+      "term": "有待验证",
+      "family": "cooperation",
+      "meaning": "预留验证空间，避免武断",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "有意义",
+      "family": "cooperation",
+      "meaning": "对观点表示认可，推动合作讨论深入",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.579Z"
+    },
+    {
+      "term": "有数据支撑吗",
+      "family": "cooperation",
+      "meaning": "要求证据支持",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "有言在先",
+      "family": "cooperation",
+      "meaning": "提前声明立场或限制，避免后续误会",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.341Z"
+    },
+    {
+      "term": "有话好好说",
+      "family": "cooperation",
+      "meaning": "劝诫语气平和",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "有道理但",
+      "family": "cooperation",
+      "meaning": "先认可后转折，维持讨论平衡",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "期待交流",
+      "family": "cooperation",
+      "meaning": "表达对话意愿，开启合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.194Z"
+    },
+    {
+      "term": "未必",
+      "family": "cooperation",
+      "meaning": "表示不一定是",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "未必正确",
+      "family": "cooperation",
+      "meaning": "主动承认可能有误，降低争论倾向，促进合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.341Z"
+    },
+    {
+      "term": "本质上说",
+      "family": "cooperation",
+      "meaning": "深入核心，揭示根本原因。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.263Z"
+    },
+    {
+      "term": "权当参考",
+      "family": "cooperation",
+      "meaning": "弱化建议强度，承认仅供参考",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "权当抛砖",
+      "family": "cooperation",
+      "meaning": "同抛砖引玉，谦逊引出讨论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.194Z"
+    },
+    {
+      "term": "权衡利弊",
+      "family": "cooperation",
+      "meaning": "分析优缺点，为决策或协商提供依据",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "杠就是你对",
+      "family": "cooperation",
+      "meaning": "以退让姿态结束争论，避免纠缠",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:56:44.196Z"
+    },
+    {
+      "term": "某种意义上",
+      "family": "cooperation",
+      "meaning": "引入条件或范围，软化断言，保持谦逊",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.746Z"
+    },
+    {
+      "term": "某种程度上",
+      "family": "cooperation",
+      "meaning": "限定条件，避免过度概括",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "某种程度上说",
+      "family": "cooperation",
+      "meaning": "限定观点适用范围，避免绝对化，促进精确讨论。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:29:28.730Z"
+    },
+    {
+      "term": "检讨一下",
+      "family": "cooperation",
+      "meaning": "主动进行自我批评。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "概括地说",
+      "family": "cooperation",
+      "meaning": "总结主要观点，便于回顾。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.263Z"
+    },
+    {
+      "term": "欢迎指正",
+      "family": "cooperation",
+      "meaning": "主动接受反馈，鼓励合作改进",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.746Z"
+    },
+    {
+      "term": "欢迎补充",
+      "family": "cooperation",
+      "meaning": "邀请他人完善观点，体现包容性",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "正确",
+      "family": "cooperation",
+      "meaning": "直接肯定，坚定合作方向",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:38:16.293Z"
+    },
+    {
+      "term": "正解",
+      "family": "cooperation",
+      "meaning": "认定正确，结束讨论。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-29T14:27:58.158Z"
+    },
+    {
+      "term": "此外",
+      "family": "cooperation",
+      "meaning": "书面附加，列举额外点，完善合作内容。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:30:59.566Z"
+    },
+    {
+      "term": "比如",
+      "family": "cooperation",
+      "meaning": "条件化表达，举例说明。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "比如说",
+      "family": "cooperation",
+      "meaning": "举例说明，丰富讨论内容",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "比方说",
+      "family": "cooperation",
+      "meaning": "举例标记，提供实例，辅助合作讨论。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:45:25.473Z"
+    },
+    {
+      "term": "毕竟",
+      "family": "cooperation",
+      "meaning": "原因强调",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:38:16.293Z"
+    },
+    {
+      "term": "毫不夸张地说",
+      "family": "cooperation",
+      "meaning": "程度强调",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "求同存异",
+      "family": "cooperation",
+      "meaning": "接受分歧，寻找共识",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "求放过",
+      "family": "cooperation",
+      "meaning": "请求对方不再追究，结束讨论。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "没别的意思",
+      "family": "cooperation",
+      "meaning": "澄清发言无恶意",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "没必要上纲上线",
+      "family": "cooperation",
+      "meaning": "劝诫不要过度解读",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "没必要吵",
+      "family": "cooperation",
+      "meaning": "制止争执，引导合作对话",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.193Z"
+    },
+    {
+      "term": "没有任何恶意",
+      "family": "cooperation",
+      "meaning": "消除对方敌意，表明讨论的善意。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:51:09.801Z"
+    },
+    {
+      "term": "没有冒犯的意思",
+      "family": "cooperation",
+      "meaning": "提前道歉，软化后续不同意见，维护合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "没有绝对",
+      "family": "cooperation",
+      "meaning": "反对绝对化",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "没毛病",
+      "family": "cooperation",
+      "meaning": "认为对方观点正确，无异议",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "没那么严重",
+      "family": "cooperation",
+      "meaning": "降低冲突级别，尝试缓解紧张情绪",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "没错没错",
+      "family": "cooperation",
+      "meaning": "重复肯定，强化合作信号",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.579Z"
+    },
+    {
+      "term": "浅见",
+      "family": "cooperation",
+      "meaning": "谦称自己的看法，促进交流",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.194Z"
+    },
+    {
+      "term": "点个赞",
+      "family": "cooperation",
+      "meaning": "社交互动，表达赞许，鼓励合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-29T14:38:16.293Z"
+    },
+    {
+      "term": "然后",
+      "family": "cooperation",
+      "meaning": "顺序标记，表示先后关系，理清合作步骤。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "然后呢",
+      "family": "cooperation",
+      "meaning": "询问后续逻辑",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "然而",
+      "family": "cooperation",
+      "meaning": "正式转折，对比观点",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
+    },
+    {
+      "term": "照你这么说",
+      "family": "cooperation",
+      "meaning": "假设对方逻辑成立，再推理",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "玻璃心勿看",
+      "family": "cooperation",
+      "meaning": "预先警告内容可能刺激",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "理性交流",
+      "family": "cooperation",
+      "meaning": "倡导基于逻辑的讨论，避免人身攻击。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.422Z"
+    },
+    {
+      "term": "理性讨论",
+      "family": "cooperation",
+      "meaning": "倡导克制、逻辑清晰的交流",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "理讨可吗",
+      "family": "cooperation",
+      "meaning": "询问是否可以进行理性讨论，尊重对方",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "甘拜下风",
+      "family": "cooperation",
+      "meaning": "自认不如，表示对对方的尊重和合作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:02:28.054Z"
+    },
+    {
+      "term": "留待后议",
+      "family": "cooperation",
+      "meaning": "后期再议",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "的确",
+      "family": "cooperation",
+      "meaning": "表示确认，认可对方事实或观点",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:38:16.293Z"
+    },
+    {
+      "term": "直白点",
+      "family": "cooperation",
+      "meaning": "呼吁直接坦诚，减少迂回。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.600Z"
+    },
+    {
+      "term": "直白点说",
+      "family": "cooperation",
+      "meaning": "去掉委婉，直接表达。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.263Z"
+    },
+    {
+      "term": "直说了吧",
+      "family": "cooperation",
+      "meaning": "直接表达核心观点，避免迂回，提高效率。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "相互理解",
+      "family": "cooperation",
+      "meaning": "强调共情，为合作奠定基础",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.193Z"
+    },
+    {
+      "term": "相对而言",
+      "family": "cooperation",
+      "meaning": "引入比较语境，使结论更温和",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "相比之下",
+      "family": "cooperation",
+      "meaning": "引入比较但不贬低，客观分析促进理解",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "看情况",
+      "family": "cooperation",
+      "meaning": "依赖条件",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "看情况吧",
+      "family": "cooperation",
+      "meaning": "条件化回应，保留合作空间",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:11:02.194Z"
+    },
+    {
+      "term": "真的",
+      "family": "cooperation",
+      "meaning": "肯定陈述，增强说服力。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "确切地说",
+      "family": "cooperation",
+      "meaning": "修正或精确化表达，避免误解",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "确实",
+      "family": "cooperation",
+      "meaning": "合作讨论或条件化表达",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "确实确实",
+      "family": "cooperation",
+      "meaning": "双重确认，促进合作深入",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.579Z"
+    },
+    {
+      "term": "稍等",
+      "family": "cooperation",
+      "meaning": "请求短暂停顿，以便思考或准备回应",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "站在我的角度",
+      "family": "cooperation",
+      "meaning": "明确立场，邀请换位思考",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "等一下",
+      "family": "cooperation",
+      "meaning": "口语化打断，要求对方等待或重新考虑",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "简单来说",
+      "family": "cooperation",
+      "meaning": "总结核心要点，便于对方快速把握。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "简单点说",
+      "family": "cooperation",
+      "meaning": "简化表述，降低认知负荷。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.263Z"
+    },
+    {
+      "term": "算你说对了",
+      "family": "cooperation",
+      "meaning": "勉为其难地承认对方正确，仍带合作姿态",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:02:28.054Z"
+    },
+    {
+      "term": "粗略地说",
+      "family": "cooperation",
+      "meaning": "承认表述不精确，但便于快速理解。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:05:57.263Z"
+    },
+    {
+      "term": "糊涂了",
+      "family": "cooperation",
+      "meaning": "承认自己头脑不清，说话欠考虑。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "纠正一点",
+      "family": "cooperation",
+      "meaning": "合作讨论标记，委婉指正。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.191Z"
+    },
+    {
+      "term": "纯属个人意见",
+      "family": "cooperation",
+      "meaning": "强调主观性",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "纯属个人看法",
+      "family": "cooperation",
+      "meaning": "强调观点主观性，避免绝对化表述，促进理性讨论。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:29:28.730Z"
+    },
+    {
+      "term": "纯属个人观点",
+      "family": "cooperation",
+      "meaning": "强调主观性，不要求他人认同，减少对立",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.341Z"
+    },
+    {
+      "term": "纯属主观",
+      "family": "cooperation",
+      "meaning": "承认观点基于个人感受，非客观事实，减少争论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    },
+    {
+      "term": "纯属猜测",
+      "family": "cooperation",
+      "meaning": "强调无事实依据，仅为推测",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "纵使",
+      "family": "cooperation",
+      "meaning": "书面让步，假设极端",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.223Z"
+    },
+    {
+      "term": "细节有待商榷",
+      "family": "cooperation",
+      "meaning": "针对具体细节提出疑问，而非整体否定。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.422Z"
+    },
+    {
+      "term": "终究",
+      "family": "cooperation",
+      "meaning": "最终归结，得出结论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T14:27:58.158Z"
+    },
+    {
+      "term": "结论是啥",
+      "family": "cooperation",
+      "meaning": "直接提问结论",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "给跪了",
+      "family": "cooperation",
+      "meaning": "夸张表示佩服或认输。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "绝无贬义",
+      "family": "cooperation",
+      "meaning": "澄清意图，消除恶意误解，维护讨论氛围",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:33:28.341Z"
+    },
+    {
+      "term": "综上所述",
+      "family": "cooperation",
+      "meaning": "总结前述",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "综合来看",
+      "family": "cooperation",
+      "meaning": "全面考虑各方因素后给出总体看法",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "老实讲",
+      "family": "cooperation",
+      "meaning": "坦诚表述",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.010Z"
+    },
+    {
+      "term": "老实说",
+      "family": "cooperation",
+      "meaning": "表明坦率态度，降低防御",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "老铁说得对",
+      "family": "cooperation",
+      "meaning": "用网络称呼肯定对方，强化社区感和合作意愿。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:22:54.422Z"
+    },
+    {
+      "term": "考虑不周",
+      "family": "cooperation",
+      "meaning": "承认自己思考不全面，接受对方指正",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:02:28.054Z"
+    },
+    {
+      "term": "考虑到",
+      "family": "cooperation",
+      "meaning": "原因考虑，纳入因素，促进合作周全。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:45:25.473Z"
+    },
+    {
+      "term": "能理解你的感受",
+      "family": "cooperation",
+      "meaning": "表达共情，拉近距离",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:47:01.435Z"
+    },
+    {
+      "term": "脑子短路",
+      "family": "cooperation",
+      "meaning": "幽默自嘲，表示一时糊涂说错话。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "自己打脸",
+      "family": "cooperation",
+      "meaning": "幽默承认自己前后矛盾。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "自我批评",
+      "family": "cooperation",
+      "meaning": "正式反思自身错误。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:56:48.345Z"
+    },
+    {
+      "term": "至少",
+      "family": "cooperation",
+      "meaning": "限定最低程度，避免过度概括，为分歧留下空间。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:36:42.040Z"
+    },
+    {
+      "term": "至少在我看来",
+      "family": "cooperation",
+      "meaning": "条件化表达，限定观点范围，表示主观看法。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.191Z"
+    },
+    {
+      "term": "若有冒犯",
+      "family": "cooperation",
+      "meaning": "提前道歉可能的冒犯，软化对立",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:25:46.975Z"
+    }
+  ]
+}

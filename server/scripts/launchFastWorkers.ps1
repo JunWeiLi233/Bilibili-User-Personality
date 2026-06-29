@@ -20,7 +20,11 @@ foreach ($range in $ranges) {
 
     $proc = Start-Process -FilePath "cmd" -ArgumentList $cmdArgs -WorkingDirectory $projectDir -RedirectStandardOutput $logFile -RedirectStandardError $errFile -WindowStyle Hidden -PassThru
     Write-Host "Launched: UID $($range.Start)-$($range.End) (PID $($proc.Id))"
-    Start-Sleep -Seconds 5
+
+    # Inter-process delay to avoid -799 rate limiting
+    $delaySec = Get-Random -Minimum 30 -Maximum 60
+    Write-Host "Cool-down: $delaySec seconds before next worker..."
+    Start-Sleep -Seconds $delaySec
 }
 
 Write-Host "`nAll 5 fast pipeline workers launched."

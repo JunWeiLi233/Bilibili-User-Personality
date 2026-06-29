@@ -5,10 +5,12 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from python_backend.analyzers.deepseek_router import MODELS, V4_MODELS, select_best_model
 from python_backend.runtime.json_contracts import JsonContractReader, JsonResultBytesContract, safe_read_json_object
 
 
-DEEPSEEK_V4_MODELS = ["deepseek-v4-flash", "deepseek-v4-pro"]
+# Backward-compat alias for code that imports DEEPSEEK_V4_MODELS from this module
+DEEPSEEK_V4_MODELS = V4_MODELS
 REASONING_EFFORTS = {"low", "medium", "high", "xhigh", "max"}
 
 
@@ -28,7 +30,7 @@ class DeepSeekConfigStatusBuilder:
 
     def build(self) -> dict[str, Any]:
         base_url = str(self.env.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com").rstrip("/")
-        configured_model = str(self.env.get("DEEPSEEK_MODEL") or "deepseek-v4-pro")
+        configured_model = str(self.env.get("DEEPSEEK_MODEL") or MODELS["V4_FLASH"])
         configured_effort = str(self.env.get("DEEPSEEK_REASONING_EFFORT") or "max").strip().lower()
         reasoning_effort = configured_effort if configured_effort in REASONING_EFFORTS else "max"
         api_key = str(self.env.get("DEEPSEEK_API_KEY") or "")
@@ -42,7 +44,7 @@ class DeepSeekConfigStatusBuilder:
                 "reasoningEffort": reasoning_effort,
                 "available": False,
                 "keyConfigured": False,
-                "models": list(DEEPSEEK_V4_MODELS),
+                "models": list(V4_MODELS),
                 "error": "DEEPSEEK_API_KEY is not configured.",
             }
 
@@ -56,12 +58,12 @@ class DeepSeekConfigStatusBuilder:
                 "reasoningEffort": reasoning_effort,
                 "available": True,
                 "keyConfigured": True,
-                "models": list(DEEPSEEK_V4_MODELS),
+                "models": list(V4_MODELS),
                 "warning": f"Could not list models: {self.model_list_error}",
             }
 
         models = [str(model) for model in (self.models or []) if str(model or "")]
-        model = self._select_model(configured_model, models)
+        model = select_best_model(configured_model, models)
         return {
             "ok": True,
             "provider": "deepseek",
@@ -73,16 +75,6 @@ class DeepSeekConfigStatusBuilder:
             "keyConfigured": True,
             "models": models,
         }
-
-    @staticmethod
-    def _select_model(configured_model: str, models: list[str]) -> str:
-        if configured_model in models:
-            return configured_model
-        if "deepseek-v4-pro" in models:
-            return "deepseek-v4-pro"
-        if "deepseek-v4-flash" in models:
-            return "deepseek-v4-flash"
-        return configured_model
 
 
 class DeepSeekConfigSummary:

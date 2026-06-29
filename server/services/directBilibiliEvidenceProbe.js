@@ -428,11 +428,12 @@ export function buildBilibiliViewUrl(video = {}) {
 
 export function buildBilibiliReplyUrl(video = {}, page = 0, pageSize = 20) {
   if (!video.aid) return null;
-  const url = new URL('https://api.bilibili.com/x/v2/reply/main');
+  // /x/v2/reply/main is blocked; use /x/v2/reply with page-based pagination
+  const url = new URL('https://api.bilibili.com/x/v2/reply');
   url.searchParams.set('type', '1');
   url.searchParams.set('oid', cleanText(video.aid));
-  url.searchParams.set('mode', '3');
-  url.searchParams.set('next', String(Math.max(0, Number(page) || 0)));
+  url.searchParams.set('sort', '2');
+  url.searchParams.set('pn', String(Math.max(1, Number(page) || 1)));
   url.searchParams.set('ps', String(Math.max(1, Math.min(Number(pageSize) || 20, 50))));
   return url;
 }

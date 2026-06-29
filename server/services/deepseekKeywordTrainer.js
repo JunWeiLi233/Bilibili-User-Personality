@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path';
 
 import { withFileLock } from '../utils/fileLock.js';
 import { findDictionaryEntriesWithSemanticEvidence } from './semanticMatcher.js';
+import { MODELS, V4_MODELS, selectBestModel, downgradeToFlash } from './deepseekRouter.js';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
 const SUPPORTED_SCENARIOS = new Set([
@@ -14,7 +15,6 @@ const SUPPORTED_SCENARIOS = new Set([
   'self_deprecation',
 ]);
 const SPLIT_DICTIONARY_MAX_SHARD_BYTES = 64 * 1024;
-const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
 const REASONING_EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
 const STOP_TERMS = new Set([
   '变体1',
@@ -776,7 +776,7 @@ function mergeKeywordEntry(existing, incoming, now) {
         ? sampleBackedEvidenceCount
         : ambiguousEvidenceWasFiltered
           ? Math.max(evidenceSamples.length, evidenceSources.length)
-          : existingEvidenceCount + incomingEvidenceCount,
+          : sampleBackedEvidenceCount,
     evidenceSamples,
     evidenceSources,
     updatedAt: now,
@@ -1124,9 +1124,7 @@ export function normalizeKeywordEntries(rawEntries = []) {
       const evidenceCount =
         sampleBackedEvidenceCount > 0
           ? Math.min(rawEvidenceCount || sampleBackedEvidenceCount, sampleBackedEvidenceCount)
-          : rawEvidenceCount > 0 && (termEvidenceSamples.length !== evidenceSamples.length || termEvidenceSources.length !== evidenceSources.length)
-          ? Math.max(termEvidenceSamples.length, termEvidenceSources.length)
-          : rawEvidenceCount;
+          : Math.max(termEvidenceSamples.length, termEvidenceSources.length);
       entries.push({
         term,
         family,
@@ -3531,7 +3529,26 @@ async function readDictionary(dictionaryPath) {
           try {
             const familyRaw = await readFile(filePath, 'utf8');
             const familyPayload = JSON.parse(familyRaw);
-            const familyEntries = Array.isArray(familyPayload?.entries) ? familyPayload.entries : [];
+            let familyEntries;
+            if (Array.isArray(familyPayload?.entries)) {
+              // Standard split-shard format: { entries: [{ term, family, ... }] }
+              familyEntries = familyPayload.entries;
+            } else if (familyPayload && typeof familyPayload === 'object') {
+              // Legacy key-value shard format: { "term": { family, meaning, ... } }
+              // Filter out shard metadata keys (version, updatedAt, family, shard, shardCount)
+              const METADATA_KEYS = new Set(['version', 'updatedAt', 'family', 'shard', 'shardCount']);
+              familyEntries = Object.entries(familyPayload)
+                .filter(([key]) => !METADATA_KEYS.has(key))
+                .map(([term, data]) => {
+                  if (data && typeof data === 'object' && !Array.isArray(data)) {
+                    return { term, ...data };
+                  }
+                  return null;
+                })
+                .filter(Boolean);
+            } else {
+              familyEntries = [];
+            }
             entries.push(...familyEntries.map((entry) => ({
               ...entry,
               ...(evidenceByTerm.get(cleanKeywordTerm(entry.term)) || {}),
@@ -3877,7 +3894,7 @@ export async function getDeepSeekConfig(options = {}) {
   const env = options.env || process.env;
   const fetchImpl = options.fetch || fetch;
   const baseUrl = String(env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com').replace(/\/$/, '');
-  const configuredModel = env.DEEPSEEK_MODEL || 'deepseek-v4-pro';
+  const configuredModel = env.DEEPSEEK_MODEL || MODELS.V4_FLASH;
   const configuredEffort = String(env.DEEPSEEK_REASONING_EFFORT || 'max').trim().toLowerCase();
   const reasoningEffort = REASONING_EFFORTS.has(configuredEffort) ? configuredEffort : 'max';
   const apiKey = env.DEEPSEEK_API_KEY || '';
@@ -3891,7 +3908,7 @@ export async function getDeepSeekConfig(options = {}) {
       reasoningEffort,
       available: false,
       keyConfigured: false,
-      models: DEEPSEEK_V4_MODELS,
+      models: V4_MODELS,
       error: 'DEEPSEEK_API_KEY is not configured.',
     };
   }
@@ -3901,9 +3918,7 @@ export async function getDeepSeekConfig(options = {}) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
     const models = (payload.data || []).map((model) => model.id).filter(Boolean);
-    const model = models.includes(configuredModel)
-      ? configuredModel
-      : models.find((item) => item === 'deepseek-v4-pro') || models.find((item) => item === 'deepseek-v4-flash') || configuredModel;
+    const model = selectBestModel(configuredModel, models);
     return {
       ok: true,
       provider: 'deepseek',
@@ -3925,7 +3940,7 @@ export async function getDeepSeekConfig(options = {}) {
       reasoningEffort,
       available: true,
       keyConfigured: true,
-      models: DEEPSEEK_V4_MODELS,
+      models: V4_MODELS,
       modelsVerified: false,
       warning: `Could not list models: ${error.message}`,
     };
@@ -4069,7 +4084,7 @@ async function generateKeywordEntries(payload, config, options = {}) {
   // DeepSeek V4 Pro's reasoning mode consumes 60-80% of max_tokens for
   // reasoning_content. Override to v4-flash for keyword extraction so the
   // full budget goes to content generation (same pattern as analyzeCommentsWithDeepSeek).
-  const keywordModel = config.model === 'deepseek-v4-pro' ? 'deepseek-v4-flash' : config.model;
+  const keywordModel = config.model === MODELS.V4_PRO ? MODELS.V4_FLASH : config.model;
 
   const requestBody = {
     model: keywordModel,
@@ -4840,8 +4855,8 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
   // reasoning_content, leaving insufficient budget for the 6-axis + sentence
   // analysis JSON output. Override to v4-flash (non-reasoning) for analysis
   // calls; training still uses the configured model for quality.
-  const analysisConfig = config.model === 'deepseek-v4-pro'
-    ? { ...config, model: 'deepseek-v4-flash' }
+  const analysisConfig = config.model === MODELS.V4_PRO
+    ? { ...config, model: MODELS.V4_FLASH }
     : config;
 
   if (!analysisConfig.available || !analysisConfig.keyConfigured || !analysisConfig.model) {

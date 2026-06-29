@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from python_backend.analyzers.deepseek_router import MODELS
 from python_backend.analysis.audit import CoverageAuditBuilder
 from python_backend.analysis.coverage_harvest_loop_runtime import (
     CoverageHarvestLoopExhaustedPruner,
@@ -105,7 +106,7 @@ class CoverageHarvestLoopCommandRunner:
         self.prune_include_partial = bool(prune_include_partial)
         self.generated_at = generated_at or self._now()
         self.deepseek = {
-            "model": os.environ.get("BILIBILI_HARVEST_MODEL") or "deepseek-v4-flash",
+            "model": os.environ.get("BILIBILI_HARVEST_MODEL") or MODELS["V4_FLASH"],
             "reasoningEffort": os.environ.get("BILIBILI_HARVEST_REASONING_EFFORT") or "max",
         }
         existing_terms_only_value = (

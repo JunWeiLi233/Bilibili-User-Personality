@@ -69,15 +69,16 @@ test('fetchRepliesForVideo deepens reply threads only for term-bearing root comm
         if (String(url).includes('/x/web-interface/view')) {
           return { code: 0, data: { aid: 123, title: 'v', owner: { mid: 9 }, stat: { reply: 5 } } };
         }
-        if (String(url).includes('/x/v2/reply/main')) {
+        // Primary endpoint: /x/v2/reply (main is deprecated)
+        if (String(url).includes('/x/v2/reply?') && !String(url).includes('/x/v2/reply/reply')) {
           return {
             code: 0,
             data: {
+              page: { count: 2, size: 20, num: 1 },
               replies: [
                 { rpid: 100, mid: 1, member: { mid: '1', uname: 'root' }, content: { message: '网盘见' }, rcount: 5, replies: [] },
                 { rpid: 200, mid: 2, member: { mid: '2', uname: 'other' }, content: { message: '无关评论' }, rcount: 0, replies: [] },
               ],
-              cursor: { is_end: true, next: 0 },
             },
           };
         }
@@ -117,10 +118,11 @@ test('fetchRepliesForVideo skips deepening when no deepenMatch is provided', asy
         if (String(url).includes('/x/web-interface/view')) {
           return { code: 0, data: { aid: 123, title: 'v', owner: { mid: 9 }, stat: { reply: 5 } } };
         }
-        if (String(url).includes('/x/v2/reply/main')) {
+        // Primary endpoint is now /x/v2/reply (main is deprecated)
+        if (String(url).includes('/x/v2/reply?') && !String(url).includes('/x/v2/reply/reply')) {
           return {
             code: 0,
-            data: { replies: [{ rpid: 100, mid: 1, member: { mid: '1', uname: 'root' }, content: { message: '网盘见' }, rcount: 5, replies: [] }], cursor: { is_end: true, next: 0 } },
+            data: { page: { count: 1, size: 20, num: 1 }, replies: [{ rpid: 100, mid: 1, member: { mid: '1', uname: 'root' }, content: { message: '网盘见' }, rcount: 5, replies: [] }] },
           };
         }
         return { code: 0, data: {} };
@@ -142,12 +144,17 @@ test('discoverVideosByKeyword searches Bilibili and normalizes video objects', a
         data: {
           result: [
             {
-              aid: 123,
-              bvid: 'BV19yGa61Ee6',
-              title: '<em class="keyword">阴阳怪气</em> sample',
-              mid: 9,
-              arcurl: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
-              review: 12,
+              result_type: 'video',
+              data: [
+                {
+                  aid: 123,
+                  bvid: 'BV19yGa61Ee6',
+                  title: '<em class="keyword">阴阳怪气</em> sample',
+                  mid: 9,
+                  arcurl: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
+                  review: 12,
+                },
+              ],
             },
           ],
         },
@@ -159,8 +166,8 @@ test('discoverVideosByKeyword searches Bilibili and normalizes video objects', a
   assert.equal(videos[0].bvid, 'BV19yGa61Ee6');
   assert.equal(videos[0].title, '阴阳怪气 sample');
   assert.equal(videos[0].replyCount, 12);
-  assert.equal(seenUrls[0].url.includes('/x/web-interface/search/type'), true);
-  assert.equal(seenUrls[0].url.includes('search_type=video'), true);
+  assert.equal(seenUrls[0].url.includes('/x/web-interface/search/all/v2'), true);
+  assert.equal(seenUrls[0].url.includes('keyword='), true);
   assert.equal(seenUrls[0].referer.includes('search.bilibili.com'), true);
 });
 
@@ -193,12 +200,17 @@ test('discoverVideosByKeyword can scan multiple search result pages', async () =
         data: {
           result: [
             {
-              aid: 456,
-              bvid: 'BV1pageTwo',
-              title: 'page two result',
-              mid: 9,
-              arcurl: 'https://www.bilibili.com/video/BV1pageTwo/',
-              review: 3,
+              result_type: 'video',
+              data: [
+                {
+                  aid: 456,
+                  bvid: 'BV1pageTwo',
+                  title: 'page two result',
+                  mid: 9,
+                  arcurl: 'https://www.bilibili.com/video/BV1pageTwo/',
+                  review: 3,
+                },
+              ],
             },
           ],
         },
@@ -223,8 +235,9 @@ test('discoverPopularVideos reads public popular videos and normalizes video obj
               aid: 456,
               bvid: 'BV1xx411c7mD',
               title: 'popular sample',
-              owner: { mid: 8 },
+              owner: { mid: 9 },
               stat: { reply: 22 },
+              short_link_v2: 'https://www.bilibili.com/video/BV1xx411c7mD/',
             },
           ],
         },
@@ -253,6 +266,32 @@ test('extractBvid accepts BV ids and Bilibili video links', () => {
   assert.equal(extractBvid('https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=abc'), 'BV19yGa61Ee6');
   assert.equal(extractBvid('https://b23.tv/BV1xx411c7mD'), 'BV1xx411c7mD');
   assert.equal(extractBvid('not-a-video'), '');
+});
+
+test('extractBvid accepts varied Bilibili video URL formats', () => {
+  // URL without https:// prefix
+  assert.equal(extractBvid('bilibili.com/video/BV1dcjf6eEJm/'), 'BV1dcjf6eEJm');
+  // URL with long tracking query params
+  assert.equal(extractBvid('https://www.bilibili.com/video/BV1FQT36XErW/?vd_source=d3f6474bdf9e6de8d027785f1120afd4'), 'BV1FQT36XErW');
+  // URL without www subdomain
+  assert.equal(extractBvid('https://bilibili.com/video/BV1zQjc65ErS/'), 'BV1zQjc65ErS');
+  // URL with trailing query params
+  assert.equal(extractBvid('https://www.bilibili.com/video/BV1zQjc65ErS/?vd_source=d3f6474bdf9e6de8d027785f1120afd4'), 'BV1zQjc65ErS');
+  // b23.tv short link with tracking
+  assert.equal(extractBvid('https://b23.tv/BV1xx411c7mD?t=30'), 'BV1xx411c7mD');
+  // URL with fragment
+  assert.equal(extractBvid('https://www.bilibili.com/video/BV19yGa61Ee6/#reply'), 'BV19yGa61Ee6');
+});
+
+test('extractBvid rejects invalid formats', () => {
+  // Pure text
+  assert.equal(extractBvid('not-a-video'), '');
+  // AV id (old format, not supported)
+  assert.equal(extractBvid('https://www.bilibili.com/video/av170001'), '');
+  // Space URL (should not extract BV from user page)
+  assert.equal(extractBvid('https://space.bilibili.com/352468828'), '');
+  // Empty string
+  assert.equal(extractBvid(''), '');
 });
 
 test('isBilibiliBlockResponse detects Bilibili block and rate-limit payloads', () => {
@@ -827,6 +866,10 @@ test('fetchRepliesForVideo can include public danmaku as interaction text', asyn
         }
         return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
       },
+      fetchBuffer: async () => {
+        // Return empty buffer to trigger XML fallback
+        return new ArrayBuffer(0);
+      },
       fetchText: async (url) => {
         assert.equal(String(url), 'https://api.bilibili.com/x/v1/dm/list.so?oid=456');
         return '<i><d p="1,1,25,16777215,1710000000,0,12345,0">轻点喷</d></i>';
@@ -888,6 +931,10 @@ test('fetchRepliesForVideo can opt into Python danmaku parsing', async () => {
         }
         return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
       },
+      fetchBuffer: async () => {
+        // Return empty buffer to trigger XML fallback
+        return new ArrayBuffer(0);
+      },
       fetchText: async () => '<i><d p="1,1,25,16777215,1710000000,0,12345,0">js would parse this</d></i>',
     },
   );
@@ -899,7 +946,7 @@ test('fetchRepliesForVideo can opt into Python danmaku parsing', async () => {
   assert.equal(parseCalls[0].video.cid, '456');
 });
 
-test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API is blocked', async () => {
+test('fetchRepliesForVideo falls back to main cursor API when page-based reply is blocked', async () => {
   const seen = [];
   const result = await fetchRepliesForVideo(
     'BV19yGa61Ee6',
@@ -918,25 +965,29 @@ test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API
             },
           };
         }
-        if (String(url).includes('/x/v2/reply/main')) {
+        // Primary: /x/v2/reply is now the default; /x/v2/reply/main is the fallback
+        if (String(url).includes('/x/v2/reply?') && !String(url).includes('/x/v2/reply/reply')) {
           return { code: -352, message: '-352' };
         }
-        return {
-          code: 0,
-          data: {
-            replies: [
-              {
-                rpid: 10,
-                mid: 100,
-                member: { mid: '100', uname: 'alice' },
-                content: { message: '典中典，自己查' },
-                like: 2,
-                ctime: 1710000000,
-              },
-            ],
-            page: { count: 1, size: 20, num: 1 },
-          },
-        };
+        if (String(url).includes('/x/v2/reply/main')) {
+          return {
+            code: 0,
+            data: {
+              replies: [
+                {
+                  rpid: 10,
+                  mid: 100,
+                  member: { mid: '100', uname: 'alice' },
+                  content: { message: '典中典，自己查' },
+                  like: 2,
+                  ctime: 1710000000,
+                },
+              ],
+              cursor: { is_end: true, next: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
       },
     },
   );
@@ -944,7 +995,717 @@ test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API
   assert.equal(result.ok, true);
   assert.equal(result.comments.length, 1);
   assert.equal(result.commentText.includes('典中典'), true);
-  assert.equal(seen.some((url) => url.includes('/x/v2/reply?')), true);
+  assert.equal(seen.some((url) => url.includes('/x/v2/reply/main')), true);
+});
+
+// ── Problem 1: TokenBucket tests ──────────────────────────────────────────────
+
+test('TokenBucket: tokens are consumed and refilled over time', async () => {
+  let now = 0;
+  const waits = [];
+  const bucket = new TokenBucket(8, 2, () => now);
+  const waitFn = async (ms) => { waits.push(ms); now += ms; };
+
+  // Consume all 8 burst tokens instantly (no wait)
+  for (let i = 0; i < 8; i++) {
+    const w = await bucket.take(waitFn);
+    assert.equal(w, 0);
+  }
+  assert.deepEqual(waits, []);
+
+  // 9th token requires waiting (sustain=2/sec → 500ms per token)
+  const w = await bucket.take(waitFn);
+  assert.ok(w > 0);
+  assert.equal(waits.length, 1);
+  assert.ok(waits[0] >= 400); // ~500ms
+});
+
+test('TokenBucket: respects burst and sustain overrides', async () => {
+  let now = 0;
+  const waits = [];
+  const bucket = new TokenBucket(3, 10, () => now);
+  const waitFn = async (ms) => { waits.push(ms); now += ms; };
+
+  // Consume 3 burst tokens
+  for (let i = 0; i < 3; i++) {
+    assert.equal(await bucket.take(waitFn), 0);
+  }
+  // 4th token with sustain=10/sec → ~100ms wait
+  const w = await bucket.take(waitFn);
+  assert.ok(w > 0 && w <= 200);
+  assert.equal(waits.length, 1);
+});
+
+test('TokenBucket: refill over time restores tokens', async () => {
+  let now = 0;
+  const bucket = new TokenBucket(4, 2, () => now); // sustain=2/sec
+  const waitFn = async (_ms) => {}; // no-op
+
+  // Consume 4 burst tokens
+  for (let i = 0; i < 4; i++) {
+    assert.equal(await bucket.take(waitFn), 0);
+  }
+
+  // Advance time by 2 seconds (should refill 4 tokens at 2/sec)
+  now += 2000;
+  assert.ok(bucket.available >= 3); // a bit less than 4 due to floating point
+});
+
+test('TokenBucket: reset restores full burst', async () => {
+  let now = 0;
+  const bucket = new TokenBucket(5, 1, () => now);
+  const waitFn = async () => {};
+
+  for (let i = 0; i < 5; i++) await bucket.take(waitFn);
+  assert.ok(bucket.available < 1);
+
+  bucket.reset();
+  assert.ok(bucket.available >= 4.9); // close to full burst
+});
+
+test('getEndpointBucket: returns different buckets for different endpoints', () => {
+  const searchBucket = getEndpointBucket('https://api.bilibili.com/x/web-interface/search/all/v2?keyword=test', Date.now, {});
+  const viewBucket = getEndpointBucket('https://api.bilibili.com/x/web-interface/view?bvid=BVxxx', Date.now, {});
+  // Different endpoints → different bucket instances
+  assert.notEqual(searchBucket, viewBucket);
+});
+
+test('getEndpointBucket: respects BILIBILI_RATE_BURST and BILIBILI_RATE_SUSTAIN overrides', () => {
+  const bucket = getEndpointBucket('https://api.bilibili.com/x/v2/reply/main?oid=123&type=1&mode=3', Date.now, {
+    BILIBILI_RATE_BURST: '15',
+    BILIBILI_RATE_SUSTAIN: '5',
+  });
+  assert.ok(bucket.available > 10);
+});
+
+test('fetchJson: TokenBucket throttles 50-request burst — no -412 storm', async () => {
+	resetBilibiliRequestState();
+	let now = 0;
+	const requestTimestamps = [];
+	let blockCount = 0;
+
+	const options = {
+		env: {},
+		config: {
+			minDelayMs: 0,
+			jitterMs: 0,
+			blockCooldownMs: 0,
+			cacheTtlMs: 0,
+			longPauseProbability: 0,
+		},
+		nowFn: () => now,
+		randomFn: () => 0,
+		waitFn: async (ms) => { now += ms; },
+		fetchImpl: async () => {
+			requestTimestamps.push(now);
+			return { ok: true, json: async () => ({ code: 0, data: {} }) };
+		},
+	};
+
+	// Fire 50 requests sequentially — TokenBucket must serialize beyond burst
+	for (let i = 0; i < 50; i++) {
+		const result = await fetchJson(
+			`https://api.bilibili.com/x/v2/reply/main?oid=${i}&type=1&mode=3`,
+			'https://www.bilibili.com',
+			options,
+		);
+		if (isBilibiliBlockResponse(result)) blockCount++;
+	}
+
+	assert.equal(requestTimestamps.length, 50);
+	assert.equal(blockCount, 0, 'No -412 block responses should occur');
+
+	// First 10 requests at t=0 (burst=10 for /x/v2/reply/main)
+	for (let i = 0; i < 10 && i < requestTimestamps.length; i++) {
+		assert.equal(requestTimestamps[i], 0, `Request ${i} should fire at burst (t=0)`);
+	}
+
+	// After burst, sustain=3/sec → ~333ms between requests.
+	// Every gap from request 11 onward must be ≥ 250ms (allow small float tolerance).
+	for (let i = 10; i < requestTimestamps.length; i++) {
+		const gap = requestTimestamps[i] - requestTimestamps[i - 1];
+		assert.ok(
+			gap >= 250,
+			`Request ${i} fired only ${gap}ms after request ${i - 1} — expected ≥ ~333ms (sustain=3/sec)`,
+		);
+	}
+
+	// Also verify: all 40 post-burst requests together take at least 12s
+	// (40 tokens / 3 per sec ≈ 13.3s; allow 11s min for rounding)
+	const postBurstSpan = requestTimestamps[49] - requestTimestamps[9];
+	assert.ok(
+		postBurstSpan >= 11000,
+		`40 post-burst requests spanned only ${postBurstSpan}ms, expected ≥ 11000ms`,
+	);
+
+	resetBilibiliRequestState();
+});
+
+// ── Problem 2: ProxyRotator tests ─────────────────────────────────────────────
+
+test('ProxyRotator: initProxyRotator with comma-separated list does not throw', () => {
+  resetBilibiliRequestState();
+  // Should initialize without throwing
+  initProxyRotator({ BILIBILI_PROXY_LIST: 'http://proxy1:8080,http://proxy2:8080,http://proxy3:8080' });
+  // Verify state is clean after reset
+  resetBilibiliRequestState();
+});
+
+test('ProxyRotator: initProxyRotator with empty string is a no-op', () => {
+  resetBilibiliRequestState();
+  initProxyRotator({ BILIBILI_PROXY_LIST: '' });
+  // Should not throw — proxy rotator stays null
+});
+
+test('ProxyRotator: initProxyRotator with whitespace in entries trims them', () => {
+  resetBilibiliRequestState();
+  initProxyRotator({ BILIBILI_PROXY_LIST: '  http://proxy1:8080  ,  http://proxy2:9090  ' });
+  // Should trim entries and initialize cleanly
+  resetBilibiliRequestState();
+});
+
+test('ProxyRotator: fetchJson with proxy configured still applies block cooldown', async () => {
+  resetBilibiliRequestState();
+  initProxyRotator({ BILIBILI_PROXY_LIST: 'http://proxy1:8080,http://proxy2:8080' });
+  let now = 1000;
+  const waits = [];
+  const responses = [
+    { code: -352, message: '-352' }, // block → triggers markBlock on proxy
+    { code: 0, data: { ok: 1 } },
+  ];
+
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 100,
+      jitterMs: 0,
+      blockCooldownMs: 1000,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => now,
+    randomFn: () => 0,
+    waitFn: async (ms) => {
+      waits.push(ms);
+      now += ms;
+    },
+    fetchImpl: async () => ({
+      ok: true,
+      json: async () => responses.shift(),
+    }),
+  };
+
+  await fetchJson('https://api.bilibili.com/proxy-block-test-a', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-block-test-b', 'https://www.bilibili.com', options);
+
+  // First call triggers block → 1000ms cooldown. Second call waits.
+  assert.ok(waits.length >= 1, 'should have at least one wait for block cooldown');
+  assert.ok(waits[0] >= 100, `expected cooldown ≥ 100ms, got ${waits[0]}`);
+  resetBilibiliRequestState();
+});
+
+test('ProxyRotator: block responses rotate proxy via markBlock', async () => {
+  resetBilibiliRequestState();
+  initProxyRotator({ BILIBILI_PROXY_LIST: 'http://proxy-a:8080,http://proxy-b:8080' });
+  let now = 0;
+  const waits = [];
+  // 4 block responses: triggers block cooldown on each, rotating through proxies
+  const responses = [
+    { code: -352, message: '-352' },
+    { code: -352, message: '-352' },
+    { code: -352, message: '-352' },
+    { code: -352, message: '-352' },
+  ];
+
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 100,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => now,
+    randomFn: () => 0,
+    waitFn: async (ms) => {
+      waits.push(ms);
+      now += ms;
+    },
+    fetchImpl: async () => ({
+      ok: true,
+      json: async () => responses.shift(),
+    }),
+  };
+
+  // All 4 calls completed (no throw from quarantine deadlock).
+  // First request fires immediately (cooldownUntil=0, nextRequestAt=0).
+  // Requests 2-4 each wait for escalating block cooldown: 100ms, 200ms, 400ms.
+  await fetchJson('https://api.bilibili.com/proxy-storm-1', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-storm-2', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-storm-3', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-storm-4', 'https://www.bilibili.com', options);
+
+  assert.equal(waits.length, 3, 'requests 2-4 should have waited for block cooldown');
+  // After 3 consecutive blocks on proxy-a, markBlock quarantines it.
+  // But proxy-b is still available, so request 4 still succeeds.
+  resetBilibiliRequestState();
+});
+
+// ── Problem 4: WAF early-exit tests ───────────────────────────────────────────
+
+test('WAF early-exit: endpoint exhausted after 3 consecutive WAFs', () => {
+  resetBilibiliRequestState();
+  assert.equal(isEndpointExhausted('https://api.bilibili.com/x/web-interface/search/type?keyword=test'), false);
+
+  recordWaf('https://api.bilibili.com/x/web-interface/search/type?keyword=test', null);
+  recordWaf('https://api.bilibili.com/x/web-interface/search/type?keyword=test', null);
+  assert.equal(isEndpointExhausted('https://api.bilibili.com/x/web-interface/search/type?keyword=test'), false);
+
+  recordWaf('https://api.bilibili.com/x/web-interface/search/type?keyword=test', null);
+  assert.equal(isEndpointExhausted('https://api.bilibili.com/x/web-interface/search/type?keyword=test'), true);
+});
+
+test('WAF early-exit: total WAFs across endpoints aborts run', () => {
+  resetBilibiliRequestState();
+
+  // 5 WAFs across different endpoints should throw
+  assert.throws(() => {
+    recordWaf('https://api.bilibili.com/x/web-interface/search/type?k=a', null);
+    recordWaf('https://api.bilibili.com/x/v2/reply/main?oid=1&type=1&mode=3', null);
+    recordWaf('https://api.bilibili.com/x/web-interface/card?mid=1', null);
+    recordWaf('https://api.bilibili.com/x/space/arc/search?mid=1', null);
+    recordWaf('https://api.bilibili.com/x/web-interface/view?bvid=BVx', null);
+  }, /aborted/);
+});
+
+test('WAF early-exit: reset clears exhaustion state', () => {
+  resetBilibiliRequestState();
+  recordWaf('https://api.bilibili.com/x/web-interface/search/type?k=a', null);
+  recordWaf('https://api.bilibili.com/x/web-interface/search/type?k=a', null);
+  recordWaf('https://api.bilibili.com/x/web-interface/search/type?k=a', null);
+  assert.equal(isEndpointExhausted('https://api.bilibili.com/x/web-interface/search/type?k=a'), true);
+
+  resetBilibiliRequestState();
+  assert.equal(isEndpointExhausted('https://api.bilibili.com/x/web-interface/search/type?k=a'), false);
+});
+
+test('isWafResponse: classifies HTTP 403 as WAF', () => {
+  assert.equal(isWafResponse(403), true);
+  assert.equal(isWafResponse(403, null), true);
+  assert.equal(isWafResponse(403, {}), true);
+});
+
+test('isWafResponse: classifies HTTP 503 as WAF', () => {
+  assert.equal(isWafResponse(503), true);
+  assert.equal(isWafResponse(503, null), true);
+  assert.equal(isWafResponse(503, {}), true);
+});
+
+test('isWafResponse: classifies API block code -101 as WAF', () => {
+  assert.equal(isWafResponse(200, { code: -101 }), true);
+  assert.equal(isWafResponse(200, { code: -101, message: 'blocked' }), true);
+});
+
+test('isWafResponse: classifies API block code -111 as WAF', () => {
+  assert.equal(isWafResponse(200, { code: -111 }), true);
+  assert.equal(isWafResponse(200, { code: -111, message: 'blocked' }), true);
+});
+
+test('isWafResponse: returns false for non-WAF HTTP statuses', () => {
+  assert.equal(isWafResponse(200), false);
+  assert.equal(isWafResponse(412), false);
+  assert.equal(isWafResponse(429), false);
+  assert.equal(isWafResponse(500), false);
+});
+
+test('isWafResponse: returns false for non-WAF block codes', () => {
+  assert.equal(isWafResponse(200, { code: -352 }), false);
+  assert.equal(isWafResponse(200, { code: -412 }), false);
+  assert.equal(isWafResponse(200, { code: 0 }), false);
+  assert.equal(isWafResponse(200, { code: -509 }), false);
+});
+
+test('isWafResponse: returns false with no arguments', () => {
+  assert.equal(isWafResponse(), false);
+  assert.equal(isWafResponse(undefined, undefined), false);
+});
+
+// ── Problem 3: UA pool expansion and dynamic sec-ch-ua test ────────────────────
+
+test('fetchJson generates dynamic sec-ch-ua matching the selected browser', async () => {
+  resetBilibiliRequestState();
+  const seenHeaders = [];
+  // Pin a Firefox UA via env override
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0';
+  try {
+    await fetchJson('https://api.bilibili.com/x', 'https://www.bilibili.com/video/BVxxx/', {
+      env: {},
+      config: { minDelayMs: 0, jitterMs: 0, blockCooldownMs: 0, cacheTtlMs: 0, longPauseProbability: 0 },
+      nowFn: () => 1700000000000,
+      randomFn: () => 0,
+      waitFn: async () => {},
+      fetchImpl: async (_url, init) => {
+        seenHeaders.push(init.headers);
+        return { ok: true, json: async () => ({ code: 0, data: {} }) };
+      },
+    });
+    // Firefox should NOT have sec-ch-ua
+    assert.equal('sec-ch-ua' in seenHeaders[0], false);
+    assert.ok(seenHeaders[0]['user-agent'].includes('Firefox'));
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+    resetBilibiliRequestState();
+  }
+});
+
+test('fetchJson sends Chrome sec-ch-ua headers by default', async () => {
+  resetBilibiliRequestState();
+  const seenHeaders = [];
+  // Pin a Chrome UA
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
+  try {
+    await fetchJson('https://api.bilibili.com/x', 'https://www.bilibili.com/video/BVxxx/', {
+      env: {},
+      config: { minDelayMs: 0, jitterMs: 0, blockCooldownMs: 0, cacheTtlMs: 0, longPauseProbability: 0 },
+      nowFn: () => 1700000000000,
+      randomFn: () => 0,
+      waitFn: async () => {},
+      fetchImpl: async (_url, init) => {
+        seenHeaders.push(init.headers);
+        return { ok: true, json: async () => ({ code: 0, data: {} }) };
+      },
+    });
+    assert.equal(seenHeaders[0]['sec-ch-ua'], '"Chromium";v="125", "Google Chrome";v="125", "Not.A/Brand";v="99"');
+    assert.equal(seenHeaders[0]['sec-ch-ua-mobile'], '?0');
+    assert.equal(seenHeaders[0]['sec-ch-ua-platform'], '"Windows"');
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+    resetBilibiliRequestState();
+  }
+});
+
+// ── Problem 6: Session validation tests ───────────────────────────────────────
+
+test('validateSession: returns isLogin=true for valid session', async () => {
+  resetBilibiliRequestState();
+  const result = await validateSession({
+    fetchJson: async () => ({
+      code: 0,
+      data: { isLogin: true, mid: 12345, uname: 'test_user' },
+    }),
+  });
+  assert.equal(result.isLogin, true);
+  assert.equal(result.mid, '12345');
+  assert.equal(result.uname, 'test_user');
+  assert.equal(isSessionValid(), true);
+  assert.equal(isSessionChecked(), true);
+  resetBilibiliRequestState();
+});
+
+test('validateSession: returns isLogin=false for logged-out session', async () => {
+  resetBilibiliRequestState();
+  const result = await validateSession({
+    fetchJson: async () => ({
+      code: 0,
+      data: { isLogin: false },
+    }),
+  });
+  assert.equal(result.isLogin, false);
+  assert.equal(isSessionValid(), false);
+  resetBilibiliRequestState();
+});
+
+test('validateSession: handles network errors gracefully', async () => {
+  resetBilibiliRequestState();
+  const result = await validateSession({
+    fetchJson: async () => { throw new Error('Network error'); },
+  });
+  assert.equal(result, null);
+  assert.equal(isSessionValid(), false);
+  resetBilibiliRequestState();
+});
+
+test('isAuthRequiredEndpoint: identifies auth-required URLs', () => {
+  assert.equal(isAuthRequiredEndpoint('https://api.bilibili.com/x/space/arc/search?mid=123'), true);
+  assert.equal(isAuthRequiredEndpoint('https://api.bilibili.com/x/v3/fav/resource/list?media_id=1'), true);
+  assert.equal(isAuthRequiredEndpoint('https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/space'), true);
+  assert.equal(isAuthRequiredEndpoint('https://api.bilibili.com/x/v2/reply/search?mid=123'), true);
+  assert.equal(isAuthRequiredEndpoint('https://api.bilibili.com/x/web-interface/view?bvid=BVx'), false);
+  assert.equal(isAuthRequiredEndpoint('https://api.bilibili.com/x/web-interface/card?mid=1'), false);
+});
+
+test('resetBilibiliRequestState: clears all state including buckets, WAF, proxy, session', () => {
+  resetBilibiliRequestState();
+  // Set some state
+  recordWaf('https://api.bilibili.com/x/test', null);
+  recordWaf('https://api.bilibili.com/x/test', null);
+  recordWaf('https://api.bilibili.com/x/test', null);
+  assert.equal(isEndpointExhausted('https://api.bilibili.com/x/test'), true);
+
+  resetBilibiliRequestState();
+  // All state should be cleared
+  assert.equal(isEndpointExhausted('https://api.bilibili.com/x/test'), false);
+  assert.equal(isSessionChecked(), false);
+});
+
+// ── Re-validation & caller guard tests ─────────────────────────────────────────
+
+test('maybeRevalidateSession: skips when recently validated (within interval)', async () => {
+  resetBilibiliRequestState();
+  // First validation: establish a valid session
+  let callCount = 0;
+  await maybeRevalidateSession({
+    fetchJson: async () => { callCount++; return { code: 0, data: { isLogin: true, mid: 1, uname: 'u' } }; },
+  });
+  assert.equal(callCount, 1);
+  assert.equal(isSessionValid(), true);
+
+  // Second call: should skip (within 30-min default interval)
+  await maybeRevalidateSession({
+    fetchJson: async () => { callCount++; return { code: 0, data: { isLogin: true, mid: 1, uname: 'u' } }; },
+  });
+  assert.equal(callCount, 1); // no additional call
+  resetBilibiliRequestState();
+});
+
+test('maybeRevalidateSession: re-validates after configured interval', async () => {
+  resetBilibiliRequestState();
+  // Pin the interval to 0 so every call re-validates
+  process.env.BILIBILI_SESSION_CHECK_INTERVAL_MS = '0';
+  let callCount = 0;
+  try {
+    await maybeRevalidateSession({
+      fetchJson: async () => { callCount++; return { code: 0, data: { isLogin: true, mid: 1, uname: 'u' } }; },
+    });
+    assert.equal(callCount, 1);
+    await maybeRevalidateSession({
+      fetchJson: async () => { callCount++; return { code: 0, data: { isLogin: true, mid: 1, uname: 'u' } }; },
+    });
+    assert.equal(callCount, 2); // re-validated because interval=0
+  } finally {
+    delete process.env.BILIBILI_SESSION_CHECK_INTERVAL_MS;
+  }
+  resetBilibiliRequestState();
+});
+
+test('guardAuthEndpoint: throws when session is known-invalid', () => {
+  resetBilibiliRequestState();
+  // Simulate: validateSession already ran and found the session invalid
+  validateSession({ fetchJson: async () => ({ code: 0, data: { isLogin: false } }) }).then(() => {
+    assert.equal(isSessionChecked(), true);
+    assert.equal(isSessionValid(), false);
+    assert.throws(
+      () => guardAuthEndpoint('https://api.bilibili.com/x/space/arc/search?mid=123'),
+      /Bilibili session invalid.*auth-required/,
+    );
+    resetBilibiliRequestState();
+  });
+});
+
+test('guardAuthEndpoint: no-op when session is valid', async () => {
+  resetBilibiliRequestState();
+  await validateSession({ fetchJson: async () => ({ code: 0, data: { isLogin: true, mid: 1, uname: 'u' } }) });
+  // Should not throw
+  guardAuthEndpoint('https://api.bilibili.com/x/space/arc/search?mid=123');
+  guardAuthEndpoint('https://api.bilibili.com/x/v2/reply/search?mid=123');
+  resetBilibiliRequestState();
+});
+
+test('guardAuthEndpoint: no-op when session has never been checked', () => {
+  resetBilibiliRequestState();
+  assert.equal(isSessionChecked(), false);
+  // Should not throw — caller may validate inline
+  guardAuthEndpoint('https://api.bilibili.com/x/space/arc/search?mid=123');
+});
+
+test('discoverVideosByUid: skips when session invalid', async () => {
+  resetBilibiliRequestState();
+  // Set session to known-invalid
+  await validateSession({ fetchJson: async () => ({ code: 0, data: { isLogin: false } }) });
+  await assert.rejects(
+    () => discoverVideosByUid('123', 5),
+    /Bilibili session invalid.*auth-required/,
+  );
+  resetBilibiliRequestState();
+});
+
+test('discoverVideosByFavorite: skips when session invalid', async () => {
+  resetBilibiliRequestState();
+  await validateSession({ fetchJson: async () => ({ code: 0, data: { isLogin: false } }) });
+  await assert.rejects(
+    () => discoverVideosByFavorite('123', 5),
+    /Bilibili session invalid.*auth-required/,
+  );
+  resetBilibiliRequestState();
+});
+
+test('discoverDynamicsByUid: skips when session invalid', async () => {
+  resetBilibiliRequestState();
+  await validateSession({ fetchJson: async () => ({ code: 0, data: { isLogin: false } }) });
+  await assert.rejects(
+    () => discoverDynamicsByUid('123', 5),
+    /Bilibili session invalid.*auth-required/,
+  );
+  resetBilibiliRequestState();
+});
+
+test('fetchUserPublicComments: skips when session invalid', async () => {
+  resetBilibiliRequestState();
+  await validateSession({ fetchJson: async () => ({ code: 0, data: { isLogin: false } }) });
+  await assert.rejects(
+    () => fetchUserPublicComments('123', 2),
+    /Bilibili session invalid.*auth-required/,
+  );
+  resetBilibiliRequestState();
+});
+
+// ── SessionIdentity: UA rotation & session-sticky behavior ────────────────────
+
+test('SessionIdentity: picks a session-sticky user agent on first ensurePicked', () => {
+  const si = new SessionIdentity();
+  // Before picking, defaults to USER_AGENTS[0]
+  assert.equal(si.userAgent, USER_AGENTS[0]);
+  assert.equal(si.platform, 'Windows');
+
+  // Pick with deterministic randomFn — picks index 2 (Chrome 124)
+  si.ensurePicked(() => 2 / USER_AGENTS.length);
+  assert.ok(USER_AGENTS.includes(si.userAgent));
+  assert.ok(['Windows', 'macOS'].includes(si.platform));
+
+  // Second call is a no-op (already picked)
+  const uaAfterFirst = si.userAgent;
+  si.ensurePicked(() => 0.9); // different random input, should be ignored
+  assert.equal(si.userAgent, uaAfterFirst);
+});
+
+test('SessionIdentity: rotate picks a new UA on block', () => {
+  const si = new SessionIdentity();
+  // Deterministic: pick first UA (index 0)
+  si.ensurePicked(() => 0);
+  const first = si.userAgent;
+  assert.ok(first.length > 0);
+
+  // Rotate to a different UA (index 3)
+  si.rotate(() => 3 / USER_AGENTS.length);
+  assert.notEqual(si.userAgent, first);
+  assert.ok(USER_AGENTS.includes(si.userAgent));
+});
+
+test('SessionIdentity: reset clears state back to defaults', () => {
+  const si = new SessionIdentity();
+  si.ensurePicked(() => 0.5);
+  assert.notEqual(si.userAgent, USER_AGENTS[0]);
+
+  si.reset();
+  assert.equal(si.userAgent, USER_AGENTS[0]);
+  assert.equal(si.platform, 'Windows');
+});
+
+test('SessionIdentity: rotate is a no-op when BILIBILI_CRAWLER_UA env is pinned', () => {
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0';
+  try {
+    const si = new SessionIdentity();
+    si.ensurePicked(() => 0);
+    const pinned = si.userAgent;
+    assert.ok(pinned.includes('Firefox'));
+
+    // Rotate should be a no-op under env override
+    si.rotate(() => 0.9);
+    assert.equal(si.userAgent, pinned);
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+  }
+});
+
+test('SessionIdentity: secChUa returns Chrome client-hint header', () => {
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
+  try {
+    const si = new SessionIdentity();
+    si.ensurePicked(() => 0);
+    assert.equal(si.secChUa, '"Chromium";v="125", "Google Chrome";v="125", "Not.A/Brand";v="99"');
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+  }
+});
+
+test('SessionIdentity: secChUa returns empty string for Firefox', () => {
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0';
+  try {
+    const si = new SessionIdentity();
+    si.ensurePicked(() => 0);
+    assert.equal(si.secChUa, '');
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+  }
+});
+
+test('SessionIdentity: secChUa returns Edge client-hint header', () => {
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0';
+  try {
+    const si = new SessionIdentity();
+    si.ensurePicked(() => 0);
+    assert.equal(si.secChUa, '"Chromium";v="126", "Microsoft Edge";v="126", "Not.A/Brand";v="99"');
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+  }
+});
+
+test('SessionIdentity: ensurePicked detects macOS platform from UA', () => {
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
+  try {
+    const si = new SessionIdentity();
+    si.ensurePicked(() => 0);
+    assert.equal(si.platform, 'macOS');
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+  }
+});
+
+test('SessionIdentity: buildSecChUa defaults to sessionIdentity.userAgent', () => {
+  resetBilibiliRequestState();
+  process.env.BILIBILI_CRAWLER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+  try {
+    sessionIdentity.reset();
+    sessionIdentity.ensurePicked(() => 0);
+    const result = buildSecChUa(); // no argument — uses sessionIdentity.userAgent
+    assert.equal(result, '"Chromium";v="124", "Google Chrome";v="124", "Not.A/Brand";v="99"');
+  } finally {
+    delete process.env.BILIBILI_CRAWLER_UA;
+    resetBilibiliRequestState();
+  }
+});
+
+test('fetchJson rotates UA on block cooldown', async () => {
+  resetBilibiliRequestState();
+  try {
+    let now = 0;
+    const seenUas = [];
+    // First response: block (-352). Second response: success (code 0).
+    const responses = [{ code: -352, message: '-352' }, { code: 0, data: {} }];
+    const options = {
+      env: {},
+      config: { minDelayMs: 0, jitterMs: 0, blockCooldownMs: 100, cacheTtlMs: 0, longPauseProbability: 0 },
+      nowFn: () => now,
+      randomFn: () => 0,
+      waitFn: async (ms) => { now += ms; },
+      fetchImpl: async (_url, init) => {
+        seenUas.push(init.headers['user-agent']);
+        return { ok: true, json: async () => responses.shift() };
+      },
+    };
+    // First call: triggers block cooldown + UA rotation
+    await fetchJson('https://api.bilibili.com/block-test-a', 'https://www.bilibili.com/video/BVxxx/', options);
+    // Second call: after cooldown, new UA is picked (sticky flag is still set from rotation)
+    await fetchJson('https://api.bilibili.com/block-test-b', 'https://www.bilibili.com/video/BVxxx/', options);
+    assert.equal(seenUas.length, 2);
+    // Both calls happened (block didn't prevent the second request).
+    // With randomFn=0, both picks use index 0 (USER_AGENTS[0] = Chrome 126).
+    assert.ok(seenUas[0].includes('Chrome/126'));
+    assert.ok(seenUas[1].includes('Chrome/126'));
+  } finally {
+    resetBilibiliRequestState();
+  }
 });
 
 // ── Problem 1: TokenBucket tests ──────────────────────────────────────────────

@@ -162,3 +162,83 @@ test('uidError: returns message for too-short', () => {
   const msg = uidError('too-short');
   assert.ok(msg && msg.length > 0);
 });
+
+test('uidError: returns message for video-page', () => {
+  const msg = uidError('video-page');
+  assert.ok(msg && msg.length > 0);
+});
+
+test('uidError: returns message for video-id', () => {
+  const msg = uidError('video-id');
+  assert.ok(msg && msg.length > 0);
+});
+
+// --- Varied URL formats (added for scraper flexibility) ---
+
+test('space.bilibili.com URL without https:// prefix', () => {
+  const r = extractUid('space.bilibili.com/438392501');
+  assert.equal(r.uid, '438392501');
+  assert.equal(r.confidence, 'high');
+  assert.equal(r.source, 'space-url');
+});
+
+test('space.bilibili.com URL with 16-digit UID', () => {
+  const r = extractUid('https://space.bilibili.com/3546376814200926');
+  assert.equal(r.uid, '3546376814200926');
+  assert.equal(r.confidence, 'high');
+  assert.equal(r.source, 'space-url');
+});
+
+test('space.bilibili.com URL with another 16-digit UID', () => {
+  const r = extractUid('https://space.bilibili.com/3546660741319084');
+  assert.equal(r.uid, '3546660741319084');
+  assert.equal(r.confidence, 'high');
+  assert.equal(r.source, 'space-url');
+});
+
+test('space.bilibili.com URL with query params', () => {
+  const r = extractUid('https://space.bilibili.com/352468828?from=search');
+  assert.equal(r.uid, '352468828');
+  assert.equal(r.confidence, 'high');
+  assert.equal(r.source, 'space-url');
+});
+
+test('space.bilibili.com URL with tracking params', () => {
+  const r = extractUid('https://space.bilibili.com/407653012/?vd_source=abc123');
+  assert.equal(r.uid, '407653012');
+  assert.equal(r.confidence, 'high');
+  assert.equal(r.source, 'space-url');
+});
+
+test('raw 9-digit UID as free text', () => {
+  const r = extractUid('128884225');
+  assert.equal(r.uid, '128884225');
+  assert.equal(r.confidence, 'high');
+});
+
+test('raw 16-digit UID as free text', () => {
+  const r = extractUid('3546376814200926');
+  assert.equal(r.uid, '3546376814200926');
+  assert.equal(r.confidence, 'high');
+});
+
+test('favorite list URL extracts UID from path', () => {
+  const r = extractUid('https://space.bilibili.com/12345/favlist?fid=456&ftype=create');
+  assert.equal(r.uid, '12345');
+  assert.equal(r.confidence, 'high');
+  assert.equal(r.source, 'space-url');
+});
+
+test('bilibili.com member URL with long UID', () => {
+  const r = extractUid('https://www.bilibili.com/3546376814200926/');
+  assert.equal(r.uid, '3546376814200926');
+  assert.equal(r.confidence, 'high');
+  assert.equal(r.source, 'member-url');
+});
+
+test('rejects video page URL with query params', () => {
+  // Video URLs should NOT extract a UID — they have no user UID embedded
+  const r = extractUid('https://www.bilibili.com/video/BV1FQT36XErW/?vd_source=d3f6474bdf9e6de8d027785f1120afd4');
+  assert.equal(r.uid, null);
+  assert.equal(r.confidence, 'none');
+});

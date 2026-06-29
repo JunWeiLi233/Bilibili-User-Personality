@@ -137,9 +137,19 @@ class DictionaryLoader:
                     continue
                 if not isinstance(shard, dict):
                     continue
-                shard_entries = shard.get("entries") or []
+                shard_entries = shard.get("entries")
                 if isinstance(shard_entries, list):
+                    # Standard split-shard format: { entries: [{ term, family, ... }] }
                     entries.extend({**entry, "family": entry.get("family") or family} for entry in self._normalize_entries(shard_entries))
+                elif isinstance(shard, dict):
+                    # Legacy key-value shard format: { "term": { family, meaning, ... } }
+                    METADATA_KEYS = {"version", "updatedAt", "family", "shard", "shardCount"}
+                    for key, data in shard.items():
+                        if key in METADATA_KEYS:
+                            continue
+                        if isinstance(data, dict):
+                            entry_family = data.get("family") or family
+                            entries.append({"term": key, "family": entry_family, **data})
         return entries
 
     def _hydrate_evidence_files(self, files_by_family: dict[str, list[str]]) -> dict[str, dict[str, Any]]:
@@ -181,11 +191,10 @@ class DictionaryLoader:
 
     @staticmethod
     def _canonical_evidence_count(raw_count: int, samples: list[Any], sources: list[Any]) -> int:
-        raw_count = max(0, raw_count)
         unit_count = DictionaryLoader._evidence_unit_count(samples, sources)
-        if raw_count > 0 and unit_count > 0:
-            return min(raw_count, unit_count)
-        return raw_count
+        if unit_count > 0:
+            return unit_count
+        return max(0, raw_count)
 
     @staticmethod
     def _evidence_unit_count(samples: list[Any], sources: list[Any]) -> int:
@@ -345,11 +354,10 @@ class DictionaryMergeWriter:
 
     @staticmethod
     def _canonical_evidence_count(raw_count: int, samples: list[Any], sources: list[Any]) -> int:
-        raw_count = max(0, raw_count)
         unit_count = DictionaryLoader._evidence_unit_count(samples, sources)
-        if raw_count > 0 and unit_count > 0:
-            return min(raw_count, unit_count)
-        return raw_count
+        if unit_count > 0:
+            return unit_count
+        return max(0, raw_count)
 
     @staticmethod
     def _evidence_unit_count(samples: list[Any], sources: list[Any]) -> int:

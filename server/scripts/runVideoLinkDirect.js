@@ -10,6 +10,7 @@ import { promisify } from 'node:util';
 
 import { analyzeUid } from '../services/bilibiliCrawler.js';
 import { trainKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
+import { isProcessed, markProcessed } from '../services/scraperMemory.js';
 import { searchVideoKeywords } from '../services/videoKeywordSearch.js';
 
 const execFileAsync = promisify(execFile);
@@ -33,6 +34,7 @@ export function parseVideoLinkDirectArgs(argv = process.argv.slice(2)) {
     else if (arg === '--pages' || arg === '-p') params.pages = jsNumberOrDefault(argv[++i], 2);
     else if (arg === '--dry-run-plan-json' || arg === '--plan-json') control.dryRunPlanJson = true;
     else if (arg === '--js-plan') control.jsPlan = true;
+    else if (arg === '--skip-memory') params.skipMemory = true;
   }
   return { params, control };
 }
@@ -122,18 +124,38 @@ async function runCollection({
   const cookie = params.bilibiliCookie;
 
   if (params.uid) {
-    log(`Processing UID: ${params.uid}`);
+    const uidStr = String(params.uid);
+    if (!params.skipMemory && isProcessed('uid', uidStr)) {
+      log(`UID ${uidStr} already processed (scraper memory) — skipping`);
+      return { exitCode: 0, skipped: true, collected: false };
+    }
+    log(`Processing UID: ${uidStr}`);
     const result = await analyzeUidRunner({
       uid: params.uid,
       pagesPerObject: params.pages || 2,
       ...(cookie ? { bilibiliCookie: cookie } : {}),
     });
 
+    const collected = result.ok === true;
     log(`Objects found: ${result.objects?.length || 0}`);
     log(`Comments collected: ${result.comments?.length || 0}`);
     log(`Statements: ${result.statements?.length || 0}`);
     const text = result.commentText || '';
     log(`Comment text length: ${text.length} chars`);
+
+    // Surface rate-limit warnings so -799 blocks are visible in the output
+    if (result.warnings?.length > 0) {
+      const rateLimited = result.warnings.filter(w => w.includes('-799') || w.includes('rate limit'));
+      if (rateLimited.length > 0) {
+        log(`⚠ RATE LIMITED: ${rateLimited.length} warning(s) — Bilibili returned -799`);
+        for (const w of rateLimited) log(`  ⚠ ${w}`);
+      }
+      const otherWarnings = result.warnings.filter(w => !w.includes('-799') && !w.includes('rate limit'));
+      if (otherWarnings.length > 0) {
+        log(`Warnings (${otherWarnings.length}):`);
+        for (const w of otherWarnings) log(`  ${w}`);
+      }
+    }
 
     if (text) {
       const trainResult = await trainKeywordDictionaryRunner({
@@ -148,25 +170,43 @@ async function runCollection({
         log(`Dictionary trained: ${trainResult.entries?.length || 0} keywords`);
       }
     }
-  } else {
-    log(params.videoLink
-      ? `Processing video: ${params.videoLink}`
-      : `Processing favorite: ${params.favoriteLink}`);
+
+    // Write discovered commenter UIDs for friendship crawl downstream
+    const uidOutputPath = process.env.FRIENDSHIP_OUTPUT_UID_FILE;
+    if (uidOutputPath && result.commenterUids?.length > 0) {
+      await writeFile(uidOutputPath, JSON.stringify({
+        seedUid: params.uid,
+        commenterUids: result.commenterUids,
+        generatedAt: new Date().toISOString(),
+      }, null, 2), 'utf8');
+      log(`Commenter UIDs exported (${result.commenterUids.length}) to ${uidOutputPath}`);
+    }
+
+    log(`Done in ${((Date.now() - start) / 1000).toFixed(1)}s`);
+    return { exitCode: 0, collected };
+  } else if (params.videoLink) {
+    const bvidMatch = params.videoLink.match(/BV[a-zA-Z0-9]{10}/);
+    const videoId = bvidMatch ? bvidMatch[0] : params.videoLink;
+    if (!params.skipMemory && isProcessed('video', videoId)) {
+      log(`Video ${videoId} already processed (scraper memory) — skipping`);
+      return { exitCode: 0, skipped: true, collected: false };
+    }
+    log(`Processing video: ${params.videoLink}`);
 
     const result = await searchVideoKeywordsRunner({
-      ...(params.videoLink ? { videoLink: params.videoLink } : {}),
-      ...(params.favoriteLink ? { favoriteLink: params.favoriteLink } : {}),
+      videoLink: params.videoLink,
       ...(cookie ? { bilibiliCookie: cookie } : {}),
       pages: params.pages,
     });
 
+    const collected = (result.videos?.length || 0) > 0 || (result.comments?.length || 0) > 0;
     log(`Videos scanned: ${result.videos?.length || 0}`);
     log(`Comments collected: ${result.comments?.length || 0}`);
     log(`Comment text length: ${(result.commentText || '').length} chars`);
 
     if (result.commentText) {
       const trainResult = await trainKeywordDictionaryRunner({
-        source: params.videoLink || params.favoriteLink || 'Bilibili direct link',
+        source: params.videoLink || 'Bilibili direct link',
         uid: '',
         text: result.commentText,
         fullText: result.commentText,
@@ -177,10 +217,47 @@ async function runCollection({
         log(`Dictionary trained: ${trainResult.entries?.length || 0} keywords`);
       }
     }
-  }
+    log(`Done in ${((Date.now() - start) / 1000).toFixed(1)}s`);
+    return { exitCode: 0, collected };
+  } else if (params.favoriteLink) {
+    const favMatch = params.favoriteLink.match(/[?&]id=(\d+)/) || params.favoriteLink.match(/favlist.*?(\d+)/);
+    const favId = favMatch ? favMatch[1] : params.favoriteLink;
+    if (!params.skipMemory && isProcessed('favorite', favId)) {
+      log(`Favorite list ${favId} already processed (scraper memory) — skipping`);
+      return { exitCode: 0, skipped: true, collected: false };
+    }
+    log(`Processing favorite: ${params.favoriteLink}`);
 
-  log(`Done in ${((Date.now() - start) / 1000).toFixed(1)}s`);
-  return { exitCode: 0 };
+    const result = await searchVideoKeywordsRunner({
+      favoriteLink: params.favoriteLink,
+      ...(cookie ? { bilibiliCookie: cookie } : {}),
+      pages: params.pages,
+    });
+
+    const collected = (result.videos?.length || 0) > 0 || (result.comments?.length || 0) > 0;
+    log(`Videos scanned: ${result.videos?.length || 0}`);
+    log(`Comments collected: ${result.comments?.length || 0}`);
+    log(`Comment text length: ${(result.commentText || '').length} chars`);
+
+    if (result.commentText) {
+      const trainResult = await trainKeywordDictionaryRunner({
+        source: params.favoriteLink || 'Bilibili direct link',
+        uid: '',
+        text: result.commentText,
+        fullText: result.commentText,
+        existingTermsOnly: true,
+        multiagent: true,
+      });
+      if (trainResult.ok) {
+        log(`Dictionary trained: ${trainResult.entries?.length || 0} keywords`);
+      }
+    }
+    log(`Done in ${((Date.now() - start) / 1000).toFixed(1)}s`);
+    return { exitCode: 0, collected };
+  } else {
+    log('No link type detected — nothing to process');
+    return { exitCode: 0, skipped: true, collected: false };
+  }
 }
 
 export async function runVideoLinkDirectCommand({
@@ -208,13 +285,35 @@ export async function runVideoLinkDirectCommand({
     return { exitCode: 1 };
   }
 
-  return runCollection({
+  const result = await runCollection({
     params,
     analyzeUidRunner,
     searchVideoKeywordsRunner,
     trainKeywordDictionaryRunner,
     log,
   });
+
+  // Record successfully-processed link only when data was actually collected.
+  // exitCode 0 alone is not enough — session-invalid runs also exit 0 but harvest nothing.
+  if (!params.skipMemory && result.collected) {
+    try {
+      if (params.uid) {
+        markProcessed('uid', params.uid, { source: 'runVideoLinkDirect' });
+      } else if (params.videoLink) {
+        const bvidMatch = params.videoLink.match(/BV[a-zA-Z0-9]{10}/);
+        const identifier = bvidMatch ? bvidMatch[0] : params.videoLink;
+        markProcessed('video', identifier, { source: 'runVideoLinkDirect' });
+      } else if (params.favoriteLink) {
+        const favMatch = params.favoriteLink.match(/[?&]id=(\d+)/) || params.favoriteLink.match(/favlist.*?(\d+)/);
+        const identifier = favMatch ? favMatch[1] : params.favoriteLink;
+        markProcessed('favorite', identifier, { source: 'runVideoLinkDirect' });
+      }
+    } catch {
+      // Memory recording is non-fatal — don't fail the run if it errors.
+    }
+  }
+
+  return result;
 }
 
 async function main() {

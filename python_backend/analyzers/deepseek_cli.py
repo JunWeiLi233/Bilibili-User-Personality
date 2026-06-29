@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analyzers.deepseek import DeepSeekAnalysisNormalizer, DeepSeekAnalyzerClient, normalize_deepseek_model, normalize_reasoning_effort
+from python_backend.analyzers.deepseek_router import MODELS
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
@@ -746,7 +747,7 @@ class DeepSeekAnalyzeFixtureRunner:
             source_payload=payload,
             analysis_payload=analysis_payload,
             provider="deepseek",
-            model="deepseek-v4-flash",
+            model=MODELS["V4_FLASH"],
             reasoning_effort="max",
             raw=self._json_text(analysis),
         )

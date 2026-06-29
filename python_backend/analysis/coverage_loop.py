@@ -7,6 +7,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from python_backend.analyzers.deepseek_router import MODELS
 from python_backend.analysis.coverage_harvest_loop_plan import (
     CoverageHarvestLoopCommandCompareCommandRequest,
     CoverageHarvestLoopCommandContractComparator,
@@ -189,7 +190,7 @@ class CoverageHarvestLoopPlanner:
         return {
             "ok": True,
             "deepseek": {
-                "model": env.get("BILIBILI_HARVEST_MODEL") or "deepseek-v4-flash",
+                "model": env.get("BILIBILI_HARVEST_MODEL") or MODELS["V4_FLASH"],
                 "reasoningEffort": env.get("BILIBILI_HARVEST_REASONING_EFFORT") or "max",
             },
             "paths": {

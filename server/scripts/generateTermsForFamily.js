@@ -16,6 +16,7 @@
 import { readdir, writeFile, mkdir } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { MODELS } from '../services/deepseekRouter.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ENTRIES_DIR = join(__dirname, '..', 'data', 'deepseekKeywordDictionary.entries');
@@ -124,7 +125,7 @@ async function callDeepSeek(prompt) {
   if (!apiKey) throw new Error('DEEPSEEK_API_KEY not set');
 
   const baseUrl = (process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com').replace(/\/$/, '');
-  const model = process.env.DEEPSEEK_MODEL || 'deepseek-v4-pro';
+  const model = process.env.DEEPSEEK_MODEL || MODELS.V4_PRO;
 
   const body = {
     model,
@@ -266,7 +267,7 @@ async function main() {
   const prompt = `${basePrompt}\n\n已有术语（禁止重复输出）：\n${existingList || '（暂无已有术语）'}\n\n请生成${targetCount}个全新的、不在上述已有列表中的术语。总数应接近${targetCount}个。`;
 
   // 3. Call DeepSeek
-  console.log(`Calling DeepSeek API (model: ${process.env.DEEPSEEK_MODEL || 'deepseek-v4-pro'})...`);
+  console.log(`Calling DeepSeek API (model: ${process.env.DEEPSEEK_MODEL || MODELS.V4_PRO})...`);
   let raw;
   try {
     raw = await callDeepSeek(prompt);

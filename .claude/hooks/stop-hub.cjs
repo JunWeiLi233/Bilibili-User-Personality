@@ -85,12 +85,6 @@ function isTaskComplete(cfg, cwd) {
     return progress.danmaku_deep_done === true;
   }
 
-  if (cfg.type === 'tieba-keyword-scrape') {
-    const total = cfg.totalItems || 0;
-    const done = (progress.completed || []).length + (progress.blocked || []).length;
-    return total > 0 && done >= total;
-  }
-
   const total = cfg.totalItems || 0;
   if (total > 0) {
     const done = (progress.completed || []).length + (progress.blocked || []).length;

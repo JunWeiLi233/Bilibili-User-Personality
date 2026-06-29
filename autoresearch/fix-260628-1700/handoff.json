@@ -1,0 +1,17 @@
+{
+  "version": "2.1.0",
+  "source": "fix",
+  "timestamp": "2026-06-28T17:45:00Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/fix-260628-1700/fix-results.tsv",
+  "findings": {
+    "total_errors": 0,
+    "errors_fixed": 0,
+    "error_types": {}
+  },
+  "config": {
+    "target": "npm test",
+    "scope": "entire codebase",
+    "guard": "npm test"
+  }
+}

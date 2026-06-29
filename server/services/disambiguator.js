@@ -418,3 +418,60 @@ export function contextAwareDisambiguate(commentText, keywordMatches) {
 
   return { filtered, stats, scenario };
 }
+
+// ─── PMI-augmented disambiguation ────────────────────────────────────────────
+
+import { getCooccurrenceBoost, isStrongArgumentativeMarker } from './cooccurrenceModel.js';
+
+/**
+ * PMI-augmented context-aware disambiguation.
+ *
+ * Extends contextAwareDisambiguate with PMI co-occurrence signals:
+ *   - If multiple terms in the same comment have strong positive PMI, boost
+ *     confirm confidence (they reinforce each other).
+ *   - If a term is a strong argumentative marker and appears with other
+ *     argumentative terms, boost confirm confidence.
+ *
+ * This is the recommended entry point for production use when the PMI
+ * model (termCooccurrence.json) is available.
+ *
+ * @param {string} commentText - the full comment text
+ * @param {Array<{term: string, family?: string, weight?: number}>} keywordMatches
+ * @returns {{ filtered: Array, stats: object, scenario: object, pmiAugmented: boolean }}
+ */
+export function contextAwareDisambiguateWithPMI(commentText, keywordMatches) {
+  const base = contextAwareDisambiguate(commentText, keywordMatches);
+  let pmiApplied = false;
+
+  // Collect terms present in the comment
+  const commentTerms = keywordMatches.map(m => m.term || '').filter(Boolean);
+
+  // Apply PMI boost to each result
+  const augmentedFiltered = base.filtered.map(match => {
+    const term = match.term || '';
+    let adjustedWeight = match.weight;
+
+    // Check co-occurrence boost: if other terms in the comment have strong PMI
+    // with this term, boost the weight slightly
+    const { boost, supportingTerms } = getCooccurrenceBoost(commentTerms, term);
+    if (boost > 0 && supportingTerms.length > 0) {
+      adjustedWeight = Math.round((adjustedWeight + boost) * 100) / 100;
+      pmiApplied = true;
+    }
+
+    // Strong argumentative marker boost
+    if (isStrongArgumentativeMarker(term) && match.action === 'confirm') {
+      adjustedWeight = Math.round((adjustedWeight + 0.05) * 100) / 100;
+      pmiApplied = true;
+    }
+
+    return { ...match, weight: adjustedWeight };
+  });
+
+  return {
+    filtered: augmentedFiltered,
+    stats: base.stats,
+    scenario: base.scenario,
+    pmiAugmented: pmiApplied,
+  };
+}

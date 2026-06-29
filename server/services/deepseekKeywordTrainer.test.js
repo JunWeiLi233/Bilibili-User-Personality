@@ -55,7 +55,7 @@ test('reports DeepSeek API key missing without exposing secrets', async () => {
   const config = await getDeepSeekConfig({ env: {} });
 
   assert.equal(config.provider, 'deepseek');
-  assert.equal(config.model, 'deepseek-v4-pro');
+  assert.equal(config.model, 'deepseek-v4-flash');
   assert.equal(config.reasoningEffort, 'max');
   assert.equal(config.available, false);
   assert.equal(config.keyConfigured, false);
@@ -94,7 +94,7 @@ test('validateDeepSeekAnalysisPayloads emits Python-compatible quote support rep
   ]);
 });
 
-test('defaults complex DeepSeek language work to V4 Pro max effort', async () => {
+test('defaults DeepSeek config to V4 Flash max effort when no model env is set', async () => {
   const config = await getDeepSeekConfig({
     env: {
       DEEPSEEK_API_KEY: 'test-key',
@@ -108,7 +108,7 @@ test('defaults complex DeepSeek language work to V4 Pro max effort', async () =>
     }),
   });
 
-  assert.equal(config.model, 'deepseek-v4-pro');
+  assert.equal(config.model, 'deepseek-v4-flash');
   assert.equal(config.reasoningEffort, 'max');
   assert.equal(config.available, true);
 });

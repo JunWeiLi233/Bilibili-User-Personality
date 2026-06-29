@@ -15215,7 +15215,11 @@ class CorpusContractTests(unittest.TestCase):
             calls.append({"kind": "text", "url": url, "referer": referer, "cookie": options.get("cookie")})
             return "<i><d>\u5f39\u5e55&amp;\u53cd\u8bbd</d></i>"
 
-        comments = direct_probe_module.DirectProbeLiveFetcher(fetch_json=fetch_json, fetch_text=fetch_text).fetch_video_comments(
+        def fetch_buffer(url, referer, options):
+            calls.append({"kind": "buffer", "url": url, "referer": referer, "cookie": options.get("cookie")})
+            raise ValueError("protobuf not mocked")
+
+        comments = direct_probe_module.DirectProbeLiveFetcher(fetch_json=fetch_json, fetch_text=fetch_text, fetch_buffer=fetch_buffer).fetch_video_comments(
             {"bvid": "BVdirect"},
             {"replyMode": "both", "replyPages": 2, "replyPageSize": 2, "includeDanmaku": True, "cookie": "SESSDATA=abc"},
         )
@@ -15256,7 +15260,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual([comment["message"] for comment in result["comments"]], ["\u5951\u7ea6\u8bc4\u8bba", "\u5951\u7ea6\u5f39\u5e55"])
         self.assertEqual(result["commentCount"], 2)
-        self.assertEqual([request["kind"] for request in result["requests"]], ["json", "json", "text"])
+        self.assertEqual([request["kind"] for request in result["requests"]], ["json", "json", "buffer", "text"])
         self.assertTrue(all(request["cookie"] == "SESSDATA=payload" for request in result["requests"]))
 
     def test_direct_probe_live_fetch_cli_reads_payload_contract(self):

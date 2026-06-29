@@ -519,22 +519,23 @@ test('searchVideoKeywords deepens pages for existing evidence source fallback sc
             },
           };
         }
-        const next = Number(new URL(textUrl).searchParams.get('next') || 0);
-        replyPages.push(next);
+        // Primary endpoint uses page-based pagination (pn), not cursor-based (next)
+        const pn = Number(new URL(textUrl).searchParams.get('pn') || 1);
+        replyPages.push(pn);
         return {
           code: 0,
           data: {
+            page: { count: 2, size: 20, num: pn },
             replies: [
               {
-                rpid: next + 1,
-                mid: 100 + next,
-                member: { mid: String(100 + next), uname: 'viewer' },
-                content: { message: next === 1 ? '\u7b2c\u4e8c\u9875\u65b0\u8d29\u5b50\u53f7\u6837\u672c' : '\u666e\u901a\u8bc4\u8bba' },
+                rpid: pn + 1,
+                mid: 100 + pn,
+                member: { mid: String(100 + pn), uname: 'viewer' },
+                content: { message: pn === 1 ? '\u7b2c\u4e00\u9875\u65b0\u8d29\u5b50\u53f7\u6837\u672c' : '\u666e\u901a\u8bc4\u8bba' },
                 like: 1,
-                ctime: 1710000000 + next,
+                ctime: 1710000000 + pn,
               },
             ],
-            cursor: { is_end: next >= 1, next: next + 1 },
           },
         };
       },
@@ -543,7 +544,8 @@ test('searchVideoKeywords deepens pages for existing evidence source fallback sc
   );
 
   assert.equal(result.ok, true);
-  assert.deepEqual(replyPages, [0, 1]);
+  // Primary endpoint uses page-based pagination (pn), first page is pn=1
+  assert.deepEqual(replyPages, [1]);
   assert.deepEqual(result.collectionDiagnostics.targetTextHits, [{ term: '\u8d29\u5b50\u53f7', count: 1 }]);
 });
 
@@ -2615,6 +2617,10 @@ test('searchVideoKeywords can include public danmaku in keyword training text', 
           };
         }
         return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      fetchBuffer: async () => {
+        // Return empty buffer to trigger XML fallback
+        return new ArrayBuffer(0);
       },
       fetchText: async () => '<i><d p="1,1,25,16777215,1710000000,0,12345,0">别喷我</d></i>',
       trainKeywordDictionary: async (payload) => {

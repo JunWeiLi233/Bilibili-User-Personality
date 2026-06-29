@@ -22,6 +22,8 @@
  *   }
  */
 
+import { MODELS } from './deepseekRouter.js';
+
 const RELATIONSHIP_TYPES = ['negation', 'intensification', 'target_binding', 'contrast', 'independent'];
 const VALID_EFFECTS = new Set(['boost', 'suppress', 'neutral']);
 const TIMEOUT_MS = 10_000;
@@ -189,7 +191,7 @@ export async function analyzeRelationships(commentText, matchedTerms, options = 
   }
 
   const baseUrl = String(env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com').replace(/\/$/, '');
-  const model = env.DEEPSEEK_MODEL || 'deepseek-v4-flash';
+  const model = env.DEEPSEEK_MODEL || MODELS.V4_FLASH;
 
   // Build prompts
   const systemPrompt = buildSystemPrompt();

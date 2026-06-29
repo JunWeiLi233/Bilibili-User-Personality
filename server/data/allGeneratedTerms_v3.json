@@ -1,0 +1,5714 @@
+{
+  "generatedAt": "2026-06-29T04:11:06.854Z",
+  "totalTerms": 570,
+  "byFamily": {
+    "attack": 159,
+    "absolutes": 86,
+    "evidence": 77,
+    "evasion": 79,
+    "cooperation": 90,
+    "correction": 79
+  },
+  "terms": [
+    {
+      "term": "典中典",
+      "family": "attack",
+      "meaning": "讽刺某种言论或行为极其典型，常用于嘲笑对方观点毫无新意",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "急了",
+      "family": "attack",
+      "meaning": "指责对方情绪激动、无法理性讨论，常用于贬低对手心态",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "绷不住",
+      "family": "attack",
+      "meaning": "表示对方言论太好笑导致自己无法保持严肃，带有嘲讽意味",
+      "risk": "medium",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "赢麻了",
+      "family": "attack",
+      "meaning": "讽刺某人无论实际结果如何都宣称胜利，常用于政治话题讨论",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "阴阳怪气",
+      "family": "attack",
+      "meaning": "指责对方说话拐弯抹角、含沙射影，不直接表达观点",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "懂哥",
+      "family": "attack",
+      "meaning": "讽刺那些假装什么都懂、喜欢指手画脚的人",
+      "risk": "medium",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "小丑",
+      "family": "attack",
+      "meaning": "贬低对方行为滑稽可笑如同马戏团小丑，常用于游戏社区",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "逆天",
+      "family": "attack",
+      "meaning": "形容言论或行为极其离谱、颠覆常理，带有强烈贬义",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "闹麻了",
+      "family": "attack",
+      "meaning": "指责对方小题大做、无端制造混乱，带有轻蔑和不耐烦",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "猪鼻",
+      "family": "attack",
+      "meaning": "辱骂对方蠢得像猪一样，常见于游戏对战中的嘲讽用语",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "破防",
+      "family": "attack",
+      "meaning": "表示对方心理防线被突破、情绪崩溃，常用于嘲讽对手脆弱",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不会真有人觉得",
+      "family": "attack",
+      "meaning": "反问句式否定对方观点合理性，暗示只有愚蠢之人才会那样想",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "蹭概念",
+      "family": "attack",
+      "meaning": "指责他人利用热门话题或概念为自己谋利，缺乏原创性和诚信",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "车家军",
+      "family": "attack",
+      "meaning": "指有组织的网络水军群体，常被用来指控对方是有预谋的攻击者",
+      "risk": "high",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "粉红",
+      "family": "attack",
+      "meaning": "标签化爱国青年网民，常在政治讨论中用于贬低对方为无脑爱国者",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "水军",
+      "family": "attack",
+      "meaning": "指控对方是拿钱发帖的职业水军，质疑其发言动机和可信度",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "孝子",
+      "family": "attack",
+      "meaning": "嘲讽某人盲目维护某个品牌、主播或偶像，如同孝子一般无条件顺从",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "狗叫",
+      "family": "attack",
+      "meaning": "将对方言论贬低为狗叫声，完全否定其表达价值和意义",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "差不多得了",
+      "family": "attack",
+      "meaning": "制止对方继续发言，暗示其言论已经离谱到了难以容忍的地步",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "乐子人",
+      "family": "attack",
+      "meaning": "指责对方只是为了看热闹而参与讨论，缺乏真诚和立场",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "二极管",
+      "family": "attack",
+      "meaning": "讽刺对方思维极端非黑即白，缺乏辩证思考的能力",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "低能",
+      "family": "attack",
+      "meaning": "直接辱骂对方智力低下，是人身攻击的常见用语",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "睿智",
+      "family": "attack",
+      "meaning": "反讽用法，将弱智谐音为睿智来嘲笑对方愚蠢",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自嗨",
+      "family": "attack",
+      "meaning": "指责对方沉浸在自我满足的幻想中，脱离现实自说自话",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你谁啊",
+      "family": "attack",
+      "meaning": "质疑对方身份和发言资格，带有强烈的轻蔑和不屑",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "闭嘴吧",
+      "family": "attack",
+      "meaning": "直接命令对方停止发言，粗暴压制言论表达的经典用语",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "酸鸡",
+      "family": "attack",
+      "meaning": "嘲讽对方因嫉妒而发表负面言论，常见于饭圈和颜值讨论",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "普信",
+      "family": "attack",
+      "meaning": "讽刺普通却自信的人，源自脱口秀段子，用于贬低对方不自量力",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "杠精",
+      "family": "attack",
+      "meaning": "指责对方无论什么话题都喜欢抬杠反驳，纯粹为反对而反对",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "键盘侠",
+      "family": "attack",
+      "meaning": "讽刺只在网上逞能现实中懦弱的人，否定其言论的实际价值",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "精神股东",
+      "family": "attack",
+      "meaning": "嘲讽那些没有实际利益却像股东一样狂热维护某事物的人",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "急了急了",
+      "family": "attack",
+      "meaning": "重复强调对方已经情绪失控，刻意激怒对手的挑衅用语",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "就这",
+      "family": "attack",
+      "meaning": "对对方能力或成果表示极度失望和轻蔑，暗示其水平低下",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "缝合怪",
+      "family": "attack",
+      "meaning": "指责内容创作者剽窃拼凑他人作品，缺乏原创精神和能力",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "烂梗",
+      "family": "attack",
+      "meaning": "批评对方使用的网络梗已经过时或毫无创意，令人反感",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "魔怔",
+      "family": "attack",
+      "meaning": "形容对方对某事执着到走火入魔的地步，行为言论异常偏执",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "洗地",
+      "family": "attack",
+      "meaning": "指责他人为错误行为或负面事件强行辩护、粉饰太平",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "硬洗",
+      "family": "attack",
+      "meaning": "批评对方生硬地为明显错误辩解，辩护手段拙劣却不肯放弃",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "云玩家",
+      "family": "attack",
+      "meaning": "讽刺没有实际玩过游戏却高谈阔论的人，质疑其发言资格",
+      "risk": "medium",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "圣母",
+      "family": "attack",
+      "meaning": "嘲讽过度善良或假装善良的人，暗示其道德表演虚伪做作",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "白莲花",
+      "family": "attack",
+      "meaning": "讽刺表面纯洁无辜实则心机深重的人，常见于女性之间的攻击",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "绿茶",
+      "family": "attack",
+      "meaning": "指责某人表面清纯实则善于算计，尤指在感情关系中伪装的女性",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "舔狗",
+      "family": "attack",
+      "meaning": "嘲笑一味讨好他人却得不到回应的人，带有强烈的鄙视和怜悯",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "巨婴",
+      "family": "attack",
+      "meaning": "讽刺成年人行为如同婴儿般幼稚自私，缺乏基本责任感",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "智商税",
+      "family": "attack",
+      "meaning": "嘲讽对方花钱购买无价值产品，暗示其因智商不足而被收割",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "割韭菜",
+      "family": "attack",
+      "meaning": "指责他人利用信息差收割普通人的利益，批评剥削行为",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "什么成分",
+      "family": "attack",
+      "meaning": "质疑对方的立场和身份背景，暗示其发言背后有不可告人的动机",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "看看你的",
+      "family": "attack",
+      "meaning": "嘲讽对方没有资格发言，要求其展示自身实力以证明资格",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "别在这理发店",
+      "family": "attack",
+      "meaning": "谐音别在这理发店讽刺对方在无关场合乱发表观点，请去别处",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "典急孝",
+      "family": "attack",
+      "meaning": "三字连用综合嘲讽对方言论典型、情绪急躁、盲目效忠",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "闹够了没有",
+      "family": "attack",
+      "meaning": "以居高临下的姿态要求对方停止表达，暗示其行为是胡闹",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "别叫了",
+      "family": "attack",
+      "meaning": "将对方言论比作动物叫声，粗暴否定其话语的人类交际价值",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "急了就咬人",
+      "family": "attack",
+      "meaning": "将对方比作急了会咬人的动物，侮辱性极强的人身攻击用语",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "装什么",
+      "family": "attack",
+      "meaning": "指责对方虚伪做作、假装某种人设，直击对方表演行为的攻击",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你配吗",
+      "family": "attack",
+      "meaning": "直接质疑对方根本不具备某种资格或能力，侮辱性反问句式",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "狗都不看",
+      "family": "attack",
+      "meaning": "贬低内容质量低到连狗都不愿意看，极端否定作品价值",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "什么垃圾",
+      "family": "attack",
+      "meaning": "将对方观点或作品直接归类为垃圾，粗暴彻底地否定其价值",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "差不多先生",
+      "family": "attack",
+      "meaning": "嘲讽对方做事敷衍、凡事差不多就行的态度，源自歌曲文化梗",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "图一乐",
+      "family": "attack",
+      "meaning": "表示只是看个笑话不认真对待，否定对方内容具有严肃讨论价值",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "收收味",
+      "family": "attack",
+      "meaning": "要求对方收敛令人不适的言行气息，常用于批评那些过于张扬的人",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "别串了",
+      "family": "attack",
+      "meaning": "指责对方在故意串通扰乱讨论秩序，暗示其是有组织的捣乱者",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "结晶粉",
+      "family": "attack",
+      "meaning": "嘲讽粉丝的忠诚度已经结晶固化，即使偶像犯错也会无条件洗白",
+      "risk": "high",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "赛博",
+      "family": "attack",
+      "meaning": "前缀用法，形容网络虚拟空间中的怪异现象，带批判和讽刺意味",
+      "risk": "medium",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "赛博丁真",
+      "family": "attack",
+      "meaning": "嘲讽网络上突然爆红但缺乏实质能力的人，将丁真现象泛化使用",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "孝出强大",
+      "family": "attack",
+      "meaning": "谐音笑出强大，讽刺某些极端粉丝的愚忠行为，带有强烈讥讽",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "米孝子",
+      "family": "attack",
+      "meaning": "特指对小米品牌盲目维护的极端粉丝，也泛指类似品牌狂热者",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "华孝子",
+      "family": "attack",
+      "meaning": "特指对华为品牌盲目维护的极端粉丝，常见于科技圈讨论",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "麻了",
+      "family": "attack",
+      "meaning": "表示对某现象已经麻木，常带讽刺意味暗示某事发生过于频繁",
+      "risk": "medium",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "味太冲了",
+      "family": "attack",
+      "meaning": "批评某人或某群体的风格特征过于明显且令人生厌",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "爆孝如雷了",
+      "family": "attack",
+      "meaning": "谐音爆笑如雷，讽刺粉丝对偶像的维护行为夸张到令人发笑",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "全是",
+      "family": "absolutes",
+      "meaning": "过度概括全部情况或对象，排斥例外存在的可能性",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "全都",
+      "family": "absolutes",
+      "meaning": "强调无一例外的绝对性，将个别现象扩大为普遍规律",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "根本没有",
+      "family": "absolutes",
+      "meaning": "坚决否定某事物的存在，以绝对语气排除任何可能性",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "没有一个",
+      "family": "absolutes",
+      "meaning": "断言某一类别中完全没有任何符合条件的事物存在",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "必然",
+      "family": "absolutes",
+      "meaning": "声称某结果一定会发生，以绝对确定性排除其他可能性",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "绝对",
+      "family": "absolutes",
+      "meaning": "强调事物的确定性和无条件性，不容置疑的绝对化表述",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "肯定是",
+      "family": "absolutes",
+      "meaning": "以高度确定的语气断言某事，缺乏对不确定性的合理保留",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毫无疑问",
+      "family": "absolutes",
+      "meaning": "预先排除一切怀疑和质疑空间，强行确立论断的绝对正确性",
+      "risk": "medium",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毋庸置疑",
+      "family": "absolutes",
+      "meaning": "以强硬语气宣布某事实不容置疑，实则可能隐藏争议和分歧",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "众所周知",
+      "family": "absolutes",
+      "meaning": "假定某观点为普遍常识而不提供论证，回避举证责任",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "百分百",
+      "family": "absolutes",
+      "meaning": "用百分比强调完全性和确定性，将概率性事件表述为必然",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "一律",
+      "family": "absolutes",
+      "meaning": "不加区分地用同一标准处理所有情况，否定个体的特殊性",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "永远",
+      "family": "absolutes",
+      "meaning": "将时间范围绝对化，声称某种状态会无限延续永不改变",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "从来",
+      "family": "absolutes",
+      "meaning": "以绝对时间跨度概括整体历史，否定任何例外情况的可能性",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "完全",
+      "family": "absolutes",
+      "meaning": "强调程度和范围的绝对性，排斥任何部分或有限的可能性",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "彻底",
+      "family": "absolutes",
+      "meaning": "宣称某事物或过程已经达到完全的终极状态，无任何保留",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毫无",
+      "family": "absolutes",
+      "meaning": "完全否定某属性的存在，以绝对化的零程度进行表述",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "绝不可能",
+      "family": "absolutes",
+      "meaning": "以双否定形式极端强调某事的不可实现性，语气极其强硬",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "铁定",
+      "family": "absolutes",
+      "meaning": "用铁的坚固比喻确定性，表示某事的结果已无可更改",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "板上钉钉",
+      "family": "absolutes",
+      "meaning": "以钉子钉入木板的比喻强调某事的确定性和不可改变性",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无论如何",
+      "family": "absolutes",
+      "meaning": "排除所有条件下可能出现的变量，强调整体结论的绝对不变性",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无一例外",
+      "family": "absolutes",
+      "meaning": "强调所有成员都被包括在某一规律中，否定了统计正态的尾部",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说白了",
+      "family": "absolutes",
+      "meaning": "声称自己揭示了被掩盖的真相，将复杂问题简化为单一绝对解释",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "其实就",
+      "family": "absolutes",
+      "meaning": "将复杂现象归结为单一简单原因，拒绝承认其他因素的存在",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说到底",
+      "family": "absolutes",
+      "meaning": "声称追溯到了问题最本质的核心，实则简化了复杂因果关系",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无非就是",
+      "family": "absolutes",
+      "meaning": "将多元复杂现象简化为简单解释，否定了其他可能性",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毫无意义",
+      "family": "absolutes",
+      "meaning": "全盘否定某事物的价值和意义，不给任何方面留下肯定空间",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "丝毫没有",
+      "family": "absolutes",
+      "meaning": "以强调语气全盘否定某种属性的存在，不留任何余地",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "纯粹",
+      "family": "absolutes",
+      "meaning": "强调某事物的单一本质，排斥任何混合性或复杂性",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "根本",
+      "family": "absolutes",
+      "meaning": "加强否定语气，声称从根本和源头上就不存在某事物",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毫无疑问地",
+      "family": "absolutes",
+      "meaning": "强化副词形式排除所有疑问，以绝对姿态确立论断的正确性",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "必定",
+      "family": "absolutes",
+      "meaning": "断言某事的发生是必然结果，表达对未来预测的极端自信",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "一定",
+      "family": "absolutes",
+      "meaning": "表达对所陈述内容的极高确定性，常模糊主观判断与客观事实",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "必须",
+      "family": "absolutes",
+      "meaning": "以命令式语气强求某行为的必要性，不提供选择或替代方案",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不可能",
+      "family": "absolutes",
+      "meaning": "断然否定某事件发生或存在的一切可能，封闭了讨论的开放性",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "从古至今",
+      "family": "absolutes",
+      "meaning": "以整个历史跨度为依据做绝对化陈述，忽略历史变迁和多样性",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "全盘否定",
+      "family": "absolutes",
+      "meaning": "不加分析地对整体进行全面否定，拒绝承认任何部分价值",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "一概而论",
+      "family": "absolutes",
+      "meaning": "用单一标准衡量所有不同情况，否认个体差异的重要性",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "一棍子打死",
+      "family": "absolutes",
+      "meaning": "比喻全盘否定某事物，不给任何修正和发展的机会",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "谁不知道",
+      "family": "absolutes",
+      "meaning": "反问式宣称某信息为普遍常识，压制不同看法和细节讨论",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毫无例外",
+      "family": "absolutes",
+      "meaning": "坚持某一规律适用于所有情况，完全排斥特殊案例的存在",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "从未",
+      "family": "absolutes",
+      "meaning": "从时间维度绝对否定某事发生过，可能存在历史认知局限",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "哪里都是",
+      "family": "absolutes",
+      "meaning": "将某种现象描述为无处不在，扩大局部现象的普遍性认知",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "见一个是一个",
+      "family": "absolutes",
+      "meaning": "暗示某一类别中的所有个体都具有相同特征，不加区分",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不用想",
+      "family": "absolutes",
+      "meaning": "预先否定思考的必要性，以绝对态度压制分析和讨论",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "想都不用想",
+      "family": "absolutes",
+      "meaning": "强化版不用想，极端否定他人进行独立思考的必要性",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "都一个样",
+      "family": "absolutes",
+      "meaning": "抹杀个体差异，将所有事物归为同质化的一类",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "永远不可能",
+      "family": "absolutes",
+      "meaning": "以绝对时间跨度加绝对否定，构建最极端的否定性断言",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "全是瞎扯",
+      "family": "absolutes",
+      "meaning": "全盘否定对方所有言论的真实性，使用情绪化词汇加强否定",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无一不是",
+      "family": "absolutes",
+      "meaning": "双重否定加强肯定的绝对性，强调所有成员毫无例外",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无一幸免",
+      "family": "absolutes",
+      "meaning": "声称没有个体能够避免某种结果，带有末日预言般的绝对感",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "到头来",
+      "family": "absolutes",
+      "meaning": "暗示经过各种变化后的最终结果必然如此，否定过程的意义",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "结局已定",
+      "family": "absolutes",
+      "meaning": "宣称最终结果已经不可改变，否定过程中任何努力的价值",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "铁板钉钉",
+      "family": "absolutes",
+      "meaning": "板上钉钉的变体，强调决定或事实像铁板上的钉子一样绝对固定",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "怎么都",
+      "family": "absolutes",
+      "meaning": "将所有条件路径都导向同一结论，否定条件差异造成结果差异",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "反正就是",
+      "family": "absolutes",
+      "meaning": "放弃逻辑论证直接给出结论，以绝对姿态终结讨论",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "管他呢",
+      "family": "absolutes",
+      "meaning": "否定差异和细节的重要性，以蛮横态度坚持自己的断言",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "大家都",
+      "family": "absolutes",
+      "meaning": "以虚假的群体共识强化观点正当性，将个人看法伪装为集体意见",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "每个人都知道",
+      "family": "absolutes",
+      "meaning": "假定某个信息是所有个体的共识，为自身观点披上普遍性外衣",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "从来不",
+      "family": "absolutes",
+      "meaning": "从绝对的时间维度否定某行为或现象的存在，否定历史中的例外",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "半句都不",
+      "family": "absolutes",
+      "meaning": "以极小的计量单位强调否定的彻底性，连最小的部分都不例外",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "决不是",
+      "family": "absolutes",
+      "meaning": "以决定性的否定语气排斥任何可能，语气比不是强硬许多",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "永远都是",
+      "family": "absolutes",
+      "meaning": "将时间无限延伸加绝对肯定，构建最极端的肯定性断言",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "天经地义",
+      "family": "absolutes",
+      "meaning": "将某观点抬高到天理的高度，使其不容挑战和质疑",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "天理难容",
+      "family": "absolutes",
+      "meaning": "用天理的名义对某事做绝对否定判断，道德绑架意味强烈",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "千秋万代",
+      "family": "absolutes",
+      "meaning": "将事物的持续时间夸大至千代万代，完全无视时代变迁",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自古以来了",
+      "family": "absolutes",
+      "meaning": "虚假构造历史延续性，为当前主张寻找自古代以来的绝对依据",
+      "risk": "high",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "向来如此",
+      "family": "absolutes",
+      "meaning": "以历史惯性论证现状的合理性，拒绝承认变革的必要性",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无可辩驳",
+      "family": "absolutes",
+      "meaning": "断言自身观点已达到无法反驳的境界，关闭所有讨论空间",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无出其右",
+      "family": "absolutes",
+      "meaning": "宣称某事物已达到无可超越的最高水平，绝对的优越性判断",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "一言以蔽之",
+      "family": "absolutes",
+      "meaning": "声称一句话就能概括全部，过度简化复杂议题压缩讨论空间",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "盖棺定论",
+      "family": "absolutes",
+      "meaning": "宣告对某事已有最终结论不容再议，以葬礼意象终结讨论",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "已成定局",
+      "family": "absolutes",
+      "meaning": "宣称形势已不可逆转，否定任何改变的可能性",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "万无一失",
+      "family": "absolutes",
+      "meaning": "宣称计划或判断绝对不会出差错，完全排斥风险和意外",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不可更改",
+      "family": "absolutes",
+      "meaning": "断然否定修改和调整的任何可能，态度绝对且僵硬",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毫无争议",
+      "family": "absolutes",
+      "meaning": "强行宣称某议题不存在争议，无视可能存在的不同看法",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "全都不是",
+      "family": "absolutes",
+      "meaning": "将否定范围扩大到全部对象，以绝对集体否定抹杀个体差异",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "没有之一",
+      "family": "absolutes",
+      "meaning": "在最高级比较后加上没有之一，独断地确立唯一性的绝对地位",
+      "risk": "high",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "永永远远",
+      "family": "absolutes",
+      "meaning": "通过叠词强化时间的无限延伸感，极端表达永久性判断",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说穿了",
+      "family": "absolutes",
+      "meaning": "暗示自己揭开了表象直达本质，将复杂性简化为单一真相",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不可否认",
+      "family": "absolutes",
+      "meaning": "先发制人地宣布某事不可否认，压制潜在的不同意见",
+      "risk": "medium",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "天下没有",
+      "family": "absolutes",
+      "meaning": "以天下为范围做绝对否定，声称整个世界中都不存在某事物",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "举世无双",
+      "family": "absolutes",
+      "meaning": "宣称某事物在全世界范围内都是独一无二的，绝对化的单一性判断",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "万万不可",
+      "family": "absolutes",
+      "meaning": "以极端语气禁止某行为，不给任何条件下的例外留有余地",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "毕生",
+      "family": "absolutes",
+      "meaning": "用整个人生跨度做绝对化陈述，忽略人的认知和行为的变化性",
+      "risk": "medium",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "空前绝后",
+      "family": "absolutes",
+      "meaning": "宣称某事物在时间维度上前后皆无，做出最极端的独特性断言",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "数据来源",
+      "family": "evidence",
+      "meaning": "直接要求对方提供数据出处和依据，将举证压力转回对方",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有数据吗",
+      "family": "evidence",
+      "meaning": "以疑问句式质疑对方缺乏实证支撑，倒逼对方给出数据依据",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "来源呢",
+      "family": "evidence",
+      "meaning": "简洁有力地要求对方说明信息来源，反映审慎的信息消费态度",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "出处在哪",
+      "family": "evidence",
+      "meaning": "追问信息原始出处以验证可信度，体现对信息溯源的需求",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "上链接",
+      "family": "evidence",
+      "meaning": "要求对方提供可直接访问的链接证据，简化验证流程的请求",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "发链接",
+      "family": "evidence",
+      "meaning": "直接要求分享网络资源的超链接，作为对口头陈述的实证支撑",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "张口就来",
+      "family": "evidence",
+      "meaning": "批评对方不经查证随意发言，揭露其缺乏证据和依据的随意性",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无图无真相",
+      "family": "evidence",
+      "meaning": "以网络格言形式要求对方提供图片证据，否则拒绝采信其说法",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "信源",
+      "family": "evidence",
+      "meaning": "询问信息来源的可靠性和性质，是信息可信度评估的核心关注点",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "请提供证据",
+      "family": "evidence",
+      "meaning": "以正式礼貌的措辞要求对方出示支撑其论点的实证材料",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "空口无凭",
+      "family": "evidence",
+      "meaning": "指出纯口头陈述缺乏证明力，需要书面或数据形式的支撑",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有截图吗",
+      "family": "evidence",
+      "meaning": "要求对方出示聊天记录或网页截图作为所陈述事实的直接证明",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "上数据",
+      "family": "evidence",
+      "meaning": "简短的命令式要求，让对方展示支撑其观点的具体统计数字",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "消息来源",
+      "family": "evidence",
+      "meaning": "要求说明新闻或消息的获取渠道，以评估信息的可信度",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "引用出处",
+      "family": "evidence",
+      "meaning": "要求明确标注引用内容的具体来源，遵循学术讨论的引用规范",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "谁说的",
+      "family": "evidence",
+      "meaning": "追问信息的原始发言者身份，以判断信息权威性和可信度",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "从哪看的",
+      "family": "evidence",
+      "meaning": "追查信息的获取平台或渠道，评估信息的传播路径和质量",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有什么依据",
+      "family": "evidence",
+      "meaning": "质问对方论点所依赖的根本性支撑材料和逻辑基础",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "出处拿来",
+      "family": "evidence",
+      "meaning": "命令式要求对方立即出示来源信息，语气强硬但方向正确",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有出处吗",
+      "family": "evidence",
+      "meaning": "以疑问方式质疑对方陈述是否有可靠的可追溯来源",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "发来看看",
+      "family": "evidence",
+      "meaning": "要求对方分享所依据的材料以供检验，常见于群聊讨论",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "给个信源",
+      "family": "evidence",
+      "meaning": "以简洁口语化方式要求对方提供信息来源渠道",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "查证过了吗",
+      "family": "evidence",
+      "meaning": "质疑对方是否在发言前做过事实核查，督促信息验证行为",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "贴原文",
+      "family": "evidence",
+      "meaning": "要求对方贴出所引用的原始文本内容，避免断章取义",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "上截图",
+      "family": "evidence",
+      "meaning": "要求出示截图证据来支撑叙述，是网络时代最常用的证伪手段",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有没有原文",
+      "family": "evidence",
+      "meaning": "询问是否有第一手原始材料的文本可供核对",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "发数据",
+      "family": "evidence",
+      "meaning": "简短的直接命令，要求对方发送支撑其论述的数据文件或图表",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "数据在哪",
+      "family": "evidence",
+      "meaning": "用反问句式质疑对方数据是否存在，强调没有数据则论述不成立",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "引用来源",
+      "family": "evidence",
+      "meaning": "要求以规范方式标注所引用材料的原始出处信息",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "出处标注",
+      "family": "evidence",
+      "meaning": "要求明确标注参考信息的来源位置，确保可追溯性",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "源链接",
+      "family": "evidence",
+      "meaning": "要求提供内容的原始网络链接地址，便于直接访问核实",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有实锤吗",
+      "family": "evidence",
+      "meaning": "追问是否有确凿的实证证据，实锤指无法反驳的铁证",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "锤呢",
+      "family": "evidence",
+      "meaning": "实锤的简化说法，要求对方出示确凿证据来证明其言论",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "求锤得锤",
+      "family": "evidence",
+      "meaning": "形容对方要求证据结果真的拿到了证据，常用于证实爆料",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "拿证据说话",
+      "family": "evidence",
+      "meaning": "坚持讨论必须以实证为基础，抵制空口无凭的言语交锋",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无证据不发言",
+      "family": "evidence",
+      "meaning": "主张任何公共发言都需附带证据支撑，否则不应开口",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有论文吗",
+      "family": "evidence",
+      "meaning": "要求对方提供学术论文支持其科学或专业类论述",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "研究数据呢",
+      "family": "evidence",
+      "meaning": "追问是否有正式研究的数据作为支撑，常见于专业话题讨论",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "统计来源",
+      "family": "evidence",
+      "meaning": "要求明确统计数字的出处和统计方法，以便评估数据可靠性",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有报道吗",
+      "family": "evidence",
+      "meaning": "询问是否有正规新闻媒体报道作为信息依据",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "发原文链接",
+      "family": "evidence",
+      "meaning": "明确要求发送原始内容的完整链接地址，做到信息可溯源",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有官方数据吗",
+      "family": "evidence",
+      "meaning": "询问是否有政府或权威机构发布的正式数据作为依据",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "依据何在",
+      "family": "evidence",
+      "meaning": "文言式提问对方论点所凭依的根本基础和逻辑支撑",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "证据拿来",
+      "family": "evidence",
+      "meaning": "直接要求对方出示证据，语气果断，体现对实证的坚持",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "消息证实了吗",
+      "family": "evidence",
+      "meaning": "质疑对方传播的消息是否已经过验证和确认",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "出处明确吗",
+      "family": "evidence",
+      "meaning": "询问信息来源是否清晰可靠，评估信息质量的审慎态度",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有PDF吗",
+      "family": "evidence",
+      "meaning": "询问是否有正式文档文件可证明，常见于学术和专业讨论",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有记录吗",
+      "family": "evidence",
+      "meaning": "询问是否有可供查阅的正式记录或档案支撑所说内容",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "文档发我",
+      "family": "evidence",
+      "meaning": "要求对方将支撑材料以文档形式发送以便仔细核实",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "数据表格有吗",
+      "family": "evidence",
+      "meaning": "询问是否有结构化的数据表格作为定量论述支撑",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "怎么证明",
+      "family": "evidence",
+      "meaning": "最直接的问题式追问，要求对方说明其论证方法和证据链条",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有什么证据",
+      "family": "evidence",
+      "meaning": "询问支撑观点的事实材料和逻辑证据，推动讨论实证化",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "上链接看看",
+      "family": "evidence",
+      "meaning": "请对方提供可直接访问的网络链接以便亲自核验信息",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "怎么查到的",
+      "family": "evidence",
+      "meaning": "询问对方信息获取的方法和途径，以评估信息的可复现性",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "可查证吗",
+      "family": "evidence",
+      "meaning": "询问所陈述内容是否具有可验证性，推动对信息质量的关注",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "信息来源",
+      "family": "evidence",
+      "meaning": "追问信息来源的原始出处，评估信息传播链条的可信度",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "请注明来源",
+      "family": "evidence",
+      "meaning": "以礼貌方式要求对方标注其信息或引用的具体出处",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "上数据再说",
+      "family": "evidence",
+      "meaning": "拒绝在没有数据支撑的情况下继续讨论，设定实证门槛",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有视频吗",
+      "family": "evidence",
+      "meaning": "要求提供视频记录作为证据，常见于对事件描述的真实性核查",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "录屏呢",
+      "family": "evidence",
+      "meaning": "询问是否有屏幕录像作为发生事件的直接证明",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "录音有吗",
+      "family": "evidence",
+      "meaning": "询问是否有音频录音作为对话或事件发生的证据",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "证据链",
+      "family": "evidence",
+      "meaning": "要求展示完整的证据逻辑链条，而非孤立的单一证据",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "交叉验证了吗",
+      "family": "evidence",
+      "meaning": "询问是否用多个独立来源进行了交叉核实，确保信息准确",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有原始数据吗",
+      "family": "evidence",
+      "meaning": "追问未经过加工处理的原始一手数据，用于独立分析核实",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "能查到原文吗",
+      "family": "evidence",
+      "meaning": "询问对方引用的内容是否可以通过公开途径查找到原始版本",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "截图发来",
+      "family": "evidence",
+      "meaning": "直接要求对方将证据以截图形式发送以供查验",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "发证据",
+      "family": "evidence",
+      "meaning": "最简短的证据要求表述，言简意赅地推动讨论实证化",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "无图言屌",
+      "family": "evidence",
+      "meaning": "网络粗俗版无图无真相，以略带粗俗的方式要求图片证据",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有权威来源吗",
+      "family": "evidence",
+      "meaning": "询问是否有公认权威机构或人士作为信息来源的背书",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "数据支撑",
+      "family": "evidence",
+      "meaning": "指出对方论述需要数据作为底层支撑，缺乏则无法成立",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "原始链接",
+      "family": "evidence",
+      "meaning": "要求提供未经转手处理的原始网络内容的链接地址",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "查一下再说",
+      "family": "evidence",
+      "meaning": "建议先进行事实核查再发言，体现对信息准确性的审慎态度",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己去核实",
+      "family": "evidence",
+      "meaning": "建议对方独立进行事实核实工作后再继续发言讨论",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "数据说话",
+      "family": "evidence",
+      "meaning": "坚持让数据来证明观点，而非依赖主观感受和情绪表达",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "来源可追溯",
+      "family": "evidence",
+      "meaning": "强调信息应当具有可追溯至原始出处的特性",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "核实过了吗",
+      "family": "evidence",
+      "meaning": "质疑对方是否对信息进行了核实，委婉表达对其可信度的怀疑",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有参考文献吗",
+      "family": "evidence",
+      "meaning": "学术化询问是否有参考的文献资料作为理论支撑",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "懂的都懂",
+      "family": "evasion",
+      "meaning": "暗示只有懂的人能理解，拒绝进一步解释",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你自己搜",
+      "family": "evasion",
+      "meaning": "让提问者自行搜索，推卸解释责任",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己查",
+      "family": "evasion",
+      "meaning": "要求对方自己查询，不愿提供信息",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不会百度",
+      "family": "evasion",
+      "meaning": "质疑提问者不会使用搜索工具，转移话题",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "懒得解释",
+      "family": "evasion",
+      "meaning": "直接表示不愿花时间说明，拒绝沟通",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "问百度",
+      "family": "evasion",
+      "meaning": "将解释义务转嫁给搜索引擎",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这还用说",
+      "family": "evasion",
+      "meaning": "声称答案显而易见，暗示提问者无知",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "常识",
+      "family": "evasion",
+      "meaning": "以常识为由拒绝解释，贬低提问者",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己去找",
+      "family": "evasion",
+      "meaning": "命令对方自行寻找答案，拒绝协助",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不解释",
+      "family": "evasion",
+      "meaning": "直接拒绝说明，关闭沟通渠道",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己搜去",
+      "family": "evasion",
+      "meaning": "推卸解释责任，让对方自行搜索",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "查百度",
+      "family": "evasion",
+      "meaning": "建议使用百度搜索，回避直接回答",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不会查吗",
+      "family": "evasion",
+      "meaning": "反问质疑对方查证能力，转移解释负担",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这都不知道",
+      "family": "evasion",
+      "meaning": "惊讶于对方不懂，暗示其孤陋寡闻",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我不解释",
+      "family": "evasion",
+      "meaning": "明确表示拒绝说明，终止交流",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "懂的来",
+      "family": "evasion",
+      "meaning": "只召唤已有认知的人，排斥外行",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你猜",
+      "family": "evasion",
+      "meaning": "让对方猜测，回避直接给答案",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你懂的",
+      "family": "evasion",
+      "meaning": "暗示共享秘密，拒绝明说",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "别问了",
+      "family": "evasion",
+      "meaning": "阻止继续提问，终止话题",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你搜一下",
+      "family": "evasion",
+      "meaning": "要求对方自行搜索，推诿解释",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "搜一下不就有了",
+      "family": "evasion",
+      "meaning": "轻描淡写地将解释责任转给搜索工具",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "动动手指的事",
+      "family": "evasion",
+      "meaning": "贬低提问，暗示搜索极其简单",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "百度一下你就知道",
+      "family": "evasion",
+      "meaning": "经典弹幕式推卸解释，讽刺提问者",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己去了解",
+      "family": "evasion",
+      "meaning": "命令对方主动学习，拒绝讲解",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你去查查",
+      "family": "evasion",
+      "meaning": "推诿，要求对方自行查证",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这也要问",
+      "family": "evasion",
+      "meaning": "认为问题太低级，表达不耐烦",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你搜吧",
+      "family": "evasion",
+      "meaning": "敷衍，让提问者自己搜索",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不告诉你",
+      "family": "evasion",
+      "meaning": "直接拒绝回答问题，封闭信息",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己琢磨",
+      "family": "evasion",
+      "meaning": "要求对方独立思考，不提供帮助",
+      "risk": "high",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "问我干嘛",
+      "family": "evasion",
+      "meaning": "反问质疑提问合理性，转移解释责任",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己看不就知道了",
+      "family": "evasion",
+      "meaning": "要求对方自行观察理解，拒绝解释",
+      "risk": "high",
+      "confidence": 0.83,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "难道还要我教",
+      "family": "evasion",
+      "meaning": "反诘对方，暗示其连基本能力都不具备",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你问我我问谁",
+      "family": "evasion",
+      "meaning": "表示自己也无答案，推卸回答义务",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "随便搜一下",
+      "family": "evasion",
+      "meaning": "轻描淡写地建议搜索，回避解释",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "搜不出来算我输",
+      "family": "evasion",
+      "meaning": "挑衅式推卸，暗示搜索一定有结果",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你搜得到的",
+      "family": "evasion",
+      "meaning": "模糊承诺但拒绝直接提供信息",
+      "risk": "high",
+      "confidence": 0.81,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这个不能说",
+      "family": "evasion",
+      "meaning": "暗示信息敏感，拒绝透露",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不可说",
+      "family": "evasion",
+      "meaning": "以保密为由拒绝分享知识",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不能说太细",
+      "family": "evasion",
+      "meaning": "表示细节不能公开，制造神秘感",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你品",
+      "family": "evasion",
+      "meaning": "让对方自行品味，拒绝解释含义",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你细品",
+      "family": "evasion",
+      "meaning": "加重语气要求对方深度领会，回避讲解",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己体会",
+      "family": "evasion",
+      "meaning": "要求对方自行领悟，不提供具体说明",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这你都不知道",
+      "family": "evasion",
+      "meaning": "以惊讶口吻施压，暗指对方知识匮乏",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "搜搜又不要钱",
+      "family": "evasion",
+      "meaning": "质疑对方不搜索而提问，暗示懒惰",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "打开百度",
+      "family": "evasion",
+      "meaning": "命令式推卸，要求对方立即使用搜索",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "去查啊",
+      "family": "evasion",
+      "meaning": "催促对方自行查证，回避解释",
+      "risk": "high",
+      "confidence": 0.84,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你不会自己查",
+      "family": "evasion",
+      "meaning": "质疑对方查证意愿，推卸解释义务",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "别问我",
+      "family": "evasion",
+      "meaning": "直接拒绝回答问题，终止交流",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你知道的",
+      "family": "evasion",
+      "meaning": "假设对方已懂，回避详细说明",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "懂得自然懂",
+      "family": "evasion",
+      "meaning": "制造内群，以是否懂得划界拒绝解释",
+      "risk": "high",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你非要问吗",
+      "family": "evasion",
+      "meaning": "质疑提问必要性，施压让对方放弃",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己去翻",
+      "family": "evasion",
+      "meaning": "要求对方翻阅资料自行查找",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "查都不查就来问",
+      "family": "evasion",
+      "meaning": "批评对方不主动查询，转移责任",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不动手只动口",
+      "family": "evasion",
+      "meaning": "指责对方不愿动手查证，只求直接答案",
+      "risk": "high",
+      "confidence": 0.83,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "伸手党",
+      "family": "evasion",
+      "meaning": "标签化提问者为不劳而获的人",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我懒得说",
+      "family": "evasion",
+      "meaning": "以懒为借口拒绝解释，轻视对方",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你搜不到的",
+      "family": "evasion",
+      "meaning": "断言搜索结果无望，却又不给答案",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你搜也搜不到",
+      "family": "evasion",
+      "meaning": "强调搜索无用，制造信息壁垒",
+      "risk": "high",
+      "confidence": 0.81,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你找不到的",
+      "family": "evasion",
+      "meaning": "宣称信息难以获取，却不提供来源",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "别打听",
+      "family": "evasion",
+      "meaning": "禁止询问，信息封闭",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不该问的别问",
+      "family": "evasion",
+      "meaning": "以忌讳为由拒绝解答，制造禁忌感",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "少问多做",
+      "family": "evasion",
+      "meaning": "教训对方多行动少提问",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说出来就没意思了",
+      "family": "evasion",
+      "meaning": "暗示揭秘会破坏趣味，保留信息",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你搜完再说",
+      "family": "evasion",
+      "meaning": "推延回答，要求对方先搜索",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "先搜再问",
+      "family": "evasion",
+      "meaning": "设定前置条件，将搜索义务强加给对方",
+      "risk": "high",
+      "confidence": 0.83,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己挖掘",
+      "family": "evasion",
+      "meaning": "鼓励对方自行探索，拒绝直接告知",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你查查看",
+      "family": "evasion",
+      "meaning": "口头建议查证，但不提供实质帮助",
+      "risk": "high",
+      "confidence": 0.81,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "搜一下很难吗",
+      "family": "evasion",
+      "meaning": "反问质疑对方动手能力，推卸解释",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不会用搜索吗",
+      "family": "evasion",
+      "meaning": "质疑对方搜索技能，转移话题",
+      "risk": "high",
+      "confidence": 0.84,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "搜都不会搜",
+      "family": "evasion",
+      "meaning": "嘲讽提问者基本搜索能力欠缺",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这也要我教",
+      "family": "evasion",
+      "meaning": "认为事理简单，拒绝指导",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我凭什么告诉你",
+      "family": "evasion",
+      "meaning": "以权利为由拒绝分享信息",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不告诉你又怎样",
+      "family": "evasion",
+      "meaning": "强硬拒绝回答，挑衅提问者",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你管得着吗",
+      "family": "evasion",
+      "meaning": "反问撇清关系，拒绝提供信息",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你问这么多干嘛",
+      "family": "evasion",
+      "meaning": "阻止深入提问，诘问对方动机",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "别到处问",
+      "family": "evasion",
+      "meaning": "禁止扩散提问，保持信息封闭",
+      "risk": "high",
+      "confidence": 0.83,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "自己找答案",
+      "family": "evasion",
+      "meaning": "直接回绝，强调对方自行解决问题",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你搜一下就知道",
+      "family": "evasion",
+      "meaning": "以搜索结果代替直接解释",
+      "risk": "high",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "难道这也要说",
+      "family": "evasion",
+      "meaning": "暗示问题过于浅显，不愿回答",
+      "risk": "high",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有一说一",
+      "family": "cooperation",
+      "meaning": "表示客观公正地陈述事实，协作态度",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "确实",
+      "family": "cooperation",
+      "meaning": "肯定对方观点，显示赞同和合作",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我认为",
+      "family": "cooperation",
+      "meaning": "明确表达个人观点，软化断言",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我觉得",
+      "family": "cooperation",
+      "meaning": "使用主观感受限定观点，降低对抗性",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "应该",
+      "family": "cooperation",
+      "meaning": "表示推测而非断言，留有余地",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "也许",
+      "family": "cooperation",
+      "meaning": "表达不确定性，开放讨论空间",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "大概",
+      "family": "cooperation",
+      "meaning": "模糊化表达，降低结论强度",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "或许",
+      "family": "cooperation",
+      "meaning": "礼貌性推测，留出不同意的空间",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "仅供参考",
+      "family": "cooperation",
+      "meaning": "承认信息有限，降低权威性",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "个人看法",
+      "family": "cooperation",
+      "meaning": "明确仅代表个人立场，避免强加",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "据我所知",
+      "family": "cooperation",
+      "meaning": "限定信息来源，展示谨慎态度",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "就我所见",
+      "family": "cooperation",
+      "meaning": "以个人观察为依据，表达谦逊",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "补充一下",
+      "family": "cooperation",
+      "meaning": "主动提供额外信息，协作增进理解",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "可能",
+      "family": "cooperation",
+      "meaning": "表达不确定性，软化陈述",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不一定",
+      "family": "cooperation",
+      "meaning": "承认观点可能有误，避免绝对化",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说不定",
+      "family": "cooperation",
+      "meaning": "表达猜测，降低确定性",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "话说回来",
+      "family": "cooperation",
+      "meaning": "转换视角，开启更正面的讨论",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "从另一个角度",
+      "family": "cooperation",
+      "meaning": "引入新视角，促进多维度思考",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "客观来说",
+      "family": "cooperation",
+      "meaning": "宣称中立，引导理性讨论",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不吹不黑",
+      "family": "cooperation",
+      "meaning": "表示不夸大不贬低，力求公正",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "平心而论",
+      "family": "cooperation",
+      "meaning": "以平和心态评价，软化批判",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我个人的感觉",
+      "family": "cooperation",
+      "meaning": "强调主观感受，减轻断言",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "依我看",
+      "family": "cooperation",
+      "meaning": "提供个人见解，开放讨论",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "以我的经验",
+      "family": "cooperation",
+      "meaning": "引用个人经历，限制适用范围",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我的理解是",
+      "family": "cooperation",
+      "meaning": "陈述个人理解，暗示可能有偏差",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我可以补充一点",
+      "family": "cooperation",
+      "meaning": "主动提供附加信息，体现合作意愿",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "某种程度上",
+      "family": "cooperation",
+      "meaning": "限定条件，避免过度概括",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "相对而言",
+      "family": "cooperation",
+      "meaning": "引入比较语境，使结论更温和",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "通常情况下",
+      "family": "cooperation",
+      "meaning": "承认一般规律，留出例外",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "大多数情况下",
+      "family": "cooperation",
+      "meaning": "以概率限定，避免绝对化",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "一般而言",
+      "family": "cooperation",
+      "meaning": "泛化限定，软化主张",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "总体来看",
+      "family": "cooperation",
+      "meaning": "综合评估，展示整体视角",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "整体上讲",
+      "family": "cooperation",
+      "meaning": "宏观概述，留出细节讨论空间",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说实话",
+      "family": "cooperation",
+      "meaning": "坦率表达，表示真诚协作",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "讲真",
+      "family": "cooperation",
+      "meaning": "口语化真话前缀，增加坦诚",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "老实说",
+      "family": "cooperation",
+      "meaning": "表明坦率态度，降低防御",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说句公道话",
+      "family": "cooperation",
+      "meaning": "介入为对方辩护，促进公平讨论",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我猜",
+      "family": "cooperation",
+      "meaning": "以推测代替断言，开放可能性",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我估计",
+      "family": "cooperation",
+      "meaning": "基于有限信息评估，避免武断",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我理解",
+      "family": "cooperation",
+      "meaning": "表达同理心认知，缓和语气",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我感觉",
+      "family": "cooperation",
+      "meaning": "用主观感受弱化断言，显示谦逊",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我猜测",
+      "family": "cooperation",
+      "meaning": "明确表示属于猜测，非定论",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我不敢确定",
+      "family": "cooperation",
+      "meaning": "承认不确定性，降低权威姿态",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我可能错了",
+      "family": "cooperation",
+      "meaning": "提前留下修正余地，合作态度",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不排除",
+      "family": "cooperation",
+      "meaning": "保持开放，承认其他可能性",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "也许可以这样看",
+      "family": "cooperation",
+      "meaning": "温和提出新角度，鼓励对方考虑",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我的初步看法",
+      "family": "cooperation",
+      "meaning": "限定为初步看法，非最终结论",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这只是我个人的观点",
+      "family": "cooperation",
+      "meaning": "明确个人性，减轻强加感",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我的推测是",
+      "family": "cooperation",
+      "meaning": "强调是推测，非确定事实",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有可能",
+      "family": "cooperation",
+      "meaning": "保持开放，不排除可能性",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不完全确定",
+      "family": "cooperation",
+      "meaning": "坦诚不确定性，展现谨慎",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "有待验证",
+      "family": "cooperation",
+      "meaning": "预留验证空间，避免武断",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "权当参考",
+      "family": "cooperation",
+      "meaning": "弱化建议强度，承认仅供参考",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我自己觉得",
+      "family": "cooperation",
+      "meaning": "主观表达，不具强制力",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我个人的判断",
+      "family": "cooperation",
+      "meaning": "限定为个人判断，降低权威",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "假设",
+      "family": "cooperation",
+      "meaning": "提出前提条件，允许逻辑探讨",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "初步判断",
+      "family": "cooperation",
+      "meaning": "承认是初级阶段，有待深化",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "仅代表个人观点",
+      "family": "cooperation",
+      "meaning": "声明非官方非普遍，降低冲突",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "如有错误请指正",
+      "family": "cooperation",
+      "meaning": "主动邀请纠正，展示学习态度",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "大家探讨",
+      "family": "cooperation",
+      "meaning": "鼓励共同讨论，平等协作",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "共同探讨",
+      "family": "cooperation",
+      "meaning": "邀请合作探究，共建知识",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "一起看看",
+      "family": "cooperation",
+      "meaning": "提议共同检查，合作姿态",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "互相学习",
+      "family": "cooperation",
+      "meaning": "表达谦逊互助，降低对抗",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我不是很确定",
+      "family": "cooperation",
+      "meaning": "坦白不确定性，欢迎他人补充",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我还没查证",
+      "family": "cooperation",
+      "meaning": "承认信息未核实，降低权威",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我没记错的话",
+      "family": "cooperation",
+      "meaning": "依据记忆，保留出错余地",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "印象中",
+      "family": "cooperation",
+      "meaning": "以印象为据，不保证准确",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我隐约记得",
+      "family": "cooperation",
+      "meaning": "模糊记忆，降低确定性",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我觉得差不多",
+      "family": "cooperation",
+      "meaning": "非精确判断，留出差异",
+      "risk": "positive",
+      "confidence": 0.84,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "大概意思是",
+      "family": "cooperation",
+      "meaning": "概括复述，承认可能失真",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "暂时想到这些",
+      "family": "cooperation",
+      "meaning": "表示思考未穷尽，欢迎补充",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我先说一下",
+      "family": "cooperation",
+      "meaning": "引出个人观点，预示后续讨论",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我讲一下我的看法",
+      "family": "cooperation",
+      "meaning": "主动分享但不强加",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "容我补充",
+      "family": "cooperation",
+      "meaning": "礼貌请求补充，协作扩展信息",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我这里再补充一点",
+      "family": "cooperation",
+      "meaning": "追加信息，深化讨论",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "另外说一下",
+      "family": "cooperation",
+      "meaning": "插入新内容，丰富交流",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "顺便提一句",
+      "family": "cooperation",
+      "meaning": "附带提及，无意冲撞",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "插一句",
+      "family": "cooperation",
+      "meaning": "临时补充，保持对话流畅",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "顺带一提",
+      "family": "cooperation",
+      "meaning": "附言式补充，显示开放",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "再补充一个视角",
+      "family": "cooperation",
+      "meaning": "引入多元角度，拓展视野",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "就我所知",
+      "family": "cooperation",
+      "meaning": "限定知识范围，谦逊表达",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "据我了解",
+      "family": "cooperation",
+      "meaning": "以了解程度为准，避免错漏",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "据我所见",
+      "family": "cooperation",
+      "meaning": "亲身所见为限，不妄下断语",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "依我看来",
+      "family": "cooperation",
+      "meaning": "主观判断，不强加于人",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "站在我的角度",
+      "family": "cooperation",
+      "meaning": "明确立场，邀请换位思考",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "以我的立场",
+      "family": "cooperation",
+      "meaning": "坦诚出发点，减少误解",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "以我的认知",
+      "family": "cooperation",
+      "meaning": "认知有限，愿闻异见",
+      "risk": "positive",
+      "confidence": 0.86,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "从个人角度出发",
+      "family": "cooperation",
+      "meaning": "声明个人视角，不具普遍性",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "基于目前的信息",
+      "family": "cooperation",
+      "meaning": "信息不完备下的判断，保留修正",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "就现有情况看",
+      "family": "cooperation",
+      "meaning": "临时判断，随情况可能变化",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "前面说重了",
+      "family": "correction",
+      "meaning": "承认之前语气过重，自我修正",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我说重了",
+      "family": "correction",
+      "meaning": "主动承认言辞过激，降低对抗",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "说错了",
+      "family": "correction",
+      "meaning": "直接承认错误，拉回正确轨道",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "更正一下",
+      "family": "correction",
+      "meaning": "实施修正，澄清前误",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我收回",
+      "family": "correction",
+      "meaning": "撤销之前不实或不当表述",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "前面说错了",
+      "family": "correction",
+      "meaning": "指出前文错误，开始纠正",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "纠正一下",
+      "family": "correction",
+      "meaning": "主动发起修正，完善信息",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "确实是我搞错了",
+      "family": "correction",
+      "meaning": "完全承认自身错误，态度诚恳",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "抱歉说错了",
+      "family": "correction",
+      "meaning": "以道歉开头进行修正",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我理解错了",
+      "family": "correction",
+      "meaning": "承认理解偏差，重新定位",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "谢谢指正",
+      "family": "correction",
+      "meaning": "感谢对方纠错，接受批评",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "受教了",
+      "family": "correction",
+      "meaning": "谦逊接受教导，承认不足",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "是我疏忽了",
+      "family": "correction",
+      "meaning": "承认遗漏或粗心，主动担责",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你说得对",
+      "family": "correction",
+      "meaning": "直接赞同对方，放弃原错误观点",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我道歉",
+      "family": "correction",
+      "meaning": "正式道歉，修复关系",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不好意思说错了",
+      "family": "correction",
+      "meaning": "轻微道歉并纠正错误",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "刚才说得不对",
+      "family": "correction",
+      "meaning": "指认前语错误，开启修正",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "更正一下刚才的说法",
+      "family": "correction",
+      "meaning": "专业度高的自我修正用语",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我重新说",
+      "family": "correction",
+      "meaning": "撤回重讲，保证准确",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我收回刚才的话",
+      "family": "correction",
+      "meaning": "明确撤销不当言论",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我刚才说得不准确",
+      "family": "correction",
+      "meaning": "承认表述不精确，进行弥补",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "前面讲错了",
+      "family": "correction",
+      "meaning": "纠正文中前部错误",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我纠正",
+      "family": "correction",
+      "meaning": "主动声明进行修正",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "抱歉刚才说的有误",
+      "family": "correction",
+      "meaning": "道歉与修正并行",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我误解了",
+      "family": "correction",
+      "meaning": "承认理解错误，重述观点",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我错了",
+      "family": "correction",
+      "meaning": "直截了当认错，化解冲突",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我犯错了",
+      "family": "correction",
+      "meaning": "承认失误，展现诚实",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我承认错误",
+      "family": "correction",
+      "meaning": "正式认错，态度端正",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我刚才太武断了",
+      "family": "correction",
+      "meaning": "自我反省武断态度，降低对立",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "是我理解有偏差",
+      "family": "correction",
+      "meaning": "承认认知错误，请求理解",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我反思了一下",
+      "family": "correction",
+      "meaning": "表明经过思考，准备修正",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你说得很对",
+      "family": "correction",
+      "meaning": "高度赞同对方，收回己见",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "多谢指教",
+      "family": "correction",
+      "meaning": "感谢对方指导，虚心接受",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "接受批评",
+      "family": "correction",
+      "meaning": "坦率承受批评，不做辩驳",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我的问题",
+      "family": "correction",
+      "meaning": "主动揽责，不推卸",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我检讨",
+      "family": "correction",
+      "meaning": "严肃自我批评，承认错误",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "确实我说重了",
+      "family": "correction",
+      "meaning": "认可对方的指正，反思言辞过激",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "刚才说我错了",
+      "family": "correction",
+      "meaning": "复述认错，加强沟通",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "是我不好",
+      "family": "correction",
+      "meaning": "归咎于己，缓和气氛",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你提醒得对",
+      "family": "correction",
+      "meaning": "感谢对方点醒，承认忽视",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "感谢指正",
+      "family": "correction",
+      "meaning": "对纠错行为表达感激",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "抱歉误导",
+      "family": "correction",
+      "meaning": "承认之前信息可能造成误导，主动纠正",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我之前说法不太对",
+      "family": "correction",
+      "meaning": "自我否定原说法，准备更新",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我刚说错了",
+      "family": "correction",
+      "meaning": "立即纠正刚出现的错误",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我收回那句话",
+      "family": "correction",
+      "meaning": "针对特定语句的撤销行为",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "经你一说我意识到",
+      "family": "correction",
+      "meaning": "受对方启发发现错误，开启修正",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "确实是我考虑不周",
+      "family": "correction",
+      "meaning": "反思不周之处，承认局限",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我承认刚才偏颇",
+      "family": "correction",
+      "meaning": "坦白偏颇，回归客观",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我收回武断的结论",
+      "family": "correction",
+      "meaning": "撤销过度断言，降低结论强度",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我否定自己的观点",
+      "family": "correction",
+      "meaning": "正式推翻先前主张",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我刚才太主观了",
+      "family": "correction",
+      "meaning": "觉察主观倾向，向内反思",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我说得不对",
+      "family": "correction",
+      "meaning": "坦然否定自己，开启修正",
+      "risk": "positive",
+      "confidence": 0.94,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我收回之前的论断",
+      "family": "correction",
+      "meaning": "正式撤回之前判断",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "纠正一下我的错误",
+      "family": "correction",
+      "meaning": "邀请对方协助纠错，谦逊姿态",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我错了对不起",
+      "family": "correction",
+      "meaning": "认错与致歉结合，缓和矛盾",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "向您道歉",
+      "family": "correction",
+      "meaning": "正式道歉，修复关系",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "抱歉我的错",
+      "family": "correction",
+      "meaning": "简洁认错，直接致歉",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我说错话了",
+      "family": "correction",
+      "meaning": "承认口误，请求谅解",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "之前的回复有误",
+      "family": "correction",
+      "meaning": "指出旧信息错误，准备更新",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "您说得对",
+      "family": "correction",
+      "meaning": "尊称对方，接纳指正",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我的疏忽",
+      "family": "correction",
+      "meaning": "简单扼要地承认过失",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我慎重承认",
+      "family": "correction",
+      "meaning": "以严肃态度认错",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我反思后觉得",
+      "family": "correction",
+      "meaning": "表达事后思考后的修正意见",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我收回这个说法",
+      "family": "correction",
+      "meaning": "针对具体说法的撤销",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "刚才说得不严谨",
+      "family": "correction",
+      "meaning": "承认表达欠缺严密性，自我修正",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "刚才那个不对",
+      "family": "correction",
+      "meaning": "直接否定前一个说法，立即纠正",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我承认说错了",
+      "family": "correction",
+      "meaning": "公开承认言语错误",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我放弃了刚才的观点",
+      "family": "correction",
+      "meaning": "主动放弃错误观点，愿意调整",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "谢谢你的纠正",
+      "family": "correction",
+      "meaning": "感谢对方帮忙修正",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你指出了我的错误",
+      "family": "correction",
+      "meaning": "认可对方的指正角色",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我意识到我说错了",
+      "family": "correction",
+      "meaning": "反映意识觉醒后的纠正",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我撤销之前的言论",
+      "family": "correction",
+      "meaning": "正式收回已发表言辞",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我改正",
+      "family": "correction",
+      "meaning": "承诺改正错误，行动导向",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我马上更正",
+      "family": "correction",
+      "meaning": "立即行动修正错误",
+      "risk": "positive",
+      "confidence": 0.89,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我刚才说错了抱歉",
+      "family": "correction",
+      "meaning": "错言后立即致歉并纠正",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "请容我更正",
+      "family": "correction",
+      "meaning": "礼貌请求允许修正",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "这样说更准确",
+      "family": "correction",
+      "meaning": "用更准确表述替换，间接承认原说法不准",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "我说重了对不起",
+      "family": "correction",
+      "meaning": "承认语气过激并致歉",
+      "risk": "positive",
+      "confidence": 0.91,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "感谢你指出",
+      "family": "correction",
+      "meaning": "对指出错误的行为致谢",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "阴阳怪气大师",
+      "family": "attack",
+      "meaning": "Master of passive-aggressive sarcasm; used to mock someone who constantly makes snide, backhanded comments.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "就这？",
+      "family": "attack",
+      "meaning": "\"That's it?\" – a dismissive remark belittling someone's effort or achievement.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "您开心就好",
+      "family": "attack",
+      "meaning": "\"Whatever makes you happy\" – passive-aggressive way to end an argument while implying the other person is unreasonable.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "啊对对对",
+      "family": "attack",
+      "meaning": "Sarcastic agreement meaning \"Yeah, right, whatever you say\" to dismiss someone's opinion.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "大佬您说得都对",
+      "family": "attack",
+      "meaning": "\"Big shot, everything you say is right\" – exaggerated flattery used to mock someone acting authoritative.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "胎神",
+      "family": "attack",
+      "meaning": "Sichuan dialect insult meaning \"idiot/stupid,\" roughly equivalent to \"moron.\"",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "捞女",
+      "family": "attack",
+      "meaning": "\"Gold digger\" – a woman who only dates for money, often used to shame female dating behavior.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "普信男",
+      "family": "attack",
+      "meaning": "\"Ordinary but overconfident man\" – a man who is average yet has excessive self-esteem; often used to mock male arrogance.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "普信女",
+      "family": "attack",
+      "meaning": "\"Ordinary but overconfident woman\" – same as above but targeting women, used in gender flame wars.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "虾头男",
+      "family": "attack",
+      "meaning": "\"Cringe man\" – a man who gives off an off-putting, creepy vibe, derived from \"下头\" (turn-off).",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "虾头女",
+      "family": "attack",
+      "meaning": "\"Cringe woman\" – a woman exhibiting similar off-putting behavior, used in online dating arguments.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "二刺猿",
+      "family": "attack",
+      "meaning": "Derogatory homophone for \"anime fan,\" literally \"two prickly monkey\" – mocks anime/ACG enthusiasts.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "饭圈母狗",
+      "family": "attack",
+      "meaning": "\"Fandom bitch\" – virulent misogynistic insult toward female fans, suggesting blind devotion and sexual shaming.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "沸羊羊",
+      "family": "attack",
+      "meaning": "\"Boiling Sheep\" (Pleasant Goat character) – metaphor for a simp who is overly eager to please but gets rejected, referencing an episode where he works hard for nothing.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "龟男",
+      "family": "attack",
+      "meaning": "\"Turtle man\" – a man who tolerates his partner's infidelity or unfair treatment, seen as spineless.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "茶艺师",
+      "family": "attack",
+      "meaning": "\"Tea art master\" – a manipulative person (usually woman) who uses sweet talk and fake innocence to control others.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "圣母婊",
+      "family": "attack",
+      "meaning": "\"Saintly bitch\" – a holier-than-thou person who moralizes while being hypocritical or condescending.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "云孝子",
+      "family": "attack",
+      "meaning": "\"Cloud filial son\" – a person who blindly defends a game or product without even having played/used it, like a \"cloud gamer\" but with devotion.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你玩过原神吗",
+      "family": "attack",
+      "meaning": "\"Have you even played Genshin?\" – classic gatekeeping question used to dismiss criticism from outsiders.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "成分复杂",
+      "family": "attack",
+      "meaning": "\"Your composition is complex\" – means you have a suspicious background/multiple allegiances, often used to accuse someone of being a shill or troll.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "查一下成分",
+      "family": "attack",
+      "meaning": "\"Check your components\" – instruction to investigate someone's post history to determine which faction they belong to.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "不是这个圈的别乱喷",
+      "family": "attack",
+      "meaning": "\"If you're not in this circle, don't spray\" – gatekeeping phrase telling outsiders to shut up.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你懂个锤子",
+      "family": "attack",
+      "meaning": "\"You understand a hammer\" (Sichuan dialect) – you know nothing.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你懂个屁",
+      "family": "attack",
+      "meaning": "\"You understand a fart\" – you know absolutely nothing.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "你配钥匙吗？配几把？",
+      "family": "attack",
+      "meaning": "\"Do you make keys? How many?\" – pun on \"配\" (match) sounding like \"pussy\"; a vulgar dismissal questioning someone's worth.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "宁配吗",
+      "family": "attack",
+      "meaning": "\"Are you worthy?\" (Northeastern dialect variant of \"你配吗\") – aggressive gatekeeping question.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "入典",
+      "family": "attack",
+      "meaning": "\"Enter the canon\" – gatekeeping that a post or opinion is so classic it should be preserved for mockery.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "舟批",
+      "family": "attack",
+      "meaning": "\"Arknights fanboy\" (negative) – derogatory label for overly aggressive fans of the game Arknights.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "米卫兵",
+      "family": "attack",
+      "meaning": "\"Mihoyo defender\" – label for someone who vehemently defends Mihoyo games, often used negatively.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "原批",
+      "family": "attack",
+      "meaning": "\"Genshin fanboy\" (highly derogatory) – extreme insult for obsessive Genshin Impact fans.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "管人痴",
+      "family": "attack",
+      "meaning": "\"VTuber simp\" – derogatory term for overzealous VTuber fans who obsess over streamers.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "V87",
+      "family": "attack",
+      "meaning": "Label for users from a particular NGA (forum) board known for anti-VTuber trolling; used as a faction insult.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "神友",
+      "family": "attack",
+      "meaning": "\"Shenyou\" – members of a certain online community associated with contrarian or anti-establishment views, often used pejoratively.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "兔友",
+      "family": "attack",
+      "meaning": "\"Tuyou\" – patriotic netizens, sometimes used sarcastically as a label for ultranationalists.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "蛆蟲",
+      "family": "attack",
+      "meaning": "\"Maggots\" – derogatory term for users on certain controversial subreddits or forums, implying they are disgusting.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "抽象骡子",
+      "family": "attack",
+      "meaning": "\"Abstract mule\" – an insult from \"抽象\" (abstract) streaming culture, calling someone a stubborn fool.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "带带大师兄",
+      "family": "attack",
+      "meaning": "Reference to streamer \"Daida Dashixiong,\" often invoked as a scapegoat; saying someone is like him or that he caused something bad.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "孙笑川",
+      "family": "attack",
+      "meaning": "Sun Xiaochuan, a streamer whose name is jokingly blamed for all misfortunes; calling someone Sun Xiaochuan is a curse.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "狗粉丝",
+      "family": "attack",
+      "meaning": "\"Dog fans,\" followers of controversial streamers known for trolling and offensive humor; used as a disparaging label.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "憨批",
+      "family": "attack",
+      "meaning": "Sichuan dialect for \"idiot/dumbass\" – stronger than just \"fool.\"",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "起篓子",
+      "family": "attack",
+      "meaning": "Wuhan dialect meaning to instigate trouble or stir the pot; a troublemaker.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "小赤佬",
+      "family": "attack",
+      "meaning": "Shanghainese for \"little punk/brat\" – a dismissive insult toward misbehaving youths.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "戆大",
+      "family": "attack",
+      "meaning": "Shanghainese for \"idiot/imbecile\" – a blunt insult.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "二流子",
+      "family": "attack",
+      "meaning": "Northern dialect for \"hoodlum/delinquent\" – someone idle and troublemaking.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "洋盘",
+      "family": "attack",
+      "meaning": "Shanghainese for someone who is flashy but actually clueless; a show-off who is naive.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "捞翔",
+      "family": "attack",
+      "meaning": "Henan dialect originally meaning \"old fellow,\" but used by outsiders as a regional slur against Henan people.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "撒币",
+      "family": "attack",
+      "meaning": "Homophone for \"idiot\" (傻逼) while literally meaning \"scatter coins\" – a disguised insult.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "憨包",
+      "family": "attack",
+      "meaning": "Yunnan dialect for \"fool/simpleton.\"",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "山炮",
+      "family": "attack",
+      "meaning": "Northeastern dialect for \"country bumpkin/hick,\" implying someone is uncultured and stupid.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "苕货",
+      "family": "attack",
+      "meaning": "Hubei dialect for \"sweet potato,\" used to call someone a dumb yokel.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "压力怪",
+      "family": "attack",
+      "meaning": "\"Pressure monster\" – a toxic teammate who stresses everyone out with constant criticism and blame.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "演员",
+      "family": "attack",
+      "meaning": "\"Actor\" – someone intentionally playing poorly or throwing a game, pretending to be bad.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "菜鸡",
+      "family": "attack",
+      "meaning": "\"Noob chicken\" – a player with very low skill, often used to insult gaming ability.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "狗分",
+      "family": "attack",
+      "meaning": "\"Dog points\" – accusing someone of playing cowardly or only caring about rank score (e.g., hiding, ratting).",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "泉水指挥官",
+      "family": "attack",
+      "meaning": "\"Fountain commander\" – a dead player who keeps giving orders from the spawn point, a backseat gamer.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "送头小王子",
+      "family": "attack",
+      "meaning": "\"Head-giving prince\" – a player who feeds kills to the enemy team relentlessly; an ironic title.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "挂逼",
+      "family": "attack",
+      "meaning": "\"Cheater/hacker\" – someone using hacks or exploits in multiplayer games.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "炸鱼",
+      "family": "attack",
+      "meaning": "\"Bombing fish\" – a high-skill player creating a new account to stomp low-rank players, smurfing.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "守尸",
+      "family": "attack",
+      "meaning": "\"Camping the corpse\" – in Dead by Daylight, a killer who stays near a hooked survivor; used broadly to accuse campy play.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "孤儿索",
+      "family": "attack",
+      "meaning": "\"Orphan Yasuo\" – insult aimed at Yasuo players (LoL), implying they are orphaned due to their toxic playstyle.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "脚本狗",
+      "family": "attack",
+      "meaning": "\"Script dog\" – a player using automated scripts/aimbots to cheat; worse than a regular cheater.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "嘴强王者",
+      "family": "attack",
+      "meaning": "\"Strongest mouth king\" – a player who trash-talks but has no skill; all talk no game.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "补刀大神",
+      "family": "attack",
+      "meaning": "\"Last-hit god\" – sarcastic for a support player who steals farm, or someone bragging about basic skills.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "甩锅侠",
+      "family": "attack",
+      "meaning": "\"Blame-shifting hero\" – a teammate who always blames others for their own mistakes.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "泉水挂机狗",
+      "family": "attack",
+      "meaning": "\"Fountain AFK dog\" – a player who goes AFK at spawn, ruining the game.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "小学生",
+      "family": "attack",
+      "meaning": "\"Elementary student\" – derogatory for immature/young players who are bad and toxic.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "女大学生",
+      "family": "attack",
+      "meaning": "\"Female university student\" – stereotype of bad female gamers, used to dismiss their skill.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "人机",
+      "family": "attack",
+      "meaning": "\"Bot\" – calling a player so bad they seem like AI.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "掉分车队",
+      "family": "attack",
+      "meaning": "\"Deranking team\" – a group intentionally losing to drop their rank, accused of ruining matches.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "电子阳痿",
+      "family": "attack",
+      "meaning": "\"Digital impotence\" – burnout from excessive gaming where one can no longer enjoy playing, used to mock or self-deprecate.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "理塘最强传说",
+      "family": "attack",
+      "meaning": "\"The strongest legend of Litang\" – making fun of Dingzhen's fame, implying something is overhyped or silly.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "绝绝子",
+      "family": "attack",
+      "meaning": "Originally means \"awesome,\" but often used sarcastically to mock over-enthusiasm.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "添狗",
+      "family": "attack",
+      "meaning": "\"Simper/licking dog\" – someone who fawns over another person desperately, often with a sexual connotation.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "下头",
+      "family": "attack",
+      "meaning": "\"Turn-off/cringe\" – calling someone's behavior off-putting and disgusting.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "绷不住了",
+      "family": "attack",
+      "meaning": "\"Can't hold it anymore\" – used when something is so ridiculous or stupid that you can't keep a straight face.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "哈人",
+      "family": "attack",
+      "meaning": "\"Scary\" (from a meme) – an exaggerated way to call something frightening or cringey.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "坤坤",
+      "family": "attack",
+      "meaning": "Reference to Cai Xukun, used to mock his singing/dancing or his fans.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "小黑子",
+      "family": "attack",
+      "meaning": "\"Little blackie\" – haters of Cai Xukun, often engaged in trolling and cyberbullying.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "ikun",
+      "family": "attack",
+      "meaning": "Fans of Cai Xukun; when used by outsiders, it's often derisive and mocking.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "鸡你太美",
+      "family": "attack",
+      "meaning": "Memed phrase from Cai Xukun's song lyrics, used to ridicule him and his fandom.",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "尊嘟假嘟",
+      "family": "attack",
+      "meaning": "\"Really? Really?\" – a cutesy phrase used sarcastically to mock someone being overly dramatic or naive.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "家人们谁懂啊",
+      "family": "attack",
+      "meaning": "\"Family, who understands?\" – opening line of melodramatic videos; used to mock attention-seeking posts.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "泰裤辣",
+      "family": "attack",
+      "meaning": "\"Too cool\" from a streamer – used sarcastically to label something cringeworthy rather than actually cool.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "完了芭比Q了",
+      "family": "attack",
+      "meaning": "\"Oh no, BBQ!\" – an internet meme phrase used to mock a failure with exaggerated despair.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "下次一定",
+      "family": "attack",
+      "meaning": "\"Next time definitely\" (Bilibili) – a non-committal promise to support later, used sarcastically to indicate one will never follow through.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "关弹幕保智商",
+      "family": "attack",
+      "meaning": "\"Turn off danmaku to save IQ\" – implies the chat is so stupid it lowers intelligence; used to dismiss a community.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "汗流浃背了吧",
+      "family": "attack",
+      "meaning": "\"Are you sweating?\" (Douyin challenge) – mocking someone's discomfort or pressure.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "好嫁风",
+      "family": "attack",
+      "meaning": "\"Good-to-marry style\" – Xiaohongshu trend emphasizing traditional feminine charm to attract a husband; often mocked as anti-feminist.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    },
+    {
+      "term": "集美们",
+      "family": "attack",
+      "meaning": "\"Sisters\" (Xiaohongshu lingo) – used by outsiders to mock groupthink and vapid female solidarity.",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "evidenceSamples": [],
+      "evidenceSources": []
+    }
+  ]
+}

@@ -5,7 +5,7 @@
  * Pipeline stages (in order):
  * 1. Text cleaning + mention stripping
  * 2. Scrape-diagnostic filtering (exclude crawler error messages)
- * 3. Emote semantic detection (Bilibili/Tieba emotes → attack/evasion/cooperation)
+ * 3. Emote semantic detection (Bilibili emotes → attack/evasion/cooperation)
  * 4. Supplemental semantics (platform-specific patterns not in the main dictionary)
  * 5. Keyword text-evidence matching via {@link findDictionaryEntriesWithTextEvidence}
  * 6. Context classification via {@link classifyScenario}
@@ -37,8 +37,8 @@ function stripMentionScaffolding(text) {
 
 function isScrapeDiagnosticMessage(text) {
   const message = String(text || '');
-  return /(?:^|[:\s])(?:discover|explicit Tieba thread URLs):\s+.*HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\//iu.test(message)
-    || /HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\/(?:tieba|c\.tieba|www\.bilibili|api\.bilibili)\./iu.test(message);
+  return /(?:^|[:\s])(?:discover):\s+.*HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\//iu.test(message)
+    || /HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\/(?:www\.bilibili|api\.bilibili)\./iu.test(message);
 }
 
 function summarizeHit(entry) {
@@ -78,7 +78,7 @@ const EMOTE_SEMANTICS = [
     pattern: /\[喜极而泣\]/u,
     term: '喜极而泣表情',
     family: 'cooperation',
-    meaning: 'Bilibili/Tieba语境中的喜极而泣表情通常表示轻松回忆、调侃、被逗笑或自嘲，不能默认当成攻击性无语。',
+    meaning: 'Bilibili语境中的喜极而泣表情通常表示轻松回忆、调侃、被逗笑或自嘲，不能默认当成攻击性无语。',
   },
   {
     pattern: /🐶/u,
@@ -90,13 +90,13 @@ const EMOTE_SEMANTICS = [
     pattern: /(?:\^[_-]?\^|>[_-]?<|T(?:[_-]|\^)?T|Q(?:A|w)Q|orz|xswl|2333+|(?<!https?):[:;=8xX][-o*']?[)(DPp/\\])/u,
     term: 'ASCII emoticon tone marker',
     family: 'cooperation',
-    meaning: 'Plain-text emoticons common in Tieba/BBS comments can soften, tease, self-mock, or mark playful/satirical tone when no platform emote shortcode is present.',
+    meaning: 'Plain-text emoticons common in BBS comments can soften, tease, self-mock, or mark playful/satirical tone when no platform emote shortcode is present.',
   },
   {
     pattern: /[（(]?\s*(?:[≧>][^）)]{0,8}[≦<]|[≧>]\s*3\s*[≦<])\s*[）)]?/u,
     term: 'kaomoji playful tone marker',
     family: 'cooperation',
-    meaning: 'Tieba/Bilibili kaomoji such as (≧3≦) usually mark playful, cute, blushing, or teasing tone; they should be preserved as pragmatic emotion cues rather than ignored as punctuation.',
+    meaning: 'Bilibili kaomoji such as (≧3≦) usually mark playful, cute, blushing, or teasing tone; they should be preserved as pragmatic emotion cues rather than ignored as punctuation.',
   },
   {
     pattern: /\[(?:\u6253call|call)(?:[_-][^\]]+)?\]/iu,
@@ -115,7 +115,7 @@ const EMOTE_SEMANTICS = [
 /**
  * Detect emote-based semantic signals in a comment that indicate attack,
  * evasion, or cooperation tone. Uses curated EMOTE_SEMANTICS patterns
- * covering Bilibili/Tieba emotes, emoji, ASCII emoticons, and kaomoji.
+ * covering Bilibili emotes, emoji, ASCII emoticons, and kaomoji.
  *
  * @param {string} comment — raw comment text
  * @returns {Array<{term: string, family: string, meaning: string}>} matched semantic hits
@@ -200,7 +200,7 @@ const SUPPLEMENTAL_SEMANTICS = [
     pattern: /(?:老师|大佬|姐妹|兄弟).{0,4}捞捞|捞捞(?:我|孩子|老师)?/u,
     term: '捞捞',
     family: 'cooperation',
-    meaning: '“捞捞”在B站/贴吧评论里常表示求回复、求带、求关注或请求互动支持，是一种弱势/撒娇式协作信号；需排除钓鱼、打捞等字面场景。',
+    meaning: '“捞捞”在B站评论里常表示求回复、求带、求关注或请求互动支持，是一种弱势/撒娇式协作信号；需排除钓鱼、打捞等字面场景。',
   },
   {
     pattern: /蒙住.{0,8}(?:双眼|眼睛)|不让你说.{0,16}没人知道/u,

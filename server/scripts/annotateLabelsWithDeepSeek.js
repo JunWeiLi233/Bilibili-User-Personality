@@ -31,7 +31,7 @@
  * Environment:
  *   DEEPSEEK_API_KEY (required)
  *   DEEPSEEK_BASE_URL (default: https://api.deepseek.com)
- *   DEEPSEEK_MODEL (default: deepseek-v4-flash for light annotation)
+ *   DEEPSEEK_MODEL (default: see deepseekRouter.js — flash for light annotation)
  *   DEEPSEEK_ANNOTATION_EFFORT (default: low for fast annotation)
  */
 
@@ -67,9 +67,11 @@ function detectProvider(model) {
   return 'deepseek';
 }
 
+import { resolveModel as routeModel } from '../services/deepseekRouter.js';
+
 function resolveModel(args) {
   if (args.model) return args.model;
-  return process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash';
+  return routeModel('annotate');
 }
 
 // DeepSeek

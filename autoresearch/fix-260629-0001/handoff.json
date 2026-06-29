@@ -1,0 +1,47 @@
+{
+  "version": "2.1.0",
+  "source": "fix",
+  "timestamp": "2026-06-29T00:20:00Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/fix-260629-0001/fix-results.tsv",
+  "findings": [],
+  "summary": {
+    "total_files_modified": 8,
+    "total_data_dirs_deleted": 3,
+    "total_lines_removed": "~3,479",
+    "total_data_size_freed": "~128KB",
+    "remaining_tieba_references_in_target_files": 0,
+    "guard_result": "151/151 relevant tests pass"
+  },
+  "commits": [
+    {
+      "hash": "ff455a8e",
+      "desc": "Remove ~120 lines of Tieba documentation from README (EN + CN sections, nav link, task table row)"
+    },
+    {
+      "hash": "deccf4af",
+      "desc": "Remove Tieba references from 6 source files + delete 3 orphaned data dirs"
+    }
+  ],
+  "files_changed": {
+    "documentation": ["README.md", ".claude/MASTER_PLAN.md"],
+    "config": ["set-deepseek-env.example.ps1"],
+    "services": ["server/services/commentCoverage.js", "server/scripts/updateReadmeStatsGraph.js"],
+    "utils": ["server/utils/paths.js"],
+    "hooks": [".claude/hooks/stop-hub.cjs", ".claude/hooks/compact-checkpoint.cjs"],
+    "data_deleted": [".claude/tieba_scrape/", "server/data/tiebaKeywordCorpus.comments/", "server/data/tiebaKeywordCorpus.runs/"]
+  },
+  "intentionally_kept": [
+    "CLAUDE.md — functional note that Tieba was removed",
+    "python_backend/analysis/migration_inventory.py — archival migration records + 68 @unittest.skip markers",
+    "docs/PROJECT_MAP.md — architectural reference noting removal"
+  ],
+  "pre_existing_issues": [
+    "server/scripts/compareDeepSeekConfig.test.js — flaky test, fails in full suite but passes in isolation (4/4). Not related to Tieba changes."
+  ],
+  "config": {
+    "target": "rg -c '(?i)tieba|贴吧' across 7 source files",
+    "scope": "README.md, .claude/MASTER_PLAN.md, set-deepseek-env.example.ps1, server/services/commentCoverage.js, server/utils/paths.js, .claude/hooks/stop-hub.cjs, .claude/hooks/compact-checkpoint.cjs, .claude/tieba_scrape/, server/data/tiebaKeywordCorpus.*/",
+    "guard": "npm test (151/151 relevant tests pass; 1 pre-existing flaky test unrelated)"
+  }
+}

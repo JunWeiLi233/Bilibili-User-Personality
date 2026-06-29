@@ -1,0 +1,414 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-29T14:44:40.775Z",
+  "family": "correction",
+  "shard": 4,
+  "shardCount": 4,
+  "entries": [
+    {
+      "term": "认错态度",
+      "family": "correction",
+      "meaning": "展示承认错误并愿意改正的姿态",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "记错了",
+      "family": "correction",
+      "meaning": "自我修正或结论降级",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
+    },
+    {
+      "term": "话说过头了",
+      "family": "correction",
+      "meaning": "意识到自己言辞过度，需要修正",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:13:22.152Z"
+    },
+    {
+      "term": "该打",
+      "family": "correction",
+      "meaning": "自嘲该受到惩罚，承认错误并祈求原谅。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:48:08.554Z"
+    },
+    {
+      "term": "误会了",
+      "family": "correction",
+      "meaning": "承认自己理解有误，表示歉意并纠正",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:56:44.197Z"
+    },
+    {
+      "term": "误操作",
+      "family": "correction",
+      "meaning": "因操作失误导致错误发布，解释并修正",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "误解",
+      "family": "correction",
+      "meaning": "因错误理解而产生不当言论或行为后承认偏差",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T13:54:47.905Z"
+    },
+    {
+      "term": "说反了",
+      "family": "correction",
+      "meaning": "承认自己把意思说颠倒或反了。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.675Z"
+    },
+    {
+      "term": "说太快了",
+      "family": "correction",
+      "meaning": "解释因为语速快导致口误，需要纠正。",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:01:19.201Z"
+    },
+    {
+      "term": "说快了",
+      "family": "correction",
+      "meaning": "承认因语速过快导致表达不清或出错，需放慢重述。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.747Z"
+    },
+    {
+      "term": "说漏了",
+      "family": "correction",
+      "meaning": "承认遗漏了关键信息，需要补充。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.675Z"
+    },
+    {
+      "term": "说漏嘴了",
+      "family": "correction",
+      "meaning": "承认不小心说出不当内容",
+      "risk": "low",
+      "confidence": 0.84,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.060Z"
+    },
+    {
+      "term": "说重了",
+      "family": "correction",
+      "meaning": "承认自己言辞过激，表示歉意并试图缓和气氛",
+      "risk": "low",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.060Z"
+    },
+    {
+      "term": "说错了",
+      "family": "correction",
+      "meaning": "直接承认错误，拉回正确轨道",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T04:05:59.693Z"
+    },
+    {
+      "term": "说错了不好意思",
+      "family": "correction",
+      "meaning": "直接道歉并承认说错，简洁表达。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:42:23.309Z"
+    },
+    {
+      "term": "说错话",
+      "family": "correction",
+      "meaning": "承认自己言语有误，表达不准确，请求谅解或纠正。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.747Z"
+    },
+    {
+      "term": "说错话了",
+      "family": "correction",
+      "meaning": "意识到自己话语不当或错误后立即承认并道歉，寻求谅解",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.580Z"
+    },
+    {
+      "term": "请允许我收回",
+      "family": "correction",
+      "meaning": "请求收回之前的话",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:39:16.224Z"
+    },
+    {
+      "term": "请原谅",
+      "family": "correction",
+      "meaning": "请求原谅",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.011Z"
+    },
+    {
+      "term": "请原谅我的言辞",
+      "family": "correction",
+      "meaning": "礼貌请求对方宽恕自己的不当言语。",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:20:25.601Z"
+    },
+    {
+      "term": "请容我更正",
+      "family": "correction",
+      "meaning": "礼貌请求允许修正",
+      "risk": "positive",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.694Z"
+    },
+    {
+      "term": "谢罪",
+      "family": "correction",
+      "meaning": "道歉",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.011Z"
+    },
+    {
+      "term": "谢谢你的纠正",
+      "family": "correction",
+      "meaning": "感谢对方帮忙修正",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.694Z"
+    },
+    {
+      "term": "谢谢指正",
+      "family": "correction",
+      "meaning": "感谢对方纠错，接受批评",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.693Z"
+    },
+    {
+      "term": "负荆请罪",
+      "family": "correction",
+      "meaning": "道歉",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.011Z"
+    },
+    {
+      "term": "赔礼",
+      "family": "correction",
+      "meaning": "道歉",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:36:14.011Z"
+    },
+    {
+      "term": "赶紧撤回",
+      "family": "correction",
+      "meaning": "发现发送了错误或不当内容后立即执行撤回操作并解释",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.581Z"
+    },
+    {
+      "term": "跑了",
+      "family": "correction",
+      "meaning": "退出争论",
+      "risk": "low",
+      "confidence": 0.73,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "这样说更准确",
+      "family": "correction",
+      "meaning": "用更准确表述替换，间接承认原说法不准",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.694Z"
+    },
+    {
+      "term": "这波我亏了",
+      "family": "correction",
+      "meaning": "自嘲在争论中损失",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.061Z"
+    },
+    {
+      "term": "这波我的",
+      "family": "correction",
+      "meaning": "网络用语，承认这回合是我的错",
+      "risk": "low",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.061Z"
+    },
+    {
+      "term": "退群了",
+      "family": "correction",
+      "meaning": "表示退出聊天群组",
+      "risk": "medium",
+      "confidence": 0.84,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.061Z"
+    },
+    {
+      "term": "道歉",
+      "family": "correction",
+      "meaning": "道歉",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "道歉了",
+      "family": "correction",
+      "meaning": "已经进行过道歉，表达悔意",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:06:52.698Z"
+    },
+    {
+      "term": "道歉声明",
+      "family": "correction",
+      "meaning": "正式发布道歉公告，承认错误并请求原谅",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "重新来过",
+      "family": "correction",
+      "meaning": "表示因错误而重新开始或重新阐述。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.675Z"
+    },
+    {
+      "term": "重新编辑",
+      "family": "correction",
+      "meaning": "编辑已发送的内容以修正错误，并注明原因",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T06:03:59.581Z"
+    },
+    {
+      "term": "重新说",
+      "family": "correction",
+      "meaning": "请求重述，暗示之前表述有误",
+      "risk": "low",
+      "confidence": 0.77,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.060Z"
+    },
+    {
+      "term": "重来",
+      "family": "correction",
+      "meaning": "因错误而重新开始或重新表达。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:50:17.675Z"
+    },
+    {
+      "term": "重说一遍",
+      "family": "correction",
+      "meaning": "要求自己重新表述",
+      "risk": "low",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.061Z"
+    },
+    {
+      "term": "错了错了",
+      "family": "correction",
+      "meaning": "重复强调错误，带有急切纠正的语气。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.195Z"
+    },
+    {
+      "term": "错怪了",
+      "family": "correction",
+      "meaning": "承认自己误解或冤枉了对方，表达歉意并纠正。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.747Z"
+    },
+    {
+      "term": "面壁思过",
+      "family": "correction",
+      "meaning": "用调侃语气表示自己犯错需反省",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:56:44.197Z"
+    },
+    {
+      "term": "骂早了",
+      "family": "correction",
+      "meaning": "急于批评但发现对方是对的，用于自嘲认错。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:59:18.195Z"
+    },
+    {
+      "term": "黑名单见",
+      "family": "correction",
+      "meaning": "威胁拉黑，实际结束对话",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:25:09.061Z"
+    }
+  ]
+}

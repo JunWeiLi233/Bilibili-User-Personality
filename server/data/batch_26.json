@@ -1,0 +1,384 @@
+{
+  "batch": 26,
+  "generatedAt": "2026-06-29T05:45:25.475Z",
+  "totalTerms": 53,
+  "byFamily": {
+    "absolutes": 10,
+    "evidence": 19,
+    "cooperation": 17,
+    "correction": 7
+  },
+  "terms": [
+    {
+      "term": "决对",
+      "family": "absolutes",
+      "meaning": "网络错别字，表达绝对的肯定或否定。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝了",
+      "family": "absolutes",
+      "meaning": "夸张地表示达到极端程度，常表赞叹或吐槽。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "YYDS",
+      "family": "absolutes",
+      "meaning": "永远的神，绝对赞美，表示无人能超越。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "天花板",
+      "family": "absolutes",
+      "meaning": "比喻达到最高水平，无法再提升。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "封神",
+      "family": "absolutes",
+      "meaning": "比喻某人某物优秀到神级，绝对化肯定。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "最好",
+      "family": "absolutes",
+      "meaning": "最高级评价，绝对最优选。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "最烂",
+      "family": "absolutes",
+      "meaning": "最低级评价，绝对最差。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "最差",
+      "family": "absolutes",
+      "meaning": "表示极度差劲，没有更糟的余地。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "顶级",
+      "family": "absolutes",
+      "meaning": "表示最高级别，无可匹敌。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "极致",
+      "family": "absolutes",
+      "meaning": "表示达到极端最高或最低，无法超越。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "事实说话",
+      "family": "evidence",
+      "meaning": "强调用事实和证据来证明观点",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "可靠信源",
+      "family": "evidence",
+      "meaning": "要求信源具备可信度和权威性",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "第三方证实",
+      "family": "evidence",
+      "meaning": "要求由中立第三方提供证实",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "多方求证",
+      "family": "evidence",
+      "meaning": "建议从多个不同来源进行验证",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "实证研究",
+      "family": "evidence",
+      "meaning": "要求提供基于实际观察或实验的研究证据",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "统计分析",
+      "family": "evidence",
+      "meaning": "要求对数据进行规范的统计分析",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "置信区间",
+      "family": "evidence",
+      "meaning": "要求报告统计结果的置信区间",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "P值",
+      "family": "evidence",
+      "meaning": "要求提供统计显著性检验的P值",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "预印本",
+      "family": "evidence",
+      "meaning": "指尚未经同行评审的论文版本",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "撤稿",
+      "family": "evidence",
+      "meaning": "指出某篇论文已被撤回，质疑其可信度",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "造假",
+      "family": "evidence",
+      "meaning": "指控数据或证据是伪造的",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "实验重复",
+      "family": "evidence",
+      "meaning": "要求实验能够被重复以验证结果",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "可复现",
+      "family": "evidence",
+      "meaning": "强调研究结果应当能够被其他团队复现",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "公开数据",
+      "family": "evidence",
+      "meaning": "要求数据是公开可获取的",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "开源数据",
+      "family": "evidence",
+      "meaning": "强调数据来源是开放的",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "数据可视化",
+      "family": "evidence",
+      "meaning": "要求用图表等方式直观展示数据",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "辨伪",
+      "family": "evidence",
+      "meaning": "辨别信息真伪的过程",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "求真",
+      "family": "evidence",
+      "meaning": "追求真实和客观的态度",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "客观公正",
+      "family": "evidence",
+      "meaning": "要求基于证据的客观立场",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "仅当",
+      "family": "cooperation",
+      "meaning": "严谨条件限定，强调唯一条件，用于精确合作约定。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "唯独",
+      "family": "cooperation",
+      "meaning": "排他限定，指出唯一例外，帮助澄清合作细节。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "话说",
+      "family": "cooperation",
+      "meaning": "话题引入标记，开启新讨论，吸引合作注意。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "所以",
+      "family": "cooperation",
+      "meaning": "因果结论词，总结前文，推动合作行动。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "那么",
+      "family": "cooperation",
+      "meaning": "顺承推理词，引出后续或结论，指引合作方向。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "比方说",
+      "family": "cooperation",
+      "meaning": "举例标记，提供实例，辅助合作讨论。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "此外",
+      "family": "cooperation",
+      "meaning": "书面附加，列举额外点，完善合作内容。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "还有",
+      "family": "cooperation",
+      "meaning": "添加词，继续补充，保持合作对话的连续性。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "同时",
+      "family": "cooperation",
+      "meaning": "并列标记，表示两事并存，协调合作多方面。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "以及",
+      "family": "cooperation",
+      "meaning": "并列连词，连接同类项，整合合作意见。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "然后",
+      "family": "cooperation",
+      "meaning": "顺序标记，表示先后关系，理清合作步骤。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "于是",
+      "family": "cooperation",
+      "meaning": "因果承接，引出结果，推动合作进展。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "因此",
+      "family": "cooperation",
+      "meaning": "正式因果词，推导结论，加强合作逻辑。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "故而",
+      "family": "cooperation",
+      "meaning": "书面因果，较古雅，用于正式合作协商。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "鉴于",
+      "family": "cooperation",
+      "meaning": "原因提及，基于情况，引导合作决策。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "考虑到",
+      "family": "cooperation",
+      "meaning": "原因考虑，纳入因素，促进合作周全。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "基于",
+      "family": "cooperation",
+      "meaning": "依据标记，指明基础，确保合作有据。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我说反了",
+      "family": "correction",
+      "meaning": "承认表达与事实相反，常因口误或笔误导致。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我犯了错",
+      "family": "correction",
+      "meaning": "承认犯错，态度诚恳，语气较正式。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我冒失",
+      "family": "correction",
+      "meaning": "承认行动或言语鲁莽，缺乏考虑，带有自责意味。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我嘴快",
+      "family": "correction",
+      "meaning": "承认说话太快没有思考，导致失言，常见于脱口而出后。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我反悔",
+      "family": "correction",
+      "meaning": "承认推翻之前的承诺或决定，常因情况变化或错误判断。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我编辑",
+      "family": "correction",
+      "meaning": "承认修改了之前的评论或帖子，因为内容有误或需补充。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我错了错了",
+      "family": "correction",
+      "meaning": "重复强调承认错误，态度诚恳，常用于强调歉意。",
+      "risk": "positive",
+      "confidence": 0.8
+    }
+  ]
+}

@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from python_backend.analyzers.deepseek_router import MODELS
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
@@ -39,18 +40,18 @@ def normalize_deepseek_model(value: Any) -> str:
     text = str(value or "").strip().lower().replace("_", "-")
     compact = re.sub(r"[\s-]+", "", text)
     aliases = {
-        "deepseekv4flash": "deepseek-v4-flash",
-        "v4flash": "deepseek-v4-flash",
-        "flash": "deepseek-v4-flash",
-        "deepseekv4pro": "deepseek-v4-pro",
-        "v4pro": "deepseek-v4-pro",
-        "pro": "deepseek-v4-pro",
+        "deepseekv4flash": MODELS["V4_FLASH"],
+        "v4flash": MODELS["V4_FLASH"],
+        "flash": MODELS["V4_FLASH"],
+        "deepseekv4pro": MODELS["V4_PRO"],
+        "v4pro": MODELS["V4_PRO"],
+        "pro": MODELS["V4_PRO"],
     }
-    if text in {"deepseek-v4-flash", "deepseek-v4-pro"}:
+    if text in {MODELS["V4_FLASH"], MODELS["V4_PRO"]}:
         return text
     if compact in aliases:
         return aliases[compact]
-    return text or "deepseek-v4-flash"
+    return text or MODELS["V4_FLASH"]
 
 
 @dataclass(frozen=True)
@@ -60,7 +61,7 @@ class AnalyzerRequest:
     source_comments: list[dict[str, str]] = field(default_factory=list)
     uid: str = "unknown"
     name: str = "unknown"
-    model: str = "deepseek-v4-flash"
+    model: str = MODELS["V4_FLASH"]
     effort: str = "max"
     multiagent: bool = False
 

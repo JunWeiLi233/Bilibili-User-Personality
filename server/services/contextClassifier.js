@@ -70,6 +70,9 @@ const SIGNALS = {
       /(?:脑子进水|脑子有[病坑问题]|没脑子|不长脑子|不长[点心眼]|缺心眼)/u,
       /(?:骗[人子]|没诚意|没[点个]?诚意|忽[悠人]|唬[弄人])/u,
       /为什么.{0,4}(?:没[人有]|就[没不]|还不|都不)/u,  // rhetorical "为什么没人/就没人"
+      // NEW: Universal quantifier denial & accusatory assertions (polysemy-03)
+      /没有任何[一个]?/u,  // "没有任何一个玩家会觉得" — universal denial, absolute stance
+      /(?:^|[\s，。！？…、]|[你他她它这那])(?:一定|肯定|绝对|分明|明显|摆明了).{0,4}(?:是|在).{0,6}(?:没|不|骗|偷|懒|敷衍|划水|搞|弄)/u,  // accusatory "你一定是没玩过"
     ],
     weak: [
       // Existing
@@ -98,8 +101,9 @@ const SIGNALS = {
       /反驳/u,
       /你[错誤]了/u,
       /[并絕]非/u,
-      /不是[这那]?[样么]?/u,
+      /不是(?:[这那][样么]?)/u,  // requires 这/那 after 不是 — avoids matching plain "不是很懂"
       /请[问請]/u,
+      /不是(?:没有|没).{0,6}/u,  // "不是没有道理" — double-negation concession, argumentative structure
     ],
     weak: [
       /因为/u,
@@ -118,6 +122,7 @@ const SIGNALS = {
       /[强牛][啊呀]?$/um,
       /厉害/u,
       /太[强棒牛]了/u,
+      /太(?:绝|好|赞|神|妙)[了啦]?/u,  // "太绝了/太好了/太赞了" — common Bilibili praise
       /牛逼/u,
       /(?<![不没])[真太]?[好棒赞](?![说得地话意思了])/u,
       /[👍👏🔥💯]/u,
@@ -127,12 +132,14 @@ const SIGNALS = {
     ],
     weak: [
       /不错/u,
-      /可以[啊呀]?/u,
+      /可以[啊呀呢哈哦]/u,  // requires positive qualifier — standalone "可以" is too ambiguous
+      /经典/u,  // "经典" used positively — distinct from meme "典"
       /爱了/u,
       /喜欢/u,
       /学到了/u,
       /感谢/u,
       /谢谢/u,
+      /试试看/u,  // "试试看吧" — encouraging suggestion, supportive tone
     ],
   },
 
@@ -166,6 +173,9 @@ const SIGNALS = {
       /[我真]?太菜了/u,
       /[我]?不行/u,
       /我[不]?配/u,
+      /去死[了]?算[了]?/u,  // "去死了算了" — literal self-harm context, self-directed negativity
+      /[活生].{0,4}没意[思义]/u,  // "活着也没意思" — nihilistic self-talk
+      /不想[活活]了/u,  // "不想活了" suicidal ideation as intensifier
     ],
     weak: [
       /我[还也]?[需还]要?学/u,
@@ -312,6 +322,27 @@ export function classifyScenario(text) {
   if (hasNegationScope(clean)) {
     scores.praise = Math.floor(scores.praise * 0.5);
     scores.argument = Math.floor(scores.argument * 0.5);
+  }
+
+  // ── Step 3.2: Comparative negation (没有X那么/这么) ──
+  // "这个没有那个好用" — comparative, not praise. Zero out praise and argument
+  // when a comparative 没有 pattern is present.
+  if (/没有.{0,8}(?:那么|这么|那样|这样|那个|这个)/u.test(clean)) {
+    scores.praise = 0;
+    scores.argument = 0;
+  }
+
+  // ── Step 3.3: Laughter + positive context override ──
+  // When "哈哈哈/笑死" co-occurs with explicit positive signals
+  // (好活, 太绝了, 太有才了, etc.), the laughter is genuine amusement,
+  // not mockery. Don't let taunting suppress praise in this context.
+  const LAUGHTER_PATTERNS = /(?:哈哈哈+|笑死[我了]?)/u;
+  const EXPLICIT_POSITIVE = /(?:好活|太绝了|太有才了|当赏|厉害|牛逼|太[强棒牛]了|[👍👏🔥💯])/u;
+  if (LAUGHTER_PATTERNS.test(clean) && EXPLICIT_POSITIVE.test(clean) && scores.praise >= 3) {
+    // Boost praise to overcome taunting suppression
+    scores.praise += 2;
+    // Soften taunting — laughter with explicit praise isn't mockery
+    scores.taunting = Math.floor(scores.taunting * 0.5);
   }
 
   // ── Step 2: Cross-scenario suppression ──
