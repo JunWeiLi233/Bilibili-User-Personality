@@ -163,6 +163,16 @@ test('uidError: returns message for too-short', () => {
   assert.ok(msg && msg.length > 0);
 });
 
+test('uidError: returns message for video-page', () => {
+  const msg = uidError('video-page');
+  assert.ok(msg && msg.length > 0);
+});
+
+test('uidError: returns message for video-id', () => {
+  const msg = uidError('video-id');
+  assert.ok(msg && msg.length > 0);
+});
+
 // --- Varied URL formats (added for scraper flexibility) ---
 
 test('space.bilibili.com URL without https:// prefix', () => {

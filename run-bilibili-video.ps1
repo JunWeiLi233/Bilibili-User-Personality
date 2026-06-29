@@ -49,7 +49,8 @@ if (Test-Path ".\run-bilibili-video.links.ps1") {
   . ".\run-bilibili-video.links.ps1"
 } else {
   Write-Warning "run-bilibili-video.links.ps1 not found — no inline links loaded."
-  Write-Warning "Create it with `$InlineLinks = @('your links here') and `$InlineCookie = '...'"
+  Write-Warning "See run-bilibili-video.example.ps1 for the template. Copy it:"
+  Write-Warning "  cp run-bilibili-video.example.ps1 run-bilibili-video.links.ps1"
 }
 # =============================================================================
 #
@@ -247,21 +248,35 @@ if ($FavoriteLink) { $allLinks += $FavoriteLink }
 
 if ($allLinks.Count -gt 0) {
   foreach ($link in $allLinks) {
-    $isFav = $link -match "medialist|favlist"
-    $isSpace = $link -match "space\.bilibili\.com/(\d+)"
-    $isUid = $link -match "^\d+$"
-    $uidFromSpace = if ($isSpace) { $matches[1] } else { "" }
+    # Normalize: strip leading/trailing whitespace
+    $normalized = $link.Trim()
 
-    Write-Host "Direct link: $link"
+    # Detect link type (order matters — check favorites before generic space URLs)
+    $isFav    = $normalized -match "(medialist|favlist|collectId)"
+    $isSpace  = $normalized -match "space\.bilibili\.com/(\d+)"
+    $isB23    = $normalized -match "b23\.tv/"
+    # A raw numeric UID: the entire string is digits (optionally starting with "UID:" or "mid:")
+    $isUid    = $normalized -match "^(?:UID\s*[:：]?\s*)?(?:mid\s*[:：]?\s*)?(\d{4,})$"
+    $uidMatch = if ($isUid) { $matches[1] } else { "" }
+    $spaceUid = if ($isSpace) { $matches[1] } else { "" }
+
+    Write-Host "Direct link: $normalized"
     $nodeArgs = @(".\server\scripts\runVideoLinkDirect.js")
     if ($isFav) {
-      $nodeArgs += "--favorite-link"; $nodeArgs += $link
+      Write-Host "  -> Detected as favorite / collection link"
+      $nodeArgs += "--favorite-link"; $nodeArgs += $normalized
     } elseif ($isSpace) {
-      $nodeArgs += "--uid"; $nodeArgs += $uidFromSpace
+      Write-Host "  -> Detected as user space (UID: $spaceUid)"
+      $nodeArgs += "--uid"; $nodeArgs += $spaceUid
     } elseif ($isUid) {
-      $nodeArgs += "--uid"; $nodeArgs += $link
+      Write-Host "  -> Detected as raw UID: $uidMatch"
+      $nodeArgs += "--uid"; $nodeArgs += $uidMatch
+    } elseif ($isB23) {
+      Write-Host "  -> Detected as b23.tv short link"
+      $nodeArgs += "--video-link"; $nodeArgs += $normalized
     } else {
-      $nodeArgs += "--video-link"; $nodeArgs += $link
+      Write-Host "  -> Detected as video link"
+      $nodeArgs += "--video-link"; $nodeArgs += $normalized
     }
     if ($InlineCookie) { $nodeArgs += "--cookie"; $nodeArgs += $InlineCookie }
     if ($BilibiliCookie) { $nodeArgs += "--cookie"; $nodeArgs += $BilibiliCookie }
