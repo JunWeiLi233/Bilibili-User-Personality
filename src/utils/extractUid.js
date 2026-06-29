@@ -24,6 +24,11 @@ export function extractUid(input) {
   const raw = (input || '').trim();
   if (!raw) return { uid: null, source: 'empty', confidence: 'none' };
 
+  // Reject Bilibili video / content page URLs — they contain no embed UID
+  if (/bilibili\.com\/video\//i.test(raw) || /b23\.tv\//.test(raw) || /bilibili\.com\/bangumi\//i.test(raw)) {
+    return { uid: null, source: "video-page", confidence: "none" };
+  }
+
   // 1. Bilibili space URL — highest confidence
   const spaceMatch = raw.match(/space\.bilibili\.com\/(\d+)/i);
   if (spaceMatch) {
@@ -77,6 +82,9 @@ export function uidError(source) {
       return '未检测到数字 UID。请直接输入 UID（如 453244911）或粘贴用户空间链接（如 space.bilibili.com/453244911）。';
     case 'too-short':
       return '检测到的数字过短，似乎不是有效的 B 站 UID。请输入完整的 UID。';
+    case 'video-page':
+    case 'video-id':
+      return '此链接为 B 站视频页面，不包含用户 UID。请输入用户空间链接或直接粘贴 UID。';
     default:
       return null;
   }

@@ -255,6 +255,32 @@ test('extractBvid accepts BV ids and Bilibili video links', () => {
   assert.equal(extractBvid('not-a-video'), '');
 });
 
+test('extractBvid accepts varied Bilibili video URL formats', () => {
+  // URL without https:// prefix
+  assert.equal(extractBvid('bilibili.com/video/BV1dcjf6eEJm/'), 'BV1dcjf6eEJm');
+  // URL with long tracking query params
+  assert.equal(extractBvid('https://www.bilibili.com/video/BV1FQT36XErW/?vd_source=d3f6474bdf9e6de8d027785f1120afd4'), 'BV1FQT36XErW');
+  // URL without www subdomain
+  assert.equal(extractBvid('https://bilibili.com/video/BV1zQjc65ErS/'), 'BV1zQjc65ErS');
+  // URL with trailing query params
+  assert.equal(extractBvid('https://www.bilibili.com/video/BV1zQjc65ErS/?vd_source=d3f6474bdf9e6de8d027785f1120afd4'), 'BV1zQjc65ErS');
+  // b23.tv short link with tracking
+  assert.equal(extractBvid('https://b23.tv/BV1xx411c7mD?t=30'), 'BV1xx411c7mD');
+  // URL with fragment
+  assert.equal(extractBvid('https://www.bilibili.com/video/BV19yGa61Ee6/#reply'), 'BV19yGa61Ee6');
+});
+
+test('extractBvid rejects invalid formats', () => {
+  // Pure text
+  assert.equal(extractBvid('not-a-video'), '');
+  // AV id (old format, not supported)
+  assert.equal(extractBvid('https://www.bilibili.com/video/av170001'), '');
+  // Space URL (should not extract BV from user page)
+  assert.equal(extractBvid('https://space.bilibili.com/352468828'), '');
+  // Empty string
+  assert.equal(extractBvid(''), '');
+});
+
 test('isBilibiliBlockResponse detects Bilibili block and rate-limit payloads', () => {
   assert.equal(isBilibiliBlockResponse({ code: -352 }), true);
   assert.equal(isBilibiliBlockResponse({ code: -412 }), true);
