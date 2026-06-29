@@ -34,7 +34,11 @@ param(
   [switch]$SkipPriorityActionRefresh,
   [switch]$ResetHarvestState,
   [switch]$Force,
-  [switch]$ResetMemory
+  [switch]$ResetMemory,
+  [switch]$FriendshipCrawl,
+  [switch]$FriendshipDeep,
+  [string]$FriendshipMaxFollower = "50000",
+  [int]$FriendshipMaxUsers = 20
 )
 
 # Runs dictionary-seeded backend video discovery and keyword training without manually entering Bilibili video links.
@@ -248,6 +252,9 @@ foreach ($link in $InlineLinks) {
 if ($VideoLink) { $allLinks += $VideoLink }
 if ($FavoriteLink) { $allLinks += $FavoriteLink }
 
+# Track friendship-crawl UID files for post-processing
+$friendshipUidFiles = @()
+
 if ($allLinks.Count -gt 0) {
   # ── Scraper link memory: skip already-analyzed links unless -Force ──────
   $memoryFile = ".\server\data\scraper_link_memory.json"
@@ -328,6 +335,15 @@ if ($allLinks.Count -gt 0) {
     if ($InlineCookie) { $nodeArgs += "--cookie"; $nodeArgs += $InlineCookie }
     if ($BilibiliCookie) { $nodeArgs += "--cookie"; $nodeArgs += $BilibiliCookie }
     if ($CommentPages) { $nodeArgs += "--pages"; $nodeArgs += $CommentPages }
+
+    # ── Friendship crawl: export commenter UIDs from this UID ─────────────────
+    if ($FriendshipCrawl -and ($isSpace -or $isUid)) {
+      $uidFile = [System.IO.Path]::GetTempFileName()
+      $env:FRIENDSHIP_OUTPUT_UID_FILE = $uidFile
+      $friendshipUidFiles += @{ uid = if ($isSpace) { $spaceUid } else { $uidMatch }; file = $uidFile }
+    } else {
+      Remove-Item Env:\FRIENDSHIP_OUTPUT_UID_FILE -ErrorAction SilentlyContinue
+    }
 
     # ── Spinner animation while node processes the link ──────────────────────
     $tmpOut = New-TemporaryFile
@@ -414,6 +430,126 @@ if ($allLinks.Count -gt 0) {
       Set-Content $linksFile -Value $linksContent -NoNewline
       Write-Host "Removed $($processedNormalized.Count) processed link(s) from run-bilibili-video.links.ps1"
     }
+  }
+
+  # Clean up stale FRIENDSHIP_OUTPUT_UID_FILE after link loop
+  Remove-Item Env:\FRIENDSHIP_OUTPUT_UID_FILE -ErrorAction SilentlyContinue
+
+  # ── FRIENDSHIP CRAWL PHASE ──────────────────────────────────────────────────────
+  if ($FriendshipCrawl -and $friendshipUidFiles.Count -gt 0) {
+    Write-Host "`n--- FRIENDSHIP CRAWL PHASE ---"
+
+    foreach ($entry in $friendshipUidFiles) {
+      $seedUid = $entry.uid
+      $uidFile = $entry.file
+
+      # Check if UID file was written (commenter UIDs found)
+      if (-not (Test-Path $uidFile)) {
+        Write-Host "  UID ${seedUid}: no commenter data available, skipping"
+        continue
+      }
+      $uidContent = Get-Content $uidFile -Raw -ErrorAction SilentlyContinue
+      if (-not $uidContent) {
+        Write-Host "  UID ${seedUid}: empty commenter data, skipping"
+        continue
+      }
+      $uidData = $uidContent | ConvertFrom-Json
+      $commenterCount = ($uidData.commenterUids | Measure-Object).Count
+      if ($commenterCount -eq 0) {
+        Write-Host "  UID ${seedUid}: no commenters discovered ($commenterCount), skipping"
+        continue
+      }
+
+      # Check memory (friendship output already exists?)
+      $friendshipOutput = ".claude/friendship_harvest/output_${seedUid}.json"
+      if ((-not $Force) -and (Test-Path $friendshipOutput)) {
+        Write-Host "  UID ${seedUid}: friendship output already exists, skipping (use -Force to re-crawl)"
+        continue
+      }
+
+      Write-Host "  UID ${seedUid}: $commenterCount commenter UIDs discovered — launching friendship crawl"
+
+      # Set env vars for the friendship scraper
+      $env:FRIENDSHIP_SEED_URL = "https://space.bilibili.com/$seedUid"
+      $env:FRIENDSHIP_SEED_UIDS_FILE = $uidFile
+      $env:FRIENDSHIP_MAX_FOLLOWER = $FriendshipMaxFollower
+      $env:FRIENDSHIP_MAX_USERS = [string]$FriendshipMaxUsers
+      if ($FriendshipDeep) {
+        $env:FRIENDSHIP_MAX_DEPTH = "3"
+      } else {
+        Remove-Item Env:\FRIENDSHIP_MAX_DEPTH -ErrorAction SilentlyContinue
+      }
+
+      # Ensure PYTHONUTF8 for Windows encoding
+      $env:PYTHONUTF8 = "1"
+
+      # Run browser-harness CDP friendship scraper
+      Write-Host "    Running browser-harness CDP scraper..."
+
+      # Remove stale .env that poisons BU_CDP_URL (left by previous --setup-chrome runs)
+      Remove-Item "C:\Users\Junwei\Downloads\browser-harness\.env" -ErrorAction SilentlyContinue
+      # Clear stale BU_CDP_URL so --silent auto-start fires
+      Remove-Item Env:\BU_CDP_URL -ErrorAction SilentlyContinue
+      $env:BU_SILENT = "1"
+
+      # Pass Bilibili cookies as fallback for js_fetch() when CDP browser cookies
+      # aren't available (e.g. temp Chrome profile without prior Bilibili login)
+      if ($InlineCookie) {
+        $env:BILIBILI_COOKIE = $InlineCookie
+      }
+
+      $harnessOut = New-TemporaryFile
+      $harnessExit = 0
+      try {
+        browser-harness --silent -c "exec(open(r'D:/Bilibili_User_Personality/.claude/friendship_scraper.py').read())" *>&1 | Tee-Object -FilePath $harnessOut.FullName
+        $harnessExit = $LASTEXITCODE
+      } catch {
+        Write-Host "    browser-harness failed: $_"
+        Write-Host "    (skip this seed and continue)"
+        $harnessExit = -1
+      }
+
+      if ($harnessExit -eq 0 -and (Test-Path $friendshipOutput)) {
+        # Feed friendship harvest into dictionary expansion
+        Write-Host "    Feeding harvest into dictionary expansion..."
+        $env:EXPAND_WRITE = "1"
+        $prevExpandMax = $env:EXPAND_MAX_CHARS
+        $env:EXPAND_MAX_CHARS = "50000"
+        node .\server\scripts\expandDictionaryFromCDPHarvest.js
+        if ($prevExpandMax) { $env:EXPAND_MAX_CHARS = $prevExpandMax }
+        else { Remove-Item Env:\EXPAND_MAX_CHARS -ErrorAction SilentlyContinue }
+        Remove-Item Env:\EXPAND_WRITE -ErrorAction SilentlyContinue
+
+        Write-Host "    Friendship crawl for UID $seedUid complete"
+      } elseif ($harnessExit -ne 0) {
+        Write-Host "    Friendship crawl for UID $seedUid failed (exit code $harnessExit)"
+      } else {
+        Write-Host "    Friendship crawl produced no output for UID $seedUid"
+      }
+
+      # Clean up env vars
+      Remove-Item Env:\FRIENDSHIP_SEED_URL -ErrorAction SilentlyContinue
+      Remove-Item Env:\FRIENDSHIP_SEED_UIDS_FILE -ErrorAction SilentlyContinue
+      Remove-Item Env:\FRIENDSHIP_MAX_FOLLOWER -ErrorAction SilentlyContinue
+      Remove-Item Env:\FRIENDSHIP_MAX_USERS -ErrorAction SilentlyContinue
+      Remove-Item Env:\FRIENDSHIP_MAX_DEPTH -ErrorAction SilentlyContinue
+      Remove-Item Env:\PYTHONUTF8 -ErrorAction SilentlyContinue
+      Remove-Item Env:\BILIBILI_COOKIE -ErrorAction SilentlyContinue
+      Remove-Item Env:\BU_SILENT -ErrorAction SilentlyContinue
+      Remove-Item $harnessOut -ErrorAction SilentlyContinue
+
+      Write-Host ""
+    }
+
+    # Run coverage audit after all friendship crawls
+    Write-Host "  Running final coverage audit..."
+    node .\server\scripts\runDictionaryCoverageAudit.js
+    Write-Host "--- FRIENDSHIP CRAWL PHASE COMPLETE ---`n"
+  }
+
+  # Clean up temp UID files
+  foreach ($entry in $friendshipUidFiles) {
+    Remove-Item $entry.file -ErrorAction SilentlyContinue
   }
 } else {
   Write-Host "Harvesting dictionary-seeded Bilibili videos, scanning comments, and training the local keyword dictionary..."
