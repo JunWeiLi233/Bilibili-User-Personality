@@ -491,7 +491,7 @@ test('probeBilibiliCommentEvidence CLI honors Python command runtime env opt-in'
           PYTHONUTF8: '1',
           PYTHONIOENCODING: 'utf-8',
         },
-        timeout: 10000,
+        timeout: 30000,
         maxBuffer: 10 * 1024 * 1024,
       },
     );

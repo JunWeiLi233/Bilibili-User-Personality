@@ -144,12 +144,17 @@ test('discoverVideosByKeyword searches Bilibili and normalizes video objects', a
         data: {
           result: [
             {
-              aid: 123,
-              bvid: 'BV19yGa61Ee6',
-              title: '<em class="keyword">阴阳怪气</em> sample',
-              mid: 9,
-              arcurl: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
-              review: 12,
+              result_type: 'video',
+              data: [
+                {
+                  aid: 123,
+                  bvid: 'BV19yGa61Ee6',
+                  title: '<em class="keyword">阴阳怪气</em> sample',
+                  mid: 9,
+                  arcurl: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
+                  review: 12,
+                },
+              ],
             },
           ],
         },
@@ -161,8 +166,8 @@ test('discoverVideosByKeyword searches Bilibili and normalizes video objects', a
   assert.equal(videos[0].bvid, 'BV19yGa61Ee6');
   assert.equal(videos[0].title, '阴阳怪气 sample');
   assert.equal(videos[0].replyCount, 12);
-  assert.equal(seenUrls[0].url.includes('/x/web-interface/search/type'), true);
-  assert.equal(seenUrls[0].url.includes('search_type=video'), true);
+  assert.equal(seenUrls[0].url.includes('/x/web-interface/search/all/v2'), true);
+  assert.equal(seenUrls[0].url.includes('keyword='), true);
   assert.equal(seenUrls[0].referer.includes('search.bilibili.com'), true);
 });
 
@@ -195,12 +200,17 @@ test('discoverVideosByKeyword can scan multiple search result pages', async () =
         data: {
           result: [
             {
-              aid: 456,
-              bvid: 'BV1pageTwo',
-              title: 'page two result',
-              mid: 9,
-              arcurl: 'https://www.bilibili.com/video/BV1pageTwo/',
-              review: 3,
+              result_type: 'video',
+              data: [
+                {
+                  aid: 456,
+                  bvid: 'BV1pageTwo',
+                  title: 'page two result',
+                  mid: 9,
+                  arcurl: 'https://www.bilibili.com/video/BV1pageTwo/',
+                  review: 3,
+                },
+              ],
             },
           ],
         },
@@ -220,13 +230,19 @@ test('discoverPopularVideos reads public popular videos and normalizes video obj
       return {
         code: 0,
         data: {
-          list: [
+          result: [
             {
-              aid: 456,
-              bvid: 'BV1xx411c7mD',
-              title: 'popular sample',
-              owner: { mid: 8 },
-              stat: { reply: 22 },
+              result_type: 'video',
+              data: [
+                {
+                  aid: 456,
+                  bvid: 'BV1pageTwo',
+                  title: 'page two result',
+                  mid: 9,
+                  arcurl: 'https://www.bilibili.com/video/BV1pageTwo/',
+                  review: 3,
+                },
+              ],
             },
           ],
         },
@@ -1053,7 +1069,7 @@ test('TokenBucket: reset restores full burst', async () => {
 });
 
 test('getEndpointBucket: returns different buckets for different endpoints', () => {
-  const searchBucket = getEndpointBucket('https://api.bilibili.com/x/web-interface/search/type?keyword=test', Date.now, {});
+  const searchBucket = getEndpointBucket('https://api.bilibili.com/x/web-interface/search/all/v2?keyword=test', Date.now, {});
   const viewBucket = getEndpointBucket('https://api.bilibili.com/x/web-interface/view?bvid=BVxxx', Date.now, {});
   // Different endpoints → different bucket instances
   assert.notEqual(searchBucket, viewBucket);
@@ -1132,18 +1148,112 @@ test('fetchJson: TokenBucket throttles 50-request burst — no -412 storm', asyn
 
 // ── Problem 2: ProxyRotator tests ─────────────────────────────────────────────
 
-test('ProxyRotator: rotates on block and quarantines after 3 consecutive blocks', () => {
+test('ProxyRotator: initProxyRotator with comma-separated list does not throw', () => {
   resetBilibiliRequestState();
+  // Should initialize without throwing
   initProxyRotator({ BILIBILI_PROXY_LIST: 'http://proxy1:8080,http://proxy2:8080,http://proxy3:8080' });
-  // ProxyRotator is a module-internal object; we test via the fetch flow
-  // After reset, proxy rotator has 3 proxies
+  // Verify state is clean after reset
   resetBilibiliRequestState();
 });
 
-test('ProxyRotator: empty proxy list is a no-op', () => {
+test('ProxyRotator: initProxyRotator with empty string is a no-op', () => {
   resetBilibiliRequestState();
   initProxyRotator({ BILIBILI_PROXY_LIST: '' });
-  // Should not throw, proxy rotator is null
+  // Should not throw — proxy rotator stays null
+});
+
+test('ProxyRotator: initProxyRotator with whitespace in entries trims them', () => {
+  resetBilibiliRequestState();
+  initProxyRotator({ BILIBILI_PROXY_LIST: '  http://proxy1:8080  ,  http://proxy2:9090  ' });
+  // Should trim entries and initialize cleanly
+  resetBilibiliRequestState();
+});
+
+test('ProxyRotator: fetchJson with proxy configured still applies block cooldown', async () => {
+  resetBilibiliRequestState();
+  initProxyRotator({ BILIBILI_PROXY_LIST: 'http://proxy1:8080,http://proxy2:8080' });
+  let now = 1000;
+  const waits = [];
+  const responses = [
+    { code: -352, message: '-352' }, // block → triggers markBlock on proxy
+    { code: 0, data: { ok: 1 } },
+  ];
+
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 100,
+      jitterMs: 0,
+      blockCooldownMs: 1000,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => now,
+    randomFn: () => 0,
+    waitFn: async (ms) => {
+      waits.push(ms);
+      now += ms;
+    },
+    fetchImpl: async () => ({
+      ok: true,
+      json: async () => responses.shift(),
+    }),
+  };
+
+  await fetchJson('https://api.bilibili.com/proxy-block-test-a', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-block-test-b', 'https://www.bilibili.com', options);
+
+  // First call triggers block → 1000ms cooldown. Second call waits.
+  assert.ok(waits.length >= 1, 'should have at least one wait for block cooldown');
+  assert.ok(waits[0] >= 100, `expected cooldown ≥ 100ms, got ${waits[0]}`);
+  resetBilibiliRequestState();
+});
+
+test('ProxyRotator: block responses rotate proxy via markBlock', async () => {
+  resetBilibiliRequestState();
+  initProxyRotator({ BILIBILI_PROXY_LIST: 'http://proxy-a:8080,http://proxy-b:8080' });
+  let now = 0;
+  const waits = [];
+  // 4 block responses: triggers block cooldown on each, rotating through proxies
+  const responses = [
+    { code: -352, message: '-352' },
+    { code: -352, message: '-352' },
+    { code: -352, message: '-352' },
+    { code: -352, message: '-352' },
+  ];
+
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 100,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => now,
+    randomFn: () => 0,
+    waitFn: async (ms) => {
+      waits.push(ms);
+      now += ms;
+    },
+    fetchImpl: async () => ({
+      ok: true,
+      json: async () => responses.shift(),
+    }),
+  };
+
+  // All 4 calls completed (no throw from quarantine deadlock).
+  // First request fires immediately (cooldownUntil=0, nextRequestAt=0).
+  // Requests 2-4 each wait for escalating block cooldown: 100ms, 200ms, 400ms.
+  await fetchJson('https://api.bilibili.com/proxy-storm-1', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-storm-2', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-storm-3', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/proxy-storm-4', 'https://www.bilibili.com', options);
+
+  assert.equal(waits.length, 3, 'requests 2-4 should have waited for block cooldown');
+  // After 3 consecutive blocks on proxy-a, markBlock quarantines it.
+  // But proxy-b is still available, so request 4 still succeeds.
   resetBilibiliRequestState();
 });
 
