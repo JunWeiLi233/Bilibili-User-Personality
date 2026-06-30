@@ -1,7 +1,21 @@
-"""Firecrawl adapter for Bilibili comment harvesting.
+"""Firecrawl adapter for Bilibili comment harvesting and video discovery.
 
 Tier-2 fallback when direct Bilibili API returns 412 (rate-limited)
 or Cloudflare challenge. Self-hosted: http://localhost:3002 (no API key).
+
+Capabilities:
+  - search_bilibili (works): discovers Bilibili videos by keyword via Firecrawl search
+  - fallback_search (works): rate-limit fallback returning discovered video URLs
+  - is_available (works): health check against self-hosted Firecrawl instance
+  - scrape_video_comments (limited): Bilibili comments load via XHR after page render.
+    Self-hosted Firecrawl (no Fire Engine) cannot execute the XHR, so comment
+    extraction relies on what Playwright renders in the DOM. May return 0 comments
+    for Bilibili; designed for simpler sites with static content.
+  - batch_harvest_evidence (limited): depends on scrape_video_comments; see above.
+
+The primary value of this adapter is as a SEARCH AND DISCOVERY fallback for when
+the Bilibili API is rate-limited. For full comment extraction, use browser-harness
+or the direct Bilibili API.
 """
 
 import json, os, re, time
