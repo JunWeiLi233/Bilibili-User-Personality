@@ -1,3 +1,0 @@
-iteration	timestamp	hypothesis	status	technique	evidence	file_line
-1	2026-06-28T07:40:23-04:00	I hypothesize that agent-lock.js cleanup outputs plain text instead of JSON hook protocol	confirmed	working backwards from error	agent-lock.js:127 outputs 'CLEANUP heartbeat released...' plain text to stdout — Claude Code requires {"decision":"approve"|"block","reason":"..."} JSON on stdout from Stop hooks	.claude/agent-lock.js:127
-2	2026-06-28T07:40:50-04:00	Fix verified: cmdCleanup now outputs valid JSON, try/catch ensures error path also produces JSON	confirmed	fix	agent-lock.js:125-138 — console.log(JSON.stringify({decision:'approve',reason:msg})) replaces plain-text console.log	.claude/agent-lock.js:130

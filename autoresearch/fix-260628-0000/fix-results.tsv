@@ -1,5 +1,0 @@
-# metric_direction: lower_is_better
-iteration	timestamp	error_type	error_fixed	commit	metric	delta	guard	status	description
-0	2026-06-28T23:55:00Z	-	-	-	0	0	pass	baseline	No URL parsing errors currently. Adding tests for varied formats to prevent regression. Target: 0 existing failures, ensure new tests pass.
-1	2026-06-28T23:58:00Z	test	false-uid	25b7bac5	0	0	pass	keep	fixed: extractUid falsely extracted 6-digit hex substring (027785) from vd_source query param as UID. Added video-page URL rejection check before free-text fallback. Added 13 new test cases for varied URL formats.
-2	2026-06-29T00:02:00Z	enhancement	ps-link-classification	2ad047b0	0	0	pass	keep	Enhanced PowerShell link classification: better UID pattern matching (uid/mid labels, 4+ digit UIDs), b23.tv short link detection, collection link detection. Updated example docs with all supported formats (with/without https://, query params, 16-digit UIDs). Tests: 1523/1524 pass.

@@ -1,5 +1,0 @@
-# metric_direction: lower_is_better
-iteration	timestamp	commit	metric	delta	guard	guard-metric	status	description
-0	2026-06-28T23:02:12Z	4cc72a4a	193	0	pass	1509/1510	baseline	⚠️ STALE: read from cached keywordCoverageAudit.json (stale from prior evidence state). Fresh audit of HEAD evidence shows 250 weak, 84.91% coverage.
-0	2026-06-28T23:30:00Z	4cc72a4a	250	0	pass	1509/1510	baseline	✅ CORRECTED: fresh audit from HEAD evidence files. 1669 terms, 250 weak, 84.91% coverage. Real starting point.
-1	2026-06-28T23:21:51Z	a9577c7e	247	-3	pass	1509/1510	discard	Harvest cycle (11/12 queries, 308 accepted hits). DISCARDED — merge pipeline lossy, results untrustworthy. Evidence reverted to HEAD.

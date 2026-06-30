@@ -38,3 +38,33 @@ server/data/scraper_link_memory.json
 .claude/agent-locks/
 .claude/autoresearch/
 .claude/plans/
+.claude/__pycache__/
+.claude/corpus_harvest/
+.claude/annotation_data/
+.claude/task_output/
+.claude/*.py
+.claude/*.js
+.claude/*.mjs
+.claude/*.ps1
+.claude/*.json
+.claude/*.txt
+.claude/*.png
+
+# Keep essential .claude/ config files
+!.claude/settings.json
+!.claude/settings.local.json
+!.claude/.compact_state.json
+!.claude/.compact_state.md
+!.claude/CLAUDE.md
+!.claude/tasks/
+!.claude/hooks/
+!.claude/worktrees/
+
+# Autoresearch session output — never commit debug/fix/coverage run artifacts
+autoresearch/
+
+# Agent-generated screenshots and verification images
+*.png
+*.jpg
+!docs/stats/*.png
+!docs/stats/*.jpg

@@ -1,3 +1,0 @@
-# metric_direction: lower_is_better
-iteration	timestamp	error_type	error_fixed	commit	metric	delta	guard	status	description
-0	2026-06-28T17:45:00Z	baseline	n/a	-	0	0	npm test	clean	Zero errors found — all 1509 tests pass, 0 failures
