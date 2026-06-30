@@ -3505,7 +3505,14 @@ async function readDictionary(dictionaryPath) {
         for (const evidenceRelativePath of evidenceFileList) {
           if (!evidenceRelativePath) continue;
           const evidencePath = join(dirname(dictionaryPath), String(evidenceRelativePath));
-          const evidenceRaw = await readFile(evidencePath, 'utf8');
+          let evidenceRaw;
+          try {
+            evidenceRaw = await readFile(evidencePath, 'utf8');
+          } catch (readError) {
+            // Evidence shard referenced in the manifest but not yet on disk — skip gracefully.
+            if (readError?.code === 'ENOENT') continue;
+            throw readError;
+          }
           const evidencePayload = JSON.parse(evidenceRaw);
           for (const evidence of Array.isArray(evidencePayload?.evidence) ? evidencePayload.evidence : []) {
             const term = cleanKeywordTerm(evidence?.term);

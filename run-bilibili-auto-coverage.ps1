@@ -42,7 +42,8 @@ param(
   [switch]$PruneIncludePartial,
   [switch]$ResetHarvestState,
   [switch]$Strict,
-  [switch]$Firecrawl
+  [switch]$Firecrawl,
+  [switch]$CorpusMining
 )
 
 # Runs the backend coverage loop. It audits weak dictionary terms, exports priority
@@ -173,6 +174,10 @@ if ($Firecrawl) {
   $env:FIRECRAWL_ENABLED = "1"
   Write-Host "Firecrawl tier enabled (http://localhost:3002)"
 }
+if ($CorpusMining) {
+  $env:CORPUS_MINING_ENABLED = "1"
+  Write-Host "Offline corpus mining enabled"
+}
 
 $env:BILIBILI_COVERAGE_AUDIT_MIN_RATIO = [string]$MinCoverageRatio
 $env:BILIBILI_VIDEO_DISCOVERY_MODE = $DiscoveryMode
@@ -242,9 +247,15 @@ Write-Host "Existing dictionary terms only: $(!$AllowNewTerms)"
 Write-Host "Require Bilibili evidence sources: $(!$AllowUnsourcedEvidence)"
 Write-Host "Require Bilibili comment evidence: $(!$AllowUnsourcedEvidence -and !$AllowContextOnlyEvidence)"
 Write-Host "Reset harvest state: $ResetHarvestState"
+Write-Host "Offline corpus mining: $(if ($CorpusMining) { 'yes (Phase 0)' } else { 'no' })"
 Write-Host "DeepSeek model: $env:DEEPSEEK_MODEL"
 Write-Host "DeepSeek reasoning effort: $env:DEEPSEEK_REASONING_EFFORT"
 Write-Host ""
-Write-Host "Auditing coverage, harvesting priority queries, and repeating until the gate passes or the cycle limit is reached..."
 
-node .\server\scripts\runCoverageHarvestLoop.js
+if ($CorpusMining) {
+  Write-Host "Mining offline corpora, then harvesting priority queries, and repeating until the gate passes or the cycle limit is reached..."
+  node .\server\scripts\runCorpusMiningLoop.js
+} else {
+  Write-Host "Auditing coverage, harvesting priority queries, and repeating until the gate passes or the cycle limit is reached..."
+  node .\server\scripts\runCoverageHarvestLoop.js
+}

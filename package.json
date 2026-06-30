@@ -14,6 +14,7 @@
     "dictionary:resolve-near": "python -m python_backend.cli.near_target_resolve_plan",
     "dictionary:expand": "node server/scripts/expandDictionaryFromLocalCorpus.js",
     "dictionary:auto": "node server/scripts/runCoverageHarvestLoop.js",
+"dictionary:mine-loop": "node server/scripts/runCorpusMiningLoop.js",
     "dictionary:firecrawl": "node server/scripts/runFirecrawlHarvest.js",
     "dictionary:huggingface": "python -m python_backend.cli.huggingface_corpus",
     "dictionary:mine-local": "python -m python_backend.cli.local_corpus_mine",
