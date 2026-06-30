@@ -1,8 +1,12 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 
 import { readKeywordDictionary as defaultReadKeywordDictionary } from './deepseekKeywordTrainer.js';
 import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywordSearch.js';
+
+const execFileAsync = promisify(execFile);
 
 const HARVEST_STRATEGY_VERSION = 8;
 const DEFAULT_SEED_QUERIES = [
@@ -3274,6 +3278,26 @@ function backfillTermAttemptsFromSearchedQueries(termAttempts, dictionary, searc
     }
   }
   return backfilled;
+}
+
+
+/**
+ * Firecrawl fallback: when Bilibili direct API is rate-limited (412),
+ * try the self-hosted Firecrawl instance to discover videos.
+ * Returns null if FIRECRAWL_ENABLED is not '1' or if Firecrawl also fails.
+ */
+async function firecrawlFallbackSearch(term) {
+  if (process.env.FIRECRAWL_ENABLED !== '1') return null;
+  try {
+    const { stdout } = await execFileAsync('python', [
+      '-c',
+      ,
+    ], { timeout: 30000, maxBuffer: 1024 * 1024 });
+    const parsed = JSON.parse(stdout);
+    return parsed && parsed.ok ? parsed : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function harvestKeywordDictionary(options = {}, deps = {}) {
