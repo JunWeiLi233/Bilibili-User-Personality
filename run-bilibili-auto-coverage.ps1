@@ -41,7 +41,8 @@ param(
   [int]$PruneExhaustedAfter = 0,
   [switch]$PruneIncludePartial,
   [switch]$ResetHarvestState,
-  [switch]$Strict
+  [switch]$Strict,
+  [switch]$Firecrawl
 )
 
 # Runs the backend coverage loop. It audits weak dictionary terms, exports priority
@@ -167,6 +168,11 @@ $env:BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT = [string]$StaleMissedDiscove
 $env:BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES = [string]$StaleMissedCommentPages
 $env:BILIBILI_HARVEST_TARGET_EVIDENCE = [string]$TargetEvidence
 $env:BILIBILI_HARVEST_COVERAGE_MODE = $CoverageMode
+
+if ($Firecrawl) {
+  $env:FIRECRAWL_ENABLED = "1"
+  Write-Host "Firecrawl tier enabled (http://localhost:3002)"
+}
 
 $env:BILIBILI_COVERAGE_AUDIT_MIN_RATIO = [string]$MinCoverageRatio
 $env:BILIBILI_VIDEO_DISCOVERY_MODE = $DiscoveryMode
