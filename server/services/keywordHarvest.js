@@ -10,10 +10,6 @@ const execFileAsync = promisify(execFile);
 
 const HARVEST_STRATEGY_VERSION = 8;
 const DEFAULT_SEED_QUERIES = [
-  '中文互联网 梗 评论区',
-  '评论区 热评 梗',
-...
-[truncated: showing only the edit operation -- old_string matched at line 12]
   '\u4e2d\u6587\u4e92\u8054\u7f51 \u6897 \u8bc4\u8bba\u533a',
   '\u8bc4\u8bba\u533a \u70ed\u8bc4 \u6897',
   '\u4e89\u8bae \u70ed\u8bc4 \u8bc4\u8bba\u533a',
@@ -3282,20 +3278,20 @@ function backfillTermAttemptsFromSearchedQueries(termAttempts, dictionary, searc
     }
   }
   return backfilled;
+}
+
+
 /**
  * Firecrawl fallback: when Bilibili direct API is rate-limited (412),
  * try the self-hosted Firecrawl instance to discover videos.
- * Returns null if FIRECRAWL_ENABLED is not "1" or if Firecrawl also fails.
+ * Returns null if FIRECRAWL_ENABLED is not '1' or if Firecrawl also fails.
  */
 async function firecrawlFallbackSearch(term) {
   if (process.env.FIRECRAWL_ENABLED !== '1') return null;
   try {
     const { stdout } = await execFileAsync('python', [
       '-c',
-      `from python_backend.scrapers.firecrawl_adapter import fallback_search
-import json
-result = fallback_search(${JSON.stringify(term)})
-print(json.dumps(result, ensure_ascii=False))`,
+      ,
     ], { timeout: 30000, maxBuffer: 1024 * 1024 });
     const parsed = JSON.parse(stdout);
     return parsed && parsed.ok ? parsed : null;
@@ -3498,37 +3494,6 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         console.log(`  [q ${planIndex}/${planTotal}] done ${secs}s: ok=${result.ok ? 1 : 0} videos=${d.scannedVideos || 0} comments=${d.commentsCollected || 0} accepted=${accepted}${pf}`);
       }
       if (!result.ok) warnings.push(`${query}: ${result.error}`);
-      // Firecrawl fallback on API failure (rate-limit, Cloudflare, etc.)
-      if (!result.ok) {
-        const fb = await firecrawlFallbackSearch(planItem.term || query);
-        if (fb && Array.isArray(fb.videos) && fb.videos.length > 0) {
-          const firecrawlVideos = fb.videos
-            .map(v => ({
-              bvid: v.bv_id,
-              sourceUrl: v.url,
-              title: v.title,
-              source: 'firecrawl',
-            }))
-            .filter(v => v.bvid);
-          if (firecrawlVideos.length > 0) {
-            result = {
-              ok: true,
-              videos: firecrawlVideos,
-              comments: [],
-              entries: [],
-              warnings: [...(result.warnings || []), `Firecrawl fallback: ${firecrawlVideos.length} videos`],
-              collectionDiagnostics: {
-                ...result.collectionDiagnostics,
-                scannedVideos: firecrawlVideos.length,
-                commentsCollected: 0,
-                acceptedTerms: result.collectionDiagnostics?.acceptedTerms || [],
-                targetExistingTerms: result.collectionDiagnostics?.targetExistingTerms || [],
-              },
-            };
-            if (verbose) console.log(`  [q ${planIndex}/${planTotal}] Firecrawl fallback: ${firecrawlVideos.length} videos`);
-          }
-        }
-      }
       for (const warning of result.warnings || []) warnings.push(`${query}: ${warning}`);
       searchedQuerySet.add(query);
       updateTermAttempt(termAttempts, planItem, result, attemptFinishedAt, options);
