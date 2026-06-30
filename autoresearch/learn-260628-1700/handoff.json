@@ -1,0 +1,37 @@
+{
+  "version": "2.1.0",
+  "source": "learn",
+  "timestamp": "2026-06-28T17:00:00Z",
+  "status": "completed",
+  "results_tsv": "autoresearch/learn-260628-1700/learn-results.tsv",
+  "findings": {
+    "files_documented": 8,
+    "files_already_documented": 2,
+    "validation_pass_rate": 1.0,
+    "issues_found": 1,
+    "issues_fixed": 1,
+    "remaining_gaps": {
+      "high_priority": [
+        "server/services/llmRelationAnalysis.js",
+        "server/services/scraperConfig.js",
+        "server/scripts/evalPolysemy.js",
+        "server/routes/aicu.js"
+      ],
+      "medium_priority": [
+        "src/components/*.jsx",
+        "src/admin/*.jsx",
+        "src/languageUnderstanding.js"
+      ],
+      "low_priority": [
+        "~140 Python files in python_backend/",
+        "~200 JS files in server/scripts/"
+      ]
+    }
+  },
+  "config": {
+    "mode": "update",
+    "scope": "entire codebase",
+    "depth": "comprehensive",
+    "topics": ["all"]
+  }
+}

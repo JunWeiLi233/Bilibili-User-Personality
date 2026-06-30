@@ -1,0 +1,23 @@
+{
+  "version": "2.1.0",
+  "source": "fix",
+  "timestamp": "2026-06-29T00:05:00Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/fix-260628-0000/fix-results.tsv",
+  "findings": {
+    "bug_found": "extractUid falsely extracted 6-digit hex substring from vd_source query params as a high-confidence UID. Video page URLs like https://www.bilibili.com/video/BV.../?vd_source=... contained 6+ digit hex sequences that passed the free-text fallback.",
+    "root_cause": "extractUid only rejected inputs STARTING with BV/AV, not URLs containing /video/BV in the path. The vd_source parameter is a 32-char hex string that frequently contains 6+ digit decimal sequences.",
+    "fix": "Added video-page URL rejection check (bilibili.com/video/, b23.tv/, bilibili.com/bangumi/) before the free-text extraction step. This catches video URLs before they hit the digit-sequence scanner.",
+    "enhancements": [
+      "PowerShell link classification: added b23.tv detection, UID label parsing (uid:/mid:), 4+ digit UIDs, better logging",
+      "Updated run-bilibili-video.links.example.ps1 with all supported URL formats",
+      "Added 15 new test cases covering: URLs without https://, query params, 16-digit UIDs, video URL rejection"
+    ]
+  },
+  "config": {
+    "target": "URL format handling in scraper input (extractUid, extractBvid, PowerShell link classification)",
+    "scope": "src/utils/extractUid.js src/utils/extractUid.test.js server/services/bilibiliCrawler.test.js run-bilibili-video.ps1 run-bilibili-video.links.example.ps1",
+    "guard": "npm test",
+    "iterations": 3
+  }
+}
