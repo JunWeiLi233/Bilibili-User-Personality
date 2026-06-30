@@ -416,6 +416,27 @@ curl -X POST http://127.0.0.1:8787/api/bilibili/video-keywords \
 
 The crawler is intentionally conservative: sequential requests, brief caching on success, capped pages, cooldown on rate limits rather than fast retries. It uses Bilibili public endpoints directly — no AICU, third-party comment indexes, or external websites.
 
+### Rate-Limit Tuning
+
+The PS1 scripts auto-compute crawler pacing from the query timeout. Adjust these env vars if you still hit -412 or -799 rate limits:
+
+| Variable | Controls | Default (auto) |
+|---|---|---|
+| `BILIBILI_CRAWLER_MIN_DELAY_MS` | Min delay between requests | `max(2500, timeout/60)` |
+| `BILIBILI_CRAWLER_JITTER_MS` | Random delay jitter added | `max(1500, timeout/120)` |
+| `BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS` | Cooldown after rate-limit block | `max(60000, timeout/3)` |
+| `BILIBILI_CRAWLER_CACHE_TTL_MS` | Success cache TTL | `300000` |
+| `BILIBILI_RATE_BURST` | Token bucket burst cap | `0` (use endpoint defaults) |
+| `BILIBILI_RATE_SUSTAIN` | Token bucket sustain rate (req/s) | `0` (use endpoint defaults) |
+| `BILIBILI_COOKIE` | Bilibili session cookie | (unset) |
+
+Set these explicitly to override the auto-computed values:
+```powershell
+.\run-bilibili-auto-coverage.ps1 -CrawlerMinDelayMs 5000 -CrawlerBlockCooldownMs 120000 -BilibiliCookie "SESSDATA=..."
+```
+
+A logged-in cookie gives 5–10× higher rate limits.
+
 ### Scoring Framework
 
 The scoring language is framed as behavior-risk analysis over a bounded public comment sample, not as a clinical diagnosis or definitive personality judgment.
@@ -802,6 +823,27 @@ curl -X POST http://127.0.0.1:8787/api/bilibili/video-keywords \
 ### 爬虫设计
 
 爬虫有意保守：请求是顺序的、成功响应会短暂缓存、页面限制有上限、遇到限流会冷却而非快速重试。爬虫直接使用B站公开端点，不使用AICU、第三方评论索引或外部网站。
+
+### 速率限制调优
+
+PS1脚本会根据查询超时自动计算爬虫速率。如仍遇到 -412 或 -799 限流错误，调整以下环境变量：
+
+| 变量 | 控制内容 | 默认值（自动） |
+|---|---|---|
+| `BILIBILI_CRAWLER_MIN_DELAY_MS` | 请求间最小延迟 | `max(2500, timeout/60)` |
+| `BILIBILI_CRAWLER_JITTER_MS` | 随机延迟抖动 | `max(1500, timeout/120)` |
+| `BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS` | 限流后冷却时间 | `max(60000, timeout/3)` |
+| `BILIBILI_CRAWLER_CACHE_TTL_MS` | 成功缓存TTL | `300000` |
+| `BILIBILI_RATE_BURST` | 令牌桶突发上限 | `0`（使用端点默认） |
+| `BILIBILI_RATE_SUSTAIN` | 令牌桶持续速率(req/s) | `0`（使用端点默认） |
+| `BILIBILI_COOKIE` | B站会话Cookie | （未设置） |
+
+显式设置以覆盖自动计算值：
+```powershell
+.\run-bilibili-auto-coverage.ps1 -CrawlerMinDelayMs 5000 -CrawlerBlockCooldownMs 120000 -BilibiliCookie "SESSDATA=..."
+```
+
+已登录Cookie可获得5–10倍的速率限制。
 
 ### 评分框架
 

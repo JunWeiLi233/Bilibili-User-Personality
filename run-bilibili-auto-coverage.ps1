@@ -43,7 +43,14 @@ param(
   [switch]$ResetHarvestState,
   [switch]$Strict,
   [switch]$Firecrawl,
-  [switch]$CorpusMining
+  [switch]$CorpusMining,
+  [int]$CrawlerBlockCooldownMs = 0,
+  [int]$CrawlerMinDelayMs = 0,
+  [int]$CrawlerJitterMs = 0,
+  [int]$CrawlerCacheTtlMs = 0,
+  [int]$CrawlerRateBurst = 0,
+  [int]$CrawlerRateSustain = 0,
+  [string]$BilibiliCookie = ""
 )
 
 # Runs the backend coverage loop. It audits weak dictionary terms, exports priority
@@ -140,21 +147,52 @@ if ($PruneIncludePartial) {
 $env:BILIBILI_VIDEO_COMMENT_PAGES = [string]$CommentPages
 $env:BILIBILI_HARVEST_QUERY_TIMEOUT_MS = [string]($QueryTimeoutSeconds * 1000)
 $queryTimeoutMs = $QueryTimeoutSeconds * 1000
+
+# ── Crawler rate-limit tuning ──────────────────────────────────────────────
+# Params (-Crawler*) override auto-computed values. Auto-computed values
+# have a raised floor to avoid being more aggressive than the crawler defaults.
+# The env var always wins if already set (back-compat).
+
+if ($BilibiliCookie) {
+  $env:BILIBILI_COOKIE = $BilibiliCookie
+}
+
 if (-not $env:BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS) {
-  $strictCooldownMs = [Math]::Max(1000, [Math]::Floor($queryTimeoutMs / 10))
-  $env:BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS = [string]$strictCooldownMs
+  if ($CrawlerBlockCooldownMs -gt 0) {
+    $env:BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS = [string]$CrawlerBlockCooldownMs
+  } else {
+    $cooldownMs = [Math]::Max(60000, [Math]::Floor($queryTimeoutMs / 3))
+    $env:BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS = [string]$cooldownMs
+  }
 }
 if (-not $env:BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS) {
   $strictRequestTimeoutMs = [Math]::Max(5000, [Math]::Floor($queryTimeoutMs / 2))
   $env:BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS = [string]$strictRequestTimeoutMs
 }
 if (-not $env:BILIBILI_CRAWLER_MIN_DELAY_MS) {
-  $strictMinDelayMs = [Math]::Max(200, [Math]::Floor($queryTimeoutMs / 100))
-  $env:BILIBILI_CRAWLER_MIN_DELAY_MS = [string]$strictMinDelayMs
+  if ($CrawlerMinDelayMs -gt 0) {
+    $env:BILIBILI_CRAWLER_MIN_DELAY_MS = [string]$CrawlerMinDelayMs
+  } else {
+    $delayMs = [Math]::Max(2500, [Math]::Floor($queryTimeoutMs / 60))
+    $env:BILIBILI_CRAWLER_MIN_DELAY_MS = [string]$delayMs
+  }
 }
 if (-not $env:BILIBILI_CRAWLER_JITTER_MS) {
-  $strictJitterMs = [Math]::Max(100, [Math]::Floor($queryTimeoutMs / 200))
-  $env:BILIBILI_CRAWLER_JITTER_MS = [string]$strictJitterMs
+  if ($CrawlerJitterMs -gt 0) {
+    $env:BILIBILI_CRAWLER_JITTER_MS = [string]$CrawlerJitterMs
+  } else {
+    $jitterMs = [Math]::Max(1500, [Math]::Floor($queryTimeoutMs / 120))
+    $env:BILIBILI_CRAWLER_JITTER_MS = [string]$jitterMs
+  }
+}
+if ($CrawlerCacheTtlMs -gt 0 -and -not $env:BILIBILI_CRAWLER_CACHE_TTL_MS) {
+  $env:BILIBILI_CRAWLER_CACHE_TTL_MS = [string]$CrawlerCacheTtlMs
+}
+if ($CrawlerRateBurst -gt 0 -and -not $env:BILIBILI_RATE_BURST) {
+  $env:BILIBILI_RATE_BURST = [string]$CrawlerRateBurst
+}
+if ($CrawlerRateSustain -gt 0 -and -not $env:BILIBILI_RATE_SUSTAIN) {
+  $env:BILIBILI_RATE_SUSTAIN = [string]$CrawlerRateSustain
 }
 $env:BILIBILI_HARVEST_MAX_QUERIES = [string]$MaxQueries
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY = [string]$TermsPerFamily
