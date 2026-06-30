@@ -257,41 +257,74 @@ Convergence to ~100% coverage requires:
 
 ## Local Expansion Loop
 
-When `BILIBILI_COOKIE` is not available, this loop mines the existing 512K-message local corpus for evidence boosts and rare new terms via DeepSeek. It does not require Bilibili API access.
+When `BILIBILI_COOKIE` is not available, this loop mines the existing local corpus (available corpus files total ~10.5MB) for evidence boosts. It does not require Bilibili API access.
+
+> ⚠️ **Status update (June 2026):** The `seed_results*/` directories no longer exist and `tiebaKeywordCorpus.json` was removed with the Tieba scraper. The DeepSeek-based `npm run dictionary:expand` path is non-functional without seed results. **The Python text-matching miner (`dictionary:mine-local`) is now the only effective mining path** — use it with explicit corpus paths that actually exist.
+
+### Most Effective Command
+
+Run the Python miner against all existing corpus files, then audit:
+
+```powershell
+# One-shot: mine evidence from all existing corpora, then audit
+$env:LOCAL_CORPUS_WRITE="1"
+$env:LOCAL_BILIBILI_CORPUS_PATH="server/data/uid-discovery-comments.json,server/data/bilibiliHistoryTagCorpus.json,server/data/bilibiliDirectProbeCorpus.json,server/data/huggingFaceKeywordCorpus.json,server/data/scoredCommentCorpus.json,server/data/annotationCorpus.json"
+python -m python_backend.cli.local_corpus_mine --write
+npm run dictionary:coverage
+```
+
+Or as a one-liner for repeated use:
+
+```powershell
+LOCAL_CORPUS_WRITE=1 LOCAL_BILIBILI_CORPUS_PATH="server/data/uid-discovery-comments.json,server/data/bilibiliHistoryTagCorpus.json,server/data/bilibiliDirectProbeCorpus.json,server/data/huggingFaceKeywordCorpus.json,server/data/scoredCommentCorpus.json,server/data/annotationCorpus.json" python -m python_backend.cli.local_corpus_mine --write && npm run dictionary:coverage && npm run stats:update
+```
+
+> **Why explicit paths?** The default corpus list includes the removed `tiebaKeywordCorpus.json`, which causes a load failure. Explicitly listing only existing files avoids this and covers ~10.5MB of Bilibili comments and danmaku.
 
 ### How It Works
 
-1. **Expand** (`npm run dictionary:expand`): Samples diverse comments from `.claude/seed_results*/`, feeds them to DeepSeek for keyword extraction. DeepSeek generates term candidates, evidence-backs them against source text, and merges into the dictionary. Also boosts evidence counts for existing weak terms.
-2. **Mine Local** (`npm run dictionary:mine-local`): Python-based complementary text-matching algorithm scans the same corpus for evidence.
-3. **Audit** (`npm run dictionary:coverage`): Re-audits coverage → updates `keywordCoverageAudit.json`.
-4. **Stats** (`npm run stats:update`): Regenerates README stats block and SVG graphs.
-5. **Repeat**: Loop until coverage plateaus.
-
-### Single Command (Claude Code `/loop`)
-
-```
-/loop 900 EXPAND_WRITE=1 npm run dictionary:expand && npm run dictionary:mine-local && npm run dictionary:coverage && npm run stats:update
-```
-
-Each iteration takes ~5-8 minutes (default: 30K chars of comments, ~120 messages). With the 512K-message corpus, a full sweep takes ~70 iterations (~9 hours at 15-min intervals).
+1. **Mine Local** (`python -m python_backend.cli.local_corpus_mine --write`): Python text-matching algorithm scans all specified corpus files for evidence of dictionary terms. Matches found with sufficient context are merged into the dictionary's evidence shards.
+2. **Audit** (`npm run dictionary:coverage`): Re-audits coverage → updates `keywordCoverageAudit.json`.
+3. **Stats** (`npm run stats:update`): Regenerates README stats block and SVG graphs.
+4. **Repeat**: Loop until coverage plateaus.
 
 ### Key Env Vars
 
 | Variable | Description | Default |
 |---|---|---|
-| `EXPAND_WRITE` | Merge into dictionary (`1` = yes) | (dry run) |
-| `EXPAND_MAX_CHARS` | Max chars of comment text per run | `30000` |
-| `EXPAND_BATCH_CHARS` | Chars per DeepSeek API call | `5000` |
-| `EXPAND_MIN_COMMENT_LENGTH` | Skip comments shorter than this | `10` |
+| `LOCAL_CORPUS_WRITE` | Merge mined evidence into dictionary (`1` = yes) | (dry run) |
+| `LOCAL_BILIBILI_CORPUS_PATH` | Comma-separated corpus file paths | (see below) |
+| `LOCAL_CORPUS_MAX_SAMPLES_PER_TERM` | Max evidence samples to collect per term | `3` |
+| `BILIBILI_COVERAGE_TARGET_EVIDENCE` | Minimum evidence required per term | `3` |
+
+**Default corpus paths** (used when `LOCAL_BILIBILI_CORPUS_PATH` is not set):
+```
+server/data/uid-discovery-comments.json
+server/data/bilibiliDirectProbeCorpus.json
+server/data/tiebaKeywordCorpus.json  (⚠️ removed — causes load failure)
+server/data/huggingFaceKeywordCorpus.json
+```
+
+### Corpus Files Available
+
+| File | Size | Description |
+|---|---|---|
+| `server/data/uid-discovery-comments.json` | 7.8 MB | **Main corpus** — UID-level discovery scrapes |
+| `server/data/bilibiliHistoryTagCorpus.json` | 2.3 MB | History-tag seed corpus |
+| `server/data/annotationCorpus.json` | 255 KB | Labeled annotation data |
+| `server/data/scoredCommentCorpus.json` | 143 KB | Previously scored judgments |
+| `server/data/bilibiliDirectProbeCorpus.json` | 31 KB | Direct probe results |
+| `server/data/huggingFaceKeywordCorpus.json` | 6.9 KB | Hugging Face dataset import |
 
 ### Expected Yield
 
-| Metric | Per iteration (30K chars) | Full corpus sweep (512K msgs) |
-|---|---|---|
-| DeepSeek term suggestions | ~25 | ~400 |
-| New terms (not in dictionary) | 0–2 | 5–20 |
-| Evidence boosts for existing terms | ~100 | ~1,500 |
-| Coverage delta | ~0.1–0.3% | 1–3% |
+| Metric | Per run (all corpora, ~10.5MB) |
+|---|---|
+| Evidence matches for existing terms | ~200–500 |
+| Coverage delta | ~1–5% |
+| Terms moved above target (3 evidence) | ~50–200 |
+
+Coverage gains diminish with each run as the corpus is exhausted. When the miner returns mostly existing matches, it's time to expand the corpus (via Bilibili scraping, Hugging Face imports, etc.).
 
 ---
 
@@ -611,41 +644,74 @@ $env:BILIBILI_CRAWLER_CACHE_TTL_MS="120000"
 
 ## 本地扩展循环
 
-当 `BILIBILI_COOKIE` 不可用时，此循环从现有的 512K 消息本地语料库中挖掘证据并生成新术语。无需 Bilibili API 访问。
+当 `BILIBILI_COOKIE` 不可用时，此循环从现有的本地语料库（可用语料文件总计约 10.5MB）中挖掘证据。无需 Bilibili API 访问。
+
+> ⚠️ **状态更新（2026年6月）：** `seed_results*/` 目录已不存在，`tiebaKeywordCorpus.json` 也随贴吧爬虫一起被移除。`npm run dictionary:expand` 的 DeepSeek 路径因缺少种子结果而无法使用。**Python 文本匹配挖掘器 (`dictionary:mine-local`) 现在是唯一有效的挖掘路径**——使用时应显式指定实际存在的语料文件路径。
+
+### 最有效命令
+
+针对所有现有语料文件运行 Python 挖掘器，然后审计：
+
+```powershell
+# 一次性：从所有现有语料库挖掘证据，然后审计
+$env:LOCAL_CORPUS_WRITE="1"
+$env:LOCAL_BILIBILI_CORPUS_PATH="server/data/uid-discovery-comments.json,server/data/bilibiliHistoryTagCorpus.json,server/data/bilibiliDirectProbeCorpus.json,server/data/huggingFaceKeywordCorpus.json,server/data/scoredCommentCorpus.json,server/data/annotationCorpus.json"
+python -m python_backend.cli.local_corpus_mine --write
+npm run dictionary:coverage
+```
+
+或单行命令：
+
+```powershell
+LOCAL_CORPUS_WRITE=1 LOCAL_BILIBILI_CORPUS_PATH="server/data/uid-discovery-comments.json,server/data/bilibiliHistoryTagCorpus.json,server/data/bilibiliDirectProbeCorpus.json,server/data/huggingFaceKeywordCorpus.json,server/data/scoredCommentCorpus.json,server/data/annotationCorpus.json" python -m python_backend.cli.local_corpus_mine --write && npm run dictionary:coverage && npm run stats:update
+```
+
+> **为什么需要显式路径？** 默认语料文件列表包含已移除的 `tiebaKeywordCorpus.json`，会导致加载失败。显式列出仅存在的文件可避免此问题，覆盖约 10.5MB 的 B 站评论和弹幕数据。
 
 ### 工作原理
 
-1. **扩展** (`npm run dictionary:expand`): 从 `.claude/seed_results*/` 中采样多样评论，发送至 DeepSeek 进行关键词提取。DeepSeek 生成候选术语，根据原文进行证据验证，并合并至词典。同时增强现有弱术语的证据计数。
-2. **本地挖掘** (`npm run dictionary:mine-local`): 基于 Python 的互补文本匹配算法扫描同一语料库。
-3. **审计** (`npm run dictionary:coverage`): 重新审计覆盖率 → 更新 `keywordCoverageAudit.json`。
-4. **统计** (`npm run stats:update`): 重新生成 README 统计块和 SVG 图表。
-5. **循环**: 重复直至覆盖率趋于稳定。
-
-### 单命令 (Claude Code `/loop`)
-
-```
-/loop 900 EXPAND_WRITE=1 npm run dictionary:expand && npm run dictionary:mine-local && npm run dictionary:coverage && npm run stats:update
-```
-
-每次迭代约 5-8 分钟（默认：30K 字符评论，约 120 条消息）。512K 消息语料库完整扫描约需 70 次迭代（15 分钟间隔约 9 小时）。
+1. **本地挖掘** (`python -m python_backend.cli.local_corpus_mine --write`): Python 文本匹配算法扫描指定语料文件，寻找词典术语的证据。找到的匹配项（含上下文）合并至词典的证据分片中。
+2. **审计** (`npm run dictionary:coverage`): 重新审计覆盖率 → 更新 `keywordCoverageAudit.json`。
+3. **统计** (`npm run stats:update`): 重新生成 README 统计块和 SVG 图表。
+4. **循环**: 重复直至覆盖率趋于稳定。
 
 ### 关键环境变量
 
 | 变量 | 描述 | 默认值 |
 |---|---|---|
-| `EXPAND_WRITE` | 合并至词典（`1` = 是） | （试运行） |
-| `EXPAND_MAX_CHARS` | 每次运行的评论最大字符数 | `30000` |
-| `EXPAND_BATCH_CHARS` | 每次 DeepSeek API 调用的字符数 | `5000` |
-| `EXPAND_MIN_COMMENT_LENGTH` | 跳过短于此长度的评论 | `10` |
+| `LOCAL_CORPUS_WRITE` | 将挖掘的证据合并至词典（`1` = 是） | （试运行） |
+| `LOCAL_BILIBILI_CORPUS_PATH` | 逗号分隔的语料文件路径列表 | （见下文） |
+| `LOCAL_CORPUS_MAX_SAMPLES_PER_TERM` | 每个术语最多收集的证据样本数 | `3` |
+| `BILIBILI_COVERAGE_TARGET_EVIDENCE` | 每个术语所需的最少证据数 | `3` |
+
+**默认语料路径**（当 `LOCAL_BILIBILI_CORPUS_PATH` 未设置时）：
+```
+server/data/uid-discovery-comments.json
+server/data/bilibiliDirectProbeCorpus.json
+server/data/tiebaKeywordCorpus.json  (⚠️ 已移除，会导致加载失败)
+server/data/huggingFaceKeywordCorpus.json
+```
+
+### 可用语料文件
+
+| 文件 | 大小 | 说明 |
+|---|---|---|
+| `server/data/uid-discovery-comments.json` | 7.8 MB | **主语料库** — UID 级发现抓取 |
+| `server/data/bilibiliHistoryTagCorpus.json` | 2.3 MB | 历史标签种子语料 |
+| `server/data/annotationCorpus.json` | 255 KB | 标注的注释数据 |
+| `server/data/scoredCommentCorpus.json` | 143 KB | 已评分判断数据 |
+| `server/data/bilibiliDirectProbeCorpus.json` | 31 KB | 直接探测结果 |
+| `server/data/huggingFaceKeywordCorpus.json` | 6.9 KB | Hugging Face 数据集导入 |
 
 ### 预期产出
 
-| 指标 | 每次迭代（30K 字符） | 完整语料库扫描（512K 消息） |
-|---|---|---|
-| DeepSeek 术语建议 | ~25 | ~400 |
-| 新术语（不在词典中） | 0–2 | 5–20 |
-| 现有术语证据增强 | ~100 | ~1,500 |
-| 覆盖率增量 | ~0.1–0.3% | 1–3% |
+| 指标 | 每次运行（全部语料，约 10.5MB） |
+|---|---|
+| 现有术语的证据匹配 | ~200–500 |
+| 覆盖率增量 | ~1–5% |
+| 达到目标（3条证据）的术语 | ~50–200 |
+
+随着语料库被逐步发掘，每次运行的覆盖率增量会递减。当挖掘器主要返回已存在的匹配时，说明需要通过 B 站抓取、Hugging Face 导入等方式扩充语料库。
 
 ---
 

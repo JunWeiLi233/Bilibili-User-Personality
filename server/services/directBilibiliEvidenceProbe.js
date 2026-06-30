@@ -78,7 +78,7 @@ function entryNeedles(entry = {}) {
 
 function normalizeProbeText(value) {
   return cleanText(value)
-    .replace(/<[^>]+>/g, '')
+    .replace(/<[^>]*>/gs, '')
     .replace(/&[^;\s]+;/g, ' ')
     .toLowerCase();
 }
@@ -162,11 +162,10 @@ export function collectBilibiliReplyMessages(replies = [], video = {}, bucket = 
 
 function decodeXmlEntities(value) {
   return String(value || '')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/&quot;/gi, '"')
+    .replace(/&(?:nbsp|amp|lt|gt|quot);/gi, (entity) => {
+      const map = { '&nbsp;': ' ', '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"' };
+      return map[entity.toLowerCase()] || entity;
+    })
     .replace(/&#39;/g, "'")
     .replace(/&#(\d+);/g, (_match, code) => String.fromCodePoint(Number(code) || 0))
     .replace(/&#x([0-9a-f]+);/gi, (_match, code) => String.fromCodePoint(Number.parseInt(code, 16) || 0));

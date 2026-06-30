@@ -1,0 +1,654 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "evidence",
+  "shard": 11,
+  "shardCount": 16,
+  "evidence": [
+    {
+      "term": "理性分析",
+      "evidenceSamples": [
+        "通过“两岸猿声啼不住 轻舟已过万重山”，理性分析李白玩原和粥"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8521519932",
+          "uid": "噜啦啦啦ouo",
+          "sample": "通过“两岸猿声啼不住 轻舟已过万重山”，理性分析李白玩原和粥"
+        }
+      ]
+    },
+    {
+      "term": "疑点",
+      "evidenceSamples": [
+        "哇塞是新的杀手系列！第一章就展现了好多疑点:1.夏洛特罗斯的真实身份到底是什么\\n2.009的下落不明，叛逃的原因又是什么，还是说009发现了组织的黑暗秘密选择逃离\\n3.00计划的特工背景还没有揭开，为什么在009叛逃后关闭后又重新开启，007是00系列的新一代特工，说明还有前特工，视频中和007对接的003和001好像都是前辈来着，那么其他新人特工在哪里呢\\n4.007和钱班霓的过往，莫名幻视47和戴安娜hhh，但是这两人互动有点少\\n5.那两个白毛男是谁，在酒店安炸弹的原因又是什么\\n6.00特工总负责人格林威是国王，001是象，002是马，007是车，他们会不会在后续的剧情发挥对应的作用\\n7.07:40 10:06 00特工之间的核邪鈾碍相处也是非常好玩hhh\\n8.10:21开始总觉得格林威有些可疑，他说这件爆炸可能是009搞的但是目前没有一个证据证明这一切是009所为，他让007去追人反而有些可疑呢，他还说009和他碰头了那么009是不是向格林威展现了什么证据，双方谈判失败然后格林威要灭口\\n\\n（目前就发现这么多，顺序有点乱不要介意，期待茄哥的后续剧情发展（￣▽￣）我真的很喜欢看游戏二创！）",
+        "新角色追加：牛哥(夯克)\\n特点：吃的少，力气大，脾气好\\n擅长：搬运，采集，烹饪\\n加入原因：自称是家乡平淡出来历练，但为何会直奔酒馆存在疑点。\\n战斗力：A+(大于巨魔)",
+        "大家就是想知道这几个疑点：\\n1、车子如何着火的？\\n2、车门当时是否能够打开？\\n3、小米当时号称 135km 的 AEB 是否生效？\\n4、 是否做好安抚家属及善后工作？\\n5、本次交通事故如何划分？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1BsVa6pEGL/",
+          "uid": "BV1BsVa6pEGL",
+          "sample": "哇塞是新的杀手系列！第一章就展现了好多疑点:1.夏洛特罗斯的真实身份到底是什么\\n2.009的下落不明，叛逃的原因又是什么，还是说009发现了组织的黑暗秘密选择逃离\\n3.00计划的特工背景还没有揭开，为什么在009叛逃后关闭后又重新开启，007是00系列的新一代特工，说明还有前特工，视频中和007对接的003和001好像都是前辈来着，那么其他新人特工在哪里呢\\n4.007和钱班霓的过往，莫名幻视47和戴安娜hhh，但是这两人互动有点少\\n5.那两个白毛男是谁，在酒店安炸弹的原因又是什么\\n6.00特工总负责人格林威是国王，001是象，002是马，007是车，他们会不会在后续的剧情发挥对应的作用\\n7.07:40 10:06 00特工之间的核邪鈾碍相处也是非常好玩hhh\\n8.10:21开始总觉得格林威有些可疑，他说这件爆炸可能是009搞的但是目前没有一个证据证明这一切是009所为，他让007去追人反而有些可疑呢，他还说009和他碰头了那么009是不是向格林威展现了什么证据，双方谈判失败然后格林威要灭口\\n\\n（目前就发现这么多，顺序有点乱不要介意，期待茄哥的后续剧情发展（￣▽￣）我真的很喜欢看游戏二创！）"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1UdVb6eEui/",
+          "uid": "BV1UdVb6eEui",
+          "sample": "新角色追加：牛哥(夯克)\\n特点：吃的少，力气大，脾气好\\n擅长：搬运，采集，烹饪\\n加入原因：自称是家乡平淡出来历练，但为何会直奔酒馆存在疑点。\\n战斗力：A+(大于巨魔)"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
+          "uid": "BV1LxZfYVEdT",
+          "sample": "大家就是想知道这几个疑点：\\n1、车子如何着火的？\\n2、车门当时是否能够打开？\\n3、小米当时号称 135km 的 AEB 是否生效？\\n4、 是否做好安抚家属及善后工作？\\n5、本次交通事故如何划分？"
+        }
+      ]
+    },
+    {
+      "term": "白纸黑字",
+      "evidenceSamples": [
+        "根据我的观察，所有白纸黑字的合同都有一眼就能看出来的问题: 纸太白了伤眼睛"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8386472005",
+          "uid": "tttghue",
+          "sample": "根据我的观察，所有白纸黑字的合同都有一眼就能看出来的问题: 纸太白了伤眼睛"
+        }
+      ]
+    },
+    {
+      "term": "目击者称",
+      "evidenceSamples": [
+        "街头惨遭车祸 遇害者被反复碾压目击者称是同人二创 街头惨遭车祸 遇害者被反复碾压 目击者称是同人二创"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7668871622",
+          "uid": "科学prfy😲",
+          "sample": "街头惨遭车祸 遇害者被反复碾压目击者称是同人二创 街头惨遭车祸 遇害者被反复碾压 目击者称是同人二创"
+        }
+      ]
+    },
+    {
+      "term": "相关性",
+      "evidenceSamples": [
+        "软硬实力相关性有限。韩国、印度、墨西哥，这些国家的硬实力很强吗？但是他们这里面或雅或俗的审美、文化、娱乐体系就是全球瞩目，有话语权。",
+        "女生颜值与丈夫收入的相关性！ 1分，负债阶级，能生孩子就行。2分，资产3万以内，是个女人。3分，资产3-10万，普通女人。4分，资产10到30万，能领出去了。5分，30到100万，小有姿色，一般人娶到这样老婆不错了。6分，100万到1000万，大多数人心中的女神，普通人娶到这样老婆简直中大奖。7分，1000万到1亿。这种姿色的女人一般都会嫁给土豪。普通人娶到概率很低。8分，1亿到到100亿。豪门专属，普通人想都不到要想。9分，传说中的女人，人中龙才能娶到。普通人根本无法接触到。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "软硬实力相关性有限。韩国、印度、墨西哥，这些国家的硬实力很强吗？但是他们这里面或雅或俗的审美、文化、娱乐体系就是全球瞩目，有话语权。"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "女生颜值与丈夫收入的相关性！ 1分，负债阶级，能生孩子就行。2分，资产3万以内，是个女人。3分，资产3-10万，普通女人。4分，资产10到30万，能领出去了。5分，30到100万，小有姿色，一般人娶到这样老婆不错了。6分，100万到1000万，大多数人心中的女神，普通人娶到这样老婆简直中大奖。7分，1000万到1亿。这种姿色的女人一般都会嫁给土豪。普通人娶到概率很低。8分，1亿到到100亿。豪门专属，普通人想都不到要想。9分，传说中的女人，人中龙才能娶到。普通人根本无法接触到。"
+        }
+      ]
+    },
+    {
+      "term": "看原文",
+      "evidenceSamples": [
+        "一看原文，作者就是没有了解过生理知识，如果晚上太激烈的话，男主的79-1会爆炸的，因为会充血嘛"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "一看原文，作者就是没有了解过生理知识，如果晚上太激烈的话，男主的79-1会爆炸的，因为会充血嘛"
+        }
+      ]
+    },
+    {
+      "term": "看截图",
+      "evidenceSamples": [
+        "不看截图还没发现，肩膀那里有个线头[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EjoXYwECL/",
+          "uid": "BV1EjoXYwECL",
+          "sample": "不看截图还没发现，肩膀那里有个线头[doge]"
+        }
+      ]
+    },
+    {
+      "term": "看证据",
+      "evidenceSamples": [
+        "真的不要高估“粉丝”的力量，社会上精英和奇葩都是少数，大部分都是普通人，粉丝也一样。之所以死忠粉或者脑残粉看起来力量大，很多时候是他们特别爱蹦哒，普通粉丝还是自己工作生活为主。这种公众事件，一旦发酵起来，普通人都开始关注了，那一小撮极端粉丝根本斗不过民众的汪洋大海，普通人就看证据纯吃瓜，才不管你如何表演哭。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VLZ8YtE5W/",
+          "uid": "BV1VLZ8YtE5W",
+          "sample": "真的不要高估“粉丝”的力量，社会上精英和奇葩都是少数，大部分都是普通人，粉丝也一样。之所以死忠粉或者脑残粉看起来力量大，很多时候是他们特别爱蹦哒，普通粉丝还是自己工作生活为主。这种公众事件，一旦发酵起来，普通人都开始关注了，那一小撮极端粉丝根本斗不过民众的汪洋大海，普通人就看证据纯吃瓜，才不管你如何表演哭。"
+        }
+      ]
+    },
+    {
+      "term": "真实性",
+      "evidenceSamples": [
+        "有说法是吉田做游戏前强迫让制作组看了权游，目前看来真实性挺高的。",
+        "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。",
+        "真实性堪比迦太基撒盐",
+        "这就是造谣一张嘴辟谣跑断腿，想要考证一件事的真实性得花多少功夫啊",
+        "借楼科普，评论区五大典型诈骗套路 1. 病童筹款型 • 昵称：“祈求您救救我的孩子”等情感绑架词汇 • 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助 • 破绽：视频画质模糊、发布时间集中，评论区关闭互动 2. 外卖员求助型 • 昵称：随机变化，自称“外卖员孩子病重” • 手段：文案雷同，仅放支付码无具体证明 3. 求职被骗型 • 头像：固定使用哆啦A梦等卡通形象 • 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账 4. 家庭矛盾型 • 内容：伪造微信聊天记录，称“被父母拉黑要钱” • 目的：利用同情心索要红包/转账 5. 兼职诱导型 • 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群 • 风险：实为刷单诈骗或信息窃取 二、识别诈骗的三大核心逻辑 1. 账号异常 • 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作 • 真正求助者会主动提供正规平台链接及医院证明 2. 逃避正规渠道 • 拒用正规平台（需提交病历、身份证等严格审核） • 仅提供收款码/私信转账，资金流向无保障 3. 内容痕迹 • 视频/动态短期内密集发布，画质低清； • 关闭弹幕、精选评论，回避质疑 三、安全应对守则 两要 1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性） 2. 要保留证据：截图账号信息、聊天记录，向平台举报 两不要 1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗 2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费” 转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "有说法是吉田做游戏前强迫让制作组看了权游，目前看来真实性挺高的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "BV1YKmPBQE6P",
+          "sample": "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1a3VJ6CEAv/",
+          "uid": "BV1a3VJ6CEAv",
+          "sample": "真实性堪比迦太基撒盐"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "BV1VKVK66E8K",
+          "sample": "这就是造谣一张嘴辟谣跑断腿，想要考证一件事的真实性得花多少功夫啊"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "285814498",
+          "sample": "借楼科普，评论区五大典型诈骗套路 1. 病童筹款型 • 昵称：“祈求您救救我的孩子”等情感绑架词汇 • 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助 • 破绽：视频画质模糊、发布时间集中，评论区关闭互动 2. 外卖员求助型 • 昵称：随机变化，自称“外卖员孩子病重” • 手段：文案雷同，仅放支付码无具体证明 3. 求职被骗型 • 头像：固定使用哆啦A梦等卡通形象 • 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账 4. 家庭矛盾型 • 内容：伪造微信聊天记录，称“被父母拉黑要钱” • 目的：利用同情心索要红包/转账 5. 兼职诱导型 • 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群 • 风险：实为刷单诈骗或信息窃取 二、识别诈骗的三大核心逻辑 1. 账号异常 • 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作 • 真正求助者会主动提供正规平台链接及医院证明 2. 逃避正规渠道 • 拒用正规平台（需提交病历、身份证等严格审核） • 仅提供收款码/私信转账，资金流向无保障 3. 内容痕迹 • 视频/动态短期内密集发布，画质低清； • 关闭弹幕、精选评论，回避质疑 三、安全应对守则 两要 1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性） 2. 要保留证据：截图账号信息、聊天记录，向平台举报 两不要 1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗 2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费” 转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+        }
+      ]
+    },
+    {
+      "term": "真实性存疑",
+      "evidenceSamples": [
+        "《该内容真实性存疑，请谨慎甄别》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1kyBCBdEDg/",
+          "uid": "BV1kyBCBdEDg",
+          "sample": "《该内容真实性存疑，请谨慎甄别》"
+        }
+      ]
+    },
+    {
+      "term": "真的假的",
+      "evidenceSamples": [
+        "真的假的，没看出来",
+        "真的假的，写信给万先生",
+        "回复 @棋手做局 : 开播了，真的假的",
+        "回复 @听说海是蓝色 :但凡是个正常人，都能感觉到车主陈词漏洞百出。没有信不信，用正常人逻辑判断一下就能知道说的是真的假的。",
+        "一个人可以被毁灭，但不能绷不住——《牢人与海》\\n绷住还是绷不住，这是一个问题——《哈姆雷特》\\n世界上只有一种英雄主义，就是在认清绷不住之后依然绷得住——《米开朗基罗传》\\n世界上本没有绷住，绷的人多了，也便绷得住了——《故乡》\\n这是最难绷的时代，这是最绷得住的时代——《双城记》\\n所谓天下大绷，绷久必绷不住，绷不住久必绷住——《三国杀》\\n今天妈妈没绷住，也许是昨天，我不知道——《局外人》\\n多年后面对难绷视频，上校将会想起父亲带他绷住的那个下午——《百年难绷》\\n马孔多在绷住——《百年难绷》\\n有些鸟儿是绷不住的，他的每一根羽毛都闪耀的难绷的光辉——《肖申克的救赎》\\n如果再也见不到你，祝你早午晚都绷得住——《楚门的世界》\\n人生总是这么绷不住吗，还是只有小时候这样？——总是如此。——《这个杀手不太冷》\\n绷住一万年——《大绷西游》\\n抗渗绷住了？真的假的？我靠真绷住了——cxy\\n我没没绷住我真的绷住了，你再说我没绷住我真的受不了嘞——抗渗\\n没有绷不住的武魂，只有绷不住的魂师——《绷罗大陆》\\n此刻，绷住之时——《绷神》\\n完美的黄金绷住——《jojo：绷马野郎》\\n诸君，我喜欢绷住——《地狱之绷》\\n我能能跟你绷一整天——《绷国队长》\\n错的不是绷不住的人，是让人绷不住的视频——《绷面骑士01》\\n我们人类是可以绷住的《绷面骑士利维斯》\\n绷住是不需要理由的——《绷面骑士极狐》\\n想绷过我还早两万年呢——《绷特曼赛罗》\\n无量绷住——《绷术回战》\\n会绷住的——《绷术回战》\\n为了我，对他绷住吧——《绷拳》\\n绷不住的不是我，是这个世界——《东京绷种》\\n如果能绷住千山万水你愿意陪我一起看吗——《绷妖小红娘》\\n兄弟们，开绷住——《绷罗大陆》\\n如果绷不住了的话绷住就好了啊——《绷之空》\\n你也想绷住吗——《绷影忍者》\\n我绷不住了jojo！——《jojo的绷住冒险》\\n与其想着怎么漂亮地绷不住，不如漂亮地绷到最后——《绷魂》\\n我是要成为绷贼王的男人！——《绷贼王》\\n我的绷力是，53万——《绷珠》\\n能绷住的地方只有厕所和爸爸的怀里——《clannad》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1QmxXzHEfi/, https://www.bilibili.com/video/BV14SCBYKEQr/, https://www.bilibili.com/video/BV1qNUVYoE7g/, https://www.bilibili.com/video/BV1Ci42167Jr/, https://www.bilibili.com/video/BV1xd4y1a76S/, https://www.bilibili.com/video/BV1LA411K74G/, http://www.bilibili.com/video/av88353532, http://www.bilibili.com/video/av547736446, http://www.bilibili.com/video/av115331733521542, http://www.bilibili.com/video/av113480317276519, http://www.bilibili.com/video/av391794169, http://www.bilibili.com/video/av675425264, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av114587194101361, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av1305738757, http://www.bilibili.com/video/av112932692231241, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av112887779558294, http://www.bilibili.com/video/av114122901429971, http://www.bilibili.com/video/av113722831933890, http://www.bilibili.com/video/av112921015223455, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av892351420, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av857235647, http://www.bilibili.com/video/av114742333016741, http://www.bilibili.com/video/av275367013, http://www.bilibili.com/video/av515694698, http://www.bilibili.com/video/av113716909643119, http://www.bilibili.com/video/av1456475293, http://www.bilibili.com/video/av332367095, http://www.bilibili.com/video/av340780589",
+          "uid": "BV1QmxXzHEfi,BV14SCBYKEQr,BV1qNUVYoE7g,BV1Ci42167Jr,BV1xd4y1a76S,BV1LA411K74G",
+          "sample": "真的假的，没看出来"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "真的假的，写信给万先生"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LwVb6rE94/",
+          "uid": "BV1LwVb6rE94",
+          "sample": "回复 @棋手做局 : 开播了，真的假的"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
+          "uid": "BV1LxZfYVEdT",
+          "sample": "回复 @听说海是蓝色 :但凡是个正常人，都能感觉到车主陈词漏洞百出。没有信不信，用正常人逻辑判断一下就能知道说的是真的假的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AZV36gEib/",
+          "uid": "BV1AZV36gEib",
+          "sample": "一个人可以被毁灭，但不能绷不住——《牢人与海》\\n绷住还是绷不住，这是一个问题——《哈姆雷特》\\n世界上只有一种英雄主义，就是在认清绷不住之后依然绷得住——《米开朗基罗传》\\n世界上本没有绷住，绷的人多了，也便绷得住了——《故乡》\\n这是最难绷的时代，这是最绷得住的时代——《双城记》\\n所谓天下大绷，绷久必绷不住，绷不住久必绷住——《三国杀》\\n今天妈妈没绷住，也许是昨天，我不知道——《局外人》\\n多年后面对难绷视频，上校将会想起父亲带他绷住的那个下午——《百年难绷》\\n马孔多在绷住——《百年难绷》\\n有些鸟儿是绷不住的，他的每一根羽毛都闪耀的难绷的光辉——《肖申克的救赎》\\n如果再也见不到你，祝你早午晚都绷得住——《楚门的世界》\\n人生总是这么绷不住吗，还是只有小时候这样？——总是如此。——《这个杀手不太冷》\\n绷住一万年——《大绷西游》\\n抗渗绷住了？真的假的？我靠真绷住了——cxy\\n我没没绷住我真的绷住了，你再说我没绷住我真的受不了嘞——抗渗\\n没有绷不住的武魂，只有绷不住的魂师——《绷罗大陆》\\n此刻，绷住之时——《绷神》\\n完美的黄金绷住——《jojo：绷马野郎》\\n诸君，我喜欢绷住——《地狱之绷》\\n我能能跟你绷一整天——《绷国队长》\\n错的不是绷不住的人，是让人绷不住的视频——《绷面骑士01》\\n我们人类是可以绷住的《绷面骑士利维斯》\\n绷住是不需要理由的——《绷面骑士极狐》\\n想绷过我还早两万年呢——《绷特曼赛罗》\\n无量绷住——《绷术回战》\\n会绷住的——《绷术回战》\\n为了我，对他绷住吧——《绷拳》\\n绷不住的不是我，是这个世界——《东京绷种》\\n如果能绷住千山万水你愿意陪我一起看吗——《绷妖小红娘》\\n兄弟们，开绷住——《绷罗大陆》\\n如果绷不住了的话绷住就好了啊——《绷之空》\\n你也想绷住吗——《绷影忍者》\\n我绷不住了jojo！——《jojo的绷住冒险》\\n与其想着怎么漂亮地绷不住，不如漂亮地绷到最后——《绷魂》\\n我是要成为绷贼王的男人！——《绷贼王》\\n我的绷力是，53万——《绷珠》\\n能绷住的地方只有厕所和爸爸的怀里——《clannad》"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1QzEd6ZEsu/",
+          "uid": "1145350462",
+          "sample": "回复 @可靠的KV--2 :真的假的，最近没关注，有什么说法吗[星星眼]"
+        }
+      ]
+    },
+    {
+      "term": "真相",
+      "evidenceSamples": [
+        "我终于知道真相为什么要浮出水面了 因为真相已经掺水了",
+        "名侦探贤亦宜范 名侦探贤宜范 我的名字是范人，是解决困难案件的啃老族名侦探，可是有一天被神秘的组织灌下了毒药，身高到达五米。变成了贤宜范，身体变大了头脑还是一样没有，是个隐形的推拿专家，不管什么案件，真相永远没有！ 此次中秋节，在柯桥发生了一场令人匪夷所思的杀人案，由我男朋友（大篮子）的父亲（毛驴出老千）的侦探事务所接下，接下来就由我们来揭开这个阴谋。 事发地点是华润万家肯德基旁边没有生意的麦当劳。 在依靠我的肥胖症",
+        "发了什么帖子被删了请直接开主题把截图公布出来，大家自会评理 咱来就事论事，不要自己发不出创意搞笑贴还好像自己发了很有创意贴被删了似的，咋呼人谁不会？用这种“ZF隐瞒真相”“ZF维护统治”方法闹事的我见得多了。如果你的帖子真的是创意的标题大吧看到了自然会恢复，并且处理操作失误的小吧。 另外吧务是不看私信的，一天几百条除了各种打算拉拢吧务到各种网站的广告还有各种无脑喷子，咱来把话明了说也容易解决问题，喷也放到明面上来喷让大家看看你的嘴脸究竟是正义还是只是想闹事"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7604370604",
+          "uid": "迪迦超人呼呼😘",
+          "sample": "我终于知道真相为什么要浮出水面了 因为真相已经掺水了"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8399380169",
+          "uid": "妖川老师🐴",
+          "sample": "名侦探贤亦宜范 名侦探贤宜范 我的名字是范人，是解决困难案件的啃老族名侦探，可是有一天被神秘的组织灌下了毒药，身高到达五米。变成了贤宜范，身体变大了头脑还是一样没有，是个隐形的推拿专家，不管什么案件，真相永远没有！ 此次中秋节，在柯桥发生了一场令人匪夷所思的杀人案，由我男朋友（大篮子）的父亲（毛驴出老千）的侦探事务所接下，接下来就由我们来揭开这个阴谋。 事发地点是华润万家肯德基旁边没有生意的麦当劳。 在依靠我的肥胖症"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/2389599508",
+          "uid": "-神圣大提米-",
+          "sample": "发了什么帖子被删了请直接开主题把截图公布出来，大家自会评理 咱来就事论事，不要自己发不出创意搞笑贴还好像自己发了很有创意贴被删了似的，咋呼人谁不会？用这种“ZF隐瞒真相”“ZF维护统治”方法闹事的我见得多了。如果你的帖子真的是创意的标题大吧看到了自然会恢复，并且处理操作失误的小吧。 另外吧务是不看私信的，一天几百条除了各种打算拉拢吧务到各种网站的广告还有各种无脑喷子，咱来把话明了说也容易解决问题，喷也放到明面上来喷让大家看看你的嘴脸究竟是正义还是只是想闹事"
+        }
+      ]
+    },
+    {
+      "term": "眼见为实",
+      "evidenceSamples": [
+        "实的反义词是净，因为眼见为实，眼不见为净",
+        "《眼见为实，耳听为虚》",
+        "《眼见为实》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8401715165",
+          "uid": "贴吧用户_GRttXV3",
+          "sample": "实的反义词是净，因为眼见为实，眼不见为净"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Vz4y1Q7UM/",
+          "uid": "BV1Vz4y1Q7UM",
+          "sample": "《眼见为实，耳听为虚》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116640591189695/",
+          "uid": "38665783107",
+          "sample": "《眼见为实》"
+        }
+      ]
+    },
+    {
+      "term": "瞎编",
+      "evidenceSamples": [
+        "蔡徐坤既然你这么闲 那咱就讨论一下你去世的事情😏都散了吧，蔡徐坤因瞎编遭报应已经去世了，走的很痛苦，火化的时候还诈了尸，一直喊着没有死，最后用铁链子绑着才烧完的。火很旺，烧的嘎吱嘎吱响，烧了三天三夜，家属很坚强，一个都没有哭，有一个还忍不住笑出了声。那天风很大，运骨灰的路上还翻了车，把骨灰盒摔碎了，刚要捧点骨灰起来，来了一辆洒水车冲的渣都没剩下!只听见车上正播放着那首今天是个好日子",
+        "迫不及待跑来评论区信誓旦旦说是哈士奇的能不能看完视频再评论啊 你们相信原视频是造假做流量怎么评论区非说是自家哈士奇的就不能是瞎编骗流量的呢",
+        "一些个人理解（纯属瞎编：miku应该是实验室的科研人员（这样就可以解释为什么miku对地形较为熟悉和有能开特定门的卡），创造出了雨衣这样的怪物，但雨衣失去控制了，把这里的所有人都杀了，只剩下miku一人，但最后miku也没有幸免（）\\n后面应该是掉进地下室了（雨衣刷怪笼）这里是雨衣的主场，所以会出现雨衣的声音，她应该是在嘲讽miku，所以才说“快点逃出去”这种miku一直在讲的话\\n不得不说这次pv真的很像恐游",
+        "住校生:领主怎么可能会打得过黑客，那肯定是你瞎编的",
+        "弹幕你00后说小时候天天停电是怎么瞎编的？我90后小时候停电的记忆不算少也没你说得那么离谱，一个月能有一两次都顶天了。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "23630123",
+          "sample": "蔡徐坤既然你这么闲 那咱就讨论一下你去世的事情😏都散了吧，蔡徐坤因瞎编遭报应已经去世了，走的很痛苦，火化的时候还诈了尸，一直喊着没有死，最后用铁链子绑着才烧完的。火很旺，烧的嘎吱嘎吱响，烧了三天三夜，家属很坚强，一个都没有哭，有一个还忍不住笑出了声。那天风很大，运骨灰的路上还翻了车，把骨灰盒摔碎了，刚要捧点骨灰起来，来了一辆洒水车冲的渣都没剩下!只听见车上正播放着那首今天是个好日子"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "BV1VKVK66E8K",
+          "sample": "迫不及待跑来评论区信誓旦旦说是哈士奇的能不能看完视频再评论啊 你们相信原视频是造假做流量怎么评论区非说是自家哈士奇的就不能是瞎编骗流量的呢"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1bNVV6WEU2/",
+          "uid": "BV1bNVV6WEU2",
+          "sample": "一些个人理解（纯属瞎编：miku应该是实验室的科研人员（这样就可以解释为什么miku对地形较为熟悉和有能开特定门的卡），创造出了雨衣这样的怪物，但雨衣失去控制了，把这里的所有人都杀了，只剩下miku一人，但最后miku也没有幸免（）\\n后面应该是掉进地下室了（雨衣刷怪笼）这里是雨衣的主场，所以会出现雨衣的声音，她应该是在嘲讽miku，所以才说“快点逃出去”这种miku一直在讲的话\\n不得不说这次pv真的很像恐游"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1CfVV67EqU/",
+          "uid": "BV1CfVV67EqU",
+          "sample": "住校生:领主怎么可能会打得过黑客，那肯定是你瞎编的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "弹幕你00后说小时候天天停电是怎么瞎编的？我90后小时候停电的记忆不算少也没你说得那么离谱，一个月能有一两次都顶天了。"
+        }
+      ]
+    },
+    {
+      "term": "瞎说",
+      "evidenceSamples": [
+        "回复 @维维豆奶的蚌埠 :小黑子你在瞎说什么？他怎么会下蛋，他根本就没有蛋[生气][生气][生气]",
+        "看完明史明朝也没有攻打过汉朝啊啥明犯强汉者啊? 陈汤瞎说",
+        "瞎说什么大实话，那是他们自己身体不行，生病死了，跟高温没关系，也跟莫迪老仙的政府没关系！[doge][doge][doge]",
+        "豆包瞎说什么大实话",
+        "回复 @大狗的老父亲 :你瞎说明明是玻璃大炮弓箭手"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1166893251",
+          "sample": "回复 @维维豆奶的蚌埠 :小黑子你在瞎说什么？他怎么会下蛋，他根本就没有蛋[生气][生气][生气]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8712928036",
+          "uid": "✨rise✨",
+          "sample": "看完明史明朝也没有攻打过汉朝啊啥明犯强汉者啊? 陈汤瞎说"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1aYV86uEKp/",
+          "uid": "BV1aYV86uEKp",
+          "sample": "瞎说什么大实话，那是他们自己身体不行，生病死了，跟高温没关系，也跟莫迪老仙的政府没关系！[doge][doge][doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1D1GX6vErG/",
+          "uid": "BV1D1GX6vErG",
+          "sample": "豆包瞎说什么大实话"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1cN411h7z7/",
+          "uid": "BV1cN411h7z7",
+          "sample": "回复 @大狗的老父亲 :你瞎说明明是玻璃大炮弓箭手"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1PD4y1H7Gy/",
+          "uid": "178060987",
+          "sample": "回复 @魔界人不心动 :别瞎说，明明是野生的鲜肉[doge]"
+        }
+      ]
+    },
+    {
+      "term": "石锤",
+      "evidenceSamples": [
+        "这些媚黑账号是不是都收了米钱啊，是男是女还未可知，但是是中国人基本是石锤的，难道是因为媚黑流量容易变现？媚黑账号很多都是P图为主，然后收钱改图，但是奇怪的是有些并未开通收费通道，是有人在背后资助米钱，亦或者单纯的媚黑还未可知，家人们有什么想法吗",
+        "狗仔拿出石锤一下将当红明星锤死，目前涉嫌故意杀人罪被刑拘",
+        "好像是和迪士尼有合作，如果石锤的话，迪士尼会追责，金秀贤就没路了。说白了，发布会是哭给迪士尼看的。",
+        "童工石锤[doge]",
+        "身高一米五石锤了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "这些媚黑账号是不是都收了米钱啊，是男是女还未可知，但是是中国人基本是石锤的，难道是因为媚黑流量容易变现？媚黑账号很多都是P图为主，然后收钱改图，但是奇怪的是有些并未开通收费通道，是有人在背后资助米钱，亦或者单纯的媚黑还未可知，家人们有什么想法吗"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8490056063",
+          "uid": "笺墨无颜",
+          "sample": "狗仔拿出石锤一下将当红明星锤死，目前涉嫌故意杀人罪被刑拘"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VLZ8YtE5W/",
+          "uid": "BV1VLZ8YtE5W",
+          "sample": "好像是和迪士尼有合作，如果石锤的话，迪士尼会追责，金秀贤就没路了。说白了，发布会是哭给迪士尼看的。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1dFjP62EuV/",
+          "uid": "1790651",
+          "sample": "童工石锤[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1agVQ6eEh1/",
+          "uid": "BV1agVQ6eEh1",
+          "sample": "身高一米五石锤了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1701675619/",
+          "uid": "1464123289",
+          "sample": "石锤开了，锁到防御塔地基了（"
+        }
+      ]
+    },
+    {
+      "term": "研究",
+      "evidenceSamples": [
+        "回复 @阿麦瑞坎默研究中心 :全靠同行衬托[doge]",
+        "孟德尔为什么要花几年去做实验研究而不是直接看生物书？",
+        "既然gay喜欢研究男人，为什么不让他们去当男性外科医生",
+        "回复 @s1690 :建议您写篇论文发cell上，这么重要的研究成果可不能让老外先提出[星星眼]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "398615331",
+          "sample": "回复 @阿麦瑞坎默研究中心 :全靠同行衬托[doge]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7250296297",
+          "uid": "斯大林和🎅",
+          "sample": "孟德尔为什么要花几年去做实验研究而不是直接看生物书？"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8693318071",
+          "uid": "梦想与幻想🍺",
+          "sample": "既然gay喜欢研究男人，为什么不让他们去当男性外科医生"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Kp4y1y7jE/, https://www.bilibili.com/video/BV1G8eTz1Egj/, https://www.bilibili.com/video/BV1tT411z7jf/, https://www.bilibili.com/video/BV1EyvrBTE9H/, https://www.bilibili.com/video/BV1wJ4m187pX/, https://www.bilibili.com/video/BV1nu4y1m7c8/, http://www.bilibili.com/video/av967792345, http://www.bilibili.com/video/av484053470, http://www.bilibili.com/video/av1251778228, http://www.bilibili.com/video/av393315405, http://www.bilibili.com/video/av277226013, http://www.bilibili.com/video/av412700511, http://www.bilibili.com/video/av116199551666326, http://www.bilibili.com/video/av114863263191690, http://www.bilibili.com/video/av115107522681075, http://www.bilibili.com/video/av114438246041062, http://www.bilibili.com/video/av114917856251428, http://www.bilibili.com/video/av1104860018, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av112993945914130, http://www.bilibili.com/video/av112527536686080, http://www.bilibili.com/video/av116824486189145, http://www.bilibili.com/video/av114550317782471, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av114310957242728, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av115058667490447, http://www.bilibili.com/video/av115795539526134, http://www.bilibili.com/video/av829144988, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1155229255",
+          "uid": "BV1Kp4y1y7jE,BV1G8eTz1Egj,BV1tT411z7jf,BV1EyvrBTE9H,BV1wJ4m187pX,BV1nu4y1m7c8",
+          "sample": "回复 @s1690 :建议您写篇论文发cell上，这么重要的研究成果可不能让老外先提出[星星眼]"
+        }
+      ]
+    },
+    {
+      "term": "研究发现",
+      "evidenceSamples": [
+        "专家研究发现吕布具有恋母情结",
+        "通过研究发现，氵和冫是同素异形体",
+        "首席科学家研究发现：冒号后面一定有字"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8510243906",
+          "uid": "空城澹月华🌙",
+          "sample": "专家研究发现吕布具有恋母情结"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8029739418",
+          "uid": "贴吧用户_aV5a3Ea",
+          "sample": "通过研究发现，氵和冫是同素异形体"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462239623",
+          "uid": "比较疯狂的土豆",
+          "sample": "首席科学家研究发现：冒号后面一定有字"
+        }
+      ]
+    },
+    {
+      "term": "研究显示",
+      "evidenceSamples": [
+        "看完你还敢睡前玩手机吗？最新研究显示，经常睡前玩手机的人，走 看完你还敢睡前玩手机吗？最新研究显示，经常睡前玩手机的人，走路摔倒的概率是普通人的一倍！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7662533599",
+          "uid": "贴吧用户_058yNGU",
+          "sample": "看完你还敢睡前玩手机吗？最新研究显示，经常睡前玩手机的人，走 看完你还敢睡前玩手机吗？最新研究显示，经常睡前玩手机的人，走路摔倒的概率是普通人的一倍！"
+        }
+      ]
+    },
+    {
+      "term": "研究表明",
+      "evidenceSamples": [
+        "研究表明：睡觉可以有效治疗失眠。",
+        "考古学家最新研究表明：黄鳝是蛇的祖先",
+        "科学研究表明: 茶喝多了，尿就特别多。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7321187104",
+          "uid": "Weiershier",
+          "sample": "研究表明：睡觉可以有效治疗失眠。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8434863686",
+          "uid": "6423185720",
+          "sample": "考古学家最新研究表明：黄鳝是蛇的祖先"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7719645874",
+          "uid": "贴吧用户_Q5a4yMG",
+          "sample": "科学研究表明: 茶喝多了，尿就特别多。"
+        }
+      ]
+    },
+    {
+      "term": "硬伤",
+      "evidenceSamples": [
+        "笑死我了智商是硬伤啊",
+        "007这个游戏帅是挺帅的，就是剧情硬伤也多，你一个特工找到特工用自己命换来证据，第一件事不是拿手机备份，而是直接放回箱子，然后被反派抢走毁掉，而且这么高科技的眼镜和手机没有录音录像功能就太搞笑了[喜极而泣]那个跟踪录音最搞笑了，我拿出手机来拍视频都不会说太模糊听不清楚，有种生错了时代的感觉，科技完全点错了，就是感觉像番茄小说找的编辑[笑哭]",
+        "黑神话倒不至于 比较品质摆在那边 算不上神作 甚至剧情硬伤",
+        "封神思想上对于权力的崇拜，内容逻辑上的硬伤，真的让人看不下去"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "笑死我了智商是硬伤啊"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1buVS64Ed9/",
+          "uid": "BV1buVS64Ed9",
+          "sample": "007这个游戏帅是挺帅的，就是剧情硬伤也多，你一个特工找到特工用自己命换来证据，第一件事不是拿手机备份，而是直接放回箱子，然后被反派抢走毁掉，而且这么高科技的眼镜和手机没有录音录像功能就太搞笑了[喜极而泣]那个跟踪录音最搞笑了，我拿出手机来拍视频都不会说太模糊听不清楚，有种生错了时代的感觉，科技完全点错了，就是感觉像番茄小说找的编辑[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "黑神话倒不至于 比较品质摆在那边 算不上神作 甚至剧情硬伤"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "封神思想上对于权力的崇拜，内容逻辑上的硬伤，真的让人看不下去"
+        }
+      ]
+    },
+    {
+      "term": "确凿证据",
+      "evidenceSamples": [
+        "有确凿证据构成盗窃可以先直接逮捕 后续走司法程序"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "有确凿证据构成盗窃可以先直接逮捕 后续走司法程序"
+        }
+      ]
+    },
+    {
+      "term": "科学依据",
+      "evidenceSamples": [
+        "·神经病（neuropathy）\\n-临床医学中神经病学（neurology）的研究范畴\\n-当个体的神经系统出现障碍时个体表现为神经系统的不同的疾病。\\n\\n·精神障碍（mental disorders，也译作心理障碍）\\n-临床医学中精神病学（psychiatry）的研究范畴。包括精神病学研究的所有内容，例如精神分裂症、心境障碍、神经症（neuroses）或焦虑障碍、人格障碍等。\\ntips：精神病学研究内容与变态心理学有所重合，但更偏向于医学领域，从神经、生化、生物学角度找出异常的原因，治疗方式也偏向药物治疗等医学手段。\\n\\n·精神病（psychoses）\\n-临床医学中精神病学的研究范畴，分广义与狭义的用法（依据语境区分）\\n-广义的精神病概念类似于精神障碍的概念。（包括重性、轻性精神障碍）\\n-狭义的精神病概念：指精神障碍中患者的心理功能严重受损，自知力缺失，不能应付日常生活要求并保持与现实的接触的一组情况（即重性精神障碍），例如精神分裂症。\\ntips：自知力：即人对于自身状况的了解，知道自己是正常的。\\n\\n·心理障碍（psychological disorders）\\n-是许多不同种类的心理、情绪，行为失常的统称。\\n-当采用此词时，更偏重于说明重性精神病。器质性精神障碍以外的那些更多地由心理原因所致的障碍。（即更偏重于轻性精神障碍）\\n\\n·流行病学调查情况\\n\\n课程问题\\nQ1：你心目中异常的人有什么特点？\\nQ2：你是如何区别正常和异常人的？",
+        "造谣，没有依据，凭空杜撰是他们的拿手好戏…反串，加倍，抬旗反旗这些已经是出现的手段…",
+        "好有科学依据，且最后两句左右脑互搏了吧？",
+        "人家至少是有依据的推测，有些弹幕完全臆想",
+        "大家不要给嬴政打钱了，给爱因斯坦打吧，有科学依据"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ut411n7Bd/",
+          "uid": "BV1ut411n7Bd",
+          "sample": "·神经病（neuropathy）\\n-临床医学中神经病学（neurology）的研究范畴\\n-当个体的神经系统出现障碍时个体表现为神经系统的不同的疾病。\\n\\n·精神障碍（mental disorders，也译作心理障碍）\\n-临床医学中精神病学（psychiatry）的研究范畴。包括精神病学研究的所有内容，例如精神分裂症、心境障碍、神经症（neuroses）或焦虑障碍、人格障碍等。\\ntips：精神病学研究内容与变态心理学有所重合，但更偏向于医学领域，从神经、生化、生物学角度找出异常的原因，治疗方式也偏向药物治疗等医学手段。\\n\\n·精神病（psychoses）\\n-临床医学中精神病学的研究范畴，分广义与狭义的用法（依据语境区分）\\n-广义的精神病概念类似于精神障碍的概念。（包括重性、轻性精神障碍）\\n-狭义的精神病概念：指精神障碍中患者的心理功能严重受损，自知力缺失，不能应付日常生活要求并保持与现实的接触的一组情况（即重性精神障碍），例如精神分裂症。\\ntips：自知力：即人对于自身状况的了解，知道自己是正常的。\\n\\n·心理障碍（psychological disorders）\\n-是许多不同种类的心理、情绪，行为失常的统称。\\n-当采用此词时，更偏重于说明重性精神病。器质性精神障碍以外的那些更多地由心理原因所致的障碍。（即更偏重于轻性精神障碍）\\n\\n·流行病学调查情况\\n\\n课程问题\\nQ1：你心目中异常的人有什么特点？\\nQ2：你是如何区别正常和异常人的？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
+          "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
+          "sample": "造谣，没有依据，凭空杜撰是他们的拿手好戏…反串，加倍，抬旗反旗这些已经是出现的手段…"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1w24y1P7i1/, https://www.bilibili.com/video/BV1rQx9zqELn/, https://www.bilibili.com/video/BV1vM411n766/, https://www.bilibili.com/video/BV1CsDRBHEVN/, https://www.bilibili.com/video/BV17v4y1q7wh/, https://www.bilibili.com/video/BV16h411k7yu/, http://www.bilibili.com/video/av784209641, http://www.bilibili.com/video/av524392638, http://www.bilibili.com/video/av564830669, http://www.bilibili.com/video/av561153456, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av116175744800736, http://www.bilibili.com/video/av113165845138957, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av1305738757, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av510233943, http://www.bilibili.com/video/av114121173376264, http://www.bilibili.com/video/av809107132, http://www.bilibili.com/video/av114885023241277, http://www.bilibili.com/video/av292625519, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av834634537, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av439315266, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av115333109121345, http://www.bilibili.com/video/av114662809013161, http://www.bilibili.com/video/av116030202451386, http://www.bilibili.com/video/av116393278177372, http://www.bilibili.com/video/av204420944, http://www.bilibili.com/video/av114454050111548",
+          "uid": "BV1w24y1P7i1,BV1rQx9zqELn,BV1vM411n766,BV1CsDRBHEVN,BV17v4y1q7wh,BV16h411k7yu",
+          "sample": "好有科学依据，且最后两句左右脑互搏了吧？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "人家至少是有依据的推测，有些弹幕完全臆想"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8446975629",
+          "uid": "贴吧用户_JSA8K2V",
+          "sample": "大家不要给嬴政打钱了，给爱因斯坦打吧，有科学依据"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7620494110",
+          "uid": "100vicecity",
+          "sample": "依据统计热力学的基本公式可以求出298K下只需1.02毫秒即 依据统计热力学的基本公式可以求出298K下只需1.02毫秒即可将空气判定为枪支"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1b24y1R7G5/",
+          "uid": "BV1b24y1R7G5",
+          "sample": "马斯克言下之意马云刚刚的数据没有依据"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kbZWYWE9B/",
+          "uid": "BV1kbZWYWE9B",
+          "sample": "没戴安全帽，道具可能掉落威胁对他人身安全\\n扰乱公共秩序、危害公共安全，因摆拍行为引发公众恐慌，依据《治安管理处罚法》处以拘留、罚款等处罚。"
+        }
+      ]
+    },
+    {
+      "term": "科普一下",
+      "evidenceSamples": [
+        "还有这个事情[思考][思考] 想请他粉丝科普一下",
+        "我发各领域原神，你们打来分 先来科普一下各领域原神的几大特征：年轻人第一款xx、恰爱国饭、反华、有LGBT元素、孝子多且宗教化、粉丝群体爱咬人、风评差、热度高但质量低下、角色厨、盲目自信瞧不起同行或同类型、缺乏独立思考能力喜欢拾人牙慧引经据典、抄袭或模仿、偷梗与玩烂梗、逆天言论0.出生里的出生1.比原神还要出生2.和原神半斤八两3.也就比原神好一点点4.部分因素与原神重合5.不好评价6.勉强接受绿毛龟黄狗镇楼",
+        "B站的各位我要提醒一句，，我不反对你们黑蔡徐坤，但是请注意营销号，以前的你们还会在弹幕里发营销号警告，现在的你们变了，没有了营销号警告，你们只是发鸡你太美，我觉得B站的你们变了，这也是我一直强调的，哪怕是个随便一剪辑，就可以做出来的视频点击都会破万点赞也是，在这里我希望黑粉们不要太狂热的去黑，不然最后绝对适得其反，另外给不知道的科普一下，你们疯狂的黑他，其实这也算给他提供人气，你们要知道明星一般看人气给片酬之类的，但坏人气也是人气，他们可不管是不是坏的，他们只关心人气，所以大家其实间接的帮助了蔡徐坤"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "454876563",
+          "sample": "还有这个事情[思考][思考] 想请他粉丝科普一下"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "我发各领域原神，你们打来分 先来科普一下各领域原神的几大特征：年轻人第一款xx、恰爱国饭、反华、有LGBT元素、孝子多且宗教化、粉丝群体爱咬人、风评差、热度高但质量低下、角色厨、盲目自信瞧不起同行或同类型、缺乏独立思考能力喜欢拾人牙慧引经据典、抄袭或模仿、偷梗与玩烂梗、逆天言论0.出生里的出生1.比原神还要出生2.和原神半斤八两3.也就比原神好一点点4.部分因素与原神重合5.不好评价6.勉强接受绿毛龟黄狗镇楼"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "405496090",
+          "sample": "B站的各位我要提醒一句，，我不反对你们黑蔡徐坤，但是请注意营销号，以前的你们还会在弹幕里发营销号警告，现在的你们变了，没有了营销号警告，你们只是发鸡你太美，我觉得B站的你们变了，这也是我一直强调的，哪怕是个随便一剪辑，就可以做出来的视频点击都会破万点赞也是，在这里我希望黑粉们不要太狂热的去黑，不然最后绝对适得其反，另外给不知道的科普一下，你们疯狂的黑他，其实这也算给他提供人气，你们要知道明星一般看人气给片酬之类的，但坏人气也是人气，他们可不管是不是坏的，他们只关心人气，所以大家其实间接的帮助了蔡徐坤"
+        }
+      ]
+    },
+    {
+      "term": "移花接木",
+      "evidenceSamples": [
+        "肯定是他爹干的 搁着移花接木呢",
+        "移花接木？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uLEt6rEbk/",
+          "uid": "BV1uLEt6rEbk",
+          "sample": "肯定是他爹干的 搁着移花接木呢"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ug411P7pD/",
+          "uid": "BV1Ug411P7pD",
+          "sample": "移花接木？"
+        }
+      ]
+    },
+    {
+      "term": "空口无凭",
+      "evidenceSamples": [
+        "为什么他始终无法正视自己的取向？如果他真不是gay拿怎么到现在都没发拿出证据？是不想拿吗？还是没有证据为什么空口无凭否认自己是gay？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "为什么他始终无法正视自己的取向？如果他真不是gay拿怎么到现在都没发拿出证据？是不想拿吗？还是没有证据为什么空口无凭否认自己是gay？"
+        }
+      ]
+    },
+    {
+      "term": "立帖为证",
+      "evidenceSamples": [
+        "晚上就更新第二集！立帖为证！[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1a3VJ6CEAv/",
+          "uid": "BV1a3VJ6CEAv",
+          "sample": "晚上就更新第二集！立帖为证！[doge]"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm uninstall *)",
+      "Bash(claude --version)",
+      "Bash(claude version *)",
+      "Bash(npm install *)",
+      "Bash(node --input-type=module -e ' *)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "/compact*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/compact-checkpoint.cjs"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/stop-hub.cjs"
+          }
+        ]
+      }
+    ]
+  },
+  "disableAllHooks": false
+}

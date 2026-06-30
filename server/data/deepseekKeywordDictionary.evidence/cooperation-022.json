@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "cooperation",
+  "shard": 22,
+  "shardCount": 38,
+  "evidence": [
+    {
+      "term": "我认为",
+      "evidenceSamples": [
+        "回复 @芙兰-Ria- : 我也同意,娱乐产业是短板,但是说到底还是投入和产出问题.其实即使是西方擅长的交响乐,2000年之后也没有什么世界级耳熟能详妇孺皆知的作品了,也开始走老大师的作品复刻.另外我不认为ai音乐不行,就像我认为 只因你太美 和 周杰伦的音乐 一样让我愉悦.",
+        "看看我吧！记得当初它家人肉路人，就因为路人转发了蔡徐坤的“染黑发当700万粉丝福利怎么样”并评论这个星球居然有人染头发是给别人的福利，神他妈神经病，它粉丝疯狂人肉路人p遗照等并艾特路人学校，要求学校处理[微笑][微笑][微笑]事情闹上了热搜，当晚，蔡徐坤一句话没说而是把自己微博背景换成了kun&amp;ikun…后来人肉事件严重了，癌鲲遭到了网民反扑，这家不得不买了热搜“蔡徐坤粉丝行为准则”道歉，微博现在去搜，都还有痕迹。我认为蔡徐坤一点不比它粉丝优秀，它会被全网黑，是自己人品不行，业务不行，德不配位，硬碰遭雷劈，外加饭随爱豆[滑稽]",
+        "我爱听纯音乐，被朋友亲人们冠以“装B犯”的称号 为何如此呢？来源于游戏 个人自幼丧父无母，几乎是各类电子游戏陪伴长大 从和我差不多大的仙剑开始，到金庸 台湾的各类电子音乐涌入了我的生活 再到现在游戏里的配乐，他们几乎无一例外都是纯音乐 还有我自己找到的，独立制作人，他们所创作的纯音乐 纯音乐于我而言是一种洁净感 没有普通歌曲带来的“我讲述了一个故事，你要听故事” 而是通过聆听，得知里面的故事 虽然很多人听了感觉一头雾水，什么玩意乱七八糟的 但音乐人，或者说更感性的人，都会从中听出属于自己的理解 这是我认为纯音乐的独特之处 我不渴求所有人有与我一样的审美 但事实上是，当今互联网社会，一首口水歌，能被大家熟知 不论他好与坏，在短视频内对你疯狂洗脑，久而久之却认为这是音乐 那不过就是个数来宝，还错当成说唱，愚昧至极[辣眼睛]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @芙兰-Ria- : 我也同意,娱乐产业是短板,但是说到底还是投入和产出问题.其实即使是西方擅长的交响乐,2000年之后也没有什么世界级耳熟能详妇孺皆知的作品了,也开始走老大师的作品复刻.另外我不认为ai音乐不行,就像我认为 只因你太美 和 周杰伦的音乐 一样让我愉悦."
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "25863160",
+          "sample": "看看我吧！记得当初它家人肉路人，就因为路人转发了蔡徐坤的“染黑发当700万粉丝福利怎么样”并评论这个星球居然有人染头发是给别人的福利，神他妈神经病，它粉丝疯狂人肉路人p遗照等并艾特路人学校，要求学校处理[微笑][微笑][微笑]事情闹上了热搜，当晚，蔡徐坤一句话没说而是把自己微博背景换成了kun&amp;ikun…后来人肉事件严重了，癌鲲遭到了网民反扑，这家不得不买了热搜“蔡徐坤粉丝行为准则”道歉，微博现在去搜，都还有痕迹。我认为蔡徐坤一点不比它粉丝优秀，它会被全网黑，是自己人品不行，业务不行，德不配位，硬碰遭雷劈，外加饭随爱豆[滑稽]"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我爱听纯音乐，被朋友亲人们冠以“装B犯”的称号 为何如此呢？来源于游戏 个人自幼丧父无母，几乎是各类电子游戏陪伴长大 从和我差不多大的仙剑开始，到金庸 台湾的各类电子音乐涌入了我的生活 再到现在游戏里的配乐，他们几乎无一例外都是纯音乐 还有我自己找到的，独立制作人，他们所创作的纯音乐 纯音乐于我而言是一种洁净感 没有普通歌曲带来的“我讲述了一个故事，你要听故事” 而是通过聆听，得知里面的故事 虽然很多人听了感觉一头雾水，什么玩意乱七八糟的 但音乐人，或者说更感性的人，都会从中听出属于自己的理解 这是我认为纯音乐的独特之处 我不渴求所有人有与我一样的审美 但事实上是，当今互联网社会，一首口水歌，能被大家熟知 不论他好与坏，在短视频内对你疯狂洗脑，久而久之却认为这是音乐 那不过就是个数来宝，还错当成说唱，愚昧至极[辣眼睛]"
+        }
+      ]
+    },
+    {
+      "term": "我认可",
+      "evidenceSamples": [
+        "我认可up批评的一些乐坛乱象。但仍然没有触及到问题的根本。 为什么中国的艺术、文化之类的文科领域始终达不到所谓发达国家的高度呢？ 这一点我想借用作家边芹的观点：“因为中国丧失了定义美的话语权”。谁来定义美好，谁又来诠释低俗？很显然，目前世界文化体系仍然是依西方文化体系马首是瞻。 在这样的体系之下，国内的大量文化工作者不仅没有跳出这种桎梏反而争先恐后的去充当西方体系的扩音器，拼了命去融合进对方的体系，并且抨击任何反对的人。如果一直保持这样的环境，那国内的文化产业就永远也不可能有领导世界的机会：连世界艺术的皇冠都是别人打造定义的，那你又该如何戴上它加冕成王呢？ 其实说到这里就不得不说西方文化对于国内审美的侵略，说句难听的，就连up也是被西方文化牵着鼻子走。毕竟连你的审美都是对方来定义的，就算审美在高级也不过是对欧美乐理教科书的崇拜和重复罢了。 那如何才能摆脱这种局面呢，我想其实我们已经走在正确的道路上了。从古至今，文化强盛的国家和文明都一定是军事、经济、综合国力及其强盛的。当年被喷成蛮子的英国佬，国立强盛到日不落之后就能摇身一变成为近代文明的代言人。又在说美洲拓荒的罪犯流放徒之国在工业革命两次大战之后成为领导世界至今的文明灯塔。软实力是源生于硬实力的，话语权不是靠别人施舍而是自己争夺的。短期内文化的话语权还能被长期以来的优势卡在他们手里，但军事和经济上的差距在不断缩小追平直到反超的越来越大，这方面是他们无法掩盖无法忽视的。 我自开始了解世界直到现在都十分坚信中华文明是世界最灿烂的文化，最大的底气就是因为我知道中国人的历史比任何国家和文明都更加恢弘。古老的民族最强的地方就是失败了不会消亡而是重新站起来。等到我们打出自己的翻身仗后，文化领域的话语权慢慢就会易手，到那时还会存在审美倒退的问题吗？连审美权都在我手上，自有大儒为我辩经。",
+        "怕虫子放嘴里吗，你的热爱我认可了[支持]",
+        "我认可他作为我的老婆身份（扭）",
+        "这攻击力我认可了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我认可up批评的一些乐坛乱象。但仍然没有触及到问题的根本。 为什么中国的艺术、文化之类的文科领域始终达不到所谓发达国家的高度呢？ 这一点我想借用作家边芹的观点：“因为中国丧失了定义美的话语权”。谁来定义美好，谁又来诠释低俗？很显然，目前世界文化体系仍然是依西方文化体系马首是瞻。 在这样的体系之下，国内的大量文化工作者不仅没有跳出这种桎梏反而争先恐后的去充当西方体系的扩音器，拼了命去融合进对方的体系，并且抨击任何反对的人。如果一直保持这样的环境，那国内的文化产业就永远也不可能有领导世界的机会：连世界艺术的皇冠都是别人打造定义的，那你又该如何戴上它加冕成王呢？ 其实说到这里就不得不说西方文化对于国内审美的侵略，说句难听的，就连up也是被西方文化牵着鼻子走。毕竟连你的审美都是对方来定义的，就算审美在高级也不过是对欧美乐理教科书的崇拜和重复罢了。 那如何才能摆脱这种局面呢，我想其实我们已经走在正确的道路上了。从古至今，文化强盛的国家和文明都一定是军事、经济、综合国力及其强盛的。当年被喷成蛮子的英国佬，国立强盛到日不落之后就能摇身一变成为近代文明的代言人。又在说美洲拓荒的罪犯流放徒之国在工业革命两次大战之后成为领导世界至今的文明灯塔。软实力是源生于硬实力的，话语权不是靠别人施舍而是自己争夺的。短期内文化的话语权还能被长期以来的优势卡在他们手里，但军事和经济上的差距在不断缩小追平直到反超的越来越大，这方面是他们无法掩盖无法忽视的。 我自开始了解世界直到现在都十分坚信中华文明是世界最灿烂的文化，最大的底气就是因为我知道中国人的历史比任何国家和文明都更加恢弘。古老的民族最强的地方就是失败了不会消亡而是重新站起来。等到我们打出自己的翻身仗后，文化领域的话语权慢慢就会易手，到那时还会存在审美倒退的问题吗？连审美权都在我手上，自有大儒为我辩经。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PqZnYHEhR/",
+          "uid": "BV1PqZnYHEhR",
+          "sample": "怕虫子放嘴里吗，你的热爱我认可了[支持]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1FZ4y1d7e7/",
+          "uid": "BV1FZ4y1d7e7",
+          "sample": "我认可他作为我的老婆身份（扭）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1cicdeDETK/",
+          "uid": "BV1cicdeDETK",
+          "sample": "这攻击力我认可了"
+        }
+      ]
+    },
+    {
+      "term": "我认同",
+      "evidenceSamples": [
+        "回复 @听说要答题？ :韩国那边不提20s的kpop, 12年江南style，09年的nobody算是比较火的。此外10s中国很多电视真人秀都是有韩国的&#34;原来版本&#34;的。部分中国男女偶像会去韩国公司研修。那应该还不能算是韩国&#34;举国之力发展kpop&#34;的时代，毕竟那个时候kpop还是个萌芽概念。印度有些影视还算出圈的，像是贫民窟的百万富翁，三傻大闹宝莱坞之类的。像是瑜伽这类的也算文化输出吧。我们在互联网上用在东北玩泥巴之类的印度神曲印度小曲恶搞印度的时候，另一边印度人会用什么，有用什么我们的文化符号来恶搞反击我们吗？墨西哥是当成拉丁美洲的文娱代表拿出来说的。拉美裔，西裔的文化影响力可能会算到美国头上，但也有其独特性所在。 个人认为软实力客观上应该是兼顾艺术造诣，作品工业化，还有即刻流行程度的；主观上是自我认同，自我展示，他人关注，他人认可的过程。这是偏离了up主的音乐美育的议题的。中国的文化软实力说好不算好，说糟也不算太糟。短剧，网文，二游，meme这些可能还算发达；但是影视、音乐就有点难说了。个人认为当下中国是比不上80年到00年的文化影响力的，但硬实力肯定是显著提升的。硬实力或许有利于&#34;自我认同&#34;，但话反过来说连自我认同都需要靠硬实力来撑门面的话本身就是一种自我不认同。此外硬实力上升必然带来威胁性，同时提升一定程度上带来了自恋化的自我表达。这都不利于他人关注和他人认同的。",
+        "虽然我认同中国乐坛审美差，但是你的世界等于欧美也太狭隘了。",
+        "中国现在普遍音乐审美低下我认同，但这家伙最大的问题是就把欧美体系等同于世界音乐体系。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @听说要答题？ :韩国那边不提20s的kpop, 12年江南style，09年的nobody算是比较火的。此外10s中国很多电视真人秀都是有韩国的&#34;原来版本&#34;的。部分中国男女偶像会去韩国公司研修。那应该还不能算是韩国&#34;举国之力发展kpop&#34;的时代，毕竟那个时候kpop还是个萌芽概念。印度有些影视还算出圈的，像是贫民窟的百万富翁，三傻大闹宝莱坞之类的。像是瑜伽这类的也算文化输出吧。我们在互联网上用在东北玩泥巴之类的印度神曲印度小曲恶搞印度的时候，另一边印度人会用什么，有用什么我们的文化符号来恶搞反击我们吗？墨西哥是当成拉丁美洲的文娱代表拿出来说的。拉美裔，西裔的文化影响力可能会算到美国头上，但也有其独特性所在。 个人认为软实力客观上应该是兼顾艺术造诣，作品工业化，还有即刻流行程度的；主观上是自我认同，自我展示，他人关注，他人认可的过程。这是偏离了up主的音乐美育的议题的。中国的文化软实力说好不算好，说糟也不算太糟。短剧，网文，二游，meme这些可能还算发达；但是影视、音乐就有点难说了。个人认为当下中国是比不上80年到00年的文化影响力的，但硬实力肯定是显著提升的。硬实力或许有利于&#34;自我认同&#34;，但话反过来说连自我认同都需要靠硬实力来撑门面的话本身就是一种自我不认同。此外硬实力上升必然带来威胁性，同时提升一定程度上带来了自恋化的自我表达。这都不利于他人关注和他人认同的。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "虽然我认同中国乐坛审美差，但是你的世界等于欧美也太狭隘了。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "中国现在普遍音乐审美低下我认同，但这家伙最大的问题是就把欧美体系等同于世界音乐体系。"
+        }
+      ]
+    },
+    {
+      "term": "我误判了",
+      "evidenceSamples": [
+        "阿凡达是我误判了，不该看的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "阿凡达是我误判了，不该看的"
+        }
+      ]
+    },
+    {
+      "term": "我说两句",
+      "evidenceSamples": [
+        "作为中立球迷我说两句，阿森纳这场踢的没毛病，本身面对巴黎的前场反击速度，放弃控球打反击是合理的，这场巴黎踢的并不好，压根没创造几次好机会，而且阿森纳防守做的相当到位，巴黎中前场一拿球马上贴身反抢，搞的巴黎不能舒服的出球，前中场完全脱节，要不是k77靠个人能力爆发，巴黎这场就悬了，但是阿森纳这种防守消耗的是自己的体能，一旦比赛最后时刻体能掉链子，那巴黎的进攻就危险了，不过看完比赛来看，阿森纳这场和巴黎完全属于五五开，甚至是六四开，另外说句实话，这场裁判确实很拉，上半场判罚莫名其妙，几次判罚完全没有合理的判罚标准，到了下半场倒是力度尺度上来了，但又没控制住节奏，几次吹罚也确实偏巴黎，只能说阿森纳时也命也，我以前对曼城球迷说过一句话，拿没拿过欧冠冠军，拿过几次，也是球员球队心理的一种优势，只有突破了这种心理，才能在欧冠决赛占据心理上风，现在巴黎球员做到了更平和的心态，而阿森纳还需要很长的一段路要走，加油吧",
+        "回复 @嗣尘ヾ :我说第一个有什么问题？我也没掩饰我爹脾气不好啊，怎么了？我自己家事我说两句你也要管？东北人也去三亚习惯了，真当自己住海边了？管这么宽？",
+        "那原来是脸红啊，我还以为他干啥和我说两句就红温了[微笑]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VmV763Ey8/",
+          "uid": "BV1VmV763Ey8",
+          "sample": "作为中立球迷我说两句，阿森纳这场踢的没毛病，本身面对巴黎的前场反击速度，放弃控球打反击是合理的，这场巴黎踢的并不好，压根没创造几次好机会，而且阿森纳防守做的相当到位，巴黎中前场一拿球马上贴身反抢，搞的巴黎不能舒服的出球，前中场完全脱节，要不是k77靠个人能力爆发，巴黎这场就悬了，但是阿森纳这种防守消耗的是自己的体能，一旦比赛最后时刻体能掉链子，那巴黎的进攻就危险了，不过看完比赛来看，阿森纳这场和巴黎完全属于五五开，甚至是六四开，另外说句实话，这场裁判确实很拉，上半场判罚莫名其妙，几次判罚完全没有合理的判罚标准，到了下半场倒是力度尺度上来了，但又没控制住节奏，几次吹罚也确实偏巴黎，只能说阿森纳时也命也，我以前对曼城球迷说过一句话，拿没拿过欧冠冠军，拿过几次，也是球员球队心理的一种优势，只有突破了这种心理，才能在欧冠决赛占据心理上风，现在巴黎球员做到了更平和的心态，而阿森纳还需要很长的一段路要走，加油吧"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1nAKLeUEye/",
+          "uid": "41080210",
+          "sample": "回复 @嗣尘ヾ :我说第一个有什么问题？我也没掩饰我爹脾气不好啊，怎么了？我自己家事我说两句你也要管？东北人也去三亚习惯了，真当自己住海边了？管这么宽？"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1DujP66EB8/",
+          "uid": "2139074587",
+          "sample": "那原来是脸红啊，我还以为他干啥和我说两句就红温了[微笑]"
+        }
+      ]
+    },
+    {
+      "term": "我说的对吧",
+      "evidenceSamples": [
+        "如果觉得我说的对的，请给我一个关注或者三连"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ms5j6cEQ8/",
+          "uid": "BV1ms5j6cEQ8",
+          "sample": "如果觉得我说的对的，请给我一个关注或者三连"
+        }
+      ]
+    },
+    {
+      "term": "我赞同",
+      "evidenceSamples": [
+        "我赞同印度这条缝，这避免了多少中国人及企业被诈骗。好事啊",
+        "这个我赞同"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1qaLD67EDK/",
+          "uid": "BV1qaLD67EDK",
+          "sample": "我赞同印度这条缝，这避免了多少中国人及企业被诈骗。好事啊"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "这个我赞同"
+        }
+      ]
+    },
+    {
+      "term": "我赞成",
+      "evidenceSamples": [
+        "禁烟力度大我赞成",
+        "我赞成它说的，所以我要求它丢掉所有美国和西方发明的东西，包括手机电脑汽车钢笔皮鞋电饭煲冰箱等等"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "禁烟力度大我赞成"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1juYLzMEHc/",
+          "uid": "BV1juYLzMEHc",
+          "sample": "我赞成它说的，所以我要求它丢掉所有美国和西方发明的东西，包括手机电脑汽车钢笔皮鞋电饭煲冰箱等等"
+        }
+      ]
+    },
+    {
+      "term": "或多或少",
+      "evidenceSamples": [
+        "因为你孩子事情，真的得到了超级多东西。\\n你不需要工作，你有随随便便就能玩在一起的同学，你吃穿有家长保底，你犯错了大概率不需要自己负责，你真的努力那成绩就或多或少真的有回报，你的身体是年轻有活力的，你的脑子是全新不一定聪明但肯定灵活的………\\n所以小时候并不是得到了很少，反而得到的比长大后要好得多的环境，所以说小时候容易知足的，其实和说如果我回到以前一定什么什么的人是一样的。",
+        "根据那个发布全boss的博主视频，好多玩这种全流程的up，boss的都或多或少漏了几个",
+        "“我知道呀”或多或少有点嗲了啊远子",
+        "我对这个小哥的好感度几乎为0，要是有1分的话就是或多或少帮助国际友人了。。。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1XWV56FEa4/",
+          "uid": "BV1XWV56FEa4",
+          "sample": "因为你孩子事情，真的得到了超级多东西。\\n你不需要工作，你有随随便便就能玩在一起的同学，你吃穿有家长保底，你犯错了大概率不需要自己负责，你真的努力那成绩就或多或少真的有回报，你的身体是年轻有活力的，你的脑子是全新不一定聪明但肯定灵活的………\\n所以小时候并不是得到了很少，反而得到的比长大后要好得多的环境，所以说小时候容易知足的，其实和说如果我回到以前一定什么什么的人是一样的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AE4m1d7XT/",
+          "uid": "BV1AE4m1d7XT",
+          "sample": "根据那个发布全boss的博主视频，好多玩这种全流程的up，boss的都或多或少漏了几个"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UB4y1i7K3/",
+          "uid": "BV1UB4y1i7K3",
+          "sample": "“我知道呀”或多或少有点嗲了啊远子"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "1598914156",
+          "sample": "我对这个小哥的好感度几乎为0，要是有1分的话就是或多或少帮助国际友人了。。。"
+        }
+      ]
+    },
+    {
+      "term": "或许",
+      "evidenceSamples": [
+        "每个人活下来的时候或许都是为了点儿什么，但很少是为了自己",
+        "太好看的视频了！matt和番茄都说得特别好，每位老师的发言都特别有启发性，回看感觉matt最开始提的问题可能是一个核心点，ai创作出的音乐“好坏”是用人的标准评判的。目前的ai或许能理解人类对于律动与旋律这种更“理性”音乐元素的评判标准，但仍无法辨析与创造聚焦于强烈情感与个人表达的这种更“不理性”的音乐美学。不过当其真正可以模拟人类大脑的运作模式之后，整个闭环应该也就能形成了，番茄所说的拓宽边界对ai应该不会是难题，但像matt和番茄都提到的，我们还是有创造与表达的欲望，届时我们还将听什么，唱什么，制作什么，人作为ai与现实世界的桥梁将真正拥抱融合（像年年里的transhuman）还是变得趋于保守，Z世代或许真的能见证一些，真是既紧张又有趣了！",
+        "这个观感上，我比较倾向于刘慈欣说的，越是现代性强的东西，包括三位创作者所创作的现代音乐，就越容易被机器所复制，因为相较于古典音乐和传统流行乐，现代流行乐去旋律、去内核的倾向很明显，或许我是外行，但我也只是一个三十来年的普通歌迷，我能听出来几位自己原创的音乐比起AI的机器感要更精致和自然，或者用诸位的话来说，机器做出来的东西确实有一种“土”的感觉，但也只是相较而言，实际上我还是没有从诸位的原创作品中听到什么“抓耳”的东西，或许这些音乐构建了大家的想法，但对于商业属性而言比起AI的作品也只是10分和0分的差距，和主流音乐需求相距比较远，或许作为某些bgm我会选择，但作为独立地去欣赏的音乐，对不起我没有看出各位能够给出的比较明显的情绪流，我只听到了跃动，没有听到“旋律” 而刘慈欣的意思就是这样繁复、堆砌、重构式的东西就越容易被机器取代，类似的比如解离的现代诗，错乱的现代书法，以及重构的现代绘画等等 而传统流行乐方面，因为主持人说过的原因，就是AI对传统音乐经验的累计，可能会做出更工业的东西，可是反而却更能见到差距，这其实还是对于一般的音乐欣赏者而言，不管是落俗也好，不懂也好，都能听出传统的jpop和cpop创作中ai和人类的差距，ai的作品词曲编都是失焦的，和大家创作的那些我认为是“bgm”的东西类似，缺少一个让普通欣赏者进入的“凝结核”，不管是歌词驱动，还是旋律驱动，传统音乐至少有这样的核心驱动力，而AI很难抓到这个东西，堆砌的结果反而是散乱，而这种差距，因为更广泛的消费者就在这个市场，音乐欣赏经验也在这个市场最丰富，所以反而更容易听到差距 所以我反倒认为 最经典的流行音乐和古典音乐创作，AI反而是不容易取代人类的，AI能不能创作出像小燕子穿花衣、K.525这样经典的旋律，是存疑的",
+        "是人们连静下心来看电影的心态已经都失去了？看到任何跟感情有关的，情感有关的，都把心闭上去“好尬，好尬，好尬”。还是说这个电影真的已经这么烂烂到没边了？小说网站那么多√式天天那么多人追，文坛写点烂批燕的狗血剧情，搞点伦理，搞点sex，就是有文..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "每个人活下来的时候或许都是为了点儿什么，但很少是为了自己"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "太好看的视频了！matt和番茄都说得特别好，每位老师的发言都特别有启发性，回看感觉matt最开始提的问题可能是一个核心点，ai创作出的音乐“好坏”是用人的标准评判的。目前的ai或许能理解人类对于律动与旋律这种更“理性”音乐元素的评判标准，但仍无法辨析与创造聚焦于强烈情感与个人表达的这种更“不理性”的音乐美学。不过当其真正可以模拟人类大脑的运作模式之后，整个闭环应该也就能形成了，番茄所说的拓宽边界对ai应该不会是难题，但像matt和番茄都提到的，我们还是有创造与表达的欲望，届时我们还将听什么，唱什么，制作什么，人作为ai与现实世界的桥梁将真正拥抱融合（像年年里的transhuman）还是变得趋于保守，Z世代或许真的能见证一些，真是既紧张又有趣了！"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "这个观感上，我比较倾向于刘慈欣说的，越是现代性强的东西，包括三位创作者所创作的现代音乐，就越容易被机器所复制，因为相较于古典音乐和传统流行乐，现代流行乐去旋律、去内核的倾向很明显，或许我是外行，但我也只是一个三十来年的普通歌迷，我能听出来几位自己原创的音乐比起AI的机器感要更精致和自然，或者用诸位的话来说，机器做出来的东西确实有一种“土”的感觉，但也只是相较而言，实际上我还是没有从诸位的原创作品中听到什么“抓耳”的东西，或许这些音乐构建了大家的想法，但对于商业属性而言比起AI的作品也只是10分和0分的差距，和主流音乐需求相距比较远，或许作为某些bgm我会选择，但作为独立地去欣赏的音乐，对不起我没有看出各位能够给出的比较明显的情绪流，我只听到了跃动，没有听到“旋律” 而刘慈欣的意思就是这样繁复、堆砌、重构式的东西就越容易被机器取代，类似的比如解离的现代诗，错乱的现代书法，以及重构的现代绘画等等 而传统流行乐方面，因为主持人说过的原因，就是AI对传统音乐经验的累计，可能会做出更工业的东西，可是反而却更能见到差距，这其实还是对于一般的音乐欣赏者而言，不管是落俗也好，不懂也好，都能听出传统的jpop和cpop创作中ai和人类的差距，ai的作品词曲编都是失焦的，和大家创作的那些我认为是“bgm”的东西类似，缺少一个让普通欣赏者进入的“凝结核”，不管是歌词驱动，还是旋律驱动，传统音乐至少有这样的核心驱动力，而AI很难抓到这个东西，堆砌的结果反而是散乱，而这种差距，因为更广泛的消费者就在这个市场，音乐欣赏经验也在这个市场最丰富，所以反而更容易听到差距 所以我反倒认为 最经典的流行音乐和古典音乐创作，AI反而是不容易取代人类的，AI能不能创作出像小燕子穿花衣、K.525这样经典的旋律，是存疑的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "是人们连静下心来看电影的心态已经都失去了？看到任何跟感情有关的，情感有关的，都把心闭上去“好尬，好尬，好尬”。还是说这个电影真的已经这么烂烂到没边了？小说网站那么多√式天天那么多人追，文坛写点烂批燕的狗血剧情，搞点伦理，搞点sex，就是有文..."
+        }
+      ]
+    },
+    {
+      "term": "或许是",
+      "evidenceSamples": [
+        "相信我，鲲鲲这个背带裤形象或许是她最man的一个形象了，去看她微博空间跟癌坤们发的照片，你就知道了！",
+        "这两可能是正常孩子。一个估计发烧耽搁了，另一个或许是遗传近视。",
+        "回复 @橙子们尸横遍野 :其实大部分都应该是是BUG又或许是网络延迟，我的弹幕也总是重刷视频就没，我从未发过废话弹幕或是态度稍微有一丁点不好的弹幕，说没就没可好多干仗甚至似乎接近于人身攻击的弹幕却总是出现。 还有的时候发弹幕重刷一下没了，第二天又出现了",
+        "或许是他带了自闭头",
+        "或许是生活矛盾的加剧？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "15855681",
+          "sample": "相信我，鲲鲲这个背带裤形象或许是她最man的一个形象了，去看她微博空间跟癌坤们发的照片，你就知道了！"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1iK4y1M7jy/",
+          "uid": "BV1iK4y1M7jy",
+          "sample": "这两可能是正常孩子。一个估计发烧耽搁了，另一个或许是遗传近视。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1zU4y1K7dB/",
+          "uid": "615328542",
+          "sample": "回复 @橙子们尸横遍野 :其实大部分都应该是是BUG又或许是网络延迟，我的弹幕也总是重刷视频就没，我从未发过废话弹幕或是态度稍微有一丁点不好的弹幕，说没就没可好多干仗甚至似乎接近于人身攻击的弹幕却总是出现。 还有的时候发弹幕重刷一下没了，第二天又出现了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1864y1F7SE/",
+          "uid": "BV1864y1F7SE",
+          "sample": "或许是他带了自闭头"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "或许是生活矛盾的加剧？"
+        }
+      ]
+    },
+    {
+      "term": "所以",
+      "evidenceSamples": [
+        "所以说过几天再发",
+        "回复 @正行舟也 :是的，泱泱大国，中华上下五千年，文化底蕴的深厚，我其实很能够理解up的想法，他是希望中国音乐能够走出国门，批判的是一些不好的现象，然后分析的是由这些现象带来的一些不好的影响，嗯，但我想说的是，其实我们还更多的是要提升自己的文化自信，这样才能够走出国门，其实吧，大俗大雅，审美的话多元化，就像曾经的科目三也能走出国门了，虽然很俗，但是他也能够传播，真正如果说我们自己的一些东西传播，还得是我们自己要提升自己的文化，如果你想音乐要走出国门，那么首先还是得拿出自己能够喜欢，然后外国人也喜欢的东西，这样才能够走出国门，我跟楼主的想法是一样的，咱们认为就是文化，因为我们的文化教育告诉我们，咱们中国文化是含蓄的认为孤芳自赏其实也是一种美，所以呢，咱们的价值观就会有一种就是说走出国门会是一种伪命题，但还是要需要像UP主这样的音乐人来提醒警告我们，万一真的有一天中国音乐落寞了，真正好的东西没有了，都是一些糟粕的时候，其实这种警醒也是非常有必要的。",
+        "所以呢？多洗脚？",
+        "内容讲啥的，搞得这么神秘，我也没搜出个所以然来，好好奇啊",
+        "所以呢哥，有原视频吗[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",
+          "uid": "BV1PdEy6EEjj,BV1H3KD68EfL,BV1u37J6EEd9,BV1W7nLzUE3b,BV1p3411e7Pk,BV1dV7j6JE4M",
+          "sample": "所以说过几天再发"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @正行舟也 :是的，泱泱大国，中华上下五千年，文化底蕴的深厚，我其实很能够理解up的想法，他是希望中国音乐能够走出国门，批判的是一些不好的现象，然后分析的是由这些现象带来的一些不好的影响，嗯，但我想说的是，其实我们还更多的是要提升自己的文化自信，这样才能够走出国门，其实吧，大俗大雅，审美的话多元化，就像曾经的科目三也能走出国门了，虽然很俗，但是他也能够传播，真正如果说我们自己的一些东西传播，还得是我们自己要提升自己的文化，如果你想音乐要走出国门，那么首先还是得拿出自己能够喜欢，然后外国人也喜欢的东西，这样才能够走出国门，我跟楼主的想法是一样的，咱们认为就是文化，因为我们的文化教育告诉我们，咱们中国文化是含蓄的认为孤芳自赏其实也是一种美，所以呢，咱们的价值观就会有一种就是说走出国门会是一种伪命题，但还是要需要像UP主这样的音乐人来提醒警告我们，万一真的有一天中国音乐落寞了，真正好的东西没有了，都是一些糟粕的时候，其实这种警醒也是非常有必要的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VmV763EEi/",
+          "uid": "BV1VmV763EEi",
+          "sample": "所以呢？多洗脚？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tp7G6ZExL/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Z7EMzmEu8/, https://www.bilibili.com/video/BV1Z6421M7sX/, https://www.bilibili.com/video/BV1rTwAzAEum/, https://www.bilibili.com/video/BV1rrc4zAEFv/, http://www.bilibili.com/video/av116815242138942, http://www.bilibili.com/video/av114488527297820, http://www.bilibili.com/video/av116211547505915, http://www.bilibili.com/video/av113686425375625, http://www.bilibili.com/video/av116793565778179, http://www.bilibili.com/video/av116033289454155, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116836498676624, http://www.bilibili.com/video/av116833076185976, http://www.bilibili.com/video/av116834334414229, http://www.bilibili.com/video/av116839367641217, http://www.bilibili.com/video/av115411894934970, http://www.bilibili.com/video/av116822976240270, http://www.bilibili.com/video/av116796921289577, http://www.bilibili.com/video/av116731204864161, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116667988378800, http://www.bilibili.com/video/av116811618129619, http://www.bilibili.com/video/av112921132861573, http://www.bilibili.com/video/av116833512330721, http://www.bilibili.com/video/av115186174265557, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116769725418223, http://www.bilibili.com/video/av116598178318393, http://www.bilibili.com/video/av116837589191128, http://www.bilibili.com/video/av114839607378078, http://www.bilibili.com/video/av115616274973894, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av1400843784, http://www.bilibili.com/video/av116051408850145, http://www.bilibili.com/video/av1606005213, http://www.bilibili.com/video/av115037427534371",
+          "uid": "BV1tp7G6ZExL,BV1cFTN6PE7q,BV1Z7EMzmEu8,BV1Z6421M7sX,BV1rTwAzAEum,BV1rrc4zAEFv",
+          "sample": "内容讲啥的，搞得这么神秘，我也没搜出个所以然来，好好奇啊"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1STE26fEoV/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV18gLt6PE79/, https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1KBc7z5Ese/, https://www.bilibili.com/video/BV12L7h65EnU/, https://www.bilibili.com/video/BV1nXgVzDErP/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1aXt2zrERA/, https://www.bilibili.com/video/BV1zG7n6iExr/, https://www.bilibili.com/video/BV1K5o5BbEBv/, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116809890007152, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116820509983609, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av114758892129884, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116817389425929, http://www.bilibili.com/video/av116837387868380, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av1001282424, http://www.bilibili.com/video/av296487174, http://www.bilibili.com/video/av116556419893495, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116813027412052, http://www.bilibili.com/video/av116754743362704, http://www.bilibili.com/video/av115815269531963, http://www.bilibili.com/video/av116820409324029, http://www.bilibili.com/video/av116827036320830, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116772309046331, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av115087524236017, http://www.bilibili.com/video/av116736288429664, http://www.bilibili.com/video/av116610828341593, http://www.bilibili.com/video/av116063723327506, http://www.bilibili.com/video/av114890408790151, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116459078421319, http://www.bilibili.com/video/av1106042428, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av1553251362, http://www.bilibili.com/video/av116141821401035, http://www.bilibili.com/video/av116175224772702",
+          "uid": "BV1h7jgzzEn6,BV1STE26fEoV,BV1PETM6UEcg,BV18gLt6PE79,BV1mqTF6YEig,BV1KBc7z5Ese,BV12L7h65EnU,BV1nXgVzDErP,BV16VTw6oEwv,BV1aXt2zrERA,BV1zG7n6iExr,BV1K5o5BbEBv",
+          "sample": "所以呢哥，有原视频吗[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1WzQUBrEvJ/, https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1RtE96tE93/, https://www.bilibili.com/video/BV1bXKf6YEod/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1LcSUBDEVE/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116771637959449, http://www.bilibili.com/video/av116828177177168, http://www.bilibili.com/video/av116831784343784, http://www.bilibili.com/video/av116785965700225, http://www.bilibili.com/video/av116713706230179, http://www.bilibili.com/video/av116774188091385, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av114353135162228, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av115811863890393, http://www.bilibili.com/video/av116557174804470, http://www.bilibili.com/video/av116729762024741, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av116691895846916, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av114182829643950, http://www.bilibili.com/video/av116782912247024, http://www.bilibili.com/video/av116196900930149, http://www.bilibili.com/video/av115309201595911, http://www.bilibili.com/video/av116027971084189, http://www.bilibili.com/video/av116770211894318, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av1302081719, http://www.bilibili.com/video/av115310963198001, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av116481627002677, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av116351586868579, http://www.bilibili.com/video/av116390795215362, http://www.bilibili.com/video/av116837656430637, http://www.bilibili.com/video/av115325676880917, http://www.bilibili.com/video/av116837220157688, http://www.bilibili.com/video/av116352979371929",
+          "uid": "BV1XXKQ6JELs,BV1WzQUBrEvJ,BV1Z1Kd66ExR,BV1dT41197yJ,BV1RtE96tE93,BV1bXKf6YEod,BV1yZKo6HEWx,BV1PdEy6EEjj,BV1PETM6UEcg,BV1u37J6EEd9,BV1nAKd6gEWn,BV1LcSUBDEVE",
+          "sample": "所以说过几天再发"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "记录一下🐭🐭当游戏直播的经历 🐭🐭因为要跟生活对线已经好久没来贴吧啦，这一次呢，主要是讲一下🐭🐭当游戏主播的经历哈，🐭🐭是在一个三四线小城市工作的，因为自己学历不高（破带专）加上家里也没啥关系，所以呢，就在boss直骗上，找的都是些垃圾工作吧，然后小城市呢，基本上就是电销啊，直播啥的，偶然的一次刷到了一个游戏主播，刚好呢🐭🐭也挺喜欢玩王者荣耀，对自己的技术有那么一点小自信，去面试了一下，老板的要求也不高（男生要求巅峰2100，女生要求巅峰1800段位男生80星，女生50星就行了）🐭🐭呢，是个女生，是QQ区的百星，所以呢，有点小自信。然后，直播平台是一个没有什么人气的小平台，但是呢，老板，那会忽悠我说的是这个平台，虽然没什么人，但是消费力很高，进来的人基本上都会消费一下，毕竟用户群体的年纪也是偏大的，感觉应该都在30岁左右。但其实刚开始来面试，看到公司长这样，我是有一点失望的，公司呢，就是一个小工作室没有前台啊，运营啥的（图片就是公司哈也是我的公会）都是各自在自己的房间里直播，那会面试的时候，老板还在直播带粉打游戏，跟老板面试完，然后大概就是没有底薪的，平台的分成是六四分，我四，工资就是全靠礼物提成嘛，然后还得分1/10给公司。然后🐭🐭呢，因为真没找到啥满意的工作，加上对直播行业还是有点小兴趣的，纠结之下还是来了。好了，接下来我就要讲一下我的直播经历了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1fnZbYAEr1/",
+          "uid": "BV1fnZbYAEr1",
+          "sample": "所以呢，做这种丑东西需要剪真头发吗"
+        }
+      ]
+    }
+  ]
+}

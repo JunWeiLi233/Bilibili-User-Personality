@@ -2230,7 +2230,8 @@ function isRound47NeutralContext(entry, message) {
       && !/(?:\u755c\u751f|\u4f60|sb|\u50bb|cnm|\u6eda).{0,8}\u51fa\u751f|\u51fa\u751f.{0,8}(?:\u755c\u751f|\u73a9\u610f|\u4e1c\u897f|\u50bb)/iu.test(message);
   }
   if (entry?.family === 'attack' && ['\u9006\u5929', '\u592a\u9006\u5929'].includes(term)) {
-    return /^(?:\s*(?:\u592a)?\u9006\u5929(?:\u4e86)?\s*)+$/u.test(message)
+    const cleaned = message.replace(/\s+/g, ' ').trim();
+    return /^((?:\u592a)?\u9006\u5929(?:\u4e86)?\s?)+$/u.test(cleaned)
       || /(?:^|[\s\uff0c,])(?:\u592a)?\u9006\u5929(?:\u4e86)?(?:$|[\s\uff0c,\u3002\uff01!])/u.test(message)
         && !/(?:\u4f60|\u4ed6|\u5979|\u8fd9\u4eba|up|UP).{0,10}(?:\u9006\u5929|\u592a\u9006\u5929)/u.test(message);
   }

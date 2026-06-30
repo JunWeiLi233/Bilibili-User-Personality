@@ -1,3 +1,9 @@
+// NOTE: SVG rendering has been migrated to Python (python_backend/analysis/readme_stats.py,
+// ReadmeStatsSvgRenderer). The renderSvg() and renderTimelineSvg() functions below are dead
+// and should NOT be used to generate stats SVGs. The npm script `stats:update` runs the Python
+// renderer. The helper functions (buildCollectionTimeline, paddedTimelineMax, etc.) remain
+// active — they are tested by updateReadmeStatsGraph.test.js and used by migration parity checks.
+
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -195,45 +201,8 @@ function barRow({ label, value, color, y, maxValue }) {
     <text x="680" y="${y}" class="value">${formatNumber(value)}</text>`;
 }
 
-function renderSvg(stats) {
-  const maxValue = Math.max(stats.comments, stats.danmaku, stats.keywordTerms, 1);
-  const updated = new Date(stats.generatedAt).toISOString().slice(0, 10);
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
-  <title id="title">Bilibili User Personality data collection and keyword analysis stats</title>
-  <desc id="desc">Current counts for collected comments, danmaku, and analyzed dictionary keywords.</desc>
-  <style>
-    .bg { fill: #f7f0df; }
-    .panel { fill: #fffaf0; stroke: #27231c; stroke-width: 2; }
-    .title { font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }
-    .sub { font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
-    .label { font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .value { font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; text-anchor: start; }
-    .small { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }
-    .metric { font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-  </style>
-  <rect class="bg" width="920" height="430" rx="24"/>
-  <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
-  <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
-  <text x="40" y="88" class="sub">auto-generated from repo data on ${escapeXml(updated)}</text>
-  <g>
-    <rect x="40" y="112" width="250" height="82" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="62" y="146" class="small">comments / replies</text>
-    <text x="62" y="177" class="metric">${formatNumber(stats.comments)}</text>
-    <rect x="318" y="112" width="250" height="82" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="340" y="146" class="small">danmaku</text>
-    <text x="340" y="177" class="metric">${formatNumber(stats.danmaku)}</text>
-    <rect x="596" y="112" width="250" height="82" rx="16" fill="#e5d7bc" stroke="#27231c"/>
-    <text x="618" y="146" class="small">keyword terms analyzed</text>
-    <text x="618" y="177" class="metric">${formatNumber(stats.keywordTerms)}</text>
-  </g>
-  <g>
-    ${barRow({ label: 'Comments', value: stats.comments, color: '#8c5f32', y: 246, maxValue })}
-    ${barRow({ label: 'Danmaku', value: stats.danmaku, color: '#3f7558', y: 292, maxValue })}
-    ${barRow({ label: 'Keywords', value: stats.keywordTerms, color: '#b98522', y: 338, maxValue })}
-  </g>
-  <text x="40" y="382" class="small">Coverage: ${escapeXml(stats.coverageRatioLabel)} | Weak terms: ${formatNumber(stats.weakTerms)} | Evidence deficit: ${formatNumber(stats.evidenceDeficit)}</text>
-</svg>
-`;
+function renderSvg(_stats) {
+  throw new Error('SVG rendering migrated to Python — use npm run stats:update');
 }
 
 function formatDateLabel(value) {
@@ -264,57 +233,8 @@ export function paddedTimelineMax(value) {
   return Math.ceil(padded / magnitude) * magnitude;
 }
 
-function renderTimelineSvg(timeline, generatedAt) {
-  const points = timeline.points || [];
-  const observedMax = Math.max(...points.map((point) => point.total), timeline.finalTotal, 1);
-  const maxValue = paddedTimelineMax(observedMax);
-  const x0 = 72;
-  const y0 = 126;
-  const width = 748;
-  const height = 196;
-  const updated = new Date(generatedAt).toISOString().slice(0, 10);
-  const firstDate = points[0]?.date ? formatDateLabel(points[0].date) : 'n/a';
-  const lastDate = points.at(-1)?.date ? formatDateLabel(points.at(-1).date) : 'n/a';
-  const gridRows = [0, 0.25, 0.5, 0.75, 1].map((ratio) => {
-    const y = y0 + height - (ratio * height);
-    return `
-    <line x1="${x0}" y1="${y.toFixed(1)}" x2="${x0 + width}" y2="${y.toFixed(1)}" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="58" y="${(y + 4).toFixed(1)}" class="axis" text-anchor="end">${formatNumber(Math.round(maxValue * ratio))}</text>`;
-  }).join('');
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="timeline-title timeline-desc">
-  <title id="timeline-title">Comment and danmaku collection growth over time</title>
-  <desc id="timeline-desc">Cumulative growth lines for total corpus records, comments, and danmaku across recorded harvest runs.</desc>
-  <style>
-    .bg { fill: #f3ead8; }
-    .panel { fill: #fffaf0; stroke: #27231c; stroke-width: 2; }
-    .title { font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }
-    .sub { font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
-    .axis { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
-    .label { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }
-  </style>
-  <rect class="bg" width="920" height="430" rx="24"/>
-  <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
-  <text x="40" y="62" class="title">Corpus Growth Over Time</text>
-  <text x="40" y="88" class="sub">auto-generated from corpus run history on ${escapeXml(updated)}</text>
-  <g>
-    ${gridRows}
-    <line x1="${x0}" y1="${y0 + height}" x2="${x0 + width}" y2="${y0 + height}" stroke="#27231c" stroke-width="2"/>
-    <line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y0 + height}" stroke="#27231c" stroke-width="2"/>
-    <polyline points="${polyline(points, 'total', maxValue, x0, y0, width, height)}" fill="none" stroke="#27231c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <polyline points="${polyline(points, 'comments', maxValue, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <polyline points="${polyline(points, 'danmaku', maxValue, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="${x0}" y="${y0 + height + 26}" class="axis">${escapeXml(firstDate)}</text>
-    <text x="${x0 + width}" y="${y0 + height + 26}" class="axis" text-anchor="end">${escapeXml(lastDate)}</text>
-  </g>
-  <g>
-    <rect x="72" y="360" width="16" height="16" rx="3" fill="#27231c"/><text x="96" y="373" class="label">Total ${formatNumber(timeline.finalTotal)}</text>
-    <rect x="254" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="278" y="373" class="label">Comments ${formatNumber(timeline.finalComments)}</text>
-    <rect x="476" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="500" y="373" class="label">Danmaku ${formatNumber(timeline.finalDanmaku)}</text>
-    <text x="720" y="373" class="label">Runs: ${formatNumber(points.length)}</text>
-  </g>
-</svg>
-`;
+function renderTimelineSvg(_timeline, _generatedAt) {
+  throw new Error('SVG rendering migrated to Python — use npm run stats:update');
 }
 
 function readmeBlock(stats) {

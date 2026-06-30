@@ -2186,7 +2186,8 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     if (isVideoContextSample(sample)) return true;
   }
   if (term === '\u8352\u91ce\u5927\u8fea\u5ba2' && family === 'attack') {
-    const standalonePunContext = /^\u8352\u91ce\u5927\u8fea\u5ba2(?:[\s!！。,.，]*|\[[^\]]+\])*$/u.test(String(sample || '').trim());
+    const sampleOnly = String(sample || '').trim().replace(/\[[^\]]+]/g, '').replace(/[\s!！。，、]+/g, '');
+    const standalonePunContext = /^\u8352\u91ce\u5927\u8fea\u5ba2$/u.test(sampleOnly);
     const targetedCriticismContext = /(?:\u4f60|\u8fd9|up|\u8d77\u540d|\u53d6\u540d|\u6076\u4fd7|\u4e0b\u5934|\u522b).{0,18}\u8352\u91ce\u5927\u8fea\u5ba2|\u8352\u91ce\u5927\u8fea\u5ba2.{0,18}(?:\u6076\u4fd7|\u4e0b\u5934|\u522b|\u592a)/u.test(cleanSample);
     if (standalonePunContext && !targetedCriticismContext) return true;
   }

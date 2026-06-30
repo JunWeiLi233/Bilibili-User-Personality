@@ -1,0 +1,772 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "attack",
+  "shard": 10,
+  "shardCount": 26,
+  "evidence": [
+    {
+      "term": "屠杀",
+      "evidenceSamples": [
+        "屠杀黑人屠杀犹太人",
+        "老师屠杀我家孩子一定是我家孩子没听课。",
+        "生化危机5也不错的，控制主角在非洲屠杀变异的黑鬼",
+        "611恰好又是鬼子毒气屠杀事件，跟731类似性质。要说两次都是巧合我是不信的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "屠杀黑人屠杀犹太人"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/6522375908",
+          "uid": "好男人上班😷",
+          "sample": "老师屠杀我家孩子一定是我家孩子没听课。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "生化危机5也不错的，控制主角在非洲屠杀变异的黑鬼"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XWKZ6eE5d/, https://www.bilibili.com/video/BV1orKQ6ZEqm/, https://www.bilibili.com/video/BV138TF6MEvD/, https://www.bilibili.com/video/BV1ShTu6tEAY/, https://www.bilibili.com/video/BV1CLEG6xEzA/, https://www.bilibili.com/video/BV1Su4y1k7Sd/, http://www.bilibili.com/video/av116837824206333, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av116714712927492, http://www.bilibili.com/video/av113037969195553, http://www.bilibili.com/video/av112930662122741, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av643459458, http://www.bilibili.com/video/av113958182721133, http://www.bilibili.com/video/av114052084798274, http://www.bilibili.com/video/av116804689072153, http://www.bilibili.com/video/av116832035932385, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116838293903940, http://www.bilibili.com/video/av116836196683195, http://www.bilibili.com/video/av116826851776167, http://www.bilibili.com/video/av116837673075458, http://www.bilibili.com/video/av116481073354187, http://www.bilibili.com/video/av116839032095496, http://www.bilibili.com/video/av116832069556939, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116832975651913, http://www.bilibili.com/video/av116811248967460, http://www.bilibili.com/video/av116828445611869, http://www.bilibili.com/video/av915851253, http://www.bilibili.com/video/av115121129068885",
+          "uid": "BV1XWKZ6eE5d,BV1orKQ6ZEqm,BV138TF6MEvD,BV1ShTu6tEAY,BV1CLEG6xEzA,BV1Su4y1k7Sd",
+          "sample": "611恰好又是鬼子毒气屠杀事件，跟731类似性质。要说两次都是巧合我是不信的"
+        }
+      ]
+    },
+    {
+      "term": "岁月史书",
+      "evidenceSamples": [
+        "甲骨文证明商朝存在大量人祭，但传统史料对此只字未提 这说明周僻岁月史书有一手",
+        "《岁月史书发力了》",
+        "岁月史书来了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8501758467",
+          "uid": "普通经过吸血鬼",
+          "sample": "甲骨文证明商朝存在大量人祭，但传统史料对此只字未提 这说明周僻岁月史书有一手"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CF41177Js/",
+          "uid": "BV1CF41177Js",
+          "sample": "《岁月史书发力了》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1JVJG6DECG/",
+          "uid": "BV1JVJG6DECG",
+          "sample": "岁月史书来了"
+        }
+      ]
+    },
+    {
+      "term": "巡查",
+      "evidenceSamples": [
+        "一个宿舍四个人全打呼，某天宿管阿姨来差水表特地跟我们说，说晚上巡查经过我们宿舍，听到里面就跟开音乐会一样，此消彼长此起彼伏，然而我们四个都感觉睡眠并没有受到影响[doge]",
+        "挺烦我们每年被审计，五年被巡查，各种整改和程序化工作。看看老美这么抽象，现在理解了",
+        "巡查组，查了个寂寞"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18QHUztEzN/",
+          "uid": "BV18QHUztEzN",
+          "sample": "一个宿舍四个人全打呼，某天宿管阿姨来差水表特地跟我们说，说晚上巡查经过我们宿舍，听到里面就跟开音乐会一样，此消彼长此起彼伏，然而我们四个都感觉睡眠并没有受到影响[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vMVH6WEEa/",
+          "uid": "BV1vMVH6WEEa",
+          "sample": "挺烦我们每年被审计，五年被巡查，各种整改和程序化工作。看看老美这么抽象，现在理解了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "巡查组，查了个寂寞"
+        }
+      ]
+    },
+    {
+      "term": "巡逻",
+      "evidenceSamples": [
+        "看月妈攻略做了三次全触发成功（送牛）: 牛走过路上的怪全部干掉，清完怪刚好到终点营地，终点那个营地除了巡逻的弓箭手全部干掉。开始带牛，不要离开牛5步之内，跟牛到走到营地树干旁会新刷出新的弓箭手，当着牛的面打他一下，不要打死，吸引牛和这个弓箭手碰一下（弓箭手头顶出先倒立三角箭头），再吸引着牛跟在场所有弓箭手碰一下，碰完后干掉所有弓箭手，出宝箱，最后再干掉牛（刷新出来的弓箭手是触发宝箱的关键）",
+        "想到末日巡逻队里面的肌肉猛男，全部高潮",
+        "虽然，但是。我一想到下面巡逻的那两个保安，就想笑"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1jt4y1n7Rd/",
+          "uid": "BV1jt4y1n7Rd",
+          "sample": "看月妈攻略做了三次全触发成功（送牛）: 牛走过路上的怪全部干掉，清完怪刚好到终点营地，终点那个营地除了巡逻的弓箭手全部干掉。开始带牛，不要离开牛5步之内，跟牛到走到营地树干旁会新刷出新的弓箭手，当着牛的面打他一下，不要打死，吸引牛和这个弓箭手碰一下（弓箭手头顶出先倒立三角箭头），再吸引着牛跟在场所有弓箭手碰一下，碰完后干掉所有弓箭手，出宝箱，最后再干掉牛（刷新出来的弓箭手是触发宝箱的关键）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UyBjYhEGT/",
+          "uid": "BV1UyBjYhEGT",
+          "sample": "想到末日巡逻队里面的肌肉猛男，全部高潮"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1agVQ6eEh1/",
+          "uid": "BV1agVQ6eEh1",
+          "sample": "虽然，但是。我一想到下面巡逻的那两个保安，就想笑"
+        }
+      ]
+    },
+    {
+      "term": "左派",
+      "evidenceSamples": [
+        "脑容量这一块 左派右派吵一天想着怎么让国家进步，打开手机天塌了",
+        "西方左派已经把西方变得不自由，这不能叫自由。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "脑容量这一块 左派右派吵一天想着怎么让国家进步，打开手机天塌了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV171Vc6BEDj/",
+          "uid": "BV171Vc6BEDj",
+          "sample": "西方左派已经把西方变得不自由，这不能叫自由。"
+        }
+      ]
+    },
+    {
+      "term": "巨婴",
+      "evidenceSamples": [
+        "不担心老龄化问题，毕竟巨婴还很多",
+        "我们企业之前也来了几个零零后巨婴，被我们收拾的服服帖帖最后自己裸辞了！听详细也是说其中有个男孩也是啃老几年！",
+        "各位女孩看到前面弹幕这种巨婴了吗？和任何男的接触都要警惕再警惕，怎么警惕都不为过，否则一不小心就会被要求当妈、当“泰勒”",
+        "搁这共情巨婴男呢，笑死",
+        "洁德你糊涂啊，依莱就是一纯巨婴，你能捞到什么"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8112946609",
+          "uid": "rainssong",
+          "sample": "不担心老龄化问题，毕竟巨婴还很多"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1rDV86oEd9/",
+          "uid": "BV1rDV86oEd9",
+          "sample": "我们企业之前也来了几个零零后巨婴，被我们收拾的服服帖帖最后自己裸辞了！听详细也是说其中有个男孩也是啃老几年！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "各位女孩看到前面弹幕这种巨婴了吗？和任何男的接触都要警惕再警惕，怎么警惕都不为过，否则一不小心就会被要求当妈、当“泰勒”"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "搁这共情巨婴男呢，笑死"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "洁德你糊涂啊，依莱就是一纯巨婴，你能捞到什么"
+        }
+      ]
+    },
+    {
+      "term": "差不多得了",
+      "evidenceSamples": [
+        "饭圈mg什么成分？差不多得了",
+        "差不多得了（滑稽）",
+        "差不多得了，来19年的视频下洗白，时空👮好玩吧"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "454688971",
+          "sample": "饭圈mg什么成分？差不多得了"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "277392070",
+          "sample": "差不多得了（滑稽）"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "363711461",
+          "sample": "差不多得了，来19年的视频下洗白，时空👮好玩吧"
+        }
+      ]
+    },
+    {
+      "term": "带哥",
+      "evidenceSamples": [
+        "😭😭😭带哥们救命，癌鲲好凶，还举报👴的评论呜呜呜，👴没想到现在还有养鸡场嗷（蔡徐坤后援会）"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "103283736",
+          "sample": "😭😭😭带哥们救命，癌鲲好凶，还举报👴的评论呜呜呜，👴没想到现在还有养鸡场嗷（蔡徐坤后援会）"
+        }
+      ]
+    },
+    {
+      "term": "带姐",
+      "evidenceSamples": [
+        "怎么这里都有丝带姐，好吧我也是"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1U44y1h749/",
+          "uid": "BV1U44y1h749",
+          "sample": "怎么这里都有丝带姐，好吧我也是"
+        }
+      ]
+    },
+    {
+      "term": "帽子戏法",
+      "evidenceSamples": [
+        "我已经十分钟没有听到世界杯决赛帽子戏法、决赛累计进4球历史第一的故事了[大哭]",
+        "是不是要我拿出22年世界杯决赛帽子戏法才能让你闭嘴",
+        "真拿你没办法，坐好喽—— 那是世界杯决赛的赛场上，一记足以载入足球史册的帽子戏法。球场寂静得只剩下草皮摩擦与心跳声。法国队深陷绝境，比分落后，几乎是众志成城却难觅良机。姆巴佩没有选择回传保守，而是抬起了那支看似单薄、威力却被无数人低估的武器——他的双脚。 对面，是被称为“球王”的梅西。彼时他正站在职业生涯巅峰，已经率领阿根廷领先两球，将要把法国队拽入噩梦。他传控盘带，姿态从容，仿佛一切尽在掌握。谁也不会想到，这领先，会撞上来自巴黎的致命疾风。 姆巴佩游弋于边路，目光如炬。没有多余花哨，只有瞬间启动、爆射、破网。球进的瞬间，尘埃未落。三记干脆利落的射门，越过阿根廷整条防线，精准刺入球网。刹那间对手目瞪口呆。全场沸腾。 那不是依靠团队碾压的胜利，而是极致射手与绝对冷静的表演。一个年轻核心，三次普通射门，一位法国天才，在最绝望的局里，生生把比赛从悬崖边拖了回来——一人独进三球，让当时不可一世的阿根廷惊出一身冷汗。 这一帽子戏法没有改写最终的冠军归属（法国点球告负），却在无数观众心里刻下了一句话：再大的王，也会被少年三球封喉。 它轻得像一阵风，却重得像一座碑。",
+        "再次点名 帽子戏法",
+        "换比利亚绝对帽子戏法了，托雷斯也能进一个"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1SvVE6MEKZ/",
+          "uid": "BV1SvVE6MEKZ",
+          "sample": "我已经十分钟没有听到世界杯决赛帽子戏法、决赛累计进4球历史第一的故事了[大哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1SvVE6MEKZ/",
+          "uid": "BV1SvVE6MEKZ",
+          "sample": "是不是要我拿出22年世界杯决赛帽子戏法才能让你闭嘴"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14EVS6nEhu/",
+          "uid": "BV14EVS6nEhu",
+          "sample": "真拿你没办法，坐好喽—— 那是世界杯决赛的赛场上，一记足以载入足球史册的帽子戏法。球场寂静得只剩下草皮摩擦与心跳声。法国队深陷绝境，比分落后，几乎是众志成城却难觅良机。姆巴佩没有选择回传保守，而是抬起了那支看似单薄、威力却被无数人低估的武器——他的双脚。 对面，是被称为“球王”的梅西。彼时他正站在职业生涯巅峰，已经率领阿根廷领先两球，将要把法国队拽入噩梦。他传控盘带，姿态从容，仿佛一切尽在掌握。谁也不会想到，这领先，会撞上来自巴黎的致命疾风。 姆巴佩游弋于边路，目光如炬。没有多余花哨，只有瞬间启动、爆射、破网。球进的瞬间，尘埃未落。三记干脆利落的射门，越过阿根廷整条防线，精准刺入球网。刹那间对手目瞪口呆。全场沸腾。 那不是依靠团队碾压的胜利，而是极致射手与绝对冷静的表演。一个年轻核心，三次普通射门，一位法国天才，在最绝望的局里，生生把比赛从悬崖边拖了回来——一人独进三球，让当时不可一世的阿根廷惊出一身冷汗。 这一帽子戏法没有改写最终的冠军归属（法国点球告负），却在无数观众心里刻下了一句话：再大的王，也会被少年三球封喉。 它轻得像一阵风，却重得像一座碑。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "再次点名 帽子戏法"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1kojT6NETa/",
+          "uid": "BV1kojT6NETa",
+          "sample": "换比利亚绝对帽子戏法了，托雷斯也能进一个"
+        }
+      ]
+    },
+    {
+      "term": "废物",
+      "evidenceSamples": [
+        "想和8u们说说我自己的故事，也许这样我就不会什么都没留下来 鼠鼠今年大三，一无是处，前途渺茫看不清道路，理想变换无常，三分钟热度，常常在深夜里辗转反侧，才发现自己是个废物。",
+        "这种就是典型的废物龟♂了兄弟们，大家引以为戒",
+        "我可能是龙王 因为我妈今天跟我说：“家里不养没用的废物。”"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "想和8u们说说我自己的故事，也许这样我就不会什么都没留下来 鼠鼠今年大三，一无是处，前途渺茫看不清道路，理想变换无常，三分钟热度，常常在深夜里辗转反侧，才发现自己是个废物。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "这种就是典型的废物龟♂了兄弟们，大家引以为戒"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8224468133",
+          "uid": "曹小刀-",
+          "sample": "我可能是龙王 因为我妈今天跟我说：“家里不养没用的废物。”"
+        }
+      ]
+    },
+    {
+      "term": "建议直接",
+      "evidenceSamples": [
+        "故事好不好还不确定，但是动作够爽，不会玩也可以直接开自带的内挂。玩过RPG的都知道，RPG后期比较烦的是各种刷等级，你不刷吧，打BOSS受苦，刷吧，单调乏味，尤其是直播的效果特别不好。这代改成动作类，还是鬼泣设计师，我感觉非常好，主播们也可以有所发挥，直播效果会很好。至于不会玩动作游戏的剧情党，我建议直接戴上内挂4戒指，战斗什么都是全自动的，就当看电影了。（那我会不直接看直播吗？）",
+        "视频里看不清，建议直接来我家[doge]",
+        "遇上这种情况建议直接报警说对方敲诈勒索[吃瓜]",
+        "建议直接送精神病院"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "故事好不好还不确定，但是动作够爽，不会玩也可以直接开自带的内挂。玩过RPG的都知道，RPG后期比较烦的是各种刷等级，你不刷吧，打BOSS受苦，刷吧，单调乏味，尤其是直播的效果特别不好。这代改成动作类，还是鬼泣设计师，我感觉非常好，主播们也可以有所发挥，直播效果会很好。至于不会玩动作游戏的剧情党，我建议直接戴上内挂4戒指，战斗什么都是全自动的，就当看电影了。（那我会不直接看直播吗？）"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1pMZfYREgs/",
+          "uid": "BV1pMZfYREgs",
+          "sample": "视频里看不清，建议直接来我家[doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Cg411X7pt/",
+          "uid": "8691949",
+          "sample": "遇上这种情况建议直接报警说对方敲诈勒索[吃瓜]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1XbsmzNEFz/",
+          "uid": "BV1XbsmzNEFz",
+          "sample": "建议直接送精神病院"
+        }
+      ]
+    },
+    {
+      "term": "开喷",
+      "evidenceSamples": [
+        "认知局限，人的精力是有限的，尤其是冲浪的，个个恨不得一目十行，仅见微而难知其广，很多人根本不会去了解事件的全部，抓住自己能理解的那部分开喷就行了。另外，现在编段子比编故事更玩的转互联网，只要观点够爆，你说三十分钟车轱辘话都有人追捧。",
+        "（纯ikun，好不容易通过了b站测试，刚刚想开喷，结果发现这个up主比我家坤坤帅一万倍，粉了。）五毛一条括号删除",
+        "你这段“批判”最绝妙之处在于——当你试图用“水池里银龙鱼”证明华语乐坛完蛋时，其实正暴露了你连自己举例的歌都没耐心听完。《八方来财》专辑恰恰是近年华语乐坛为数不多的音乐性与文化深度都十分优秀的作品之一，而你的三秒快进式听歌习惯，完美复刻了短视频时代最讽刺的认知闭环：一边抱怨“只有流水账”，一边亲手把棱角分明的作品削成自己想象中的碎片。建议下次开喷前，至少把专辑听到第二首歌的主歌，毕竟真正的“没脑子”不是听不懂，是连听都不听就忙着编结论。",
+        "我嘞个豆，这就是个网红打卡地，plq没见过就开喷，咋这么刻薄[疑惑]",
+        "有没有那种女主看到伪人弹幕一点不惯着 直接开喷的[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uq4y1T7wR/, https://www.bilibili.com/video/BV1is421g7yZ/, https://www.bilibili.com/video/BV1fQg3zkEQU/, https://www.bilibili.com/video/BV1pV4y1i7VU/, https://www.bilibili.com/video/BV14Z421g78r/, https://www.bilibili.com/video/BV1ys4y1F7Gc/, http://www.bilibili.com/video/av547736446, http://www.bilibili.com/video/av114872608100276, http://www.bilibili.com/video/av1155727561, http://www.bilibili.com/video/av115025884747482, http://www.bilibili.com/video/av997679607, http://www.bilibili.com/video/av580921221, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av116072212596613, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av112885128956016, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av112932692231241, http://www.bilibili.com/video/av112887779558294, http://www.bilibili.com/video/av114765619793436, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av34866935, http://www.bilibili.com/video/av114742333016741, http://www.bilibili.com/video/av857235647, http://www.bilibili.com/video/av115637800213806, http://www.bilibili.com/video/av114214739904920, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av288122514, http://www.bilibili.com/video/av1855352649, http://www.bilibili.com/video/av871778362, http://www.bilibili.com/video/av955390078, http://www.bilibili.com/video/av112919740154585, http://www.bilibili.com/video/av113480317276519, http://www.bilibili.com/video/av465848268",
+          "uid": "BV1uq4y1T7wR,BV1is421g7yZ,BV1fQg3zkEQU,BV1pV4y1i7VU,BV14Z421g78r,BV1ys4y1F7Gc",
+          "sample": "认知局限，人的精力是有限的，尤其是冲浪的，个个恨不得一目十行，仅见微而难知其广，很多人根本不会去了解事件的全部，抓住自己能理解的那部分开喷就行了。另外，现在编段子比编故事更玩的转互联网，只要观点够爆，你说三十分钟车轱辘话都有人追捧。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "253500361",
+          "sample": "（纯ikun，好不容易通过了b站测试，刚刚想开喷，结果发现这个up主比我家坤坤帅一万倍，粉了。）五毛一条括号删除"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "你这段“批判”最绝妙之处在于——当你试图用“水池里银龙鱼”证明华语乐坛完蛋时，其实正暴露了你连自己举例的歌都没耐心听完。《八方来财》专辑恰恰是近年华语乐坛为数不多的音乐性与文化深度都十分优秀的作品之一，而你的三秒快进式听歌习惯，完美复刻了短视频时代最讽刺的认知闭环：一边抱怨“只有流水账”，一边亲手把棱角分明的作品削成自己想象中的碎片。建议下次开喷前，至少把专辑听到第二首歌的主歌，毕竟真正的“没脑子”不是听不懂，是连听都不听就忙着编结论。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kbZWYWE9B/",
+          "uid": "BV1kbZWYWE9B",
+          "sample": "我嘞个豆，这就是个网红打卡地，plq没见过就开喷，咋这么刻薄[疑惑]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "3493133203540641",
+          "sample": "有没有那种女主看到伪人弹幕一点不惯着 直接开喷的[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "台词照抄真不要脸，哪怕改点自己的台词呢？尤其是没买版权装的一副买了的样子，被韩国版权方挂上热搜开喷的"
+        }
+      ]
+    },
+    {
+      "term": "开团",
+      "evidenceSamples": [
+        "姆🐶老是先开团，真的可怜，没事就骂男性。",
+        "481841039开团",
+        "开团群981606714"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "姆🐶老是先开团，真的可怜，没事就骂男性。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1336241690",
+          "sample": "481841039开团"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "355235415",
+          "sample": "开团群981606714"
+        }
+      ]
+    },
+    {
+      "term": "开局一张图",
+      "evidenceSamples": [
+        "开局一张图",
+        "开局一张图，"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UTJT6JESc/",
+          "uid": "BV1UTJT6JESc",
+          "sample": "开局一张图"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1crJK6MEC4/",
+          "uid": "BV1crJK6MEC4",
+          "sample": "开局一张图，"
+        }
+      ]
+    },
+    {
+      "term": "开摆",
+      "evidenceSamples": [
+        "诗人开摆，也就是吟诗作对对对。",
+        "既然都在疯狂努力变成人上人，那直接开摆岂不是也能摸到边坐人上",
+        "一个表慢了一分钟，他一整天都不准；但表停了，一天就能对两次 所以，进度慢的不如开摆的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7770235992",
+          "uid": "🌊张脑丸",
+          "sample": "诗人开摆，也就是吟诗作对对对。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8684207125",
+          "uid": "2费点烟过",
+          "sample": "既然都在疯狂努力变成人上人，那直接开摆岂不是也能摸到边坐人上"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8704183853",
+          "uid": "TuYaBoYu",
+          "sample": "一个表慢了一分钟，他一整天都不准；但表停了，一天就能对两次 所以，进度慢的不如开摆的"
+        }
+      ]
+    },
+    {
+      "term": "开撕",
+      "evidenceSamples": [
+        "不要什么意见不合的讨论辩论都盖帽叫开撕，这叫诤友间的交流"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "不要什么意见不合的讨论辩论都盖帽叫开撕，这叫诤友间的交流"
+        }
+      ]
+    },
+    {
+      "term": "开炮",
+      "evidenceSamples": [
+        "回复 @SWAT开门 :你不能看看我内容在开炮吗？[滑稽]",
+        "回复 @想到的名字全被注册了 :再来就这三个点，来给你秀一秀认知，细说这三点。首先， 1.资本市场下的各大音乐app已经借着击盗版的道德大旗，实际干着垄断的事，从而把市面上绝大多数音乐版权给吞了。而达成垄断后推出的15s试听，就是第一步最大的障碍，试问听谁的音乐15s能感受到共鸣？于是新用户没有付费意愿，转头打开抖音快手b站，毕竟上面没有付费才能看到的内容，没有30s广告解锁，享受纯粹的娱乐时间。结论，资本是创造下沉市场的最大元凶之一，但是各大音乐up主锐评时从来不提，只会一遍一遍的重复消费者音乐水准低，试问，在资本市场上，设置听音乐门槛的情况下，属于亲手把消费者赶跑，然后一个app圈一群历史遗留下来老用户，一遍一遍的加广告加付费，把价值往榨干上弄，没了广大的群众基础，听音乐现在变成小众圈子了。然后还有其他操作，刷数据搞饭圈，推自己旗下的创作者等等操作，各大音乐up休怎么从来不锐评资本？只会向最弱势的群众开炮？还真是小资本主义的软弱性[喜极而泣]",
+        "UID:59535435敌军开炮！！！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "367411912",
+          "sample": "回复 @SWAT开门 :你不能看看我内容在开炮吗？[滑稽]"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @想到的名字全被注册了 :再来就这三个点，来给你秀一秀认知，细说这三点。首先， 1.资本市场下的各大音乐app已经借着击盗版的道德大旗，实际干着垄断的事，从而把市面上绝大多数音乐版权给吞了。而达成垄断后推出的15s试听，就是第一步最大的障碍，试问听谁的音乐15s能感受到共鸣？于是新用户没有付费意愿，转头打开抖音快手b站，毕竟上面没有付费才能看到的内容，没有30s广告解锁，享受纯粹的娱乐时间。结论，资本是创造下沉市场的最大元凶之一，但是各大音乐up主锐评时从来不提，只会一遍一遍的重复消费者音乐水准低，试问，在资本市场上，设置听音乐门槛的情况下，属于亲手把消费者赶跑，然后一个app圈一群历史遗留下来老用户，一遍一遍的加广告加付费，把价值往榨干上弄，没了广大的群众基础，听音乐现在变成小众圈子了。然后还有其他操作，刷数据搞饭圈，推自己旗下的创作者等等操作，各大音乐up休怎么从来不锐评资本？只会向最弱势的群众开炮？还真是小资本主义的软弱性[喜极而泣]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "87220860",
+          "sample": "UID:59535435敌军开炮！！！"
+        }
+      ]
+    },
+    {
+      "term": "开盒",
+      "evidenceSamples": [
+        "“我要对你进行开盒了！”小明对着盒子大吼到",
+        "我感觉像怕被人开盒到家所以健身防止自己打不过[笑哭]",
+        "该开盒的时候不开，这种渣子物理消灭了就好",
+        "不理解为什么非要关注骚不骚号，是不是舰长的。 这和事实有关系吗？ 一、任何情况下毁坏他人财物，就是要承责任的，甚至刑事责任。这一点和是不是舰长无关。 二、他拿毁号要挟受害者马上续费，这属于敲诈勒索，同样犯法。 他知道开盒犯法，不知道他毁号犯法？",
+        "口口声声说开盒违法，却意识不到毁号本身也是违法[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8439194925",
+          "uid": "贴吧用户_a4W9Q1V",
+          "sample": "“我要对你进行开盒了！”小明对着盒子大吼到"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1W9ZbYkEwf/",
+          "uid": "BV1W9ZbYkEwf",
+          "sample": "我感觉像怕被人开盒到家所以健身防止自己打不过[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1naV76HE2j/",
+          "uid": "BV1naV76HE2j",
+          "sample": "该开盒的时候不开，这种渣子物理消灭了就好"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1PiNMzbEou/",
+          "uid": "8995623",
+          "sample": "不理解为什么非要关注骚不骚号，是不是舰长的。 这和事实有关系吗？ 一、任何情况下毁坏他人财物，就是要承责任的，甚至刑事责任。这一点和是不是舰长无关。 二、他拿毁号要挟受害者马上续费，这属于敲诈勒索，同样犯法。 他知道开盒犯法，不知道他毁号犯法？"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1PiNMzbEou/",
+          "uid": "152425117",
+          "sample": "口口声声说开盒违法，却意识不到毁号本身也是违法[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "开除粉籍",
+      "evidenceSamples": [
+        "ikun不是集体退站了吗？来这洗菜的，怕是要被开除粉籍了吧？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "29375524",
+          "sample": "ikun不是集体退站了吗？来这洗菜的，怕是要被开除粉籍了吧？"
+        }
+      ]
+    },
+    {
+      "term": "引战",
+      "evidenceSamples": [
+        "是的，有多少矛盾和骂战都是营销号搞起来的，故意引战……",
+        "出来引战就别怕被骂啊母狗",
+        "斐迪南大公由于引战被封号",
+        "为什么一定要跟原唱比？有人从这首歌获得力量不就是最重要的吗？看到一个弹幕说听原唱想哭看这个想笑。我只觉得你悲哀，这首歌出现不是让你这种人来引战。最后表白满满[给心心][给心心]",
+        "不要试图在我这条里引战，赖导的老粉丝估计都看到过我在以前几个视频里不止一条都是一千多个赞的评论，想要歪曲我的意思，来给品牌方这种操作洗白的话，来一个举报一个，品牌方不知道怎么处理这种事情吗，想要堵嘴就行了，这营销团队还真是这个水平。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
+          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
+          "sample": "是的，有多少矛盾和骂战都是营销号搞起来的，故意引战……"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "出来引战就别怕被骂啊母狗"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7700507256",
+          "uid": "WARN🔥",
+          "sample": "斐迪南大公由于引战被封号"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PL411W7Dw/",
+          "uid": "BV1PL411W7Dw",
+          "sample": "为什么一定要跟原唱比？有人从这首歌获得力量不就是最重要的吗？看到一个弹幕说听原唱想哭看这个想笑。我只觉得你悲哀，这首歌出现不是让你这种人来引战。最后表白满满[给心心][给心心]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1dtVn6DEM2/",
+          "uid": "BV1dtVn6DEM2",
+          "sample": "不要试图在我这条里引战，赖导的老粉丝估计都看到过我在以前几个视频里不止一条都是一千多个赞的评论，想要歪曲我的意思，来给品牌方这种操作洗白的话，来一个举报一个，品牌方不知道怎么处理这种事情吗，想要堵嘴就行了，这营销团队还真是这个水平。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1QG4y1h74s/",
+          "uid": "BV1QG4y1h74s",
+          "sample": "我觉得吧身体好了，肾精足了，皮肤自然就好了，因为脸是五官的镜子，肾精可以滋润五脏六腑，虚则百病生，再者评判一个人好看的不只是五官还有一个人的精气神也就是精神状态等，精气神来源于什么？来源于肾精(精ye)，精化气，气化神，这些东西也会反应在脸上，想要存住精，就要做到不熬夜，不久坐，不抽烟，不喝酒，少玩手机，多运动。(这仅代表个人观点，拜托🙏🏻不要引战)"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Qq49ehEVY/",
+          "uid": "23217656",
+          "sample": "对阿b的评论推荐很无语[笑哭]故意把引战评论推到前面，还不能关闭评论区"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1MEVdzREjL/",
+          "uid": "3546912928041950",
+          "sample": "真的烦死那些起号的了[笑哭]有个主明目张胆的说自己起号然后疯狂引战骂人评论区一堆人跟风骂举报了也没用"
+        }
+      ]
+    },
+    {
+      "term": "引流",
+      "evidenceSamples": [
+        "孙吧怎么变成这样了？ 我记得以前的孙吧对女孩子很包容，经常有吧u在女鼠鼠评论下面留言诸如“老婆老婆恰个v”“老婆我爱你”“我想当你的🐶”的玩笑话一旦有女鼠鼠受委屈，吧u也会化身暖男出言安慰、伸张正义，痛斥伤害女鼠鼠的渣男吧里过去也有很多有趣的表白贴、恋爱贴，教你如何和女孩子谈一场甜甜的恋爱、如何成为一个对女朋友百依百顺的贴心暖男之类的攻略......明明以前吧里对女孩子是很向往的，是很爱慕的，大家也曾一块努力为女孩子们在这片污浊的互联网上构建出了一个包容安逸的氛围.......然而，现在随便点开孙吧一篇热门帖子，底下就涌出一堆打男👊的，这是为什么？是因为引流来太多毫无底线的魔怔小鬼导致的吗？以前那个充满有趣的表白贴、甜蜜恋爱贴的和谐孙吧还能回来吗？",
+        "不流不引流 [图片]",
+        "b站微博化不可避，@陈睿 睿总能不能不要把那些微博饭圈邪教徒引流到b站来了，我理解你对恰钱的需要，他们的臭气让人作呕，只会加剧我们这些普通用户对b站的厌恶度，我可不想让b站成为下一个粪坑[吐]",
+        "回复 @烦死了人了讨厌 :回复 @烦死了人了讨厌 :大哥我老二次元入的b站，你咋不让伤影这种引流娱乐圈的出去",
+        "一般都是小火箭推流美女视频，评论区精选是必开的，然后一堆僵尸号发一些意义不明的色情引流链接，评论没了然后又再筛选，这种封了也会再注册小号发这种意义不明的视频，已经持续好几年了[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "孙吧怎么变成这样了？ 我记得以前的孙吧对女孩子很包容，经常有吧u在女鼠鼠评论下面留言诸如“老婆老婆恰个v”“老婆我爱你”“我想当你的🐶”的玩笑话一旦有女鼠鼠受委屈，吧u也会化身暖男出言安慰、伸张正义，痛斥伤害女鼠鼠的渣男吧里过去也有很多有趣的表白贴、恋爱贴，教你如何和女孩子谈一场甜甜的恋爱、如何成为一个对女朋友百依百顺的贴心暖男之类的攻略......明明以前吧里对女孩子是很向往的，是很爱慕的，大家也曾一块努力为女孩子们在这片污浊的互联网上构建出了一个包容安逸的氛围.......然而，现在随便点开孙吧一篇热门帖子，底下就涌出一堆打男👊的，这是为什么？是因为引流来太多毫无底线的魔怔小鬼导致的吗？以前那个充满有趣的表白贴、甜蜜恋爱贴的和谐孙吧还能回来吗？"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8687856402",
+          "uid": "伊萝莉何方",
+          "sample": "不流不引流 [图片]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "229852478",
+          "sample": "b站微博化不可避，@陈睿 睿总能不能不要把那些微博饭圈邪教徒引流到b站来了，我理解你对恰钱的需要，他们的臭气让人作呕，只会加剧我们这些普通用户对b站的厌恶度，我可不想让b站成为下一个粪坑[吐]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "回复 @烦死了人了讨厌 :回复 @烦死了人了讨厌 :大哥我老二次元入的b站，你咋不让伤影这种引流娱乐圈的出去"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1WzQUBrEvJ/, https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1SpKd64Etc/, https://www.bilibili.com/video/BV1YmTc6yEYh/, https://www.bilibili.com/video/BV1PR7L6YEZn/, https://www.bilibili.com/video/BV15g411T7Un/, https://www.bilibili.com/video/BV1Ysj268E9Z/, https://www.bilibili.com/video/BV1XnKZ6iEuM/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1WzDQBLE4c/, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116837002119636, http://www.bilibili.com/video/av116817154611231, http://www.bilibili.com/video/av116799353917939, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116833378110450, http://www.bilibili.com/video/av116804118645248, http://www.bilibili.com/video/av116815812432315, http://www.bilibili.com/video/av114154056784439, http://www.bilibili.com/video/av116815242138942, http://www.bilibili.com/video/av115143342039036, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1752242375, http://www.bilibili.com/video/av114376237388865, http://www.bilibili.com/video/av1356375505, http://www.bilibili.com/video/av322733546, http://www.bilibili.com/video/av116837438194655, http://www.bilibili.com/video/av114631251071713, http://www.bilibili.com/video/av115598625345626, http://www.bilibili.com/video/av116221999582821, http://www.bilibili.com/video/av116830827976733, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av1202383814, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116431563788655, http://www.bilibili.com/video/av116821734722420, http://www.bilibili.com/video/av116389117429362, http://www.bilibili.com/video/av116027971084189, http://www.bilibili.com/video/av272505999, http://www.bilibili.com/video/av447657707, http://www.bilibili.com/video/av116702650045483, http://www.bilibili.com/video/av116811332847509, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116811114743918, http://www.bilibili.com/video/av116492532194611, http://www.bilibili.com/video/av116821567013793, http://www.bilibili.com/video/av116567325149337, http://www.bilibili.com/video/av116821566950761, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av116833512330721, http://www.bilibili.com/video/av116826365298354, http://www.bilibili.com/video/av116357257496502, http://www.bilibili.com/video/av116821516623260, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116822137444285, http://www.bilibili.com/video/av116826918886295, http://www.bilibili.com/video/av116814738620771, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116839887673997, http://www.bilibili.com/video/av506673585, http://www.bilibili.com/video/av116837656430637, http://www.bilibili.com/video/av116390795215362, http://www.bilibili.com/video/av116352979371929, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116839518574309, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116838461671853, http://www.bilibili.com/video/av116803061814470",
+          "uid": "BV1yZKo6HEWx,BV1WzQUBrEvJ,BV1Z1Kd66ExR,BV1dT41197yJ,BV1SpKd64Etc,BV1YmTc6yEYh,BV1PR7L6YEZn,BV15g411T7Un,BV1Ysj268E9Z,BV1XnKZ6iEuM,BV1nAKd6gEWn,BV1WzDQBLE4c",
+          "sample": "一般都是小火箭推流美女视频，评论区精选是必开的，然后一堆僵尸号发一些意义不明的色情引流链接，评论没了然后又再筛选，这种封了也会再注册小号发这种意义不明的视频，已经持续好几年了[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "弟弟",
+      "evidenceSamples": [
+        "笑死这主角跟弟弟在村里打架，把村（国）打毁灭了，主角还以为是伊芙丽特打死了弟弟，不知道是自己。序章结束直接做奴隶了",
+        "回复 @祖坚吹-药师霜 :我也一直觉得弟弟可能没死但是估计也不是最初这个可爱的弟弟了",
+        "回复 @Hitmaker :我一开始也是认为是男主自己目睹且手控杀死了弟弟，然后脑子规避效应臆想出了一个另外的火之显化者去为弟弟报仇，但是这样的话就pv里的两个伊芙利特打架变成脑中臆想夺回主控权有点俗，而且火男和兜帽男的出现就毫无意义了，主角变身失控完全不需要这两个意义不明的元素出现在剧情里，也跟吸收能力挂不上关系了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "笑死这主角跟弟弟在村里打架，把村（国）打毁灭了，主角还以为是伊芙丽特打死了弟弟，不知道是自己。序章结束直接做奴隶了"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @祖坚吹-药师霜 :我也一直觉得弟弟可能没死但是估计也不是最初这个可爱的弟弟了"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @Hitmaker :我一开始也是认为是男主自己目睹且手控杀死了弟弟，然后脑子规避效应臆想出了一个另外的火之显化者去为弟弟报仇，但是这样的话就pv里的两个伊芙利特打架变成脑中臆想夺回主控权有点俗，而且火男和兜帽男的出现就毫无意义了，主角变身失控完全不需要这两个意义不明的元素出现在剧情里，也跟吸收能力挂不上关系了"
+        }
+      ]
+    },
+    {
+      "term": "弱智",
+      "evidenceSamples": [
+        "什么是弱智（又称智力落后）？ 一般讲，18岁以下，凡智力若低于同龄人的水平的称之。",
+        "有人说我们弱智吧为什么没有自己的吧",
+        "弱智如果不快乐，那跟天才有什么区别。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv",
+          "uid": "",
+          "sample": "什么是弱智（又称智力落后）？ 一般讲，18岁以下，凡智力若低于同龄人的水平的称之。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8690590007",
+          "uid": "星辰之上▫",
+          "sample": "有人说我们弱智吧为什么没有自己的吧"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8140151095",
+          "uid": "lautherf",
+          "sample": "弱智如果不快乐，那跟天才有什么区别。"
+        }
+      ]
+    },
+    {
+      "term": "彩笔",
+      "evidenceSamples": [
+        "“我想要色色！”商场里，小男孩指着水彩笔对着爸爸说道",
+        "我买了一盒彩笔，但是里面的每支都只有一种颜色，现在商家真会骗人",
+        "@甜甜花菜鸡 @香彩笔 @星烽 @九路77号",
+        "戴佳伟彩笔"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8197706298",
+          "uid": "贴吧用户_aGNVR6V",
+          "sample": "“我想要色色！”商场里，小男孩指着水彩笔对着爸爸说道"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8439690293",
+          "uid": "tttghue",
+          "sample": "我买了一盒彩笔，但是里面的每支都只有一种颜色，现在商家真会骗人"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nAZnYyEvA/",
+          "uid": "BV1nAZnYyEvA",
+          "sample": "@甜甜花菜鸡 @香彩笔 @星烽 @九路77号"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13TzbYuEPv/",
+          "uid": "BV13TzbYuEPv",
+          "sample": "戴佳伟彩笔"
+        }
+      ]
+    },
+    {
+      "term": "心态爆炸",
+      "evidenceSamples": [
+        "不是说对面心态爆炸吗怎么是我的耳朵爆炸了",
+        "自己心态爆炸了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Vf7D62EwZ/",
+          "uid": "BV1Vf7D62EwZ",
+          "sample": "不是说对面心态爆炸吗怎么是我的耳朵爆炸了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "BV12Z421T7c6",
+          "sample": "自己心态爆炸了"
+        }
+      ]
+    },
+    {
+      "term": "急了",
+      "evidenceSamples": [
+        "回复@蔡徐坤情报局 ?怎么，不让玩梗?急了急了[doge]",
+        "回复 @Lee陌夕 :鲲鲲不可能洗白，鲲鲲nc粉人肉大学生，到处网络暴力流量造假事件可不少，可以说其中有很大一部分原因是鲲鲲团队纵容的，律师函寄错了可就别逗了，而且血xing涩青视频在B站是不会过审的，鲲鲲和粉丝不就是看鬼畜区都在拿黑料做鬼畜急了想制止，结果B站霸气回应，所以说鲲鲲是不可能洗白的，我觉得鲲鲲xz两个人都差不多，该嘲还得嘲[笑]",
+        "我终于知道古代的将军是怎么做到百战百胜的了 每当自己的军队处于劣势，无法继续反击的时候，就对对方的军队说：“急了”，自己便胜利了。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1448763102",
+          "sample": "回复@蔡徐坤情报局 ?怎么，不让玩梗?急了急了[doge]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "367411912",
+          "sample": "回复 @Lee陌夕 :鲲鲲不可能洗白，鲲鲲nc粉人肉大学生，到处网络暴力流量造假事件可不少，可以说其中有很大一部分原因是鲲鲲团队纵容的，律师函寄错了可就别逗了，而且血xing涩青视频在B站是不会过审的，鲲鲲和粉丝不就是看鬼畜区都在拿黑料做鬼畜急了想制止，结果B站霸气回应，所以说鲲鲲是不可能洗白的，我觉得鲲鲲xz两个人都差不多，该嘲还得嘲[笑]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8496112860",
+          "uid": "AAQCXº",
+          "sample": "我终于知道古代的将军是怎么做到百战百胜的了 每当自己的军队处于劣势，无法继续反击的时候，就对对方的军队说：“急了”，自己便胜利了。"
+        }
+      ]
+    },
+    {
+      "term": "急了急了",
+      "evidenceSamples": [
+        "回复@蔡徐坤情报局 ?怎么，不让玩梗?急了急了[doge]",
+        "回复 @Lee陌夕 :鲲鲲不可能洗白，鲲鲲nc粉人肉大学生，到处网络暴力流量造假事件可不少，可以说其中有很大一部分原因是鲲鲲团队纵容的，律师函寄错了可就别逗了，而且血xing涩青视频在B站是不会过审的，鲲鲲和粉丝不就是看鬼畜区都在拿黑料做鬼畜急了想制止，结果B站霸气回应，所以说鲲鲲是不可能洗白的，我觉得鲲鲲xz两个人都差不多，该嘲还得嘲[笑]",
+        "我终于知道古代的将军是怎么做到百战百胜的了 每当自己的军队处于劣势，无法继续反击的时候，就对对方的军队说：“急了”，自己便胜利了。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1448763102",
+          "sample": "回复@蔡徐坤情报局 ?怎么，不让玩梗?急了急了[doge]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "367411912",
+          "sample": "回复 @Lee陌夕 :鲲鲲不可能洗白，鲲鲲nc粉人肉大学生，到处网络暴力流量造假事件可不少，可以说其中有很大一部分原因是鲲鲲团队纵容的，律师函寄错了可就别逗了，而且血xing涩青视频在B站是不会过审的，鲲鲲和粉丝不就是看鬼畜区都在拿黑料做鬼畜急了想制止，结果B站霸气回应，所以说鲲鲲是不可能洗白的，我觉得鲲鲲xz两个人都差不多，该嘲还得嘲[笑]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8496112860",
+          "uid": "AAQCXº",
+          "sample": "我终于知道古代的将军是怎么做到百战百胜的了 每当自己的军队处于劣势，无法继续反击的时候，就对对方的军队说：“急了”，自己便胜利了。"
+        }
+      ]
+    },
+    {
+      "term": "急急国王",
+      "evidenceSamples": [
+        "我同学是个急性子，急了又急，那他是又急直树吗？ 急急国王升级成为了又急直树",
+        "《急急国王》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8048073024",
+          "uid": "苏某某就是我",
+          "sample": "我同学是个急性子，急了又急，那他是又急直树吗？ 急急国王升级成为了又急直树"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1voJJ6eEfj/",
+          "uid": "BV1voJJ6eEfj",
+          "sample": "《急急国王》"
+        }
+      ]
+    }
+  ]
+}

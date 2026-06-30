@@ -1,0 +1,522 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "absolutes",
+  "shard": 16,
+  "shardCount": 49,
+  "evidence": [
+    {
+      "term": "其实就",
+      "evidenceSamples": [
+        "孙吧就是自娱自乐，欺骗自己的产物 现实8u因为没接触过女性，也没谈过恋爱，甚至没有女性朋友，所以了解的方式只在网络，看到一个又一个**，就开始以偏概全的觉得女性群体就是劣质群体，是趋炎附势，是喜欢出卖身体来换取资源，是喜欢崇洋媚外，是被性控制的劣质群体。8u每天的活动也就是从别的平台截图过来一些人或者事，无论对与错，只要有女性，就开始自以为是的开始“锐评”但其实就是一些被复制烂的下三流黄句，8u还会觉得攻击力爆棚，但其实能看到你的锐评的只有你和其他8u，也不知道攻击到谁了其实我常常在想，这种行为是在干什么，是算小团体之间的背后嚼舌根，还是一帮无所事事人的自娱自乐，毕竟在吧内，再怎么攻击，当事人也看不到。8u似乎觉得对女性开煌腔就是别人口中的西格玛男人，对女性评头论足像是在主宰别人生死，但晚上为什么又偷偷打开网址对女性发情呢 。8u是真的批判与评价这些行为，还是只是想被其他吧友点赞，我无从得知，毕竟我看不到评价和批判，只看到一群换上古人头像却说着下三流煌句的人，身边都是附和的其他8u",
+        "以前在国外干活用过特制套子毛妹说比老黑那还厉害👍，完全可以代替老黑。有些瘾大的女人找猩猩其实就是为了找刺激，只要她们知道有代替方法她们也不会冒艾滋风险和臭气找猩猩。",
+        "瘦肉精其实就是减肥药"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "孙吧就是自娱自乐，欺骗自己的产物 现实8u因为没接触过女性，也没谈过恋爱，甚至没有女性朋友，所以了解的方式只在网络，看到一个又一个**，就开始以偏概全的觉得女性群体就是劣质群体，是趋炎附势，是喜欢出卖身体来换取资源，是喜欢崇洋媚外，是被性控制的劣质群体。8u每天的活动也就是从别的平台截图过来一些人或者事，无论对与错，只要有女性，就开始自以为是的开始“锐评”但其实就是一些被复制烂的下三流黄句，8u还会觉得攻击力爆棚，但其实能看到你的锐评的只有你和其他8u，也不知道攻击到谁了其实我常常在想，这种行为是在干什么，是算小团体之间的背后嚼舌根，还是一帮无所事事人的自娱自乐，毕竟在吧内，再怎么攻击，当事人也看不到。8u似乎觉得对女性开煌腔就是别人口中的西格玛男人，对女性评头论足像是在主宰别人生死，但晚上为什么又偷偷打开网址对女性发情呢 。8u是真的批判与评价这些行为，还是只是想被其他吧友点赞，我无从得知，毕竟我看不到评价和批判，只看到一群换上古人头像却说着下三流煌句的人，身边都是附和的其他8u"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "以前在国外干活用过特制套子毛妹说比老黑那还厉害👍，完全可以代替老黑。有些瘾大的女人找猩猩其实就是为了找刺激，只要她们知道有代替方法她们也不会冒艾滋风险和臭气找猩猩。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8555017116",
+          "uid": "宅男の輪廓",
+          "sample": "瘦肉精其实就是减肥药"
+        }
+      ]
+    },
+    {
+      "term": "再也没有",
+      "evidenceSamples": [
+        "水走水管，气走气管，从此再也没有气管了",
+        "蝙蝠侠一拳把小丑坐的电车打爆了，从此世界上再也没有电车难题",
+        "自打蔡徐坤之后，再也没有一个流量明星的地位能在鬼畜区超越他"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8548518152",
+          "uid": "笺墨无颜",
+          "sample": "水走水管，气走气管，从此再也没有气管了"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8505277053",
+          "uid": "贴吧用户_aNyPAMa",
+          "sample": "蝙蝠侠一拳把小丑坐的电车打爆了，从此世界上再也没有电车难题"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "699925945",
+          "sample": "自打蔡徐坤之后，再也没有一个流量明星的地位能在鬼畜区超越他"
+        }
+      ]
+    },
+    {
+      "term": "再怎么",
+      "evidenceSamples": [
+        "孙吧就是自娱自乐，欺骗自己的产物 现实8u因为没接触过女性，也没谈过恋爱，甚至没有女性朋友，所以了解的方式只在网络，看到一个又一个**，就开始以偏概全的觉得女性群体就是劣质群体，是趋炎附势，是喜欢出卖身体来换取资源，是喜欢崇洋媚外，是被性控制的劣质群体。8u每天的活动也就是从别的平台截图过来一些人或者事，无论对与错，只要有女性，就开始自以为是的开始“锐评”但其实就是一些被复制烂的下三流黄句，8u还会觉得攻击力爆棚，但其实能看到你的锐评的只有你和其他8u，也不知道攻击到谁了其实我常常在想，这种行为是在干什么，是算小团体之间的背后嚼舌根，还是一帮无所事事人的自娱自乐，毕竟在吧内，再怎么攻击，当事人也看不到。8u似乎觉得对女性开煌腔就是别人口中的西格玛男人，对女性评头论足像是在主宰别人生死，但晚上为什么又偷偷打开网址对女性发情呢 。8u是真的批判与评价这些行为，还是只是想被其他吧友点赞，我无从得知，毕竟我看不到评价和批判，只看到一群换上古人头像却说着下三流煌句的人，身边都是附和的其他8u",
+        "我们应该联系男权吧，就算大男子主义再怎么样也应该不会支持男同，更别说女同了",
+        "下一集迪迦估计就能变回复合型了[doge]，毕竟盖亚剧场版都要开拍了，迪迦再怎么着也该变回来了[笑哭]",
+        "其实这期已经没什么锐评了，毕竟再怎么尖锐的评论也不会有他们唱的难听。。",
+        "mbti再怎么测也是做一套题，那我为什么不能人为控制结果呢，公司想要什么人格我就答出来什么人格"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "孙吧就是自娱自乐，欺骗自己的产物 现实8u因为没接触过女性，也没谈过恋爱，甚至没有女性朋友，所以了解的方式只在网络，看到一个又一个**，就开始以偏概全的觉得女性群体就是劣质群体，是趋炎附势，是喜欢出卖身体来换取资源，是喜欢崇洋媚外，是被性控制的劣质群体。8u每天的活动也就是从别的平台截图过来一些人或者事，无论对与错，只要有女性，就开始自以为是的开始“锐评”但其实就是一些被复制烂的下三流黄句，8u还会觉得攻击力爆棚，但其实能看到你的锐评的只有你和其他8u，也不知道攻击到谁了其实我常常在想，这种行为是在干什么，是算小团体之间的背后嚼舌根，还是一帮无所事事人的自娱自乐，毕竟在吧内，再怎么攻击，当事人也看不到。8u似乎觉得对女性开煌腔就是别人口中的西格玛男人，对女性评头论足像是在主宰别人生死，但晚上为什么又偷偷打开网址对女性发情呢 。8u是真的批判与评价这些行为，还是只是想被其他吧友点赞，我无从得知，毕竟我看不到评价和批判，只看到一群换上古人头像却说着下三流煌句的人，身边都是附和的其他8u"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "我们应该联系男权吧，就算大男子主义再怎么样也应该不会支持男同，更别说女同了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1w9Vu6NEFE/",
+          "uid": "BV1w9Vu6NEFE",
+          "sample": "下一集迪迦估计就能变回复合型了[doge]，毕竟盖亚剧场版都要开拍了，迪迦再怎么着也该变回来了[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16WVV63EB8/",
+          "uid": "BV16WVV63EB8",
+          "sample": "其实这期已经没什么锐评了，毕竟再怎么尖锐的评论也不会有他们唱的难听。。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1cwVG6qEEW/",
+          "uid": "BV1cwVG6qEEW",
+          "sample": "mbti再怎么测也是做一套题，那我为什么不能人为控制结果呢，公司想要什么人格我就答出来什么人格"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1urjT6jELw/",
+          "uid": "1577264360",
+          "sample": "回复 @水电费lkk :东莞理工再怎么强也是学院本 更别说杰尼还是体育专业了 出来哪有现在赚的多啊[笑哭]现在年轻把握机会 以后打不了了也可以转直播 要回去继续读完出来vct早变了"
+        }
+      ]
+    },
+    {
+      "term": "决不可能",
+      "evidenceSamples": [
+        "讲真我决不可能把房子租给印度人，好恶心啊"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tE3uzHEpd/",
+          "uid": "BV1tE3uzHEpd",
+          "sample": "讲真我决不可能把房子租给印度人，好恶心啊"
+        }
+      ]
+    },
+    {
+      "term": "决不能",
+      "evidenceSamples": [
+        "为了让黑白无常遵守八小时工作制，人类在下班时间决不能死。",
+        "坚决不能协商！！！一定要按照如实情况升级！！！这就是在糊弄！作为执法者也应该依法依规就行处理！！！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7922889545",
+          "uid": "英雌唐南雁🎏",
+          "sample": "为了让黑白无常遵守八小时工作制，人类在下班时间决不能死。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "坚决不能协商！！！一定要按照如实情况升级！！！这就是在糊弄！作为执法者也应该依法依规就行处理！！！"
+        }
+      ]
+    },
+    {
+      "term": "决然",
+      "evidenceSamples": [
+        "老师总说小明是废物 可是小明听说过一句话，叫做“废物是放错地方的宝物”，于是毅然决然的进入螺丝厂展现才能",
+        "up真的把所有我想真正看到但是官方没做 只有冰冷文字 要靠我们去想象的部分完美呈现了 那一段哥哥留下一个背影 携浮游刃以及自己那颗守护妹妹的心 阻止敌人追击 毅然决然的留下一个背影 真的很完美的呈现了出来 up的技术真的可以说是炉火纯青了 我看这一段的时候就已经很感动了 无比希望我真的有一个叫夏以昼的亲哥哥 再分享一个为什么会喜欢xyz的点吧 我一直以来的cn都是夏小鱼 在我从没有接触过乙游前 我一直只是刷到视频 但是从来不深入了解 也是被沈星回开服的心动变曲骗来恋与深空的 所以当时根本不了解这些游戏 取名字的时候还是按照以前玩别的游戏那样 夏小鱼 我过剧情的时候知道夏以昼是（我）的哥哥 当时以为夏是因为我取名字 姓夏 所以哥哥可能名字是以昼吧 后面刷很多关于哥哥的视频才知道其实并不是 冥冥之中的缘分吧 也在过剧情的时候彻底喜欢上夏以昼 可能我是家里最大的姐姐的原因 所以一直以来都想要有一个哥哥 可以给我遮风挡雨 夏以昼真的很好的满足了我心目中哥哥的形象 甚至有过之而无不及 哥哥的那句没说出来的话 我和up的想法是一致的 我认为妹宝可能也是在这个关头 意识到自己对哥哥的爱 就这个双向奔赴 爽！ 再引用一句话“世界在毁灭 我们在相爱”作为结尾 我要誓死追随up一百年！！!",
+        "毅然决然选择离开人世",
+        "有用的，可以时停把人都打出处决然后结束时停一起处决，或是弹反子弹和扔飞刀后处决"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8552914073",
+          "uid": "贴吧用户_QbXWCaM",
+          "sample": "老师总说小明是废物 可是小明听说过一句话，叫做“废物是放错地方的宝物”，于是毅然决然的进入螺丝厂展现才能"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hNfTYfEhs/",
+          "uid": "BV1hNfTYfEhs",
+          "sample": "up真的把所有我想真正看到但是官方没做 只有冰冷文字 要靠我们去想象的部分完美呈现了 那一段哥哥留下一个背影 携浮游刃以及自己那颗守护妹妹的心 阻止敌人追击 毅然决然的留下一个背影 真的很完美的呈现了出来 up的技术真的可以说是炉火纯青了 我看这一段的时候就已经很感动了 无比希望我真的有一个叫夏以昼的亲哥哥 再分享一个为什么会喜欢xyz的点吧 我一直以来的cn都是夏小鱼 在我从没有接触过乙游前 我一直只是刷到视频 但是从来不深入了解 也是被沈星回开服的心动变曲骗来恋与深空的 所以当时根本不了解这些游戏 取名字的时候还是按照以前玩别的游戏那样 夏小鱼 我过剧情的时候知道夏以昼是（我）的哥哥 当时以为夏是因为我取名字 姓夏 所以哥哥可能名字是以昼吧 后面刷很多关于哥哥的视频才知道其实并不是 冥冥之中的缘分吧 也在过剧情的时候彻底喜欢上夏以昼 可能我是家里最大的姐姐的原因 所以一直以来都想要有一个哥哥 可以给我遮风挡雨 夏以昼真的很好的满足了我心目中哥哥的形象 甚至有过之而无不及 哥哥的那句没说出来的话 我和up的想法是一致的 我认为妹宝可能也是在这个关头 意识到自己对哥哥的爱 就这个双向奔赴 爽！ 再引用一句话“世界在毁灭 我们在相爱”作为结尾 我要誓死追随up一百年！！!"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "BV1YKmPBQE6P",
+          "sample": "毅然决然选择离开人世"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Fh4y1Y7E6/",
+          "uid": "BV1Fh4y1Y7E6",
+          "sample": "有用的，可以时停把人都打出处决然后结束时停一起处决，或是弹反子弹和扔飞刀后处决"
+        }
+      ]
+    },
+    {
+      "term": "准没错",
+      "evidenceSamples": [
+        "🌊死👴🏻🌶️，直奔评论区准没错",
+        "歧视印度是准没错的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "17095540",
+          "sample": "🌊死👴🏻🌶️，直奔评论区准没错"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "歧视印度是准没错的"
+        }
+      ]
+    },
+    {
+      "term": "凡事都",
+      "evidenceSamples": [
+        "凡事都是两面的，中国现在平均审美能力不高是不争的事实，不论音乐美术还是其他方面，大伙都还是以凑热闹为主，但是这并不意味着“劣根性”，西方音乐为什么成熟，是因为他们经过了多年发展有了成熟的艺术供应链条，有着现实之外的丰富的精神世界。而我们的美育还在被学历焦虑下的内卷挤占空间，绝大部分人一辈子只有茶米油盐，部分人有审美意识但没有专门教育，部分艺术生受到教育却把艺术作为糊口的工具，说白了，物质世界才刚开始丰富，精神世界怎么可能有发展的土壤。不是西方高人一等，只是我们起步太晚……",
+        "其实追求美好的东西没错，但是凡事都不能走极端，极左和极右都是一路货色"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "凡事都是两面的，中国现在平均审美能力不高是不争的事实，不论音乐美术还是其他方面，大伙都还是以凑热闹为主，但是这并不意味着“劣根性”，西方音乐为什么成熟，是因为他们经过了多年发展有了成熟的艺术供应链条，有着现实之外的丰富的精神世界。而我们的美育还在被学历焦虑下的内卷挤占空间，绝大部分人一辈子只有茶米油盐，部分人有审美意识但没有专门教育，部分艺术生受到教育却把艺术作为糊口的工具，说白了，物质世界才刚开始丰富，精神世界怎么可能有发展的土壤。不是西方高人一等，只是我们起步太晚……"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV171Vc6BEDj/",
+          "uid": "BV171Vc6BEDj",
+          "sample": "其实追求美好的东西没错，但是凡事都不能走极端，极左和极右都是一路货色"
+        }
+      ]
+    },
+    {
+      "term": "凡是",
+      "evidenceSamples": [
+        "外贸衣服标签上凡是写着“专供出口”的，店员都把它们放在商场出口",
+        "警方提示凡是诈骗都是诈骗",
+        "凡是能用钱解决的问题，都是问题",
+        "回复 @心底那片光_bili :支出哪里去了？本质上和红会没啥区别，没见建个学校啥的，至少它这基金应该不对私的。二傻子们给它捐款还不如帮帮自己眼前看到的人，自己的钱给他让他做公益是自己没长手吗？凡是涉及基金的慈善都不可信，这里面操作的门道太..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8416789137",
+          "uid": "刚子哥儿",
+          "sample": "外贸衣服标签上凡是写着“专供出口”的，店员都把它们放在商场出口"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7711263177",
+          "uid": "全球目田网络-",
+          "sample": "警方提示凡是诈骗都是诈骗"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7693004417",
+          "uid": "龙战于野zzs",
+          "sample": "凡是能用钱解决的问题，都是问题"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
+          "sample": "回复 @心底那片光_bili :支出哪里去了？本质上和红会没啥区别，没见建个学校啥的，至少它这基金应该不对私的。二傻子们给它捐款还不如帮帮自己眼前看到的人，自己的钱给他让他做公益是自己没长手吗？凡是涉及基金的慈善都不可信，这里面操作的门道太..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV17dKU6DEmg/, https://www.bilibili.com/video/BV1Ss4y1A7Ha/, https://www.bilibili.com/video/BV1DSKS6CEYt/, https://www.bilibili.com/video/BV1G47a6dE16/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1GY4y1F7f8/, http://www.bilibili.com/video/av116832639916697, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116831784274708, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116051559915029, http://www.bilibili.com/video/av112903734692424, http://www.bilibili.com/video/av922945358, http://www.bilibili.com/video/av952879650, http://www.bilibili.com/video/av114727468406529, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av112677158389246, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av116836196683195, http://www.bilibili.com/video/av116742781209921, http://www.bilibili.com/video/av116832488917392, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116821667612714, http://www.bilibili.com/video/av116819100702476, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av115644645251192, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116811248967460, http://www.bilibili.com/video/av644775116, http://www.bilibili.com/video/av116742026172205, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av113958182721133",
+          "uid": "BV17dKU6DEmg,BV1Ss4y1A7Ha,BV1DSKS6CEYt,BV1G47a6dE16,BV1d5KZ66E5S,BV1GY4y1F7f8",
+          "sample": "回复 @心底那片光_bili :支出哪里去了？本质上和红会没啥区别，没见建个学校啥的，至少它这基金应该不对私的。二傻子们给它捐款还不如帮帮自己眼前看到的人，自己的钱给他让他做公益是自己没长手吗？凡是涉及基金的慈善都不可信，这里面操作的门道太..."
+        }
+      ]
+    },
+    {
+      "term": "分明",
+      "evidenceSamples": [
+        "联想的分明是拯救者，为什么我倒下了没有人来救我",
+        "蔡徐坤拉了一坨屎，Ta的脑残粉围在一起吃。路人：真尼玛恶心。脑残粉A：你竟敢说这坨屎恶心，你行你去拉呀。脑残粉B：你自己拉不出来就说别人恶心，你分明就是在嫉妒人家。脑残粉C：你没有看到我家坤坤拉的时候有多认真，你不懂他背后的努力。脑残粉D：你凭什么骂人家，你根本不了解Ta，从这坨屎我可以知道Ta昨天吃了什么。路人：我是说你们吃的好恶心！",
+        "在晚上的时候我的世界黑白分明 在网上的时候我的世界霓虹闪耀"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8707372971",
+          "uid": "519817573A",
+          "sample": "联想的分明是拯救者，为什么我倒下了没有人来救我"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "32183838",
+          "sample": "蔡徐坤拉了一坨屎，Ta的脑残粉围在一起吃。路人：真尼玛恶心。脑残粉A：你竟敢说这坨屎恶心，你行你去拉呀。脑残粉B：你自己拉不出来就说别人恶心，你分明就是在嫉妒人家。脑残粉C：你没有看到我家坤坤拉的时候有多认真，你不懂他背后的努力。脑残粉D：你凭什么骂人家，你根本不了解Ta，从这坨屎我可以知道Ta昨天吃了什么。路人：我是说你们吃的好恶心！"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8152566458",
+          "uid": "贴吧用户_G3EN5C1",
+          "sample": "在晚上的时候我的世界黑白分明 在网上的时候我的世界霓虹闪耀"
+        }
+      ]
+    },
+    {
+      "term": "切切",
+      "evidenceSamples": [
+        "你唱的是老番茄吧？咋还室友呢？把我们切切交出来！[妙啊]",
+        "现在科技竟然发展到这个地步了，根本看不出来任何ai的痕迹，就是过去的那种原汁原味！我真的切切实实的感受到了科技带给我们的便利。像这样，制作100集阿凡提都没问题了[呲牙]还有魔方大厦，黑猫警长，这一下童年没有遗憾了。",
+        "她一开嗓，一千年前的枫叶荻花、浔阳灯火，忽又鲜活了起来，秋月又自江心缓缓升起。于是船摇桨动，嘈嘈切切，如泣如诉。她的眼神牢牢吸引着我。她不看镜头，只望远处。深邃，幽怨，灵动，含了千年的情。此曲只应天上有。",
+        "真真切切的印证了什么叫“造谣一张嘴，辟谣跑断腿”"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1p7411Y7BC/",
+          "uid": "BV1p7411Y7BC",
+          "sample": "你唱的是老番茄吧？咋还室友呢？把我们切切交出来！[妙啊]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1SrVp6SEt1/",
+          "uid": "BV1SrVp6SEt1",
+          "sample": "现在科技竟然发展到这个地步了，根本看不出来任何ai的痕迹，就是过去的那种原汁原味！我真的切切实实的感受到了科技带给我们的便利。像这样，制作100集阿凡提都没问题了[呲牙]还有魔方大厦，黑猫警长，这一下童年没有遗憾了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nA411e74s/",
+          "uid": "BV1nA411e74s",
+          "sample": "她一开嗓，一千年前的枫叶荻花、浔阳灯火，忽又鲜活了起来，秋月又自江心缓缓升起。于是船摇桨动，嘈嘈切切，如泣如诉。她的眼神牢牢吸引着我。她不看镜头，只望远处。深邃，幽怨，灵动，含了千年的情。此曲只应天上有。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116640591189695/",
+          "uid": "38665783107",
+          "sample": "真真切切的印证了什么叫“造谣一张嘴，辟谣跑断腿”"
+        }
+      ]
+    },
+    {
+      "term": "到头来",
+      "evidenceSamples": [
+        "真的全是蔡徐坤的错吗？他有舞蹈实力吗？有。他有颜值吗？显而易见。他有音乐才能吗？也不能说没有。那我们来分析一下他为什么被黑成这样。 首先：个人风格。我承认，艺人自身的风格不应该成为一个黑点。但作为大多数观念相对传统的人来说，蔡徐坤的荧幕形象确实让我们看了难受。我自己清楚这其实是公司给他包装的人设，所以我从来没用这一点去黑他。但大多数人，尤其是没有意识到的人不会这么客气。其实，所谓的看不惯“娘炮”实则为看不惯“靠夸张的女性化舞台形象博得低龄粉丝喜爱”。其次：nc粉太多，才不配位。有点脑子的都能看出来吧，条条微博上亿转发量，可能吗？在流量当道的污浊环境下，蔡徐坤被包装的人设就是针对吸引低龄，尤其是女性粉丝的（非歧视）。他们的言论多数都不是很理智，导致蔡徐坤本身的形象被大幅拉低。第三：资本运作。请不要天真的认为网上所有针对蔡徐坤的舆论都是发起者的真心独白。公司为了更多流量故意制造艺人的负面评论是常规操作。等知名度提高了，不喜欢的人还是不会喜欢，nc粉也不可能退坑反而会极力维护偶像形象。那在不可能亏的前提下，提高知名度吸引一下潜在粉丝何乐而不为呢？以被黑最多的NBA事件为例，蔡徐坤这样的人设和能力，他真的会自己去找NBA求代言吗？我不太相信。我更相信这是公司和腐化的NBA内部的py交易。公司靠NBA来提升蔡徐坤知名度，NBA靠公司来吸引蔡徐坤粉丝群体。流量和资本才是硬道理。别的什么重要吗？能赚粉丝的钱吗？到头来想想，蔡徐坤也只不过是资本交易中一颗可怜的棋子而已。 说这么多，其实想告诉大家：吐槽和玩梗无可厚非，但请认清究竟是什么在污染我们的娱乐环境。是资本，是流量，是各大公司博人眼球的运作。我们不该把时间花在对艺人的人身攻击上，我们更应该去抵制那些批量化，商品化“偶像”的节目，抵制毫无营养的价值观输出。支持那些实力到位，不靠炒作的节目和艺人。改变大环境，是我们共同的责任。",
+        "结果到头来他们只会扔给你一句“是黑粉在装真粉招黑”无中生有，然后事情就这么过去了",
+        "作者讽刺我？那我同样可以讽刺作者，按照作者的思路来讲的话，作者让自己创作的两个角色拥有了自我意识，但是即便是文本上所说的“拥有自我意识”，也是作者写出来的，到头来也只是作者的自娱自乐罢了，作者通过自己构建的文本然后让玩家去做出选择来进行回应，说到底这些选项或者文本更多的都是带有作者自己的情感，包括最后一段救赎病娇的一些话，说到底也只是作者想说的罢了，而最终病娇被救赎也是作者所想，总而言之，作者只是用自己的话感动了自己造就的角色，也只是作者的一厢情愿自作多情罢了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "649056249",
+          "sample": "真的全是蔡徐坤的错吗？他有舞蹈实力吗？有。他有颜值吗？显而易见。他有音乐才能吗？也不能说没有。那我们来分析一下他为什么被黑成这样。 首先：个人风格。我承认，艺人自身的风格不应该成为一个黑点。但作为大多数观念相对传统的人来说，蔡徐坤的荧幕形象确实让我们看了难受。我自己清楚这其实是公司给他包装的人设，所以我从来没用这一点去黑他。但大多数人，尤其是没有意识到的人不会这么客气。其实，所谓的看不惯“娘炮”实则为看不惯“靠夸张的女性化舞台形象博得低龄粉丝喜爱”。其次：nc粉太多，才不配位。有点脑子的都能看出来吧，条条微博上亿转发量，可能吗？在流量当道的污浊环境下，蔡徐坤被包装的人设就是针对吸引低龄，尤其是女性粉丝的（非歧视）。他们的言论多数都不是很理智，导致蔡徐坤本身的形象被大幅拉低。第三：资本运作。请不要天真的认为网上所有针对蔡徐坤的舆论都是发起者的真心独白。公司为了更多流量故意制造艺人的负面评论是常规操作。等知名度提高了，不喜欢的人还是不会喜欢，nc粉也不可能退坑反而会极力维护偶像形象。那在不可能亏的前提下，提高知名度吸引一下潜在粉丝何乐而不为呢？以被黑最多的NBA事件为例，蔡徐坤这样的人设和能力，他真的会自己去找NBA求代言吗？我不太相信。我更相信这是公司和腐化的NBA内部的py交易。公司靠NBA来提升蔡徐坤知名度，NBA靠公司来吸引蔡徐坤粉丝群体。流量和资本才是硬道理。别的什么重要吗？能赚粉丝的钱吗？到头来想想，蔡徐坤也只不过是资本交易中一颗可怜的棋子而已。 说这么多，其实想告诉大家：吐槽和玩梗无可厚非，但请认清究竟是什么在污染我们的娱乐环境。是资本，是流量，是各大公司博人眼球的运作。我们不该把时间花在对艺人的人身攻击上，我们更应该去抵制那些批量化，商品化“偶像”的节目，抵制毫无营养的价值观输出。支持那些实力到位，不靠炒作的节目和艺人。改变大环境，是我们共同的责任。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "361513634",
+          "sample": "结果到头来他们只会扔给你一句“是黑粉在装真粉招黑”无中生有，然后事情就这么过去了"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "作者讽刺我？那我同样可以讽刺作者，按照作者的思路来讲的话，作者让自己创作的两个角色拥有了自我意识，但是即便是文本上所说的“拥有自我意识”，也是作者写出来的，到头来也只是作者的自娱自乐罢了，作者通过自己构建的文本然后让玩家去做出选择来进行回应，说到底这些选项或者文本更多的都是带有作者自己的情感，包括最后一段救赎病娇的一些话，说到底也只是作者想说的罢了，而最终病娇被救赎也是作者所想，总而言之，作者只是用自己的话感动了自己造就的角色，也只是作者的一厢情愿自作多情罢了"
+        }
+      ]
+    },
+    {
+      "term": "到死都",
+      "evidenceSamples": [
+        "这貂蝉大招到死都不用 笑死了",
+        "五金不受潮能保存到死都没问题",
+        "这石头到死都感觉自己操作的很帅",
+        "一个亿万富翁眼里百万富翁就是穷人，很多东西在他们眼里是自以为是的常识，就像网上说光绪还是谁到死都以为鸡蛋几两银子一个，明星早餐几百块不够吃一样。他们与其说是提建议不如说是在教低他们一个档的人做事，没能力承担就稍微降一点。但是能降多少呢？是鸡..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19NLR6HEZH/",
+          "uid": "BV19NLR6HEZH",
+          "sample": "这貂蝉大招到死都不用 笑死了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SEVH62EZP/",
+          "uid": "BV1SEVH62EZP",
+          "sample": "五金不受潮能保存到死都没问题"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av319218604/",
+          "uid": "1287199456",
+          "sample": "这石头到死都感觉自己操作的很帅"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1w24y1P7i1/, https://www.bilibili.com/video/BV1rQx9zqELn/, https://www.bilibili.com/video/BV1vM411n766/, https://www.bilibili.com/video/BV1CsDRBHEVN/, https://www.bilibili.com/video/BV17v4y1q7wh/, https://www.bilibili.com/video/BV16h411k7yu/, http://www.bilibili.com/video/av784209641, http://www.bilibili.com/video/av524392638, http://www.bilibili.com/video/av564830669, http://www.bilibili.com/video/av561153456, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av116175744800736, http://www.bilibili.com/video/av113165845138957, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av1305738757, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av510233943, http://www.bilibili.com/video/av114121173376264, http://www.bilibili.com/video/av809107132, http://www.bilibili.com/video/av114885023241277, http://www.bilibili.com/video/av292625519, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av834634537, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av439315266, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av115333109121345, http://www.bilibili.com/video/av114662809013161, http://www.bilibili.com/video/av116030202451386, http://www.bilibili.com/video/av116393278177372, http://www.bilibili.com/video/av204420944, http://www.bilibili.com/video/av114454050111548",
+          "uid": "BV1w24y1P7i1,BV1rQx9zqELn,BV1vM411n766,BV1CsDRBHEVN,BV17v4y1q7wh,BV16h411k7yu",
+          "sample": "一个亿万富翁眼里百万富翁就是穷人，很多东西在他们眼里是自以为是的常识，就像网上说光绪还是谁到死都以为鸡蛋几两银子一个，明星早餐几百块不够吃一样。他们与其说是提建议不如说是在教低他们一个档的人做事，没能力承担就稍微降一点。但是能降多少呢？是鸡..."
+        }
+      ]
+    },
+    {
+      "term": "务必",
+      "evidenceSamples": [
+        "生而为人 请务必善良",
+        "支持惹。反对同性恋要毫不动摇的做到4个坚持：坚持一网打尽，坚持斩草除根，坚持一扫而光，坚持赶尽杀绝。务必做到：反同、恨同、赶同、抓同、灭同五位一体的全民反同新局面。",
+        "文言文拿到试卷不要从头读起，直接先写第12题材料内容概述题，顺着ABCD四个选项去文中比对，一个一个比对的过程就是梳理全文的过程，比对完毕对文章的理解也就完成了。翻译题重点突破课内学过的虚词“以、之、而、于、乃、则”等，高考考查方式与课内完全一致不会超纲。实词速成的方法是拿近三年高考文言文自己动手翻译在A4纸上，再对照答案逐字核对翻译差异，动手翻译三篇就能获得读文言文如读白话文的语感。\\n\\n古诗文阅读遵循三步：先看标题判断题材，再看注释理解背景和典故，最后看尾联判断情感方向（以景结情或直接抒情）。赏析题统一用四步走：翻译句子、指出手法、描绘画面、点明情感，这个方法可以解决80%以上的古诗文赏析题目。信息筛选题同样采用N加1原则答题，概括特点时尽量用四字词语并用自己的语言组织。\\n\\n视频最后提醒考生，写完试卷只是完成一半，交卷前要从头到尾检查一遍确保没有遗漏。弹幕反馈中有多位去年看了视频的考生成功上岸，有人考上了清华，也有考生许愿高考语文130分以上。考生需要注意的是，如果平时做题顺序已经很熟练，临近高考不要轻易尝试新方法，务必确保考前多次练习已经非常熟练再上考场使用。\\n\\n记得随时呼叫Milky哦！🤍",
+        "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。",
+        "请务必尝试cos一下明日方舟的德克萨斯[脱单doge][脱单doge][脱单doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "357931412",
+          "sample": "生而为人 请务必善良"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "支持惹。反对同性恋要毫不动摇的做到4个坚持：坚持一网打尽，坚持斩草除根，坚持一扫而光，坚持赶尽杀绝。务必做到：反同、恨同、赶同、抓同、灭同五位一体的全民反同新局面。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KUV36jEuG/",
+          "uid": "BV1KUV36jEuG",
+          "sample": "文言文拿到试卷不要从头读起，直接先写第12题材料内容概述题，顺着ABCD四个选项去文中比对，一个一个比对的过程就是梳理全文的过程，比对完毕对文章的理解也就完成了。翻译题重点突破课内学过的虚词“以、之、而、于、乃、则”等，高考考查方式与课内完全一致不会超纲。实词速成的方法是拿近三年高考文言文自己动手翻译在A4纸上，再对照答案逐字核对翻译差异，动手翻译三篇就能获得读文言文如读白话文的语感。\\n\\n古诗文阅读遵循三步：先看标题判断题材，再看注释理解背景和典故，最后看尾联判断情感方向（以景结情或直接抒情）。赏析题统一用四步走：翻译句子、指出手法、描绘画面、点明情感，这个方法可以解决80%以上的古诗文赏析题目。信息筛选题同样采用N加1原则答题，概括特点时尽量用四字词语并用自己的语言组织。\\n\\n视频最后提醒考生，写完试卷只是完成一半，交卷前要从头到尾检查一遍确保没有遗漏。弹幕反馈中有多位去年看了视频的考生成功上岸，有人考上了清华，也有考生许愿高考语文130分以上。考生需要注意的是，如果平时做题顺序已经很熟练，临近高考不要轻易尝试新方法，务必确保考前多次练习已经非常熟练再上考场使用。\\n\\n记得随时呼叫Milky哦！🤍"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "BV1YKmPBQE6P",
+          "sample": "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PpZcYcEHz/",
+          "uid": "BV1PpZcYcEHz",
+          "sample": "请务必尝试cos一下明日方舟的德克萨斯[脱单doge][脱单doge][脱单doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "务必关闭弹幕观看，弹幕争论影响观感"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "285814498",
+          "sample": "借楼科普，评论区五大典型诈骗套路 1. 病童筹款型 • 昵称：“祈求您救救我的孩子”等情感绑架词汇 • 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助 • 破绽：视频画质模糊、发布时间集中，评论区关闭互动 2. 外卖员求助型 • 昵称：随机变化，自称“外卖员孩子病重” • 手段：文案雷同，仅放支付码无具体证明 3. 求职被骗型 • 头像：固定使用哆啦A梦等卡通形象 • 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账 4. 家庭矛盾型 • 内容：伪造微信聊天记录，称“被父母拉黑要钱” • 目的：利用同情心索要红包/转账 5. 兼职诱导型 • 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群 • 风险：实为刷单诈骗或信息窃取 二、识别诈骗的三大核心逻辑 1. 账号异常 • 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作 • 真正求助者会主动提供正规平台链接及医院证明 2. 逃避正规渠道 • 拒用正规平台（需提交病历、身份证等严格审核） • 仅提供收款码/私信转账，资金流向无保障 3. 内容痕迹 • 视频/动态短期内密集发布，画质低清； • 关闭弹幕、精选评论，回避质疑 三、安全应对守则 两要 1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性） 2. 要保留证据：截图账号信息、聊天记录，向平台举报 两不要 1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗 2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费” 转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+        }
+      ]
+    },
+    {
+      "term": "势必",
+      "evidenceSamples": [
+        "恩格斯就说了真正平等的婚姻在以后的历史中实现时，女性群体的主体意愿越来越无法忽视，势必成为更重要于男性群体的意愿。现在风气就是争当烧鸡，爱浪爱玩，你一个男的有啥好纯情的，想爽的直接模仿版本之子黑叔叔就行了，提裤子就走人",
+        "回复 @阿卡多123 :升降级确实有利于预防摆烂，不过是否要升降级也是要看当前联赛发展的核心目标是什么。比如LPL、KPL起步阶段，包括OWL成立之初，首要任务是拉更多的资本进来玩，要让资本无后顾之忧，就不能有升降级。但随着联赛发展到一定程度，完全没有升降级势必会滋养出摆烂心态，那重新引入升降级，或者至少是联赛划分组别就是有必要的。联赛赛制也是要根据实际情况随时变化的",
+        "其实去医院可以选医生性别，你预约的时候那么大的头像，你不仔细看，怪谁呢。\\n甚至临时换也可以，但换人势必要等，这很正常。",
+        "该了势必产生剧情冲突"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "恩格斯就说了真正平等的婚姻在以后的历史中实现时，女性群体的主体意愿越来越无法忽视，势必成为更重要于男性群体的意愿。现在风气就是争当烧鸡，爱浪爱玩，你一个男的有啥好纯情的，想爽的直接模仿版本之子黑叔叔就行了，提裤子就走人"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LYV364Eu3/",
+          "uid": "BV1LYV364Eu3",
+          "sample": "回复 @阿卡多123 :升降级确实有利于预防摆烂，不过是否要升降级也是要看当前联赛发展的核心目标是什么。比如LPL、KPL起步阶段，包括OWL成立之初，首要任务是拉更多的资本进来玩，要让资本无后顾之忧，就不能有升降级。但随着联赛发展到一定程度，完全没有升降级势必会滋养出摆烂心态，那重新引入升降级，或者至少是联赛划分组别就是有必要的。联赛赛制也是要根据实际情况随时变化的"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV13rULBnEpx/",
+          "uid": "BV13rULBnEpx",
+          "sample": "其实去医院可以选医生性别，你预约的时候那么大的头像，你不仔细看，怪谁呢。\\n甚至临时换也可以，但换人势必要等，这很正常。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116662133131390/",
+          "uid": "38716770150",
+          "sample": "该了势必产生剧情冲突"
+        }
+      ]
+    },
+    {
+      "term": "包罗万象",
+      "evidenceSamples": [
+        "这期好好！这就是长视频的魅力呀，其实不到20分钟但因为我反复暂停回拉实际看了至少1小时。感谢Ahalolo坚持不懈得把时尚讲得深入浅出[给心心]，干货满满，信息量巨大，整体氛围又是轻松愉悦的。\\n这季Alaia也真得好美，look35真的好喜欢！！！\\n看Ahalolo越来越多，也越来越能get到时尚之美了；大千世界，包罗万象，能越来越多地欣赏、理解到不同的美好，那个美好也就开始对我产生意义和正反馈，这实在真得是一件很幸福的事情！[惊喜][惊喜][惊喜]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YNZcYrEbt/",
+          "uid": "BV1YNZcYrEbt",
+          "sample": "这期好好！这就是长视频的魅力呀，其实不到20分钟但因为我反复暂停回拉实际看了至少1小时。感谢Ahalolo坚持不懈得把时尚讲得深入浅出[给心心]，干货满满，信息量巨大，整体氛围又是轻松愉悦的。\\n这季Alaia也真得好美，look35真的好喜欢！！！\\n看Ahalolo越来越多，也越来越能get到时尚之美了；大千世界，包罗万象，能越来越多地欣赏、理解到不同的美好，那个美好也就开始对我产生意义和正反馈，这实在真得是一件很幸福的事情！[惊喜][惊喜][惊喜]"
+        }
+      ]
+    },
+    {
+      "term": "包赢",
+      "evidenceSamples": [
+        "边路雅典娜，优先断兵线，是包赢滴，嚯嚯"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Vf7D62EwZ/",
+          "uid": "BV1Vf7D62EwZ",
+          "sample": "边路雅典娜，优先断兵线，是包赢滴，嚯嚯"
+        }
+      ]
+    },
+    {
+      "term": "十全十美",
+      "evidenceSamples": [
+        "其实消失好像也不是坏事，毕竟只爱你好的一面而对你无可避免的缺点一点容忍都没有的人不值得，没有人能真的十全十美"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1tT4y1S7LC/",
+          "uid": "452734832",
+          "sample": "其实消失好像也不是坏事，毕竟只爱你好的一面而对你无可避免的缺点一点容忍都没有的人不值得，没有人能真的十全十美"
+        }
+      ]
+    },
+    {
+      "term": "十分",
+      "evidenceSamples": [
+        "认知局限，人的精力是有限的，尤其是冲浪的，个个恨不得一目十行，仅见微而难知其广，很多人根本不会去了解事件的全部，抓住自己能理解的那部分开喷就行了。另外，现在编段子比编故事更玩的转互联网，只要观点够爆，你说三十分钟车轱辘话都有人追捧。",
+        "王警官十分疑惑自己为什么在疑惑",
+        "别在同情什么非洲黑人了，想想自己同胞的处境都十分坚难！！！",
+        "高一女同桌找我见面 背景:高一暗恋过女同桌，高三毕业写信表白了，表达喜欢，没说谈恋爱什么的现在我24了，这些年几乎没有联系，都不怎么理我，所以也不找她她说有事必须见面说，但我觉得希望渺茫，她言语间十分平淡，我觉得不会是喜欢我",
+        "哥们ai文案味溢出屏幕了，一个意思重复讲十分钟[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uq4y1T7wR/, https://www.bilibili.com/video/BV1is421g7yZ/, https://www.bilibili.com/video/BV1fQg3zkEQU/, https://www.bilibili.com/video/BV1pV4y1i7VU/, https://www.bilibili.com/video/BV14Z421g78r/, https://www.bilibili.com/video/BV1ys4y1F7Gc/, http://www.bilibili.com/video/av547736446, http://www.bilibili.com/video/av114872608100276, http://www.bilibili.com/video/av1155727561, http://www.bilibili.com/video/av115025884747482, http://www.bilibili.com/video/av997679607, http://www.bilibili.com/video/av580921221, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av116072212596613, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av112885128956016, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av112932692231241, http://www.bilibili.com/video/av112887779558294, http://www.bilibili.com/video/av114765619793436, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av34866935, http://www.bilibili.com/video/av114742333016741, http://www.bilibili.com/video/av857235647, http://www.bilibili.com/video/av115637800213806, http://www.bilibili.com/video/av114214739904920, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av288122514, http://www.bilibili.com/video/av1855352649, http://www.bilibili.com/video/av871778362, http://www.bilibili.com/video/av955390078, http://www.bilibili.com/video/av112919740154585, http://www.bilibili.com/video/av113480317276519, http://www.bilibili.com/video/av465848268",
+          "uid": "BV1uq4y1T7wR,BV1is421g7yZ,BV1fQg3zkEQU,BV1pV4y1i7VU,BV14Z421g78r,BV1ys4y1F7Gc",
+          "sample": "认知局限，人的精力是有限的，尤其是冲浪的，个个恨不得一目十行，仅见微而难知其广，很多人根本不会去了解事件的全部，抓住自己能理解的那部分开喷就行了。另外，现在编段子比编故事更玩的转互联网，只要观点够爆，你说三十分钟车轱辘话都有人追捧。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8439459265",
+          "uid": "贴吧用户_aU5S344",
+          "sample": "王警官十分疑惑自己为什么在疑惑"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "别在同情什么非洲黑人了，想想自己同胞的处境都十分坚难！！！"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "高一女同桌找我见面 背景:高一暗恋过女同桌，高三毕业写信表白了，表达喜欢，没说谈恋爱什么的现在我24了，这些年几乎没有联系，都不怎么理我，所以也不找她她说有事必须见面说，但我觉得希望渺茫，她言语间十分平淡，我觉得不会是喜欢我"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "哥们ai文案味溢出屏幕了，一个意思重复讲十分钟[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
+          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
+          "sample": "观念明确，立场鲜明，站队站的十分坚定的声音和精神，是非常能够让一些人形成有相同的感受群体，这个好像我社会学还是什么课学过，学艺不精现在都忘了"
+        }
+      ]
+    },
+    {
+      "term": "十拿九稳",
+      "evidenceSamples": [
+        "25新一卷数学126，给一个血的教训：绝对、绝对不要在考试最后几分钟改答案，尤其是前面的题，如果要改一定是千真万确、十拿九稳地确定自己之前错了，否则大概率是你考到最后眼睛已经花了，把对的当成错的了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1iRVG6cE5g/",
+          "uid": "BV1iRVG6cE5g",
+          "sample": "25新一卷数学126，给一个血的教训：绝对、绝对不要在考试最后几分钟改答案，尤其是前面的题，如果要改一定是千真万确、十拿九稳地确定自己之前错了，否则大概率是你考到最后眼睛已经花了，把对的当成错的了"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,704 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "absolutes",
+  "shard": 45,
+  "shardCount": 49,
+  "evidence": [
+    {
+      "term": "绝对会",
+      "evidenceSamples": [
+        "ai音乐成熟绝对会是好事，对于视频背景音乐来说ai质量可以吊打大部分口水歌，所以对于短视频为媒介，的音乐质量上会有一个质的飞跃。至少大众审美会提升不少。",
+        "西方国家有规定，同居半年以上就是事实婚姻，但中国没有这项规定，然后一些来中国赚钱的白男就很喜欢找中国女的同居，女的怀孕后，他们就要求女的打掉，但让他们没有想到的是，女的不会打还会把事闹大，白男没办法跑回国，这就正中了小仙女的下怀，他们会追到白男的国家去，然后和当地大使馆说这个事，大使馆绝对会帮忙起诉，维护中国公民的权利，然后当地法院就只能案当地的法律判离婚案，小仙女就高高兴兴地拿钱回国。",
+        "这么帅的脸，但凡第一天做个好发型，但凡第二天给个怼脸，我们hanbi绝对会获得更多人的喜欢的呀，还是要感叹好帅的一张脸，怎么能又帅又美又可爱呢[惊喜]",
+        "我错了，之前还看着这些都是小朋友，没啥实力，我打脸了，对不起对不起，这孩子太棒了，简直很喜欢，几句就唱进我心里了，第一感觉他是个内心很温柔善良的孩子，今后会一直一直关注，我敢肯定以后绝对会更牛。宋亚轩，真的很棒[支持]",
+        "……第三个……很萌，是因为我觉得第三个男生吧，放到漫画里，我绝对会推他233333"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "ai音乐成熟绝对会是好事，对于视频背景音乐来说ai质量可以吊打大部分口水歌，所以对于短视频为媒介，的音乐质量上会有一个质的飞跃。至少大众审美会提升不少。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "西方国家有规定，同居半年以上就是事实婚姻，但中国没有这项规定，然后一些来中国赚钱的白男就很喜欢找中国女的同居，女的怀孕后，他们就要求女的打掉，但让他们没有想到的是，女的不会打还会把事闹大，白男没办法跑回国，这就正中了小仙女的下怀，他们会追到白男的国家去，然后和当地大使馆说这个事，大使馆绝对会帮忙起诉，维护中国公民的权利，然后当地法院就只能案当地的法律判离婚案，小仙女就高高兴兴地拿钱回国。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1riZtYNExg/",
+          "uid": "BV1riZtYNExg",
+          "sample": "这么帅的脸，但凡第一天做个好发型，但凡第二天给个怼脸，我们hanbi绝对会获得更多人的喜欢的呀，还是要感叹好帅的一张脸，怎么能又帅又美又可爱呢[惊喜]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H44y167rS/",
+          "uid": "BV1H44y167rS",
+          "sample": "我错了，之前还看着这些都是小朋友，没啥实力，我打脸了，对不起对不起，这孩子太棒了，简直很喜欢，几句就唱进我心里了，第一感觉他是个内心很温柔善良的孩子，今后会一直一直关注，我敢肯定以后绝对会更牛。宋亚轩，真的很棒[支持]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L6ZvY1EMm/",
+          "uid": "BV1L6ZvY1EMm",
+          "sample": "……第三个……很萌，是因为我觉得第三个男生吧，放到漫画里，我绝对会推他233333"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV19341137Xj/",
+          "uid": "1643705127",
+          "sample": "如果你发些容易被喷的视频，然后精选评论或关评论+关弹幕，你要不是官媒，绝对会被挂，要是只精选不关弹幕，弹幕绝对会炸，所以，最好发些不容易被喷的"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1mE411s7yB/",
+          "uid": "329106982",
+          "sample": "我刚开始也想选熬夜，但是想了想up绝对会想到，我就选了瞎子，然后黑暗黑暗可乐[喜极而泣]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV19t4y1Q7y8/",
+          "uid": "92163183",
+          "sample": "别说路法还是挺了解皮尔的，要是当初跑路的不把炎帝带上，以皮尔的心思绝对会把炎帝放出来追杀路法他们，到时不管谁死反正皮尔都不亏[doge]"
+        }
+      ]
+    },
+    {
+      "term": "绝对假",
+      "evidenceSamples": [
+        "这个绝对假的，真螺纹钢的强度，跟你闹呢？",
+        "这个绝对假，钢筋要是能被这么掰，厂商得进去"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "这个绝对假的，真螺纹钢的强度，跟你闹呢？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "这个绝对假，钢筋要是能被这么掰，厂商得进去"
+        }
+      ]
+    },
+    {
+      "term": "绝对公平",
+      "evidenceSamples": [
+        "营销号那里随机刷到的，她白色华伦天奴那身，一下子就震惊，还去翻了一下，发现是华伦天奴，瞬间就知道到华伦天奴这两年在做什么设计倾向了[doge]绝对是带货达人，能挖掘服装特质的人。",
+        "希望大家能看到waa发的这段话，真的看得出一个真正的音乐人的表达，她走了绝对是歌手节目一大遗憾[大哭]",
+        "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽",
+        "绝对是",
+        "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1UsoWYAEDX/",
+          "uid": "BV1UsoWYAEDX",
+          "sample": "营销号那里随机刷到的，她白色华伦天奴那身，一下子就震惊，还去翻了一下，发现是华伦天奴，瞬间就知道到华伦天奴这两年在做什么设计倾向了[doge]绝对是带货达人，能挖掘服装特质的人。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16WVV63EB8/",
+          "uid": "BV16WVV63EB8",
+          "sample": "希望大家能看到waa发的这段话，真的看得出一个真正的音乐人的表达，她走了绝对是歌手节目一大遗憾[大哭]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV11r5F6LEKo/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1QnTT64Ek8/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SF7s6cEZW/, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av114438329868187, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av115596746300250, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av114613366687292, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av565805442, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116804588537830, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av843335704, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av116675068368192, http://www.bilibili.com/video/av116825308273284, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116757645756455",
+          "uid": "BV1nAKd6gEWn,BV11r5F6LEKo,BV19X7G6TEiG,BV1QnTT64Ek8,BV1SXTc63E8Q,BV1SF7s6cEZW",
+          "sample": "绝对是"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8486643952",
+          "uid": "极汨",
+          "sample": "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "日本音乐不管质量还是热度现在都下降太多了，新一代的这些音乐人，米津玄师藤井风yoasobi，听感都感觉很公式，相比起千禧年间的宇多田光椎名林檎滨崎步，差距真的不小，而且日本音乐的多样性也完全不如前十几年，现在的日本音乐市场很难找到好的hiphop，artpop，梦泡，涉谷系，盯鞋，但之前日本可是有soul scream，ua，蘑菇帝国，fishman，nujabes这些在自己的音乐风格内绝对是世界顶尖的音乐人，在如今的日本新人中几乎找不到这样的人才了，除了质量下降日本音乐的热度知名度，现在也是完全比不过隔壁韩国的kpop了，比如Spotify上jpop的播放量完全被碾压，虽然热度和质量没有必然联系，但也能反应出来日本乐坛是在走下坡路"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8246499454",
+          "uid": "♬沉伦",
+          "sample": "“凡事无绝对”这句话过于绝对。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8319567796",
+          "uid": "贴吧用户_7XZ2K77",
+          "sample": "“话不能说得太绝对”这句话太绝对了"
+        }
+      ]
+    },
+    {
+      "term": "绝对化",
+      "evidenceSamples": [
+        "你说的剪短发很显然是从长剪到短吧，一个人突然从长发变成短发，这么巨大的改变，问一嘴不是很正常？如果你从小就是短发自然不会有人问了，就算是男的一直留长发突然剪短了一样会被问，而且没人觉得女生短发很奇怪吧，我这么说很绝对化，但现实，年轻一代，真的没多少人对女生短发有偏见，当然男生长发的偏见还是普遍存在的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L3Vv6fEAF/",
+          "uid": "BV1L3Vv6fEAF",
+          "sample": "你说的剪短发很显然是从长剪到短吧，一个人突然从长发变成短发，这么巨大的改变，问一嘴不是很正常？如果你从小就是短发自然不会有人问了，就算是男的一直留长发突然剪短了一样会被问，而且没人觉得女生短发很奇怪吧，我这么说很绝对化，但现实，年轻一代，真的没多少人对女生短发有偏见，当然男生长发的偏见还是普遍存在的"
+        }
+      ]
+    },
+    {
+      "term": "绝对压制",
+      "evidenceSamples": [
+        "《很公平的，绝对压制》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1BsVa6pEGL/",
+          "uid": "BV1BsVa6pEGL",
+          "sample": "《很公平的，绝对压制》"
+        }
+      ]
+    },
+    {
+      "term": "绝对好",
+      "evidenceSamples": [
+        "我喜欢听：帮助蝌蚪找妈妈。这首绝对好听"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1YSRSBeED6/",
+          "uid": "BV1YSRSBeED6",
+          "sample": "我喜欢听：帮助蝌蚪找妈妈。这首绝对好听"
+        }
+      ]
+    },
+    {
+      "term": "绝对安全",
+      "evidenceSamples": [
+        "绝对安全，成分研究下就能看明白了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1QbYhzzE6q/",
+          "uid": "BV1QbYhzzE6q",
+          "sample": "绝对安全，成分研究下就能看明白了"
+        }
+      ]
+    },
+    {
+      "term": "绝对完美",
+      "evidenceSamples": [
+        "我新房装修时就选了巨厚的窗帘，遮上之后一点不透光，午睡绝对完美"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV134XaBzEcL/",
+          "uid": "BV134XaBzEcL",
+          "sample": "我新房装修时就选了巨厚的窗帘，遮上之后一点不透光，午睡绝对完美"
+        }
+      ]
+    },
+    {
+      "term": "绝对差",
+      "evidenceSamples": [
+        "能不能高清重制上映啊 票房绝对差不了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1m8P2eCExk/",
+          "uid": "BV1m8P2eCExk",
+          "sample": "能不能高清重制上映啊 票房绝对差不了"
+        }
+      ]
+    },
+    {
+      "term": "绝对放心",
+      "evidenceSamples": [
+        "没事的！只要那个狗不是携带狂犬病毒且发作期间咬了人就没事！十日观察法！只要十天内那个狗没去世绝对放心了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1aULX65E5R/",
+          "uid": "BV1aULX65E5R",
+          "sample": "没事的！只要那个狗不是携带狂犬病毒且发作期间咬了人就没事！十日观察法！只要十天内那个狗没去世绝对放心了"
+        }
+      ]
+    },
+    {
+      "term": "绝对是",
+      "evidenceSamples": [
+        "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。",
+        "日本音乐不管质量还是热度现在都下降太多了，新一代的这些音乐人，米津玄师藤井风yoasobi，听感都感觉很公式，相比起千禧年间的宇多田光椎名林檎滨崎步，差距真的不小，而且日本音乐的多样性也完全不如前十几年，现在的日本音乐市场很难找到好的hiphop，artpop，梦泡，涉谷系，盯鞋，但之前日本可是有soul scream，ua，蘑菇帝国，fishman，nujabes这些在自己的音乐风格内绝对是世界顶尖的音乐人，在如今的日本新人中几乎找不到这样的人才了，除了质量下降日本音乐的热度知名度，现在也是完全比不过隔壁韩国的kpop了，比如Spotify上jpop的播放量完全被碾压，虽然热度和质量没有必然联系，但也能反应出来日本乐坛是在走下坡路",
+        "营销号那里随机刷到的，她白色华伦天奴那身，一下子就震惊，还去翻了一下，发现是华伦天奴，瞬间就知道到华伦天奴这两年在做什么设计倾向了[doge]绝对是带货达人，能挖掘服装特质的人。",
+        "希望大家能看到waa发的这段话，真的看得出一个真正的音乐人的表达，她走了绝对是歌手节目一大遗憾[大哭]",
+        "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8486643952",
+          "uid": "极汨",
+          "sample": "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "日本音乐不管质量还是热度现在都下降太多了，新一代的这些音乐人，米津玄师藤井风yoasobi，听感都感觉很公式，相比起千禧年间的宇多田光椎名林檎滨崎步，差距真的不小，而且日本音乐的多样性也完全不如前十几年，现在的日本音乐市场很难找到好的hiphop，artpop，梦泡，涉谷系，盯鞋，但之前日本可是有soul scream，ua，蘑菇帝国，fishman，nujabes这些在自己的音乐风格内绝对是世界顶尖的音乐人，在如今的日本新人中几乎找不到这样的人才了，除了质量下降日本音乐的热度知名度，现在也是完全比不过隔壁韩国的kpop了，比如Spotify上jpop的播放量完全被碾压，虽然热度和质量没有必然联系，但也能反应出来日本乐坛是在走下坡路"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1UsoWYAEDX/",
+          "uid": "BV1UsoWYAEDX",
+          "sample": "营销号那里随机刷到的，她白色华伦天奴那身，一下子就震惊，还去翻了一下，发现是华伦天奴，瞬间就知道到华伦天奴这两年在做什么设计倾向了[doge]绝对是带货达人，能挖掘服装特质的人。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16WVV63EB8/",
+          "uid": "BV16WVV63EB8",
+          "sample": "希望大家能看到waa发的这段话，真的看得出一个真正的音乐人的表达，她走了绝对是歌手节目一大遗憾[大哭]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV11r5F6LEKo/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1QnTT64Ek8/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SF7s6cEZW/, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av114438329868187, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av115596746300250, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av114613366687292, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av565805442, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116804588537830, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av843335704, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av116675068368192, http://www.bilibili.com/video/av116825308273284, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116757645756455",
+          "uid": "BV1nAKd6gEWn,BV11r5F6LEKo,BV19X7G6TEiG,BV1QnTT64Ek8,BV1SXTc63E8Q,BV1SF7s6cEZW",
+          "sample": "绝对是"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "BV1VKVK66E8K",
+          "sample": "大佬们的判断“大概率”“几乎”“不太可能”“基本不会”……\\n网友的判断“这不就是”“绝对是”“一模一样”……"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Dv57zpEN1/",
+          "uid": "BV1Dv57zpEN1",
+          "sample": "不是？前面我还能沉默，听到这首歌我绷不住了，老师绝对是大佬"
+        }
+      ]
+    },
+    {
+      "term": "绝对是真",
+      "evidenceSamples": [
+        "这个绝对是真的，标准的底层式傲慢",
+        "卡卡的结婚请帖，我就是看了那个才确认他俩是真的绝对是真的",
+        "这绝对是真的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1eajXzFEHC/",
+          "uid": "BV1eajXzFEHC",
+          "sample": "这个绝对是真的，标准的底层式傲慢"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Sv4y1e7S5/",
+          "uid": "BV1Sv4y1e7S5",
+          "sample": "卡卡的结婚请帖，我就是看了那个才确认他俩是真的绝对是真的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV171Vc6BEDj/",
+          "uid": "BV171Vc6BEDj",
+          "sample": "这绝对是真的。"
+        }
+      ]
+    },
+    {
+      "term": "绝对有",
+      "evidenceSamples": [
+        "B站绝对下一个微博。女的势力绝对有8成左右",
+        "牢博：“我这几年风评被害绝对有你一份功劳”[笑哭]",
+        "博士：这么多年来我名声受损绝对有你一部分责任",
+        "绝对有可能，但是母总不可能走，母总的商业价值决定了皇马放弃谁都不可能放弃母总",
+        "我能保证 贝贝濑濑绝对有什么"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "B站绝对下一个微博。女的势力绝对有8成左右"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KkV86PEB5/",
+          "uid": "BV1KkV86PEB5",
+          "sample": "牢博：“我这几年风评被害绝对有你一份功劳”[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KkV86PEB5/",
+          "uid": "BV1KkV86PEB5",
+          "sample": "博士：这么多年来我名声受损绝对有你一部分责任"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1SvVE6MEKZ/",
+          "uid": "BV1SvVE6MEKZ",
+          "sample": "绝对有可能，但是母总不可能走，母总的商业价值决定了皇马放弃谁都不可能放弃母总"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
+          "uid": "96367415",
+          "sample": "我能保证 贝贝濑濑绝对有什么"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1ic411R7GK/",
+          "uid": "526569783",
+          "sample": "回复 @月之宫赫夜 :单卡拉墓地在以前是很强的。暗转足以把征龙魔导时期的任何一个卡组提升到跟这俩一个境界。同时其其他卡组的弱点就在于三回合以后才能启动，但是在这俩卡组面前活过三个回合是很难的。蒸笼大三元大四喜或者大飞机。魔也可以出白龙或者巨神兵。一两个回合就可以形成压制，提前两个回合考虑斩杀。暗转就可以做到，让这两个卡组跟你一起三回合启动，或者比他们更猛。最起码次水是绝对有这样的能力的。"
+        }
+      ]
+    },
+    {
+      "term": "绝对正确",
+      "evidenceSamples": [
+        "又是个深信绝对正确的，多少人打着这种旗号圈钱看不见，打着这种旗号卖半成品看不见，但是别人一旦揭穿这个问题，就会“警铃大作”。",
+        "过了一遍，我佛了，大人将自己的主观臆想擅自强加在孩子身上，以为自己以为的就是事实，还把自己的观念强加在别人身上，傲慢与偏见。现实中很多人也是这个样子觉得自己说的就是绝对正确的，不容别人反驳.可能说的不对，但是这就是我自己思考这个视频的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "又是个深信绝对正确的，多少人打着这种旗号圈钱看不见，打着这种旗号卖半成品看不见，但是别人一旦揭穿这个问题，就会“警铃大作”。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YA411q7wM/",
+          "uid": "159954254",
+          "sample": "过了一遍，我佛了，大人将自己的主观臆想擅自强加在孩子身上，以为自己以为的就是事实，还把自己的观念强加在别人身上，傲慢与偏见。现实中很多人也是这个样子觉得自己说的就是绝对正确的，不容别人反驳.可能说的不对，但是这就是我自己思考这个视频的。"
+        }
+      ]
+    },
+    {
+      "term": "绝对没有",
+      "evidenceSamples": [
+        "古人的速度绝对没有现代人快 因为 跑步 是现代发明出来的词语",
+        "回复 @芬泰 :你在85年说苏联冷战要失败确实有人会信，但你要是在85年告诉苏联人6年以后苏联就碎了，绝对没有人信。苏联解体实际上是两德合并东欧剧变后极短的时间内才出现端倪的，甚至在1991年上半年，苏联已经碎出去好几块了，依然有着不小的国际影响力，苏联都那样了，老布什干伊拉克的时候跟苏联还有商有量的呢[笑哭]",
+        "回复 @bill_1314113999 :他绝对没有178。问就是我174，我刚刚站起来看了一眼我跟一般桌子的高度差比他大。",
+        "[笑哭]这个b青旅我刚好前段时间住过，确实便宜但是绝对没有这么干净",
+        "我在一个视频下面评论，他和我的观点不同回复我，我开始也在和他进行正常的回复讨论，后面他持续发一些无意义挑衅的话，比如“接着叫”，“真听话，继续”，“大鼠已经掌握人类语言了吗”之类挑衅的话，起初我还试图和他沟通，后来我也激怒，言辞也稍微过激了一点，但绝对没有达到侮辱的地步，然后他就发了这个，在这个说我“发q”的评论前他称呼我为“大G”很久了，但一开始我都没反应过来，直到他说“发q”，“驯服”之类的话，我当时感觉自己被侮辱，然后提醒他我会截图报警，但是他已经态度嚣张，要我去，然后把我拉黑了，之后我又用小号警告了一次我再去法院路上，他依旧挑衅说你加油之类的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7488493979",
+          "uid": "嗐说🙈周树入",
+          "sample": "古人的速度绝对没有现代人快 因为 跑步 是现代发明出来的词语"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV11NV86tEjW/",
+          "uid": "BV11NV86tEjW",
+          "sample": "回复 @芬泰 :你在85年说苏联冷战要失败确实有人会信，但你要是在85年告诉苏联人6年以后苏联就碎了，绝对没有人信。苏联解体实际上是两德合并东欧剧变后极短的时间内才出现端倪的，甚至在1991年上半年，苏联已经碎出去好几块了，依然有着不小的国际影响力，苏联都那样了，老布什干伊拉克的时候跟苏联还有商有量的呢[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1M6Z4YCEAA/",
+          "uid": "BV1M6Z4YCEAA",
+          "sample": "回复 @bill_1314113999 :他绝对没有178。问就是我174，我刚刚站起来看了一眼我跟一般桌子的高度差比他大。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AnV46DErH/",
+          "uid": "BV1AnV46DErH",
+          "sample": "[笑哭]这个b青旅我刚好前段时间住过，确实便宜但是绝对没有这么干净"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Yeju6fERd/",
+          "uid": "73687627",
+          "sample": "我在一个视频下面评论，他和我的观点不同回复我，我开始也在和他进行正常的回复讨论，后面他持续发一些无意义挑衅的话，比如“接着叫”，“真听话，继续”，“大鼠已经掌握人类语言了吗”之类挑衅的话，起初我还试图和他沟通，后来我也激怒，言辞也稍微过激了一点，但绝对没有达到侮辱的地步，然后他就发了这个，在这个说我“发q”的评论前他称呼我为“大G”很久了，但一开始我都没反应过来，直到他说“发q”，“驯服”之类的话，我当时感觉自己被侮辱，然后提醒他我会截图报警，但是他已经态度嚣张，要我去，然后把我拉黑了，之后我又用小号警告了一次我再去法院路上，他依旧挑衅说你加油之类的"
+        }
+      ]
+    },
+    {
+      "term": "绝对没问题",
+      "evidenceSamples": [
+        "demo玩下来看，游戏质量绝对没问题!但这优化我玩的真的想吐，过场动画。锁30帧，性能模式60帧不稳，而且动态模糊巨晕。吉田你自己说的基于ps5制作的，希望正式版别这种优化端上来",
+        "这里less is more绝对没问题",
+        "这家长说的你分数绝对没问题，分数这么高又怎么会怕"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "demo玩下来看，游戏质量绝对没问题!但这优化我玩的真的想吐，过场动画。锁30帧，性能模式60帧不稳，而且动态模糊巨晕。吉田你自己说的基于ps5制作的，希望正式版别这种优化端上来"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "这里less is more绝对没问题"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1EBJPzkE2j/",
+          "uid": "BV1EBJPzkE2j",
+          "sample": "这家长说的你分数绝对没问题，分数这么高又怎么会怕"
+        }
+      ]
+    },
+    {
+      "term": "绝对禁止",
+      "evidenceSamples": [
+        "哪怕是在外面街上，对着食物吹头发，都是绝对禁止的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "哪怕是在外面街上，对着食物吹头发，都是绝对禁止的"
+        }
+      ]
+    },
+    {
+      "term": "绝对肯定",
+      "evidenceSamples": [
+        "这些人说话都莫名其妙的喜欢绝对肯定，一股传销味"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663559131570/",
+          "uid": "38724765203",
+          "sample": "这些人说话都莫名其妙的喜欢绝对肯定，一股传销味"
+        }
+      ]
+    },
+    {
+      "term": "绝对错",
+      "evidenceSamples": [
+        "这点是绝对错误的，新德里气候远不如南部的班加罗尔。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13TzbYuEPv/",
+          "uid": "BV13TzbYuEPv",
+          "sample": "这点是绝对错误的，新德里气候远不如南部的班加罗尔。"
+        }
+      ]
+    },
+    {
+      "term": "绝对错误",
+      "evidenceSamples": [
+        "这点是绝对错误的，新德里气候远不如南部的班加罗尔。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13TzbYuEPv/",
+          "uid": "BV13TzbYuEPv",
+          "sample": "这点是绝对错误的，新德里气候远不如南部的班加罗尔。"
+        }
+      ]
+    },
+    {
+      "term": "绝对零度",
+      "evidenceSamples": [
+        "冷知识：绝对零度是-273度"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7486974700",
+          "uid": "Weiershier",
+          "sample": "冷知识：绝对零度是-273度"
+        }
+      ]
+    },
+    {
+      "term": "绝对顶",
+      "evidenceSamples": [
+        "曾经的B站一哥，当时小破站的绝对顶流"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "曾经的B站一哥，当时小破站的绝对顶流"
+        }
+      ]
+    },
+    {
+      "term": "绝无",
+      "evidenceSamples": [
+        "终于有人说了，一堆人说她善良“好心办坏事”什么的，其实混过职场的人一眼就能看出来，如果没有她，王和陈的矛盾不会那么大[doge]陈蠢王直，其实是“打一架”就能和好的俩人，但！加上一个黄当“搅屎棍”[吃瓜]那和好就绝无可能[滑稽]别说她“老好人”，老好人是会两边解释调和当润滑剂的，而不是像她一样这边捧一捧那边吹一吹[辣眼睛]",
+        "真不愧是我天上地下绝无仅有的可爱小宝贝！",
+        "我学音乐的，这张图片一出，我心里就有答案了。就算它鲸鱼把头伸出来叫，你也听不到！鲸鱼叫声的频率绝无可能通过空气介质传播这么远的",
+        "回复 @谦陌Qianmo :就算有复仇这种想法，也不代表每一个老实人都想卷入无穷无尽的撕壁当中[doge] 有事讲道理，没事别撕壁，还是要拒绝无限扩张负面情绪和小事化大",
+        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV17JoXYFEvs/",
+          "uid": "BV17JoXYFEvs",
+          "sample": "终于有人说了，一堆人说她善良“好心办坏事”什么的，其实混过职场的人一眼就能看出来，如果没有她，王和陈的矛盾不会那么大[doge]陈蠢王直，其实是“打一架”就能和好的俩人，但！加上一个黄当“搅屎棍”[吃瓜]那和好就绝无可能[滑稽]别说她“老好人”，老好人是会两边解释调和当润滑剂的，而不是像她一样这边捧一捧那边吹一吹[辣眼睛]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19vVp69Ehs/",
+          "uid": "BV19vVp69Ehs",
+          "sample": "真不愧是我天上地下绝无仅有的可爱小宝贝！"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "BV1VKVK66E8K",
+          "sample": "我学音乐的，这张图片一出，我心里就有答案了。就算它鲸鱼把头伸出来叫，你也听不到！鲸鱼叫声的频率绝无可能通过空气介质传播这么远的"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1j4421D7ZC/",
+          "uid": "1498811174",
+          "sample": "回复 @谦陌Qianmo :就算有复仇这种想法，也不代表每一个老实人都想卷入无穷无尽的撕壁当中[doge] 有事讲道理，没事别撕壁，还是要拒绝无限扩张负面情绪和小事化大"
+        },
+        {
+          "source": "Popular video comments UID 627318 (1 comments from 1 videos)",
+          "uid": "627318",
+          "sample": "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人"
+        }
+      ]
+    },
+    {
+      "term": "绝无仅有",
+      "evidenceSamples": [
+        "真不愧是我天上地下绝无仅有的可爱小宝贝！",
+        "终于有人说了，一堆人说她善良“好心办坏事”什么的，其实混过职场的人一眼就能看出来，如果没有她，王和陈的矛盾不会那么大[doge]陈蠢王直，其实是“打一架”就能和好的俩人，但！加上一个黄当“搅屎棍”[吃瓜]那和好就绝无可能[滑稽]别说她“老好人”，老好人是会两边解释调和当润滑剂的，而不是像她一样这边捧一捧那边吹一吹[辣眼睛]",
+        "我学音乐的，这张图片一出，我心里就有答案了。就算它鲸鱼把头伸出来叫，你也听不到！鲸鱼叫声的频率绝无可能通过空气介质传播这么远的",
+        "回复 @谦陌Qianmo :就算有复仇这种想法，也不代表每一个老实人都想卷入无穷无尽的撕壁当中[doge] 有事讲道理，没事别撕壁，还是要拒绝无限扩张负面情绪和小事化大",
+        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19vVp69Ehs/",
+          "uid": "BV19vVp69Ehs",
+          "sample": "真不愧是我天上地下绝无仅有的可爱小宝贝！"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV17JoXYFEvs/",
+          "uid": "BV17JoXYFEvs",
+          "sample": "终于有人说了，一堆人说她善良“好心办坏事”什么的，其实混过职场的人一眼就能看出来，如果没有她，王和陈的矛盾不会那么大[doge]陈蠢王直，其实是“打一架”就能和好的俩人，但！加上一个黄当“搅屎棍”[吃瓜]那和好就绝无可能[滑稽]别说她“老好人”，老好人是会两边解释调和当润滑剂的，而不是像她一样这边捧一捧那边吹一吹[辣眼睛]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "BV1VKVK66E8K",
+          "sample": "我学音乐的，这张图片一出，我心里就有答案了。就算它鲸鱼把头伸出来叫，你也听不到！鲸鱼叫声的频率绝无可能通过空气介质传播这么远的"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1j4421D7ZC/",
+          "uid": "1498811174",
+          "sample": "回复 @谦陌Qianmo :就算有复仇这种想法，也不代表每一个老实人都想卷入无穷无尽的撕壁当中[doge] 有事讲道理，没事别撕壁，还是要拒绝无限扩张负面情绪和小事化大"
+        },
+        {
+          "source": "Popular video comments UID 627318 (1 comments from 1 videos)",
+          "uid": "627318",
+          "sample": "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人"
+        }
+      ]
+    },
+    {
+      "term": "绝无可能",
+      "evidenceSamples": [
+        "终于有人说了，一堆人说她善良“好心办坏事”什么的，其实混过职场的人一眼就能看出来，如果没有她，王和陈的矛盾不会那么大[doge]陈蠢王直，其实是“打一架”就能和好的俩人，但！加上一个黄当“搅屎棍”[吃瓜]那和好就绝无可能[滑稽]别说她“老好人”，老好人是会两边解释调和当润滑剂的，而不是像她一样这边捧一捧那边吹一吹[辣眼睛]",
+        "我学音乐的，这张图片一出，我心里就有答案了。就算它鲸鱼把头伸出来叫，你也听不到！鲸鱼叫声的频率绝无可能通过空气介质传播这么远的",
+        "真不愧是我天上地下绝无仅有的可爱小宝贝！",
+        "回复 @谦陌Qianmo :就算有复仇这种想法，也不代表每一个老实人都想卷入无穷无尽的撕壁当中[doge] 有事讲道理，没事别撕壁，还是要拒绝无限扩张负面情绪和小事化大",
+        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV17JoXYFEvs/",
+          "uid": "BV17JoXYFEvs",
+          "sample": "终于有人说了，一堆人说她善良“好心办坏事”什么的，其实混过职场的人一眼就能看出来，如果没有她，王和陈的矛盾不会那么大[doge]陈蠢王直，其实是“打一架”就能和好的俩人，但！加上一个黄当“搅屎棍”[吃瓜]那和好就绝无可能[滑稽]别说她“老好人”，老好人是会两边解释调和当润滑剂的，而不是像她一样这边捧一捧那边吹一吹[辣眼睛]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "BV1VKVK66E8K",
+          "sample": "我学音乐的，这张图片一出，我心里就有答案了。就算它鲸鱼把头伸出来叫，你也听不到！鲸鱼叫声的频率绝无可能通过空气介质传播这么远的"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19vVp69Ehs/",
+          "uid": "BV19vVp69Ehs",
+          "sample": "真不愧是我天上地下绝无仅有的可爱小宝贝！"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1j4421D7ZC/",
+          "uid": "1498811174",
+          "sample": "回复 @谦陌Qianmo :就算有复仇这种想法，也不代表每一个老实人都想卷入无穷无尽的撕壁当中[doge] 有事讲道理，没事别撕壁，还是要拒绝无限扩张负面情绪和小事化大"
+        },
+        {
+          "source": "Popular video comments UID 627318 (1 comments from 1 videos)",
+          "uid": "627318",
+          "sample": "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人"
+        }
+      ]
+    },
+    {
+      "term": "绝非",
+      "evidenceSamples": [
+        "安/倍/晋/三的死亡绝非偶然，因为3是奇数",
+        "王警官判断，法医解剖死者的解剖室绝非第一案发现场。",
+        "蔡徐坤现象的产生绝非偶然，如今针对他本人与IKUN们的舆论大战注定是要发生的。蔡徐坤，这个才不配位，华而不实的偶像，被资本的力量所塑造，被推到了台前，起初凭借人设收获大量粉丝，拥有人气，但这虚幻的人气中有虚假的流量操控，实力欠佳的他最终不可避免地踩到了雷，撞上了舆论的枪口。一场盛大的的全民鬼畜盛宴就此开始。人设经不起舆论的解析与调侃。IKUN们奋勇还击，战事扩大。如今，舆论大战的局势已见分晓，蔡徐坤本人大概一辈子都走不出&#34;鸡你太美&#34;的重大失败与阴影。IKUN们离开了舆论的战场，开始选择沉默与理智。部分极端粉仍在坚守。然而，现在就说这场战争我们胜利了，显然是为时尚早的。只要投机的资本力量还在，那些只知道圈钱，把观众们、人民当猴耍，不用心做经得住时间考验的作品，只知道做一些剧情稀烂、演技极尬、靠华而不实的流量明星做门面的烂作（如甜蜜暴击）的群体们还在，那么，一个蔡徐坤被批倒了，批臭了，还会有更多像他这样的低质量流水线产品即将走上前台，到那时候，我们批判得完吗？IKUN们，蔡徐坤，真的是我们的敌人？这场舆论大战，如果以此作为分水岭，我们将告别欺骗观众智商的黑暗时代，迎来更多有实力有演技有唱功有担当的新人，让偶像们背后的塑造偶像们的资本力量永远铭记“群众的眼光是雪亮的”的真理，那时，我们的舆论大战是有意义的，是取得胜利的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7913586490",
+          "uid": "ლ假装有名字ლ",
+          "sample": "安/倍/晋/三的死亡绝非偶然，因为3是奇数"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8531056099",
+          "uid": "笺墨无颜",
+          "sample": "王警官判断，法医解剖死者的解剖室绝非第一案发现场。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "443082665",
+          "sample": "蔡徐坤现象的产生绝非偶然，如今针对他本人与IKUN们的舆论大战注定是要发生的。蔡徐坤，这个才不配位，华而不实的偶像，被资本的力量所塑造，被推到了台前，起初凭借人设收获大量粉丝，拥有人气，但这虚幻的人气中有虚假的流量操控，实力欠佳的他最终不可避免地踩到了雷，撞上了舆论的枪口。一场盛大的的全民鬼畜盛宴就此开始。人设经不起舆论的解析与调侃。IKUN们奋勇还击，战事扩大。如今，舆论大战的局势已见分晓，蔡徐坤本人大概一辈子都走不出&#34;鸡你太美&#34;的重大失败与阴影。IKUN们离开了舆论的战场，开始选择沉默与理智。部分极端粉仍在坚守。然而，现在就说这场战争我们胜利了，显然是为时尚早的。只要投机的资本力量还在，那些只知道圈钱，把观众们、人民当猴耍，不用心做经得住时间考验的作品，只知道做一些剧情稀烂、演技极尬、靠华而不实的流量明星做门面的烂作（如甜蜜暴击）的群体们还在，那么，一个蔡徐坤被批倒了，批臭了，还会有更多像他这样的低质量流水线产品即将走上前台，到那时候，我们批判得完吗？IKUN们，蔡徐坤，真的是我们的敌人？这场舆论大战，如果以此作为分水岭，我们将告别欺骗观众智商的黑暗时代，迎来更多有实力有演技有唱功有担当的新人，让偶像们背后的塑造偶像们的资本力量永远铭记“群众的眼光是雪亮的”的真理，那时，我们的舆论大战是有意义的，是取得胜利的。"
+        }
+      ]
+    },
+    {
+      "term": "统统",
+      "evidenceSamples": [
+        "ikun水军统统给爷爬",
+        "老是嚷嚷医院床位数量不足，统统改成上下铺，不就解决问题了吗？",
+        "隔一段时间就要体验的赛博亡国，中国足球完了篮球完了美术完了电影完了音乐也完了，圈子内没能解决的问题统统都是大众不好，品味不够没眼光，恨不得只有自己圈子才是社会关注的焦点。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "427398427",
+          "sample": "ikun水军统统给爷爬"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8682662906",
+          "uid": "md8yl",
+          "sample": "老是嚷嚷医院床位数量不足，统统改成上下铺，不就解决问题了吗？"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "隔一段时间就要体验的赛博亡国，中国足球完了篮球完了美术完了电影完了音乐也完了，圈子内没能解决的问题统统都是大众不好，品味不够没眼光，恨不得只有自己圈子才是社会关注的焦点。"
+        }
+      ]
+    },
+    {
+      "term": "老是",
+      "evidenceSamples": [
+        "回复 @旗木顺顺东 :老是搁那说中国音乐没有创新 只是生拉硬拽 只是覆写西方和声系统 最后甩一句我持悲观态度[汤圆]不好评价 只能说华语乐坛的烂也离不开这种人",
+        "蚊子为什么不互相吸血，省的老是来吸我的",
+        "女朋友为什么老是叫我宝宝 是不是说明她想当我妈妈",
+        "回复 @星光点缀的夜空 :是的，我的评论也老是莫名其妙被吞",
+        "视频内容和热巴毛关系没有，怎么老是用人家的图片"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @旗木顺顺东 :老是搁那说中国音乐没有创新 只是生拉硬拽 只是覆写西方和声系统 最后甩一句我持悲观态度[汤圆]不好评价 只能说华语乐坛的烂也离不开这种人"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8684788233",
+          "uid": "D仕玉",
+          "sample": "蚊子为什么不互相吸血，省的老是来吸我的"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8689870645",
+          "uid": "穈穈哒的招来º",
+          "sample": "女朋友为什么老是叫我宝宝 是不是说明她想当我妈妈"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
+          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm",
+          "sample": "回复 @星光点缀的夜空 :是的，我的评论也老是莫名其妙被吞"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV11r5F6LEKo/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1QnTT64Ek8/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SF7s6cEZW/, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av114438329868187, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av115596746300250, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av114613366687292, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av565805442, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116804588537830, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av843335704, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av116675068368192, http://www.bilibili.com/video/av116825308273284, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116757645756455",
+          "uid": "BV1nAKd6gEWn,BV11r5F6LEKo,BV19X7G6TEiG,BV1QnTT64Ek8,BV1SXTc63E8Q,BV1SF7s6cEZW",
+          "sample": "视频内容和热巴毛关系没有，怎么老是用人家的图片"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV12VKf6FE2Y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av904214610, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
+          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV12VKf6FE2Y",
+          "sample": "回复 @星光点缀的夜空 :是的，我的评论也老是莫名其妙被吞"
+        }
+      ]
+    }
+  ]
+}

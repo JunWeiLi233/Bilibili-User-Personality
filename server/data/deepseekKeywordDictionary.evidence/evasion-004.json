@@ -1,0 +1,694 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "evasion",
+  "shard": 4,
+  "shardCount": 12,
+  "evidence": [
+    {
+      "term": "你还不知道吧",
+      "evidenceSamples": [
+        "“如果不是我要烤烤你，恐怕你还不知道自己几斤几两吧。”食人族 “如果不是我要烤烤你，恐怕你还不知道自己几斤几两吧。”食人族得意地对着俘虏说。",
+        "想什么呢😡多少人想要这样的机会都没有，你还不知道珍惜，你看看隔壁索拉里斯最强共鸣者，一个月仨小绿瓶，你再看看你👿这是福报知不知道",
+        "回复 @Mum曦禧 : 高一高二就跟着课内 遗传那一块就多刷题多问老师 别的部分抽空就把课本当小说看一遍又一遍 做题总结的时候将题目上有的自己不知道的知识点补充上去（一个选择题四个选项 三个选项里可能都有你还不知道的知识点 遇到了就补充上去 ）这可以让你从85到95左右 前面的85分就看基础了（基本的原理自己想明白，常考的知识点（大多数是书上黑体字）记牢固就没问题。",
+        "你不知道题目，难道你还不知道自己什么差嘛？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7389093876",
+          "uid": "creee-",
+          "sample": "“如果不是我要烤烤你，恐怕你还不知道自己几斤几两吧。”食人族 “如果不是我要烤烤你，恐怕你还不知道自己几斤几两吧。”食人族得意地对着俘虏说。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KuVp6kECn/",
+          "uid": "BV1KuVp6kECn",
+          "sample": "想什么呢😡多少人想要这样的机会都没有，你还不知道珍惜，你看看隔壁索拉里斯最强共鸣者，一个月仨小绿瓶，你再看看你👿这是福报知不知道"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YC4y1o7E3/",
+          "uid": "BV1YC4y1o7E3",
+          "sample": "回复 @Mum曦禧 : 高一高二就跟着课内 遗传那一块就多刷题多问老师 别的部分抽空就把课本当小说看一遍又一遍 做题总结的时候将题目上有的自己不知道的知识点补充上去（一个选择题四个选项 三个选项里可能都有你还不知道的知识点 遇到了就补充上去 ）这可以让你从85到95左右 前面的85分就看基础了（基本的原理自己想明白，常考的知识点（大多数是书上黑体字）记牢固就没问题。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "你不知道题目，难道你还不知道自己什么差嘛？"
+        }
+      ]
+    },
+    {
+      "term": "你都对",
+      "evidenceSamples": [
+        "你鸡汤多 你都对",
+        "你那脏手碰人家饭，没揍你都对你客气了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1b24y1R7G5/",
+          "uid": "BV1b24y1R7G5",
+          "sample": "你鸡汤多 你都对"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "你那脏手碰人家饭，没揍你都对你客气了"
+        }
+      ]
+    },
+    {
+      "term": "你随便",
+      "evidenceSamples": [
+        "19年你随便作个鲲鲲鬼畜都有10w",
+        "习惯是你熟练以后再讲的。理发我不知道。像焊接我连焊了随便挑开就行。新手锡多的你挑一个？越挑越乱还容易掉铜箔片。老老实实用吸锡器。视频这个估计你随便拿要么是剪不稳要么是剪久了手酸，反正肯定有它的道理"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "437165149",
+          "sample": "19年你随便作个鲲鲲鬼畜都有10w"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV173ZFYUEUc/",
+          "uid": "BV173ZFYUEUc",
+          "sample": "习惯是你熟练以后再讲的。理发我不知道。像焊接我连焊了随便挑开就行。新手锡多的你挑一个？越挑越乱还容易掉铜箔片。老老实实用吸锡器。视频这个估计你随便拿要么是剪不稳要么是剪久了手酸，反正肯定有它的道理"
+        }
+      ]
+    },
+    {
+      "term": "保密",
+      "evidenceSamples": [
+        "怎样才能让猫猫签饭量保密协议",
+        "我和别人交换秘密再约定保密，两个秘密融合成了一个，保密更方便了",
+        "库洛的保密水平堪比军情六处",
+        "你好！我们是魔法部的 你已违反了《国际巫师保密法》",
+        "已签收保密协议。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7932414099",
+          "uid": "用户您太长",
+          "sample": "怎样才能让猫猫签饭量保密协议"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8497413571",
+          "uid": "tttghue",
+          "sample": "我和别人交换秘密再约定保密，两个秘密融合成了一个，保密更方便了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19hVn6UECe/",
+          "uid": "BV19hVn6UECe",
+          "sample": "库洛的保密水平堪比军情六处"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV16741127uX/",
+          "uid": "BV16741127uX",
+          "sample": "你好！我们是魔法部的 你已违反了《国际巫师保密法》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1BsVfz7E2H/",
+          "uid": "BV1BsVfz7E2H",
+          "sample": "已签收保密协议。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1RR4y1t7bD/",
+          "uid": "BV1RR4y1t7bD",
+          "sample": "平台没给用户保密"
+        }
+      ]
+    },
+    {
+      "term": "保持沉默",
+      "evidenceSamples": [
+        "没人能在说话时保持沉默。",
+        "沉默是金，而是金子总会发光 所以需要光的时候可以保持沉默，自己发光。",
+        "无论你在贴吧任何吧，多会说，多牛皮，多胆大，如果一旦到了女权吧，请保持沉默或敬畏，否则你就是捅了马蜂窝，刺激了老虎，得罪了狼！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8389869210",
+          "uid": "仰望苍天♀",
+          "sample": "没人能在说话时保持沉默。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8309673531",
+          "uid": "tttghue",
+          "sample": "沉默是金，而是金子总会发光 所以需要光的时候可以保持沉默，自己发光。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "无论你在贴吧任何吧，多会说，多牛皮，多胆大，如果一旦到了女权吧，请保持沉默或敬畏，否则你就是捅了马蜂窝，刺激了老虎，得罪了狼！"
+        }
+      ]
+    },
+    {
+      "term": "信不信由你",
+      "evidenceSamples": [
+        "印方说我们一直在唬烂，信不信由你。。。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "印方说我们一直在唬烂，信不信由你。。。"
+        }
+      ]
+    },
+    {
+      "term": "免责声明",
+      "evidenceSamples": [
+        "免责声明：顾客吃出压缩机系本餐厅新品炖空调，不是异物",
+        "回复 @无彩色系小透明 :是的，看濛主二公三公选人就能看出来，她就欣赏有态度的人，二公她一开始也不太想要灿灿，但灿灿态度很好，三公她和陈瑶不熟，很纠结，但陈瑶大大方方展示了自己和歌曲的适配度[喜极而泣]而范玮琪一上来就跟发免责声明一样，说自己去别的组更不行，觉得濛主这首更简单，那濛主能高兴吗，肯定选不了一点啊[笑哭]",
+        "免责声明",
+        "开启免责声明"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461653220",
+          "uid": "100vicecity",
+          "sample": "免责声明：顾客吃出压缩机系本餐厅新品炖空调，不是异物"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nnV36vEqJ/",
+          "uid": "BV1nnV36vEqJ",
+          "sample": "回复 @无彩色系小透明 :是的，看濛主二公三公选人就能看出来，她就欣赏有态度的人，二公她一开始也不太想要灿灿，但灿灿态度很好，三公她和陈瑶不熟，很纠结，但陈瑶大大方方展示了自己和歌曲的适配度[喜极而泣]而范玮琪一上来就跟发免责声明一样，说自己去别的组更不行，觉得濛主这首更简单，那濛主能高兴吗，肯定选不了一点啊[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "免责声明"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "开启免责声明"
+        }
+      ]
+    },
+    {
+      "term": "公道自在人心",
+      "evidenceSamples": [
+        "公道自在人心"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1YG4y1V7Fd/",
+          "uid": "BV1YG4y1V7Fd",
+          "sample": "公道自在人心"
+        }
+      ]
+    },
+    {
+      "term": "关你什么事",
+      "evidenceSamples": [
+        "关你什么事，十连三黄真君[doge]",
+        "英国的事关你什么事",
+        "我爱怎么解读关你什么事"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1jt4y1n7Rd/",
+          "uid": "BV1jt4y1n7Rd",
+          "sample": "关你什么事，十连三黄真君[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV171Vc6BEDj/",
+          "uid": "BV171Vc6BEDj",
+          "sample": "英国的事关你什么事"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "我爱怎么解读关你什么事"
+        }
+      ]
+    },
+    {
+      "term": "关你屁事",
+      "evidenceSamples": [
+        "管天管地管空气，别人笑不笑关你屁事",
+        "就是关你屁事儿 不该管的不要管看热闹不好吗？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uLEt6rEbk/",
+          "uid": "BV1uLEt6rEbk",
+          "sample": "管天管地管空气，别人笑不笑关你屁事"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1QSjV6PEh1/",
+          "uid": "BV1QSjV6PEh1",
+          "sample": "就是关你屁事儿 不该管的不要管看热闹不好吗？"
+        }
+      ]
+    },
+    {
+      "term": "关我什么事",
+      "evidenceSamples": [
+        "邪修：道友请了，小破站蹦了关我什么事啊[滑稽]",
+        "你们花钱关我什么事",
+        "社会，关我什么事？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av116662133131390/",
+          "uid": "3546818547812625",
+          "sample": "邪修：道友请了，小破站蹦了关我什么事啊[滑稽]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NFVD6pECL/",
+          "uid": "BV1NFVD6pECL",
+          "sample": "你们花钱关我什么事"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18BJA6kEwk/",
+          "uid": "BV18BJA6kEwk",
+          "sample": "社会，关我什么事？"
+        }
+      ]
+    },
+    {
+      "term": "关我啥事",
+      "evidenceSamples": [
+        "“我又没收，关我啥事”",
+        "这关我啥事，才没和我商量",
+        "关我啥事"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ej411R7an/",
+          "uid": "BV1Ej411R7an",
+          "sample": "“我又没收，关我啥事”"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1eVfmY1E7e/",
+          "uid": "53141799",
+          "sample": "这关我啥事，才没和我商量"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av115279908634685/",
+          "uid": "32712425653",
+          "sample": "关我啥事"
+        }
+      ]
+    },
+    {
+      "term": "关我屁事",
+      "evidenceSamples": [
+        "关我屁事，狠狠罚",
+        "关我屁事，花我身上了？",
+        "关我屁事，喊儿子自己去赚啊？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "关我屁事，狠狠罚"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NFVD6pECL/",
+          "uid": "BV1NFVD6pECL",
+          "sample": "关我屁事，花我身上了？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1u7PrzoE8T/",
+          "uid": "BV1u7PrzoE8T",
+          "sample": "关我屁事，喊儿子自己去赚啊？"
+        }
+      ]
+    },
+    {
+      "term": "再说吧",
+      "evidenceSamples": [
+        "先解决孩子安全问题再说吧，基佬炼铜是人尽皆知的",
+        "偏商业好传播的东西都让国外的研究完了你才入场能有啥框架留给你......说白了音乐这种原理高度数学化的东西就跟数学必须建立在1+1=2之上一样，框架上的东西你再研究也脱不开国外古典乐理和音基打下来的那些底子了，而且生律和音基这些东西在中国传统音乐和民乐又不是没有，就结果上和西方那些框架是一样的只不过国内的没有专门整理成自己的体系留存然后你不知道罢了......而且大调五声调式就是国风音乐的灵魂啊有这个在很大程度上就可以算是有中国文化的加入了，至于我们自己民乐的框架你就只能等国内出几个世界闻名的音乐大牛掌握话语权再说吧[笑哭]",
+        "[大笑]封神那描写全家过灵感大王再说吧 西游这三去封神一夜能杀穿",
+        "弹幕先去查一下气相温度是怎么算的再说吧。",
+        "先找着工作再说吧，除了在互联网上胡诌还会干什么"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "先解决孩子安全问题再说吧，基佬炼铜是人尽皆知的"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "偏商业好传播的东西都让国外的研究完了你才入场能有啥框架留给你......说白了音乐这种原理高度数学化的东西就跟数学必须建立在1+1=2之上一样，框架上的东西你再研究也脱不开国外古典乐理和音基打下来的那些底子了，而且生律和音基这些东西在中国传统音乐和民乐又不是没有，就结果上和西方那些框架是一样的只不过国内的没有专门整理成自己的体系留存然后你不知道罢了......而且大调五声调式就是国风音乐的灵魂啊有这个在很大程度上就可以算是有中国文化的加入了，至于我们自己民乐的框架你就只能等国内出几个世界闻名的音乐大牛掌握话语权再说吧[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uTGX6aEkB/",
+          "uid": "BV1uTGX6aEkB",
+          "sample": "[大笑]封神那描写全家过灵感大王再说吧 西游这三去封神一夜能杀穿"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "弹幕先去查一下气相温度是怎么算的再说吧。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1LKBqBtE26/",
+          "uid": "BV1LKBqBtE26",
+          "sample": "先找着工作再说吧，除了在互联网上胡诌还会干什么"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "让他先把天际线玩好不堵车再说吧（doge）"
+        }
+      ]
+    },
+    {
+      "term": "别对号入座",
+      "evidenceSamples": [
+        "我们吃月饼赏月有一部分人(可千万别对号入座哦)吃糖赏月"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "我们吃月饼赏月有一部分人(可千万别对号入座哦)吃糖赏月"
+        }
+      ]
+    },
+    {
+      "term": "别当真",
+      "evidenceSamples": [
+        "老师唱得真好，但身为东北人，总感觉从日本人口中说出来“大东北是我的家乡”怪怪的[doge_金箍]（没有引战的意思，玩笑话，别当真）",
+        "提醒：《我们星球上的生命》（另译《星球生灵》）这部纪录片的严谨性非常差，up的解说也是娱乐向的，所以这个视频当整活看就行了，别当真",
+        "绿色字体的哥们，UP只是在玩梗别当真"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV135Vh63EuK/",
+          "uid": "BV135Vh63EuK",
+          "sample": "老师唱得真好，但身为东北人，总感觉从日本人口中说出来“大东北是我的家乡”怪怪的[doge_金箍]（没有引战的意思，玩笑话，别当真）"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1w3ZPYNEu7/",
+          "uid": "BV1w3ZPYNEu7",
+          "sample": "提醒：《我们星球上的生命》（另译《星球生灵》）这部纪录片的严谨性非常差，up的解说也是娱乐向的，所以这个视频当整活看就行了，别当真"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CgnezKEHN/",
+          "uid": "BV1CgnezKEHN",
+          "sample": "绿色字体的哥们，UP只是在玩梗别当真"
+        }
+      ]
+    },
+    {
+      "term": "别扯上我",
+      "evidenceSamples": [
+        "别扯上我的哈兰德（悲"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1BX4y1n7TD/",
+          "uid": "BV1BX4y1n7TD",
+          "sample": "别扯上我的哈兰德（悲"
+        }
+      ]
+    },
+    {
+      "term": "别找我",
+      "evidenceSamples": [
+        "回复 @会拉黑的别找我掰头 :看成试一杯子，抱一丝姐妹[笑哭][笑哭][笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KvZnYXEvd/",
+          "uid": "BV1KvZnYXEvd",
+          "sample": "回复 @会拉黑的别找我掰头 :看成试一杯子，抱一丝姐妹[笑哭][笑哭][笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "别来烦我",
+      "evidenceSamples": [
+        "别来烦我"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "别来烦我"
+        }
+      ]
+    },
+    {
+      "term": "别说了",
+      "evidenceSamples": [
+        "一些蔡徐坤黑子比他们说的癌坤更恶心。一条条天天说什么只是鬼畜不行吗，有的真的是鬼畜吗哈哈。别说了哦，小心被按头蔡徐坤粉丝[OK]",
+        "回复 @傻傻的楠瓜呀 :别说了，我打完麻药的时候两个女护士还在玩我的，我在帘子后面看到了。[捂脸]",
+        "回复 @未觉雨声 :别说了，我个纯萌新，不上网查查攻略连马库斯差点都没打过。本来玩个法师相当玻璃大炮的，结果除了火球术以外压根没伤害。三级魔能弹才能打十几点伤害，人家养鸡妹和卡拉克一刀都能批十几点血。崩溃了。[Cat_fight]",
+        "别说了！我的挑战也不见了！我就睡了一觉他没了！！！",
+        "别说了，再说这个视频的评论和流量都没了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "39878355",
+          "sample": "一些蔡徐坤黑子比他们说的癌坤更恶心。一条条天天说什么只是鬼畜不行吗，有的真的是鬼畜吗哈哈。别说了哦，小心被按头蔡徐坤粉丝[OK]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Nt4y1e7xD/",
+          "uid": "BV1Nt4y1e7xD",
+          "sample": "回复 @傻傻的楠瓜呀 :别说了，我打完麻药的时候两个女护士还在玩我的，我在帘子后面看到了。[捂脸]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1cN411h7z7/",
+          "uid": "BV1cN411h7z7",
+          "sample": "回复 @未觉雨声 :别说了，我个纯萌新，不上网查查攻略连马库斯差点都没打过。本来玩个法师相当玻璃大炮的，结果除了火球术以外压根没伤害。三级魔能弹才能打十几点伤害，人家养鸡妹和卡拉克一刀都能批十几点血。崩溃了。[Cat_fight]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1zV411p7Y7/",
+          "uid": "BV1zV411p7Y7",
+          "sample": "别说了！我的挑战也不见了！我就睡了一觉他没了！！！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "别说了，再说这个视频的评论和流量都没了"
+        }
+      ]
+    },
+    {
+      "term": "别问了",
+      "evidenceSamples": [
+        "回复 @摆摆摆摆摆是个急摆 :别问了我也被骗了，小狗有些健康小问题，不是真的家养，就是冒充家养的后院繁殖[笑哭]",
+        "都别问了，她是我的人",
+        "没有就是当逃兵跑了呗！别问了！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YL4y1s7zU/",
+          "uid": "45592255",
+          "sample": "回复 @摆摆摆摆摆是个急摆 :别问了我也被骗了，小狗有些健康小问题，不是真的家养，就是冒充家养的后院繁殖[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV145gHzUEWg/",
+          "uid": "BV145gHzUEWg",
+          "sample": "都别问了，她是我的人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV14F411o7KM/",
+          "uid": "BV14F411o7KM",
+          "sample": "没有就是当逃兵跑了呗！别问了！"
+        }
+      ]
+    },
+    {
+      "term": "别问我",
+      "evidenceSamples": [
+        "那个毯子应该2288，别问我，问就是磁疗负氧高分子纳米复合毯[辣眼睛]",
+        "其实小怪也能背刺你，别问我怎么知道的。。",
+        "唱得很好，但就这些姿势动作等她长大会羞愧致死，别问我怎么知道的！",
+        "别问我为什么知道这菜咸了",
+        "我是12:05侠，别问我为什么出现了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hFGU6DEcM/",
+          "uid": "BV1hFGU6DEcM",
+          "sample": "那个毯子应该2288，别问我，问就是磁疗负氧高分子纳米复合毯[辣眼睛]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Ct411p79i/",
+          "uid": "BV1Ct411p79i",
+          "sample": "其实小怪也能背刺你，别问我怎么知道的。。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1WA411V7z5/",
+          "uid": "BV1WA411V7z5",
+          "sample": "唱得很好，但就这些姿势动作等她长大会羞愧致死，别问我怎么知道的！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1VYVn6EEjj/",
+          "uid": "BV1VYVn6EEjj",
+          "sample": "别问我为什么知道这菜咸了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "我是12:05侠，别问我为什么出现了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13rEy6ZE17/",
+          "uid": "BV13rEy6ZE17",
+          "sample": "这一脚可能直接踹进ICU，别问我为什么知道的"
+        }
+      ]
+    },
+    {
+      "term": "卸责",
+      "evidenceSamples": [
+        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人",
+        "所以人死了你一点不觉得难过，第一反应是帮你异国兄弟推卸责任哦",
+        "推卸责任"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Popular video comments UID 627318 (1 comments from 1 videos)",
+          "uid": "627318",
+          "sample": "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "所以人死了你一点不觉得难过，第一反应是帮你异国兄弟推卸责任哦"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "推卸责任"
+        }
+      ]
+    },
+    {
+      "term": "去百度",
+      "evidenceSamples": [
+        "总结:打脸恰饭。\\n建议看看店铺资质，去百度搜搜，天眼查瞅瞅"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1rx4y1t7XT/",
+          "uid": "BV1rx4y1t7XT",
+          "sample": "总结:打脸恰饭。\\n建议看看店铺资质，去百度搜搜，天眼查瞅瞅"
+        }
+      ]
+    },
+    {
+      "term": "反正不是我",
+      "evidenceSamples": [
+        "如何评价小明剑魔 知乎发不出去，来贴吧试试先说结论啊，男人可以穷可以各种各样的缺点，但真的就是不能窝囊，小明剑魔可怜，倒霉，但是不值得同情，好似，他能有今天这个下场，是自己活该，咎由自取，天天打个LOL讲大道理，坑队友骂队友喷队友摆烂挂机，人家也会骂你，对不对？下次打LOL还摆烂不还骂人不，真的是首先，从最近的暴雷事情说起，小明剑魔龟完了，真的龟完了，我嘞个龟龟，长这么大还真没见过这么龟的玩意国服龙龟，简称剑龟，贱贱的小乌龟，一个人，一个男人，一个堂堂正正的男子汉大丈夫，没有一点家庭地位，对老婆卑躬屈膝，马首是瞻，没一点点的尊严，关键用正常人的逻辑来理解的话，他老婆既然是没有工作没有收入的无业游民，在丈夫的包养下，是不是应该成为家庭主妇为男方排忧解难，相互扶持，然而却倒过来了，小明剑魔天天累死累活赚那么多钱，还跟上供一样伺候着这个小仙女，老祖宗一样，他的老婆标准的傅首尔长相，我只能说长得真挺别扭的，但是人家集美底子很好呢，瘦下来肯定是美美哒，他的老婆不能说无所事事，只能说啥事不干天天就是吃喝玩乐花花花，天天健身一整天，实际上就是找男模找COSER什么的，女性不可被定义是吧，自己出去找男人玩出去麦，试问这种人谁吃的消啊，引用狂魔哥的一句话，你爸妈中年人天天出去长时间健身必出轨，魔子说的还是有点道理的，不过小明剑魔这个事情还是太离谱了，小明剑魔应该还是个大虚鬼，阳气都快被吸干了一样，但是不管怎么样，小明剑魔还在为他的老婆洗白，哎呀她不一样，哎呀那都是我闹着玩说的那都是气话，哎呀其实她很关心我的，哎呀她会做家务的会做饭给我吃的，哎呀你们能不能别骂了，离婚是不可能离的……然后又开始扯一些大道理呢哈哈哈真的笑死我了，又开始讲大道理了呢，真把自己当个人物了第二，小明剑魔的智商，能力其实是不高的，毕竟小明剑魔只是个中专，天天讲大道理本身就是很错误的，人都不应该夸夸其谈比较好，更何况他水平低下，但他运气确实比较好，火了几个大梗，小明剑魔的受众（不是指抽象梗，而是指信奉他大道理的那些人）是很多生活不如意的，这样才会相信他的那些无稽之谈，大家也看到小明剑魔现在回旋镖来了，天天说彩礼说结婚说房子说社会高谈阔论夸夸其谈，现在自己才是那个最龟的，最小丑的，但他的受众既然是这些人，所以就反转了对吧，他现在卖卖惨然后离婚，还能捞回来一些钱，但是他还是转移矛盾到社会上，是别人的问题，对男性不公平，完全不想想自己是什么样的眼光找到了这样的老婆，但他还是给老婆洗白，还是尝试妥协，这真的是正常人都不能理解的逻辑，或者说是个人都不能理解，为了这种女人真的值得吗，小明剑魔你不是很牛吗，之前不是高高在上指点江山吗，不是很意气风发吗，跟弹幕对线不是很凶吗，不是很拽吗，不是天天讲大道理吗，不是天天骂队友坑队友喷队友摆烂挂机吗，原来这么怕这么样的老婆啊哈哈哈哈哈哈哈，没用的玩意，现在直播间哭唧唧了，被弹幕喷到精神恍惚了，你的锐气呢，哈哈哈，你不是人间清醒哥吗，不是觉得彩礼结婚是很畸形坑人的吗，怎么自己结婚然后乖乖上交所有收入当龟男啊，好难猜啊最后，小明剑魔的游戏水平，只能说韩服钻一闹麻了真的，天天那么多游戏理解啊什么的，天天谈职业比赛啊什么的，还说什么国人队没了韩援就是一坨，国服就是烂，我真的请问一下你有什么资格在这里说这说那啊，要技术没技术要心态没心态，天天就一张嘴吧啦吧啦的，搞笑呢，玩LOL的看他直播能看得下去的真是神人了分几点来说，第一点，最典型的MVP老黑局，众所周知英雄联盟奎桑提是一个功能性英雄，黑皮肤英雄就没有弱的，是吧首先奎桑提这英雄就强，一直削还是一直强，奎桑提可以赖线，但说真的剑魔也就没弱过，现在剑魔偏弱也是赢线不赢团，这英雄打团没别的英雄厉害，但是对线，真的没打过剑魔的可以去打两把，同等水平下，短手打剑魔不被抽陀螺？长手打剑魔不是被三段q直接残血了？老黑是不是短手，0/3打不过又怎么了，人家打团有作用啊，你剑魔没把对面打炸线那也没资格压力队友啊对不对，凭啥压力队友，我真的就问下凭啥？小明剑魔真的就是一条，人家老黑对线抗压就能被骂躺赢狗，MOBA游戏不说要你评分多高，相对来讲别人评分比你高那就认对不对，你比对面评分高你MVP那就凡尔赛也行啊，说对面菜说什么都没事，自己又没那个水平，喜欢叫叫叫第二点剑魔打鳄鱼，这也是他最破防的，什么鳄鱼是动物保护动物都说出来了，各种各样的急眼，对此我只能说剑魔打不过鳄鱼，真的入土吧，就是技不如人，剑魔不是石头人狗头这种英雄，战士英雄是有上限的，不是坦克英雄弱势英雄通常只是抗压对不对，战士打战士打不过就是自己菜，就这么简单啊对不对，剑魔本来就手长伤害高还有还有机制，本身就是个对线英雄打不过别人就是菜，剑魔打鳄鱼不能抽陀螺甚至连均势都做不到就是菜，剑魔就是数值怪啊，鳄鱼还强啊，鳄鱼是万金油上单，但是这英雄后期没用啊，后期就超级兵，这英雄25分钟没三件套有啥用你告诉我最后，讲讲他坑队友骂队友喷队友摆烂挂机，他还有种天天骂国服环境啊，真不是哥们哪来的脸，英雄联盟国服环境现在差到爆就是因为有小明剑魔这种玩意在，而且还不少，小明剑魔就是纯纯的菜➕少爷➕压力怪，动不动就摆烂挂机，别人哄着他玩还不屑一顾，哎呀老子不差这这一把分啊就是不想让你赢啊，哎呀反正不是我的号啊，这种是最气人的真的，别人求着你玩啊，玩个游戏真把自己当个人物了，我打LOL碰到这种人我都会问候他，不惯着，对线打不过就怪打野不来抓不来帮，打野来了打不过就是打野水平差距，对线均势或者小优打不过团就骂队友送喷队友坑，队友优势自己躺赢就是作用比天打，在他的三观逻辑里，反正都是别人错都是别人不好都是别人的问题都是全世界的问题太不公平了太畸形了，从来不反思自己，我的老婆是完全没问题的她不一样，都是网友的问题都是你们造谣，这种人真的就是……跟他讲道理也完全没得讲再讲讲韩服，小明剑魔很喜欢拿韩服说事，其实我说真的，他很崇洋媚外，骨头是软的，包括他吹苹果骂华为小米也是一样的性质，韩服，试问他韩服什么段位，韩服钻一，闹麻了真的是，天天评价这个那个，职业什么的，国人队没韩援就屁用没有啥也打不过？什么道理，自己什么水平天天说这说那，他打个韩服不也是被暴打吗？打不过就狐狸在送小炮在送，打不过就是队友的问题，打不过也是压力队友，这跟国服有什么区别？这就是你对韩服这种高端优质对局的态度？唉，真的是，自己玩的什么样子真的是没点数，其实说实话现在韩服的水平确实高点，但环境也好不到哪里去，别的主播打韩服高分局也都是很多玩不来的骂人的挂机的摆烂的，只不过比国服好一些罢了，殊不知国服LOL环境败坏的原因很大一部分就是小明剑魔这种人的这类行为，动不动摆烂挂机喷人坑人骂人总结一下，玩游戏别摆烂挂机喷队友骂人，有话好好说，小明剑魔到今天这个地步，咎由自取，活该",
+        "这简直就是屏幕前的你们[doge] 反正不是我[doge][doge][doge]",
+        "杆的问题，再不济就是台面有问题，反正不是我的问题"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "如何评价小明剑魔 知乎发不出去，来贴吧试试先说结论啊，男人可以穷可以各种各样的缺点，但真的就是不能窝囊，小明剑魔可怜，倒霉，但是不值得同情，好似，他能有今天这个下场，是自己活该，咎由自取，天天打个LOL讲大道理，坑队友骂队友喷队友摆烂挂机，人家也会骂你，对不对？下次打LOL还摆烂不还骂人不，真的是首先，从最近的暴雷事情说起，小明剑魔龟完了，真的龟完了，我嘞个龟龟，长这么大还真没见过这么龟的玩意国服龙龟，简称剑龟，贱贱的小乌龟，一个人，一个男人，一个堂堂正正的男子汉大丈夫，没有一点家庭地位，对老婆卑躬屈膝，马首是瞻，没一点点的尊严，关键用正常人的逻辑来理解的话，他老婆既然是没有工作没有收入的无业游民，在丈夫的包养下，是不是应该成为家庭主妇为男方排忧解难，相互扶持，然而却倒过来了，小明剑魔天天累死累活赚那么多钱，还跟上供一样伺候着这个小仙女，老祖宗一样，他的老婆标准的傅首尔长相，我只能说长得真挺别扭的，但是人家集美底子很好呢，瘦下来肯定是美美哒，他的老婆不能说无所事事，只能说啥事不干天天就是吃喝玩乐花花花，天天健身一整天，实际上就是找男模找COSER什么的，女性不可被定义是吧，自己出去找男人玩出去麦，试问这种人谁吃的消啊，引用狂魔哥的一句话，你爸妈中年人天天出去长时间健身必出轨，魔子说的还是有点道理的，不过小明剑魔这个事情还是太离谱了，小明剑魔应该还是个大虚鬼，阳气都快被吸干了一样，但是不管怎么样，小明剑魔还在为他的老婆洗白，哎呀她不一样，哎呀那都是我闹着玩说的那都是气话，哎呀其实她很关心我的，哎呀她会做家务的会做饭给我吃的，哎呀你们能不能别骂了，离婚是不可能离的……然后又开始扯一些大道理呢哈哈哈真的笑死我了，又开始讲大道理了呢，真把自己当个人物了第二，小明剑魔的智商，能力其实是不高的，毕竟小明剑魔只是个中专，天天讲大道理本身就是很错误的，人都不应该夸夸其谈比较好，更何况他水平低下，但他运气确实比较好，火了几个大梗，小明剑魔的受众（不是指抽象梗，而是指信奉他大道理的那些人）是很多生活不如意的，这样才会相信他的那些无稽之谈，大家也看到小明剑魔现在回旋镖来了，天天说彩礼说结婚说房子说社会高谈阔论夸夸其谈，现在自己才是那个最龟的，最小丑的，但他的受众既然是这些人，所以就反转了对吧，他现在卖卖惨然后离婚，还能捞回来一些钱，但是他还是转移矛盾到社会上，是别人的问题，对男性不公平，完全不想想自己是什么样的眼光找到了这样的老婆，但他还是给老婆洗白，还是尝试妥协，这真的是正常人都不能理解的逻辑，或者说是个人都不能理解，为了这种女人真的值得吗，小明剑魔你不是很牛吗，之前不是高高在上指点江山吗，不是很意气风发吗，跟弹幕对线不是很凶吗，不是很拽吗，不是天天讲大道理吗，不是天天骂队友坑队友喷队友摆烂挂机吗，原来这么怕这么样的老婆啊哈哈哈哈哈哈哈，没用的玩意，现在直播间哭唧唧了，被弹幕喷到精神恍惚了，你的锐气呢，哈哈哈，你不是人间清醒哥吗，不是觉得彩礼结婚是很畸形坑人的吗，怎么自己结婚然后乖乖上交所有收入当龟男啊，好难猜啊最后，小明剑魔的游戏水平，只能说韩服钻一闹麻了真的，天天那么多游戏理解啊什么的，天天谈职业比赛啊什么的，还说什么国人队没了韩援就是一坨，国服就是烂，我真的请问一下你有什么资格在这里说这说那啊，要技术没技术要心态没心态，天天就一张嘴吧啦吧啦的，搞笑呢，玩LOL的看他直播能看得下去的真是神人了分几点来说，第一点，最典型的MVP老黑局，众所周知英雄联盟奎桑提是一个功能性英雄，黑皮肤英雄就没有弱的，是吧首先奎桑提这英雄就强，一直削还是一直强，奎桑提可以赖线，但说真的剑魔也就没弱过，现在剑魔偏弱也是赢线不赢团，这英雄打团没别的英雄厉害，但是对线，真的没打过剑魔的可以去打两把，同等水平下，短手打剑魔不被抽陀螺？长手打剑魔不是被三段q直接残血了？老黑是不是短手，0/3打不过又怎么了，人家打团有作用啊，你剑魔没把对面打炸线那也没资格压力队友啊对不对，凭啥压力队友，我真的就问下凭啥？小明剑魔真的就是一条，人家老黑对线抗压就能被骂躺赢狗，MOBA游戏不说要你评分多高，相对来讲别人评分比你高那就认对不对，你比对面评分高你MVP那就凡尔赛也行啊，说对面菜说什么都没事，自己又没那个水平，喜欢叫叫叫第二点剑魔打鳄鱼，这也是他最破防的，什么鳄鱼是动物保护动物都说出来了，各种各样的急眼，对此我只能说剑魔打不过鳄鱼，真的入土吧，就是技不如人，剑魔不是石头人狗头这种英雄，战士英雄是有上限的，不是坦克英雄弱势英雄通常只是抗压对不对，战士打战士打不过就是自己菜，就这么简单啊对不对，剑魔本来就手长伤害高还有还有机制，本身就是个对线英雄打不过别人就是菜，剑魔打鳄鱼不能抽陀螺甚至连均势都做不到就是菜，剑魔就是数值怪啊，鳄鱼还强啊，鳄鱼是万金油上单，但是这英雄后期没用啊，后期就超级兵，这英雄25分钟没三件套有啥用你告诉我最后，讲讲他坑队友骂队友喷队友摆烂挂机，他还有种天天骂国服环境啊，真不是哥们哪来的脸，英雄联盟国服环境现在差到爆就是因为有小明剑魔这种玩意在，而且还不少，小明剑魔就是纯纯的菜➕少爷➕压力怪，动不动就摆烂挂机，别人哄着他玩还不屑一顾，哎呀老子不差这这一把分啊就是不想让你赢啊，哎呀反正不是我的号啊，这种是最气人的真的，别人求着你玩啊，玩个游戏真把自己当个人物了，我打LOL碰到这种人我都会问候他，不惯着，对线打不过就怪打野不来抓不来帮，打野来了打不过就是打野水平差距，对线均势或者小优打不过团就骂队友送喷队友坑，队友优势自己躺赢就是作用比天打，在他的三观逻辑里，反正都是别人错都是别人不好都是别人的问题都是全世界的问题太不公平了太畸形了，从来不反思自己，我的老婆是完全没问题的她不一样，都是网友的问题都是你们造谣，这种人真的就是……跟他讲道理也完全没得讲再讲讲韩服，小明剑魔很喜欢拿韩服说事，其实我说真的，他很崇洋媚外，骨头是软的，包括他吹苹果骂华为小米也是一样的性质，韩服，试问他韩服什么段位，韩服钻一，闹麻了真的是，天天评价这个那个，职业什么的，国人队没韩援就屁用没有啥也打不过？什么道理，自己什么水平天天说这说那，他打个韩服不也是被暴打吗？打不过就狐狸在送小炮在送，打不过就是队友的问题，打不过也是压力队友，这跟国服有什么区别？这就是你对韩服这种高端优质对局的态度？唉，真的是，自己玩的什么样子真的是没点数，其实说实话现在韩服的水平确实高点，但环境也好不到哪里去，别的主播打韩服高分局也都是很多玩不来的骂人的挂机的摆烂的，只不过比国服好一些罢了，殊不知国服LOL环境败坏的原因很大一部分就是小明剑魔这种人的这类行为，动不动摆烂挂机喷人坑人骂人总结一下，玩游戏别摆烂挂机喷队友骂人，有话好好说，小明剑魔到今天这个地步，咎由自取，活该"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV16FMmzTEvM/",
+          "uid": "1479092633",
+          "sample": "这简直就是屏幕前的你们[doge] 反正不是我[doge][doge][doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116656764361310/",
+          "uid": "38693308246",
+          "sample": "杆的问题，再不济就是台面有问题，反正不是我的问题"
+        }
+      ]
+    },
+    {
+      "term": "反正我不信",
+      "evidenceSamples": [
+        "一看这脸，你会信他？反正我不信"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1iu4y1T7N3/",
+          "uid": "BV1iu4y1T7N3",
+          "sample": "一看这脸，你会信他？反正我不信"
+        }
+      ]
+    },
+    {
+      "term": "口嗨",
+      "evidenceSamples": [
+        "受不了了想找个地方说出来 楼主去年这个时候在网上口嗨，不小心找到了个女朋友。一开始我觉得她人挺好，不像xxn，但是现在我越来越受不了了。我感觉我都快回到以前的阴影里了（附聊天记录）",
+        "三观没走，口嗨而已",
+        "我也来看看，没人口嗨了呢？？？？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "受不了了想找个地方说出来 楼主去年这个时候在网上口嗨，不小心找到了个女朋友。一开始我觉得她人挺好，不像xxn，但是现在我越来越受不了了。我感觉我都快回到以前的阴影里了（附聊天记录）"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "三观没走，口嗨而已"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "7222250",
+          "sample": "我也来看看，没人口嗨了呢？？？？"
+        }
+      ]
+    },
+    {
+      "term": "另请高明",
+      "evidenceSamples": [
+        "九九八十一难:\\n寻找Steam第一难\\n下载Steam第二难\\n发现盗版第三难\\n寻找正版第四难\\n求助群友第五难\\n得到视频第六难\\n浏览视频第七难\\n理解视频第八难\\n明白过程第九难\\n使用谷歌第十难\\n找到官网第十一难\\n开始下载第十二难\\n存载危险第十三难\\n冒险下载第十四难\\n打开文件第十五难\\n开始安装第十六难\\n选择语言第十七难\\n浏览位置第十八难\\n无法运行第十九难\\n再次求助第二十难\\n系统不行第二十一难\\n信念动摇第二十二难\\n坚定信念第二十三难\\n重装系统第二十四难\\n选择系统第二十五难\\n重装Win10第二十六难\\n自己失败第二十七难\\n请求师傅第二十八难\\n破财做法第二十九难\\n重新启动第三十难\\n适应系统第三十一难\\n再次尝试第三十二难\\n忘记方法第三十三难\\n重温视频第三十四难\\n再次安装第三十五难\\n路径不通第三十六难\\n求助大佬第三十七难\\n打开软件第三十八难\\n注册账号第三十九难\\n拥有邮箱第四十难\\n注册邮箱第四十一难\\n发送邮件第四十二难\\n等待回复第四十三难\\n人机检测第四十四难\\n进入商店第四十五难\\n找到悟空第四十六难\\n发现收费第四十七难\\n凑集钱财第四十八难\\n提交钱款第四十九难\\n如何支付第五十难\\n支付失败第五十一难\\n上网学习第五十二难\\n学习失败第五十二难\\n多次求助第五十三难\\n成功支付第五十四难\\n开始下载第五十五难\\n下载失败第五十六难\\n又去求助第五十六难\\n实时指导第五十七难\\n开始解压第五十八难\\n解压失败第五十九难\\n再次尝试第六十难\\n打开游戏第六十一难\\n调试配置第六十二难\\n大佬不悦第六十三难\\n另请高明第六十四难\\n再次破财第六十五难\\n高明点破第六十六难\\n配置升级第六十七难\\n资金周转第六十九难\\n购买配置第七十难\\n等待配置第七十一难\\n安装配置第七十二难\\n破财请人第七十三难\\n打开游戏第七十四难\\n创建新档第七十五难\\n加载界面第七十六难\\n界面卡死第七十七难\\n等待响应第七十八难\\n响应成功第七十九难\\n运行不畅第八十难\\n\\n第八十一难你们补"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AE4m1d7XT/",
+          "uid": "BV1AE4m1d7XT",
+          "sample": "九九八十一难:\\n寻找Steam第一难\\n下载Steam第二难\\n发现盗版第三难\\n寻找正版第四难\\n求助群友第五难\\n得到视频第六难\\n浏览视频第七难\\n理解视频第八难\\n明白过程第九难\\n使用谷歌第十难\\n找到官网第十一难\\n开始下载第十二难\\n存载危险第十三难\\n冒险下载第十四难\\n打开文件第十五难\\n开始安装第十六难\\n选择语言第十七难\\n浏览位置第十八难\\n无法运行第十九难\\n再次求助第二十难\\n系统不行第二十一难\\n信念动摇第二十二难\\n坚定信念第二十三难\\n重装系统第二十四难\\n选择系统第二十五难\\n重装Win10第二十六难\\n自己失败第二十七难\\n请求师傅第二十八难\\n破财做法第二十九难\\n重新启动第三十难\\n适应系统第三十一难\\n再次尝试第三十二难\\n忘记方法第三十三难\\n重温视频第三十四难\\n再次安装第三十五难\\n路径不通第三十六难\\n求助大佬第三十七难\\n打开软件第三十八难\\n注册账号第三十九难\\n拥有邮箱第四十难\\n注册邮箱第四十一难\\n发送邮件第四十二难\\n等待回复第四十三难\\n人机检测第四十四难\\n进入商店第四十五难\\n找到悟空第四十六难\\n发现收费第四十七难\\n凑集钱财第四十八难\\n提交钱款第四十九难\\n如何支付第五十难\\n支付失败第五十一难\\n上网学习第五十二难\\n学习失败第五十二难\\n多次求助第五十三难\\n成功支付第五十四难\\n开始下载第五十五难\\n下载失败第五十六难\\n又去求助第五十六难\\n实时指导第五十七难\\n开始解压第五十八难\\n解压失败第五十九难\\n再次尝试第六十难\\n打开游戏第六十一难\\n调试配置第六十二难\\n大佬不悦第六十三难\\n另请高明第六十四难\\n再次破财第六十五难\\n高明点破第六十六难\\n配置升级第六十七难\\n资金周转第六十九难\\n购买配置第七十难\\n等待配置第七十一难\\n安装配置第七十二难\\n破财请人第七十三难\\n打开游戏第七十四难\\n创建新档第七十五难\\n加载界面第七十六难\\n界面卡死第七十七难\\n等待响应第七十八难\\n响应成功第七十九难\\n运行不畅第八十难\\n\\n第八十一难你们补"
+        }
+      ]
+    },
+    {
+      "term": "呵呵",
+      "evidenceSamples": [
+        "标签394个踩，不是说ikun们很棒吗 高冷吗，呵呵，评论区你们随便洗[吃瓜]",
+        "回复 @嚯呵呵233 :看到你们这么嫉妒他我就放心了。正义果然存在。另外我不是ikun。😒",
+        "两年之后的我在这，我看到了很多，很多很多，二级号，三级号，我不能说都是水军，因为我一个四级号不配，呵呵，评论区完全tm不一样了，好家伙，小蔡，真有意思，有了肖战忘了蔡呗，今天晚上真的恶心到我了",
+        "你这很明显就是盗图 你画的时候明显就是已经手抖了 而那张图线条流畅 你是不可能立马学会的 [笑哭] 其次就是我们问你你一问三不知 你还说自己被冤枉 呵呵"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "182360939",
+          "sample": "标签394个踩，不是说ikun们很棒吗 高冷吗，呵呵，评论区你们随便洗[吃瓜]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "13334206",
+          "sample": "回复 @嚯呵呵233 :看到你们这么嫉妒他我就放心了。正义果然存在。另外我不是ikun。😒"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "413267176",
+          "sample": "两年之后的我在这，我看到了很多，很多很多，二级号，三级号，我不能说都是水军，因为我一个四级号不配，呵呵，评论区完全tm不一样了，好家伙，小蔡，真有意思，有了肖战忘了蔡呗，今天晚上真的恶心到我了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Fw411w7Yp/, https://www.bilibili.com/video/BV1fbMEz9EJF/, https://www.bilibili.com/video/BV1eSzhYEEi1/, https://www.bilibili.com/video/BV1p34y1P7Cq/, https://www.bilibili.com/video/BV1Y24y117fy/, https://www.bilibili.com/video/BV14pFxzYETi/, http://www.bilibili.com/video/av277226013, http://www.bilibili.com/video/av113560042739477, http://www.bilibili.com/video/av690402174, http://www.bilibili.com/video/av115534620398959, http://www.bilibili.com/video/av791101338, http://www.bilibili.com/video/av113876746110102, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av115546381095526, http://www.bilibili.com/video/av399649375, http://www.bilibili.com/video/av115562403332608, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av114986626125235, http://www.bilibili.com/video/av34866935, http://www.bilibili.com/video/av114115603334565, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av977827799, http://www.bilibili.com/video/av883040214, http://www.bilibili.com/video/av705606423, http://www.bilibili.com/video/av270424619, http://www.bilibili.com/video/av259781585, http://www.bilibili.com/video/av991210824, http://www.bilibili.com/video/av609049362, http://www.bilibili.com/video/av748561707, http://www.bilibili.com/video/av114662809013161, http://www.bilibili.com/video/av831007403, http://www.bilibili.com/video/av116030202451386, http://www.bilibili.com/video/av241141190, http://www.bilibili.com/video/av1151070418, http://www.bilibili.com/video/av114101325929151",
+          "uid": "BV1Fw411w7Yp,BV1fbMEz9EJF,BV1eSzhYEEi1,BV1p34y1P7Cq,BV1Y24y117fy,BV14pFxzYETi",
+          "sample": "你这很明显就是盗图 你画的时候明显就是已经手抖了 而那张图线条流畅 你是不可能立马学会的 [笑哭] 其次就是我们问你你一问三不知 你还说自己被冤枉 呵呵"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Fw411w7Yp/, https://www.bilibili.com/video/BV1WzQUBrEvJ/, https://www.bilibili.com/video/BV1eSzhYEEi1/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1Y24y117fy/, https://www.bilibili.com/video/BV1bg4y1r7Kq/, https://www.bilibili.com/video/BV1SmCjBqEsP/, https://www.bilibili.com/video/BV1QC4y177hM/, https://www.bilibili.com/video/BV1yC4y1m7VJ/, https://www.bilibili.com/video/BV1ej411j7P1/, http://www.bilibili.com/video/av277226013, http://www.bilibili.com/video/av113560042739477, http://www.bilibili.com/video/av690402174, http://www.bilibili.com/video/av115534620398959, http://www.bilibili.com/video/av791101338, http://www.bilibili.com/video/av113876746110102, http://www.bilibili.com/video/av1253463109, http://www.bilibili.com/video/av113443038301895, http://www.bilibili.com/video/av114497167561644, http://www.bilibili.com/video/av1851192505, http://www.bilibili.com/video/av616361770, http://www.bilibili.com/video/av1553527452, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av115546381095526, http://www.bilibili.com/video/av399649375, http://www.bilibili.com/video/av115562403332608, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av113514391804014, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av116494260243515, http://www.bilibili.com/video/av114228799213744, http://www.bilibili.com/video/av706662945, http://www.bilibili.com/video/av711868733, http://www.bilibili.com/video/av114986626125235, http://www.bilibili.com/video/av34866935, http://www.bilibili.com/video/av114115603334565, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av977827799, http://www.bilibili.com/video/av883040214, http://www.bilibili.com/video/av113037734314944, http://www.bilibili.com/video/av112932641834804, http://www.bilibili.com/video/av390412127, http://www.bilibili.com/video/av1554408733, http://www.bilibili.com/video/av896101605, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av705606423, http://www.bilibili.com/video/av270424619, http://www.bilibili.com/video/av259781585, http://www.bilibili.com/video/av991210824, http://www.bilibili.com/video/av609049362, http://www.bilibili.com/video/av748561707, http://www.bilibili.com/video/av975894775, http://www.bilibili.com/video/av336243607, http://www.bilibili.com/video/av891742200, http://www.bilibili.com/video/av441671523, http://www.bilibili.com/video/av892351420, http://www.bilibili.com/video/av705253870, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av835674475, http://www.bilibili.com/video/av748236895, http://www.bilibili.com/video/av451638243, http://www.bilibili.com/video/av112994415739833, http://www.bilibili.com/video/av307590285, http://www.bilibili.com/video/av880300669, http://www.bilibili.com/video/av231417991, http://www.bilibili.com/video/av670477779, http://www.bilibili.com/video/av446684828, http://www.bilibili.com/video/av112851171738571",
+          "uid": "BV1Fw411w7Yp,BV1WzQUBrEvJ,BV1eSzhYEEi1,BV1dT41197yJ,BV1Y24y117fy,BV1bg4y1r7Kq,BV1SmCjBqEsP,BV1QC4y177hM,BV1yC4y1m7VJ,BV1ej411j7P1",
+          "sample": "你这很明显就是盗图 你画的时候明显就是已经手抖了 而那张图线条流畅 你是不可能立马学会的 [笑哭] 其次就是我们问你你一问三不知 你还说自己被冤枉 呵呵"
+        }
+      ]
+    }
+  ]
+}

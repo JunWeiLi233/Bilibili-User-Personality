@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "absolutes",
+  "shard": 30,
+  "shardCount": 49,
+  "evidence": [
+    {
+      "term": "无非就是",
+      "evidenceSamples": [
+        "如果仅仅针对小鲜肉流量明星的话，这个软件已经性能过剩了。那些小鲜肉只会写一些爱爱爱恋恋恋，歌无非就是缝合加借鉴，还时不时有明星爆劣迹丑闻，就这一次代言费几千万，早该被电脑取代了[吃瓜]",
+        "各个生物来地球一趟.无非就是想保留自己，然而自己无法永生。只能依靠dna来传递给下一代，让自己以另一种方式活着，自己的孩子有自己的dna，就以这种方式继续活下去，虽然自己的意识已经消亡，但肉体在某种意义上依旧活着，虽然我的话有些不符合伦理，但事实就是这样啊，如果不生孩子的话那怎么让人类继续存在下去啊",
+        "虽然从没关注，但挺喜欢浪浪的，这些话不是说什么深刻的道理/迎合潮流的东西，而是真正的“心里话”。虽然可能没那么“心里”，但是都是很真的一些感受。就像和朋友聊天一样亲切。人活在这世上，求的无非是自由和真实",
+        "现在年轻的所谓球迷，无非都是些慕强者和冠军迷罢了，黄马巴萨拜仁曼城巴黎，谁拿冠军谁的球迷就一夜之间满大街都是，阿森纳今年不拿英超，也没这么多球迷。很多就是来蹭个热度赶个集场，球没踢过甚至全场都没看完，反正人云亦云，在网络上口嗨就完了。 还什么摆大巴就怎么怎么样了，马竞摆大巴输了就是虽败犹荣，国米摆大巴夺冠就是创造奇迹，切尔西摆大巴老兵不死，怎么阿森纳把全欧洲进攻能力最强的球队被防的只能靠点球就不能虽败犹荣？既要又要是吧。幸好没跟巴黎对攻，不然输了铺天盖地的“不自量力”，赢了更可怕，又冒出来一大堆“球迷”大喊“阿森纳地表最强”，更污染环境",
+        "国内基本看到黑白的无非三种情况\\n银环 白环 幼年KC\\n我反正扭头就跑绝对不会去看多一眼到底是啥"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "如果仅仅针对小鲜肉流量明星的话，这个软件已经性能过剩了。那些小鲜肉只会写一些爱爱爱恋恋恋，歌无非就是缝合加借鉴，还时不时有明星爆劣迹丑闻，就这一次代言费几千万，早该被电脑取代了[吃瓜]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "各个生物来地球一趟.无非就是想保留自己，然而自己无法永生。只能依靠dna来传递给下一代，让自己以另一种方式活着，自己的孩子有自己的dna，就以这种方式继续活下去，虽然自己的意识已经消亡，但肉体在某种意义上依旧活着，虽然我的话有些不符合伦理，但事实就是这样啊，如果不生孩子的话那怎么让人类继续存在下去啊"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1C84y127W2/",
+          "uid": "BV1C84y127W2",
+          "sample": "虽然从没关注，但挺喜欢浪浪的，这些话不是说什么深刻的道理/迎合潮流的东西，而是真正的“心里话”。虽然可能没那么“心里”，但是都是很真的一些感受。就像和朋友聊天一样亲切。人活在这世上，求的无非是自由和真实"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1MfVJ6rEXb/",
+          "uid": "BV1MfVJ6rEXb",
+          "sample": "现在年轻的所谓球迷，无非都是些慕强者和冠军迷罢了，黄马巴萨拜仁曼城巴黎，谁拿冠军谁的球迷就一夜之间满大街都是，阿森纳今年不拿英超，也没这么多球迷。很多就是来蹭个热度赶个集场，球没踢过甚至全场都没看完，反正人云亦云，在网络上口嗨就完了。 还什么摆大巴就怎么怎么样了，马竞摆大巴输了就是虽败犹荣，国米摆大巴夺冠就是创造奇迹，切尔西摆大巴老兵不死，怎么阿森纳把全欧洲进攻能力最强的球队被防的只能靠点球就不能虽败犹荣？既要又要是吧。幸好没跟巴黎对攻，不然输了铺天盖地的“不自量力”，赢了更可怕，又冒出来一大堆“球迷”大喊“阿森纳地表最强”，更污染环境"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AF4m1V7vA/",
+          "uid": "BV1AF4m1V7vA",
+          "sample": "国内基本看到黑白的无非三种情况\\n银环 白环 幼年KC\\n我反正扭头就跑绝对不会去看多一眼到底是啥"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1a74neKEBh/",
+          "uid": "617877450",
+          "sample": "没那么麻烦 不管什么茶类 如果你是小白 中茶作为国企就是口粮首选 入门后再找自己的深造路线 看看是选私房茶 或小品牌 或者找个升级大品牌继续喝 另外 熟普洱 口粮的话 7581非常能打 绿茶 选日照 不如试试崂山 中国最北的产茶地 入门价格也不贵 （贵的也有大田扁茶） 红茶 基本产绿茶的品牌也都有做 四大是首选 （崂山 日照 也有红茶 工艺可能跟南方的差一些） 白茶 用中茶入门没毛病 这茶门槛低工艺少 无非就是茶青产地的问题 没必要追求太贵的（思路和也挺能打的 主要是便宜） 乌龙茶类 岩茶不要轻易入 这类是最会宣传营销的品类 可谓是群魔乱舞 铁观音 也可以选up说的海堤 但是要知道 海堤的主力 at200 xt800 802 810等 都是足火重度碳焙的（其实以前 at109火工适中最适合入门 可惜不产了 另外能适应足火茶的话 海堤的正溪茶 也是性价比之王） 跟一般人常喝点清香型铁观音是完全两只种不同的东西 需要重新驯服你的口腔才能适应。 海堤也有清香型 xt5621 但品质相当一般没特色也没性价比。不建议选"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "说是罚款，无非就是靠着罚款收保护费而已"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV17vJn6BE7P/",
+          "uid": "BV17vJn6BE7P",
+          "sample": "重要的是空调在印度还会爆炸，无非就是热死和炸死的选择而已"
+        }
+      ]
+    },
+    {
+      "term": "时刻",
+      "evidenceSamples": [
+        "如果真要追求真理那就是非常严格科学定义从来就不认它们是人类那么它们按照非常严格科学定义全球反它们救自家民族当然本身都没有错那么按非常严格科学定义它们不是人类那么更何谈重族毕竟放眼全球只要是人类都不希望家里时刻还要毁灭自己家与过和自家民族的野生动物存在嘛！对于它们根本不存在什么重族主义而是对于它们来说全球对于它们只存在对这一野生动物的生物物种彻底的正视。",
+        "回复 @时时刻刻在生草的壹檀 :因为一楼被屑UP置顶了[doge]",
+        "要是我中了别说两次了 ；我得时时刻刻点开着待着",
+        "回复 @墨の聆 : 不能这么算，这就人家两小时时薪，你按一小时15来算，差不多相当于我们这30左右一碗",
+        "我想不通猫是怎么中毒的，他们口中的猫中毒是什么。直到今天我终于明白，不是猫中毒了，而是我这只鼠鼠对猫中毒了。\\n 每天我都要看四遍这只猫，早中晚各一遍，梦里一遍。她习惯去楼下的草地上晒太阳，日复一日。听其他的鼠鼠说，她因为有很多人喂食，所以不会去抓鼠鼠，在她面前我们是安全的。又有鼠鼠说，她是极其危险的，因为他们曾看过她抓住一只鼠鼠反复捉弄挑逗，直至那只鼠鼠承受不住跳进了河里。风言风语太多了，我因此起了兴趣，决定靠近去了解。\\n 我最开始在她经常经过的草丛里蹲着，藏在草里面就能在看见她的同时不被发现。她的四只脚毛茸茸的，没有爪子，似乎被剪掉了。我看到的时候松了一口气，如果我被她发现，起码不会被爪子刺穿。知道自己没有生命危险后，我更进一步，在楼梯背后蹲着，观察她进餐。好人给予的食物总是丰富充足的，她进餐时也不必像我们一样会狼吞虎咽，而是优雅的。那种优雅，抱歉我不知道怎么形容，我只能告诉你，那是我见过的最享受的进食。至此，我已经确定了，这只猫只不过是一只娇生惯养的无害猫。\\n 不知道什么时候起，也许是第一次观察起，我已经养成了习惯，就是每天在她经过的草丛蹲着。闻着残留的猫香，我总能愉悦一整天。直到有一天，我被她抓住了。她没有尝试用爪子刺穿我，甚至连爪子都没有露出来。仅仅是追逐，这种追逐对她来说是儿戏，但对于好几天没吃到食物的我却是致命的。我被赶到了角落，已经无法再奔跑。盯着面前的猫脸，我的脚在抽搐，身体在发抖，脸膀胱都无法抑制住。最后我昏迷了，我昏迷在一片黄色液体中，与骚臭味对立着的是空中悬浮着的猫香。我想，我死去的场景是如此的戏剧，一生所有的俗与高高在上的雅混杂在一起，此刻却如此和谐。\\n 我在萍伦区心鼠医院醒来的，这里有很多像我一样的病鼠，我以前也听说过，他们是得了一种叫猫中毒的病。以前我不懂这是什么，现在懂了。医生说我得了臆想症，被发现时躺在下水道里。在这里治疗的鼠鼠很多，每天的药就是定时看些视频，睡前听些音乐。缓解是能缓解的，但这种病还无法根治。但也无所谓了，我不在乎，甚至庆幸。\\n\\n我很喜欢鼠志摩的一首诗:\\n\\n“我不知道风 \\n\\n是在哪一个方向吹——\\n\\n 我是在梦中，在梦的轻波里依洄。 \\n\\n我不知道风 \\n\\n是在哪一个方向吹—— \\n\\n我是在梦中，她的温存，我的迷醉。”\\n现在半夜，我也时时想起。不管风往哪个方向吹，唯一不变的，是我心底喜欢的你。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "如果真要追求真理那就是非常严格科学定义从来就不认它们是人类那么它们按照非常严格科学定义全球反它们救自家民族当然本身都没有错那么按非常严格科学定义它们不是人类那么更何谈重族毕竟放眼全球只要是人类都不希望家里时刻还要毁灭自己家与过和自家民族的野生动物存在嘛！对于它们根本不存在什么重族主义而是对于它们来说全球对于它们只存在对这一野生动物的生物物种彻底的正视。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Rb4y127Ny/",
+          "uid": "503950469",
+          "sample": "回复 @时时刻刻在生草的壹檀 :因为一楼被屑UP置顶了[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "要是我中了别说两次了 ；我得时时刻刻点开着待着"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14sZqYeEgc/",
+          "uid": "BV14sZqYeEgc",
+          "sample": "回复 @墨の聆 : 不能这么算，这就人家两小时时薪，你按一小时15来算，差不多相当于我们这30左右一碗"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FX4y1g7u8/",
+          "uid": "BV1FX4y1g7u8",
+          "sample": "我想不通猫是怎么中毒的，他们口中的猫中毒是什么。直到今天我终于明白，不是猫中毒了，而是我这只鼠鼠对猫中毒了。\\n 每天我都要看四遍这只猫，早中晚各一遍，梦里一遍。她习惯去楼下的草地上晒太阳，日复一日。听其他的鼠鼠说，她因为有很多人喂食，所以不会去抓鼠鼠，在她面前我们是安全的。又有鼠鼠说，她是极其危险的，因为他们曾看过她抓住一只鼠鼠反复捉弄挑逗，直至那只鼠鼠承受不住跳进了河里。风言风语太多了，我因此起了兴趣，决定靠近去了解。\\n 我最开始在她经常经过的草丛里蹲着，藏在草里面就能在看见她的同时不被发现。她的四只脚毛茸茸的，没有爪子，似乎被剪掉了。我看到的时候松了一口气，如果我被她发现，起码不会被爪子刺穿。知道自己没有生命危险后，我更进一步，在楼梯背后蹲着，观察她进餐。好人给予的食物总是丰富充足的，她进餐时也不必像我们一样会狼吞虎咽，而是优雅的。那种优雅，抱歉我不知道怎么形容，我只能告诉你，那是我见过的最享受的进食。至此，我已经确定了，这只猫只不过是一只娇生惯养的无害猫。\\n 不知道什么时候起，也许是第一次观察起，我已经养成了习惯，就是每天在她经过的草丛蹲着。闻着残留的猫香，我总能愉悦一整天。直到有一天，我被她抓住了。她没有尝试用爪子刺穿我，甚至连爪子都没有露出来。仅仅是追逐，这种追逐对她来说是儿戏，但对于好几天没吃到食物的我却是致命的。我被赶到了角落，已经无法再奔跑。盯着面前的猫脸，我的脚在抽搐，身体在发抖，脸膀胱都无法抑制住。最后我昏迷了，我昏迷在一片黄色液体中，与骚臭味对立着的是空中悬浮着的猫香。我想，我死去的场景是如此的戏剧，一生所有的俗与高高在上的雅混杂在一起，此刻却如此和谐。\\n 我在萍伦区心鼠医院醒来的，这里有很多像我一样的病鼠，我以前也听说过，他们是得了一种叫猫中毒的病。以前我不懂这是什么，现在懂了。医生说我得了臆想症，被发现时躺在下水道里。在这里治疗的鼠鼠很多，每天的药就是定时看些视频，睡前听些音乐。缓解是能缓解的，但这种病还无法根治。但也无所谓了，我不在乎，甚至庆幸。\\n\\n我很喜欢鼠志摩的一首诗:\\n\\n“我不知道风 \\n\\n是在哪一个方向吹——\\n\\n 我是在梦中，在梦的轻波里依洄。 \\n\\n我不知道风 \\n\\n是在哪一个方向吹—— \\n\\n我是在梦中，她的温存，我的迷醉。”\\n现在半夜，我也时时想起。不管风往哪个方向吹，唯一不变的，是我心底喜欢的你。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uiVE6BEMW/",
+          "uid": "BV1uiVE6BEMW",
+          "sample": "前辈文化在呢，当时时团粉但凡真的觉得不舒服被骂的就得是时团粉了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1f1Kd66Eau/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1oi421o7GP/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1t3TM6pEhC/, https://www.bilibili.com/video/BV1s7411K7e9/, http://www.bilibili.com/video/av116836750328688, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av116826902106617, http://www.bilibili.com/video/av116831247406473, http://www.bilibili.com/video/av116768634900159, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116835693369364, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av116044966396246, http://www.bilibili.com/video/av323641281, http://www.bilibili.com/video/av369470857, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av276299258, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827002766246, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av91880405, http://www.bilibili.com/video/av1756130534, http://www.bilibili.com/video/av835254755",
+          "uid": "BV1f1Kd66Eau,BV1jjswz2EQF,BV1oi421o7GP,BV1dT41197yJ,BV1t3TM6pEhC,BV1s7411K7e9",
+          "sample": "只要不太过，有时候要理解一下，他们穷怕了，时时刻刻都想多攒一点，在攒的过程中能缓解他们的不安全感，安逸是他们最大的敌人，很多此类老人一旦安逸下来，命就不长了，不安感会让他们焦虑~"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "中国马桶魅力时刻"
+        }
+      ]
+    },
+    {
+      "term": "时时",
+      "evidenceSamples": [
+        "回复 @墨の聆 : 不能这么算，这就人家两小时时薪，你按一小时15来算，差不多相当于我们这30左右一碗",
+        "我想不通猫是怎么中毒的，他们口中的猫中毒是什么。直到今天我终于明白，不是猫中毒了，而是我这只鼠鼠对猫中毒了。\\n 每天我都要看四遍这只猫，早中晚各一遍，梦里一遍。她习惯去楼下的草地上晒太阳，日复一日。听其他的鼠鼠说，她因为有很多人喂食，所以不会去抓鼠鼠，在她面前我们是安全的。又有鼠鼠说，她是极其危险的，因为他们曾看过她抓住一只鼠鼠反复捉弄挑逗，直至那只鼠鼠承受不住跳进了河里。风言风语太多了，我因此起了兴趣，决定靠近去了解。\\n 我最开始在她经常经过的草丛里蹲着，藏在草里面就能在看见她的同时不被发现。她的四只脚毛茸茸的，没有爪子，似乎被剪掉了。我看到的时候松了一口气，如果我被她发现，起码不会被爪子刺穿。知道自己没有生命危险后，我更进一步，在楼梯背后蹲着，观察她进餐。好人给予的食物总是丰富充足的，她进餐时也不必像我们一样会狼吞虎咽，而是优雅的。那种优雅，抱歉我不知道怎么形容，我只能告诉你，那是我见过的最享受的进食。至此，我已经确定了，这只猫只不过是一只娇生惯养的无害猫。\\n 不知道什么时候起，也许是第一次观察起，我已经养成了习惯，就是每天在她经过的草丛蹲着。闻着残留的猫香，我总能愉悦一整天。直到有一天，我被她抓住了。她没有尝试用爪子刺穿我，甚至连爪子都没有露出来。仅仅是追逐，这种追逐对她来说是儿戏，但对于好几天没吃到食物的我却是致命的。我被赶到了角落，已经无法再奔跑。盯着面前的猫脸，我的脚在抽搐，身体在发抖，脸膀胱都无法抑制住。最后我昏迷了，我昏迷在一片黄色液体中，与骚臭味对立着的是空中悬浮着的猫香。我想，我死去的场景是如此的戏剧，一生所有的俗与高高在上的雅混杂在一起，此刻却如此和谐。\\n 我在萍伦区心鼠医院醒来的，这里有很多像我一样的病鼠，我以前也听说过，他们是得了一种叫猫中毒的病。以前我不懂这是什么，现在懂了。医生说我得了臆想症，被发现时躺在下水道里。在这里治疗的鼠鼠很多，每天的药就是定时看些视频，睡前听些音乐。缓解是能缓解的，但这种病还无法根治。但也无所谓了，我不在乎，甚至庆幸。\\n\\n我很喜欢鼠志摩的一首诗:\\n\\n“我不知道风 \\n\\n是在哪一个方向吹——\\n\\n 我是在梦中，在梦的轻波里依洄。 \\n\\n我不知道风 \\n\\n是在哪一个方向吹—— \\n\\n我是在梦中，她的温存，我的迷醉。”\\n现在半夜，我也时时想起。不管风往哪个方向吹，唯一不变的，是我心底喜欢的你。",
+        "前辈文化在呢，当时时团粉但凡真的觉得不舒服被骂的就得是时团粉了",
+        "如果真要追求真理那就是非常严格科学定义从来就不认它们是人类那么它们按照非常严格科学定义全球反它们救自家民族当然本身都没有错那么按非常严格科学定义它们不是人类那么更何谈重族毕竟放眼全球只要是人类都不希望家里时刻还要毁灭自己家与过和自家民族的野生动物存在嘛！对于它们根本不存在什么重族主义而是对于它们来说全球对于它们只存在对这一野生动物的生物物种彻底的正视。",
+        "回复 @时时刻刻在生草的壹檀 :因为一楼被屑UP置顶了[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14sZqYeEgc/",
+          "uid": "BV14sZqYeEgc",
+          "sample": "回复 @墨の聆 : 不能这么算，这就人家两小时时薪，你按一小时15来算，差不多相当于我们这30左右一碗"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FX4y1g7u8/",
+          "uid": "BV1FX4y1g7u8",
+          "sample": "我想不通猫是怎么中毒的，他们口中的猫中毒是什么。直到今天我终于明白，不是猫中毒了，而是我这只鼠鼠对猫中毒了。\\n 每天我都要看四遍这只猫，早中晚各一遍，梦里一遍。她习惯去楼下的草地上晒太阳，日复一日。听其他的鼠鼠说，她因为有很多人喂食，所以不会去抓鼠鼠，在她面前我们是安全的。又有鼠鼠说，她是极其危险的，因为他们曾看过她抓住一只鼠鼠反复捉弄挑逗，直至那只鼠鼠承受不住跳进了河里。风言风语太多了，我因此起了兴趣，决定靠近去了解。\\n 我最开始在她经常经过的草丛里蹲着，藏在草里面就能在看见她的同时不被发现。她的四只脚毛茸茸的，没有爪子，似乎被剪掉了。我看到的时候松了一口气，如果我被她发现，起码不会被爪子刺穿。知道自己没有生命危险后，我更进一步，在楼梯背后蹲着，观察她进餐。好人给予的食物总是丰富充足的，她进餐时也不必像我们一样会狼吞虎咽，而是优雅的。那种优雅，抱歉我不知道怎么形容，我只能告诉你，那是我见过的最享受的进食。至此，我已经确定了，这只猫只不过是一只娇生惯养的无害猫。\\n 不知道什么时候起，也许是第一次观察起，我已经养成了习惯，就是每天在她经过的草丛蹲着。闻着残留的猫香，我总能愉悦一整天。直到有一天，我被她抓住了。她没有尝试用爪子刺穿我，甚至连爪子都没有露出来。仅仅是追逐，这种追逐对她来说是儿戏，但对于好几天没吃到食物的我却是致命的。我被赶到了角落，已经无法再奔跑。盯着面前的猫脸，我的脚在抽搐，身体在发抖，脸膀胱都无法抑制住。最后我昏迷了，我昏迷在一片黄色液体中，与骚臭味对立着的是空中悬浮着的猫香。我想，我死去的场景是如此的戏剧，一生所有的俗与高高在上的雅混杂在一起，此刻却如此和谐。\\n 我在萍伦区心鼠医院醒来的，这里有很多像我一样的病鼠，我以前也听说过，他们是得了一种叫猫中毒的病。以前我不懂这是什么，现在懂了。医生说我得了臆想症，被发现时躺在下水道里。在这里治疗的鼠鼠很多，每天的药就是定时看些视频，睡前听些音乐。缓解是能缓解的，但这种病还无法根治。但也无所谓了，我不在乎，甚至庆幸。\\n\\n我很喜欢鼠志摩的一首诗:\\n\\n“我不知道风 \\n\\n是在哪一个方向吹——\\n\\n 我是在梦中，在梦的轻波里依洄。 \\n\\n我不知道风 \\n\\n是在哪一个方向吹—— \\n\\n我是在梦中，她的温存，我的迷醉。”\\n现在半夜，我也时时想起。不管风往哪个方向吹，唯一不变的，是我心底喜欢的你。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uiVE6BEMW/",
+          "uid": "BV1uiVE6BEMW",
+          "sample": "前辈文化在呢，当时时团粉但凡真的觉得不舒服被骂的就得是时团粉了"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "如果真要追求真理那就是非常严格科学定义从来就不认它们是人类那么它们按照非常严格科学定义全球反它们救自家民族当然本身都没有错那么按非常严格科学定义它们不是人类那么更何谈重族毕竟放眼全球只要是人类都不希望家里时刻还要毁灭自己家与过和自家民族的野生动物存在嘛！对于它们根本不存在什么重族主义而是对于它们来说全球对于它们只存在对这一野生动物的生物物种彻底的正视。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Rb4y127Ny/",
+          "uid": "503950469",
+          "sample": "回复 @时时刻刻在生草的壹檀 :因为一楼被屑UP置顶了[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "要是我中了别说两次了 ；我得时时刻刻点开着待着"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1f1Kd66Eau/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1oi421o7GP/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1t3TM6pEhC/, https://www.bilibili.com/video/BV1s7411K7e9/, http://www.bilibili.com/video/av116836750328688, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av116826902106617, http://www.bilibili.com/video/av116831247406473, http://www.bilibili.com/video/av116768634900159, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116835693369364, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av116044966396246, http://www.bilibili.com/video/av323641281, http://www.bilibili.com/video/av369470857, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av276299258, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827002766246, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av91880405, http://www.bilibili.com/video/av1756130534, http://www.bilibili.com/video/av835254755",
+          "uid": "BV1f1Kd66Eau,BV1jjswz2EQF,BV1oi421o7GP,BV1dT41197yJ,BV1t3TM6pEhC,BV1s7411K7e9",
+          "sample": "只要不太过，有时候要理解一下，他们穷怕了，时时刻刻都想多攒一点，在攒的过程中能缓解他们的不安全感，安逸是他们最大的敌人，很多此类老人一旦安逸下来，命就不长了，不安感会让他们焦虑~"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av113492094878349/",
+          "uid": "354494561",
+          "sample": "杨子时时刻刻都在想着怎么现眼怎么增加节目效果，这一期里他发现麦琳情绪敏感之后好多次故意惹怒她，装作不近人情不懂世故，给自己增加负面话题度。比如故意提画像然后又说麦琳的画画得不像，发现李行亮没有指麦琳之后刻意强调，假装没看出来麦琳哭了。但是故作姿态的逆天永远比不过真情流露的奇葩，麦琳一个令人毛骨悚然的“啊哈哈哈”就是杨子装疯卖傻一辈子也无法逾越的高山。"
+        }
+      ]
+    },
+    {
+      "term": "时时刻刻",
+      "evidenceSamples": [
+        "前辈文化在呢，当时时团粉但凡真的觉得不舒服被骂的就得是时团粉了",
+        "如果真要追求真理那就是非常严格科学定义从来就不认它们是人类那么它们按照非常严格科学定义全球反它们救自家民族当然本身都没有错那么按非常严格科学定义它们不是人类那么更何谈重族毕竟放眼全球只要是人类都不希望家里时刻还要毁灭自己家与过和自家民族的野生动物存在嘛！对于它们根本不存在什么重族主义而是对于它们来说全球对于它们只存在对这一野生动物的生物物种彻底的正视。",
+        "回复 @时时刻刻在生草的壹檀 :因为一楼被屑UP置顶了[doge]",
+        "要是我中了别说两次了 ；我得时时刻刻点开着待着",
+        "回复 @墨の聆 : 不能这么算，这就人家两小时时薪，你按一小时15来算，差不多相当于我们这30左右一碗"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uiVE6BEMW/",
+          "uid": "BV1uiVE6BEMW",
+          "sample": "前辈文化在呢，当时时团粉但凡真的觉得不舒服被骂的就得是时团粉了"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "如果真要追求真理那就是非常严格科学定义从来就不认它们是人类那么它们按照非常严格科学定义全球反它们救自家民族当然本身都没有错那么按非常严格科学定义它们不是人类那么更何谈重族毕竟放眼全球只要是人类都不希望家里时刻还要毁灭自己家与过和自家民族的野生动物存在嘛！对于它们根本不存在什么重族主义而是对于它们来说全球对于它们只存在对这一野生动物的生物物种彻底的正视。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Rb4y127Ny/",
+          "uid": "503950469",
+          "sample": "回复 @时时刻刻在生草的壹檀 :因为一楼被屑UP置顶了[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "要是我中了别说两次了 ；我得时时刻刻点开着待着"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14sZqYeEgc/",
+          "uid": "BV14sZqYeEgc",
+          "sample": "回复 @墨の聆 : 不能这么算，这就人家两小时时薪，你按一小时15来算，差不多相当于我们这30左右一碗"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FX4y1g7u8/",
+          "uid": "BV1FX4y1g7u8",
+          "sample": "我想不通猫是怎么中毒的，他们口中的猫中毒是什么。直到今天我终于明白，不是猫中毒了，而是我这只鼠鼠对猫中毒了。\\n 每天我都要看四遍这只猫，早中晚各一遍，梦里一遍。她习惯去楼下的草地上晒太阳，日复一日。听其他的鼠鼠说，她因为有很多人喂食，所以不会去抓鼠鼠，在她面前我们是安全的。又有鼠鼠说，她是极其危险的，因为他们曾看过她抓住一只鼠鼠反复捉弄挑逗，直至那只鼠鼠承受不住跳进了河里。风言风语太多了，我因此起了兴趣，决定靠近去了解。\\n 我最开始在她经常经过的草丛里蹲着，藏在草里面就能在看见她的同时不被发现。她的四只脚毛茸茸的，没有爪子，似乎被剪掉了。我看到的时候松了一口气，如果我被她发现，起码不会被爪子刺穿。知道自己没有生命危险后，我更进一步，在楼梯背后蹲着，观察她进餐。好人给予的食物总是丰富充足的，她进餐时也不必像我们一样会狼吞虎咽，而是优雅的。那种优雅，抱歉我不知道怎么形容，我只能告诉你，那是我见过的最享受的进食。至此，我已经确定了，这只猫只不过是一只娇生惯养的无害猫。\\n 不知道什么时候起，也许是第一次观察起，我已经养成了习惯，就是每天在她经过的草丛蹲着。闻着残留的猫香，我总能愉悦一整天。直到有一天，我被她抓住了。她没有尝试用爪子刺穿我，甚至连爪子都没有露出来。仅仅是追逐，这种追逐对她来说是儿戏，但对于好几天没吃到食物的我却是致命的。我被赶到了角落，已经无法再奔跑。盯着面前的猫脸，我的脚在抽搐，身体在发抖，脸膀胱都无法抑制住。最后我昏迷了，我昏迷在一片黄色液体中，与骚臭味对立着的是空中悬浮着的猫香。我想，我死去的场景是如此的戏剧，一生所有的俗与高高在上的雅混杂在一起，此刻却如此和谐。\\n 我在萍伦区心鼠医院醒来的，这里有很多像我一样的病鼠，我以前也听说过，他们是得了一种叫猫中毒的病。以前我不懂这是什么，现在懂了。医生说我得了臆想症，被发现时躺在下水道里。在这里治疗的鼠鼠很多，每天的药就是定时看些视频，睡前听些音乐。缓解是能缓解的，但这种病还无法根治。但也无所谓了，我不在乎，甚至庆幸。\\n\\n我很喜欢鼠志摩的一首诗:\\n\\n“我不知道风 \\n\\n是在哪一个方向吹——\\n\\n 我是在梦中，在梦的轻波里依洄。 \\n\\n我不知道风 \\n\\n是在哪一个方向吹—— \\n\\n我是在梦中，她的温存，我的迷醉。”\\n现在半夜，我也时时想起。不管风往哪个方向吹，唯一不变的，是我心底喜欢的你。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1f1Kd66Eau/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1oi421o7GP/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1t3TM6pEhC/, https://www.bilibili.com/video/BV1s7411K7e9/, http://www.bilibili.com/video/av116836750328688, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av116826902106617, http://www.bilibili.com/video/av116831247406473, http://www.bilibili.com/video/av116768634900159, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116835693369364, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av116044966396246, http://www.bilibili.com/video/av323641281, http://www.bilibili.com/video/av369470857, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av276299258, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827002766246, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av91880405, http://www.bilibili.com/video/av1756130534, http://www.bilibili.com/video/av835254755",
+          "uid": "BV1f1Kd66Eau,BV1jjswz2EQF,BV1oi421o7GP,BV1dT41197yJ,BV1t3TM6pEhC,BV1s7411K7e9",
+          "sample": "只要不太过，有时候要理解一下，他们穷怕了，时时刻刻都想多攒一点，在攒的过程中能缓解他们的不安全感，安逸是他们最大的敌人，很多此类老人一旦安逸下来，命就不长了，不安感会让他们焦虑~"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av113492094878349/",
+          "uid": "354494561",
+          "sample": "杨子时时刻刻都在想着怎么现眼怎么增加节目效果，这一期里他发现麦琳情绪敏感之后好多次故意惹怒她，装作不近人情不懂世故，给自己增加负面话题度。比如故意提画像然后又说麦琳的画画得不像，发现李行亮没有指麦琳之后刻意强调，假装没看出来麦琳哭了。但是故作姿态的逆天永远比不过真情流露的奇葩，麦琳一个令人毛骨悚然的“啊哈哈哈”就是杨子装疯卖傻一辈子也无法逾越的高山。"
+        }
+      ]
+    },
+    {
+      "term": "明摆着",
+      "evidenceSamples": [
+        "这种就是明摆着告诉你了有隐藏内容",
+        "怕是穷不起了，来明摆着要钱呢",
+        "就不应该有仅退款这个选项 明摆着叫坏人占便宜呢啊",
+        "不可能让Vicky去评那个惠灵顿的，因为节目组明摆着要保送那女",
+        "很多人都在搞啊，甚至我们湖南长沙明摆着说女性友好城市，我记得十五年前还没这么离谱的，那会都是互联网聚众教学如何毒杀老公分财产什么的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "这种就是明摆着告诉你了有隐藏内容"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Cg411X7pt/",
+          "uid": "BV1Cg411X7pt",
+          "sample": "怕是穷不起了，来明摆着要钱呢"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SWrfYdEkt/",
+          "uid": "BV1SWrfYdEkt",
+          "sample": "就不应该有仅退款这个选项 明摆着叫坏人占便宜呢啊"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "不可能让Vicky去评那个惠灵顿的，因为节目组明摆着要保送那女"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WATF6dERc/, https://www.bilibili.com/video/BV15qEqztEPH/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1EWeuztELy/, https://www.bilibili.com/video/BV16VTw6oEF3/, https://www.bilibili.com/video/BV13SLX6kEvp/, http://www.bilibili.com/video/av116838881038788, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116839669630900, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av116838763595343, http://www.bilibili.com/video/av116836834220796, http://www.bilibili.com/video/av116018106074435, http://www.bilibili.com/video/av116833176847118, http://www.bilibili.com/video/av116734778541191, http://www.bilibili.com/video/av116834250523470, http://www.bilibili.com/video/av116832136599724, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116832673466589, http://www.bilibili.com/video/av116838360947637, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av114506713792950, http://www.bilibili.com/video/av115059237919866, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116061391292085, http://www.bilibili.com/video/av1555838446, http://www.bilibili.com/video/av115121129068885",
+          "uid": "BV1WATF6dERc,BV15qEqztEPH,BV11KKX66Eeo,BV1EWeuztELy,BV16VTw6oEF3,BV13SLX6kEvp",
+          "sample": "很多人都在搞啊，甚至我们湖南长沙明摆着说女性友好城市，我记得十五年前还没这么离谱的，那会都是互联网聚众教学如何毒杀老公分财产什么的"
+        }
+      ]
+    },
+    {
+      "term": "明明",
+      "evidenceSamples": [
+        "有些人这些时候又想起来有受害者有罪论可以使用了，明明重点在画算不算得上瑟琴，但这个核心问题总是被一笔带过，张口就是女性失权、或者腿毛、或者画师也不干净这些话",
+        "明明只是大吧要求不要超话贴脸这么简单的事，黄灿灿的团队上升到曾沛慈没有真心，给曾沛慈下黑热搜，博同情，今天黄灿灿在卖商务。你们自己品吧，我只能说我没见过这么恶心的人。沛慈第一次来内娱什么都不知道被整惨了。",
+        "啊，这是真破防了，连道理都不讲了，明明是g自己去和h连麦讨论罗的问题，发表的言论不被观众认可，于是有的观众去g播间吐槽，h知道后一直在播间说不要去g那里捣乱，结果现在g说的好像h是为了钱要网暴她似的，g之前明明还说自己不是那么小肚量的人网友...",
+        "玄学方面我们普通人还是少招惹。。。前段时间去趵突泉玩买冰激凌送的竹筒，感觉挺好玩的就带回来了，有一次去我姐那里玩，和我外甥他奶奶闹着玩，我说“大妈，我给你算一卦吧”，然后找了三个硬币就跟着网上现场学六爻，玩完了就去做饭了也没当回事，吃饭的时...",
+        "胡说什么大实话，明明都是铁粉[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "有些人这些时候又想起来有受害者有罪论可以使用了，明明重点在画算不算得上瑟琴，但这个核心问题总是被一笔带过，张口就是女性失权、或者腿毛、或者画师也不干净这些话"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
+          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm",
+          "sample": "明明只是大吧要求不要超话贴脸这么简单的事，黄灿灿的团队上升到曾沛慈没有真心，给曾沛慈下黑热搜，博同情，今天黄灿灿在卖商务。你们自己品吧，我只能说我没见过这么恶心的人。沛慈第一次来内娱什么都不知道被整惨了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Kp4y1y7jE/, https://www.bilibili.com/video/BV1G8eTz1Egj/, https://www.bilibili.com/video/BV1tT411z7jf/, https://www.bilibili.com/video/BV1EyvrBTE9H/, https://www.bilibili.com/video/BV1wJ4m187pX/, https://www.bilibili.com/video/BV1nu4y1m7c8/, http://www.bilibili.com/video/av967792345, http://www.bilibili.com/video/av484053470, http://www.bilibili.com/video/av1251778228, http://www.bilibili.com/video/av393315405, http://www.bilibili.com/video/av277226013, http://www.bilibili.com/video/av412700511, http://www.bilibili.com/video/av116199551666326, http://www.bilibili.com/video/av114863263191690, http://www.bilibili.com/video/av115107522681075, http://www.bilibili.com/video/av114438246041062, http://www.bilibili.com/video/av114917856251428, http://www.bilibili.com/video/av1104860018, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av112993945914130, http://www.bilibili.com/video/av112527536686080, http://www.bilibili.com/video/av116824486189145, http://www.bilibili.com/video/av114550317782471, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av114310957242728, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av115058667490447, http://www.bilibili.com/video/av115795539526134, http://www.bilibili.com/video/av829144988, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1155229255",
+          "uid": "BV1Kp4y1y7jE,BV1G8eTz1Egj,BV1tT411z7jf,BV1EyvrBTE9H,BV1wJ4m187pX,BV1nu4y1m7c8",
+          "sample": "啊，这是真破防了，连道理都不讲了，明明是g自己去和h连麦讨论罗的问题，发表的言论不被观众认可，于是有的观众去g播间吐槽，h知道后一直在播间说不要去g那里捣乱，结果现在g说的好像h是为了钱要网暴她似的，g之前明明还说自己不是那么小肚量的人网友..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Kp4y1y7jE/, https://www.bilibili.com/video/BV1G8eTz1Egj/, https://www.bilibili.com/video/BV1tT411z7jf/, https://www.bilibili.com/video/BV1EyvrBTE9H/, https://www.bilibili.com/video/BV1wJ4m187pX/, https://www.bilibili.com/video/BV1nu4y1m7c8/, http://www.bilibili.com/video/av967792345, http://www.bilibili.com/video/av484053470, http://www.bilibili.com/video/av1251778228, http://www.bilibili.com/video/av393315405, http://www.bilibili.com/video/av277226013, http://www.bilibili.com/video/av412700511, http://www.bilibili.com/video/av116199551666326, http://www.bilibili.com/video/av114863263191690, http://www.bilibili.com/video/av115107522681075, http://www.bilibili.com/video/av114438246041062, http://www.bilibili.com/video/av114917856251428, http://www.bilibili.com/video/av1104860018, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av112993945914130, http://www.bilibili.com/video/av112527536686080, http://www.bilibili.com/video/av116824486189145, http://www.bilibili.com/video/av114550317782471, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av114310957242728, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av115058667490447, http://www.bilibili.com/video/av115795539526134, http://www.bilibili.com/video/av829144988, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1155229255",
+          "uid": "BV1Kp4y1y7jE,BV1G8eTz1Egj,BV1tT411z7jf,BV1EyvrBTE9H,BV1wJ4m187pX,BV1nu4y1m7c8",
+          "sample": "玄学方面我们普通人还是少招惹。。。前段时间去趵突泉玩买冰激凌送的竹筒，感觉挺好玩的就带回来了，有一次去我姐那里玩，和我外甥他奶奶闹着玩，我说“大妈，我给你算一卦吧”，然后找了三个硬币就跟着网上现场学六爻，玩完了就去做饭了也没当回事，吃饭的时..."
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "3461566691281262",
+          "sample": "胡说什么大实话，明明都是铁粉[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1DuVB6oEqK/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV11b87zHES7/, https://www.bilibili.com/video/BV1UhxQzVEC1/, https://www.bilibili.com/video/BV1KBEm6tEpw/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av116797877526453, http://www.bilibili.com/video/av116114658958920, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116815090947597, http://www.bilibili.com/video/av116700368341722, http://www.bilibili.com/video/av116812507252608, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116816986770813, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av116825945873834, http://www.bilibili.com/video/av116815023838952, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116726440136064, http://www.bilibili.com/video/av116764692185541, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av585034028, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116805125275968, http://www.bilibili.com/video/av116724578124362, http://www.bilibili.com/video/av116774221647430, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av115172400171685, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114929449372370, http://www.bilibili.com/video/av116720064861381, http://www.bilibili.com/video/av922688107, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av114031130119231, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av1454637424, http://www.bilibili.com/video/av1700668450",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV1VrVL6qEHk,BV1AcYnezEkW,BV1Ra7L67ELc,BV1f4V16bEs8,BV1DuVB6oEqK,BV17R4y1Z7Zv,BV1yF7n6yEqz,BV11b87zHES7,BV1UhxQzVEC1,BV1KBEm6tEpw",
+          "sample": "有些人这些时候又想起来有受害者有罪论可以使用了，明明重点在画算不算得上瑟琴，但这个核心问题总是被一笔带过，张口就是女性失权、或者腿毛、或者画师也不干净这些话"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV12VKf6FE2Y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av904214610, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
+          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV12VKf6FE2Y",
+          "sample": "明明只是大吧要求不要超话贴脸这么简单的事，黄灿灿的团队上升到曾沛慈没有真心，给曾沛慈下黑热搜，博同情，今天黄灿灿在卖商务。你们自己品吧，我只能说我没见过这么恶心的人。沛慈第一次来内娱什么都不知道被整惨了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1m9myYhEsi/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, https://www.bilibili.com/video/BV12VKf6FE2Y/, https://www.bilibili.com/video/BV1nmVEzgEZM/, https://www.bilibili.com/video/BV1kHKf69EVa/, https://www.bilibili.com/video/BV1PXRDBHEKF/, https://www.bilibili.com/video/BV138TF6MEvD/, https://www.bilibili.com/video/BV1H8jbzVE8y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116509594617472, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av115422984669866, http://www.bilibili.com/video/av116799907565159, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av115437933167788, http://www.bilibili.com/video/av116836632959938, http://www.bilibili.com/video/av116725634833096, http://www.bilibili.com/video/av116838797214797, http://www.bilibili.com/video/av116710266899915, http://www.bilibili.com/video/av115468450995884, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116798766715919, http://www.bilibili.com/video/av116165242257758, http://www.bilibili.com/video/av116801501404913, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116812540805378, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av113461929447808, http://www.bilibili.com/video/av116837253647678, http://www.bilibili.com/video/av116543769810463, http://www.bilibili.com/video/av115446456128129, http://www.bilibili.com/video/av116838847612619, http://www.bilibili.com/video/av116832186926995",
+          "uid": "BV1BETw6WERX,BV1m9myYhEsi,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm,BV12VKf6FE2Y,BV1nmVEzgEZM,BV1kHKf69EVa,BV1PXRDBHEKF,BV138TF6MEvD,BV1H8jbzVE8y",
+          "sample": "明明只是大吧要求不要超话贴脸这么简单的事，黄灿灿的团队上升到曾沛慈没有真心，给曾沛慈下黑热搜，博同情，今天黄灿灿在卖商务。你们自己品吧，我只能说我没见过这么恶心的人。沛慈第一次来内娱什么都不知道被整惨了。"
+        }
+      ]
+    }
+  ]
+}

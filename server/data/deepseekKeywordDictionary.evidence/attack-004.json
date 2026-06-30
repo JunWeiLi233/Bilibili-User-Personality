@@ -1,0 +1,459 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "attack",
+  "shard": 4,
+  "shardCount": 26,
+  "evidence": [
+    {
+      "term": "公知",
+      "evidenceSamples": [
+        "小甜甜们最爱问学历了，跟当年的公知粉一个味道。",
+        "回复 @将台独分子绳之以法 :你们这套学历无用论都古墓公知的批话了，还出来唬人呐",
+        "说白了这么多年崇洋媚外公知洗脑意林灌输没有了文化自信，不就是去一趟镀老外的金才能感觉让自己人承认。跟诺贝尔奖和奥斯卡，高校排名一毛一样。没事随着日益强大这些都会有变化，现在不就有所改善了。",
+        "公知：印度免费提供热水，拧开水龙头就有51度。[doge]",
+        "防官如防贼，（但贼不走空）\\n防权如防火，（但难免走火）\\n公知的话，得反着看…"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
+          "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
+          "sample": "小甜甜们最爱问学历了，跟当年的公知粉一个味道。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
+          "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
+          "sample": "回复 @将台独分子绳之以法 :你们这套学历无用论都古墓公知的批话了，还出来唬人呐"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "说白了这么多年崇洋媚外公知洗脑意林灌输没有了文化自信，不就是去一趟镀老外的金才能感觉让自己人承认。跟诺贝尔奖和奥斯卡，高校排名一毛一样。没事随着日益强大这些都会有变化，现在不就有所改善了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1aYV86uEKp/",
+          "uid": "BV1aYV86uEKp",
+          "sample": "公知：印度免费提供热水，拧开水龙头就有51度。[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vMVH6WEEa/",
+          "uid": "BV1vMVH6WEEa",
+          "sample": "防官如防贼，（但贼不走空）\\n防权如防火，（但难免走火）\\n公知的话，得反着看…"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "印度：不怕，反正有公知替我洗白，就像图中这位"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "公知就只会放臭屁"
+        }
+      ]
+    },
+    {
+      "term": "共情",
+      "evidenceSamples": [
+        "回复 @小熊窝 :黑屏那里一下勾起我eva的ptsd了完全共情克莱夫，谁摊上这事谁都得走复仇路啊",
+        "利欲熏心的人最喜欢美化共情心理以为自己开脱",
+        "对女性共情就是一种错误，真正的平等是不能够共情的",
+        "本人就单纯好奇，我真的非常好奇，我的审美有这么差的吗？这部电影真的有这么难看吗？还是说你们有些人看到是某个明星演的，就直接抱着批判性的目光去看，导致观感特别差？还是说现在的人大部分已经耻于共情了？我指的共情不是受感动什么的，抹眼泪儿什么的，...",
+        "说实话反人类行为来来回回就那几样，什么人体实验、毁灭世界、暴力虐杀。在有限的题材里选择最容易被共情的，是很自然且功利的选择。而且人体实验比起单纯的杀戮，在探讨权力、伦理、人性等方面都更深刻，更容易发挥。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @小熊窝 :黑屏那里一下勾起我eva的ptsd了完全共情克莱夫，谁摊上这事谁都得走复仇路啊"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "利欲熏心的人最喜欢美化共情心理以为自己开脱"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "对女性共情就是一种错误，真正的平等是不能够共情的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "本人就单纯好奇，我真的非常好奇，我的审美有这么差的吗？这部电影真的有这么难看吗？还是说你们有些人看到是某个明星演的，就直接抱着批判性的目光去看，导致观感特别差？还是说现在的人大部分已经耻于共情了？我指的共情不是受感动什么的，抹眼泪儿什么的，..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1uhTF6qEPk/, https://www.bilibili.com/video/BV1MhKZ6fEHs/, https://www.bilibili.com/video/BV15u7W6TExb/, https://www.bilibili.com/video/BV1RtE96tE93/, https://www.bilibili.com/video/BV15KjKzhENw/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116837740189721, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av114563957658167, http://www.bilibili.com/video/av116812087890021, http://www.bilibili.com/video/av112834327348881, http://www.bilibili.com/video/av116822103891240, http://www.bilibili.com/video/av114920070910078, http://www.bilibili.com/video/av466576236, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116810410235206, http://www.bilibili.com/video/av116525851808121, http://www.bilibili.com/video/av112996227482644, http://www.bilibili.com/video/av776779095, http://www.bilibili.com/video/av114182829643950, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av115860987450392, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av112930662122741, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116838646155470, http://www.bilibili.com/video/av116822942883165, http://www.bilibili.com/video/av116635927059326, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116809890007152",
+          "uid": "BV1h7jgzzEn6,BV1uhTF6qEPk,BV1MhKZ6fEHs,BV15u7W6TExb,BV1RtE96tE93,BV15KjKzhENw",
+          "sample": "说实话反人类行为来来回回就那几样，什么人体实验、毁灭世界、暴力虐杀。在有限的题材里选择最容易被共情的，是很自然且功利的选择。而且人体实验比起单纯的杀戮，在探讨权力、伦理、人性等方面都更深刻，更容易发挥。"
+        }
+      ]
+    },
+    {
+      "term": "典中典",
+      "evidenceSamples": [
+        "女拳真是典中典?",
+        "国外的歌也烂完了，全是节奏 律动。另外从10年代开始，加几句rap更是典中典。 乐坛这块还是只能看日本。 更深的文化以及改革那些也不想谈，但从国外爆火到国内爆火，之前欧美的diva或者男歌手都有大火的歌，现在rap听的人比之前多，但破圈却很少，近些年顶流的坏兔子，更是小众的离谱。 但有一点我不得不谈，就歌手这块，国内外唱功差距太大了，国内歌手练嗓子的太少",
+        "典中典精选评论",
+        "典中典，沈阳笑话[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "女拳真是典中典?"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "国外的歌也烂完了，全是节奏 律动。另外从10年代开始，加几句rap更是典中典。 乐坛这块还是只能看日本。 更深的文化以及改革那些也不想谈，但从国外爆火到国内爆火，之前欧美的diva或者男歌手都有大火的歌，现在rap听的人比之前多，但破圈却很少，近些年顶流的坏兔子，更是小众的离谱。 但有一点我不得不谈，就歌手这块，国内外唱功差距太大了，国内歌手练嗓子的太少"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1xjZuB1Edr/",
+          "uid": "BV1xjZuB1Edr",
+          "sample": "典中典精选评论"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV13b4y1b7ca/",
+          "uid": "31481347",
+          "sample": "典中典，沈阳笑话[doge]"
+        }
+      ]
+    },
+    {
+      "term": "养蛊",
+      "evidenceSamples": [
+        "回复 @未降xiang :纠正称呼。。就是为了防止女主混入，养蛊啊[笑哭]到时候群体内部分裂，反过来骂你凭什么代入，妹宝是独立性格。。",
+        "联赛的一大弊端在瓦和LOL已经体现出来了，就是本来实力就不咋样了，联赛制又没法和世界强队多碰一碰学习经验，结果就会导致在臭区赛区里面自己自娱自乐养蛊，以为自己很牛逼，然后拉到世界赛上被踢死。\\n就更别提一些大半年没有比赛的队伍了，简直太离谱了",
+        "养蛊的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hNfTYfEhs/",
+          "uid": "BV1hNfTYfEhs",
+          "sample": "回复 @未降xiang :纠正称呼。。就是为了防止女主混入，养蛊啊[笑哭]到时候群体内部分裂，反过来骂你凭什么代入，妹宝是独立性格。。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LYV364Eu3/",
+          "uid": "BV1LYV364Eu3",
+          "sample": "联赛的一大弊端在瓦和LOL已经体现出来了，就是本来实力就不咋样了，联赛制又没法和世界强队多碰一碰学习经验，结果就会导致在臭区赛区里面自己自娱自乐养蛊，以为自己很牛逼，然后拉到世界赛上被踢死。\\n就更别提一些大半年没有比赛的队伍了，简直太离谱了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "养蛊的"
+        }
+      ]
+    },
+    {
+      "term": "内涵",
+      "evidenceSamples": [
+        "东大就像一辆高速列车，高速机动的代价是更少的“停靠”，就算有天赋异禀的音乐人，也会被高速机动裹着只会向“前”看，他不再有心思感受微风花草，远山清流。仿佛车速数字就能代表他的一生。 艺术创作不是工业生产，是需要才气，时间和运气去沉淀的，是需要环境去滋养的。但现在的东大“穷”怕了，一刻也不敢停，大家除生计外再无二心，其他一切非理性因素都要为“效率”让路。这并不是不好，但文化的内涵被这辆高铁拖尾，在烈风中也会一点点消耗殆尽。",
+        "孙吧 鼠鼠底线准则 1.再色也不找丧偶之妇，幼年之女，军人之妻2.再黑也不黑救人之医，育人之师，护国之军3.再嫌也不嫌看家之狗，面丑之妻，年老之母4.再骗也不骗务农之家，勤学之子，家贫之孝5.再坏也不能拆人之家，夺人之命，泄国之密6.不笑天灾，不笑人祸，不笑贫穷，不笑疾病这个是搬运之前内涵段子的，我认为很合适，大家有想法也可以提出来。我们必须要有原则 要有底线。",
+        "回复 @冮驰 :以前内涵段子的神评，我小时候还发过[微笑]",
+        "回复 @hfxhi黑胡椒 :我们不缺美感和内涵，缺的是话语权和曝光度",
+        "上学的是你们。何尝不是我。\\n我上小学，初中的时候哲学大火。一转眼已经是大学了。\\n记得在比利海灵顿出车祸之后。知乎有个评论是。\\n“所谓哲学。不过如此。”\\n其实我更愿意把“不过如此”改成“如此而已”\\n哲学是什么呢。？是奇怪的声音。？还是一系列风行一时的名场面。？\\n哲学的初衷或许只是简单的奇怪发音。并无那么多内涵或者深度。甚至起源都是常人不常接触的㚻片。\\n哲学如此而已，但又不仅如此而已。\\n就像是吃饭一样。一碗面，一锅粥。有的时候或许并没有多么美味。但却是你心里最没法忘记的味道。因为你吃的不是饭。\\n可能现在你是学生。为了学业而烦恼。\\n可能现在你已经上班。为了每天的柴米油盐而发愁。\\n在你百无聊赖点开视频软件，想要消磨无聊时光的时候。\\n你看到了一个哲学的鬼畜。\\n你点开他。看着满屏的男魂符号和弹幕。\\n你仿佛又回到了那个第一次看哲学视频。虽然不明所以但却好奇而兴奋的场景。\\n你仿佛又回到了那无数个忙里偷闲。打开b站。拿着父母手机偷看哲学视频的书桌前。\\n你一边捂着嘴偷笑，一边在弹幕上打下“2333”\\n哲学或许就是没什么意义的符号，没什么意义的声响。\\n但哲学也是那个做着暑假作业忙里偷闲的夏天。是我们幸福而小有遗憾的青春。哲学没有意义。是我们的记忆赋予了它意义存在。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "东大就像一辆高速列车，高速机动的代价是更少的“停靠”，就算有天赋异禀的音乐人，也会被高速机动裹着只会向“前”看，他不再有心思感受微风花草，远山清流。仿佛车速数字就能代表他的一生。 艺术创作不是工业生产，是需要才气，时间和运气去沉淀的，是需要环境去滋养的。但现在的东大“穷”怕了，一刻也不敢停，大家除生计外再无二心，其他一切非理性因素都要为“效率”让路。这并不是不好，但文化的内涵被这辆高铁拖尾，在烈风中也会一点点消耗殆尽。"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "孙吧 鼠鼠底线准则 1.再色也不找丧偶之妇，幼年之女，军人之妻2.再黑也不黑救人之医，育人之师，护国之军3.再嫌也不嫌看家之狗，面丑之妻，年老之母4.再骗也不骗务农之家，勤学之子，家贫之孝5.再坏也不能拆人之家，夺人之命，泄国之密6.不笑天灾，不笑人祸，不笑贫穷，不笑疾病这个是搬运之前内涵段子的，我认为很合适，大家有想法也可以提出来。我们必须要有原则 要有底线。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nM4m1k7bx/",
+          "uid": "BV1nM4m1k7bx",
+          "sample": "回复 @冮驰 :以前内涵段子的神评，我小时候还发过[微笑]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1cwZ8YTESd/",
+          "uid": "BV1cwZ8YTESd",
+          "sample": "回复 @hfxhi黑胡椒 :我们不缺美感和内涵，缺的是话语权和曝光度"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Cv41187pd/",
+          "uid": "BV1Cv41187pd",
+          "sample": "上学的是你们。何尝不是我。\\n我上小学，初中的时候哲学大火。一转眼已经是大学了。\\n记得在比利海灵顿出车祸之后。知乎有个评论是。\\n“所谓哲学。不过如此。”\\n其实我更愿意把“不过如此”改成“如此而已”\\n哲学是什么呢。？是奇怪的声音。？还是一系列风行一时的名场面。？\\n哲学的初衷或许只是简单的奇怪发音。并无那么多内涵或者深度。甚至起源都是常人不常接触的㚻片。\\n哲学如此而已，但又不仅如此而已。\\n就像是吃饭一样。一碗面，一锅粥。有的时候或许并没有多么美味。但却是你心里最没法忘记的味道。因为你吃的不是饭。\\n可能现在你是学生。为了学业而烦恼。\\n可能现在你已经上班。为了每天的柴米油盐而发愁。\\n在你百无聊赖点开视频软件，想要消磨无聊时光的时候。\\n你看到了一个哲学的鬼畜。\\n你点开他。看着满屏的男魂符号和弹幕。\\n你仿佛又回到了那个第一次看哲学视频。虽然不明所以但却好奇而兴奋的场景。\\n你仿佛又回到了那无数个忙里偷闲。打开b站。拿着父母手机偷看哲学视频的书桌前。\\n你一边捂着嘴偷笑，一边在弹幕上打下“2333”\\n哲学或许就是没什么意义的符号，没什么意义的声响。\\n但哲学也是那个做着暑假作业忙里偷闲的夏天。是我们幸福而小有遗憾的青春。哲学没有意义。是我们的记忆赋予了它意义存在。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1BY4y1y7dt/",
+          "uid": "323550295",
+          "sample": "回复 @fat_sheep :你小子是内涵是吧[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1N84y1L7n3/",
+          "uid": "BV1N84y1L7n3",
+          "sample": "笑死，内涵的明明白白的"
+        }
+      ]
+    },
+    {
+      "term": "内鬼",
+      "evidenceSamples": [
+        "“无内鬼。”机器人王老汉说罢就拆开自己的身体，果然里面没有鬼",
+        "回复 @跑路的内鬼 :还真是正宗武侠，开局就有绿帽情节[doge_金箍]",
+        "回复 @Wilson09M :蝶也不知道谁是叛徒所以为了保险起见给伊之介等一众武士发动了幻术，而自己身边也没有相信的人，至于给九郎上幻术是为了控制他给自己加buff多一些胜算，由于佛堂是个密室，只有自己人才会找到，进来的就一定是内鬼，所以蝶看到进来的是狼之后才会感叹原来是枭的儿子啊",
+        "我们之中有个内鬼"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7663501887",
+          "uid": "贴吧用户_0J9KbAM",
+          "sample": "“无内鬼。”机器人王老汉说罢就拆开自己的身体，果然里面没有鬼"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1buVS64Ed9/",
+          "uid": "BV1buVS64Ed9",
+          "sample": "回复 @跑路的内鬼 :还真是正宗武侠，开局就有绿帽情节[doge_金箍]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Db411s7Ri/",
+          "uid": "BV1Db411s7Ri",
+          "sample": "回复 @Wilson09M :蝶也不知道谁是叛徒所以为了保险起见给伊之介等一众武士发动了幻术，而自己身边也没有相信的人，至于给九郎上幻术是为了控制他给自己加buff多一些胜算，由于佛堂是个密室，只有自己人才会找到，进来的就一定是内鬼，所以蝶看到进来的是狼之后才会感叹原来是枭的儿子啊"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PAVj6pEte/",
+          "uid": "BV1PAVj6pEte",
+          "sample": "我们之中有个内鬼"
+        }
+      ]
+    },
+    {
+      "term": "冷嘲热讽",
+      "evidenceSamples": [
+        "对于黑蔡徐坤的人们，我觉得这样很没有必要，因为坤坤是个人，你们把他比作鸡属实有些过分，对于这种会唱会跳又会打篮球的全能型明星，我们不应该天天冷嘲热讽对她说鸡你太美，而应该对喜爱和欣赏她的粉丝说:狗你更美。",
+        "生活需要一些没用但美好的东西，而不是整一些蟠木朽株般的评论为了凸显自己卓尔不群的价值观，如果说弹幕发的是没用的东西，某些冷嘲热讽的评论怕不是更无用",
+        "想用冷嘲热讽 对虚拟人物发泄来获得优越感，真是见的没边"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "277454557",
+          "sample": "对于黑蔡徐坤的人们，我觉得这样很没有必要，因为坤坤是个人，你们把他比作鸡属实有些过分，对于这种会唱会跳又会打篮球的全能型明星，我们不应该天天冷嘲热讽对她说鸡你太美，而应该对喜爱和欣赏她的粉丝说:狗你更美。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ZGV56qEJw/",
+          "uid": "BV1ZGV56qEJw",
+          "sample": "生活需要一些没用但美好的东西，而不是整一些蟠木朽株般的评论为了凸显自己卓尔不群的价值观，如果说弹幕发的是没用的东西，某些冷嘲热讽的评论怕不是更无用"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ZRGdzKEnp/",
+          "uid": "BV1ZRGdzKEnp",
+          "sample": "想用冷嘲热讽 对虚拟人物发泄来获得优越感，真是见的没边"
+        }
+      ]
+    },
+    {
+      "term": "净化",
+      "evidenceSamples": [
+        "有一个up就是个无脑饭圈，发蔡徐坤的mv，评论发弹幕刷梗的他都会删，只留夸鲲鲲的弹幕和评论，还会私信谩骂，骂完就拉黑了，他的这个视频(BV1Mp4y1X7dt)八万多播放量，评论只有那么少，还没有六老师一个不到四万的播放量视频的评论多，什么原因都懂，希望广大友军共同努力，改善b站环境，将此癌鲲赶出b站，净化b站的弹幕区和评论区",
+        "你不是阿特，你是谁，阿特净化没那么快",
+        "为了净化空气我在家里放了十几个植物人。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "431228051",
+          "sample": "有一个up就是个无脑饭圈，发蔡徐坤的mv，评论发弹幕刷梗的他都会删，只留夸鲲鲲的弹幕和评论，还会私信谩骂，骂完就拉黑了，他的这个视频(BV1Mp4y1X7dt)八万多播放量，评论只有那么少，还没有六老师一个不到四万的播放量视频的评论多，什么原因都懂，希望广大友军共同努力，改善b站环境，将此癌鲲赶出b站，净化b站的弹幕区和评论区"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "你不是阿特，你是谁，阿特净化没那么快"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/3727952752",
+          "uid": "两立💥",
+          "sample": "为了净化空气我在家里放了十几个植物人。"
+        }
+      ]
+    },
+    {
+      "term": "出圈",
+      "evidenceSamples": [
+        "哈哈哈哈巴不得出圈笑死",
+        "回复 @冻梨桃子 :我看鸡你太美这么出圈癌鲲占80%的原因",
+        "回复 @音乐盒子Faeries :律师函也只是他维护自己吧，自己被恶意P图鬼畜换谁都受不了吧，还有打篮球确实比律师函更出圈点，只要提到黑梗必是打篮球"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "120386552",
+          "sample": "哈哈哈哈巴不得出圈笑死"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "96567782",
+          "sample": "回复 @冻梨桃子 :我看鸡你太美这么出圈癌鲲占80%的原因"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "12267074",
+          "sample": "回复 @音乐盒子Faeries :律师函也只是他维护自己吧，自己被恶意P图鬼畜换谁都受不了吧，还有打篮球确实比律师函更出圈点，只要提到黑梗必是打篮球"
+        }
+      ]
+    },
+    {
+      "term": "出警",
+      "evidenceSamples": [
+        "回复 @一路ik :你说的对，但是有些癌坤真的很迷，说实话我三次元好友也有ikun，人家安安静静得很好，招人讨厌的是四处出警的，比如在我楼上楼下就有很多叫嚣举报的[OK]。我觉得圈地自萌很好，b站不是也有蔡徐坤安利向剪辑吗？？去看那个不好吗，你说在鬼畜向下面“举报举报”的，搁谁谁不喷他两句。。",
+        "本来都觉得这个梗过气了不好玩了，刚刚看一个up主的青你吐槽视频开头放了段cxk名场面原片评论区和弹幕就一堆粉丝出警，成功败坏掉我对他的好感",
+        "回复 @小白小猴 :原来还有这个事情，我当年只知道鸡你太美，不懂啥意思，就觉得视频做的挺搞笑的，但是因为头发出警人还是蛮恶心的，他粉丝真的好疯呀"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "13233560",
+          "sample": "回复 @一路ik :你说的对，但是有些癌坤真的很迷，说实话我三次元好友也有ikun，人家安安静静得很好，招人讨厌的是四处出警的，比如在我楼上楼下就有很多叫嚣举报的[OK]。我觉得圈地自萌很好，b站不是也有蔡徐坤安利向剪辑吗？？去看那个不好吗，你说在鬼畜向下面“举报举报”的，搁谁谁不喷他两句。。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "172256928",
+          "sample": "本来都觉得这个梗过气了不好玩了，刚刚看一个up主的青你吐槽视频开头放了段cxk名场面原片评论区和弹幕就一堆粉丝出警，成功败坏掉我对他的好感"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "398056546",
+          "sample": "回复 @小白小猴 :原来还有这个事情，我当年只知道鸡你太美，不懂啥意思，就觉得视频做的挺搞笑的，但是因为头发出警人还是蛮恶心的，他粉丝真的好疯呀"
+        }
+      ]
+    },
+    {
+      "term": "出道",
+      "evidenceSamples": [
+        "回复 @战神zs123 :蔡徐坤真的不容易了，出道到现在扒的一干二净啥素质品行性问题都没",
+        "回复 @买了飘冷 : Billie Eilish 跟 BLACKPINK 出道都还没十年 嘴是真硬阿 没事 我还有: SZA, Travis Scott, NewJeans, Sabrina Carpenter, Dua Lipa",
+        "真的是搞不懂，你们这些键盘侠和作者就不能靠自己实力变火吗？要去恶搞别人，才能让自己变得很火吗？扒他们的黑料，戳他们的痛处 我喜欢蔡徐坤，也不是很久 我也不是特别的爱他，去为他疯狂 但是也基本上没必要去这样子对别人骂别人吧 对他们也要有一些基本的尊重 尊重都没有，那何必说别人要尊重你呢？你骂别人，只是因为你嫉妒他。看不了他的好 看不到他的温柔，他的善良。他背后付出了多少？你们根本就不知道。哎我就搞不懂 为什么要骂蔡徐坤啊 就因为打篮球吗 仅仅因为这个吗 他人品也挺好的呀！真无语，最起码的尊重都没有吗？？真是，中国人和中国人之间连这点尊重都没有，你们还是人吗？？说这几个字觉得自己很牛逼吗？他上台领奖的时候怎么不说了？现场被人约戏怎么不说了？觉得玩梗很厉害吗？？我的爱豆，他18岁出道.20岁拥有千万粉丝.演唱会门票3秒卖光.他的歌能做到比人还火.唱跳rap全能创作型歌手.但这只是一个开头.所有的事都要从一朵惊艳世俗的“蓝玫瑰”说起.P遗照 “菜虚鲲” 侮辱籃球 被冤枉数据造假 激光笔照眼睛差点失明",
+        "这节目因为曾沛慈看了前面两期，后面没看了，为啥现在发展到她俩捆绑上了？曾有实力有人气没必要和黄捆绑吧？完全是吸曾的血，这cp很多是黄唯粉装的吧，想提纯，，，黄要不是因为这是芒果的节目早淘汰了。出道这么多年没啥代表作，都参加了芒果多少综艺了也..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "667859381",
+          "sample": "回复 @战神zs123 :蔡徐坤真的不容易了，出道到现在扒的一干二净啥素质品行性问题都没"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @买了飘冷 : Billie Eilish 跟 BLACKPINK 出道都还没十年 嘴是真硬阿 没事 我还有: SZA, Travis Scott, NewJeans, Sabrina Carpenter, Dua Lipa"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "643302435",
+          "sample": "真的是搞不懂，你们这些键盘侠和作者就不能靠自己实力变火吗？要去恶搞别人，才能让自己变得很火吗？扒他们的黑料，戳他们的痛处 我喜欢蔡徐坤，也不是很久 我也不是特别的爱他，去为他疯狂 但是也基本上没必要去这样子对别人骂别人吧 对他们也要有一些基本的尊重 尊重都没有，那何必说别人要尊重你呢？你骂别人，只是因为你嫉妒他。看不了他的好 看不到他的温柔，他的善良。他背后付出了多少？你们根本就不知道。哎我就搞不懂 为什么要骂蔡徐坤啊 就因为打篮球吗 仅仅因为这个吗 他人品也挺好的呀！真无语，最起码的尊重都没有吗？？真是，中国人和中国人之间连这点尊重都没有，你们还是人吗？？说这几个字觉得自己很牛逼吗？他上台领奖的时候怎么不说了？现场被人约戏怎么不说了？觉得玩梗很厉害吗？？我的爱豆，他18岁出道.20岁拥有千万粉丝.演唱会门票3秒卖光.他的歌能做到比人还火.唱跳rap全能创作型歌手.但这只是一个开头.所有的事都要从一朵惊艳世俗的“蓝玫瑰”说起.P遗照 “菜虚鲲” 侮辱籃球 被冤枉数据造假 激光笔照眼睛差点失明"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
+          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm",
+          "sample": "这节目因为曾沛慈看了前面两期，后面没看了，为啥现在发展到她俩捆绑上了？曾有实力有人气没必要和黄捆绑吧？完全是吸曾的血，这cp很多是黄唯粉装的吧，想提纯，，，黄要不是因为这是芒果的节目早淘汰了。出道这么多年没啥代表作，都参加了芒果多少综艺了也..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV12VKf6FE2Y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av904214610, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
+          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV12VKf6FE2Y",
+          "sample": "这节目因为曾沛慈看了前面两期，后面没看了，为啥现在发展到她俩捆绑上了？曾有实力有人气没必要和黄捆绑吧？完全是吸曾的血，这cp很多是黄唯粉装的吧，想提纯，，，黄要不是因为这是芒果的节目早淘汰了。出道这么多年没啥代表作，都参加了芒果多少综艺了也..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1m9myYhEsi/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, https://www.bilibili.com/video/BV12VKf6FE2Y/, https://www.bilibili.com/video/BV1nmVEzgEZM/, https://www.bilibili.com/video/BV1kHKf69EVa/, https://www.bilibili.com/video/BV1PXRDBHEKF/, https://www.bilibili.com/video/BV138TF6MEvD/, https://www.bilibili.com/video/BV1H8jbzVE8y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116509594617472, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av115422984669866, http://www.bilibili.com/video/av116799907565159, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av115437933167788, http://www.bilibili.com/video/av116836632959938, http://www.bilibili.com/video/av116725634833096, http://www.bilibili.com/video/av116838797214797, http://www.bilibili.com/video/av116710266899915, http://www.bilibili.com/video/av115468450995884, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116798766715919, http://www.bilibili.com/video/av116165242257758, http://www.bilibili.com/video/av116801501404913, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116812540805378, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av113461929447808, http://www.bilibili.com/video/av116837253647678, http://www.bilibili.com/video/av116543769810463, http://www.bilibili.com/video/av115446456128129, http://www.bilibili.com/video/av116838847612619, http://www.bilibili.com/video/av116832186926995",
+          "uid": "BV1BETw6WERX,BV1m9myYhEsi,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm,BV12VKf6FE2Y,BV1nmVEzgEZM,BV1kHKf69EVa,BV1PXRDBHEKF,BV138TF6MEvD,BV1H8jbzVE8y",
+          "sample": "这节目因为曾沛慈看了前面两期，后面没看了，为啥现在发展到她俩捆绑上了？曾有实力有人气没必要和黄捆绑吧？完全是吸曾的血，这cp很多是黄唯粉装的吧，想提纯，，，黄要不是因为这是芒果的节目早淘汰了。出道这么多年没啥代表作，都参加了芒果多少综艺了也..."
+        }
+      ]
+    },
+    {
+      "term": "刀斯林",
+      "evidenceSamples": [
+        "抢鼠标一听就是刀斯林啊。哈哈哈"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UJJV6vEwA/",
+          "uid": "BV1UJJV6vEwA",
+          "sample": "抢鼠标一听就是刀斯林啊。哈哈哈"
+        }
+      ]
+    },
+    {
+      "term": "切割",
+      "evidenceSamples": [
+        "我认为现在还有一点很重要的是有这么一群人，稍微有点好听的曲子马上找出其中的西方元素，无论是乐器 编曲 或者评价体系 ，只要沾上一点就立刻切割出中国音乐[吃瓜]",
+        "我们也是被品尝的肉食，一生被切割成许多块角色。",
+        "我爱作实验，欢迎大家指正 本次课题，研究碳高温高压与空气反应生成物，器材：活人10个，锅炉，碳，氧气切割机，甲烷，氯气，强光灯，",
+        "那么切割极端女拳的UP所代表的女权是想当军阀土皇帝罢了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我认为现在还有一点很重要的是有这么一群人，稍微有点好听的曲子马上找出其中的西方元素，无论是乐器 编曲 或者评价体系 ，只要沾上一点就立刻切割出中国音乐[吃瓜]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8458632725",
+          "uid": "🌞白骨鸟语🌛",
+          "sample": "我们也是被品尝的肉食，一生被切割成许多块角色。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/3425344343",
+          "uid": "碳酰氯鼻腔喷雾",
+          "sample": "我爱作实验，欢迎大家指正 本次课题，研究碳高温高压与空气反应生成物，器材：活人10个，锅炉，碳，氧气切割机，甲烷，氯气，强光灯，"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV11r5F6LEKo/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1QnTT64Ek8/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SF7s6cEZW/, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av114438329868187, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av115596746300250, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av114613366687292, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av565805442, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116804588537830, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av843335704, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av116675068368192, http://www.bilibili.com/video/av116825308273284, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116757645756455",
+          "uid": "BV1nAKd6gEWn,BV11r5F6LEKo,BV19X7G6TEiG,BV1QnTT64Ek8,BV1SXTc63E8Q,BV1SF7s6cEZW",
+          "sample": "那么切割极端女拳的UP所代表的女权是想当军阀土皇帝罢了"
+        }
+      ]
+    },
+    {
+      "term": "切片",
+      "evidenceSamples": [
+        "4.大象新闻有精力把自认为不利于自己的切片举报掉，却发不出十几秒的澄清视频，喆不是一个正常的媒体干的事情。",
+        "多托雷的切片是不是可以叫雷切啊？[思考]",
+        "怎么没有杨哥说：\\n“通知各大切片组，先不要剪，我要发到我的主号上”\\n对讲机滴滴两声：\\n“好的，少爷”",
+        "做解剖实验的时候有六个切片，可后边显示死亡的切片里有五个，除去其中一个是本体，还有一个烧树的切片，加起来一共五个，那么问题来了，还有个切片在哪[思考]",
+        "为什么玩神的每个切片都能看到他在黑虾哥"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uq4y1T7wR/, https://www.bilibili.com/video/BV1is421g7yZ/, https://www.bilibili.com/video/BV1fQg3zkEQU/, https://www.bilibili.com/video/BV1pV4y1i7VU/, https://www.bilibili.com/video/BV14Z421g78r/, https://www.bilibili.com/video/BV1ys4y1F7Gc/, http://www.bilibili.com/video/av547736446, http://www.bilibili.com/video/av114872608100276, http://www.bilibili.com/video/av1155727561, http://www.bilibili.com/video/av115025884747482, http://www.bilibili.com/video/av997679607, http://www.bilibili.com/video/av580921221, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av116072212596613, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av112885128956016, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av112932692231241, http://www.bilibili.com/video/av112887779558294, http://www.bilibili.com/video/av114765619793436, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av34866935, http://www.bilibili.com/video/av114742333016741, http://www.bilibili.com/video/av857235647, http://www.bilibili.com/video/av115637800213806, http://www.bilibili.com/video/av114214739904920, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av288122514, http://www.bilibili.com/video/av1855352649, http://www.bilibili.com/video/av871778362, http://www.bilibili.com/video/av955390078, http://www.bilibili.com/video/av112919740154585, http://www.bilibili.com/video/av113480317276519, http://www.bilibili.com/video/av465848268",
+          "uid": "BV1uq4y1T7wR,BV1is421g7yZ,BV1fQg3zkEQU,BV1pV4y1i7VU,BV14Z421g78r,BV1ys4y1F7Gc",
+          "sample": "4.大象新闻有精力把自认为不利于自己的切片举报掉，却发不出十几秒的澄清视频，喆不是一个正常的媒体干的事情。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18EVh6BEt3/",
+          "uid": "BV18EVh6BEt3",
+          "sample": "多托雷的切片是不是可以叫雷切啊？[思考]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L2VJ6SEeR/",
+          "uid": "BV1L2VJ6SEeR",
+          "sample": "怎么没有杨哥说：\\n“通知各大切片组，先不要剪，我要发到我的主号上”\\n对讲机滴滴两声：\\n“好的，少爷”"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18EVh6BEt3/",
+          "uid": "BV18EVh6BEt3",
+          "sample": "做解剖实验的时候有六个切片，可后边显示死亡的切片里有五个，除去其中一个是本体，还有一个烧树的切片，加起来一共五个，那么问题来了，还有个切片在哪[思考]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1102882329/",
+          "uid": "1502160023",
+          "sample": "为什么玩神的每个切片都能看到他在黑虾哥"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1MBEK6jEbc/",
+          "uid": "3546581634648573",
+          "sample": "回复 @小帅比法务部 :它在每个鸣潮切片都发一遍"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "猪脸肉。应该是我们这里的活肉。我们这里就是生烫切片 蘸酱油 。基本上没有什么猪腥味。口感非常好。比较嫩。"
+        }
+      ]
+    }
+  ]
+}

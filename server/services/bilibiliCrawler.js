@@ -902,10 +902,8 @@ function videoObjectFromSpaceItem(item, uid) {
 
 function cleanSearchTitle(title, fallback) {
   const clean = String(title || '')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, '&')
-    .replace(/&#39;/g, "'")
+    .replace(/<[^>]*>/gs, '')
+    .replace(/&(?:quot|amp|#39);/g, (entity) => ({ '&quot;': '"', '&amp;': '&', '&#39;': "'" })[entity] || entity)
     .replace(/\s+/g, ' ')
     .trim();
   return clean || fallback;
@@ -1247,11 +1245,10 @@ function collectPublicReply(reply, object, bucket) {
 
 function decodeXmlText(text) {
   return String(text || '')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
+    .replace(/&(?:amp|lt|gt|quot|#39);/g, (entity) => {
+      const map = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" };
+      return map[entity] || entity;
+    })
     .replace(/&#(\d+);/g, (_match, code) => String.fromCodePoint(Number(code) || 0))
     .replace(/&#x([0-9a-f]+);/gi, (_match, code) => String.fromCodePoint(Number.parseInt(code, 16) || 0));
 }

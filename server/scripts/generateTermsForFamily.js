@@ -330,7 +330,8 @@ async function main() {
   try {
     const files = await readdir(ENTRIES_DIR);
     for (const f of files) {
-      const m = f.match(new RegExp(`^${family}-(\\d+)\\.json$`));
+      const safeFamily = family.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+      const m = f.match(new RegExp(`^${safeFamily}-(\\d+)\\.json$`));
       if (m) maxShard = Math.max(maxShard, Number(m[1]));
     }
   } catch {}

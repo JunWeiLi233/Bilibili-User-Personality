@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T14:44:40.775Z",
+  "updatedAt": "2026-06-30T20:01:58.559Z",
   "family": "cooperation",
   "shard": 2,
   "shardCount": 4,
@@ -64,8 +64,8 @@
       "family": "cooperation",
       "meaning": "在论坛表示赞同前面回复",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -74,8 +74,8 @@
       "meaning": "并列标记，表示两事并存，协调合作多方面。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T14:27:58.158Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T20:01:20.403Z"
     },
     {
       "term": "后续再谈",
@@ -91,8 +91,8 @@
       "family": "cooperation",
       "meaning": "顺从对方意见，合作态度",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T05:02:28.054Z"
     },
     {
@@ -109,8 +109,8 @@
       "family": "cooperation",
       "meaning": "以建议语气引导对方接受合作观点",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T05:11:02.193Z"
     },
     {
@@ -136,8 +136,8 @@
       "family": "cooperation",
       "meaning": "合作讨论标记，强调共同行动。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T05:42:48.191Z"
     },
     {
@@ -199,8 +199,8 @@
       "family": "cooperation",
       "meaning": "拉近对话双方，引入共同话题，软化表达。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T05:22:54.422Z"
     },
     {
@@ -209,8 +209,8 @@
       "meaning": "极端假设，强调决心",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T19:42:37.792Z"
     },
     {
       "term": "唯独",
@@ -218,16 +218,16 @@
       "meaning": "排他限定，指出唯一例外，帮助澄清合作细节。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-30T19:46:06.060Z"
     },
     {
       "term": "商量一下",
       "family": "cooperation",
       "meaning": "商量建议",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T04:36:14.010Z"
     },
     {
@@ -244,8 +244,8 @@
       "family": "cooperation",
       "meaning": "夸张自嘲被事实反驳。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T04:56:48.345Z"
     },
     {
@@ -253,8 +253,8 @@
       "family": "cooperation",
       "meaning": "突出帮助动机，降低被批评者的心理防御，维护关系。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:29:28.730Z"
     },
     {
@@ -263,7 +263,7 @@
       "meaning": "简短回应，表示倾听和理解，维持对话流畅。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T05:22:54.422Z"
     },
     {
@@ -271,8 +271,8 @@
       "family": "cooperation",
       "meaning": "形容说话失误，不是本意。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 1,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T14:13:06.835Z"
     },
     {
@@ -298,8 +298,8 @@
       "family": "cooperation",
       "meaning": "强调个体差异",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -308,34 +308,34 @@
       "meaning": "正式因果词，推导结论，加强合作逻辑。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:55:25.250Z"
     },
     {
       "term": "固然",
       "family": "cooperation",
       "meaning": "书面让步，先肯定再转折，适合正式讨论",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T04:45:01.416Z"
     },
     {
       "term": "在一定程度上",
       "family": "cooperation",
       "meaning": "程度限定",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-30T19:16:38.303662Z"
     },
     {
       "term": "在我看来",
       "family": "cooperation",
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 4,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T14:08:52.297Z"
     },
     {
@@ -352,17 +352,17 @@
       "family": "cooperation",
       "meaning": "限定程度",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T19:16:38.303662Z"
     },
     {
       "term": "在此基础上",
       "family": "cooperation",
       "meaning": "设定前提条件，引导后续讨论的延展。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:36:27.891Z"
     },
     {
@@ -371,8 +371,8 @@
       "meaning": "承认对方有道理，维持合作",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T06:03:59.579Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-30T19:48:25.898Z"
     },
     {
       "term": "坦率地讲",
@@ -407,8 +407,8 @@
       "meaning": "依据标记，指明基础，确保合作有据。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:45:25.473Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-30T19:42:37.792Z"
     },
     {
       "term": "基于以上",
@@ -434,16 +434,16 @@
       "meaning": "承认主要情况但仍留有余地，邀请对方指出例外",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T14:41:40.079Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:45:15.784Z"
     },
     {
       "term": "基本没问题",
       "family": "cooperation",
       "meaning": "限定性肯定，促进合作",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:11:02.194Z"
     },
     {
@@ -478,8 +478,8 @@
       "family": "cooperation",
       "meaning": "自谦请求谅解。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:56:48.345Z"
     },
     {
@@ -487,8 +487,8 @@
       "family": "cooperation",
       "meaning": "表示总体同意，但暗示细节可商榷，合作标记",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T04:45:01.416Z"
     },
     {
@@ -523,8 +523,8 @@
       "family": "cooperation",
       "meaning": "以概率限定，避免绝对化",
       "risk": "positive",
-      "confidence": 0.89,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T04:05:59.692Z"
     },
     {
@@ -551,7 +551,7 @@
       "meaning": "开放提问，鼓励多方参与讨论",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:25:46.975Z"
     },
     {
@@ -568,9 +568,9 @@
       "family": "cooperation",
       "meaning": "合作讨论标记，征求群体意见。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:42:48.191Z"
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-30T19:32:44.468Z"
     },
     {
       "term": "大概",
@@ -578,8 +578,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.86,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T20:01:58.559Z"
     },
     {
       "term": "大概意思是",
@@ -603,9 +603,9 @@
       "term": "大致",
       "family": "cooperation",
       "meaning": "表达近似，体现合作讨论中的谨慎态度",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
       "updatedAt": "2026-06-29T06:03:59.579Z"
     },
     {
@@ -614,8 +614,8 @@
       "meaning": "量化限定，避免以偏概全",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:41:40.079Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T19:48:25.898Z"
     },
     {
       "term": "好商量",
@@ -631,8 +631,8 @@
       "family": "cooperation",
       "meaning": "提醒对方注意语气，恢复文明讨论。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T05:51:09.802Z"
     },
     {
@@ -641,8 +641,8 @@
       "meaning": "惊叹式回应，表示关注但非攻击，可接续讨论",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T14:13:06.835Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T19:40:12.133Z"
     },
     {
       "term": "如有不妥请指正",
@@ -695,8 +695,8 @@
       "meaning": "常见假设，讨论条件",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:44:40.775Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-30T20:01:20.403Z"
     },
     {
       "term": "如果不介意",
@@ -730,8 +730,8 @@
       "family": "cooperation",
       "meaning": "表示不确定自己的理解，邀请对方纠正，促进合作对话",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:33:28.341Z"
     },
     {
@@ -739,8 +739,8 @@
       "family": "cooperation",
       "meaning": "回忆不确定，邀对方核对，合作获取准确信息",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T05:33:28.341Z"
     },
     {
@@ -811,8 +811,8 @@
       "family": "cooperation",
       "meaning": "表示暂且接受，为继续讨论铺垫，合作性让步",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T04:45:01.416Z"
     },
     {
@@ -848,7 +848,7 @@
       "meaning": "类似受教，表达学到了新观点",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T05:02:28.054Z"
     },
     {
@@ -857,16 +857,16 @@
       "meaning": "主张基于事实，拒绝情绪化",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
       "term": "实话实说",
       "family": "cooperation",
       "meaning": "表明说话直率",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -883,8 +883,8 @@
       "family": "cooperation",
       "meaning": "基于事实，中立表述",
       "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:39:16.223Z"
     },
     {
@@ -892,8 +892,8 @@
       "family": "cooperation",
       "meaning": "表示基于事实理性分析，减少主观情绪，利于合作讨论",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T04:42:23.308Z"
     },
     {
@@ -901,7 +901,7 @@
       "family": "cooperation",
       "meaning": "宣称中立，引导理性讨论",
       "risk": "positive",
-      "confidence": 0.87,
+      "confidence": 0.68,
       "evidenceCount": 1,
       "updatedAt": "2026-06-29T14:19:23.170Z"
     },
@@ -910,8 +910,8 @@
       "family": "cooperation",
       "meaning": "声明立场客观，避免偏见",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -947,7 +947,7 @@
       "meaning": "声明批评针对观点而非个人",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:25:46.975Z"
     },
     {
@@ -955,8 +955,8 @@
       "family": "cooperation",
       "meaning": "方言表达赞同，类似‘没错’",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 6,
       "updatedAt": "2026-06-29T05:02:28.054Z"
     },
     {
@@ -964,8 +964,8 @@
       "family": "cooperation",
       "meaning": "换位思考",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T04:36:14.010Z"
     },
     {
@@ -983,7 +983,7 @@
       "meaning": "限定讨论于事件本身",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -991,8 +991,8 @@
       "family": "cooperation",
       "meaning": "限定主观视角，避免绝对化，体现尊重",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:53:52.746Z"
     },
     {
@@ -1019,8 +1019,8 @@
       "meaning": "强调一致性，巩固合作共识",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T13:54:47.905Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:54:54.425Z"
     },
     {
       "term": "就现有情况看",
@@ -1037,8 +1037,8 @@
       "meaning": "假设让步，弱化条件",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:44:40.775Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T20:01:20.403Z"
     },
     {
       "term": "就算你是对的",
@@ -1064,7 +1064,7 @@
       "meaning": "让步假设，暂时接受对方逻辑，再引出自己观点。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
@@ -1072,8 +1072,8 @@
       "family": "cooperation",
       "meaning": "表示接纳条件后仍坚持己见，但保持对话态度",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T04:42:23.308Z"
     },
     {
@@ -1082,17 +1082,17 @@
       "meaning": "决定停止讨论，接受现有结果",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:55:25.250Z"
     },
     {
       "term": "尽管",
       "family": "cooperation",
       "meaning": "让步连接，强调对比",
       "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T19:51:23.400Z"
     },
     {
       "term": "尽管如此",
@@ -1117,8 +1117,8 @@
       "family": "cooperation",
       "meaning": "合作讨论标记，邀请对方详细阐述而非反驳，促进深入交流",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:53:55.946Z"
     },
     {
@@ -1127,16 +1127,16 @@
       "meaning": "表示近似，承认误差，鼓励对方补充细节，促进合作",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T14:44:40.775Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-30T19:45:15.784Z"
     },
     {
       "term": "平心而论",
       "family": "cooperation",
       "meaning": "以平和心态评价，软化批判",
       "risk": "positive",
-      "confidence": 0.93,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:05:59.692Z"
     },
     {
@@ -1155,15 +1155,15 @@
       "risk": "positive",
       "confidence": 0.85,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-30T20:01:58.559Z"
     },
     {
       "term": "开玩笑的",
       "family": "cooperation",
       "meaning": "澄清先前发言为玩笑，非严肃立场。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T04:56:48.345Z"
     },
     {
@@ -1171,8 +1171,8 @@
       "family": "cooperation",
       "meaning": "追溯根本，形成共识",
       "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T04:39:16.223Z"
     },
     {
@@ -1180,8 +1180,8 @@
       "family": "cooperation",
       "meaning": "表示让步，承认部分合理性",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -1189,8 +1189,8 @@
       "family": "cooperation",
       "meaning": "放大视角，讨论宏观",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:39:16.223Z"
     },
     {
@@ -1207,17 +1207,17 @@
       "family": "cooperation",
       "meaning": "表达赞同并强调逻辑正确",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
       "term": "得承认",
       "family": "cooperation",
       "meaning": "被迫同意对方观点，但表现让步，合作姿态",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T05:33:28.341Z"
     },
     {
@@ -1253,7 +1253,7 @@
       "meaning": "总结陈述",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 2,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T14:13:06.835Z"
     },
     {
@@ -1270,8 +1270,8 @@
       "family": "cooperation",
       "meaning": "总结概括，形成共识",
       "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T04:39:16.223Z"
     },
     {
@@ -1279,8 +1279,8 @@
       "family": "cooperation",
       "meaning": "总结性表述时加入限定，避免以偏概全，保持严谨。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:29:28.730Z"
     },
     {
@@ -1289,7 +1289,7 @@
       "meaning": "总结标记",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T14:30:59.566Z"
     },
     {
@@ -1298,7 +1298,7 @@
       "meaning": "总结归纳，结束讨论",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 0,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T04:39:16.223Z"
     },
     {
@@ -1316,7 +1316,7 @@
       "meaning": "提前表明即将发表直接意见，降低冒犯风险，维持合作氛围",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T04:42:23.308Z"
     },
     {
@@ -1341,10 +1341,10 @@
       "term": "意见不同",
       "family": "cooperation",
       "meaning": "承认分歧，但不升级冲突，保持理性",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:07:00.720Z"
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-30T19:46:06.060Z"
     },
     {
       "term": "愚见",
@@ -1359,9 +1359,9 @@
       "term": "慢慢来",
       "family": "cooperation",
       "meaning": "耐心建议",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
       "updatedAt": "2026-06-29T04:36:14.010Z"
     },
     {
@@ -1413,18 +1413,18 @@
       "term": "我不同意",
       "family": "cooperation",
       "meaning": "表达反对",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
       "term": "我不太认同",
       "family": "cooperation",
       "meaning": "条件化，用不确定语气表达异议，降低直接否定冲击",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:53:55.946Z"
     },
     {
@@ -1530,9 +1530,9 @@
       "term": "我个人认为",
       "family": "cooperation",
       "meaning": "强调个人性，不强行代表他人，体现尊重。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T05:51:09.801Z"
     },
     {
@@ -1576,8 +1576,8 @@
       "family": "cooperation",
       "meaning": "表示同意对方观点，建立共鸣，促进对话合作",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T05:13:22.151Z"
     },
     {
@@ -1585,8 +1585,8 @@
       "family": "cooperation",
       "meaning": "附和认同",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -1657,8 +1657,8 @@
       "family": "cooperation",
       "meaning": "基于有限信息评估，避免武断",
       "risk": "positive",
-      "confidence": 0.87,
-      "evidenceCount": 1,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T14:27:58.158Z"
     },
     {
@@ -1684,8 +1684,8 @@
       "family": "cooperation",
       "meaning": "引出个人观点，预示后续讨论",
       "risk": "positive",
-      "confidence": 0.87,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:05:59.692Z"
     },
     {
@@ -1755,9 +1755,9 @@
       "term": "我反对",
       "family": "cooperation",
       "meaning": "直接表达不同意见，但仍保持对话可能。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T05:20:25.600Z"
     },
     {
@@ -1773,10 +1773,10 @@
       "term": "我只是觉得",
       "family": "cooperation",
       "meaning": "弱化主观性，表达个人看法而非绝对真理",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:13:22.151Z"
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T20:01:58.559Z"
     },
     {
       "term": "我可以补充一点",
@@ -1819,8 +1819,8 @@
       "family": "cooperation",
       "meaning": "明确支持对方观点，快速建立共识，推进讨论",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T04:42:23.308Z"
     },
     {
@@ -1873,8 +1873,8 @@
       "family": "cooperation",
       "meaning": "表示正在专注接收信息，无打断意图。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-29T05:18:10.870Z"
     },
     {
@@ -1955,8 +1955,8 @@
       "meaning": "表达个人看法，推动合作",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:13:06.835Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:28:05.380Z"
     },
     {
       "term": "我想说的是",
@@ -1964,8 +1964,8 @@
       "meaning": "引出核心观点，提示听众注意重点。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:51:09.801Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:28:05.380Z"
     },
     {
       "term": "我感觉",
@@ -1973,8 +1973,8 @@
       "meaning": "用主观感受弱化断言，显示谦逊",
       "risk": "positive",
       "confidence": 0.88,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:41:40.079Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T20:01:20.403Z"
     },
     {
       "term": "我懂了",
@@ -1982,7 +1982,7 @@
       "meaning": "简短表示已领会，不再追问。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T13:53:54.423Z"
     },
     {
@@ -2000,7 +2000,7 @@
       "meaning": "主动接受对方观点或事实，展示开放态度和合作意愿",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T14:07:00.720Z"
     },
     {
@@ -2035,8 +2035,8 @@
       "family": "cooperation",
       "meaning": "接纳对方提议或结果，结束分歧。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-29T05:18:10.870Z"
     },
     {
@@ -2081,8 +2081,8 @@
       "meaning": "表达赞同态度，鼓励对方",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:27:58.158Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-30T20:01:58.559Z"
     },
     {
       "term": "我支持你的部分观点",
@@ -2117,7 +2117,7 @@
       "meaning": "确认理解对方意图，减少误解可能。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T05:18:10.870Z"
     },
     {
@@ -2134,8 +2134,8 @@
       "family": "cooperation",
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
-      "confidence": 0.5,
-      "evidenceCount": 1,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-06-29T13:53:54.423Z"
     },
     {
@@ -2143,8 +2143,8 @@
       "family": "cooperation",
       "meaning": "表达个人观点，态度温和",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:25:09.059Z"
     },
     {
@@ -2215,8 +2215,8 @@
       "family": "cooperation",
       "meaning": "依据记忆，保留出错余地",
       "risk": "positive",
-      "confidence": 0.86,
-      "evidenceCount": 0,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T04:05:59.692Z"
     },
     {
@@ -2224,8 +2224,8 @@
       "family": "cooperation",
       "meaning": "保证今后小心留意",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 1,
+      "confidence": 0.68,
+      "evidenceCount": 2,
       "updatedAt": "2026-06-29T14:33:48.382Z"
     },
     {
@@ -2234,8 +2234,8 @@
       "meaning": "以推测代替断言，开放可能性",
       "risk": "positive",
       "confidence": 0.89,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T13:55:05.670Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-30T19:46:06.060Z"
     },
     {
       "term": "我猜测",
@@ -2243,8 +2243,8 @@
       "meaning": "明确表示属于猜测，非定论",
       "risk": "positive",
       "confidence": 0.86,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-30T19:46:06.060Z"
     }
   ]
 }

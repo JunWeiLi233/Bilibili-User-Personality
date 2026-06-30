@@ -589,8 +589,8 @@ class ReadmeStatsSvgRenderer:
   <text x="40" y="62" class="title">Corpus Growth Over Time</text>
   <text x="40" y="88" class="sub">auto-generated from corpus run history on {self._escape(updated)} | {self._format_number(len(sampled))} points shown (of {self._format_number(len(points))} total)</text>
   <g>
-{left_grid}
 {right_grid}
+{left_grid}
     <!-- Chart frame -->
     <line x1="{x0}" y1="{y0 + height}" x2="{x0 + width}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
     <line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
@@ -603,7 +603,9 @@ class ReadmeStatsSvgRenderer:
     <text x="{x0}" y="{y0 + height + 26}" class="axis">{self._escape(first_date)}</text>
     <text x="{x0 + width}" y="{y0 + height + 26}" class="axis" text-anchor="end">{self._escape(last_date)}</text>
     <!-- Left axis label -->
-    <text x="{x0 - 20}" y="{y0 - 6}" class="axis" transform="rotate(-90 {x0 - 20} {y0 - 6})" text-anchor="middle">Danmaku (K)</text>
+    <text x="{x0 - 32}" y="{y0 - 6}" class="axis" transform="rotate(-90 {x0 - 32} {y0 - 6})" text-anchor="middle">Danmaku (K)</text>
+    <!-- Right axis label -->
+    <text x="{x0 + width + 24}" y="{y0 - 6}" class="axis-right" transform="rotate(-90 {x0 + width + 24} {y0 - 6})" text-anchor="middle">Comments (K)</text>
   </g>
   <!-- Legend -->
   <g>
@@ -624,7 +626,7 @@ class ReadmeStatsSvgRenderer:
     <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{color}" stroke-width="24"
       stroke-dasharray="{dash:.1f} {circumference - dash:.1f}" stroke-linecap="round"
       transform="rotate(-90 {cx} {cy})"/>
-    <text x="{cx}" y="{cy - 8}" text-anchor="middle" class="metric" font-size="32">{self._escape(label)}</text>
+    <text x="{cx}" y="{cy - 6}" text-anchor="middle" class="metric" font-size="26">{self._escape(label)}</text>
     <text x="{cx}" y="{cy + 18}" text-anchor="middle" class="small">{self._escape(sublabel)}</text>"""
 
     def _downsample_points(self, points: list[dict[str, Any]], target: int = 50) -> list[dict[str, Any]]:
@@ -664,7 +666,7 @@ class ReadmeStatsSvgRenderer:
     def _grid_row_k_right(self, ratio: float, max_value: Any, x0: int, y0: int, width: int, height: int) -> str:
         y = y0 + height - (ratio * height)
         return f"""    <line x1="{x0}" y1="{y:.1f}" x2="{x0 + width}" y2="{y:.1f}" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
-    <text x="{x0 + width + 6}" y="{y + 4:.1f}" class="axis" text-anchor="start">{self._format_k(round(_number(max_value) * ratio))}</text>"""
+    <text x="{x0 + width + 6}" y="{y + 4:.1f}" class="axis-right" text-anchor="start">{self._format_k(round(_number(max_value) * ratio))}</text>"""
 
     def _polyline(self, points: list[dict[str, Any]], value_key: str, max_value: Any, x0: int, y0: int, width: int, height: int) -> str:
         if not points:

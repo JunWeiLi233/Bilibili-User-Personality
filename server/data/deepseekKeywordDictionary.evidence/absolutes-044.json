@@ -1,0 +1,587 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "absolutes",
+  "shard": 44,
+  "shardCount": 49,
+  "evidence": [
+    {
+      "term": "索性",
+      "evidenceSamples": [
+        "千禧年后，好的作品、团体与个人，已经与千禧年以前逐渐拉开了距离，直到形成仿佛两个世界的壁垒。后来，对于各种粗伪国风民族、烂俗神曲、莫名奇妙火起来的流行歌，我确实是已经无法听下去了，也不愿意去记得各种爱豆和歌手的名字，索性弹古典吉他去了，非要翻唱表演也选黄金时代的老流行歌。现在本来就半死不活，青黄不接，浮躁虚伪，再加上AI制作音乐日趋成熟，得了，我们就等着慢慢变成怀旧老登吧。",
+        "有没有可能这个涂上去了就洗不掉了，索性就涂一半留一半[doge_金箍]",
+        "投稿\\n我是航天盾构跑刀，总裁吃了个半身像下到浮力和离心二楼连接处，发现有一堆在打花园老太，威龙峰医露娜\\n威龙在救一倒峰医，露娜也一倒了 威龙开始很警惕，但看到我没干什么就把峰医救起来，我帮他们抗住战车，把露娜救起来他们把老太干了，这时候突然峰医被老六偷，我想拉已经被补拉过来只剩一个盒子。\\n威龙和露娜走了，威龙走前把老太没掉耐久的头给了我，后来我想接飞升，没想到他们先到了，索性一起走，后面在撤离点我们一直在交换小金，我展示人头像说不需要，结果露娜威龙一人掏出一桶油来！威龙还一直想把油塞给我，不过我没拿，这真能做一期视频了，求速凌官方看到我！",
+        "回复 @走个位吃口药 :你的判断没错。腾讯/拳头是余力在做好联赛基础上多做点杯赛的，不过具体到执行上还是有困难，因为联赛周期本身就不短，选手实际上是比较疲惫的，特别是国内俱乐部训练量普遍很大，不像欧美俱乐部那么轻松，所以在联赛基础上增加杯赛会让选手吃不消（职业俱乐部的训练赛强度也是很大的，并不是天梯那种可以打一天也没啥事的），所以哪怕是KPL办挑杯，也只能是把职业队的赛程尽量压缩一些，别给联赛队伍增加太多负担，倒是可以让K甲、青训的队伍多打打。其实这也是为什么拳头在考虑直接取消VCT各赛区的联赛，全面拥抱杯赛，既想要联赛的稳定又想要杯赛的激烈程度，那就只能压榨俱乐部和选手，但欧美人又不吃你这套压榨，所以索性就不搞联赛了。不过CN赛区会怎么变化还不清楚，目前拳头的计划可以说是仅限其他三个赛区……"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "千禧年后，好的作品、团体与个人，已经与千禧年以前逐渐拉开了距离，直到形成仿佛两个世界的壁垒。后来，对于各种粗伪国风民族、烂俗神曲、莫名奇妙火起来的流行歌，我确实是已经无法听下去了，也不愿意去记得各种爱豆和歌手的名字，索性弹古典吉他去了，非要翻唱表演也选黄金时代的老流行歌。现在本来就半死不活，青黄不接，浮躁虚伪，再加上AI制作音乐日趋成熟，得了，我们就等着慢慢变成怀旧老登吧。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hCooYFEZp/",
+          "uid": "BV1hCooYFEZp",
+          "sample": "有没有可能这个涂上去了就洗不掉了，索性就涂一半留一半[doge_金箍]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1wGb6zBETH/",
+          "uid": "BV1wGb6zBETH",
+          "sample": "投稿\\n我是航天盾构跑刀，总裁吃了个半身像下到浮力和离心二楼连接处，发现有一堆在打花园老太，威龙峰医露娜\\n威龙在救一倒峰医，露娜也一倒了 威龙开始很警惕，但看到我没干什么就把峰医救起来，我帮他们抗住战车，把露娜救起来他们把老太干了，这时候突然峰医被老六偷，我想拉已经被补拉过来只剩一个盒子。\\n威龙和露娜走了，威龙走前把老太没掉耐久的头给了我，后来我想接飞升，没想到他们先到了，索性一起走，后面在撤离点我们一直在交换小金，我展示人头像说不需要，结果露娜威龙一人掏出一桶油来！威龙还一直想把油塞给我，不过我没拿，这真能做一期视频了，求速凌官方看到我！"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LYV364Eu3/",
+          "uid": "BV1LYV364Eu3",
+          "sample": "回复 @走个位吃口药 :你的判断没错。腾讯/拳头是余力在做好联赛基础上多做点杯赛的，不过具体到执行上还是有困难，因为联赛周期本身就不短，选手实际上是比较疲惫的，特别是国内俱乐部训练量普遍很大，不像欧美俱乐部那么轻松，所以在联赛基础上增加杯赛会让选手吃不消（职业俱乐部的训练赛强度也是很大的，并不是天梯那种可以打一天也没啥事的），所以哪怕是KPL办挑杯，也只能是把职业队的赛程尽量压缩一些，别给联赛队伍增加太多负担，倒是可以让K甲、青训的队伍多打打。其实这也是为什么拳头在考虑直接取消VCT各赛区的联赛，全面拥抱杯赛，既想要联赛的稳定又想要杯赛的激烈程度，那就只能压榨俱乐部和选手，但欧美人又不吃你这套压榨，所以索性就不搞联赛了。不过CN赛区会怎么变化还不清楚，目前拳头的计划可以说是仅限其他三个赛区……"
+        }
+      ]
+    },
+    {
+      "term": "纯属",
+      "evidenceSamples": [
+        "【【蔡徐坤x白鹿】上天啊，是我太上头了，纯属cp脑产物-哔哩哔哩】 【蔡徐坤x白鹿】上天啊，是我太上头了，纯属cp脑产物，，，大伙快去这里找ikun耍子去[嗑瓜子][嗑瓜子]",
+        "如果感觉丢脸了，可以去找别人麻烦 然后别人就会“给你脸了！” （如有雷同，纯属巧合）",
+        "cxk纯属活该，乖"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1365990639",
+          "sample": "【【蔡徐坤x白鹿】上天啊，是我太上头了，纯属cp脑产物-哔哩哔哩】 【蔡徐坤x白鹿】上天啊，是我太上头了，纯属cp脑产物，，，大伙快去这里找ikun耍子去[嗑瓜子][嗑瓜子]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8604130062",
+          "uid": "贴吧用户_5XX3tQD",
+          "sample": "如果感觉丢脸了，可以去找别人麻烦 然后别人就会“给你脸了！” （如有雷同，纯属巧合）"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "385880083",
+          "sample": "cxk纯属活该，乖"
+        }
+      ]
+    },
+    {
+      "term": "纯粹",
+      "evidenceSamples": [
+        "鸡哥现在还被玩梗纯粹是因为生草，肖战比鸡哥恶心多了，结果没人做他鬼畜（因为不好玩），网友都是老找乐子人了[呲牙]这跟当事人有没有错没太大关系。",
+        "回复 @想到的名字全被注册了 :再来就这三个点，来给你秀一秀认知，细说这三点。首先， 1.资本市场下的各大音乐app已经借着击盗版的道德大旗，实际干着垄断的事，从而把市面上绝大多数音乐版权给吞了。而达成垄断后推出的15s试听，就是第一步最大的障碍，试问听谁的音乐15s能感受到共鸣？于是新用户没有付费意愿，转头打开抖音快手b站，毕竟上面没有付费才能看到的内容，没有30s广告解锁，享受纯粹的娱乐时间。结论，资本是创造下沉市场的最大元凶之一，但是各大音乐up主锐评时从来不提，只会一遍一遍的重复消费者音乐水准低，试问，在资本市场上，设置听音乐门槛的情况下，属于亲手把消费者赶跑，然后一个app圈一群历史遗留下来老用户，一遍一遍的加广告加付费，把价值往榨干上弄，没了广大的群众基础，听音乐现在变成小众圈子了。然后还有其他操作，刷数据搞饭圈，推自己旗下的创作者等等操作，各大音乐up休怎么从来不锐评资本？只会向最弱势的群众开炮？还真是小资本主义的软弱性[喜极而泣]",
+        "女拳定义篇女拳是什么？我个人觉得是一群自私自利，专做损人利己和损人不利己，喜欢看别人倒霉、喜欢凑热闹的女性。特别是女人很容易情绪化，很容易将自己带入极端情境，从而走向女拳的道路。我大体将女拳分为几个部分：一：外国资助的利益类女拳这类女拳的目的很明确，分化瓦解国内势力，造成极端的男女对立，最简单的成果就是国内结婚率和出生人口暴跌。很多专家说人口暴跌是房价、工资等因素，我不否认有这些因素的参与，但起到一锤定音决定性的还是女拳。哪怕房价物价再贵，男人女人心中纯粹追求爱情的心是不会变的，不买房就结不了婚？我看不见得。古代人啥都没有都有那么多可歌可泣的爱情故事，为什么到现在就没了？主要是女人不再纯粹，男人不敢付出，大家都不相信爱情了，从而爱情更进一步的婚姻就更加无从谈起了。目的：人口降低，国内对立造成内乱。",
+        "个人觉得去高那儿瞎逼逼的都不一定是胡的粉丝，毕竟国内那么多反贼，或者纯粹有个喜欢起哄看热闹的",
+        "1、充电盖问题，我不是很喜欢当前的设计，但我能接受，因为当前的设计是一个看起来省钱省成本的方案。至于视频中说的极氪方案，要知道 A10 的充电外盖本身是没密封的，极氪那种一个盖子能盖任意一个口的，总会有一个充电口没有盖上，下雨的时候空着的充..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "61488855",
+          "sample": "鸡哥现在还被玩梗纯粹是因为生草，肖战比鸡哥恶心多了，结果没人做他鬼畜（因为不好玩），网友都是老找乐子人了[呲牙]这跟当事人有没有错没太大关系。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @想到的名字全被注册了 :再来就这三个点，来给你秀一秀认知，细说这三点。首先， 1.资本市场下的各大音乐app已经借着击盗版的道德大旗，实际干着垄断的事，从而把市面上绝大多数音乐版权给吞了。而达成垄断后推出的15s试听，就是第一步最大的障碍，试问听谁的音乐15s能感受到共鸣？于是新用户没有付费意愿，转头打开抖音快手b站，毕竟上面没有付费才能看到的内容，没有30s广告解锁，享受纯粹的娱乐时间。结论，资本是创造下沉市场的最大元凶之一，但是各大音乐up主锐评时从来不提，只会一遍一遍的重复消费者音乐水准低，试问，在资本市场上，设置听音乐门槛的情况下，属于亲手把消费者赶跑，然后一个app圈一群历史遗留下来老用户，一遍一遍的加广告加付费，把价值往榨干上弄，没了广大的群众基础，听音乐现在变成小众圈子了。然后还有其他操作，刷数据搞饭圈，推自己旗下的创作者等等操作，各大音乐up休怎么从来不锐评资本？只会向最弱势的群众开炮？还真是小资本主义的软弱性[喜极而泣]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "女拳定义篇女拳是什么？我个人觉得是一群自私自利，专做损人利己和损人不利己，喜欢看别人倒霉、喜欢凑热闹的女性。特别是女人很容易情绪化，很容易将自己带入极端情境，从而走向女拳的道路。我大体将女拳分为几个部分：一：外国资助的利益类女拳这类女拳的目的很明确，分化瓦解国内势力，造成极端的男女对立，最简单的成果就是国内结婚率和出生人口暴跌。很多专家说人口暴跌是房价、工资等因素，我不否认有这些因素的参与，但起到一锤定音决定性的还是女拳。哪怕房价物价再贵，男人女人心中纯粹追求爱情的心是不会变的，不买房就结不了婚？我看不见得。古代人啥都没有都有那么多可歌可泣的爱情故事，为什么到现在就没了？主要是女人不再纯粹，男人不敢付出，大家都不相信爱情了，从而爱情更进一步的婚姻就更加无从谈起了。目的：人口降低，国内对立造成内乱。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Kp4y1y7jE/, https://www.bilibili.com/video/BV1G8eTz1Egj/, https://www.bilibili.com/video/BV1tT411z7jf/, https://www.bilibili.com/video/BV1EyvrBTE9H/, https://www.bilibili.com/video/BV1wJ4m187pX/, https://www.bilibili.com/video/BV1nu4y1m7c8/, http://www.bilibili.com/video/av967792345, http://www.bilibili.com/video/av484053470, http://www.bilibili.com/video/av1251778228, http://www.bilibili.com/video/av393315405, http://www.bilibili.com/video/av277226013, http://www.bilibili.com/video/av412700511, http://www.bilibili.com/video/av116199551666326, http://www.bilibili.com/video/av114863263191690, http://www.bilibili.com/video/av115107522681075, http://www.bilibili.com/video/av114438246041062, http://www.bilibili.com/video/av114917856251428, http://www.bilibili.com/video/av1104860018, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av112993945914130, http://www.bilibili.com/video/av112527536686080, http://www.bilibili.com/video/av116824486189145, http://www.bilibili.com/video/av114550317782471, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av114310957242728, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av115058667490447, http://www.bilibili.com/video/av115795539526134, http://www.bilibili.com/video/av829144988, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1155229255",
+          "uid": "BV1Kp4y1y7jE,BV1G8eTz1Egj,BV1tT411z7jf,BV1EyvrBTE9H,BV1wJ4m187pX,BV1nu4y1m7c8",
+          "sample": "个人觉得去高那儿瞎逼逼的都不一定是胡的粉丝，毕竟国内那么多反贼，或者纯粹有个喜欢起哄看热闹的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1f1Kd66Eau/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1oi421o7GP/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1t3TM6pEhC/, https://www.bilibili.com/video/BV1s7411K7e9/, http://www.bilibili.com/video/av116836750328688, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av116826902106617, http://www.bilibili.com/video/av116831247406473, http://www.bilibili.com/video/av116768634900159, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116835693369364, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av116044966396246, http://www.bilibili.com/video/av323641281, http://www.bilibili.com/video/av369470857, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av276299258, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827002766246, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av91880405, http://www.bilibili.com/video/av1756130534, http://www.bilibili.com/video/av835254755",
+          "uid": "BV1f1Kd66Eau,BV1jjswz2EQF,BV1oi421o7GP,BV1dT41197yJ,BV1t3TM6pEhC,BV1s7411K7e9",
+          "sample": "1、充电盖问题，我不是很喜欢当前的设计，但我能接受，因为当前的设计是一个看起来省钱省成本的方案。至于视频中说的极氪方案，要知道 A10 的充电外盖本身是没密封的，极氪那种一个盖子能盖任意一个口的，总会有一个充电口没有盖上，下雨的时候空着的充..."
+        }
+      ]
+    },
+    {
+      "term": "终于",
+      "evidenceSamples": [
+        "回复 @暮风隐人 :因为他们在垃圾桶(微博)里听说鸡哥在B站鬼畜顶流，蚌埠住了[脱单doge]，现在B站入站考试简单了，终于混进来了[藏狐]",
+        "哈哈，今天吃了咪咕汇的瓜，我终于知道他为啥会被万人嘲了，真的是有原因，顶流，笑死。[吃瓜][吃瓜][吃瓜]",
+        "我终于知道真相为什么要浮出水面了 因为真相已经掺水了",
+        "我一直也想这件事，终于有人发视频说说着事了，可惜根据视频内容的表述 就是自我欺骗罢了，点踩 对方也不会收到 像点赞一样消息，着就导致 不认同他/她的评论点踩，却无法让对方知道 有人反对他/她，从而逼着让人评论， 可我们都知道 一旦评论 就会...",
+        "终于明白了，只要复制视频BV号粘贴在评论区就行了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1288522289",
+          "sample": "回复 @暮风隐人 :因为他们在垃圾桶(微博)里听说鸡哥在B站鬼畜顶流，蚌埠住了[脱单doge]，现在B站入站考试简单了，终于混进来了[藏狐]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "347404249",
+          "sample": "哈哈，今天吃了咪咕汇的瓜，我终于知道他为啥会被万人嘲了，真的是有原因，顶流，笑死。[吃瓜][吃瓜][吃瓜]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7604370604",
+          "uid": "迪迦超人呼呼😘",
+          "sample": "我终于知道真相为什么要浮出水面了 因为真相已经掺水了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV17p4y1e7a9/, https://www.bilibili.com/video/BV1mKniz2ExW/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av969516125, http://www.bilibili.com/video/av116703086251330, http://www.bilibili.com/video/av114567917142268",
+          "uid": "BV1SXTc63E8Q,BV1Cv411t7gz,BV1BWQHYtEWS,BV1tc411h7SY,BV17p4y1e7a9,BV1mKniz2ExW",
+          "sample": "我一直也想这件事，终于有人发视频说说着事了，可惜根据视频内容的表述 就是自我欺骗罢了，点踩 对方也不会收到 像点赞一样消息，着就导致 不认同他/她的评论点踩，却无法让对方知道 有人反对他/她，从而逼着让人评论， 可我们都知道 一旦评论 就会..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1WzQUBrEvJ/, https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1SpKd64Etc/, https://www.bilibili.com/video/BV1YmTc6yEYh/, https://www.bilibili.com/video/BV1PR7L6YEZn/, https://www.bilibili.com/video/BV15g411T7Un/, https://www.bilibili.com/video/BV1Ysj268E9Z/, https://www.bilibili.com/video/BV1XnKZ6iEuM/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1WzDQBLE4c/, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116837002119636, http://www.bilibili.com/video/av116817154611231, http://www.bilibili.com/video/av116799353917939, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116833378110450, http://www.bilibili.com/video/av116804118645248, http://www.bilibili.com/video/av116815812432315, http://www.bilibili.com/video/av114154056784439, http://www.bilibili.com/video/av116815242138942, http://www.bilibili.com/video/av115143342039036, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1752242375, http://www.bilibili.com/video/av114376237388865, http://www.bilibili.com/video/av1356375505, http://www.bilibili.com/video/av322733546, http://www.bilibili.com/video/av116837438194655, http://www.bilibili.com/video/av114631251071713, http://www.bilibili.com/video/av115598625345626, http://www.bilibili.com/video/av116221999582821, http://www.bilibili.com/video/av116830827976733, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av1202383814, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116431563788655, http://www.bilibili.com/video/av116821734722420, http://www.bilibili.com/video/av116389117429362, http://www.bilibili.com/video/av116027971084189, http://www.bilibili.com/video/av272505999, http://www.bilibili.com/video/av447657707, http://www.bilibili.com/video/av116702650045483, http://www.bilibili.com/video/av116811332847509, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116811114743918, http://www.bilibili.com/video/av116492532194611, http://www.bilibili.com/video/av116821567013793, http://www.bilibili.com/video/av116567325149337, http://www.bilibili.com/video/av116821566950761, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av116833512330721, http://www.bilibili.com/video/av116826365298354, http://www.bilibili.com/video/av116357257496502, http://www.bilibili.com/video/av116821516623260, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116822137444285, http://www.bilibili.com/video/av116826918886295, http://www.bilibili.com/video/av116814738620771, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116839887673997, http://www.bilibili.com/video/av506673585, http://www.bilibili.com/video/av116837656430637, http://www.bilibili.com/video/av116390795215362, http://www.bilibili.com/video/av116352979371929, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116839518574309, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116838461671853, http://www.bilibili.com/video/av116803061814470",
+          "uid": "BV1yZKo6HEWx,BV1WzQUBrEvJ,BV1Z1Kd66ExR,BV1dT41197yJ,BV1SpKd64Etc,BV1YmTc6yEYh,BV1PR7L6YEZn,BV15g411T7Un,BV1Ysj268E9Z,BV1XnKZ6iEuM,BV1nAKd6gEWn,BV1WzDQBLE4c",
+          "sample": "终于明白了，只要复制视频BV号粘贴在评论区就行了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
+          "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
+          "sample": "我一直也想这件事，终于有人发视频说说着事了，可惜根据视频内容的表述 就是自我欺骗罢了，点踩 对方也不会收到 像点赞一样消息，着就导致 不认同他/她的评论点踩，却无法让对方知道 有人反对他/她，从而逼着让人评论， 可我们都知道 一旦评论 就会..."
+        }
+      ]
+    },
+    {
+      "term": "终归",
+      "evidenceSamples": [
+        "不就是因为觉得自己恶心吗？什么撞号，分出个1啊，0啊的，简直是笑话。自己歧视自己的群体，应该是个垃圾群体吧。你们谈恋爱有多少人能超过三个月？嗯？不肯一起努力，捡现成，摆烂，物质主义，为了金钱抛弃爱情是你们这个群体的永远主旋律，像张国荣，图灵那样优秀的能有几个？恐怕优秀的人才是你们这个群体的少数派吧，不然你们怎么会经常性恋爱，每一段恋爱都逐渐使你们走向孤独终老的最终归宿。哦，我忘了，你们大多数人压根就没有老的机会，这个群体提倡的主要生活方式同样糟糕，你们真的觉得自己能活过五十？好了，我说的应该都是事实吧，死基佬们应该哑口无言了吧。",
+        "抽象就像化粪池，那些屎终归找到了他们的归宿[笑哭]",
+        "捷德终归是会被伊莱这种人吸引",
+        "是层次不一样了，终归还是回到起点"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "不就是因为觉得自己恶心吗？什么撞号，分出个1啊，0啊的，简直是笑话。自己歧视自己的群体，应该是个垃圾群体吧。你们谈恋爱有多少人能超过三个月？嗯？不肯一起努力，捡现成，摆烂，物质主义，为了金钱抛弃爱情是你们这个群体的永远主旋律，像张国荣，图灵那样优秀的能有几个？恐怕优秀的人才是你们这个群体的少数派吧，不然你们怎么会经常性恋爱，每一段恋爱都逐渐使你们走向孤独终老的最终归宿。哦，我忘了，你们大多数人压根就没有老的机会，这个群体提倡的主要生活方式同样糟糕，你们真的觉得自己能活过五十？好了，我说的应该都是事实吧，死基佬们应该哑口无言了吧。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H9V86REtp/",
+          "uid": "BV1H9V86REtp",
+          "sample": "抽象就像化粪池，那些屎终归找到了他们的归宿[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "捷德终归是会被伊莱这种人吸引"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1GXEX6pEZF/",
+          "uid": "BV1GXEX6pEZF",
+          "sample": "是层次不一样了，终归还是回到起点"
+        }
+      ]
+    },
+    {
+      "term": "终身",
+      "evidenceSamples": [
+        "严重的恐高症害得我终身无法低头捡到钱",
+        "小明抽中空调厂商终身会员大奖 他可以吹一辈子",
+        "进监狱剥夺终身政治权利可孙悟空被关了五百年怎么最后还能混个 进监狱剥夺终身政治权利可孙悟空被关了五百年怎么最后还能混个公务员"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/2284223696",
+          "uid": "杰宝🌞",
+          "sample": "严重的恐高症害得我终身无法低头捡到钱"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8431318902",
+          "uid": "smogwlaker",
+          "sample": "小明抽中空调厂商终身会员大奖 他可以吹一辈子"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8154375611",
+          "uid": "举报爻明月",
+          "sample": "进监狱剥夺终身政治权利可孙悟空被关了五百年怎么最后还能混个 进监狱剥夺终身政治权利可孙悟空被关了五百年怎么最后还能混个公务员"
+        }
+      ]
+    },
+    {
+      "term": "绝不",
+      "evidenceSamples": [
+        "追一个女人要这么多钱还要照顾他的情感，现在可能娶回来一个fW 鸡几百块钱一次拿了钱他照顾你情绪绝不多逼逼几句还可以搞附加服务，多交一天，把他拉到家里面，还可以给你搞卫生，所以为什么要去追女人？",
+        "靴子古今中外都是男人穿的，这个时代却基本上好像成了女人日常单品，实体店男靴几乎见不到，男人穿靴子也太少！小时候看到穷山区的、拉板车的女人冬天都有靴子穿，而再有钱的男人却在店里买不到一双靴子，还好现在有了网店！最惨的绝不是穷，而是不公平的观念。靴子本来就是男人穿的！为什么男人们不多多地穿起来！让男靴复兴！",
+        "拒绝不了[妙啊]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8680670308",
+          "uid": "贴吧用户_74CUQE2",
+          "sample": "追一个女人要这么多钱还要照顾他的情感，现在可能娶回来一个fW 鸡几百块钱一次拿了钱他照顾你情绪绝不多逼逼几句还可以搞附加服务，多交一天，把他拉到家里面，还可以给你搞卫生，所以为什么要去追女人？"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "靴子古今中外都是男人穿的，这个时代却基本上好像成了女人日常单品，实体店男靴几乎见不到，男人穿靴子也太少！小时候看到穷山区的、拉板车的女人冬天都有靴子穿，而再有钱的男人却在店里买不到一双靴子，还好现在有了网店！最惨的绝不是穷，而是不公平的观念。靴子本来就是男人穿的！为什么男人们不多多地穿起来！让男靴复兴！"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "178454513",
+          "sample": "拒绝不了[妙啊]"
+        }
+      ]
+    },
+    {
+      "term": "绝不可能",
+      "evidenceSamples": [
+        "回复 @Rg落雨星辰 :纯纯阴谋论，茶叶有年份限制绝不可能纯正真正的透明",
+        "西方鼓印度是下一个中国 笔知商理解开始，绝不可能",
+        "西方鼓吹印度是下一个中国 笔知商理解开始，绝不可能"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av116652150687399/",
+          "uid": "3546864840346213",
+          "sample": "回复 @Rg落雨星辰 :纯纯阴谋论，茶叶有年份限制绝不可能纯正真正的透明"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "西方鼓印度是下一个中国 笔知商理解开始，绝不可能"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "西方鼓吹印度是下一个中国 笔知商理解开始，绝不可能"
+        }
+      ]
+    },
+    {
+      "term": "绝了",
+      "evidenceSamples": [
+        "还是鬼畜区的坤坤有意思，那些坤坤走秀的视频下面的评论能看傻我，哇神仙颜值，这身材绝了，这贵公子气质，哇小说里走出来的一样，啊，awsl太帅了，还有个评论说坤坤的颜值已经超越了性别，我回他一句那不就是阴阳人吗，被喷了一脸",
+        "绝了 笑死我了",
+        "逆天室友绝了 鼠鼠在上大专，对床室友直播连麦凌晨五六点，凌晨三四点床抖动说按摩，周五早上故意趁我关门故意反方向拉了一下，还骂了我一句，结果我骂回去过了几分钟就进来掐我脖子还咬我手，后面警察要定互殴，对方家长说不签那个什么和平的书就要找律师搞到底，鼠鼠家里条件没有很好，家里人也说算了，最后被逼无奈才签了字，已经打了破伤风，但是这种情况还是感染是不是就不能再找他了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "11875977",
+          "sample": "还是鬼畜区的坤坤有意思，那些坤坤走秀的视频下面的评论能看傻我，哇神仙颜值，这身材绝了，这贵公子气质，哇小说里走出来的一样，啊，awsl太帅了，还有个评论说坤坤的颜值已经超越了性别，我回他一句那不就是阴阳人吗，被喷了一脸"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "64533409",
+          "sample": "绝了 笑死我了"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "逆天室友绝了 鼠鼠在上大专，对床室友直播连麦凌晨五六点，凌晨三四点床抖动说按摩，周五早上故意趁我关门故意反方向拉了一下，还骂了我一句，结果我骂回去过了几分钟就进来掐我脖子还咬我手，后面警察要定互殴，对方家长说不签那个什么和平的书就要找律师搞到底，鼠鼠家里条件没有很好，家里人也说算了，最后被逼无奈才签了字，已经打了破伤风，但是这种情况还是感染是不是就不能再找他了"
+        }
+      ]
+    },
+    {
+      "term": "绝后",
+      "evidenceSamples": [
+        "空前大概率绝后，确实可能有收藏价值",
+        "是的，还有人说范范是因为被濛主拒绝后才大哭崩溃的，OMG[笑哭] 个人感觉更像是她本身非常恐惧四公的所有舞台，唯一感觉disco好像还凑合，所以就把所有期望放在这里了，只是把自己的绝望表达的太明显了。濛主一直很卷，如果斩钉截铁说「我虽然现在不行！但我一定超努力！未来一定行！」哪怕最后还是不太行濛主也不会说啥，但是上来就没干劲的还是不浪费彼此了吧[笑哭]后面崩溃其实挺能理解她的，唯一的救赎disco没了（其实难度也是她自己幻想的简单，未必真简单……），后面5个都是她非常恐惧的，比起因为没面子才哭，我感觉是她真的很害怕跳舞，被骂怕了（手脚也是真不协调，练没练不清楚，至少上次比一般人还要不灵活一点）[笑哭]",
+        "太难了~这次歌手的热度恐怕已经是绝后了",
+        "一共也就7000万人，还敢这么弄，真不怕绝后啊"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kYVg6qEDx/",
+          "uid": "BV1kYVg6qEDx",
+          "sample": "空前大概率绝后，确实可能有收藏价值"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nnV36vEqJ/",
+          "uid": "BV1nnV36vEqJ",
+          "sample": "是的，还有人说范范是因为被濛主拒绝后才大哭崩溃的，OMG[笑哭] 个人感觉更像是她本身非常恐惧四公的所有舞台，唯一感觉disco好像还凑合，所以就把所有期望放在这里了，只是把自己的绝望表达的太明显了。濛主一直很卷，如果斩钉截铁说「我虽然现在不行！但我一定超努力！未来一定行！」哪怕最后还是不太行濛主也不会说啥，但是上来就没干劲的还是不浪费彼此了吧[笑哭]后面崩溃其实挺能理解她的，唯一的救赎disco没了（其实难度也是她自己幻想的简单，未必真简单……），后面5个都是她非常恐惧的，比起因为没面子才哭，我感觉是她真的很害怕跳舞，被骂怕了（手脚也是真不协调，练没练不清楚，至少上次比一般人还要不灵活一点）[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
+          "uid": "1591706674",
+          "sample": "太难了~这次歌手的热度恐怕已经是绝后了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV171Vc6BEDj/",
+          "uid": "BV171Vc6BEDj",
+          "sample": "一共也就7000万人，还敢这么弄，真不怕绝后啊"
+        }
+      ]
+    },
+    {
+      "term": "绝对",
+      "evidenceSamples": [
+        "营销号那里随机刷到的，她白色华伦天奴那身，一下子就震惊，还去翻了一下，发现是华伦天奴，瞬间就知道到华伦天奴这两年在做什么设计倾向了[doge]绝对是带货达人，能挖掘服装特质的人。",
+        "希望大家能看到waa发的这段话，真的看得出一个真正的音乐人的表达，她走了绝对是歌手节目一大遗憾[大哭]",
+        "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽",
+        "绝对是",
+        "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1UsoWYAEDX/",
+          "uid": "BV1UsoWYAEDX",
+          "sample": "营销号那里随机刷到的，她白色华伦天奴那身，一下子就震惊，还去翻了一下，发现是华伦天奴，瞬间就知道到华伦天奴这两年在做什么设计倾向了[doge]绝对是带货达人，能挖掘服装特质的人。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16WVV63EB8/",
+          "uid": "BV16WVV63EB8",
+          "sample": "希望大家能看到waa发的这段话，真的看得出一个真正的音乐人的表达，她走了绝对是歌手节目一大遗憾[大哭]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV11r5F6LEKo/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1QnTT64Ek8/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SF7s6cEZW/, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av114438329868187, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av115596746300250, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av114613366687292, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av565805442, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116804588537830, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av843335704, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av116675068368192, http://www.bilibili.com/video/av116825308273284, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116757645756455",
+          "uid": "BV1nAKd6gEWn,BV11r5F6LEKo,BV19X7G6TEiG,BV1QnTT64Ek8,BV1SXTc63E8Q,BV1SF7s6cEZW",
+          "sample": "绝对是"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8486643952",
+          "uid": "极汨",
+          "sample": "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "日本音乐不管质量还是热度现在都下降太多了，新一代的这些音乐人，米津玄师藤井风yoasobi，听感都感觉很公式，相比起千禧年间的宇多田光椎名林檎滨崎步，差距真的不小，而且日本音乐的多样性也完全不如前十几年，现在的日本音乐市场很难找到好的hiphop，artpop，梦泡，涉谷系，盯鞋，但之前日本可是有soul scream，ua，蘑菇帝国，fishman，nujabes这些在自己的音乐风格内绝对是世界顶尖的音乐人，在如今的日本新人中几乎找不到这样的人才了，除了质量下降日本音乐的热度知名度，现在也是完全比不过隔壁韩国的kpop了，比如Spotify上jpop的播放量完全被碾压，虽然热度和质量没有必然联系，但也能反应出来日本乐坛是在走下坡路"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8246499454",
+          "uid": "♬沉伦",
+          "sample": "“凡事无绝对”这句话过于绝对。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8319567796",
+          "uid": "贴吧用户_7XZ2K77",
+          "sample": "“话不能说得太绝对”这句话太绝对了"
+        }
+      ]
+    },
+    {
+      "term": "绝对不",
+      "evidenceSamples": [
+        "在理，大部分人骂他主要是因为他那些脑残粉到处败坏路人感，蔡徐坤没在站火之前我就因为看到有爱坤在我喜欢的歌底下刷蔡徐坤说了两句就被围骂了，被这样搞的绝对不是只有我[笑]",
+        "我是黄河捞尸人，我们圈子有这个说法，就是遇到穿白背带裤的不能捞，尤其是死亡长达两年半的那种最邪门，在午夜12点后又唱又跳的甚是恐怖，他的身边总是漂浮着一个篮球，隐约听到在吟唱:忌溺太霉，余音缭绕，令人毛骨悚然，而且尸体旁会散发绿色光的冰冷水域绝对不能靠近，因为会引发《绿尸寒》（转发的）",
+        "知识就像海绵里的水母，绝对不比派大星少。",
+        "爸妈绝对不能做收银员，因为他们说话从来不算数"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "22760955",
+          "sample": "在理，大部分人骂他主要是因为他那些脑残粉到处败坏路人感，蔡徐坤没在站火之前我就因为看到有爱坤在我喜欢的歌底下刷蔡徐坤说了两句就被围骂了，被这样搞的绝对不是只有我[笑]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "352913054",
+          "sample": "我是黄河捞尸人，我们圈子有这个说法，就是遇到穿白背带裤的不能捞，尤其是死亡长达两年半的那种最邪门，在午夜12点后又唱又跳的甚是恐怖，他的身边总是漂浮着一个篮球，隐约听到在吟唱:忌溺太霉，余音缭绕，令人毛骨悚然，而且尸体旁会散发绿色光的冰冷水域绝对不能靠近，因为会引发《绿尸寒》（转发的）"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7793614969",
+          "uid": "歹崔说事",
+          "sample": "知识就像海绵里的水母，绝对不比派大星少。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8607019292",
+          "uid": "凡是人类",
+          "sample": "爸妈绝对不能做收银员，因为他们说话从来不算数"
+        }
+      ]
+    },
+    {
+      "term": "绝对不会",
+      "evidenceSamples": [
+        "国内基本看到黑白的无非三种情况\\n银环 白环 幼年KC\\n我反正扭头就跑绝对不会去看多一眼到底是啥",
+        "李小冉是不想锁组的，每次都是选的她认为王濛绝对不会选的歌曲，谁知道王濛一直在尝试不同的风格，总是莫名其妙选到一起",
+        "其实大多数人都会在虚无主义和存在主义之间摇摆，存在主义可能是下个阶段，但绝对不会是最后一个阶段，可能这就是马哲里面说的螺旋上升的过程吧。\\n困惑就去看书，这是我对所有问题的通解。",
+        "老老实实看比赛的人，都明白爱丽最后这场发挥的挺不错的，只有某些不知名生物，不知道为啥跑来尬黑，我不知道这些不知名生物的成分是什么，但绝对不会是博粉[吃瓜]",
+        "《我绝对不会再管你》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AF4m1V7vA/",
+          "uid": "BV1AF4m1V7vA",
+          "sample": "国内基本看到黑白的无非三种情况\\n银环 白环 幼年KC\\n我反正扭头就跑绝对不会去看多一眼到底是啥"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nnV36vEqJ/",
+          "uid": "BV1nnV36vEqJ",
+          "sample": "李小冉是不想锁组的，每次都是选的她认为王濛绝对不会选的歌曲，谁知道王濛一直在尝试不同的风格，总是莫名其妙选到一起"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1C84y127W2/",
+          "uid": "BV1C84y127W2",
+          "sample": "其实大多数人都会在虚无主义和存在主义之间摇摆，存在主义可能是下个阶段，但绝对不会是最后一个阶段，可能这就是马哲里面说的螺旋上升的过程吧。\\n困惑就去看书，这是我对所有问题的通解。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1We411679U/",
+          "uid": "454262575",
+          "sample": "老老实实看比赛的人，都明白爱丽最后这场发挥的挺不错的，只有某些不知名生物，不知道为啥跑来尬黑，我不知道这些不知名生物的成分是什么，但绝对不会是博粉[吃瓜]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1btcKzHEsk/",
+          "uid": "BV1btcKzHEsk",
+          "sample": "《我绝对不会再管你》"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV11pEz6vEnW/",
+          "uid": "3707004996553560",
+          "sample": "新世界观随便，哪怕被异常杀死了，由于牢时的异常影响，她会复活并且绝对不会意识到自己死过，可以舒舒服服的过完一生……旧世界观不行，这孩子受不了[吃瓜]"
+        }
+      ]
+    },
+    {
+      "term": "绝对不允许",
+      "evidenceSamples": [
+        "现代材料的工程塑料强度比什么铝合金强多了，一千块透明盾牌甚至能扛霰弹（绝对不允许去扛霰弹）"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1801196154/",
+          "uid": "1451380945",
+          "sample": "现代材料的工程塑料强度比什么铝合金强多了，一千块透明盾牌甚至能扛霰弹（绝对不允许去扛霰弹）"
+        }
+      ]
+    },
+    {
+      "term": "绝对不可能",
+      "evidenceSamples": [
+        "这绝对不可能是手绘，不可能有这么流畅，感觉就想是个营销号",
+        "不可能，绝对不可能（超大声）！就UP主这猫嫌体质，要么猫猫是假的，要么UP主是假的[吃瓜]",
+        "不可能，绝对不可能[doge]",
+        "不可能，绝对不可能",
+        "长远考虑，但是长远有什么用呢？也许一辈子泰勒都给杰德花不上这60万，而且她的眉毛来说，绝对不可能会当一个单纯的家庭主妇"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "399171065",
+          "sample": "这绝对不可能是手绘，不可能有这么流畅，感觉就想是个营销号"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1TeZnYWEvP/",
+          "uid": "BV1TeZnYWEvP",
+          "sample": "不可能，绝对不可能（超大声）！就UP主这猫嫌体质，要么猫猫是假的，要么UP主是假的[吃瓜]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1yL411P7TY/",
+          "uid": "BV1yL411P7TY",
+          "sample": "不可能，绝对不可能[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1yL411P7TY/",
+          "uid": "BV1yL411P7TY",
+          "sample": "不可能，绝对不可能"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "长远考虑，但是长远有什么用呢？也许一辈子泰勒都给杰德花不上这60万，而且她的眉毛来说，绝对不可能会当一个单纯的家庭主妇"
+        }
+      ]
+    },
+    {
+      "term": "绝对不可能是",
+      "evidenceSamples": [
+        "这绝对不可能是手绘，不可能有这么流畅，感觉就想是个营销号",
+        "不可能，绝对不可能（超大声）！就UP主这猫嫌体质，要么猫猫是假的，要么UP主是假的[吃瓜]",
+        "不可能，绝对不可能[doge]",
+        "不可能，绝对不可能",
+        "长远考虑，但是长远有什么用呢？也许一辈子泰勒都给杰德花不上这60万，而且她的眉毛来说，绝对不可能会当一个单纯的家庭主妇"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "399171065",
+          "sample": "这绝对不可能是手绘，不可能有这么流畅，感觉就想是个营销号"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1TeZnYWEvP/",
+          "uid": "BV1TeZnYWEvP",
+          "sample": "不可能，绝对不可能（超大声）！就UP主这猫嫌体质，要么猫猫是假的，要么UP主是假的[吃瓜]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1yL411P7TY/",
+          "uid": "BV1yL411P7TY",
+          "sample": "不可能，绝对不可能[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1yL411P7TY/",
+          "uid": "BV1yL411P7TY",
+          "sample": "不可能，绝对不可能"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "长远考虑，但是长远有什么用呢？也许一辈子泰勒都给杰德花不上这60万，而且她的眉毛来说，绝对不可能会当一个单纯的家庭主妇"
+        }
+      ]
+    },
+    {
+      "term": "绝对不能",
+      "evidenceSamples": [
+        "我是黄河捞尸人，我们圈子有这个说法，就是遇到穿白背带裤的不能捞，尤其是死亡长达两年半的那种最邪门，在午夜12点后又唱又跳的甚是恐怖，他的身边总是漂浮着一个篮球，隐约听到在吟唱:忌溺太霉，余音缭绕，令人毛骨悚然，而且尸体旁会散发绿色光的冰冷水域绝对不能靠近，因为会引发《绿尸寒》（转发的）",
+        "爸妈绝对不能做收银员，因为他们说话从来不算数",
+        "在理，大部分人骂他主要是因为他那些脑残粉到处败坏路人感，蔡徐坤没在站火之前我就因为看到有爱坤在我喜欢的歌底下刷蔡徐坤说了两句就被围骂了，被这样搞的绝对不是只有我[笑]",
+        "知识就像海绵里的水母，绝对不比派大星少。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "352913054",
+          "sample": "我是黄河捞尸人，我们圈子有这个说法，就是遇到穿白背带裤的不能捞，尤其是死亡长达两年半的那种最邪门，在午夜12点后又唱又跳的甚是恐怖，他的身边总是漂浮着一个篮球，隐约听到在吟唱:忌溺太霉，余音缭绕，令人毛骨悚然，而且尸体旁会散发绿色光的冰冷水域绝对不能靠近，因为会引发《绿尸寒》（转发的）"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8607019292",
+          "uid": "凡是人类",
+          "sample": "爸妈绝对不能做收银员，因为他们说话从来不算数"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "22760955",
+          "sample": "在理，大部分人骂他主要是因为他那些脑残粉到处败坏路人感，蔡徐坤没在站火之前我就因为看到有爱坤在我喜欢的歌底下刷蔡徐坤说了两句就被围骂了，被这样搞的绝对不是只有我[笑]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7793614969",
+          "uid": "歹崔说事",
+          "sample": "知识就像海绵里的水母，绝对不比派大星少。"
+        }
+      ]
+    },
+    {
+      "term": "绝对不行",
+      "evidenceSamples": [
+        "今天晴天，有太阳，会晒黑，罢工吧\\n今天下雪，很冷，交通不便，罢工了\\n今天阴天，阴沉沉的，心情不好，需要罢工\\n今天大风，会把发型吹乱，这绝对不行，得罢工\\n今天有雨，人人打着把伞，还怎么欣赏美貌？顶着大雨出门很狼狈的，会把裤脚弄脏，再说下雨天就是用来睡觉的，必须罢工！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1MAZBYBE44/",
+          "uid": "BV1MAZBYBE44",
+          "sample": "今天晴天，有太阳，会晒黑，罢工吧\\n今天下雪，很冷，交通不便，罢工了\\n今天阴天，阴沉沉的，心情不好，需要罢工\\n今天大风，会把发型吹乱，这绝对不行，得罢工\\n今天有雨，人人打着把伞，还怎么欣赏美貌？顶着大雨出门很狼狈的，会把裤脚弄脏，再说下雨天就是用来睡觉的，必须罢工！"
+        }
+      ]
+    },
+    {
+      "term": "绝对不要",
+      "evidenceSamples": [
+        "别加，绝对不要加，。",
+        "中国绝对不要出口设备技术",
+        "大家记住，绝对不要跟着逻辑走！！！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116662133131390/",
+          "uid": "38716770150",
+          "sample": "别加，绝对不要加，。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "中国绝对不要出口设备技术"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1mE411s7yB/",
+          "uid": "BV1mE411s7yB",
+          "sample": "大家记住，绝对不要跟着逻辑走！！！"
+        }
+      ]
+    }
+  ]
+}

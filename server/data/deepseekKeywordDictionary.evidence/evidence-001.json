@@ -1,0 +1,623 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "family": "evidence",
+  "shard": 1,
+  "shardCount": 16,
+  "evidence": [
+    {
+      "term": "pdf文件",
+      "evidenceSamples": [
+        "我按照视频做了个信息整理，标注了关键道具、信息的视频时间节点，比如佛珠在P1-13:20获取，免得反复查看流程，据此整理了一份pdf文件，希望能有所帮助。[微笑]\\n链接：https://pan.baidu.com/s/1JXJnY2xqhOp7V3vsAID9UA \\n提取码：jqgl"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Db411s7Ri/",
+          "uid": "BV1Db411s7Ri",
+          "sample": "我按照视频做了个信息整理，标注了关键道具、信息的视频时间节点，比如佛珠在P1-13:20获取，免得反复查看流程，据此整理了一份pdf文件，希望能有所帮助。[微笑]\\n链接：https://pan.baidu.com/s/1JXJnY2xqhOp7V3vsAID9UA \\n提取码：jqgl"
+        }
+      ]
+    },
+    {
+      "term": "一手资料",
+      "evidenceSamples": [
+        "为什么我感觉博主也是听别人说的。并不是一手资料，哈"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "为什么我感觉博主也是听别人说的。并不是一手资料，哈"
+        }
+      ]
+    },
+    {
+      "term": "一锤定音",
+      "evidenceSamples": [
+        "女拳定义篇女拳是什么？我个人觉得是一群自私自利，专做损人利己和损人不利己，喜欢看别人倒霉、喜欢凑热闹的女性。特别是女人很容易情绪化，很容易将自己带入极端情境，从而走向女拳的道路。我大体将女拳分为几个部分：一：外国资助的利益类女拳这类女拳的目的很明确，分化瓦解国内势力，造成极端的男女对立，最简单的成果就是国内结婚率和出生人口暴跌。很多专家说人口暴跌是房价、工资等因素，我不否认有这些因素的参与，但起到一锤定音决定性的还是女拳。哪怕房价物价再贵，男人女人心中纯粹追求爱情的心是不会变的，不买房就结不了婚？我看不见得。古代人啥都没有都有那么多可歌可泣的爱情故事，为什么到现在就没了？主要是女人不再纯粹，男人不敢付出，大家都不相信爱情了，从而爱情更进一步的婚姻就更加无从谈起了。目的：人口降低，国内对立造成内乱。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "女拳定义篇女拳是什么？我个人觉得是一群自私自利，专做损人利己和损人不利己，喜欢看别人倒霉、喜欢凑热闹的女性。特别是女人很容易情绪化，很容易将自己带入极端情境，从而走向女拳的道路。我大体将女拳分为几个部分：一：外国资助的利益类女拳这类女拳的目的很明确，分化瓦解国内势力，造成极端的男女对立，最简单的成果就是国内结婚率和出生人口暴跌。很多专家说人口暴跌是房价、工资等因素，我不否认有这些因素的参与，但起到一锤定音决定性的还是女拳。哪怕房价物价再贵，男人女人心中纯粹追求爱情的心是不会变的，不买房就结不了婚？我看不见得。古代人啥都没有都有那么多可歌可泣的爱情故事，为什么到现在就没了？主要是女人不再纯粹，男人不敢付出，大家都不相信爱情了，从而爱情更进一步的婚姻就更加无从谈起了。目的：人口降低，国内对立造成内乱。"
+        }
+      ]
+    },
+    {
+      "term": "三人成虎",
+      "evidenceSamples": [
+        "一座山最多可以容纳五个人，因为三人成虎",
+        "老师为一方之君主 俗话说：三人行必有我师焉。 俗话又说：三人成虎。 俗话又说：伴君如伴虎。 所以说老师＝老虎＝君主",
+        "三 人 成 虎 【图片】 1、三人成虎比喻说的人多了，就能使人们把 谣言当作事实。..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7348534704",
+          "uid": "古明地铁🍀",
+          "sample": "一座山最多可以容纳五个人，因为三人成虎"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8532100589",
+          "uid": "贴吧用户_a5G372D",
+          "sample": "老师为一方之君主 俗话说：三人行必有我师焉。 俗话又说：三人成虎。 俗话又说：伴君如伴虎。 所以说老师＝老虎＝君主"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1YL4y1c7pJ/, https://www.bilibili.com/video/BV1Y34y1L7VY/, https://www.bilibili.com/video/BV1FdxdzCEf7/, https://www.bilibili.com/video/BV1tekfBpEqb/, https://www.bilibili.com/video/BV17bjF63EZz/, https://www.bilibili.com/video/BV1tB736ZEs6/, http://www.bilibili.com/video/av853731292, http://www.bilibili.com/video/av115333897718064, http://www.bilibili.com/video/av115524520381483, http://www.bilibili.com/video/av116815393064136, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av812248609, http://www.bilibili.com/video/av115812350296786, http://www.bilibili.com/video/av116504930682724, http://www.bilibili.com/video/av506697444, http://www.bilibili.com/video/av115282022500562, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115783527046852, http://www.bilibili.com/video/av116817490089412, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116768785827305, http://www.bilibili.com/video/av115981833803316, http://www.bilibili.com/video/av116819100702476",
+          "uid": "BV1YL4y1c7pJ,BV1Y34y1L7VY,BV1FdxdzCEf7,BV1tekfBpEqb,BV17bjF63EZz,BV1tB736ZEs6",
+          "sample": "三 人 成 虎 【图片】 1、三人成虎比喻说的人多了，就能使人们把 谣言当作事实。..."
+        }
+      ]
+    },
+    {
+      "term": "上链接",
+      "evidenceSamples": [
+        "上链接吧 什么药这么牛笔",
+        "上链接啊评论区",
+        "上链接"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uLEt6rEbk/",
+          "uid": "BV1uLEt6rEbk",
+          "sample": "上链接吧 什么药这么牛笔"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1BY4y1y7dt/",
+          "uid": "BV1BY4y1y7dt",
+          "sample": "上链接啊评论区"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av876720416/",
+          "uid": "1353830685",
+          "sample": "上链接"
+        }
+      ]
+    },
+    {
+      "term": "不传谣",
+      "evidenceSamples": [
+        "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]",
+        "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326",
+        "法老：不信谣，不传谣！[滑稽]",
+        "国足：不信谣不传谣",
+        "国足：不传谣不信谣"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1149387007",
+          "sample": "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",
+          "uid": "BV1PdEy6EEjj,BV1H3KD68EfL,BV1u37J6EEd9,BV1W7nLzUE3b,BV1p3411e7Pk,BV1dV7j6JE4M",
+          "sample": "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV12L4y1s7QQ/",
+          "uid": "BV12L4y1s7QQ",
+          "sample": "法老：不信谣，不传谣！[滑稽]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不信谣不传谣"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不传谣不信谣"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
+          "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
+          "sample": "1.【26.2.14 不信谣不传谣，看9.21日的公告自己琢磨-哔哩哔哩】 https://b23.tv/7UR2rY8"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "少自作多情，别不信啊～不信你照照镜子（什么都没有变）,2023-06-12--14:24:16,1686579856"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "96567782",
+          "sample": "回复 @宵夜向前冲 :我知道，百度搜的表情包，搜“我在你耳边”就有，笑拉了，癌鲲：一定是迪丽热巴看到鲲鲲黑料的时候故意存的！什么你说她不知道鲲鲲黑料？你怎么可以不知道鸡你太美唱跳rap篮球？我不信！全世界都知道！"
+        }
+      ]
+    },
+    {
+      "term": "不信",
+      "evidenceSamples": [
+        "法老：不信谣，不传谣！[滑稽]",
+        "国足：不传谣不信谣",
+        "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]",
+        "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326",
+        "1.【26.2.14 不信谣不传谣，看9.21日的公告自己琢磨-哔哩哔哩】 https://b23.tv/7UR2rY8"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV12L4y1s7QQ/",
+          "uid": "BV12L4y1s7QQ",
+          "sample": "法老：不信谣，不传谣！[滑稽]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不传谣不信谣"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1149387007",
+          "sample": "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",
+          "uid": "BV1PdEy6EEjj,BV1H3KD68EfL,BV1u37J6EEd9,BV1W7nLzUE3b,BV1p3411e7Pk,BV1dV7j6JE4M",
+          "sample": "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
+          "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
+          "sample": "1.【26.2.14 不信谣不传谣，看9.21日的公告自己琢磨-哔哩哔哩】 https://b23.tv/7UR2rY8"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不信谣不传谣"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",
+          "uid": "BV1PdEy6EEjj,BV1H3KD68EfL,BV1u37J6EEd9,BV1W7nLzUE3b,BV1p3411e7Pk,BV1dV7j6JE4M",
+          "sample": "cv18216543 同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "少自作多情，别不信啊～不信你照照镜子（什么都没有变）,2023-06-12--14:24:16,1686579856"
+        }
+      ]
+    },
+    {
+      "term": "不信谣",
+      "evidenceSamples": [
+        "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]",
+        "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326",
+        "法老：不信谣，不传谣！[滑稽]",
+        "国足：不信谣不传谣",
+        "国足：不传谣不信谣"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1149387007",
+          "sample": "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",
+          "uid": "BV1PdEy6EEjj,BV1H3KD68EfL,BV1u37J6EEd9,BV1W7nLzUE3b,BV1p3411e7Pk,BV1dV7j6JE4M",
+          "sample": "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV12L4y1s7QQ/",
+          "uid": "BV12L4y1s7QQ",
+          "sample": "法老：不信谣，不传谣！[滑稽]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不信谣不传谣"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不传谣不信谣"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
+          "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
+          "sample": "1.【26.2.14 不信谣不传谣，看9.21日的公告自己琢磨-哔哩哔哩】 https://b23.tv/7UR2rY8"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "少自作多情，别不信啊～不信你照照镜子（什么都没有变）,2023-06-12--14:24:16,1686579856"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "96567782",
+          "sample": "回复 @宵夜向前冲 :我知道，百度搜的表情包，搜“我在你耳边”就有，笑拉了，癌鲲：一定是迪丽热巴看到鲲鲲黑料的时候故意存的！什么你说她不知道鲲鲲黑料？你怎么可以不知道鸡你太美唱跳rap篮球？我不信！全世界都知道！"
+        }
+      ]
+    },
+    {
+      "term": "不信谣不传谣",
+      "evidenceSamples": [
+        "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]",
+        "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326",
+        "国足：不信谣不传谣",
+        "法老：不信谣，不传谣！[滑稽]",
+        "国足：不传谣不信谣"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1149387007",
+          "sample": "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",
+          "uid": "BV1PdEy6EEjj,BV1H3KD68EfL,BV1u37J6EEd9,BV1W7nLzUE3b,BV1p3411e7Pk,BV1dV7j6JE4M",
+          "sample": "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不信谣不传谣"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV12L4y1s7QQ/",
+          "uid": "BV12L4y1s7QQ",
+          "sample": "法老：不信谣，不传谣！[滑稽]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不传谣不信谣"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
+          "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
+          "sample": "1.【26.2.14 不信谣不传谣，看9.21日的公告自己琢磨-哔哩哔哩】 https://b23.tv/7UR2rY8"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "少自作多情，别不信啊～不信你照照镜子（什么都没有变）,2023-06-12--14:24:16,1686579856"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "96567782",
+          "sample": "回复 @宵夜向前冲 :我知道，百度搜的表情包，搜“我在你耳边”就有，笑拉了，癌鲲：一定是迪丽热巴看到鲲鲲黑料的时候故意存的！什么你说她不知道鲲鲲黑料？你怎么可以不知道鸡你太美唱跳rap篮球？我不信！全世界都知道！"
+        }
+      ]
+    },
+    {
+      "term": "不是吧",
+      "evidenceSamples": [
+        "上班签到老板发工资，贴吧签到吧主为什么不给我发工资 是不是吧主偷偷把我们签到的工资偷了",
+        "不是吧，这女我记得没爆过什么大节奏。唯一节奏是跟张嘉文双排后，大伙乐子张嘉文的借口而已",
+        "不是吧还玩呢"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7989246906",
+          "uid": "子慕1999",
+          "sample": "上班签到老板发工资，贴吧签到吧主为什么不给我发工资 是不是吧主偷偷把我们签到的工资偷了"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "不是吧，这女我记得没爆过什么大节奏。唯一节奏是跟张嘉文双排后，大伙乐子张嘉文的借口而已"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "413303163",
+          "sample": "不是吧还玩呢"
+        }
+      ]
+    },
+    {
+      "term": "不能信",
+      "evidenceSamples": [
+        "世界好大，大到你看不见我的真心，世界好小 小道消息不能信",
+        "回复 @钎年以後 :列车自己人也不能信，花火会变身[脱单doge]",
+        "对，就感觉是狼人杀，除了列车自己人谁都不能信",
+        "我重庆的真的不能信这个 七上八下",
+        "印度人，又是电脑维修的，半句话也不能信"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8686497067",
+          "uid": "凡是人类",
+          "sample": "世界好大，大到你看不见我的真心，世界好小 小道消息不能信"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1aZ421U7iu/",
+          "uid": "BV1aZ421U7iu",
+          "sample": "回复 @钎年以後 :列车自己人也不能信，花火会变身[脱单doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1aZ421U7iu/",
+          "uid": "BV1aZ421U7iu",
+          "sample": "对，就感觉是狼人杀，除了列车自己人谁都不能信"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "1598914156",
+          "sample": "我重庆的真的不能信这个 七上八下"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "印度人，又是电脑维修的，半句话也不能信"
+        }
+      ]
+    },
+    {
+      "term": "不要张口就来",
+      "evidenceSamples": [
+        "回复 @妄想囚了理想 :张远缺席了哪天的录制？张远生病是事实，但是就是生病也带着口罩录制，没有了解清楚就不要张口就来造谣[微笑]",
+        "有些人魔怔了，看见一个动作就核心什么的，连哪里发力，发没发力都不知道，张口就来啊。",
+        "05:49 造谣式澄清是粉丝的日常操作了，粉丝撒谎是张口就来。",
+        "我的祖先弄得不是你的祖先一样 还有 你一个现代人 怎么知道几千万年的进化史 别说你一个张口就来的 就是现在的历史学家说的也不完全对吧 不过就是凭着想象推演 这种小孩子都会的东西有说服力吗 博眼前 博流量 能不能用点真材实料",
+        "20年还不够丰富？弹幕真是张口就来，吉他手基本功硬的能砍竹子了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1e24y1h76v/",
+          "uid": "44627613",
+          "sample": "回复 @妄想囚了理想 :张远缺席了哪天的录制？张远生病是事实，但是就是生病也带着口罩录制，没有了解清楚就不要张口就来造谣[微笑]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kbZWYWE9B/",
+          "uid": "BV1kbZWYWE9B",
+          "sample": "有些人魔怔了，看见一个动作就核心什么的，连哪里发力，发没发力都不知道，张口就来啊。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uiVE6BEMW/",
+          "uid": "BV1uiVE6BEMW",
+          "sample": "05:49 造谣式澄清是粉丝的日常操作了，粉丝撒谎是张口就来。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1qwGm68ERP/",
+          "uid": "BV1qwGm68ERP",
+          "sample": "我的祖先弄得不是你的祖先一样 还有 你一个现代人 怎么知道几千万年的进化史 别说你一个张口就来的 就是现在的历史学家说的也不完全对吧 不过就是凭着想象推演 这种小孩子都会的东西有说服力吗 博眼前 博流量 能不能用点真材实料"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "20年还不够丰富？弹幕真是张口就来，吉他手基本功硬的能砍竹子了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "印度人一点礼貌都没有，张口就来，说什么COPY，印度想偷，偷的了吗"
+        }
+      ]
+    },
+    {
+      "term": "不要造谣",
+      "evidenceSamples": [
+        "45年广岛长崎很热吗？我不信，你不要造谣啊，除非再来一次让我康康[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1aYV86uEKp/",
+          "uid": "BV1aYV86uEKp",
+          "sample": "45年广岛长崎很热吗？我不信，你不要造谣啊，除非再来一次让我康康[doge]"
+        }
+      ]
+    },
+    {
+      "term": "不靠谱",
+      "evidenceSamples": [
+        "帮超市老板看店，看了好几天，一件东西都没少，可老板却说我不靠谱",
+        "宗教还是有点不靠谱，毕竟一旦发展壮大，内部也会出现争夺释经权的问题，世界上的几大宗教，都有出现过这个问题。",
+        "回复 @多逝只丘 :卧槽？那以前B站这举报系统跟贴吧一样完全不靠谱啊[笑哭]",
+        "回复 @XXTVT : 那我也等几天 ，指望客服感觉不靠谱，这帖子都开了猫2月还没解决问题",
+        "准备新电脑吧，完全不靠谱"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8336479407",
+          "uid": "ji35539",
+          "sample": "帮超市老板看店，看了好几天，一件东西都没少，可老板却说我不靠谱"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ehVa6EEfe/",
+          "uid": "BV1ehVa6EEfe",
+          "sample": "宗教还是有点不靠谱，毕竟一旦发展壮大，内部也会出现争夺释经权的问题，世界上的几大宗教，都有出现过这个问题。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1JV411U7y5/",
+          "uid": "444300264",
+          "sample": "回复 @多逝只丘 :卧槽？那以前B站这举报系统跟贴吧一样完全不靠谱啊[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1S1421z7cC/",
+          "uid": "27374637",
+          "sample": "回复 @XXTVT : 那我也等几天 ，指望客服感觉不靠谱，这帖子都开了猫2月还没解决问题"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "准备新电脑吧，完全不靠谱"
+        }
+      ]
+    },
+    {
+      "term": "专家说",
+      "evidenceSamples": [
+        "女拳定义篇女拳是什么？我个人觉得是一群自私自利，专做损人利己和损人不利己，喜欢看别人倒霉、喜欢凑热闹的女性。特别是女人很容易情绪化，很容易将自己带入极端情境，从而走向女拳的道路。我大体将女拳分为几个部分：一：外国资助的利益类女拳这类女拳的目的很明确，分化瓦解国内势力，造成极端的男女对立，最简单的成果就是国内结婚率和出生人口暴跌。很多专家说人口暴跌是房价、工资等因素，我不否认有这些因素的参与，但起到一锤定音决定性的还是女拳。哪怕房价物价再贵，男人女人心中纯粹追求爱情的心是不会变的，不买房就结不了婚？我看不见得。古代人啥都没有都有那么多可歌可泣的爱情故事，为什么到现在就没了？主要是女人不再纯粹，男人不敢付出，大家都不相信爱情了，从而爱情更进一步的婚姻就更加无从谈起了。目的：人口降低，国内对立造成内乱。",
+        "专家说网络游戏会导致暴力倾向，那为啥我玩了这么久还是没有变强？",
+        "不同种族的生物交配不能产生可育后代 所以专家说不生小孩的都不是人 其实是因为这些人进化成新种族了吗"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "女拳定义篇女拳是什么？我个人觉得是一群自私自利，专做损人利己和损人不利己，喜欢看别人倒霉、喜欢凑热闹的女性。特别是女人很容易情绪化，很容易将自己带入极端情境，从而走向女拳的道路。我大体将女拳分为几个部分：一：外国资助的利益类女拳这类女拳的目的很明确，分化瓦解国内势力，造成极端的男女对立，最简单的成果就是国内结婚率和出生人口暴跌。很多专家说人口暴跌是房价、工资等因素，我不否认有这些因素的参与，但起到一锤定音决定性的还是女拳。哪怕房价物价再贵，男人女人心中纯粹追求爱情的心是不会变的，不买房就结不了婚？我看不见得。古代人啥都没有都有那么多可歌可泣的爱情故事，为什么到现在就没了？主要是女人不再纯粹，男人不敢付出，大家都不相信爱情了，从而爱情更进一步的婚姻就更加无从谈起了。目的：人口降低，国内对立造成内乱。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7762768219",
+          "uid": "轩-玖",
+          "sample": "专家说网络游戏会导致暴力倾向，那为啥我玩了这么久还是没有变强？"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8707346930",
+          "uid": "封神战魂杀",
+          "sample": "不同种族的生物交配不能产生可育后代 所以专家说不生小孩的都不是人 其实是因为这些人进化成新种族了吗"
+        }
+      ]
+    },
+    {
+      "term": "主观臆断",
+      "evidenceSamples": [
+        "曾经好几次因为自己的一腔热血，主观臆断，被舆论当枪使，说这个小丑，那个怎么样高谈阔论，最后发现自己才是那个小丑，当初的争执双方双双带货，我们当时看到的不一定是真相，理智点，不要急于下定论，时间虽然长一点，但时间迟早会给出答案",
+        "一直以为汤沸腾了都是一百度左右，再怎么加大火也不会升温，所以一直以为大火只是收汁才用。但经常做饭所以有时会感觉即使沸腾也开大火会熟的更快，不过总当是错觉没怎么在意。今天up的科普让我想起了河中石兽，只知其一不知其二就主观臆断，实属惭愧"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
+          "uid": "BV1LxZfYVEdT",
+          "sample": "曾经好几次因为自己的一腔热血，主观臆断，被舆论当枪使，说这个小丑，那个怎么样高谈阔论，最后发现自己才是那个小丑，当初的争执双方双双带货，我们当时看到的不一定是真相，理智点，不要急于下定论，时间虽然长一点，但时间迟早会给出答案"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1R3odYwEbG/",
+          "uid": "BV1R3odYwEbG",
+          "sample": "一直以为汤沸腾了都是一百度左右，再怎么加大火也不会升温，所以一直以为大火只是收汁才用。但经常做饭所以有时会感觉即使沸腾也开大火会熟的更快，不过总当是错觉没怎么在意。今天up的科普让我想起了河中石兽，只知其一不知其二就主观臆断，实属惭愧"
+        }
+      ]
+    },
+    {
+      "term": "举证",
+      "evidenceSamples": [
+        "回复 @妲己把茶倒我嘴里丿 :谁主张谁举证",
+        "直接退货量数据化，已付款未发货，已发货不足三天，已发货3天（其实是想要已收货的数据但担心技术等方面不好实现）的退款率，按照订单数和金额算占比，就有了六个退货率，已发货三天的退款率最有价值，商家可以选择拒绝某项退款率高于多少的客户下单，同时在淘宝纠纷可以作为参考，对于已收货退货率高的客户，比如高于中位数2倍的，退货退款后，商家可以收取部分合理费用作为补偿（需合理举证，商品被拆开，有污损程度不一样，可以收取补偿不一样）",
+        "回复 @宋成彦 :你首先要举证他是故意训练，如果按过失判只能判3-7年，而且可以减刑缓刑，江西4条大狗撕咬三岁女童最后也只判了十个月。",
+        "骗了钱 自己举证都不一定能有用吧 。",
+        "谁主张谁举证"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1xxZzYrEri/",
+          "uid": "BV1xxZzYrEri",
+          "sample": "回复 @妲己把茶倒我嘴里丿 :谁主张谁举证"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1jgVc6aEaW/",
+          "uid": "BV1jgVc6aEaW",
+          "sample": "直接退货量数据化，已付款未发货，已发货不足三天，已发货3天（其实是想要已收货的数据但担心技术等方面不好实现）的退款率，按照订单数和金额算占比，就有了六个退货率，已发货三天的退款率最有价值，商家可以选择拒绝某项退款率高于多少的客户下单，同时在淘宝纠纷可以作为参考，对于已收货退货率高的客户，比如高于中位数2倍的，退货退款后，商家可以收取部分合理费用作为补偿（需合理举证，商品被拆开，有污损程度不一样，可以收取补偿不一样）"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1NFVD6pECL/",
+          "uid": "31054024",
+          "sample": "回复 @宋成彦 :你首先要举证他是故意训练，如果按过失判只能判3-7年，而且可以减刑缓刑，江西4条大狗撕咬三岁女童最后也只判了十个月。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "骗了钱 自己举证都不一定能有用吧 。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116640591189695/",
+          "uid": "38665783107",
+          "sample": "谁主张谁举证"
+        }
+      ]
+    },
+    {
+      "term": "事实呢",
+      "evidenceSamples": [
+        "节奏到了就够了，谁在乎事实呢[滑稽]你看着千万的播放 这泼天的流量不就来了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L142117e6/",
+          "uid": "BV1L142117e6",
+          "sample": "节奏到了就够了，谁在乎事实呢[滑稽]你看着千万的播放 这泼天的流量不就来了"
+        }
+      ]
+    },
+    {
+      "term": "事实胜于雄辩",
+      "evidenceSamples": [
+        "看到这里，我相信是队友太猛了，事实胜于雄辩"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1500397943/",
+          "uid": "1433011213",
+          "sample": "看到这里，我相信是队友太猛了，事实胜于雄辩"
+        }
+      ]
+    },
+    {
+      "term": "交叉验证",
+      "evidenceSamples": [
+        "蠢人太多，这是对话交叉验证",
+        "交叉验证"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116662133131390/",
+          "uid": "38716770150",
+          "sample": "蠢人太多，这是对话交叉验证"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116640591189695/",
+          "uid": "38665783107",
+          "sample": "交叉验证"
+        }
+      ]
+    },
+    {
+      "term": "人证",
+      "evidenceSamples": [
+        "拿不出人证的老王，被法官判为猴子",
+        "为吧友谋福利#吧友# 假如，我是说假如我可以办证，根据本吧的行情 弱智证:500元 正常人证:1000元 出院纪念证:2元 超人纪念证:1元 上辈子弱智证500元 下辈子弱智证500元 求问:我怎么给自己转钱 挺急的",
+        "无法证明是不是胁迫啊，只要没人证明一样是可以的",
+        "你有人证物证法证吗 你就出来装逼 你要不看看你自己长啥样吧",
+        "当老师就可以随意侮辱他人人格，在别人没有做错事的情况下，让别人自己扇自己巴掌吗？就为了要让别人证明对自己的话有执行力，让别人扇自己巴掌拍成视频发到群里？心理变态是吧？每个人都是有尊严的，尊严是不容侵犯的！你别说你财务自由，你就是年薪千万，年..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/6922024404",
+          "uid": "凉伴suan什么",
+          "sample": "拿不出人证的老王，被法官判为猴子"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8399846503",
+          "uid": "贴吧用户_GC8379t",
+          "sample": "为吧友谋福利#吧友# 假如，我是说假如我可以办证，根据本吧的行情 弱智证:500元 正常人证:1000元 出院纪念证:2元 超人纪念证:1元 上辈子弱智证500元 下辈子弱智证500元 求问:我怎么给自己转钱 挺急的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "无法证明是不是胁迫啊，只要没人证明一样是可以的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1zJxczUEgD/",
+          "uid": "BV1zJxczUEgD",
+          "sample": "你有人证物证法证吗 你就出来装逼 你要不看看你自己长啥样吧"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
+          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
+          "sample": "当老师就可以随意侮辱他人人格，在别人没有做错事的情况下，让别人自己扇自己巴掌吗？就为了要让别人证明对自己的话有执行力，让别人扇自己巴掌拍成视频发到群里？心理变态是吧？每个人都是有尊严的，尊严是不容侵犯的！你别说你财务自由，你就是年薪千万，年..."
+        }
+      ]
+    }
+  ]
+}

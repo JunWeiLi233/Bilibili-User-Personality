@@ -222,10 +222,8 @@ function cleanText(value) {
 
 function cleanTitle(value, fallback = '') {
   return String(value || '')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, '&')
-    .replace(/&#39;/g, "'")
+    .replace(/<[^>]*>/gs, '')
+    .replace(/&(?:quot|amp|#39);/g, (entity) => ({ '&quot;': '"', '&amp;': '&', '&#39;': "'" })[entity] || entity)
     .replace(/\s+/g, ' ')
     .trim() || fallback;
 }
