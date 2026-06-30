@@ -168,7 +168,7 @@ test('discoverVideosByKeyword searches Bilibili and normalizes video objects', a
   assert.equal(videos[0].replyCount, 12);
   assert.equal(seenUrls[0].url.includes('/x/web-interface/search/all/v2'), true);
   assert.equal(seenUrls[0].url.includes('keyword='), true);
-  assert.equal(seenUrls[0].referer.startsWith('https://search.bilibili.com'), true);
+  assert.equal(new URL(seenUrls[0].referer).hostname, 'search.bilibili.com');
 });
 
 test('discoverVideosByKeyword can request a search order for popular controversial seeds', async () => {

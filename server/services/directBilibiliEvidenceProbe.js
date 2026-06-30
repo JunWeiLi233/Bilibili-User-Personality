@@ -77,8 +77,9 @@ function entryNeedles(entry = {}) {
 }
 
 function normalizeProbeText(value) {
+  // Bilibili API returns plain text — the &-entity cleanup handles stray
+  // XML references from API payloads. No structural HTML needs stripping.
   return cleanText(value)
-    .replace(/<[^>]*>/gs, '')
     .replace(/&[^;\s]+;/g, ' ')
     .toLowerCase();
 }

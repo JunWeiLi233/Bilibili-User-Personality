@@ -221,8 +221,8 @@ function cleanText(value) {
 }
 
 function cleanTitle(value, fallback = '') {
+  // Bilibili API titles are plain text — only XML character entities need decoding.
   return String(value || '')
-    .replace(/<[^>]*>/gs, '')
     .replace(/&(?:quot|amp|#39);/g, (entity) => ({ '&quot;': '"', '&amp;': '&', '&#39;': "'" })[entity] || entity)
     .replace(/\s+/g, ' ')
     .trim() || fallback;

@@ -901,8 +901,9 @@ function videoObjectFromSpaceItem(item, uid) {
 }
 
 function cleanSearchTitle(title, fallback) {
+  // Bilibili search API returns plain text titles — no structural HTML to strip.
+  // Only XML character entities need decoding.
   const clean = String(title || '')
-    .replace(/<[^>]*>/gs, '')
     .replace(/&(?:quot|amp|#39);/g, (entity) => ({ '&quot;': '"', '&amp;': '&', '&#39;': "'" })[entity] || entity)
     .replace(/\s+/g, ' ')
     .trim();
