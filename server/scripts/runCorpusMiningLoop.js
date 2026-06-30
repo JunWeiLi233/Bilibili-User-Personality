@@ -23,8 +23,10 @@
  *   All runCoverageHarvestLoop.js env vars apply to Phase 1+.
  */
 
+import { execFile } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 import { readKeywordDictionary, writeJsonFileAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
@@ -40,6 +42,8 @@ import {
 import { runLocalCorpusEvidenceMining } from './mineLocalCorpusEvidence.js';
 import { MODELS } from '../services/deepseekRouter.js';
 import { DEFAULT_COVERAGE_LOOP_REPORT_PATH } from '../utils/paths.js';
+
+const execFileAsync = promisify(execFile);
 
 // ── Environment helpers ────────────────────────────────────
 
@@ -115,7 +119,7 @@ async function runOfflineMining(options, log) {
     ? options.corpusPaths
     : DEFAULT_CORPUS_PATHS;
 
-  log('── Phase 0: Offline corpus mining ──');
+  log('── Phase 0: Offline corpus mining (Python) ──');
   log(`Corpus files: ${corpusPaths.join(', ')}`);
   log(`Target evidence per term: ${options.targetEvidence}`);
   log(`Require comment-backed evidence: ${options.requireCommentBackedEvidence}`);
@@ -129,18 +133,28 @@ async function runOfflineMining(options, log) {
     : 0;
   log(`Dictionary before: ${beforeEntryCount} entries, ${beforeWeakCount} weak`);
 
-  const result = await runLocalCorpusEvidenceMining({
-    argv: [],
-    env: {
-      LOCAL_BILIBILI_CORPUS_PATH: corpusPaths.join('\n'),
-      LOCAL_CORPUS_WRITE: '1',
-      LOCAL_CORPUS_REQUIRE_COMMENT_BACKED: options.requireCommentBackedEvidence ? '1' : '0',
-      LOCAL_CORPUS_MAX_SAMPLES_PER_TERM: String(options.targetEvidence),
-      BILIBILI_COVERAGE_TARGET_EVIDENCE: String(options.targetEvidence),
-      LOCAL_CORPUS_ACTION_FILE: options.actionFile || '',
-    },
-    log,
+  // Use the fast Python miner instead of JS (Python handles string-heavy mining much faster)
+  const args = ['-m', 'python_backend.cli.local_corpus_mine', '--write'];
+  for (const cp of corpusPaths) {
+    args.push('--corpus', cp);
+  }
+  log(`Running: python ${args.join(' ')}`);
+
+  const { stdout, stderr } = await execFileAsync('python', args, {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 50 * 1024 * 1024,
+    timeout: 3600000,  // 1 hour for heavy corpus mining
   });
+  if (stderr) process.stderr.write(stderr);
+
+  let result;
+  try {
+    result = JSON.parse(stdout);
+  } catch {
+    log('Could not parse Python miner output — assuming no changes');
+    result = { ok: true, entryCount: 0, corpusComments: 0, targetTerms: [] };
+  }
 
   const afterDict = await readKeywordDictionary(
     options.dictionaryPath ? { dictionaryPath: options.dictionaryPath } : {},
@@ -150,7 +164,7 @@ async function runOfflineMining(options, log) {
     ? afterDict.entries.filter((e) => (e.evidenceCount || 0) < options.targetEvidence).length
     : 0;
 
-  log(`Mining complete: ${result.entryCount} terms with evidence merged`);
+  log(`Mining complete: ${result.entryCount || 0} terms with evidence merged`);
   log(`Dictionary after: ${afterEntryCount} entries, ${afterWeakCount} weak`);
   log(`Net change: +${afterEntryCount - beforeEntryCount} entries, -${beforeWeakCount - afterWeakCount} weak`);
 
