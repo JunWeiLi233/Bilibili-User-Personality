@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
   <title id="title">Bilibili User Personality data collection and keyword analysis stats</title>
-  <desc id="desc">Current counts for collected comments, danmaku, and analyzed dictionary keywords.</desc>
+  <desc id="desc">Current counts for collected comments, danmaku, analyzed dictionary keywords, and coverage metrics.</desc>
   <style>
     .bg { fill: #f7f0df; }
     .panel { fill: #fffaf0; stroke: #27231c; stroke-width: 2; }
@@ -10,38 +10,49 @@
     .value { font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; text-anchor: start; }
     .small { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }
     .metric { font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .tile-label { font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
+    .tile-value { font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .stat-icon { font: 18px sans-serif; }
+    .stat-num { font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .stat-label { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
   </style>
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
-  <text x="40" y="88" class="sub">auto-generated from repo data on 2026-06-28</text>
+  <text x="40" y="88" class="sub">auto-generated from repo data on 2026-06-30</text>
+  <!-- Coverage donut gauge -->
   <g>
-    <rect x="40" y="112" width="250" height="82" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="62" y="146" class="small">comments / replies</text>
-    <text x="62" y="177" class="metric">25,753</text>
-    <rect x="318" y="112" width="250" height="82" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="340" y="146" class="small">danmaku</text>
-    <text x="340" y="177" class="metric">153,875</text>
-    <rect x="596" y="112" width="250" height="82" rx="16" fill="#e5d7bc" stroke="#27231c"/>
-    <text x="618" y="146" class="small">keyword terms analyzed</text>
-    <text x="618" y="177" class="metric">1,726</text>
+    <circle cx="190" cy="252" r="78" fill="none" stroke="#e8e1d2" stroke-width="24"/>
+    <circle cx="190" cy="252" r="78" fill="none" stroke="#3f7558" stroke-width="24"
+      stroke-dasharray="26.9 463.2" stroke-linecap="round"
+      transform="rotate(-90 190 252)"/>
+    <text x="190" y="244" text-anchor="middle" class="metric" font-size="32">5.49%</text>
+    <text x="190" y="270" text-anchor="middle" class="small">coverage</text>
+  </g>
+  <!-- Metric tiles -->
+  <g>
+    <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
+    <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
+    <text x="510" y="240" text-anchor="middle" class="tile-value">4,684</text>
+    <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
   </g>
   <g>
-    
-    <text x="40" y="246" class="label">Comments</text>
-    <rect x="220" y="228" width="440" height="24" rx="12" fill="#e8e1d2"/>
-    <rect x="220" y="228" width="74" height="24" rx="12" fill="#8c5f32"/>
-    <text x="680" y="246" class="value">25,753</text>
-    
-    <text x="40" y="292" class="label">Danmaku</text>
-    <rect x="220" y="274" width="440" height="24" rx="12" fill="#e8e1d2"/>
-    <rect x="220" y="274" width="440" height="24" rx="12" fill="#3f7558"/>
-    <text x="680" y="292" class="value">153,875</text>
-    
-    <text x="40" y="338" class="label">Keywords</text>
-    <rect x="220" y="320" width="440" height="24" rx="12" fill="#e8e1d2"/>
-    <rect x="220" y="320" width="5" height="24" rx="12" fill="#b98522"/>
-    <text x="680" y="338" class="value">1,726</text>
+    <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
+    <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
+    <text x="750" y="240" text-anchor="middle" class="tile-value">13,672</text>
+    <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
   </g>
-  <text x="40" y="382" class="small">Coverage: 94.03% | Weak terms: 103 | Evidence deficit: 272</text>
+  <!-- Compact stat row -->
+  <g>
+    <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="140" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="140" y="395" text-anchor="middle" class="stat-num">25,713</text>
+    <text x="140" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="380" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="380" y="395" text-anchor="middle" class="stat-num">153,875</text>
+    <text x="380" y="412" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="620" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="620" y="395" text-anchor="middle" class="stat-num">4,956</text>
+    <text x="620" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+  </g>
 </svg>
