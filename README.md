@@ -4,6 +4,8 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
 
 研究驱动原型：评估选定B站用户的公开评论是否表现出高杠精/引战倾向。
 
+> **Research Paper / 研究论文:** See [`docs/PROJECT_PAPER.tex`](docs/PROJECT_PAPER.tex) for a full LaTeX paper describing the project's methodology, six-dimensional scoring framework, dictionary system, coverage loops, and system architecture. / 完整LaTeX研究论文描述了项目方法论、六维评分框架、词典系统、覆盖循环和系统架构。
+
 ---
 
 ## Quick Navigation / 快速导航
