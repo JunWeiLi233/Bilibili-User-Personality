@@ -1,4 +1,0 @@
-iteration	metric_before	metric_after	decision	reason
-1	0.40	1.00	keep	Replaced event flag with sentinel file check; 5→9 test scenarios
-2	1.00	1.00	keep	Added sentinel creation to resume_deep_scrape.js; tests still 9/9
-3	1.00	1.00	keep	Guard passes (1303/1303); no regressions

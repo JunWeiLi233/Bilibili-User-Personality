@@ -1,7 +1,0 @@
-# metric_direction: higher_is_better
-iteration	timestamp	hypothesis	status	technique	evidence	file_line
-1	2026-06-26T13:05	I hypothesize that search-api source calls API for ALL uncompleted seeds on every turn, not just the batch, wasting quota. Test by simulating 60 seeds with batch=10.	confirmed	trace	55 API calls made instead of 10; 45 wasted	.claude/resume_task.js:160
-2	2026-06-26T13:06	I hypothesize that empty seedVideos (due to missing config/data) incorrectly triggers round-done because seeds.length===0 guard has no emptiness check. Test with cfg.seeds=undefined and prior-round-dir-missing.	confirmed	trace	Both scenarios print "FALSE DONE" — round marked complete with zero work	.claude/resume_task.js:205-210
-3	2026-06-26T13:06	I hypothesize that videoSource.pages field in search-api config is silently ignored because page=1 is hardcoded in the URL. Test by code inspection.	confirmed	pattern_search	videoSource.pages never read; page=1 hardcoded	.claude/resume_task.js:163
-4	2026-06-26T13:07	I hypothesize that --batch=0 is coerced to default (15) because 0||15→15 in falsy-value check. Test with batchSize=0.	confirmed	pattern_search	0||15 evaluates to 15; user cannot pass batch=0 for status-only	.claude/resume_task.js:162,237,359,518
-5	2026-06-26T13:08	Post-fix verification: all 4 bugs fixed, syntax valid, simulated tests pass.	fixed	verification	Search-api batched, seedVideos guarded, videoSource.pages honored, batchSize=0 respected	.claude/resume_task.js:160-165,205-214,237,359,518

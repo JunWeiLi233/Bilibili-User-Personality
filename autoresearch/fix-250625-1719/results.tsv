@@ -1,5 +1,0 @@
-# metric_direction: lower_is_better
-iteration	timestamp	error_type	error_fixed	commit	metric	delta	guard	status	description
-1	2026-06-25T17:20:00Z	config:hook	stop-hook-via-plugin	-	3	-1	PASS	keep	Removed statusLine (HUD cmd hook), added hooks.Stop:[], disabled claude-hud plugin
-2	2026-06-25T17:21:00Z	config:thinking-mode	reasoning_content-roundtrip	-	1	-1	PASS	keep	Removed [1m] suffix from all models (ANTHROPIC_MODEL, OPUS, SONNET → deepseek-v4-pro)
-3	2026-06-25T17:22:00Z	config:plugin	claude-hud-reenable	-	0	-1	PASS	keep	Force-disabled claude-hud and claude-mem plugins (claude-hud was re-enabled externally)
