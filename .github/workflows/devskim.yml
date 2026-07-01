@@ -27,6 +27,12 @@ jobs:
 
       - name: Run DevSkim scanner
         uses: microsoft/DevSkim-Action@v1
+        with:
+          # Exclude generated/non-source paths so the SARIF stays small enough
+          # for GitHub's code-scanning ingest (large SARIFs time out on upload).
+          # server/data holds ~880 generated corpus/dictionary/coverage files;
+          # node_modules is defensive in case deps are ever committed.
+          ignore-globs: "**/.git/**,**/bin/**,server/data/**,node_modules/**"
 
       - name: Upload DevSkim scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
