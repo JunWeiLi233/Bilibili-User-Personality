@@ -171,6 +171,12 @@ class TokenBucket {
   #tokens;
   #lastRefill;
   #nowFn;
+  // Serializes concurrent take() callers. Without this, N callers that hit the
+  // depleted path each independently await one deficit interval and then ALL
+  // proceed at once — issuing N near-simultaneous requests and blowing past the
+  // sustain rate. The chain makes concurrent callers queue so the depleted-path
+  // math (which is correct only when run one-at-a-time) behaves as if sequential.
+  #chain = Promise.resolve();
 
   constructor(burst, sustainPerSec, nowFn) {
     this.#burst = Math.max(1, Number(burst) || 8);
@@ -183,6 +189,17 @@ class TokenBucket {
   // Wait until a token is available, then consume it.
   // Returns the wait time in ms (0 if token was immediately available).
   async take(waitFn) {
+    // Queue this caller behind any in-flight take() on the same bucket, then
+    // advance the chain on both fulfill and reject so a single failure never
+    // wedges subsequent callers. Same idiom as `dictionaryMergeChain`.
+    const run = this.#chain.then(() => this.#consume(waitFn));
+    this.#chain = run.then(() => undefined, () => undefined);
+    return run;
+  }
+
+  // Single-waiter consume — only ever runs while no other take() is in flight
+  // on this bucket, so the check-and-decrement / wait-and-set math is race-free.
+  async #consume(waitFn) {
     this.#refill();
     if (this.#tokens >= 1) {
       this.#tokens -= 1;
