@@ -2323,3 +2323,35 @@ test('fetchJson rotates UA on block cooldown', async () => {
     resetBilibiliRequestState();
   }
 });
+
+test('TokenBucket: serializes concurrent take() so bursts never exceed sustain rate', async () => {
+  // Regression for the concurrent-waiter over-issuance bug. When the bucket is
+  // depleted, N concurrent take() callers each independently wait one deficit
+  // interval and then ALL fire at once — issuing N near-simultaneous requests
+  // against a sustain rate of 1/sec. Under the fix, callers queue behind a
+  // per-bucket promise chain and fire ~1/sustain apart.
+  // Real timers are required here: a manual clock with a synchronous waitFn
+  // advances shared time inside the first await and masks the race for the
+  // remaining callers, so it cannot reproduce the real concurrency hazard.
+  const realSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const bucket = new TokenBucket(5, 1); // burst=5, sustain=1/sec
+
+  // Deplete the burst budget.
+  for (let i = 0; i < 5; i++) assert.equal(await bucket.take(realSleep), 0);
+
+  // Fire 3 concurrently and record the wall-clock time each one fires.
+  const start = Date.now();
+  const fireTimes = [];
+  await Promise.all([0, 1, 2].map(async () => {
+    await bucket.take(realSleep);
+    fireTimes.push(Date.now() - start);
+  }));
+
+  const spread = Math.max(...fireTimes) - Math.min(...fireTimes);
+  // Serialized -> fires ~1000/2000/3000ms (spread ~ 2000).
+  // Buggy     -> all resume ~1000ms         (spread ~ 0).
+  assert.ok(
+    spread >= 1500,
+    `concurrent take() must serialize at sustain rate (spread=${spread}ms < 1500ms)`,
+  );
+});
