@@ -66,8 +66,8 @@ function parseCsv(raw) {
 function isTiebaLikeRow(row = {}, options = {}) {
   const platform = cleanText(row.platform || row.source_platform || options.platform).toLowerCase();
   const href = cleanText(row.href || row.url || row.sourceUrl || row.source);
-  // Guard ReDoS: only test regex against reasonably-sized strings
-  return platform === 'tieba' || (href.length < 2000 && /tieba\.baidu\.com/i.test(href));
+  // Use includes() instead of regex to avoid ReDoS — href is always a URL string.
+  return platform === 'tieba' || href.toLowerCase().includes('tieba.baidu.com');
 }
 
 function firstTextField(row = {}, options = {}) {
