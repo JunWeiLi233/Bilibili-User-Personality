@@ -425,7 +425,7 @@ JSON payloads and CLI commands.
 
 % External
 \node[box,fill=red!5,above=of api] (bilibili) {Bilibili\\Public API};
-\node[box,fill=red!5,right=of deepseek) (deepseekapi) {DeepSeek\\API};
+\node[box,fill=red!5,right=of deepseek] (deepseekapi) {DeepSeek\\API};
 
 % Data
 \node[databox,below=of harvester] (dict) {Dictionary\\(.entries/ + .evidence/)};
@@ -474,6 +474,116 @@ The user analysis path is a separate, read-only flow:
 Browser (UID input) $\rightarrow$ Vite proxy $\rightarrow$ Hono API $\rightarrow$
 Bilibili API + Dictionary $\rightarrow$ Hybrid Analyzer (DeepSeek + lexicon matching)
 $\rightarrow$ JSON response $\rightarrow$ React SPA radar chart + sentence breakdown.
+
+The internal stages of the Hybrid Analyzer---how a user's raw text becomes six-axis
+scores---are detailed in Section~6.3.
+
+\subsection{Language Analysis Pipeline}
+\label{subsec:pipeline}
+
+Sections~6.1--6.2 describe the system's components and the dictionary-construction loop.
+The narrower, user-facing question the system answers is: \emph{given one user's public
+utterances, how does raw text become a six-axis behavioral profile?} This subsection traces
+that path end to end (Figure~\ref{fig:pipeline}). The pipeline is deliberately split into a
+deterministic, fully auditable \emph{lexicon path} and an LLM-based \emph{semantic-judge
+path}, merged per the selected analysis mode (Section~3.2). The split is what makes a given
+score auditable rather than opaque: every contribution traces back to either a dictionary
+entry with quoted evidence or a model judgment with a reasoning trace and quote.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=7mm and 10mm,
+  box/.style={rectangle,draw,minimum width=60mm,minimum height=9mm,align=center,font=\small},
+  pathbox/.style={rectangle,draw,minimum width=46mm,minimum height=18mm,align=center,font=\footnotesize},
+  arrow/.style={-{Stealth[scale=0.8]},thick}
+]
+\node[box,fill=red!5] (crawler) {Crawler $\rightarrow$ utterance corpus\\(comments / replies / danmaku)};
+\node[box,below=of crawler] (norm) {1.~Acquisition \& Normalization};
+\node[box,below=of norm] (seg) {2.~Utterance Segmentation};
+\node[pathbox,fill=blue!10,below=14mm of seg,xshift=-30mm] (lex)
+  {\textbf{3a. Lexicon Path}\\(deterministic, auditable)\\substring + embeddings\\+ word-boundary guard};
+\node[pathbox,fill=orange!15,below=14mm of seg,xshift=30mm] (judge)
+  {\textbf{3b. Semantic-Judge Path}\\(LLM, contextual)\\DeepSeek V4, structured\\speech act / impacts};
+\node[box,fill=green!10,below=40mm of seg] (fusion)
+  {4.~Fusion \& Calibration: $T = \sum_i w_i \hat{s}_i$};
+\node[box,below=of fusion] (out)
+  {5.~Output: radar + troll index + sentence-level diagnostics};
+\draw[arrow] (crawler) -- (norm);
+\draw[arrow] (norm) -- (seg);
+\draw[arrow] (seg) -- (lex);
+\draw[arrow] (seg) -- (judge);
+\draw[arrow] (lex) -- (fusion);
+\draw[arrow] (judge) -- (fusion);
+\draw[arrow] (fusion) -- (out);
+\end{tikzpicture}
+\caption{The language-analysis pipeline. The deterministic lexicon path (left) and the LLM
+  semantic-judge path (right) run in parallel over each utterance and are fused per the
+  selected analysis mode. Every emitted score traces back to a dictionary entry with quoted
+  evidence (lexicon) or to a model judgment with a reasoning trace and quote (semantic judge).}
+\label{fig:pipeline}
+\end{figure}
+
+\textbf{Stage 1 --- Acquisition \& Normalization.} The crawler retrieves the target user's
+public comments, replies, and danmaku through the Bilibili API and writes them to the local
+corpus under conservative pacing (Section~5.3). Text is re-encoded to a canonical Unicode
+form, and the whitespace and newline artifacts that Bilibili injects into multi-line replies
+are normalized before analysis.
+
+\textbf{Stage 2 --- Utterance Segmentation.} Because Bilibili frequently bundles several
+sentences into a single reply, the analyzer splits each record into \emph{atomic utterances}
+--- one logical statement per unit --- so that conflicting signals within one comment are not
+averaged into noise. A known trade-off is the loss of cross-paragraph context when a reply is
+split aggressively (Section~7.2); segmentation is where single-comment cohesion is exchanged
+for per-statement resolution.
+
+\textbf{Stage 3a --- Lexicon Path (deterministic, auditable).} Each utterance is scanned
+against all six dictionary families. Matching uses exact substring detection augmented by
+three guards: a \emph{word-boundary check} for 1--2 character terms (so the term ``都'' does
+not fire inside ``首都''), optional \emph{semantic similarity} against the local embedding
+model (\texttt{all-MiniLM-L6-v2}, 384-dimensional vectors) to catch morphological variants
+the substring misses, and \emph{meme / quoted-text dampening} so the system does not credit
+the user for arguments they merely quote. Every hit contributes evidence to its family's
+axis, weighted in proportion to the entry's confidence and accumulated evidence count
+(Section~4). Because this path is pure string and vector computation, its output is fully
+reproducible and traceable to specific dictionary entries.
+
+\textbf{Stage 3b --- Semantic-Judge Path (LLM).} The full utterance is submitted to DeepSeek
+V4 under a \emph{structured-output schema} that forces the model to return, for each relevant
+dimension, the \emph{speech act} (e.g., challenge, concession, correction), its \emph{target}
+(person vs.\ idea), the speaker's \emph{stance}, a \emph{context role}, and a per-axis
+\emph{impact} carrying direction (risk vs.\ positive) and strength ($0$--$1$), together with
+a natural-language reasoning trace and a verbatim quote. This path resolves the polysemy,
+irony, and meme-dense semantic indirection that defeat substring matching (Section~2.1), at
+the cost of being neither deterministic nor free.
+
+\textbf{Stage 4 --- Fusion \& Calibration.} Per-axis scores are produced by fusing the two
+paths according to the selected mode: \emph{Hybrid} (lexicon + semantic judge, the default),
+\emph{Semantic Judge} (LLM only), or \emph{Lexicon} (dictionary only --- fully auditable, with
+no model calls). The four \emph{inverse} axes (evidence sensitivity, logical consistency,
+cooperative discussion, correction willingness) are normalized so that \emph{lower = riskier}
+before aggregation, and all scores are clamped to $[0, 100]$. The composite trolling index is
+the calibrated weighted sum $T = \sum_i w_i \hat{s}_i$, where the dimension weights $w_i$ are
+learned by logistic regression over human-labeled examples
+(\texttt{python\_backend/analysis/calibration.py}, Section~3.2).
+
+\textbf{Stage 5 --- Output.} The pipeline emits three artifacts: a six-axis radar in which
+each axis carries a value, a hand-tuned benchmark, and a human-readable note explaining what
+contributed; the composite troll index; and \emph{sentence-level diagnostics} that map each
+flagged utterance to its contributing axis impacts and supporting evidence. The diagnostics
+are the mechanism that turns a radar-chart point into an inspectable, quotable justification
+rather than an opaque number.
+
+\textbf{Why two paths.} Separating the lexicon path from the semantic-judge path is a
+deliberate engineering decision rather than an implementation accident. The lexicon path is
+cheap, deterministic, and auditable --- every contribution is traceable to a dictionary entry
+and a quoted comment --- but it cannot read context. The semantic-judge path reads context
+and disambiguates meaning but is non-deterministic and costly. Exposing both and letting the
+analysis mode control their blend lets the system trade cost and explainability against
+contextual accuracy, and it keeps the auditable path available even when the model is offline
+or rate-limited. The two paths are also complementary in failure: a dictionary gap that blinds
+the lexicon path is often still caught by the semantic judge, while a model hallucination on
+the judge path is bounded by the deterministic lexicon baseline.
 
 
 % =============================================================================
