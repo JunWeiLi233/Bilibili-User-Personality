@@ -515,35 +515,34 @@ class ReadmeStatsSvgRenderer:
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
   <text x="40" y="88" class="sub">auto-generated from repo data on {self._escape(updated)}</text>
-  <!-- Coverage donut gauge -->
+  <!-- Three centered columns: coverage donut | weak terms | evidence deficit (all centered on y=212) -->
   <g>
-    {self._donut_gauge(190, 252, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
-  </g>
-  <!-- Metric tiles -->
-  <g>
-    <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
-    <text x="510" y="240" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
-    <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
+    {self._donut_gauge(160, 212, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
   </g>
   <g>
-    <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
-    <text x="750" y="240" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
-    <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
+    <rect x="350" y="142" width="220" height="140" rx="16" fill="#eadfca" stroke="#27231c"/>
+    <text x="460" y="178" text-anchor="middle" class="tile-label">weak terms</text>
+    <text x="460" y="224" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
+    <text x="460" y="256" text-anchor="middle" class="small">&#8595; target: 0</text>
   </g>
-  <!-- Compact stat row -->
   <g>
-    <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="140" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="140" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
-    <text x="140" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="380" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="380" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
-    <text x="380" y="412" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="620" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="620" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
-    <text x="620" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+    <rect x="650" y="142" width="220" height="140" rx="16" fill="#dbe8df" stroke="#27231c"/>
+    <text x="760" y="178" text-anchor="middle" class="tile-label">evidence deficit</text>
+    <text x="760" y="224" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
+    <text x="760" y="256" text-anchor="middle" class="small">gap to close</text>
+  </g>
+  <!-- Stat strip aligned to the same three columns, full-width symmetric -->
+  <g>
+    <line x1="40" y1="310" x2="880" y2="310" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="160" y="346" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="160" y="372" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
+    <text x="160" y="390" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="460" y="346" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="460" y="372" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
+    <text x="460" y="390" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="760" y="346" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="760" y="372" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
+    <text x="760" y="390" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>
 """
