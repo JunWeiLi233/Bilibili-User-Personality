@@ -519,8 +519,13 @@ function normalizeForRisk(score) {
 }
 
 function getRiskBand(index) {
-  if (index >= 70) return '高频命中型';
-  if (index >= 45) return '混合模式';
+  // ponytail: empirical tertile cuts from the N=100 random-sampling eval
+  // (.claude/random_sampling_eval/VALIDITY_SUMMARY.md, 2026-07-01). Real trollIndex
+  // spans [1,10] (mean 5.6); the prior 45/70 cuts left every user in the lowest band.
+  // These are RELATIVE-to-population bands (AUC 0.66 ⇒ even "高" is only weakly
+  // enriched), not absolute risk. Recalibrate if getTrollIndex is rescaled.
+  if (index >= 8) return '高频命中型';
+  if (index >= 5) return '混合模式';
   return '低频命中型';
 }
 
@@ -1401,7 +1406,9 @@ function App() {
             <div className="score-block">
               <span>行为模式概要</span>
               <strong>{trollIndex}</strong>
-              <small>{getRiskBand(trollIndex)}</small>
+              {/* ponytail: gate the categorical band on ≥10 analyzed comments —
+                  below that the band overclaims; the raw trollIndex still shows. */}
+              <small>{(selectedUser.sampleSize || 0) < 10 ? '样本不足（需≥10条）' : getRiskBand(trollIndex)}</small>
             </div>
           </div>
 
