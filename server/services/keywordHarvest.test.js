@@ -9448,6 +9448,74 @@ test('harvestKeywordDictionary runs dictionary-seeded searches and reports growt
   }
 });
 
+test('harvestKeywordDictionary runs queries in parallel when queryConcurrency > 1', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-concurrent-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    let inFlight = 0;
+    let maxInFlight = 0;
+    const result = await harvestKeywordDictionary(
+      {
+        seedQueries: ['topic a', 'topic b', 'topic c', 'topic d'],
+        maxQueries: 8,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+        queryConcurrency: 4,
+        verbose: false,
+      },
+      {
+        readKeywordDictionary: async () => ({ entries: [] }),
+        searchVideoKeywords: async () => {
+          inFlight += 1;
+          maxInFlight = Math.max(maxInFlight, inFlight);
+          await new Promise((resolve) => setTimeout(resolve, 60));
+          inFlight -= 1;
+          return { ok: true, warnings: [], videos: [{ bvid: 'BV1' }], comments: [{ rpid: '1', message: 'comment' }], entries: [] };
+        },
+      },
+    );
+    assert.equal(result.ok, true);
+    assert.ok(result.queries.length >= 2, `expected multiple planned queries, got ${result.queries.length}`);
+    assert.ok(maxInFlight >= 2, `expected concurrent query execution, max in-flight was ${maxInFlight}`);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('harvestKeywordDictionary runs queries sequentially when queryConcurrency is unset', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-sequential-default-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    let inFlight = 0;
+    let maxInFlight = 0;
+    const result = await harvestKeywordDictionary(
+      {
+        seedQueries: ['topic a', 'topic b', 'topic c', 'topic d'],
+        maxQueries: 8,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+        verbose: false,
+      },
+      {
+        readKeywordDictionary: async () => ({ entries: [] }),
+        searchVideoKeywords: async () => {
+          inFlight += 1;
+          maxInFlight = Math.max(maxInFlight, inFlight);
+          await new Promise((resolve) => setTimeout(resolve, 60));
+          inFlight -= 1;
+          return { ok: true, warnings: [], videos: [{ bvid: 'BV1' }], comments: [{ rpid: '1', message: 'comment' }], entries: [] };
+        },
+      },
+    );
+    assert.equal(result.ok, true);
+    assert.equal(maxInFlight, 1);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary does not report coverage progress when every query fails without evidence', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-no-progress-failed-'));
   const statePath = join(dir, 'state.json');
