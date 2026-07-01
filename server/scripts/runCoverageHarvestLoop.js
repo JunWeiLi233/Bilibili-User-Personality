@@ -652,7 +652,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
       cycles.push({
         cycle,
         priorityQueries: [],
-        harvest: { ok: false, rounds: 0, queries: [], warnings: [cycleError.message], coverageProgress: [], trainingDiagnostics: [], queryDiagnostics: [] },
+        harvest: { ok: false, rounds: 0, queries: [], warnings: ['Harvest cycle failed unexpectedly'], coverageProgress: [], trainingDiagnostics: [], queryDiagnostics: [] },
         coverageDelta: null,
         coverageBefore: audit.coverage,
         coverageAfter: audit.coverage,

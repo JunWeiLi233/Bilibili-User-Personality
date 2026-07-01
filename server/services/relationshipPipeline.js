@@ -33,8 +33,11 @@ function tier1CompositeAnalysis(commentText, matchedTerms) {
 
   for (const comp of composites) {
     try {
-      // Validate pattern before constructing regex (ReDoS guard)
-      if (!comp.pattern || comp.pattern.length > 500) continue;
+      // Validate pattern before constructing regex (ReDoS guard).
+      // Also reject patterns with nested quantifiers — e.g. (x+)+ or (x*)+ —
+      // which cause polynomial backtracking on certain inputs.
+      const NESTED_QUANTIFIER = /[+*?]\s*[+*]|\([^)]*\)[+*]|[+*]\s*\)/;
+      if (!comp.pattern || comp.pattern.length > 500 || NESTED_QUANTIFIER.test(comp.pattern)) continue;
       const re = new RegExp(comp.pattern, 'u');
       if (!re.test(commentText)) continue;
 
