@@ -3849,10 +3849,19 @@ function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || n
   };
 }
 
+// In-process serialization for concurrent merges. The on-disk file lock *rejects*
+// concurrent holders (it throws on EEXIST instead of queueing), so when the harvest
+// loop runs queries in parallel several workers can call this at once and all but
+// the first would lose their evidence to a lock-rejection error. We chain merges
+// within the process so each takes the file lock in turn. Sequential callers (the
+// only case before concurrent harvesting) see no change: the chain is always
+// resolved between their calls. Cross-process contention still rejects normally.
+let dictionaryMergeChain = Promise.resolve();
+
 export async function mergeEntriesIntoDictionary(entries, options = {}) {
   const dictionaryPath = options.dictionaryPath || DEFAULT_DICTIONARY_PATH;
   const lockPath = options.dictionaryLockPath || `${dictionaryPath}.lock`;
-  return withFileLock(lockPath, async () => {
+  const doMerge = () => withFileLock(lockPath, async () => {
     const current = await readDictionary(dictionaryPath);
     const normalizedEntries = normalizeKeywordEntries(entries);
     const canonicalCurrent = buildCanonicalDictionarySnapshot(current);
@@ -3896,6 +3905,11 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
     await writeSplitDictionaryAtomic(dictionaryPath, next);
     return next;
   });
+  const run = dictionaryMergeChain.then(() => doMerge());
+  // Advance the chain on both fulfillment and rejection so one failed merge
+  // never stalls the next writer.
+  dictionaryMergeChain = run.then(() => undefined, () => undefined);
+  return run;
 }
 
 export async function getDeepSeekConfig(options = {}) {

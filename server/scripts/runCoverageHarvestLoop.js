@@ -119,7 +119,7 @@ export function buildCoverageHarvestLoopPlan(payload = {}) {
   const argv = Array.isArray(payload?.argv) ? payload.argv : [];
   const cwd = String(payload?.cwd || process.cwd());
   const dataDir = join(cwd, 'server', 'data');
-  const maxCyclesValue = planNonNegativeInt(env, 'BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 50);
+  const maxCyclesValue = planNonNegativeInt(env, 'BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 1000);
   const roundsFallback = planPositiveInt(env, 'BILIBILI_HARVEST_ROUNDS', 1);
   const roundsPerCycleValue = planPositiveInt(env, 'BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', roundsFallback, 20);
   const maxQueriesValue = planPositiveInt(env, 'BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
@@ -188,6 +188,7 @@ export function buildCoverageHarvestLoopPlan(payload = {}) {
     statePath: auditOptionsPlan.statePath,
     resetState: env.BILIBILI_HARVEST_RESET === '1',
     skipSeen: env.BILIBILI_HARVEST_SKIP_SEEN !== '0',
+    queryConcurrency: planPositiveInt(env, 'BILIBILI_HARVEST_QUERY_CONCURRENCY', 1, 16),
   };
   return {
     ok: true,
@@ -374,7 +375,7 @@ const execFileAsync = promisify(execFile);
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
 const reportPath = process.env.BILIBILI_COVERAGE_LOOP_REPORT_PATH || DEFAULT_COVERAGE_LOOP_REPORT_PATH;
-const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 50);
+const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 1000);
 const roundsPerCycle = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', positiveIntFromEnv('BILIBILI_HARVEST_ROUNDS', 1), 20);
 const maxQueries = positiveIntFromEnv('BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
 const runtimeOptions = buildCoverageRuntimeOptions({ maxActionsFallback: maxQueries });
@@ -406,6 +407,7 @@ const maxHardMissedQueries = nonNegativeIntFromEnv('BILIBILI_HARVEST_MAX_HARD_MI
 const staleMissedDiscoveryLimit = nonNegativeIntFromEnv('BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT', 4, 20);
 const staleMissedPages = nonNegativeIntFromEnv('BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES', 3, 5);
 const skipSeen = process.env.BILIBILI_HARVEST_SKIP_SEEN !== '0';
+const queryConcurrency = positiveIntFromEnv('BILIBILI_HARVEST_QUERY_CONCURRENCY', 1, 16);
 const resetState = process.env.BILIBILI_HARVEST_RESET === '1';
 // Corpus-mode knobs: let every scan (including priority-term scans) opportunistically
 // match a large pool of weak dictionary terms in the same comment section, so one
@@ -577,6 +579,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
     statePath,
     resetState: cycle === 1 ? resetState : false,
     skipSeen,
+    queryConcurrency,
   });
   const nextAudit = await buildAudit(auditOptions);
   const executedQueries = harvest.rounds.flatMap((round) => round.queries);

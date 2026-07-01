@@ -11,6 +11,7 @@ param(
   [int]$CommentPages = 2,
   [int]$QueryTimeoutSeconds = 180,
   [int]$MaxQueries = 12,
+  [int]$QueryConcurrency = 1,
   [int]$TermsPerFamily = 4,
   [int]$QueryVariantsPerTerm = 2,
   [int]$RetryBeforeUnattemptedLimit = 3,
@@ -207,6 +208,7 @@ $env:BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT = [string]$StaleMissedDiscove
 $env:BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES = [string]$StaleMissedCommentPages
 $env:BILIBILI_HARVEST_TARGET_EVIDENCE = [string]$TargetEvidence
 $env:BILIBILI_HARVEST_COVERAGE_MODE = $CoverageMode
+$env:BILIBILI_HARVEST_QUERY_CONCURRENCY = [string]$QueryConcurrency
 
 if ($Firecrawl) {
   $env:FIRECRAWL_ENABLED = "1"
@@ -258,6 +260,7 @@ Write-Host "Backend Bilibili dictionary coverage loop"
 Write-Host "Max cycles: $MaxCycles"
 Write-Host "Rounds per cycle: $RoundsPerCycle"
 Write-Host "Max harvest queries per cycle: $MaxQueries"
+Write-Host "Per-cycle query concurrency: $QueryConcurrency"
 Write-Host "Retry-before-unattempted limit: $RetryBeforeUnattemptedLimit"
 Write-Host "Max hard missed queries: $(if ($MaxHardMissedQueries -gt 0) { $MaxHardMissedQueries } else { 'auto' })"
 Write-Host "Stale missed discovery limit: $StaleMissedDiscoveryLimit"
