@@ -645,8 +645,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
     }
   }
   } catch (cycleError) {
-    console.error(`\nCycle ${cycle} crashed: ${cycleError.message}`);
-    console.error(cycleError.stack);
+    console.error(`\nCycle ${cycle} crashed`);
     stopReason = `cycle_${cycle}_crashed`;
     // Save partial progress before exiting
     try {

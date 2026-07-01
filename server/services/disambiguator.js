@@ -131,7 +131,7 @@ export function disambiguateTerm(text, term, family) {
       }
     } catch (e) {
       // Skip invalid regex patterns
-      console.error(`[disambiguator] Invalid composite pattern "${comp.id}": ${e.message}`);
+      console.error(`[disambiguator] Invalid composite pattern: ${comp.id}`);
     }
   }
 
@@ -160,7 +160,7 @@ export function disambiguateTerm(text, term, family) {
       }
     } catch (e) {
       // Skip invalid regex patterns
-      console.error(`[disambiguator] Invalid pattern for term "${term}", rule "${rule.type}": ${e.message}`);
+      console.error(`[disambiguator] Invalid pattern for term "${term}", rule: ${rule.type}`);
     }
   }
 

@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { randomInt } from 'node:crypto';
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -360,7 +361,7 @@ async function discoverVideos(query, options) {
       if (videos.length >= options.videosPerQuery) break;
     }
     if (videos.length < options.videosPerQuery && options.searchPages > 1) {
-      await wait(options.delayMs + Math.floor(Math.random() * options.jitterMs));
+      await wait(options.delayMs + randomInt(options.jitterMs));
     }
   }
   return videos;
@@ -399,7 +400,7 @@ async function fetchVideoComments(video, options) {
   }
   if (target.rootRpid) {
     for (let page = 1; page <= options.replyPages; page += 1) {
-      await wait(options.delayMs + Math.floor(Math.random() * options.jitterMs));
+      await wait(options.delayMs + randomInt(options.jitterMs));
       const url = buildBilibiliReplyThreadUrl(target, target.rootRpid, page, options.replyPageSize);
       if (!url) throw new Error('missing video aid/root for reply thread');
       const data = await fetchJson(
@@ -415,7 +416,7 @@ async function fetchVideoComments(video, options) {
     let cursor = 0;
     const totalCursorPages = options.replyCursorSkipPages + options.replyPages;
     for (let page = 0; page < totalCursorPages; page += 1) {
-      await wait(options.delayMs + Math.floor(Math.random() * options.jitterMs));
+      await wait(options.delayMs + randomInt(options.jitterMs));
       const url = buildBilibiliReplyUrl(target, cursor, options.replyPageSize);
       if (!url) throw new Error('missing video aid for replies');
       const data = await fetchJson(
@@ -433,7 +434,7 @@ async function fetchVideoComments(video, options) {
     const startPage = Math.max(1, Number(options.replyStartPage) || 1);
     const endPage = startPage + options.replyPages - 1;
     for (let page = startPage; page <= endPage; page += 1) {
-      await wait(options.delayMs + Math.floor(Math.random() * options.jitterMs));
+      await wait(options.delayMs + randomInt(options.jitterMs));
       const url = buildBilibiliReplyPageUrl(target, page, options.replyPageSize);
       if (!url) throw new Error('missing video aid for page replies');
       const data = await fetchJson(
@@ -458,7 +459,7 @@ async function fetchVideoDanmaku(video, options) {
   );
   const cid = view.data?.cid || view.data?.pages?.[0]?.cid;
   if (!cid) return [];
-  await wait(options.delayMs + Math.floor(Math.random() * options.jitterMs));
+  await wait(options.delayMs + randomInt(options.jitterMs));
   const xml = await fetchText(
     `https://api.bilibili.com/x/v1/dm/list.so?oid=${encodeURIComponent(cid)}`,
     video.bvid ? `https://www.bilibili.com/video/${video.bvid}/` : `https://www.bilibili.com/video/av${video.aid}/`,

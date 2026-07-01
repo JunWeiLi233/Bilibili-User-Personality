@@ -33,6 +33,8 @@ function tier1CompositeAnalysis(commentText, matchedTerms) {
 
   for (const comp of composites) {
     try {
+      // Validate pattern before constructing regex (ReDoS guard)
+      if (!comp.pattern || comp.pattern.length > 500) continue;
       const re = new RegExp(comp.pattern, 'u');
       if (!re.test(commentText)) continue;
 
@@ -237,7 +239,7 @@ export async function analyzeRelationshipsAsync(commentText, matchedTerms, optio
         result.stats.suppressedTerms = [...result.adjustedWeights]
           .filter(([, w]) => w <= 0).length;
       } catch (e) {
-        console.error(`[relationshipPipeline] Tier 3 error: ${e.message}`);
+        console.error(`[relationshipPipeline] Tier 3 processing failed`);
       }
     }
   }

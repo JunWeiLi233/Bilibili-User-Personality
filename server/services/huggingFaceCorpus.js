@@ -66,7 +66,8 @@ function parseCsv(raw) {
 function isTiebaLikeRow(row = {}, options = {}) {
   const platform = cleanText(row.platform || row.source_platform || options.platform).toLowerCase();
   const href = cleanText(row.href || row.url || row.sourceUrl || row.source);
-  return platform === 'tieba' || /tieba\.baidu\.com/i.test(href);
+  // Guard ReDoS: only test regex against reasonably-sized strings
+  return platform === 'tieba' || (href.length < 2000 && /tieba\.baidu\.com/i.test(href));
 }
 
 function firstTextField(row = {}, options = {}) {

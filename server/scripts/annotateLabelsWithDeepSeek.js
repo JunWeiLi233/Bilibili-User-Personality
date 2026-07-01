@@ -460,7 +460,7 @@ async function main() {
           errorCount--;
           writeFileSync(outputPath, JSON.stringify(entries, null, 2), 'utf8');
         } catch (e2) {
-          console.error(`  ✗ Retry also failed: ${e2.message}`);
+          console.error('  ✗ Retry also failed');
         }
       }
     }

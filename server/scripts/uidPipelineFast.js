@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { randomInt } from 'node:crypto';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
@@ -27,7 +28,7 @@ const BLOCK_BACKOFF_BASE_MS = 15000;
 const LOCK_PATH = join(DATA_DIR, 'deepseekKeywordDictionary.json.lock');
 const execFileAsync = promisify(execFile);
 
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
+const USER_AGENT = process.env.BILIBILI_USER_AGENT || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
 
 const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
@@ -212,7 +213,7 @@ async function trainWithRetry(payload, options, maxRetries = 15) {
     } catch (error) {
       if ((error.message || '').includes('lock')) {
         // Wait longer between retries, only force-clean after many attempts
-        const delay = LOCK_RETRY_DELAY_MS + Math.random() * 2000;
+        const delay = LOCK_RETRY_DELAY_MS + randomInt(2000);
         if (attempt > 10) {
           console.log(`  Lock held, force-cleaning & retry ${attempt}/${maxRetries}...`);
           await rm(LOCK_PATH, { recursive: true, force: true }).catch(() => {});
@@ -337,7 +338,7 @@ async function processUid(uid, userDb) {
       const comments = await fetchVideoComments(video.bvid, video.aid);
       allComments.push(...comments);
     } catch (e) {
-      console.error(`  Error fetching comments for ${video.bvid}: ${e.message}`);
+      console.error(`  Error fetching comments for ${video.bvid}`);
     }
     await wait(DELAY_REQUEST_MS);
   }
