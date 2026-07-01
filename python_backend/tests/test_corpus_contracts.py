@@ -8105,11 +8105,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("comments / replies", summary_svg)
         self.assertIn("<title id=\"timeline-title\">Comment and danmaku collection growth over time</title>", timeline_svg)
         self.assertIn("Corpus Growth Over Time", timeline_svg)
-        self.assertNotIn("Total 140", timeline_svg)
+        # Total is now plotted as a series on the (shared) left scale.
+        self.assertIn("Total 140", timeline_svg)
         self.assertIn("Comments 100", timeline_svg)
         self.assertIn("Danmaku 40", timeline_svg)
         self.assertEqual(renderer.padded_timeline_max(140), 160)
         self.assertNotIn("-10.0", timeline_svg)
+
+    def test_readme_stats_timeline_svg_shows_dense_points_and_total_series(self):
+        import re
+        renderer = ReadmeStatsSvgRenderer()
+        points = [
+            {
+                "date": f"2026-06-17T{10 + (i // 60) % 14:02d}:{i % 60:02d}:00.000Z",
+                "source": "direct",
+                "added": 10,
+                "comments": i * 5,
+                "danmaku": i * 10,
+                "total": i * 15,
+            }
+            for i in range(300)
+        ]
+        timeline = {"finalComments": 1495, "finalDanmaku": 2990, "finalTotal": 4485, "points": points}
+        svg = renderer.render_timeline_svg(timeline, "2026-06-30T00:00:00.000Z")
+        # Denser sampling: most of the 300 points are rendered (was capped near 50).
+        points_shown = int(re.search(r"(\d+) points shown", svg).group(1))
+        self.assertGreaterEqual(points_shown, 200)
+        # Total is now plotted as a third series (was danmaku + comments only).
+        self.assertEqual(svg.count("<polyline"), 3)
+        self.assertIn("Total 4,485", svg)
+        # Multiple date ticks along the x-axis (was only first + last).
+        self.assertGreaterEqual(svg.count('y="332"'), 5)
 
     def test_readme_stats_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(ReadmeStatsContractComparator, "RESULT_KEYS"))

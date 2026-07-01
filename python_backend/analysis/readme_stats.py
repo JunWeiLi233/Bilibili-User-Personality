@@ -549,20 +549,23 @@ class ReadmeStatsSvgRenderer:
 
     def render_timeline_svg(self, timeline: dict[str, Any], generated_at: Any) -> str:
         points = timeline.get("points") if isinstance(timeline.get("points"), list) else []
-        # Downsample to ~50 points for clean rendering
-        sampled = self._downsample_points(points, target=50)
-        # Dual Y-axis: left = danmaku, right = comments
-        danmaku_max_raw = max([_number(p.get("danmaku")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalDanmaku")), 1])
-        danmaku_max = self.padded_timeline_max(danmaku_max_raw)
+        # Downsample densely: keep up to ~200 points (was ~50) so the growth
+        # curve carries far more detail without becoming an unreadable blob.
+        target = min(len(points), 200) if points else 50
+        sampled = self._downsample_points(points, target=target)
+        # Dual Y-axis: left = total (danmaku + comments), right = comments.
+        # Plotting total and danmaku on the shared left scale makes the comments
+        # share visible as the gap between the two lines.
+        total_max_raw = max([_number(p.get("total")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalTotal")), 1])
+        total_max = self.padded_timeline_max(total_max_raw)
         comments_max_raw = max([_number(p.get("comments")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalComments")), 1])
         comments_max = self.padded_timeline_max(comments_max_raw)
         x0, y0, width, height = 92, 110, 676, 196
         updated = self._date_label(generated_at)
-        first_date = self._timeline_date(sampled[0].get("date")) if sampled else "n/a"
-        last_date = self._timeline_date(sampled[-1].get("date")) if sampled else "n/a"
-        # Left Y-axis grid (danmaku scale, K-format)
+        date_ticks = self._timeline_date_ticks(sampled, x0, y0, width, height, count=7)
+        # Left Y-axis grid (total scale, K-format)
         left_grid = "\n".join(
-            self._grid_row_k(ratio, danmaku_max, x0, y0, width, height)
+            self._grid_row_k(ratio, total_max, x0, y0, width, height)
             for ratio in (0, 0.25, 0.5, 0.75, 1)
         )
         # Right Y-axis grid (comments scale, K-format, dashed)
@@ -572,7 +575,7 @@ class ReadmeStatsSvgRenderer:
         )
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="timeline-title timeline-desc">
   <title id="timeline-title">Comment and danmaku collection growth over time</title>
-  <desc id="timeline-desc">Cumulative growth lines for danmaku (left scale) and comments (right scale) across recorded harvest runs.</desc>
+  <desc id="timeline-desc">Cumulative growth lines for total and danmaku (left scale) and comments (right scale) across recorded harvest runs.</desc>
   <style>
     .bg {{ fill: #f3ead8; }}
     .panel {{ fill: #fffaf0; stroke: #27231c; stroke-width: 2; }}
@@ -595,25 +598,44 @@ class ReadmeStatsSvgRenderer:
     <line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
     <!-- Right axis -->
     <line x1="{x0 + width}" y1="{y0}" x2="{x0 + width}" y2="{y0 + height}" stroke="#8c5f32" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <!-- Total line (left scale) -->
+    <polyline points="{self._polyline(sampled, "total", total_max, x0, y0, width, height)}" fill="none" stroke="#2b3a55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <!-- Danmaku line (left scale) -->
-    <polyline points="{self._polyline(sampled, "danmaku", danmaku_max, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="{self._polyline(sampled, "danmaku", total_max, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <!-- Comments line (right scale) -->
-    <polyline points="{self._polyline(sampled, "comments", comments_max, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,3"/>
-    <text x="{x0}" y="{y0 + height + 26}" class="axis">{self._escape(first_date)}</text>
-    <text x="{x0 + width}" y="{y0 + height + 26}" class="axis" text-anchor="end">{self._escape(last_date)}</text>
+    <polyline points="{self._polyline(sampled, "comments", comments_max, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,3"/>
+    <!-- Date ticks -->
+{date_ticks}
     <!-- Left axis label -->
-    <text x="{x0 - 52}" y="{y0 + height // 2}" class="axis" transform="rotate(-90 {x0 - 52} {y0 + height // 2})" text-anchor="middle">Danmaku (K)</text>
+    <text x="{x0 - 52}" y="{y0 + height // 2}" class="axis" transform="rotate(-90 {x0 - 52} {y0 + height // 2})" text-anchor="middle">Total / Danmaku (K)</text>
     <!-- Right axis label -->
     <text x="{x0 + width + 36}" y="{y0 + height // 2}" class="axis-right" transform="rotate(-90 {x0 + width + 36} {y0 + height // 2})" text-anchor="middle">Comments (K)</text>
   </g>
   <!-- Legend -->
   <g>
-    <rect x="72" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="96" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))} (left scale)</text>
-    <rect x="340" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="364" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))} (right scale 0–{self._format_k(comments_max)})</text>
+    <rect x="72" y="360" width="16" height="16" rx="3" fill="#2b3a55"/><text x="96" y="373" class="legend-text">Total {self._format_number(timeline.get("finalTotal"))} (left)</text>
+    <rect x="300" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="324" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))} (left)</text>
+    <rect x="540" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="564" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))} (right)</text>
     <text x="880" y="373" class="legend-text" text-anchor="end">Runs: {self._format_number(len(points))}</text>
   </g>
 </svg>
 """
+
+    def _timeline_date_ticks(self, sampled: list[dict[str, Any]], x0: int, y0: int, width: int, height: int, count: int = 7) -> str:
+        # Evenly spaced date labels along the x-axis (was only first + last).
+        if not sampled or count < 1:
+            return ""
+        n = len(sampled)
+        parts: list[str] = []
+        for i in range(count):
+            fraction = i / (count - 1) if count > 1 else 0.0
+            idx = min(n - 1, round(fraction * (n - 1)))
+            x = x0 + fraction * width
+            point = sampled[idx] if isinstance(sampled[idx], dict) else {}
+            date = self._timeline_date(point.get("date"))
+            anchor = "start" if i == 0 else "end" if i == count - 1 else "middle"
+            parts.append(f'    <text x="{x:.1f}" y="{y0 + height + 26}" class="axis" text-anchor="{anchor}">{self._escape(date)}</text>')
+        return "\n".join(parts)
 
     def padded_timeline_max(self, value: Any) -> int | float:
         return ReadmeStatsBuilder().padded_timeline_max(value)
