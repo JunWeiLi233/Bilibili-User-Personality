@@ -27,8 +27,53 @@ jobs:
 
       - name: Run DevSkim scanner
         uses: microsoft/DevSkim-Action@v1
+        with:
+          # DS137138 ("Insecure URL") fires on every http:// URL in scanned files.
+          # This codebase legitimately contains many http:// URLs (Bilibili scraping
+          # endpoints, harvested comment URLs in data files, config defaults). Those
+          # generate 305k findings (99.9% of total, 269 MB SARIF) and the SARIF
+          # cannot upload within GitHub's gateway timeout. Excluding the rule drops
+          # the SARIF to ~284 findings / 217 KB. The other 284 findings are mostly
+          # in data files (harmless) — the globs below exclude them when the action
+          # honors them, but even without that they upload trivially.
+          exclude-rules: DS137138
+          # Exclude generated/non-source paths and known false-positive sources
+          # (test fixtures, example env scripts with placeholder credentials) so
+          # the SARIF stays small enough for GitHub's code-scanning ingest, which
+          # gateway-times-out on large uploads.
+          ignore-globs: >-
+            **/.git/**,
+            **/bin/**,
+            server/data/**,
+            node_modules/**,
+            **/*.test.js,
+            **/*.test.mjs,
+            **/*.test.jsx,
+            python_backend/tests/**,
+            **/*.example.ps1
 
-      - name: Upload DevSkim scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+      # upload-sarif hits GitHub's code-scanning ingest, which intermittently
+      # returns a gateway timeout ("We couldn't respond to your request in time.
+      # Please try resubmitting your request"). Retry the upload a few times so a
+      # transient gateway blip doesn't fail the whole workflow. Uses v4 (current;
+      # v3 is deprecated and forced onto an unintended Node version).
+      - name: Upload DevSkim scan results (attempt 1)
+        id: ds_upload_1
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: devskim-results.sarif
+
+      - name: Upload DevSkim scan results (retry 2)
+        id: ds_upload_2
+        if: steps.ds_upload_1.outcome == 'failure'
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: devskim-results.sarif
+
+      - name: Upload DevSkim scan results (retry 3)
+        if: steps.ds_upload_2.outcome == 'failure'
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: devskim-results.sarif

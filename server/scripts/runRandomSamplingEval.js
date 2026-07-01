@@ -15,6 +15,7 @@
  *   node server/scripts/runRandomSamplingEval.js --all       # Run all steps
  */
 
+import { randomInt } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -42,7 +43,7 @@ const MIN_COMMENTS = 10;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function randomUid() {
-  return Math.floor(Math.random() * (UID_MAX - UID_MIN + 1)) + UID_MIN;
+  return randomInt(UID_MIN, UID_MAX + 1);
 }
 
 async function ensureDir(dir) {
@@ -150,8 +151,12 @@ async function step1_generateSample() {
   console.log(`Total cached users: ${allUsers.length}`);
   console.log(`Eligible (≥${MIN_COMMENTS} comments): ${eligible.length}`);
 
-  // Shuffle and pick 100
-  const shuffled = eligible.sort(() => Math.random() - 0.5);
+  // Fisher-Yates shuffle using crypto randomInt
+  const shuffled = [...eligible];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = randomInt(i + 1);
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
   const sampled = shuffled.slice(0, SAMPLE_SIZE).map((u) => ({
     uid: u.uid,
     commentCount: u.commentCount,
@@ -347,7 +352,7 @@ async function step3_scoreBatch() {
       console.log(`  ✓ UID ${uid} — troll_index=${result.trollIndex}, scores=[${result.scores.map((s) => s.value).join(', ')}] (${completed}/${userFiles.length})`);
 
     } catch (err) {
-      console.error(`  ✗ UID ${uid} — scoring error: ${err.message}`);
+      console.error(`  ✗ UID ${uid} — scoring failed`);
     }
   }
 
@@ -609,7 +614,7 @@ async function step4_annotateBatch() {
       console.log(`  ✓ UID ${uid} — consensus: TE=${te}, MC=${mc}, MI=${mi}, OR=${or} (${completed}/${userFiles.length})`);
 
     } catch (err) {
-      console.error(`  ✗ UID ${uid} — error: ${err.message}`);
+      console.error(`  ✗ UID ${uid} — annotation failed`);
       // Continue with next user
     }
   }
@@ -857,7 +862,7 @@ function bootstrapMetrics(userResults, nResamples = 1000) {
     // Sample with replacement
     const sample = [];
     for (let j = 0; j < n; j++) {
-      sample.push(userResults[Math.floor(Math.random() * n)]);
+      sample.push(userResults[randomInt(n)]);
     }
     aucSamples.push(computeAucRoc(sample));
     f1Samples.push(computePrf1(sample).f1);

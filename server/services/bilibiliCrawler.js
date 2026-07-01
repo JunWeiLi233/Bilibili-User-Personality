@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { randomInt } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -6,6 +7,7 @@ import { join } from 'node:path';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
+const cryptoRandom = () => randomInt(0, 2 ** 32) / 2 ** 32;
 
 const USER_AGENTS = [
   // Chrome 123-126 (5 variants: Windows + macOS)
@@ -487,7 +489,7 @@ function ensureCookies(randomFn, nowFn) {
     return;
   }
 
-  const r = randomFn || Math.random;
+  const r = randomFn || cryptoRandom;
   const epochSec = Math.floor((nowFn ? nowFn() : Date.now()) / 1000);
   cookieJar.set(
     'buvid3',
@@ -654,20 +656,20 @@ function fetchConfigWithSignal(config, signal) {
 
 function pickRange(randomFn, minMs, maxMs) {
   if (maxMs <= minMs) return minMs;
-  return minMs + Math.floor((randomFn ? randomFn() : Math.random()) * (maxMs - minMs));
+  return minMs + Math.floor((randomFn ? randomFn() : cryptoRandom()) * (maxMs - minMs));
 }
 
 export function humanPause(minMs, maxMs, options = {}) {
   if (maxMs <= 0) return Promise.resolve();
   const waitFn = options.waitFn || wait;
-  return waitFn(pickRange(options.randomFn || Math.random, minMs, maxMs));
+  return waitFn(pickRange(options.randomFn || cryptoRandom, minMs, maxMs));
 }
 
 async function scheduleBilibiliRequest(options = {}) {
   const config = fetchConfigWithSignal({ ...readCrawlerConfig(options.env), ...(options.config || {}) }, options.signal);
   const nowFn = options.nowFn || Date.now;
   const waitFn = options.waitFn || wait;
-  const randomFn = options.randomFn || Math.random;
+  const randomFn = options.randomFn || cryptoRandom;
   const now = nowFn();
   const waitUntil = Math.max(cooldownUntil, nextRequestAt);
   if (waitUntil > now) {
@@ -695,7 +697,7 @@ function applyBlockCooldown(config, nowFn, randomFn) {
   const multiplier = Math.min(2 ** (consecutiveBlocks - 1), MAX_COOLDOWN_MULTIPLIER);
   cooldownUntil = nowFn() + config.blockCooldownMs * multiplier;
   // Rotate UA and proxy on block
-  sessionIdentity.rotate(randomFn || Math.random);
+  sessionIdentity.rotate(randomFn || cryptoRandom);
   if (proxyRotator) {
     const current = proxyRotator.current();
     proxyRotator.markBlock(current, nowFn);
@@ -714,7 +716,7 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
   const requestCookie = normalizeBilibiliCookie(options.bilibiliCookie || options.cookie);
   const key = requestCookie ? '' : cacheKey(url, referer);
   const nowFn = options.nowFn || Date.now;
-  const randomFn = options.randomFn || Math.random;
+  const randomFn = options.randomFn || cryptoRandom;
   const cached = key ? responseCache.get(key) : null;
   if (cached && config.cacheTtlMs > 0 && cached.expiresAt > nowFn()) {
     return cached.payload;
@@ -778,7 +780,7 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
 export async function fetchText(url, referer = 'https://www.bilibili.com', options = {}) {
   const config = fetchConfigWithSignal({ ...readCrawlerConfig(options.env), ...(options.config || {}) }, options.signal);
   const nowFn = options.nowFn || Date.now;
-  const randomFn = options.randomFn || Math.random;
+  const randomFn = options.randomFn || cryptoRandom;
   const requestCookie = normalizeBilibiliCookie(options.bilibiliCookie || options.cookie);
   await scheduleBilibiliRequest({ ...options, config });
   // WAF early-exit: skip exhausted endpoints.
@@ -817,7 +819,7 @@ export async function fetchText(url, referer = 'https://www.bilibili.com', optio
 export async function fetchBuffer(url, referer = 'https://www.bilibili.com', options = {}) {
   const config = fetchConfigWithSignal({ ...readCrawlerConfig(options.env), ...(options.config || {}) }, options.signal);
   const nowFn = options.nowFn || Date.now;
-  const randomFn = options.randomFn || Math.random;
+  const randomFn = options.randomFn || cryptoRandom;
   const requestCookie = normalizeBilibiliCookie(options.bilibiliCookie || options.cookie);
   await scheduleBilibiliRequest({ ...options, config });
   if (isEndpointExhausted(url)) {
@@ -901,9 +903,10 @@ function videoObjectFromSpaceItem(item, uid) {
 }
 
 function cleanSearchTitle(title, fallback) {
-  // Bilibili search API returns plain text titles — no structural HTML to strip.
-  // Only XML character entities need decoding.
+  // Bilibili search API now wraps matched keywords in <em class="keyword"> tags.
+  // Strip HTML tags (complete and incomplete) and decode XML character entities.
   const clean = String(title || '')
+    .replace(/<[^>]*(?:>|$)/g, '')
     .replace(/&(?:quot|amp|#39);/g, (entity) => ({ '&quot;': '"', '&amp;': '&', '&#39;': "'" })[entity] || entity)
     .replace(/\s+/g, ' ')
     .trim();

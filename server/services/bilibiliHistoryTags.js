@@ -1,3 +1,4 @@
+import { randomInt } from 'node:crypto';
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
@@ -378,7 +379,7 @@ export async function scrapeBilibiliHistoryTags(options = {}, deps = {}) {
   for (const seed of seeds) {
     for (let page = 1; page <= pages; page += 1) {
       if (videos.length > 0 && delayMs > 0) {
-        const jitter = jitterMs > 0 ? Math.floor(Math.random() * jitterMs) : 0;
+        const jitter = jitterMs > 0 ? randomInt(jitterMs) : 0;
         await waitFn(delayMs + jitter);
       }
       const url = new URL('https://api.bilibili.com/x/web-interface/search/type');

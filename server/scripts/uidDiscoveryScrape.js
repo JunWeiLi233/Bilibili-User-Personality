@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { randomInt } from 'node:crypto';
 import { readFile, writeFile, mkdir, rm, mkdtemp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -19,7 +20,7 @@ const LOCK_PATH = join(DATA_DIR, 'deepseekKeywordDictionary.json.lock');
 const LOCK_RETRY_DELAY_MS = 5000;
 const LOCK_MAX_RETRIES = 15;
 const SAVE_EVERY = 100;
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
+const USER_AGENT = process.env.BILIBILI_USER_AGENT || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 let suppressExitLog = false;
@@ -181,7 +182,7 @@ async function trainWithRetry(payload, options, maxRetries = LOCK_MAX_RETRIES) {
           console.log(`  Retry ${attempt}/${maxRetries}: ${msg.slice(0, 80)}...`);
         }
         await rm(LOCK_PATH, { recursive: true, force: true }).catch(() => {});
-        await wait(LOCK_RETRY_DELAY_MS + Math.random() * 2000);
+        await wait(LOCK_RETRY_DELAY_MS + randomInt(2000));
         continue;
       }
       throw error;

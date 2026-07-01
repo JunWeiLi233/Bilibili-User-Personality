@@ -1,4 +1,7 @@
+import { randomInt } from 'node:crypto';
 import { evidenceNeedlesForTerm } from './deepseekKeywordTrainer.js';
+
+const cryptoRandomFloat = () => randomInt(0, 2 ** 32) / 2 ** 32;
 
 function cleanText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
@@ -229,7 +232,7 @@ export function buildFreshEvidenceEntriesFromComments(dictionary = {}, comments 
   return entries;
 }
 
-export function makeSyntheticBilibiliCookie(randomFn = Math.random, now = Date.now()) {
+export function makeSyntheticBilibiliCookie(randomFn = cryptoRandomFloat, now = Date.now()) {
   const hex = (len) =>
     Array.from({ length: len }, () => Math.floor(randomFn() * 16).toString(16))
       .join('')

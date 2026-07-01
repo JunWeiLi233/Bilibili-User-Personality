@@ -63,10 +63,25 @@ function parseCsv(raw) {
   });
 }
 
+function isTiebaHost(href) {
+  const raw = cleanText(href);
+  if (!raw) return false;
+  let host;
+  try {
+    host = new URL(raw).hostname.toLowerCase();
+  } catch {
+    // Not an absolute URL — cannot be a Tieba host.
+    return false;
+  }
+  // Host-anchored match (not a raw substring test) so an arbitrary URL cannot
+  // spoof the check by merely containing "tieba.baidu.com".
+  return host === 'tieba.baidu.com' || host.endsWith('.tieba.baidu.com');
+}
+
 function isTiebaLikeRow(row = {}, options = {}) {
   const platform = cleanText(row.platform || row.source_platform || options.platform).toLowerCase();
-  const href = cleanText(row.href || row.url || row.sourceUrl || row.source);
-  return platform === 'tieba' || /tieba\.baidu\.com/i.test(href);
+  const href = row.href || row.url || row.sourceUrl || row.source;
+  return platform === 'tieba' || isTiebaHost(href);
 }
 
 function firstTextField(row = {}, options = {}) {

@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { randomInt } from 'node:crypto';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
@@ -166,7 +167,7 @@ async function trainWithRetry(payload, options, maxRetries = LOCK_MAX_RETRIES) {
         if (attempt > 8) {
           await rm(LOCK_PATH, { recursive: true, force: true }).catch(() => {});
         }
-        await wait(LOCK_RETRY_DELAY_MS * attempt + Math.random() * 2000);
+        await wait(LOCK_RETRY_DELAY_MS * attempt + randomInt(2000));
         continue;
       }
       throw error;
