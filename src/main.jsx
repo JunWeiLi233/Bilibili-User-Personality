@@ -1401,7 +1401,9 @@ function App() {
             <div className="score-block">
               <span>行为模式概要</span>
               <strong>{trollIndex}</strong>
-              <small>{getRiskBand(trollIndex)}</small>
+              {/* ponytail: gate the categorical band on ≥10 analyzed comments —
+                  below that the band overclaims; the raw trollIndex still shows. */}
+              <small>{(selectedUser.sampleSize || 0) < 10 ? '样本不足（需≥10条）' : getRiskBand(trollIndex)}</small>
             </div>
           </div>
 
