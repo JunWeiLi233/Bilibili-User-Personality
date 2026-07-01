@@ -31,6 +31,8 @@ import {
   discoverDynamicsByUid,
   fetchUserPublicComments,
   initProxyRotator,
+  initBilibiliProxyDispatcher,
+  applyBilibiliProxy,
   resetWafState,
   isEndpointExhausted,
   isWafResponse,
@@ -2322,4 +2324,78 @@ test('fetchJson rotates UA on block cooldown', async () => {
   } finally {
     resetBilibiliRequestState();
   }
+});
+
+test('applyBilibiliProxy is a pass-through when no proxy is configured', () => {
+  resetBilibiliRequestState(); // clean env -> no dispatcher
+  try {
+    const myFetch = async () => new Response('ok');
+    const init = { headers: { a: '1' } };
+    const { fetchFn, finalInit } = applyBilibiliProxy(myFetch, init);
+    assert.equal(fetchFn, myFetch, 'returns the caller fetchImpl unchanged');
+    assert.equal(finalInit, init, 'returns the caller init unchanged');
+  } finally {
+    resetBilibiliRequestState();
+  }
+});
+
+test('initBilibiliProxyDispatcher wires a dispatcher that applyBilibiliProxy injects', () => {
+  resetBilibiliRequestState();
+  try {
+    // Dummy proxy URL — ProxyAgent construction parses the URL but never connects.
+    initBilibiliProxyDispatcher({ BILIBILI_PROXY_LIST: 'http://user-test:pass-test@127.0.0.1:1' });
+    const myFetch = async () => new Response('ok');
+    const input = { headers: { a: '1' } };
+    const { fetchFn, finalInit } = applyBilibiliProxy(myFetch, input);
+    assert.notEqual(fetchFn, myFetch, 'swaps to undici fetch when a proxy is set');
+    assert.ok(finalInit.dispatcher, 'injects a dispatcher into the fetch init');
+    assert.equal(finalInit.headers.a, '1', 'preserves the rest of init');
+    assert.equal(input.dispatcher, undefined, 'does not mutate the caller init');
+
+    // A caller-provided dispatcher is never overridden.
+    const ownDispatcher = { destroyed: () => {} };
+    const kept = applyBilibiliProxy(myFetch, { dispatcher: ownDispatcher });
+    assert.equal(kept.fetchFn, myFetch, 'keeps caller fetchImpl when a dispatcher is given');
+    assert.equal(kept.finalInit.dispatcher, ownDispatcher, 'keeps the caller-supplied dispatcher');
+
+    // Empty env clears the dispatcher again.
+    initBilibiliProxyDispatcher({});
+    const cleared = applyBilibiliProxy(myFetch, { headers: { a: '1' } });
+    assert.equal(cleared.fetchFn, myFetch, 'restores caller fetchImpl after clearing');
+    assert.equal(cleared.finalInit.dispatcher, undefined, 'no dispatcher after clearing');
+  } finally {
+    resetBilibiliRequestState(); // process.env is clean in tests -> clears dispatcher
+  }
+});
+
+test('TokenBucket: serializes concurrent take() so bursts never exceed sustain rate', async () => {
+  // Regression for the concurrent-waiter over-issuance bug. When the bucket is
+  // depleted, N concurrent take() callers each independently wait one deficit
+  // interval and then ALL fire at once — issuing N near-simultaneous requests
+  // against a sustain rate of 1/sec. Under the fix, callers queue behind a
+  // per-bucket promise chain and fire ~1/sustain apart.
+  // Real timers are required here: a manual clock with a synchronous waitFn
+  // advances shared time inside the first await and masks the race for the
+  // remaining callers, so it cannot reproduce the real concurrency hazard.
+  const realSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const bucket = new TokenBucket(5, 1); // burst=5, sustain=1/sec
+
+  // Deplete the burst budget.
+  for (let i = 0; i < 5; i++) assert.equal(await bucket.take(realSleep), 0);
+
+  // Fire 3 concurrently and record the wall-clock time each one fires.
+  const start = Date.now();
+  const fireTimes = [];
+  await Promise.all([0, 1, 2].map(async () => {
+    await bucket.take(realSleep);
+    fireTimes.push(Date.now() - start);
+  }));
+
+  const spread = Math.max(...fireTimes) - Math.min(...fireTimes);
+  // Serialized → fires ~1000/2000/3000ms (spread ≈ 2000).
+  // Buggy     → all resume ~1000ms         (spread ≈ 0).
+  assert.ok(
+    spread >= 1500,
+    `concurrent take() must serialize at sustain rate (spread=${spread}ms < 1500ms)`,
+  );
 });

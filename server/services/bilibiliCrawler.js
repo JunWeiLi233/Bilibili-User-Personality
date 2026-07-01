@@ -5,6 +5,27 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
+import { createRequire } from 'node:module';
+
+// Optional undici ProxyAgent for routing Bilibili HTTP through a configured proxy
+// (BILIBILI_PROXY_LIST, e.g. a Decodo residential gateway). Loaded synchronously
+// via createRequire so the crawler still works without undici installed — proxy
+// support simply stays off in that case.
+const requireFromEsm = createRequire(import.meta.url);
+// We need BOTH ProxyAgent and fetch from the installed undici: Node's internal
+// undici (used by the global fetch) is a different version and rejects the
+// external ProxyAgent as a dispatcher ("UND_ERR_INVALID_ARG: invalid
+// onRequestStart method"), so proxied requests must use undici's own fetch.
+let ProxyAgentCtor = null;
+let ProxyUndiciFetch = null;
+try {
+  const undici = requireFromEsm('undici');
+  ProxyAgentCtor = undici.ProxyAgent;
+  ProxyUndiciFetch = undici.fetch;
+} catch {
+  ProxyAgentCtor = null;
+  ProxyUndiciFetch = null;
+}
 
 const execFileAsync = promisify(execFile);
 const cryptoRandom = () => randomInt(0, 2 ** 32) / 2 ** 32;
@@ -171,6 +192,12 @@ class TokenBucket {
   #tokens;
   #lastRefill;
   #nowFn;
+  // Serializes concurrent take() callers. Without this, N callers that hit the
+  // depleted path each independently await one deficit interval and then ALL
+  // proceed at once — issuing N near-simultaneous requests and blowing past the
+  // sustain rate. The chain makes concurrent callers queue so the depleted-path
+  // math (which is correct only when run one-at-a-time) behaves as if sequential.
+  #chain = Promise.resolve();
 
   constructor(burst, sustainPerSec, nowFn) {
     this.#burst = Math.max(1, Number(burst) || 8);
@@ -183,6 +210,17 @@ class TokenBucket {
   // Wait until a token is available, then consume it.
   // Returns the wait time in ms (0 if token was immediately available).
   async take(waitFn) {
+    // Queue this caller behind any in-flight take() on the same bucket, then
+    // advance the chain on both fulfill and reject so a single failure never
+    // wedges subsequent callers. Same idiom as `dictionaryMergeChain`.
+    const run = this.#chain.then(() => this.#consume(waitFn));
+    this.#chain = run.then(() => undefined, () => undefined);
+    return run;
+  }
+
+  // Single-waiter consume — only ever runs while no other take() is in flight
+  // on this bucket, so the check-and-decrement / wait-and-set math is race-free.
+  async #consume(waitFn) {
     this.#refill();
     if (this.#tokens >= 1) {
       this.#tokens -= 1;
@@ -330,6 +368,11 @@ function resetWafState() {
 
 let proxyRotator = null;
 let proxyFetchAgent = null; // http.Agent for the current proxy
+// undici Dispatcher that proxies every Bilibili HTTP request when
+// BILIBILI_PROXY_LIST is set. null = direct (no proxy). DeepSeek and other
+// non-Bilibili callers are unaffected because they use their own fetch and never
+// pass through fetchWithTimeout.
+let bilibiliProxyDispatcher = null;
 
 function getProxyAgent(proxyUrl) {
   if (!proxyUrl) return null;
@@ -393,9 +436,62 @@ function initProxyRotator(env) {
   }
 }
 
+// Build a single undici ProxyAgent dispatcher from the first entry of
+// BILIBILI_PROXY_LIST (a Decodo sticky-session gateway by default). One
+// dispatcher covers the whole pool because Decodo rotates the exit IP
+// server-side; Bilibili's per-IP block-tracking still runs through proxyRotator
+// when initProxyRotator is also called. Safe to call with no env / no undici →
+// leaves bilibiliProxyDispatcher null (direct requests).
+function initBilibiliProxyDispatcher(env) {
+  const raw = String(env?.BILIBILI_PROXY_LIST || '').trim();
+  if (!raw || !ProxyAgentCtor) {
+    bilibiliProxyDispatcher = null;
+    return;
+  }
+  let first;
+  if (existsSync(raw)) {
+    first = readFileSync(raw, 'utf8').split('\n').map((s) => s.trim()).filter(Boolean)[0];
+  } else {
+    first = raw.split(',').map((s) => s.trim()).filter(Boolean)[0];
+  }
+  if (!first) {
+    bilibiliProxyDispatcher = null;
+    return;
+  }
+  try {
+    bilibiliProxyDispatcher = new ProxyAgentCtor(first);
+  } catch {
+    bilibiliProxyDispatcher = null;
+  }
+}
+
+// Merge the Bilibili proxy dispatcher into a fetch call: returns the fetch
+// function and init to use. When a proxy is configured, requests route through
+// undici's OWN fetch paired with its ProxyAgent (Node's internal undici/global
+// fetch rejects the external dispatcher). Returns the caller's fetchImpl and
+// init unchanged when no proxy is set, so tests (clean env) and DeepSeek's own
+// fetch are never proxied.
+function applyBilibiliProxy(fetchImpl, init) {
+  if (!bilibiliProxyDispatcher) return { fetchFn: fetchImpl, finalInit: init };
+  if (init && init.dispatcher) return { fetchFn: fetchImpl, finalInit: init };
+  return {
+    fetchFn: ProxyUndiciFetch || fetchImpl,
+    finalInit: { ...(init || {}), dispatcher: bilibiliProxyDispatcher },
+  };
+}
+
+// Auto-configure from the current environment at module load. Production
+// processes that set BILIBILI_PROXY_LIST (e.g. via set-decodo-env.ps1) get proxied
+// Bilibili requests automatically; clean test environments get a no-op.
+initBilibiliProxyDispatcher(process.env);
+
 function resetProxyState() {
   proxyRotator = null;
   proxyFetchAgent = null;
+  // Re-apply proxy config from the environment so a state reset never silently
+  // drops the proxy in production (and clears it in tests, where process.env is
+  // clean — keeping mock fetchImpls from being bypassed by the dispatcher).
+  initBilibiliProxyDispatcher(process.env);
 }
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -622,7 +718,8 @@ function buildHeaders(url, referer, randomFn, nowFn, requestCookie = '') {
 async function fetchWithTimeout(fetchImpl, url, init, config) {
   const timeoutMs = Math.max(0, Number(config?.requestTimeoutMs) || 0);
   if (!timeoutMs || typeof AbortController === 'undefined') {
-    return fetchImpl(url, init);
+    const { fetchFn, finalInit } = applyBilibiliProxy(fetchImpl, init);
+    return fetchFn(url, finalInit);
   }
 
   const controller = new AbortController();
@@ -638,7 +735,8 @@ async function fetchWithTimeout(fetchImpl, url, init, config) {
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   if (typeof timer.unref === 'function') timer.unref();
   try {
-    return await fetchImpl(url, { ...init, signal });
+    const { fetchFn, finalInit } = applyBilibiliProxy(fetchImpl, { ...init, signal });
+    return await fetchFn(url, finalInit);
   } catch (error) {
     if (controller.signal.aborted && !(callerSignal?.aborted)) {
       throw new Error(`Bilibili request timed out after ${timeoutMs}ms: ${url}`);
@@ -1796,4 +1894,4 @@ export function guardAuthEndpoint(url) {
 
 // ── Public API: exporter for TokenBucket, proxy state, WAF state ─────────────
 
-export { TokenBucket, SessionIdentity, getEndpointBucket, initProxyRotator, resetWafState, isEndpointExhausted, isWafResponse, recordWaf, ENDPOINT_BUCKET_DEFAULTS, sessionIdentity, buildSecChUa, USER_AGENTS };
+export { TokenBucket, SessionIdentity, getEndpointBucket, initProxyRotator, initBilibiliProxyDispatcher, applyBilibiliProxy, resetWafState, isEndpointExhausted, isWafResponse, recordWaf, ENDPOINT_BUCKET_DEFAULTS, sessionIdentity, buildSecChUa, USER_AGENTS };
