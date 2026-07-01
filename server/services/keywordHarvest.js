@@ -3300,6 +3300,27 @@ async function firecrawlFallbackSearch(term) {
   }
 }
 
+// Bounded-concurrency worker pool for the harvest query loop. Each query is an
+// independent Bilibili scan + DeepSeek validation, so they can overlap. The
+// per-query DeepSeek pass is the latency driver, and overlapping it across workers
+// is the win; Bilibili requests stay throttled by the shared per-process token
+// bucket and dictionary merges serialize in mergeEntriesIntoDictionary, so
+// parallelism never raises the Bilibili request rate or corrupts the dictionary.
+// concurrency=1 reproduces the original strictly sequential run.
+async function runHarvestQueriesBounded(plan, concurrency, worker) {
+  const limit = Math.max(1, Math.min(concurrency, plan.length || 1));
+  let cursor = 0;
+  const runners = Array.from({ length: limit }, async () => {
+    while (cursor < plan.length) {
+      const index = cursor;
+      cursor += 1;
+      // 1-based index keeps the existing `[q N/total]` log format.
+      await worker(plan[index], index + 1);
+    }
+  });
+  await Promise.all(runners);
+}
+
 export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const readKeywordDictionary = deps.readKeywordDictionary || defaultReadKeywordDictionary;
   const searchVideoKeywords = deps.searchVideoKeywords || defaultSearchVideoKeywords;
@@ -3359,11 +3380,13 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const warnings = [];
   const verbose = options.verbose === true || process.env.BILIBILI_HARVEST_VERBOSE === '1';
   const planTotal = plan.length;
-  let planIndex = 0;
+  const queryConcurrency = asPositiveInt(options.queryConcurrency, 1, 16);
+  if (verbose && queryConcurrency > 1) {
+    console.log(`  Harvesting up to ${queryConcurrency} queries in parallel`);
+  }
 
-  for (const planItem of plan) {
+  await runHarvestQueriesBounded(plan, queryConcurrency, async (planItem, planIndex) => {
     const query = planItem.query;
-    planIndex += 1;
     const queryStartedAt = Date.now();
     if (verbose) console.log(`  [q ${planIndex}/${planTotal}] start: ${query}`);
     const attemptFinishedAt = new Date().toISOString();
@@ -3529,7 +3552,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
       searchedQuerySet.add(query);
       updateTermAttempt(termAttempts, planItem, result, attemptFinishedAt, options);
     }
-  }
+  });
 
   const rawAfter = await readKeywordDictionary();
   const beforeTermSet = new Set((Array.isArray(before?.entries) ? before.entries : []).map((entry) => String(entry?.term || '').trim()).filter(Boolean));

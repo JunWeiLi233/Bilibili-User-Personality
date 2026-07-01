@@ -12252,6 +12252,36 @@ test('mergeEntriesIntoDictionary respects the dictionary write lock', async () =
   }
 });
 
+test('mergeEntriesIntoDictionary serializes concurrent in-process merges without losing evidence', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-dictionary-concurrent-merge-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    // Two merges fired at once against the same dictionary. Before the in-process
+    // serializer, the second would be rejected by the file lock ("Another Bilibili
+    // dictionary job is already running") and its evidence lost. Both must now run
+    // to completion and the final on-disk dictionary must contain both terms.
+    const [, , final] = await Promise.all([
+      mergeEntriesIntoDictionary(
+        [{ term: '并发写入样本', family: 'attack', meaning: 'a', confidence: 0.7, evidenceCount: 1 }],
+        { dictionaryPath },
+      ),
+      mergeEntriesIntoDictionary(
+        [{ term: '顺序合并词条', family: 'attack', meaning: 'b', confidence: 0.7, evidenceCount: 1 }],
+        { dictionaryPath },
+      ),
+      // A no-op merge returns the current canonical snapshot, so read it back last.
+      Promise.resolve(),
+    ]);
+    void final;
+    const snapshot = await mergeEntriesIntoDictionary([], { dictionaryPath });
+    const terms = snapshot.entries.map((entry) => entry.term);
+    assert.ok(terms.includes('并发写入样本'), `concurrent merge lost term A: ${terms.join(', ')}`);
+    assert.ok(terms.includes('顺序合并词条'), `concurrent merge lost term B: ${terms.join(', ')}`);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('writeJsonFileAtomic leaves a complete JSON file and removes sibling temp files', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'dict-atomic-'));
   const dictionaryPath = join(dir, 'dictionary.json');
