@@ -30,9 +30,13 @@ jobs:
         with:
           # Exclude generated/non-source paths so the SARIF stays small enough
           # for GitHub's code-scanning ingest (large SARIFs time out on upload).
-          ignore-globs: "**/.git/**,**/bin/**,server/data/**,node_modules/**"
+          ignore-globs: "**/.git/**,**/bin/**,server/data/**,node_modules/**,**/__pycache__/**"
 
       - name: Upload DevSkim scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: devskim-results.sarif
+          # Don't block the step waiting for GitHub to finish backend processing —
+          # large SARIFs routinely take >60s and cause the "couldn't respond in
+          # time" timeout. Processing still happens asynchronously.
+          wait-for-processing: false
