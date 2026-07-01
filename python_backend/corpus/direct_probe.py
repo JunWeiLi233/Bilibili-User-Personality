@@ -5,6 +5,7 @@ import html
 import json
 import random
 import re
+import secrets
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1462,7 +1463,7 @@ class DirectProbeCorpusBuilder:
         return headers
 
     def make_synthetic_bilibili_cookie(self, random_fn: Callable[[], float] | None = None, now_ms: Any | None = None) -> str:
-        rand = random_fn or random.random
+        rand = random_fn or (lambda: secrets.randbelow(16) / 16)
         now_value = _number(now_ms) if now_ms is not None else time.time() * 1000
         epoch = int(now_value // 1000)
 
