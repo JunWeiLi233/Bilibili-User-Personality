@@ -14,44 +14,44 @@
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="62" class="title">Corpus Growth Over Time</text>
-  <text x="40" y="88" class="sub">auto-generated from corpus run history on 2026-06-30 | 52 points shown (of 456 total)</text>
+  <text x="40" y="88" class="sub">auto-generated from corpus run history on 2026-07-01 | 52 points shown (of 456 total)</text>
   <g>
-    <line x1="72" y1="306.0" x2="768" y2="306.0" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="92" y1="306.0" x2="768" y2="306.0" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
     <text x="774" y="310.0" class="axis-right" text-anchor="start">0</text>
-    <line x1="72" y1="208.0" x2="768" y2="208.0" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="92" y1="208.0" x2="768" y2="208.0" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
     <text x="774" y="212.0" class="axis-right" text-anchor="start">14K</text>
-    <line x1="72" y1="110.0" x2="768" y2="110.0" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="92" y1="110.0" x2="768" y2="110.0" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
     <text x="774" y="114.0" class="axis-right" text-anchor="start">28K</text>
-    <line x1="72" y1="306.0" x2="768" y2="306.0" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="58" y="310.0" class="axis" text-anchor="end">0</text>
-    <line x1="72" y1="257.0" x2="768" y2="257.0" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="58" y="261.0" class="axis" text-anchor="end">42K</text>
-    <line x1="72" y1="208.0" x2="768" y2="208.0" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="58" y="212.0" class="axis" text-anchor="end">85K</text>
-    <line x1="72" y1="159.0" x2="768" y2="159.0" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="58" y="163.0" class="axis" text-anchor="end">127K</text>
-    <line x1="72" y1="110.0" x2="768" y2="110.0" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="58" y="114.0" class="axis" text-anchor="end">170K</text>
+    <line x1="92" y1="306.0" x2="768" y2="306.0" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="78" y="310.0" class="axis" text-anchor="end">0</text>
+    <line x1="92" y1="257.0" x2="768" y2="257.0" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="78" y="261.0" class="axis" text-anchor="end">42K</text>
+    <line x1="92" y1="208.0" x2="768" y2="208.0" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="78" y="212.0" class="axis" text-anchor="end">85K</text>
+    <line x1="92" y1="159.0" x2="768" y2="159.0" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="78" y="163.0" class="axis" text-anchor="end">127K</text>
+    <line x1="92" y1="110.0" x2="768" y2="110.0" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="78" y="114.0" class="axis" text-anchor="end">170K</text>
     <!-- Chart frame -->
-    <line x1="72" y1="306" x2="768" y2="306" stroke="#27231c" stroke-width="2"/>
-    <line x1="72" y1="110" x2="72" y2="306" stroke="#27231c" stroke-width="2"/>
+    <line x1="92" y1="306" x2="768" y2="306" stroke="#27231c" stroke-width="2"/>
+    <line x1="92" y1="110" x2="92" y2="306" stroke="#27231c" stroke-width="2"/>
     <!-- Right axis -->
     <line x1="768" y1="110" x2="768" y2="306" stroke="#8c5f32" stroke-width="1.5" stroke-dasharray="4,4"/>
     <!-- Danmaku line (left scale) -->
-    <polyline points="72.0,306.0 85.6,300.5 99.3,298.1 112.9,294.2 126.6,279.9 140.2,265.0 153.9,264.1 167.5,263.3 181.2,260.9 194.8,259.8 208.5,259.1 222.1,255.5 235.8,254.3 249.4,253.4 263.1,251.1 276.7,248.5 290.4,247.2 304.0,245.6 317.6,242.8 331.3,233.4 344.9,229.6 358.6,221.8 372.2,214.6 385.9,213.0 399.5,212.7 413.2,207.2 426.8,206.8 440.5,203.0 454.1,200.7 467.8,199.1 481.4,198.2 495.1,196.9 508.7,192.0 522.4,189.8 536.0,183.3 549.6,181.2 563.3,175.5 576.9,172.8 590.6,170.4 604.2,165.8 617.9,164.0 631.5,156.8 645.2,152.1 658.8,149.5 672.5,144.4 686.1,139.8 699.8,137.9 713.4,134.5 727.1,133.2 740.7,132.4 754.4,130.6 768.0,128.6" fill="none" stroke="#3f7558" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="92.0,306.0 105.3,300.5 118.5,298.1 131.8,294.2 145.0,279.9 158.3,265.0 171.5,264.1 184.8,263.3 198.0,260.9 211.3,259.8 224.5,259.1 237.8,255.5 251.1,254.3 264.3,253.4 277.6,251.1 290.8,248.5 304.1,247.2 317.3,245.6 330.6,242.8 343.8,233.4 357.1,229.6 370.4,221.8 383.6,214.6 396.9,213.0 410.1,212.7 423.4,207.2 436.6,206.8 449.9,203.0 463.1,200.7 476.4,199.1 489.6,198.2 502.9,196.9 516.2,192.0 529.4,189.8 542.7,183.3 555.9,181.2 569.2,175.5 582.4,172.8 595.7,170.4 608.9,165.8 622.2,164.0 635.5,156.8 648.7,152.1 662.0,149.5 675.2,144.4 688.5,139.8 701.7,137.9 715.0,134.5 728.2,133.2 741.5,132.4 754.7,130.6 768.0,128.6" fill="none" stroke="#3f7558" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
     <!-- Comments line (right scale) -->
-    <polyline points="72.0,306.0 85.6,304.0 99.3,303.2 112.9,301.8 126.6,296.8 140.2,291.5 153.9,291.2 167.5,290.9 181.2,290.0 194.8,289.6 208.5,289.4 222.1,288.1 235.8,287.7 249.4,287.4 263.1,286.6 276.7,285.6 290.4,285.2 304.0,284.6 317.6,283.6 331.3,280.3 344.9,279.0 358.6,276.2 372.2,270.1 385.9,269.6 399.5,269.5 413.2,267.5 426.8,261.3 440.5,253.2 454.1,252.5 467.8,237.9 481.4,223.6 495.1,205.6 508.7,196.8 522.4,196.1 536.0,193.8 549.6,193.0 563.3,191.0 576.9,190.1 590.6,189.2 604.2,187.6 617.9,186.9 631.5,184.4 645.2,182.8 658.8,181.8 672.5,180.0 686.1,178.4 699.8,177.7 713.4,176.5 727.1,176.0 740.7,175.7 754.4,155.6 768.0,126.0" fill="none" stroke="#8c5f32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,3"/>
-    <text x="72" y="332" class="axis">06-17 03:59</text>
+    <polyline points="92.0,306.0 105.3,304.0 118.5,303.2 131.8,301.8 145.0,296.8 158.3,291.5 171.5,291.2 184.8,290.9 198.0,290.0 211.3,289.6 224.5,289.4 237.8,288.1 251.1,287.7 264.3,287.4 277.6,286.6 290.8,285.6 304.1,285.2 317.3,284.6 330.6,283.6 343.8,280.3 357.1,279.0 370.4,276.2 383.6,270.1 396.9,269.6 410.1,269.5 423.4,267.5 436.6,261.3 449.9,253.2 463.1,252.5 476.4,237.9 489.6,223.6 502.9,205.6 516.2,196.8 529.4,196.1 542.7,193.8 555.9,193.0 569.2,191.0 582.4,190.1 595.7,189.2 608.9,187.6 622.2,186.9 635.5,184.4 648.7,182.8 662.0,181.8 675.2,180.0 688.5,178.4 701.7,177.7 715.0,176.5 728.2,176.0 741.5,175.7 754.7,155.6 768.0,126.0" fill="none" stroke="#8c5f32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,3"/>
+    <text x="92" y="332" class="axis">06-17 03:59</text>
     <text x="768" y="332" class="axis" text-anchor="end">06-19 06:57</text>
     <!-- Left axis label -->
-    <text x="40" y="104" class="axis" transform="rotate(-90 40 104)" text-anchor="middle">Danmaku (K)</text>
+    <text x="40" y="208" class="axis" transform="rotate(-90 40 208)" text-anchor="middle">Danmaku (K)</text>
     <!-- Right axis label -->
-    <text x="792" y="104" class="axis-right" transform="rotate(-90 792 104)" text-anchor="middle">Comments (K)</text>
+    <text x="804" y="208" class="axis-right" transform="rotate(-90 804 208)" text-anchor="middle">Comments (K)</text>
   </g>
   <!-- Legend -->
   <g>
     <rect x="72" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="96" y="373" class="legend-text">Danmaku 153,875 (left scale)</text>
     <rect x="340" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="364" y="373" class="legend-text">Comments 25,713 (right scale 0–28K)</text>
-    <text x="720" y="373" class="legend-text">Runs: 456</text>
+    <text x="880" y="373" class="legend-text" text-anchor="end">Runs: 456</text>
   </g>
 </svg>
