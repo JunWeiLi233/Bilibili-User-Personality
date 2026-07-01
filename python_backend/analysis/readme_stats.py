@@ -557,7 +557,7 @@ class ReadmeStatsSvgRenderer:
         danmaku_max = self.padded_timeline_max(danmaku_max_raw)
         comments_max_raw = max([_number(p.get("comments")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalComments")), 1])
         comments_max = self.padded_timeline_max(comments_max_raw)
-        x0, y0, width, height = 72, 110, 696, 196
+        x0, y0, width, height = 92, 110, 676, 196
         updated = self._date_label(generated_at)
         first_date = self._timeline_date(sampled[0].get("date")) if sampled else "n/a"
         last_date = self._timeline_date(sampled[-1].get("date")) if sampled else "n/a"
@@ -603,15 +603,15 @@ class ReadmeStatsSvgRenderer:
     <text x="{x0}" y="{y0 + height + 26}" class="axis">{self._escape(first_date)}</text>
     <text x="{x0 + width}" y="{y0 + height + 26}" class="axis" text-anchor="end">{self._escape(last_date)}</text>
     <!-- Left axis label -->
-    <text x="{x0 - 32}" y="{y0 - 6}" class="axis" transform="rotate(-90 {x0 - 32} {y0 - 6})" text-anchor="middle">Danmaku (K)</text>
+    <text x="{x0 - 52}" y="{y0 + height // 2}" class="axis" transform="rotate(-90 {x0 - 52} {y0 + height // 2})" text-anchor="middle">Danmaku (K)</text>
     <!-- Right axis label -->
-    <text x="{x0 + width + 24}" y="{y0 - 6}" class="axis-right" transform="rotate(-90 {x0 + width + 24} {y0 - 6})" text-anchor="middle">Comments (K)</text>
+    <text x="{x0 + width + 36}" y="{y0 + height // 2}" class="axis-right" transform="rotate(-90 {x0 + width + 36} {y0 + height // 2})" text-anchor="middle">Comments (K)</text>
   </g>
   <!-- Legend -->
   <g>
     <rect x="72" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="96" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))} (left scale)</text>
     <rect x="340" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="364" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))} (right scale 0–{self._format_k(comments_max)})</text>
-    <text x="720" y="373" class="legend-text">Runs: {self._format_number(len(points))}</text>
+    <text x="880" y="373" class="legend-text" text-anchor="end">Runs: {self._format_number(len(points))}</text>
   </g>
 </svg>
 """
@@ -661,7 +661,7 @@ class ReadmeStatsSvgRenderer:
     def _grid_row_k(self, ratio: float, max_value: Any, x0: int, y0: int, width: int, height: int) -> str:
         y = y0 + height - (ratio * height)
         return f"""    <line x1="{x0}" y1="{y:.1f}" x2="{x0 + width}" y2="{y:.1f}" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="58" y="{y + 4:.1f}" class="axis" text-anchor="end">{self._format_k(round(_number(max_value) * ratio))}</text>"""
+    <text x="{x0 - 14}" y="{y + 4:.1f}" class="axis" text-anchor="end">{self._format_k(round(_number(max_value) * ratio))}</text>"""
 
     def _grid_row_k_right(self, ratio: float, max_value: Any, x0: int, y0: int, width: int, height: int) -> str:
         y = y0 + height - (ratio * height)
