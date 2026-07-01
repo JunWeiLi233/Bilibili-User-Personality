@@ -119,7 +119,7 @@ export function buildCoverageHarvestLoopPlan(payload = {}) {
   const argv = Array.isArray(payload?.argv) ? payload.argv : [];
   const cwd = String(payload?.cwd || process.cwd());
   const dataDir = join(cwd, 'server', 'data');
-  const maxCyclesValue = planNonNegativeInt(env, 'BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 50);
+  const maxCyclesValue = planNonNegativeInt(env, 'BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 1000);
   const roundsFallback = planPositiveInt(env, 'BILIBILI_HARVEST_ROUNDS', 1);
   const roundsPerCycleValue = planPositiveInt(env, 'BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', roundsFallback, 20);
   const maxQueriesValue = planPositiveInt(env, 'BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
@@ -375,7 +375,7 @@ const execFileAsync = promisify(execFile);
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
 const reportPath = process.env.BILIBILI_COVERAGE_LOOP_REPORT_PATH || DEFAULT_COVERAGE_LOOP_REPORT_PATH;
-const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 50);
+const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 1000);
 const roundsPerCycle = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', positiveIntFromEnv('BILIBILI_HARVEST_ROUNDS', 1), 20);
 const maxQueries = positiveIntFromEnv('BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
 const runtimeOptions = buildCoverageRuntimeOptions({ maxActionsFallback: maxQueries });
