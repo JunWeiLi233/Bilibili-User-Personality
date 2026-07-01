@@ -212,7 +212,7 @@ async function main() {
 
   // ── Harvest loop params ──────────────────────────────────
   const reportPath = process.env.BILIBILI_COVERAGE_LOOP_REPORT_PATH || DEFAULT_COVERAGE_LOOP_REPORT_PATH;
-  const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 10, 50);
+  const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 10, 1000);
   const roundsPerCycle = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE',
     positiveIntFromEnv('BILIBILI_HARVEST_ROUNDS', 1), 20);
   const maxQueries = positiveIntFromEnv('BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
