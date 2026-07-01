@@ -1079,66 +1079,66 @@ test('getEndpointBucket: respects BILIBILI_RATE_BURST and BILIBILI_RATE_SUSTAIN 
 });
 
 test('fetchJson: TokenBucket throttles 50-request burst — no -412 storm', async () => {
-	resetBilibiliRequestState();
-	let now = 0;
-	const requestTimestamps = [];
-	let blockCount = 0;
+  resetBilibiliRequestState();
+  let now = 0;
+  const requestTimestamps = [];
+  let blockCount = 0;
 
-	const options = {
-		env: {},
-		config: {
-			minDelayMs: 0,
-			jitterMs: 0,
-			blockCooldownMs: 0,
-			cacheTtlMs: 0,
-			longPauseProbability: 0,
-		},
-		nowFn: () => now,
-		randomFn: () => 0,
-		waitFn: async (ms) => { now += ms; },
-		fetchImpl: async () => {
-			requestTimestamps.push(now);
-			return { ok: true, json: async () => ({ code: 0, data: {} }) };
-		},
-	};
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 0,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => now,
+    randomFn: () => 0,
+    waitFn: async (ms) => { now += ms; },
+    fetchImpl: async () => {
+      requestTimestamps.push(now);
+      return { ok: true, json: async () => ({ code: 0, data: {} }) };
+    },
+  };
 
-	// Fire 50 requests sequentially — TokenBucket must serialize beyond burst
-	for (let i = 0; i < 50; i++) {
-		const result = await fetchJson(
-			`https://api.bilibili.com/x/v2/reply/main?oid=${i}&type=1&mode=3`,
-			'https://www.bilibili.com',
-			options,
-		);
-		if (isBilibiliBlockResponse(result)) blockCount++;
-	}
+  // Fire 50 requests sequentially — TokenBucket must serialize beyond burst
+  for (let i = 0; i < 50; i++) {
+    const result = await fetchJson(
+      `https://api.bilibili.com/x/v2/reply/main?oid=${i}&type=1&mode=3`,
+      'https://www.bilibili.com',
+      options,
+    );
+    if (isBilibiliBlockResponse(result)) blockCount++;
+  }
 
-	assert.equal(requestTimestamps.length, 50);
-	assert.equal(blockCount, 0, 'No -412 block responses should occur');
+  assert.equal(requestTimestamps.length, 50);
+  assert.equal(blockCount, 0, 'No -412 block responses should occur');
 
-	// First 10 requests at t=0 (burst=10 for /x/v2/reply/main)
-	for (let i = 0; i < 10 && i < requestTimestamps.length; i++) {
-		assert.equal(requestTimestamps[i], 0, `Request ${i} should fire at burst (t=0)`);
-	}
+  // First 10 requests at t=0 (burst=10 for /x/v2/reply/main)
+  for (let i = 0; i < 10 && i < requestTimestamps.length; i++) {
+    assert.equal(requestTimestamps[i], 0, `Request ${i} should fire at burst (t=0)`);
+  }
 
-	// After burst, sustain=3/sec → ~333ms between requests.
-	// Every gap from request 11 onward must be ≥ 250ms (allow small float tolerance).
-	for (let i = 10; i < requestTimestamps.length; i++) {
-		const gap = requestTimestamps[i] - requestTimestamps[i - 1];
-		assert.ok(
-			gap >= 250,
-			`Request ${i} fired only ${gap}ms after request ${i - 1} — expected ≥ ~333ms (sustain=3/sec)`,
-		);
-	}
+  // After burst, sustain=3/sec → ~333ms between requests.
+  // Every gap from request 11 onward must be ≥ 250ms (allow small float tolerance).
+  for (let i = 10; i < requestTimestamps.length; i++) {
+    const gap = requestTimestamps[i] - requestTimestamps[i - 1];
+    assert.ok(
+      gap >= 250,
+      `Request ${i} fired only ${gap}ms after request ${i - 1} — expected ≥ ~333ms (sustain=3/sec)`,
+    );
+  }
 
-	// Also verify: all 40 post-burst requests together take at least 12s
-	// (40 tokens / 3 per sec ≈ 13.3s; allow 11s min for rounding)
-	const postBurstSpan = requestTimestamps[49] - requestTimestamps[9];
-	assert.ok(
-		postBurstSpan >= 11000,
-		`40 post-burst requests spanned only ${postBurstSpan}ms, expected ≥ 11000ms`,
-	);
+  // Also verify: all 40 post-burst requests together take at least 12s
+  // (40 tokens / 3 per sec ≈ 13.3s; allow 11s min for rounding)
+  const postBurstSpan = requestTimestamps[49] - requestTimestamps[9];
+  assert.ok(
+    postBurstSpan >= 11000,
+    `40 post-burst requests spanned only ${postBurstSpan}ms, expected ≥ 11000ms`,
+  );
 
-	resetBilibiliRequestState();
+  resetBilibiliRequestState();
 });
 
 // ── Problem 2: ProxyRotator tests ─────────────────────────────────────────────
@@ -1789,66 +1789,66 @@ test('getEndpointBucket: respects BILIBILI_RATE_BURST and BILIBILI_RATE_SUSTAIN 
 });
 
 test('fetchJson: TokenBucket throttles 50-request burst — no -412 storm', async () => {
-	resetBilibiliRequestState();
-	let now = 0;
-	const requestTimestamps = [];
-	let blockCount = 0;
+  resetBilibiliRequestState();
+  let now = 0;
+  const requestTimestamps = [];
+  let blockCount = 0;
 
-	const options = {
-		env: {},
-		config: {
-			minDelayMs: 0,
-			jitterMs: 0,
-			blockCooldownMs: 0,
-			cacheTtlMs: 0,
-			longPauseProbability: 0,
-		},
-		nowFn: () => now,
-		randomFn: () => 0,
-		waitFn: async (ms) => { now += ms; },
-		fetchImpl: async () => {
-			requestTimestamps.push(now);
-			return { ok: true, json: async () => ({ code: 0, data: {} }) };
-		},
-	};
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 0,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => now,
+    randomFn: () => 0,
+    waitFn: async (ms) => { now += ms; },
+    fetchImpl: async () => {
+      requestTimestamps.push(now);
+      return { ok: true, json: async () => ({ code: 0, data: {} }) };
+    },
+  };
 
-	// Fire 50 requests sequentially — TokenBucket must serialize beyond burst
-	for (let i = 0; i < 50; i++) {
-		const result = await fetchJson(
-			`https://api.bilibili.com/x/v2/reply/main?oid=${i}&type=1&mode=3`,
-			'https://www.bilibili.com',
-			options,
-		);
-		if (isBilibiliBlockResponse(result)) blockCount++;
-	}
+  // Fire 50 requests sequentially — TokenBucket must serialize beyond burst
+  for (let i = 0; i < 50; i++) {
+    const result = await fetchJson(
+      `https://api.bilibili.com/x/v2/reply/main?oid=${i}&type=1&mode=3`,
+      'https://www.bilibili.com',
+      options,
+    );
+    if (isBilibiliBlockResponse(result)) blockCount++;
+  }
 
-	assert.equal(requestTimestamps.length, 50);
-	assert.equal(blockCount, 0, 'No -412 block responses should occur');
+  assert.equal(requestTimestamps.length, 50);
+  assert.equal(blockCount, 0, 'No -412 block responses should occur');
 
-	// First 10 requests at t=0 (burst=10 for /x/v2/reply/main)
-	for (let i = 0; i < 10 && i < requestTimestamps.length; i++) {
-		assert.equal(requestTimestamps[i], 0, `Request ${i} should fire at burst (t=0)`);
-	}
+  // First 10 requests at t=0 (burst=10 for /x/v2/reply/main)
+  for (let i = 0; i < 10 && i < requestTimestamps.length; i++) {
+    assert.equal(requestTimestamps[i], 0, `Request ${i} should fire at burst (t=0)`);
+  }
 
-	// After burst, sustain=3/sec → ~333ms between requests.
-	// Every gap from request 11 onward must be ≥ 250ms (allow small float tolerance).
-	for (let i = 10; i < requestTimestamps.length; i++) {
-		const gap = requestTimestamps[i] - requestTimestamps[i - 1];
-		assert.ok(
-			gap >= 250,
-			`Request ${i} fired only ${gap}ms after request ${i - 1} — expected ≥ ~333ms (sustain=3/sec)`,
-		);
-	}
+  // After burst, sustain=3/sec → ~333ms between requests.
+  // Every gap from request 11 onward must be ≥ 250ms (allow small float tolerance).
+  for (let i = 10; i < requestTimestamps.length; i++) {
+    const gap = requestTimestamps[i] - requestTimestamps[i - 1];
+    assert.ok(
+      gap >= 250,
+      `Request ${i} fired only ${gap}ms after request ${i - 1} — expected ≥ ~333ms (sustain=3/sec)`,
+    );
+  }
 
-	// Also verify: all 40 post-burst requests together take at least 12s
-	// (40 tokens / 3 per sec ≈ 13.3s; allow 11s min for rounding)
-	const postBurstSpan = requestTimestamps[49] - requestTimestamps[9];
-	assert.ok(
-		postBurstSpan >= 11000,
-		`40 post-burst requests spanned only ${postBurstSpan}ms, expected ≥ 11000ms`,
-	);
+  // Also verify: all 40 post-burst requests together take at least 12s
+  // (40 tokens / 3 per sec ≈ 13.3s; allow 11s min for rounding)
+  const postBurstSpan = requestTimestamps[49] - requestTimestamps[9];
+  assert.ok(
+    postBurstSpan >= 11000,
+    `40 post-burst requests spanned only ${postBurstSpan}ms, expected ≥ 11000ms`,
+  );
 
-	resetBilibiliRequestState();
+  resetBilibiliRequestState();
 });
 
 // ── Problem 2: ProxyRotator tests ─────────────────────────────────────────────
