@@ -31,7 +31,6 @@ import {
   ShieldWarning,
   WarningCircle,
 } from '@phosphor-icons/react';
-import { buildRiskLexiconText, isMemeOrQuotedNonAttackText } from './languageUnderstanding.js';
 import SearchBox from './components/SearchBox.jsx';
 import './styles.css';
 
@@ -58,23 +57,6 @@ const GANGJING_SUBTYPES = {
 
 const INVERSE_AXES = new Set([]); // Ziegenbein: all 4 axes are deficiency measures (higher = more problematic)
 
-const analysisModes = [
-  {
-    id: 'hybrid',
-    label: '智能融合',
-    description: '语义理解 + 关键词匹配双引擎，综合判断更靠谱。（推荐）',
-  },
-  {
-    id: 'semantic',
-    label: '语境分析',
-    description: '重点看意图：在对谁说话、有没有回应原帖、给没给理由、愿不愿改口。',
-  },
-  {
-    id: 'lexicon',
-    label: '词库模式',
-    description: '只看可查证的关键词命中——结果最透明，但遇到新梗要等词库更新。',
-  },
-];
 
 const axisDescriptions = {
   情绪过激: '说话时有没有从讨论观点滑向人身攻击、扣帽子、贴标签——典型的”对人不对事”。比如翻对方主页查成分、质疑对方有没有资格说话。',
@@ -189,73 +171,6 @@ const lexiconFamilies = [
   },
 ];
 
-const speechActRules = [
-  {
-    act: '人身攻击 / 资格审查',
-    type: '情绪输出',
-    severity: '高',
-    target: '人',
-    pattern: /(你懂|你连|智商|脑子|洗傻|小丑|蠢|急了|典|孝|绷|笑死|你配|你也配|你算老几|你什么东西|你来|你行你上|就你|你这种|你个|看你主页|翻你动态|查成分|你主子|你爹|孝子|逆天|闹麻了|唐|啥狗|出生|急了急了|破防|这就破防|急成这样).{0,20}/,
-    diagnosis: '对人不对话——翻主页、扣帽子、质疑资格，是在羞辱人而不是在讨论问题。',
-    deltas: { toxicEmotions: 28, cooperation: -18, logic: -10 },
-  },
-  {
-    act: '扣立场 / 动机揣测',
-    type: '偷换概念',
-    severity: '高',
-    target: '动机',
-    pattern: /(其实就是|所以你就是|给资本|洗地|收钱|屁股|站队|水军|五毛|美分|粉红|小粉红|精外|洋奴|殖人|1450|来电了|蛙|湾湾|神神|兔兔|你国|贵国|境外势力|恰饭|恰烂钱|广告费|收了多少|到账).{0,22}/,
-    diagnosis: '把观点偷换成立场——"你说A是因为你站B，所以A不用讨论了"。',
-    deltas: { toxicEmotions: 20, logic: -24, cooperation: -14 },
-  },
-  {
-    act: '甩举证责任',
-    type: '缺证据',
-    severity: '中',
-    target: '证明责任',
-    pattern: /(你自己搜|自己查|懂的都懂|这还用问|懒得解释|不解释|百度一下|不会百度|问百度|去百度|自己去找|不会搜|搜一下不会|这都不知道|常识|不用我教|自己学|去看书|多读书|这还用说|这都不懂).{0,20}/,
-    diagnosis: '自己说了观点却让别人去查——谁主张谁举证，凭什么让别人替你找证据。',
-    deltas: { evidence: -28, cooperation: -10 },
-  },
-  {
-    act: '一棍子打死',
-    type: '逻辑硬伤',
-    severity: '中',
-    target: '命题范围',
-    pattern: /(所有|全部|都是|没有一个|哪个不是|从来|永远|根本|全都|一律|无一例外|百分百|百分之一百|任何人|谁都|没人|没有人|没有一个人|没有哪个|从古至今|自古以来|历来).{0,24}/,
-    diagnosis: '拿个例当全部——从"有的"直接跳到"全都"，跳过中间所有限定条件。',
-    deltas: { closure: 26, logic: -20 },
-  },
-  {
-    act: '铁口直断不给证据',
-    type: '事实存疑',
-    severity: '中',
-    target: '事实',
-    pattern: /(早就没有|不可能|必然|肯定|绝对|毫无疑问|毋庸置疑|不用怀疑|不可能是|肯定是|绝对是|很明显|明摆着|众所周知|大家都知道|谁不知道|不用想|毫无疑问地|确定无疑).{0,24}/,
-    diagnosis: '语气很笃定但没给任何可查的来源——"大家都知道"可不算是证据。',
-    deltas: { closure: 18, evidence: -16, logic: -10 },
-  },
-  {
-    act: '留余地 / 讲道理',
-    type: '正常讨论',
-    severity: '低',
-    target: '观点',
-    pattern: /(可能|不一定|如果|我理解|能否|可以贴|补充|限定|或许|大概|也许|有可能|据我所知|就我所见|以我目前|暂时|目前看来|现阶段|这里有一个|让我补充|提供一下|仅供参考|个人看法|在我看来|我的理解).{0,24}/,
-    diagnosis: '加了限定词、留了余地——说明是在认真讨论，而不是硬杠到底。',
-    deltas: { cooperation: 24, evidence: 8, closure: -10 },
-    positive: true,
-  },
-  {
-    act: '认错 / 改口',
-    type: '正常讨论',
-    severity: '低',
-    target: '自我修正',
-    pattern: /(我错了|我说重了|更正|修正|改结论|承认|说错了|搞错了|弄错了|记错了|确实|你说得对|受教|学习|感谢指正|谢谢指正|有道理|你说的有道理|这倒也是|那倒也对|收回|前面说错|之前说错|是我搞混).{0,24}/,
-    diagnosis: '能承认错误或改口——这是区分正常讨论者和杠精的关键信号。',
-    deltas: { correction: 32, cooperation: 12 },
-    positive: true,
-  },
-];
 
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, value));
 
@@ -330,189 +245,6 @@ function mergeDictionaryFamilies(currentLexicon, families = {}) {
   );
 }
 
-function splitComments(text) {
-  return text
-    .split(/\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
-
-function countMatches(text, terms) {
-  if (!Array.isArray(terms)) return 0;
-  return terms.reduce((sum, term) => sum + (term ? text.split(term).length - 1 : 0), 0);
-}
-
-function perThousand(text, terms) {
-  return (countMatches(text, terms) / Math.max(text.length, 1)) * 1000;
-}
-
-function classifySpeechAct(comment, index, totalComments) {
-  const isMeme = isMemeOrQuotedNonAttackText(comment);
-  // Still run speech act rules on meme-flagged text \u2014 memes can contain real attacks.
-  // The meme flag reduces confidence and softens deltas instead of gateing entirely.
-  const matched = speechActRules
-    .map((rule) => {
-      const match = comment.match(rule.pattern);
-      if (!match) return null;
-      // Halve deltas and reduce confidence for meme-flagged comments
-      const memeDeltas = isMeme && !rule.positive
-        ? Object.fromEntries(Object.entries(rule.deltas).map(([k, v]) => [k, Math.round(v * 0.5)]))
-        : rule.deltas;
-      return {
-        id: `semantic-${index}-${rule.act}`,
-        source: '语境分析',
-        speechAct: rule.act,
-        target: rule.target,
-        type: rule.type,
-        severity: rule.severity,
-        comment,
-        highlight: match[0].trim(),
-        diagnosis: `${rule.act}。${rule.diagnosis}${isMeme ? '（含梗图/引用语境，降低权重）' : ''}`,
-        evidence: `第 ${index + 1}/${totalComments} 条评论命中语义规则；重点检查它是否仍在回应原命题。`,
-        confidence: (rule.positive ? 0.64 : rule.severity === '高' ? 0.86 : 0.75) * (isMeme ? 0.7 : 1),
-        deltas: memeDeltas,
-        positive: rule.positive,
-      };
-    })
-    .filter(Boolean);
-
-  return matched.length > 0
-    ? matched
-    : [
-        {
-          id: `semantic-neutral-${index}`,
-          source: '语境分析',
-          speechAct: '普通观点表达',
-          target: '观点',
-          type: '未检出高风险错误',
-          severity: '低',
-          comment,
-          highlight: comment,
-          diagnosis: '未发现明显攻击、偷换概念、甩举证责任或过度绝对化。不过表达温和不代表观点正确，还要看说的内容本身。',
-          evidence: `第 ${index + 1}/${totalComments} 条评论未命中高风险规则。`,
-          confidence: 0.54,
-          deltas: {},
-          neutral: true,
-        },
-      ];
-}
-
-function findLexiconMarks(comment, index, totalComments, runtimeLexicon) {
-  const marks = [];
-  const memeNonAttack = isMemeOrQuotedNonAttackText(comment);
-  // High-FP terms: common discourse markers or context-dependent terms
-  // that generate too many false positives when classified as attacks
-  const highFpTerms = new Set([
-    '不是', '我去', '路过', '酸了', '死了', '呵呵', '刀了', '刷屏',
-    '送走', '应激', 'p的', '厉不厉害', '辣眼', '辣眼睛',
-  ]);
-  // Short terms (1-2 chars) need word-boundary check to avoid false positives
-  // e.g. "都" matches "首都", "全" matches "安全", "可" matches "可爱"
-  const wordBoundaryRe = /[一-鿿぀-ゟ゠-ヿ\w]/;
-  for (const family of familyOrder) {
-    const meta = lexiconFamilyMeta[family];
-    const terms = runtimeLexicon[family] || [];
-    for (const term of terms) {
-      if (!term || !comment.includes(term)) continue;
-      if (memeNonAttack && meta.polarity === 'risk') continue;
-      // Skip known high-FP terms in risk families
-      if (meta.polarity === 'risk' && highFpTerms.has(term)) continue;
-      // Require word boundary for 1-2 char Chinese terms,
-      // but exempt risk-polarity terms (attack, absolutes, evasion)
-      // where the cost of a false negative outweighs a false positive.
-      // Check ALL occurrences — a term is valid if at least one occurrence
-      // has clean word boundaries (not just the first indexOf hit).
-      if (term.length <= 2 && /[一-鿿]/.test(term) && meta.polarity !== 'risk') {
-        let allBadBoundary = true;
-        let searchFrom = 0;
-        while (searchFrom < comment.length) {
-          const idx = comment.indexOf(term, searchFrom);
-          if (idx === -1) break;
-          const prev = idx > 0 ? comment[idx - 1] : '';
-          const next = idx + term.length < comment.length ? comment[idx + term.length] : '';
-          if (!wordBoundaryRe.test(prev) && !wordBoundaryRe.test(next)) {
-            allBadBoundary = false;
-            break;
-          }
-          searchFrom = idx + 1;
-        }
-        if (allBadBoundary) continue;
-      }
-      marks.push({
-        id: `lexicon-${index}-${family}-${term}`,
-        source: '词库匹配',
-        speechAct: `${meta.label}词汇标记`,
-        target: meta.axis,
-        type: meta.type,
-        severity: meta.severity,
-        comment,
-        highlight: term,
-        family,
-        axis: meta.axis,
-        polarity: meta.polarity,
-        diagnosis: `${meta.diagnosis} 词面命中只作为雷达辅助证据，不单独定性。`,
-        evidence: `第 ${index + 1}/${totalComments} 条评论命中字典词”${term}”（${meta.label}），已计入雷达「${meta.axis}」相关计算。`,
-        confidence: meta.polarity === 'risk' ? 0.64 : 0.6,
-      });
-    }
-  }
-  return [...new Map(marks.map((mark) => [`${mark.family}:${mark.highlight}`, mark])).values()].slice(0, 6);
-}
-
-function summarizeVocabularyMarks(marks) {
-  const grouped = new Map();
-  for (const mark of marks) {
-    const key = `${mark.family}:${mark.highlight}`;
-    const current = grouped.get(key) || {
-      term: mark.highlight,
-      family: mark.family,
-      label: lexiconFamilyMeta[mark.family]?.label || mark.family,
-      axis: mark.axis,
-      polarity: mark.polarity,
-      count: 0,
-    };
-    current.count += 1;
-    grouped.set(key, current);
-  }
-  return [...grouped.values()]
-    .sort((a, b) => b.count - a.count || familyOrder.indexOf(a.family) - familyOrder.indexOf(b.family))
-    .slice(0, 14);
-}
-
-function inferCandidateFamily(term, sourceLine) {
-  if (/[都全根必肯没无]/.test(term) || /(所有|全部|根本|肯定|必然)/.test(sourceLine)) return 'absolutes';
-  if (/(搜|查|解释|懂)/.test(term) || /(你自己搜|懂的都懂|懒得解释)/.test(sourceLine)) return 'evasion';
-  if (/(可能|如果|数据|来源|补充|更正)/.test(sourceLine)) return 'cooperation';
-  return 'attack';
-}
-
-function extractCandidateTerms(text, runtimeLexicon) {
-  const known = new Set(Object.values(runtimeLexicon).flat());
-  const stop = new Set(['这个', '不是', '就是', '一下', '观点', '评论', '数据', '来源', '如果', '可以', '没有', '因为']);
-  const candidates = new Map();
-  splitComments(text).forEach((line) => {
-    const compact = line.replace(/[^\u4e00-\u9fa5A-Za-z0-9]/g, '');
-    for (let size = 2; size <= 4; size += 1) {
-      for (let index = 0; index <= compact.length - size; index += 1) {
-        const term = compact.slice(index, index + size);
-        if (known.has(term) || stop.has(term) || /^\d+$/.test(term)) continue;
-        const contextBoost = /你|都|全|洗|急|懂|孝|典|赢|绷|乐|搜|查|根|肯/.test(term) ? 2 : 1;
-        const item = candidates.get(term) || {
-          term,
-          score: 0,
-          sourceLine: line,
-          family: inferCandidateFamily(term, line),
-        };
-        item.score += contextBoost;
-        candidates.set(term, item);
-      }
-    }
-  });
-  return [...candidates.values()]
-    .filter((item) => item.score >= 2)
-    .sort((a, b) => b.score - a.score || b.term.length - a.term.length)
-    .slice(0, 8);
-}
 
 function normalizeForRisk(score) {
   return INVERSE_AXES.has(score.axis) ? 100 - score.value : score.value;
@@ -551,287 +283,23 @@ function getTrollIndex(user) {
   // Re-run after collecting a stratified sample with >=30 positive annotations per axis
   // AND >=2 human annotators for reliable kappa.
   // See: python_backend/analysis/calibration.py, validation_metrics.py
+  //
+  // Architecture (2026-07-02): this is the LIVE trollIndex — the only one users see.
+  // Measured AUC 0.663 (CI [0.548, 0.777]) on the N=100 random sample (this file's
+  // raw axis scores, no calibration). server/services/headlessScorer.js is a SEPARATE
+  // offline eval scorer (calibrated input, AUC 0.659) used only by analysis scripts —
+  // it never serves this UI. The two are independent implementations, ranking-equivalent
+  // but scale-divergent ([25,49] here vs [1,10] there). See
+  // .claude/random_sampling_eval/VALIDITY_SUMMARY.md.
   const weights = {
   情绪过激: 0.28,
   回避讨论: 0.25,
   逻辑混乱: 0.27,
   其他问题: 0.20,
-}
+};
   return Math.round(
     user.scores.reduce((sum, score) => sum + normalizeForRisk(score) * weights[score.axis], 0),
   );
-}
-
-/**
- * Merge semantic similarity matches into the lexicon marks array.
- * Each semanticMatch is [{term, family, score}, ...] per comment.
- * Converts to the same shape as findLexiconMarks output.
- */
-function mergeSemanticMatches(lexiconMarks, semanticMatches, comments, familyMeta) {
-  const existingKeys = new Set(lexiconMarks.map((m) => `${m.family}:${m.highlight}`));
-  const semanticMarks = [];
-  for (let i = 0; i < Math.min(semanticMatches.length, comments.length); i++) {
-    const matches = semanticMatches[i] || [];
-    for (const match of matches) {
-      const key = `${match.family}:${match.term}`;
-      if (existingKeys.has(key)) continue; // don't duplicate exact matches
-      existingKeys.add(key);
-      const meta = familyMeta[match.family] || {};
-      semanticMarks.push({
-        id: `semantic-${i}-${match.family}-${match.term}`,
-        source: '语义匹配',
-        speechAct: `${meta.label || match.family}语义标记`,
-        target: meta.axis || '语义相关',
-        type: meta.type || '语义线索',
-        severity: meta.severity || '低',
-        comment: comments[i] || '',
-        highlight: match.term,
-        family: match.family,
-        axis: meta.axis || '语义相关',
-        polarity: meta.polarity || 'support',
-        diagnosis: `语义相似匹配命中词"${match.term}"（相似度 ${(match.similarity || match.score || 0).toFixed(2)}），作为辅助语义证据。`,
-        evidence: `第 ${i + 1}/${comments.length} 条评论语义匹配到字典词"${match.term}"（${meta.label || match.family}）`,
-        confidence: (meta.polarity === 'risk' ? 0.58 : 0.54) * Math.min((match.similarity || match.score || 0.72), 1),
-      });
-    }
-  }
-  return [...lexiconMarks, ...semanticMarks];
-}
-
-let _scoreCounter = 0;
-
-/**
- * Score a user's comments through the selected analysis pipeline.
- *
- * Splits input text into individual comments, runs lexicon matching
- * and/or semantic classification (depending on analysisMode), computes
- * per-axis scores normalized to 0–100, and returns a structured result
- * suitable for radar/bar chart rendering.
- *
- * @param {object} params
- * @param {string} params.name — display name
- * @param {string} params.uid — Bilibili user mid
- * @param {string} params.text — raw comment text (newline-separated)
- * @param {string} params.source — data source label
- * @param {object} [params.runtimeLexicon] — keyword lexicon for matching
- * @param {'hybrid'|'semantic'|'lexicon'} [params.analysisMode] — analysis pipeline
- * @param {Array|null} [params.semanticMatches] — pre-computed semantic matches
- * @returns {{ name, uid, text, source, scores: object, comments: Array, ... }}
- */
-function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons, analysisMode = 'hybrid', semanticMatches = null }) {
-  const comments = splitComments(text);
-  const joined = comments.join('\n');
-  const riskLexiconText = buildRiskLexiconText(comments);
-  const total = Math.max(comments.length, 1);
-  const density = (terms) => countMatches(joined, terms) / total;
-  const riskDensity = (terms) => countMatches(riskLexiconText, terms) / total;
-  const semanticActs = comments.flatMap((comment, index) => classifySpeechAct(comment, index, total));
-  const negativeActs = semanticActs.filter((act) => !act.positive && !act.neutral);
-  const positiveActs = semanticActs.filter((act) => act.positive);
-  const lexiconMarks = comments.flatMap((comment, index) => findLexiconMarks(comment, index, total, runtimeLexicon));
-  // Merge semantic matches into lexicon marks when available
-  const allLexiconMarks = semanticMatches && semanticMatches.length
-    ? mergeSemanticMatches(lexiconMarks, semanticMatches, comments, lexiconFamilyMeta)
-    : lexiconMarks;
-  const riskLexiconMarks = allLexiconMarks.filter((mark) => mark.polarity === 'risk');
-  const vocabularyMarks = summarizeVocabularyMarks(allLexiconMarks);
-
-  // ——— Corpus-derived baseline seeds ———
-  // Provenance: per-axis median keyword density from 100-user personality analysis
-  // corpus (179,628 messages: 25,753 comments + 153,875 danmaku).
-  // These baselines are the neutral starting point BEFORE speech-act rule deltas
-  // and keyword density multipliers are applied.
-  // Logistic regression attempted 2026-06-28 on 182 stratified A1+A2 annotations:
-  // all weights uniform [0.25,0.25,0.25,0.25] (insufficient positives per axis).
-  // Corpus-derived P50 baselines retained. Cohen's kappa A1/A2: 0.00-0.28 (low).
-  // See: python_backend/analysis/calibration.py, .claude/annotation_data/kappa_report.json
-  const semanticSeed = {
-    toxicEmotions: 26,            // P50=6 attack density; seed elevated for rule-engine headroom
-    missingCommitment: 28,        // P50=28 evasion/correction/coop balance (↑ from 20, aligned with corpus)
-    missingIntelligibility: 44,   // P50=44 absolutes/evidence ratio (↑ from 35, aligned with corpus)
-    otherReasons: 10,             // residual category; no direct density proxy
-  };
-
-  semanticActs.forEach((act) => {
-    Object.entries(act.deltas || {}).forEach(([key, value]) => {
-      if (semanticSeed[key] !== undefined) semanticSeed[key] = clamp(semanticSeed[key] + value);
-    });
-  });
-
-  // ——— Corpus-derived keyword density formula ———
-  // Each formula: base + densityMultiplier * riskDensity(terms) + perThousand boost - inverse indicators.
-  // Density multipliers scaled from per-axis item-total correlations in validateScoring.js:
-  //   toxicEmotions: r=0.81 (strong) → multiplier 24
-  //   missingCommitment: r=-0.06 (negligible) → formula retained for continuity
-  //   missingIntelligibility: r=0.55 (moderate) → multiplier 18
-  //   otherReasons: r=0.91 (strong) → purely count-based (residual category)
-  // Inverse indicators: correction/cooperation/evidence density reduces risk score.
-  // Logistic regression on 182 stratified annotations yielded uniform weights (insufficient
-  // positive examples). Corpus-derived multipliers retained until >=30 positive per axis.
-  const lexiconSeed = {
-    toxicEmotions: clamp(28 + riskDensity(runtimeLexicon.attack) * 24 + perThousand(riskLexiconText, runtimeLexicon.attack) * 2.8),
-    missingCommitment: clamp(28 + riskDensity(runtimeLexicon.evasion) * 22 - density(runtimeLexicon.correction) * 14 - density(runtimeLexicon.cooperation) * 8),
-    missingIntelligibility: clamp(44 + riskDensity(runtimeLexicon.absolutes) * 18 + perThousand(riskLexiconText, runtimeLexicon.absolutes) * 2.2 - density(runtimeLexicon.evidence) * 10 + (riskLexiconMarks.length / total) * 12),
-    otherReasons: clamp(10 + (riskLexiconMarks.length / total) * 8),
-  };
-
-  // ——— OECD/JRC composite indicator blend ———
-  // Equal-weight (0.5/0.5) semantic+lexicon blend per the OECD/JRC (2008) handbook
-  // recommendation: when sub-indices have unknown relative precision, equal weighting
-  // is the least-arbitrary default. Weights learned from 182 stratified labels (logistic regression; features non-discriminating at current sample richness).
-  const mix = (key) => {
-    if (analysisMode === 'semantic') return semanticSeed[key];
-    if (analysisMode === 'lexicon') return lexiconSeed[key];
-    return semanticSeed[key] * 0.5 + lexiconSeed[key] * 0.5;
-  };
-
-  // ——— Inter-rater reliability (Cohen's κ) ———
-  // Source: DeepSeek 3-annotator majority-consensus on 300 argumentative-filtered comments (2026-06-28).
-  // Computed via: python -m python_backend.analysis.validation_metrics
-  //   --input .claude/annotation_data/argumentative_candidates.json
-  //   --annotators A1,A2,A3 --consensus majority --full-report
-  // Output: .claude/annotation_data/kappa_argumentative_300.json
-  //
-  // POST_KAPPA_IMPROVEMENT_PLAN.md Step 1 (2026-06-28): 3-annotator validation at n=300.
-  // A1 (balanced, n=300): full 0-2 range
-  // A2 (calibrated, n=300): evidence-based — mark ≥1 only with specific word evidence
-  // A3 (consensus, n=300): sees A1+A2 ratings and reconciles
-  // Positive annotations: A1=63/32/16/11, A2=58/12/6/9, A3=66/27/9/8
-  // Consensus κ: average of A1/A2/A3 vs majority consensus
-  //
-  // Gate: ≥3 of 4 axes with consensus κ > 0.6. PASSED: 4/4 axes ≥ 0.6 at n=300.
-  //
-  // Thresholds:
-  //   κ >= 0.6 → "可信" (trusted) — Landis & Koch "substantial"
-  //   κ >= 0.4 → "中置信度" (moderate) — Landis & Koch "moderate"
-  //   κ < 0.4  → "低置信度" (low-confidence)
-  //   null      → "待标注" (pending)
-  const kappaStatus = {
-    toxicEmotions: 0.84,           // consensus κ=0.842 — substantial (n=300, A1+/A2+/A3+: 63/58/66)
-    missingCommitment: 0.75,       // consensus κ=0.752 — substantial (n=300, A1+/A2+/A3+: 32/12/27)
-    missingIntelligibility: 0.69,  // consensus κ=0.689 — substantial (n=300, A1+/A2+/A3+: 16/6/9)
-    otherReasons: 0.70,            // consensus κ=0.699 — substantial (n=300, A1+/A2+/A3+: 11/9/8)
-  };
-  // All 4 axes ≥ 0.6 at n=300 — production-grade inter-rater reliability confirmed
-  const kappaDataLimited = {
-    toxicEmotions: false,
-    missingCommitment: false,
-    missingIntelligibility: false,
-    otherReasons: false,
-  };
-
-  const scores = [
-    {
-      axis: '情绪过激',
-      category: 'toxicEmotions',
-      value: mix('toxicEmotions'),
-      benchmark: 48,
-      // κ from validation_metrics.py — n=300 consensus (2026-06-28)
-      kappa: kappaStatus.toxicEmotions,
-      kappaLabel: kappaStatus.toxicEmotions === null ? '评分者一致性: 待标注' :
-        kappaStatus.toxicEmotions >= 0.6 ? `评分者一致性: κ=${kappaStatus.toxicEmotions.toFixed(2)} (可信)` :
-        kappaStatus.toxicEmotions >= 0.4 ? `评分者一致性: κ=${kappaStatus.toxicEmotions.toFixed(2)} (中置信度)` :
-        `评分者一致性: κ=${kappaStatus.toxicEmotions.toFixed(2)} (低置信度)`,
-      kappaVariant: kappaStatus.toxicEmotions === null ? 'pending' :
-        kappaStatus.toxicEmotions >= 0.6 ? 'trusted' :
-        kappaStatus.toxicEmotions >= 0.4 ? 'moderate' : 'low-confidence',
-      note: `情绪过激（Toxic Emotions）— 检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典命中攻击类标记 ${allLexiconMarks.filter((mark) => mark.family === 'attack').length} 次。含”无理型”纯情绪宣泄。`,
-    },
-    {
-      axis: '回避讨论',
-      category: 'missingCommitment',
-      value: mix('missingCommitment'),
-      benchmark: 44,
-      kappa: kappaStatus.missingCommitment,
-      kappaLabel: kappaStatus.missingCommitment === null ? '评分者一致性: 待标注' :
-        kappaStatus.missingCommitment >= 0.6 ? `评分者一致性: κ=${kappaStatus.missingCommitment.toFixed(2)} (可信)` :
-        kappaStatus.missingCommitment >= 0.4 ? `评分者一致性: κ=${kappaStatus.missingCommitment.toFixed(2)} (中置信度)` :
-        `评分者一致性: κ=${kappaStatus.missingCommitment.toFixed(2)} (低置信度)`,
-      kappaVariant: kappaStatus.missingCommitment === null ? 'pending' :
-        kappaStatus.missingCommitment >= 0.6 ? 'trusted' :
-        kappaStatus.missingCommitment >= 0.4 ? 'moderate' : 'low-confidence',
-      note: `回避讨论（Missing Commitment）— 拒绝举证 ${countMatches(joined, runtimeLexicon.evasion)} 次；主动修正 ${countMatches(joined, runtimeLexicon.correction)} 次为正向指标。含”诉诸无知型”模式。`,
-    },
-    {
-      axis: '逻辑混乱',
-      category: 'missingIntelligibility',
-      value: mix('missingIntelligibility'),
-      benchmark: 52,
-      kappa: kappaStatus.missingIntelligibility,
-      kappaLabel: kappaStatus.missingIntelligibility === null ? '评分者一致性: 待标注' :
-        kappaStatus.missingIntelligibility >= 0.6 ? `评分者一致性: κ=${kappaStatus.missingIntelligibility.toFixed(2)} (可信)` :
-        kappaStatus.missingIntelligibility >= 0.4 ? `评分者一致性: κ=${kappaStatus.missingIntelligibility.toFixed(2)} (中置信度)` :
-        `评分者一致性: κ=${kappaStatus.missingIntelligibility.toFixed(2)} (低置信度)`,
-      kappaVariant: kappaStatus.missingIntelligibility === null ? 'pending' :
-        kappaStatus.missingIntelligibility >= 0.6 ? 'trusted' :
-        kappaStatus.missingIntelligibility >= 0.4 ? 'moderate' : 'low-confidence',
-      note: `逻辑混乱（Missing Intelligibility）— 全称断言 ${allLexiconMarks.filter((mark) => mark.family === 'absolutes').length} 次；给出证据词 ${countMatches(joined, runtimeLexicon.evidence)} 次为正向指标；高风险标记共 ${riskLexiconMarks.length} 条。`,
-    },
-    {
-      axis: '其他问题',
-      category: 'otherReasons',
-      value: mix('otherReasons'),
-      benchmark: 30,
-      kappa: kappaStatus.otherReasons,
-      kappaLabel: kappaStatus.otherReasons === null ? '评分者一致性: 待标注' :
-        kappaStatus.otherReasons >= 0.6 ? `评分者一致性: κ=${kappaStatus.otherReasons.toFixed(2)} (可信)` :
-        kappaStatus.otherReasons >= 0.4 ? `评分者一致性: κ=${kappaStatus.otherReasons.toFixed(2)} (中置信度)` :
-        `评分者一致性: κ=${kappaStatus.otherReasons.toFixed(2)} (低置信度)`,
-      kappaVariant: kappaStatus.otherReasons === null ? 'pending' :
-        kappaStatus.otherReasons >= 0.6 ? 'trusted' :
-        kappaStatus.otherReasons >= 0.4 ? 'moderate' : 'low-confidence',
-      note: `其他问题（Other Reasons）— 兜底分类，捕获其余不当表达。语义分析检出 ${negativeActs.length} 条综合高风险表达。`,
-    },
-  ].map((score) => ({ ...score, value: Math.round(clamp(score.value)) }));
-
-  const primaryErrors =
-    analysisMode === 'lexicon'
-      ? lexiconMarks
-      : [...negativeActs, ...(analysisMode === 'hybrid' ? lexiconMarks.slice(0, 4) : [])];
-
-  const fallbackErrors =
-    primaryErrors.length > 0
-      ? primaryErrors
-      : [
-          {
-            id: 'generated-empty',
-            source: analysisMode === 'lexicon' ? '词库匹配' : '语境分析',
-            speechAct: '未检出高风险表达',
-            target: '观点',
-            type: '未检出高风险错误',
-            severity: '低',
-            comment: comments[0] || '当前样本为空或缺少可分析评论。',
-            highlight: comments[0] || '当前样本为空或缺少可分析评论。',
-            diagnosis: '当前样本没有明显攻击、偷换概念、甩举证责任或过度绝对化。低风险不等于观点正确，只是说明这段评论里缺少高冲突语言。',
-            evidence: `已检查 ${comments.length} 条评论。`,
-            confidence: 0.58,
-          },
-        ];
-
-  // Confidence replaced with honest sample count — no fake formula.
-  const confidence = comments.length;
-
-  return {
-    id: `generated-${Date.now()}-${++_scoreCounter}-${analysisMode}`,
-    uid: uid || '自定义样本',
-    name: name || '自定义 B 站用户',
-    bio: source || '由粘贴评论样本即时生成',
-    sampleSize: comments.length,
-    analyzed: comments.length,
-    confidence,
-    stanceSwitchRate: clamp((positiveActs.length + countMatches(joined, runtimeLexicon.correction)) / Math.max(total * 2, 1), 0, 1),
-    disagreementRate: clamp((negativeActs.length + riskLexiconMarks.length * 0.35) / Math.max(total, 1), 0, 1),
-    engineLabel: analysisModes.find((mode) => mode.id === analysisMode)?.label || '混合模式',
-    speechSummary: {
-      negative: negativeActs.length,
-      positive: positiveActs.length,
-      lexicon: lexiconMarks.length,
-      mode: analysisMode,
-    },
-    vocabularyMarks,
-    scores,
-    errors: fallbackErrors,
-  };
 }
 
 function BarChartSmallMultiples({ scores }) {
@@ -1297,14 +765,26 @@ function App() {
         } catch (semError) {
           console.warn('Semantic matching unavailable, using exact match only:', semError.message);
         }
-        const generated = scoreComments({
-          name: `UID ${user.uid}`,
-          uid: `mid ${user.uid}`,
-          text: nextCommentText,
-          runtimeLexicon: learnedRuntimeLexicon,
-          analysisMode: effectiveMode,
-          semanticMatches,
+        // Canonical scorer: headlessScorer.scoreComments, exposed via
+        // POST /api/deepseek/score (PR #39). calibrate:false keeps the raw
+        // 0-100 scale the UI's risk bands expect. This replaces the inlined
+        // fork so live scores can never drift from the validated implementation.
+        const scoreResp = await fetch('/api/deepseek/score', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            name: `UID ${user.uid}`,
+            uid: `mid ${user.uid}`,
+            text: nextCommentText,
+            runtimeLexicon: learnedRuntimeLexicon,
+            analysisMode: effectiveMode,
+            semanticMatches,
+            calibrate: false,
+          }),
         });
+        const scoreData = await scoreResp.json();
+        if (!scoreData.ok) throw new Error(scoreData.error || '评分失败');
+        const generated = scoreData.result;
         setProfiles([generated]);
         setSelectedId(generated.id);
         setActiveError('全部');

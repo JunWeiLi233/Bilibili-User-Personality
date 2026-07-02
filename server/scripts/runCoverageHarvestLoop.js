@@ -556,9 +556,9 @@ const cycles = [];
 let audit = await buildAudit(auditOptions);
 let stopReason = audit.ok ? 'coverage_gate_passed' : maxCycles === 0 ? 'cycle_limit' : '';
 console.log('Coverage harvest loop');
-	if (!process.env.BILIBILI_COOKIE || !process.env.BILIBILI_COOKIE.trim()) {
-	  console.warn('[33m⚠ BILIBILI_COOKIE not set — authenticated requests get 5–10× higher rate limits. Set a logged-in session cookie for best throughput.[0m');
-	}
+  if (!process.env.BILIBILI_COOKIE || !process.env.BILIBILI_COOKIE.trim()) {
+    console.warn('[33m⚠ BILIBILI_COOKIE not set — authenticated requests get 5–10× higher rate limits. Set a logged-in session cookie for best throughput.[0m');
+  }
 console.log(`DeepSeek model: ${process.env.DEEPSEEK_MODEL}`);
 console.log(`DeepSeek reasoning effort: ${process.env.DEEPSEEK_REASONING_EFFORT}`);
 console.log(`Initial coverage: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);

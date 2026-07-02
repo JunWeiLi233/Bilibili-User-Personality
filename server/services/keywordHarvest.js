@@ -3307,16 +3307,6 @@ async function firecrawlFallbackSearch(term) {
 // bucket and dictionary merges serialize in mergeEntriesIntoDictionary, so
 // parallelism never raises the Bilibili request rate or corrupts the dictionary.
 // concurrency=1 reproduces the original strictly sequential run.
-// Bounded worker pool over the harvest plan. The synchronous read-increment of
-// `cursor` (no await between them) makes index handout atomic on the JS event
-// loop, so no two runners ever receive the same plan index.
-//
-// Concurrency cost note (queryConcurrency > 1): overlapping queries also
-// overlap their DeepSeek validation calls (~N× in-flight model calls), which
-// raises DeepSeek-side rate-limit pressure (1302 / model limits). The Bilibili
-// request rate itself stays capped by the per-endpoint token bucket in
-// bilibiliCrawler.js (which serializes concurrent takers), so overlap adds
-// model pressure, not Bilibili request bursts.
 async function runHarvestQueriesBounded(plan, concurrency, worker) {
   const limit = Math.max(1, Math.min(concurrency, plan.length || 1));
   let cursor = 0;
@@ -3348,12 +3338,6 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const stateStrategyIsCurrent = hasCurrentHarvestStrategyState(state);
   const searchedQuerySet = new Set(stateStrategyIsCurrent && Array.isArray(state.searchedQueries) ? state.searchedQueries : []);
   const skipSearchedQuerySet = new Set(searchedQuerySet);
-  // Cross-query video dedup. Best-effort under queryConcurrency > 1: two
-  // queries overlapping in time each snapshot this set before the other has
-  // recorded its scanned bvids, so they may both scan the same popular video.
-  // That is benign redundant work (bounded by the token-bucket request cap),
-  // not data corruption — skipSeen still fully dedupes any query that starts
-  // after a peer's scan completes.
   const scannedBvidSet = new Set(stateStrategyIsCurrent && Array.isArray(state.scannedBvids) ? state.scannedBvids : []);
   const maxQueries = asPositiveInt(options.maxQueries, 12, 100);
   const termAttempts = stateStrategyIsCurrent ? { ...state.termAttempts } : {};

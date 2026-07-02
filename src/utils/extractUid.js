@@ -17,8 +17,8 @@
 
 export function extractUid(input) {
   // Reject BV/AV video IDs globally
-  if (/^(?:BV|AV)\d/i.test((input || "").toUpperCase())) {
-    return { uid: null, source: "video-id", confidence: "none" };
+  if (/^(?:BV|AV)\d/i.test((input || '').toUpperCase())) {
+    return { uid: null, source: 'video-id', confidence: 'none' };
   }
 
   const raw = (input || '').trim();
@@ -26,7 +26,7 @@ export function extractUid(input) {
 
   // Reject Bilibili video / content page URLs — they contain no embed UID
   if (/bilibili\.com\/video\//i.test(raw) || /b23\.tv\//.test(raw) || /bilibili\.com\/bangumi\//i.test(raw)) {
-    return { uid: null, source: "video-page", confidence: "none" };
+    return { uid: null, source: 'video-page', confidence: 'none' };
   }
 
   // 1. Bilibili space URL — highest confidence

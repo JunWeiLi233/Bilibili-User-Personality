@@ -710,7 +710,7 @@ let _scoreCounter = 0;
  * @param {Array} [params.semanticMatches] - Optional per-comment semantic similarity matches
  * @returns {Object} Scoring result with troll_index and per-axis scores
  */
-export function scoreComments({ name, uid, text, source, runtimeLexicon, analysisMode = 'hybrid', semanticMatches = null }) {
+export function scoreComments({ name, uid, text, source, runtimeLexicon, analysisMode = 'hybrid', semanticMatches = null, calibrate = true }) {
   const lex = runtimeLexicon || baseLexicons;
   const comments = splitComments(text);
   const joined = comments.join('\n');
@@ -782,6 +782,16 @@ export function scoreComments({ name, uid, text, source, runtimeLexicon, analysi
     otherReasons: '其他问题',
   };
 
+  // Per-axis explanatory notes — ported from the live UI so the canonical
+  // scorer carries the same evidence summary the displayed radar relies on.
+  // All counts reuse what the scoring pass already computed.
+  const axisNotes = {
+    toxicEmotions: `情绪过激（Toxic Emotions）— 检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典命中攻击类标记 ${allLexiconMarks.filter((mark) => mark.family === 'attack').length} 次。含”无理型”纯情绪宣泄。`,
+    missingCommitment: `回避讨论（Missing Commitment）— 拒绝举证 ${countMatches(joined, lex.evasion)} 次；主动修正 ${countMatches(joined, lex.correction)} 次为正向指标。含”诉诸无知型”模式。`,
+    missingIntelligibility: `逻辑混乱（Missing Intelligibility）— 全称断言 ${allLexiconMarks.filter((mark) => mark.family === 'absolutes').length} 次；给出证据词 ${countMatches(joined, lex.evidence)} 次为正向指标；高风险标记共 ${riskLexiconMarks.length} 条。`,
+    otherReasons: `其他问题（Other Reasons）— 兜底分类，捕获其余不当表达。语义分析检出 ${negativeActs.length} 条综合高风险表达。`,
+  };
+
   const scores = Object.entries(categoryMap).map(([category, axis]) => {
     const k = KAPPA_STATUS[category];
     return {
@@ -797,7 +807,7 @@ export function scoreComments({ name, uid, text, source, runtimeLexicon, analysi
       kappaVariant: k === null ? 'pending' :
         k >= 0.6 ? 'trusted' :
         k >= 0.4 ? 'moderate' : 'low-confidence',
-      note: '',
+      note: axisNotes[category],
     };
   });
 
@@ -847,13 +857,17 @@ export function scoreComments({ name, uid, text, source, runtimeLexicon, analysi
     trollIndex: 0, // computed below
   };
 
-  // Apply per-axis calibration (isotonic regression curves)
-  const calibratedScores = applyCalibration(scores);
+  // Apply per-axis calibration (isotonic regression curves). The live UI opts
+  // out (calibrate=false) to keep the raw 0-100 scale + existing bands; the eval
+  // path keeps calibration (it's an AUC measurement transform, not part of the
+  // core score). Default true preserves all existing eval callers unchanged.
+  const calibratedScores = calibrate ? applyCalibration(scores) : scores;
 
   result.trollIndex = getTrollIndex({ ...result, scores: calibratedScores });
 
   // Attach calibrated info
   result._calibrated = {
+    applied: calibrate,
     scores: calibratedScores,
     threshold: getTrollThreshold(),
     blendWeights: blendWeights,

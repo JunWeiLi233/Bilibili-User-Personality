@@ -19,6 +19,7 @@ import {
   trainKeywordDictionary,
 } from '../services/deepseekKeywordTrainer.js';
 import { findDictionaryEntriesWithSemanticEvidence } from '../services/semanticMatcher.js';
+import { scoreComments } from '../services/headlessScorer.js';
 
 const deepseek = new Hono();
 
@@ -65,6 +66,46 @@ deepseek.get('/dictionary', async (c) => {
 deepseek.post('/analyze-comments', async (c) => {
   const payload = await c.req.json().catch(() => ({}));
   return c.json(await analyzeCommentsWithDeepSeek(payload));
+});
+
+/**
+ * POST /api/deepseek/score
+ *
+ * Canonical per-user scorer (headlessScorer.scoreComments) — the single source
+ * of truth used by both the eval pipeline and, via this endpoint, the live UI,
+ * so the displayed scores can never drift from the validated implementation.
+ *
+ * The live UI requests calibrate=false to keep the raw 0-100 scale + existing
+ * risk bands; the eval path uses the default calibrate=true (calibrated AUC
+ * measurement). This supersedes the UI's inlined copy of the same algorithm.
+ *
+ * Request body: { text: string (required, newline-separated comments),
+ *                 name?, uid?, source?, runtimeLexicon?, analysisMode?,
+ *                 semanticMatches?, calibrate? }
+ * Response: { ok: true, result: { scores, trollIndex, ... } } on success;
+ *           { ok: false, error } with 400/500 on bad input / failure.
+ */
+deepseek.post('/score', async (c) => {
+  const payload = await c.req.json().catch(() => ({}));
+  const { text } = payload;
+  if (!text || typeof text !== 'string') {
+    return c.json({ ok: false, error: 'Missing required field: text (newline-separated comments)' }, 400);
+  }
+  try {
+    const result = scoreComments({
+      name: payload.name,
+      uid: payload.uid,
+      text,
+      source: payload.source,
+      runtimeLexicon: payload.runtimeLexicon,
+      analysisMode: payload.analysisMode,
+      semanticMatches: payload.semanticMatches,
+      calibrate: payload.calibrate !== false, // default true; UI passes false
+    });
+    return c.json({ ok: true, result });
+  } catch (err) {
+    return c.json({ ok: false, error: `Scoring failed: ${err?.message || String(err)}` }, 500);
+  }
 });
 
 /**
