@@ -72,14 +72,22 @@ correct regardless — a band on <10 comments overclaims.
   own 0.75 gate.
 - **Classifier**: poor — best F1 ≈ base rate.
 - **Trait descriptor**: unsupported — r ≈ 0.05 unstable.
-- **Displayed vs validated number differ** — the UI shows an unvalidated
-  raw-weighted trollIndex; the eval validates a calibrated one the UI never shows.
+- **Live vs eval are separate implementations — both now measured.** The UI
+  (`src/main.jsx`, raw-weighted, [25,49]) measures AUC 0.663; the eval
+  (`server/services/headlessScorer.js`, calibrated, [1,10], **offline scripts
+  only**) measures 0.659. Ranking-equivalent, scale-divergent. Not "validated vs
+  unvalidated" — both have evidence. Unifying them into one canonical scorer is a
+  larger optional follow-up, not a validity blocker.
 
 ## Recommended next actions (ranked)
 
-1. **Reconcile the two `getTrollIndex` paths.** Decide which is canonical and make
-   the UI display the validated one (or validate the one it displays). This is the
-   real blocker for a trustworthy per-user read.
+1. ~~Reconcile the two `getTrollIndex` paths (was: "real blocker")~~ **Corrected
+   (2026-07-02):** the live UI trollIndex *is* measured (AUC 0.663) — the earlier
+   "unvalidated" framing was imprecise. Dead duplicate `src/components/ResultsView.jsx`
+   removed; a live/eval architecture note added to `src/main.jsx:getTrollIndex`.
+   Remaining *optional* work: unify `main.jsx` (live) and `headlessScorer.js` (eval)
+   into one scorer if a single canonical implementation is wanted — larger refactor,
+   since headlessScorer is offline-only and never served the UI.
 2. **Reframe claims**: "weak screening ranker," never "classifier" or "trait."
 3. Collect a use-case-population sample (not random) before any band tuning.
 4. The ≥10-comment gate stands.
