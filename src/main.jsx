@@ -291,7 +291,7 @@ function getTrollIndex(user) {
   回避讨论: 0.25,
   逻辑混乱: 0.27,
   其他问题: 0.20,
-}
+};
   return Math.round(
     user.scores.reduce((sum, score) => sum + normalizeForRisk(score) * weights[score.axis], 0),
   );
