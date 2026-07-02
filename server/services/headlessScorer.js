@@ -710,7 +710,7 @@ let _scoreCounter = 0;
  * @param {Array} [params.semanticMatches] - Optional per-comment semantic similarity matches
  * @returns {Object} Scoring result with troll_index and per-axis scores
  */
-export function scoreComments({ name, uid, text, source, runtimeLexicon, analysisMode = 'hybrid', semanticMatches = null }) {
+export function scoreComments({ name, uid, text, source, runtimeLexicon, analysisMode = 'hybrid', semanticMatches = null, calibrate = true }) {
   const lex = runtimeLexicon || baseLexicons;
   const comments = splitComments(text);
   const joined = comments.join('\n');
@@ -847,13 +847,17 @@ export function scoreComments({ name, uid, text, source, runtimeLexicon, analysi
     trollIndex: 0, // computed below
   };
 
-  // Apply per-axis calibration (isotonic regression curves)
-  const calibratedScores = applyCalibration(scores);
+  // Apply per-axis calibration (isotonic regression curves). The live UI opts
+  // out (calibrate=false) to keep the raw 0-100 scale + existing bands; the eval
+  // path keeps calibration (it's an AUC measurement transform, not part of the
+  // core score). Default true preserves all existing eval callers unchanged.
+  const calibratedScores = calibrate ? applyCalibration(scores) : scores;
 
   result.trollIndex = getTrollIndex({ ...result, scores: calibratedScores });
 
   // Attach calibrated info
   result._calibrated = {
+    applied: calibrate,
     scores: calibratedScores,
     threshold: getTrollThreshold(),
     blendWeights: blendWeights,

@@ -107,3 +107,58 @@ test('semantic-match pipeline: short text returned as single chunk', async () =>
   assert.equal(chunks.length, 1);
   assert.equal(chunks[0], '这是一个完整的短评论测试文本');
 });
+
+// —— POST /api/deepseek/score (canonical live scorer: headlessScorer.scoreComments) ——
+
+test('score route rejects missing text with 400', async () => {
+  const mod = await import('./deepseek.js');
+  const app = mod.default;
+  const res = await app.fetch(new Request(`${BASE}/score`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({}),
+  }));
+  assert.equal(res.status, 400);
+  const body = await res.json();
+  assert.equal(body.ok, false);
+  assert.match(body.error, /text/);
+});
+
+test('score route returns 4 axis scores + trollIndex (calibrate default true)', async () => {
+  const mod = await import('./deepseek.js');
+  const app = mod.default;
+  const res = await app.fetch(new Request(`${BASE}/score`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ text: '你急了\n完全是洗地\n懂的都懂\n你这种人也配' }),
+  }));
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.equal(body.ok, true);
+  const r = body.result;
+  assert.equal(Array.isArray(r.scores) && r.scores.length, 4);
+  assert.deepEqual(
+    r.scores.map((s) => s.axis).sort(),
+    ['情绪过激', '回避讨论', '逻辑混乱', '其他问题'].sort(),
+  );
+  assert.equal(typeof r.trollIndex, 'number');
+  // Default path runs calibration (eval contract).
+  assert.equal(r._calibrated.applied, true);
+});
+
+test('score route: calibrate=false opts out of calibration for the live UI', async () => {
+  const mod = await import('./deepseek.js');
+  const app = mod.default;
+  const res = await app.fetch(new Request(`${BASE}/score`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ text: '你急了\n完全是洗地\n懂的都懂', calibrate: false }),
+  }));
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.equal(body.ok, true);
+  // UI requests the raw 0-100 scale (preserves existing risk bands); calibration
+  // is skipped, flagged via _calibrated.applied=false.
+  assert.equal(body.result._calibrated.applied, false);
+  assert.equal(typeof body.result.trollIndex, 'number');
+});
