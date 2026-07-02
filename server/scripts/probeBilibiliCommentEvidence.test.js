@@ -30,8 +30,8 @@ test('probeBilibiliCommentEvidence exports an injectable no-write command runner
         }],
       }),
       fetchVideoComments: async (video) => [{
-        message: ` + "`查查资料 fixture ${video.aid}`" + `,
-        source: ` + "`Bilibili public direct comment probe: https://www.bilibili.com/video/av${video.aid}/`" + `,
+        message: ` + '`查查资料 fixture ${video.aid}`' + `,
+        source: ` + '`Bilibili public direct comment probe: https://www.bilibili.com/video/av${video.aid}/`' + `,
         uid: '42',
       }],
       fetchVideoDanmaku: async () => {

@@ -1266,10 +1266,10 @@ export function buildSenseIndex(dictionary) {
     if (senses.length === 0) {
       // Fallback: create implicit sense from top-level fields
       const meta = {
-        senseId: entry.term + "-1",
+        senseId: entry.term + '-1',
         term: entry.term,
-        family: entry.family || "attack",
-        risk: entry.risk || "medium",
+        family: entry.family || 'attack',
+        risk: entry.risk || 'medium',
         contextHints: [],
         contextAntiHints: [],
         scenario: null,
@@ -1283,10 +1283,10 @@ export function buildSenseIndex(dictionary) {
     const termSenses = [];
     for (const sense of senses) {
       const meta = {
-        senseId: sense.id || entry.term + "-" + (termSenses.length + 1),
+        senseId: sense.id || entry.term + '-' + (termSenses.length + 1),
         term: entry.term,
-        family: sense.family || entry.family || "attack",
-        risk: sense.risk || entry.risk || "medium",
+        family: sense.family || entry.family || 'attack',
+        risk: sense.risk || entry.risk || 'medium',
         contextHints: Array.isArray(sense.contextHints) ? sense.contextHints : [],
         contextAntiHints: Array.isArray(sense.contextAntiHints) ? sense.contextAntiHints : [],
         scenario: sense.scenario || null,
@@ -1322,11 +1322,11 @@ export function disambiguateSenseHits(hits, commentText, senseIndex, options = {
   if (!senseIndex || !senseIndex.byTerm) return hits;
 
   const { byTerm } = senseIndex;
-  const cleanText = String(commentText || "").trim();
+  const cleanText = String(commentText || '').trim();
   const classifiedScenario = (options && options.scenario) || null;
 
   return hits.map((hit) => {
-    const term = String(hit.term || "").trim();
+    const term = String(hit.term || '').trim();
     if (!term) return hit;
 
     const senses = byTerm.get(term);
