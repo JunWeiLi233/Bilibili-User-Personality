@@ -546,6 +546,14 @@ function getTrollIndex(user) {
   // Re-run after collecting a stratified sample with >=30 positive annotations per axis
   // AND >=2 human annotators for reliable kappa.
   // See: python_backend/analysis/calibration.py, validation_metrics.py
+  //
+  // Architecture (2026-07-02): this is the LIVE trollIndex — the only one users see.
+  // Measured AUC 0.663 (CI [0.548, 0.777]) on the N=100 random sample (this file's
+  // raw axis scores, no calibration). server/services/headlessScorer.js is a SEPARATE
+  // offline eval scorer (calibrated input, AUC 0.659) used only by analysis scripts —
+  // it never serves this UI. The two are independent implementations, ranking-equivalent
+  // but scale-divergent ([25,49] here vs [1,10] there). See
+  // .claude/random_sampling_eval/VALIDITY_SUMMARY.md.
   const weights = {
   情绪过激: 0.28,
   回避讨论: 0.25,
