@@ -251,8 +251,13 @@ function normalizeForRisk(score) {
 }
 
 function getRiskBand(index) {
-  if (index >= 70) return '高频命中型';
-  if (index >= 45) return '混合模式';
+  // ponytail: empirical tertile cuts from the N=100 random-sampling eval
+  // (.claude/random_sampling_eval/VALIDITY_SUMMARY.md, 2026-07-01). Real trollIndex
+  // spans [1,10] (mean 5.6); the prior 45/70 cuts left every user in the lowest band.
+  // These are RELATIVE-to-population bands (AUC 0.66 ⇒ even "高" is only weakly
+  // enriched), not absolute risk. Recalibrate if getTrollIndex is rescaled.
+  if (index >= 8) return '高频命中型';
+  if (index >= 5) return '混合模式';
   return '低频命中型';
 }
 
@@ -321,7 +326,7 @@ function BarChartSmallMultiples({ scores }) {
       <text x={chartW / 2} y={14} textAnchor="middle" className="chart-title">四维论辩行为得分</text>
 
       {/* p50 baseline line */}
-      <line x1={pad.left} y1={yScale(baselines.p50)} x2={pad.left + barAreaW} y2={yScale(baselines.p50)} stroke="rgba(47,93,80,0.25)" strokeDasharray="4 3" />
+      <line x1={pad.left} y1={yScale(baselines.p50)} x2={pad.left + barAreaW} y2={yScale(baselines.p50)} stroke="rgba(47,93,80,0.5)" strokeDasharray="4 3" />
 
       {/* Bars */}
       {scores.map((score, i) => {
@@ -401,7 +406,7 @@ function RadarChartEntertainment({ scores, baselineP50 = 50, hoveredAxis = null,
             key={`ring-${pct}`}
             points={ringPoints}
             fill="none"
-            stroke="rgba(117,106,84,0.15)"
+            stroke="rgba(117,106,84,0.45)"
             strokeWidth="1"
           />
         );
@@ -412,14 +417,14 @@ function RadarChartEntertainment({ scores, baselineP50 = 50, hoveredAxis = null,
         <line
           key={`axis-${i}`}
           x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2}
-          stroke="rgba(117,106,84,0.25)" strokeWidth="1"
+          stroke="rgba(117,106,84,0.45)" strokeWidth="1"
         />
       ))}
 
       {/* Data polygon */}
       <polygon
         points={polygonPoints}
-        fill="rgba(138,63,51,0.18)"
+        fill="rgba(138,63,51,0.28)"
         stroke="#8a3f33"
         strokeWidth="2"
         strokeLinejoin="round"
@@ -431,7 +436,7 @@ function RadarChartEntertainment({ scores, baselineP50 = 50, hoveredAxis = null,
           const p = pointOnAxis(baselineP50, i);
           return `${p.x},${p.y}`;
         }).join(' ')}
-        fill="rgba(79,109,97,0.08)"
+        fill="rgba(79,109,97,0.22)"
         stroke="rgba(79,109,97,0.3)"
         strokeWidth="1.5"
         strokeDasharray="4 3"
