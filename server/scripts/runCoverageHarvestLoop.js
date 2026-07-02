@@ -29,6 +29,40 @@ process.on('unhandledRejection', (reason) => {
   // Don't exit — let the cycle-level try/catch handle it next iteration
 });
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Classify a coverage-loop error as transient (worth retrying with backoff) vs fatal
+ * (config/programming/missing-input — stop). Pure, no I/O — isolated so the resilience
+ * policy is unit-testable without DEEPSEEK_API_KEY or network.
+ */
+export function isTransientCoverageError(error) {
+  const code = String(error?.code || '');
+  const msg = String(error?.message || error?.code || error || '');
+  if (/ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ETIMEDOUT|EPIPE|ESOCKETTIMEDOUT/.test(code)) return true;
+  if (/ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ETIMEDOUT|EPIPE|socket hang up|fetch failed|getaddrinfo|network/i.test(msg)) return true;
+  if (/\b429\b|\b5\d\d\b/.test(msg)) return true;
+  if (/rate.?limit|too many requests|service unavailable|bad gateway|timeout|timed out|temporary|overloaded|retry/i.test(msg)) return true;
+  return false;
+}
+
+/** Exponential backoff with full jitter, capped at `cap` ms. Pure. */
+export function computeBackoffMs(attempt, base = 5000, cap = 120000) {
+  const exp = Math.min(cap, base * 2 ** (attempt - 1));
+  return Math.floor(exp * (0.5 + Math.random() * 0.5));
+}
+
+/**
+ * Decide whether to auto-restart the whole coverage run. Pure: caller supplies counters.
+ * Restart while the gate is unmet, restarts remain, and progress is still happening.
+ */
+export function shouldRestartRun({ auditOk, restartsUsed, maxRestarts, consecutiveNoProgress, maxConsecutiveNoProgress }) {
+  if (auditOk) return false;
+  if (restartsUsed >= maxRestarts) return false;
+  if (consecutiveNoProgress >= maxConsecutiveNoProgress) return false;
+  return true;
+}
+
 function parseList(value) {
   return String(value || '')
     .split(/[\r\n,;|]+/)
@@ -529,7 +563,12 @@ console.log(`DeepSeek model: ${process.env.DEEPSEEK_MODEL}`);
 console.log(`DeepSeek reasoning effort: ${process.env.DEEPSEEK_REASONING_EFFORT}`);
 console.log(`Initial coverage: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);
 
-for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
+const cycleRetries = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_CYCLE_RETRIES', 3, 10);
+const maxConsecutiveFailures = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CONSECUTIVE_FAILURES', 2, 10);
+let cycle = 1;
+let consecutiveFailures = 0;
+let attemptsThisCycle = 0;
+while (cycle <= maxCycles && !audit.ok) {
   try {
     const priorityQueries = priorityQueryItemsFromAudit(audit, maxQueries);
     if (priorityQueries.length === 0) {
@@ -647,34 +686,47 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
       console.log(`Coverage after prune: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);
     }
   }
+    // Cycle body completed without throwing — reset failure tracking and advance.
+    consecutiveFailures = 0;
+    attemptsThisCycle = 0;
+    cycle += 1;
   } catch (cycleError) {
-    console.error(`\nCycle ${cycle} crashed`);
-    stopReason = `cycle_${cycle}_crashed`;
-    // Save partial progress before exiting
+    const transient = isTransientCoverageError(cycleError);
+    attemptsThisCycle += 1;
+    if (transient && attemptsThisCycle <= cycleRetries) {
+      const wait = computeBackoffMs(attemptsThisCycle);
+      console.warn(`\nCycle ${cycle} attempt ${attemptsThisCycle}/${cycleRetries} transient failure (${cycleError.code || cycleError.message || cycleError}) — backing off ${Math.round(wait / 1000)}s, retrying same cycle`);
+      await sleep(wait);
+      continue;
+    }
+    consecutiveFailures += 1;
+    stopReason = transient ? `cycle_${cycle}_transient_exhausted` : `cycle_${cycle}_crashed`;
+    console.error(`\nCycle ${cycle} ${transient ? 'exhausted transient retries' : 'crashed (fatal)'}: ${cycleError.stack || cycleError.message || cycleError}`);
     try {
       cycles.push({
         cycle,
         priorityQueries: [],
-        harvest: { ok: false, rounds: 0, queries: [], warnings: ['Harvest cycle failed unexpectedly'], coverageProgress: [], trainingDiagnostics: [], queryDiagnostics: [] },
+        harvest: { ok: false, rounds: 0, queries: [], warnings: [transient ? 'Cycle exhausted transient retries' : 'Harvest cycle failed unexpectedly'], coverageProgress: [], trainingDiagnostics: [], queryDiagnostics: [] },
         coverageDelta: null,
         coverageBefore: audit.coverage,
         coverageAfter: audit.coverage,
       });
-      const crashReport = {
-        generatedAt: new Date().toISOString(),
-        maxCycles,
-        roundsPerCycle,
-        stopReason,
-        finalOk: false,
-        finalAudit: audit,
-        cycles,
-      };
-      await writeJson(reportPath, crashReport);
-      console.log(`Partial report saved to ${reportPath}`);
-    } catch (reportError) {
-      console.error(`Failed to save crash report: ${reportError.message}`);
+    } catch {}
+    if (consecutiveFailures >= maxConsecutiveFailures) {
+      console.error(`${consecutiveFailures} consecutive failed cycles — stopping run (likely systemic: check API key / network / dictionary). Partial report saved.`);
+      try {
+        await writeJson(reportPath, { generatedAt: new Date().toISOString(), maxCycles, roundsPerCycle, stopReason, finalOk: false, finalAudit: audit, cycles });
+      } catch (reportError) {
+        console.error(`Failed to save crash report: ${reportError.message}`);
+      }
+      break;
     }
-    break;
+    // One-off failure: skip to the next cycle. State is checkpointed, so the next cycle
+    // recomputes priority queries from the current audit — a single bad cycle must not
+    // throw away a long unattended run.
+    console.warn(`Skipping to cycle ${cycle + 1} after failure (consecutive ${consecutiveFailures}/${maxConsecutiveFailures}).`);
+    attemptsThisCycle = 0;
+    cycle += 1;
   }
 }
 
