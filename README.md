@@ -16,6 +16,7 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
 | Set up and run locally / 本地搭建运行 | [Run Locally](#run-locally) / [本地运行](#本地运行) |
 | Harvest keywords from Bilibili / 从B站采集关键词 | [Configuration & Scripts](#configuration--scripts) / [配置与脚本](#配置与脚本) |
 | Run the auto-coverage loop / 运行自动覆盖循环 | [Auto-Coverage Loop](#auto-coverage-loop) / [自动覆盖循环](#自动覆盖循环) |
+| Run the harvest automatically every day / 每天自动运行采集任务 | [Daily Harvest Pipeline](docs/DAILY_HARVEST.md) / [每日采集流水线](docs/DAILY_HARVEST.md) |
 | Run the local expansion loop / 运行本地扩展循环 | [Local Expansion Loop](#local-expansion-loop) / [本地扩展循环](#本地扩展循环) |
 | Check dictionary coverage metrics / 查看词典覆盖指标 | [Current Dictionary Status](#current-dictionary-status) / [当前词典状态](#当前词典状态) |
 | Enable semantic matching / 启用语义匹配 | [Semantic Matching](#semantic-matching) / [语义匹配](#语义匹配) |
@@ -252,6 +253,8 @@ Convergence to ~100% coverage requires:
 2. **Exhausted Term Pruning**: Set `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER=3` to drop terms that remain unverifiable after multiple attempts
 3. **Parallelization**: Split weak terms into batches and run near-target resolvers in parallel across isolated worktrees
 4. **Merge Results**: Use `node server/mergeAgentDictionaries.js` to merge parallel agent outputs
+
+> 📅 **Run it daily, unattended.** `daily-harvest.ps1` wraps this loop with a process lock, dated logs, and bounded defaults; `register-daily-harvest.ps1` installs a Windows Task Scheduler entry. Full guide → [Daily Harvest Pipeline](docs/DAILY_HARVEST.md).
 
 ---
 
@@ -660,6 +663,8 @@ $env:BILIBILI_CRAWLER_CACHE_TTL_MS="120000"
 2. **用尽术语精简**: 设置 `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER=3` 以在多次尝试后移除无法证实的术语
 3. **平行化**: 将弱术语分批，在独立工作树中并行运行近目标解析器
 4. **合并结果**: 使用 `node server/mergeAgentDictionaries.js` 合并并行agent的输出
+
+> 📅 **每天无人值守自动运行。** `daily-harvest.ps1` 为本循环加上了进程锁、按日期归档的日志与有界的默认参数；`register-daily-harvest.ps1` 用于注册 Windows 任务计划。完整指南 → [每日采集流水线](docs/DAILY_HARVEST.md)。
 
 ---
 
