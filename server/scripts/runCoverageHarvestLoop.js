@@ -5,9 +5,10 @@ import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
-import { readKeywordDictionary, writeJsonFileAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
+import { readKeywordDictionary, writeJsonFileAtomic, writeSplitDictionaryAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
 import { coverageDeltaFromHarvest, hasCoverageDeltaProgress } from '../utils/coverageProgress.js';
 import { buildCoverageRuntimeOptions } from '../utils/coverageCliOptions.js';
+import { createCoverageCheckpoint, pruneOldCheckpoints } from '../services/coverageCheckpoint.js';
 import {
   buildDictionaryCoverageAudit,
   DEFAULT_HARVEST_STATE_PATH,
@@ -556,15 +557,24 @@ const cycles = [];
 let audit = await buildAudit(auditOptions);
 let stopReason = audit.ok ? 'coverage_gate_passed' : maxCycles === 0 ? 'cycle_limit' : '';
 console.log('Coverage harvest loop');
-  if (!process.env.BILIBILI_COOKIE || !process.env.BILIBILI_COOKIE.trim()) {
-    console.warn('[33m⚠ BILIBILI_COOKIE not set — authenticated requests get 5–10× higher rate limits. Set a logged-in session cookie for best throughput.[0m');
-  }
+	if (!process.env.BILIBILI_COOKIE || !process.env.BILIBILI_COOKIE.trim()) {
+	  console.warn('[33m⚠ BILIBILI_COOKIE not set — authenticated requests get 5–10× higher rate limits. Set a logged-in session cookie for best throughput.[0m');
+	}
 console.log(`DeepSeek model: ${process.env.DEEPSEEK_MODEL}`);
 console.log(`DeepSeek reasoning effort: ${process.env.DEEPSEEK_REASONING_EFFORT}`);
 console.log(`Initial coverage: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);
 
 const cycleRetries = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_CYCLE_RETRIES', 3, 10);
 const maxConsecutiveFailures = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CONSECUTIVE_FAILURES', 2, 10);
+// Coverage checkpoint: snapshot dictionary+state to the coverage-checkpoints git
+// branch every ~20 min so a power-loss (which can zero unflushed disk writes)
+// never costs more than ~one cycle of progress. Piggybacks on cycle boundaries
+// so it never interrupts a running query or adds lock contention.
+const checkpointIntervalMs = positiveIntFromEnv('BILIBILI_COVERAGE_CHECKPOINT_INTERVAL_MS', 20 * 60 * 1000, 24 * 60 * 60 * 1000);
+const checkpointDisabled = process.env.BILIBILI_COVERAGE_CHECKPOINT_DISABLE === '1';
+const checkpointMaxSnapshots = positiveIntFromEnv('BILIBILI_COVERAGE_CHECKPOINT_MAX_SNAPSHOTS', 72, 1000);
+let lastCheckpointAt = 0;
+let checkpointsCreated = 0;
 let cycle = 1;
 let consecutiveFailures = 0;
 let attemptsThisCycle = 0;
@@ -680,12 +690,57 @@ while (cycle <= maxCycles && !audit.ok) {
       const remove = new Set(exhausted.map((item) => item.term));
       const before = pruneDict.entries.length;
       pruneDict.entries = pruneDict.entries.filter((entry) => !remove.has(String(entry.term || '').trim()));
-      await writeJsonFileAtomic(dictionaryPath || DEFAULT_DICTIONARY_PATH, pruneDict);
+      // Write through writeSplitDictionaryAtomic (not bare writeJsonFileAtomic)
+      // so the split-storage .entries/.evidence layout is preserved and each
+      // shard write gets the fsync-durability treatment. Calling writeJsonFileAtomic
+      // directly here previously overwrote the split manifest with a non-split
+      // object, corrupting the layout.
+      const pruneDictionaryPath = dictionaryPath || DEFAULT_DICTIONARY_PATH;
+      pruneDict.updatedAt = new Date().toISOString();
+      await writeSplitDictionaryAtomic(pruneDictionaryPath, pruneDict);
       console.log(`Pruned ${before - pruneDict.entries.length} exhausted term(s) (>=${pruneExhaustedAfter} attempts): ${before} -> ${pruneDict.entries.length}`);
       audit = await buildAudit(auditOptions);
       console.log(`Coverage after prune: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);
     }
   }
+    // Coverage checkpoint: snapshot to the coverage-checkpoints git branch every
+    // ~20 min (at cycle boundaries, so it never interrupts a running query). This
+    // is the recovery medium if a power-loss zeros the live dictionary files —
+    // the watchdog auto-restores the latest checkpoint on restart.
+    if (
+      !checkpointDisabled &&
+      audit?.coverage &&
+      (lastCheckpointAt === 0 || Date.now() - lastCheckpointAt >= checkpointIntervalMs)
+    ) {
+      try {
+        const checkpoint = await createCoverageCheckpoint({
+          meta: {
+            coverageRatio: audit.coverage.coverageRatio,
+            entries: audit.coverage.terms,
+            weakTerms: audit.coverage.weakTerms,
+          },
+        });
+        if (checkpoint.ok) {
+          checkpointsCreated += 1;
+          lastCheckpointAt = Date.now();
+          console.log(`Coverage checkpoint: ${checkpoint.sha.slice(0, 8)} (ratio=${(audit.coverage.coverageRatio * 100).toFixed(2)}%, entries=${audit.coverage.terms}) -> coverage-checkpoints branch`);
+          // Bound the branch history periodically (every ~10 checkpoints).
+          if (checkpointsCreated % 10 === 0) {
+            try {
+              const pruned = await pruneOldCheckpoints({ maxSnapshots: checkpointMaxSnapshots });
+              if (pruned.pruned > 0) console.log(`Checkpoint history pruned: dropped ${pruned.pruned} old snapshot(s), kept ${pruned.kept}`);
+            } catch (pruneError) {
+              console.warn(`Checkpoint prune skipped: ${pruneError.message}`);
+            }
+          }
+        } else {
+          console.warn(`Coverage checkpoint skipped: ${checkpoint.error}`);
+        }
+      } catch (checkpointError) {
+        // Checkpoint failure must never abort the harvest cycle — it's best-effort.
+        console.warn(`Coverage checkpoint failed (non-fatal): ${checkpointError.message}`);
+      }
+    }
     // Cycle body completed without throwing — reset failure tracking and advance.
     consecutiveFailures = 0;
     attemptsThisCycle = 0;
@@ -747,6 +802,19 @@ console.log(`Weak terms: ${audit.coverage.weakTerms}`);
 console.log(`Zero-evidence terms: ${audit.coverage.zeroEvidenceTerms}`);
 console.log(`Stop reason: ${stopReason}`);
 console.log(`Coverage loop report: ${reportPath}`);
+
+// Final checkpoint at run end so the watchdog's next run resumes from the
+// latest state even if the loop exits between scheduled checkpoints.
+if (!checkpointDisabled && checkpointsCreated > 0) {
+  try {
+    const finalCheckpoint = await createCoverageCheckpoint({
+      meta: { coverageRatio: audit.coverage.coverageRatio, entries: audit.coverage.terms, weakTerms: audit.coverage.weakTerms },
+    });
+    if (finalCheckpoint.ok) console.log(`Final coverage checkpoint: ${finalCheckpoint.sha.slice(0, 8)} -> coverage-checkpoints branch`);
+  } catch (checkpointError) {
+    console.warn(`Final checkpoint failed (non-fatal): ${checkpointError.message}`);
+  }
+}
 
 if (strict && !audit.ok) {
   process.exitCode = 1;

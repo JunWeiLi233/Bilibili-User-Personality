@@ -1,4 +1,5 @@
 import { mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises';
+import { closeSync, fsyncSync, openSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 import { withFileLock } from '../utils/fileLock.js';
@@ -1266,10 +1267,10 @@ export function buildSenseIndex(dictionary) {
     if (senses.length === 0) {
       // Fallback: create implicit sense from top-level fields
       const meta = {
-        senseId: entry.term + '-1',
+        senseId: entry.term + "-1",
         term: entry.term,
-        family: entry.family || 'attack',
-        risk: entry.risk || 'medium',
+        family: entry.family || "attack",
+        risk: entry.risk || "medium",
         contextHints: [],
         contextAntiHints: [],
         scenario: null,
@@ -1283,10 +1284,10 @@ export function buildSenseIndex(dictionary) {
     const termSenses = [];
     for (const sense of senses) {
       const meta = {
-        senseId: sense.id || entry.term + '-' + (termSenses.length + 1),
+        senseId: sense.id || entry.term + "-" + (termSenses.length + 1),
         term: entry.term,
-        family: sense.family || entry.family || 'attack',
-        risk: sense.risk || entry.risk || 'medium',
+        family: sense.family || entry.family || "attack",
+        risk: sense.risk || entry.risk || "medium",
         contextHints: Array.isArray(sense.contextHints) ? sense.contextHints : [],
         contextAntiHints: Array.isArray(sense.contextAntiHints) ? sense.contextAntiHints : [],
         scenario: sense.scenario || null,
@@ -1322,11 +1323,11 @@ export function disambiguateSenseHits(hits, commentText, senseIndex, options = {
   if (!senseIndex || !senseIndex.byTerm) return hits;
 
   const { byTerm } = senseIndex;
-  const cleanText = String(commentText || '').trim();
+  const cleanText = String(commentText || "").trim();
   const classifiedScenario = (options && options.scenario) || null;
 
   return hits.map((hit) => {
-    const term = String(hit.term || '').trim();
+    const term = String(hit.term || "").trim();
     if (!term) return hit;
 
     const senses = byTerm.get(term);
@@ -3723,11 +3724,53 @@ function splitDictionaryEvidenceBySerializedBytes(dictionary, family, entries) {
 }
 
 export async function writeJsonFileAtomic(filePath, value) {
+  await writeSerializedAtomic(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+/**
+ * Power-loss-safe atomic write of an already-serialized string. Writes to a
+ * temp file, fsyncs the temp fd, atomically renames, then fsyncs the parent
+ * directory. Callers that need custom escaping (e.g. \uXXXX for Windows-safe
+ * Chinese round-tripping) pass their pre-serialized string here instead of
+ * going through writeJsonFileAtomic (which serializes with plain JSON.stringify).
+ */
+export async function writeSerializedAtomic(filePath, serialized) {
   await mkdir(dirname(filePath), { recursive: true });
   const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
   try {
-    await writeFile(tempPath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+    // Write to the temp file, then fsync its file descriptor BEFORE the rename.
+    // Without fsync, a power-loss after rename() returns can leave the kernel
+    // page cache unwritten and the target file zeroed on disk (the corruption
+    // we hit). fsync forces the temp file's bytes to stable storage so the
+    // subsequent atomic rename is durable.
+    await writeFile(tempPath, serialized, 'utf8');
+    let fd = -1;
+    try {
+      fd = openSync(tempPath, 'r');
+      fsyncSync(fd);
+    } catch {
+      // fsync may be unsupported on some filesystems/ephemeral mounts —
+      // the rename still provides crash-consistency without power-loss safety.
+    } finally {
+      if (fd !== -1) {
+        try { closeSync(fd); } catch {}
+      }
+    }
     await rename(tempPath, filePath);
+    // fsync the parent directory so the rename's directory-entry update is
+    // durable too. Directory fsync is rejected on some platforms (e.g. Windows
+    // FAT/exFAT) — best-effort, never abort the write.
+    let dirFd = -1;
+    try {
+      dirFd = openSync(dirname(filePath), 'r');
+      fsyncSync(dirFd);
+    } catch {
+      // best-effort: directory fsync unsupported here
+    } finally {
+      if (dirFd !== -1) {
+        try { closeSync(dirFd); } catch {}
+      }
+    }
   } catch (error) {
     await rm(tempPath, { force: true }).catch(() => {});
     throw error;
@@ -3760,7 +3803,7 @@ async function removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles, evide
   await removeStaleSplitFiles(dictionaryPath, evidenceDir, evidenceFiles);
 }
 
-async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
+export async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
   const entriesByFamily = new Map(SUPPORTED_FAMILIES.map((family) => [family, []]));
   for (const rawEntry of Array.isArray(dictionary?.entries) ? dictionary.entries : []) {
     const entry = entryToWireFormat(rawEntry);
@@ -4782,6 +4825,36 @@ export function normalizeDeepSeekAnalysisResult({
   };
 }
 
+function parseRetryAfterMs(value) {
+  if (value == null || value === '') return null;
+  const seconds = Number(value);
+  if (Number.isFinite(seconds)) {
+    return Math.min(10000, Math.max(0, Math.round(seconds * 1000)));
+  }
+  const dateMs = Date.parse(value);
+  if (Number.isFinite(dateMs)) {
+    return Math.min(10000, Math.max(0, dateMs - Date.now()));
+  }
+  return null;
+}
+
+function abortableSleep(ms, signal) {
+  if (signal?.aborted) {
+    return Promise.reject(new Error('Aborted during rate-limit backoff'));
+  }
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      signal?.removeEventListener?.('abort', onAbort);
+      resolve();
+    }, ms);
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(new Error('Aborted during rate-limit backoff'));
+    };
+    signal?.addEventListener?.('abort', onAbort, { once: true });
+  });
+}
+
 async function requestDeepSeekMessages({ config, fetchImpl, messages, options, maxTokens = 2000 }) {
   // DeepSeek V4 reasoning models split output budget between reasoning_content
   // and content. For structured JSON output, reasoning often consumes 60-80% of
@@ -4795,19 +4868,44 @@ async function requestDeepSeekMessages({ config, fetchImpl, messages, options, m
     max_tokens: maxTokens,
   };
 
-  const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
-    body: JSON.stringify(requestBody),
-    ...(options.signal ? { signal: options.signal } : {}),
-  });
-  if (!response.ok) {
+  // Retry on DeepSeek rate-limiting (HTTP 429 or body error code 1302). The
+  // harvest runs queries and multi-agent specialists in parallel, raising model
+  // RPM; without backoff a single 429 fails the whole query. CONSERVATIVE
+  // DEFAULT (1 retry, ≤10s sleep): under a SUSTAINED rate limit, retrying both
+  // amplifies RPM load and hangs the query past its timeout, so we fail fast
+  // instead of looping. Override via options.rateLimitRetries / rateLimitBaseBackoffMs.
+  const url = `${config.baseUrl}/chat/completions`;
+  const headers = authHeaders((options.env || process.env).DEEPSEEK_API_KEY);
+  const maxRetries = Number.isFinite(Number(options.rateLimitRetries)) ? Number(options.rateLimitRetries) : 1;
+  const baseBackoffMs = Number(options.rateLimitBaseBackoffMs) || 1000;
+  for (let attempt = 0; ; attempt++) {
+    const response = await fetchImpl(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestBody),
+      ...(options.signal ? { signal: options.signal } : {}),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const raw = data.choices?.[0]?.message?.content || '';
+      return { raw, parsed: extractJsonObject(raw) };
+    }
     const errorBody = await response.text().catch(() => '');
+    const lowerBody = errorBody.toLowerCase();
+    const isRateLimited =
+      response.status === 429 ||
+      errorBody.includes('1302') ||
+      lowerBody.includes('rate limit') ||
+      lowerBody.includes('rate_limit');
+    if (isRateLimited && attempt < maxRetries) {
+      const retryAfterMs = parseRetryAfterMs(response.headers?.get?.('retry-after'));
+      const backoffMs = retryAfterMs ?? baseBackoffMs * 2 ** attempt + Math.floor(Math.random() * 750);
+      console.warn(`[deepseek-backoff] HTTP ${response.status} rate-limited; retry ${attempt + 1}/${maxRetries} after ${Math.round(backoffMs)}ms`);
+      await abortableSleep(backoffMs, options.signal);
+      continue;
+    }
     throw new Error(`DeepSeek analyze failed with HTTP ${response.status}: ${errorBody.slice(0, 200)}`);
   }
-  const data = await response.json();
-  const raw = data.choices?.[0]?.message?.content || '';
-  return { raw, parsed: extractJsonObject(raw) };
 }
 
 async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact = false }) {

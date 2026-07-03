@@ -24,6 +24,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DEFAULT_COVERAGE_LOOP_REPORT_PATH } from '../utils/paths.js';
 import { shouldRestartRun, computeBackoffMs } from './runCoverageHarvestLoop.js';
+import {
+  DEFAULT_CHECKPOINT_BRANCH,
+  isDictionaryCorrupt,
+  listCoverageCheckpoints,
+  restoreCoverageCheckpoint,
+} from '../services/coverageCheckpoint.js';
+import { DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
 
 const LOOP_SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), 'runCoverageHarvestLoop.js');
 
@@ -50,6 +57,37 @@ function readReport() {
     return JSON.parse(readFileSync(reportPath, 'utf-8'));
   } catch {
     return null;
+  }
+}
+
+/**
+ * Self-healing: if the live dictionary manifest is zeroed/corrupt (the exact
+ * power-loss symptom), restore the latest checkpoint before (re)launching the
+ * harvest loop. Returns true if a restore happened. No-op if the live files are
+ * fine or no checkpoints exist. Best-effort: never throws.
+ */
+async function autoRestoreIfCorrupt() {
+  try {
+    const corrupt = await isDictionaryCorrupt(DEFAULT_DICTIONARY_PATH);
+    if (!corrupt) return false;
+    const snapshots = await listCoverageCheckpoints({ branch: DEFAULT_CHECKPOINT_BRANCH, limit: 5 });
+    if (snapshots.length === 0) {
+      console.error('Watchdog: live dictionary is corrupt (zeroed/truncated) but no coverage-checkpoints exist to restore from. Coverage will start from the git-committed baseline.');
+      return false;
+    }
+    const latest = snapshots[0];
+    const ratio = latest.coverageRatio != null ? `${(latest.coverageRatio * 100).toFixed(2)}%` : '?';
+    console.warn(`Watchdog: live dictionary is corrupt (power-loss zeroed bytes). Restoring latest checkpoint ${latest.sha.slice(0, 8)} (ratio=${ratio}, entries=${latest.entries ?? '?'})...`);
+    const result = await restoreCoverageCheckpoint({ sha: latest.sha, branch: DEFAULT_CHECKPOINT_BRANCH });
+    if (result.ok) {
+      console.warn(`Watchdog: restored ${result.restored.length} path(s) from checkpoint ${result.sha.slice(0, 8)}. Continuing harvest from restored state.`);
+      return true;
+    }
+    console.error(`Watchdog: checkpoint restore failed: ${result.error}`);
+    return false;
+  } catch (error) {
+    console.warn(`Watchdog: auto-restore check skipped (non-fatal): ${error.message}`);
+    return false;
   }
 }
 
@@ -80,15 +118,22 @@ async function main() {
 
   console.log(`Watchdog: up to ${maxRestarts} restart(s), stop after ${maxNoProgress} no-progress run(s).`);
 
+  // Self-heal at startup: if a prior power-loss zeroed the live dictionary,
+  // restore the latest checkpoint before launching the first run.
+  await autoRestoreIfCorrupt();
+
   for (;;) {
     const code = await runHarvest();
     const report = readReport();
 
     if (!report) {
-      // Child exited before writing a report — import crash, OOM, or killed.
-      // Treat as no progress; the wall below stops us looping forever on a broken setup.
+      // Child exited before writing a report — import crash, OOM, killed, OR a
+      // power-loss that corrupted live files mid-run. Try to self-heal before
+      // the next restart so the loop doesn't keep crashing on the same corrupt
+      // dictionary.
       consecutiveNoProgress += 1;
       console.error(`Watchdog: harvest run produced no report (exit ${code}). no-progress ${consecutiveNoProgress}/${maxNoProgress}.`);
+      await autoRestoreIfCorrupt();
     } else {
       const ratio = report?.finalAudit?.coverage?.coverageRatio;
       const numericRatio = typeof ratio === 'number' ? ratio : -1;

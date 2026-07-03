@@ -225,12 +225,19 @@ Run this mental checklist:
 # Generated dictionary/coverage data (only stage when task explicitly says "commit harvested data")
 server/data/deepseekKeywordDictionary.entries/*
 server/data/deepseekKeywordDictionary.evidence/*
+server/data/keywordHarvestState.json
+server/data/keywordHarvestState.json.bak
 server/data/keywordCoverageAudit.json
 server/data/keywordCoverageActions.json
 server/data/keywordCoverageQueries.txt
 server/data/keywordCoverageLoopReport.json
 server/data/pythonContractComparison.json
 server/data/randomVerificationReport.json
+
+# Coverage checkpoint snapshots live ONLY on the coverage-checkpoints branch,
+# managed by server/services/coverageCheckpoint.js. Never hand-stage them onto
+# feature branches. The checkpoint system uses `git add --force` to push them
+# to coverage-checkpoints despite this policy.
 
 # Secrets (gitignored)
 set-deepseek-env.ps1
@@ -417,4 +424,69 @@ Before considering work "done," verify:
 | Python keyword evidence | `python_backend/analyzers/keyword_evidence.py` |
 | Python DeepSeek analyzer | `python_backend/analyzers/deepseek.py` |
 | Coverage audit CLI | `python_backend/cli/coverage_audit.py` |
+| Coverage checkpoint system | `server/services/coverageCheckpoint.js` |
+| Coverage loop (with checkpoints) | `server/scripts/runCoverageHarvestLoop.js` |
+| Coverage loop watchdog (auto-restore) | `server/scripts/runCoverageHarvestWatchdog.js` |
+| Checkpoint restore CLI | `server/scripts/restoreCoverageCheckpoint.js` |
 | Full architecture map | `docs/PROJECT_MAP.md` |
+
+---
+
+## 13. Coverage Checkpoint System (Power-Loss Safety)
+
+### 13.1 Why It Exists
+
+Harvested dictionary/state files live only on disk between commits, and a
+power-loss can **zero** unflushed disk writes (NTFS page cache lost on power
+cut). The harvest watchdog handles *process crashes* but cannot recover *lost
+bytes*. This happened once and cost a full session of harvest progress.
+
+### 13.2 How It Works
+
+Two defense layers:
+
+1. **Power-loss-safe writes** (`writeJsonFileAtomic` / `writeSerializedAtomic`
+   in `server/services/deepseekKeywordTrainer.js`): every shard/state write now
+   does temp-file → `fsync(tempFd)` → atomic rename → `fsync(parentDir)`. A
+   crash after rename can no longer leave a zeroed target.
+2. **20-minute git checkpoints** (`server/services/coverageCheckpoint.js`):
+   every ~20 min the harvest loop snapshots dictionary + state to the
+   `coverage-checkpoints` git branch using `commit-tree` + `update-ref`
+   plumbing — this advances the checkpoint branch **without moving HEAD or
+   switching the feature branch**. Git objects are write-once and fsync'd by
+   git itself, so snapshots survive power-loss. History is bounded to ~72
+   snapshots (~24h).
+
+### 13.3 Self-Healing
+
+The watchdog (`runCoverageHarvestWatchdog.js`) detects corrupt live files at
+startup and after every crash, and auto-restores the latest checkpoint before
+relaunching the loop. Power-loss → restart → watchdog sees zeroed manifest →
+restores latest snapshot → harvest resumes from ~20 min ago.
+
+### 13.4 Manual Recovery
+
+```bash
+# List recent checkpoints
+node server/scripts/restoreCoverageCheckpoint.js --list
+# Restore a specific snapshot (refuses if a harvest loop is running)
+node server/scripts/restoreCoverageCheckpoint.js --restore <sha>
+# Restore the newest snapshot
+node server/scripts/restoreCoverageCheckpoint.js --restore-latest
+```
+
+### 13.5 Config
+
+```
+BILIBILI_COVERAGE_CHECKPOINT_INTERVAL_MS=1200000   # 20 min (default)
+BILIBILI_COVERAGE_CHECKPOINT_MAX_SNAPSHOTS=72      # ~24h of snapshots
+BILIBILI_COVERAGE_CHECKPOINT_DISABLE=1             # opt out entirely
+```
+
+### 13.6 Staging Rules
+
+The `coverage-checkpoints` branch is the ONLY legitimate home for harvested
+dictionary snapshots. Never hand-stage `server/data/deepseekKeywordDictionary.*`
+or `keywordHarvestState.json` onto feature branches (see §5.1). The checkpoint
+system uses `git add --force` to bypass this policy for the checkpoint branch
+alone.
