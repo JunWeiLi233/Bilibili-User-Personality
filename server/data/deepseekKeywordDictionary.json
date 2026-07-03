@@ -1,13 +1,16 @@
 {
   "version": 1,
   "storage": "split",
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "shardMaxBytes": 65536,
   "entryFiles": {
     "attack": [
       "deepseekKeywordDictionary.entries/attack-001.json",
       "deepseekKeywordDictionary.entries/attack-002.json",
-      "deepseekKeywordDictionary.entries/attack-003.json"
+      "deepseekKeywordDictionary.entries/attack-003.json",
+      "deepseekKeywordDictionary.entries/attack-004.json",
+      "deepseekKeywordDictionary.entries/attack-005.json",
+      "deepseekKeywordDictionary.entries/attack-006.json"
     ],
     "absolutes": [
       "deepseekKeywordDictionary.entries/absolutes-001.json",
@@ -31,7 +34,10 @@
       "deepseekKeywordDictionary.entries/cooperation-001.json",
       "deepseekKeywordDictionary.entries/cooperation-002.json",
       "deepseekKeywordDictionary.entries/cooperation-003.json",
-      "deepseekKeywordDictionary.entries/cooperation-004.json"
+      "deepseekKeywordDictionary.entries/cooperation-004.json",
+      "deepseekKeywordDictionary.entries/cooperation-005.json",
+      "deepseekKeywordDictionary.entries/cooperation-006.json",
+      "deepseekKeywordDictionary.entries/cooperation-007.json"
     ],
     "correction": [
       "deepseekKeywordDictionary.entries/correction-001.json",
@@ -67,7 +73,9 @@
       "deepseekKeywordDictionary.evidence/attack-023.json",
       "deepseekKeywordDictionary.evidence/attack-024.json",
       "deepseekKeywordDictionary.evidence/attack-025.json",
-      "deepseekKeywordDictionary.evidence/attack-026.json"
+      "deepseekKeywordDictionary.evidence/attack-026.json",
+      "deepseekKeywordDictionary.evidence/attack-027.json",
+      "deepseekKeywordDictionary.evidence/attack-028.json"
     ],
     "absolutes": [
       "deepseekKeywordDictionary.evidence/absolutes-001.json",
@@ -118,7 +126,9 @@
       "deepseekKeywordDictionary.evidence/absolutes-046.json",
       "deepseekKeywordDictionary.evidence/absolutes-047.json",
       "deepseekKeywordDictionary.evidence/absolutes-048.json",
-      "deepseekKeywordDictionary.evidence/absolutes-049.json"
+      "deepseekKeywordDictionary.evidence/absolutes-049.json",
+      "deepseekKeywordDictionary.evidence/absolutes-050.json",
+      "deepseekKeywordDictionary.evidence/absolutes-051.json"
     ],
     "evidence": [
       "deepseekKeywordDictionary.evidence/evidence-001.json",
@@ -136,7 +146,8 @@
       "deepseekKeywordDictionary.evidence/evidence-013.json",
       "deepseekKeywordDictionary.evidence/evidence-014.json",
       "deepseekKeywordDictionary.evidence/evidence-015.json",
-      "deepseekKeywordDictionary.evidence/evidence-016.json"
+      "deepseekKeywordDictionary.evidence/evidence-016.json",
+      "deepseekKeywordDictionary.evidence/evidence-017.json"
     ],
     "evasion": [
       "deepseekKeywordDictionary.evidence/evasion-001.json",
@@ -150,7 +161,10 @@
       "deepseekKeywordDictionary.evidence/evasion-009.json",
       "deepseekKeywordDictionary.evidence/evasion-010.json",
       "deepseekKeywordDictionary.evidence/evasion-011.json",
-      "deepseekKeywordDictionary.evidence/evasion-012.json"
+      "deepseekKeywordDictionary.evidence/evasion-012.json",
+      "deepseekKeywordDictionary.evidence/evasion-013.json",
+      "deepseekKeywordDictionary.evidence/evasion-014.json",
+      "deepseekKeywordDictionary.evidence/evasion-015.json"
     ],
     "cooperation": [
       "deepseekKeywordDictionary.evidence/cooperation-001.json",
@@ -190,7 +204,9 @@
       "deepseekKeywordDictionary.evidence/cooperation-035.json",
       "deepseekKeywordDictionary.evidence/cooperation-036.json",
       "deepseekKeywordDictionary.evidence/cooperation-037.json",
-      "deepseekKeywordDictionary.evidence/cooperation-038.json"
+      "deepseekKeywordDictionary.evidence/cooperation-038.json",
+      "deepseekKeywordDictionary.evidence/cooperation-039.json",
+      "deepseekKeywordDictionary.evidence/cooperation-040.json"
     ],
     "correction": [
       "deepseekKeywordDictionary.evidence/correction-001.json",

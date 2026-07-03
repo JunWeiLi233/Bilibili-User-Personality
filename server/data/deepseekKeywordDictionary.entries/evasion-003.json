@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evasion",
   "shard": 3,
   "shardCount": 4,
@@ -479,8 +479,8 @@
       "meaning": "声称无话可说，实际拒绝继续辩论",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-30T19:16:38.303662Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:24:37.734Z"
     },
     {
       "term": "我无话可说",
@@ -1428,15 +1428,6 @@
       "updatedAt": "2026-06-29T05:08:34.169Z"
     },
     {
-      "term": "打太极",
-      "family": "evasion",
-      "meaning": "圆滑回避",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T04:36:14.009Z"
-    },
-    {
       "term": "打开百度",
       "family": "evasion",
       "meaning": "命令式推卸，要求对方立即使用搜索",
@@ -1514,8 +1505,8 @@
       "meaning": "故意制造混乱让事情变得复杂，以便浑水摸鱼",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T05:08:34.169Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:48:34.711Z"
     },
     {
       "term": "拉别人下水",
@@ -1541,7 +1532,7 @@
       "meaning": "转移举证义务，自身不提供反驳证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:29:28.729Z"
     },
     {
@@ -1734,15 +1725,6 @@
       "updatedAt": "2026-06-29T04:39:16.222Z"
     },
     {
-      "term": "无意冒犯",
-      "family": "evasion",
-      "meaning": "预先道歉但强调无心，降低责任风险",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:56:48.345Z"
-    },
-    {
       "term": "无所谓",
       "family": "evasion",
       "meaning": "同'随便吧'，回避选择或立场",
@@ -1757,8 +1739,8 @@
       "meaning": "拒绝解释",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T04:39:16.222Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:24:37.734Z"
     },
     {
       "term": "时间会证明",
@@ -2117,8 +2099,8 @@
       "meaning": "带语气词建议，仍不提供具体内容",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-30T19:48:25.898Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:24:37.734Z"
     },
     {
       "term": "查百度",
@@ -2126,7 +2108,7 @@
       "meaning": "建议使用百度搜索，回避直接回答",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:05:59.690Z"
     },
     {
@@ -2171,8 +2153,8 @@
       "meaning": "含糊建议对方查阅，不具体指出来源",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-30T19:48:25.898Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:24:37.734Z"
     },
     {
       "term": "查都不查就来问",
@@ -2216,7 +2198,7 @@
       "meaning": "坚决否认事实或已有证据，拒绝解释。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T06:03:59.579Z"
     },
     {
@@ -2254,6 +2236,24 @@
       "confidence": 0.8,
       "evidenceCount": 0,
       "updatedAt": "2026-06-29T05:08:34.169Z"
+    },
+    {
+      "term": "没听到",
+      "family": "evasion",
+      "meaning": "声称听觉缺失，推卸信息接收责任。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T06:01:19.199Z"
+    },
+    {
+      "term": "没必要解释",
+      "family": "evasion",
+      "meaning": "直接否定解释必要性，拒绝提供理由",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T04:50:17.673Z"
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "cooperation",
   "shard": 26,
-  "shardCount": 38,
+  "shardCount": 40,
   "evidence": [
     {
       "term": "有话好好说",
@@ -21,6 +21,37 @@
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VhoRY8Ei7/",
           "uid": "BV1VhoRY8Ei7",
           "sample": "有话好好说，别掐孩子行吗[疑惑]"
+        }
+      ]
+    },
+    {
+      "term": "有道理",
+      "evidenceSamples": [
+        "回复 @麟晚荣 :说得有道理。恐怕像这样的双标除了某些ikun也没谁了。只允许自己惹事，不允许有人批评，或者说仅仅是发个鬼畜娱乐，然后出事后随便截几个评论就试图把所有矛盾转移到黑粉身上说是反串。这不是某些ikun的常用套路吗？",
+        "有道理，其实中国的作词和作曲完全在两个层面，从作词来说，中文音乐的词在世界属于独一档，跟文化素质差的杠精没什么好说的，就算那bob dylan来比较，他在美帝能得文学奖，在国内真的就属于平庸的但是带有特定时代气息的作品而已，最有名的bitw在华人地区一线作词人的水平中最多算平庸之作，当然皿煮自由怪肯定不认可，不过这个根本无所谓。日本有很多不错的词，但是情绪和叙事范围比较狭窄，跟国内一线那几个还是有差距，但日本文学毕竟受到中文穿插很深，也确实学到了部分精髓。 至于作曲，国内作曲的逻辑性确实有问题，毕竟所谓琴棋书画，琴在第一，中国真正的音乐是很深奥的东西和大众层面脱离的相当大，这也是国内因为一直无法从上之下形成文化贯穿的原因之一，周杰伦是当代很好的贯穿者，另外香港的人山人海也做的相当不错，只是人山人海的受众就小了很多，基本都在粤语区。",
+        "她被黑是有道理的",
+        "中庸还是蛮有道理的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "361513634",
+          "sample": "回复 @麟晚荣 :说得有道理。恐怕像这样的双标除了某些ikun也没谁了。只允许自己惹事，不允许有人批评，或者说仅仅是发个鬼畜娱乐，然后出事后随便截几个评论就试图把所有矛盾转移到黑粉身上说是反串。这不是某些ikun的常用套路吗？"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "有道理，其实中国的作词和作曲完全在两个层面，从作词来说，中文音乐的词在世界属于独一档，跟文化素质差的杠精没什么好说的，就算那bob dylan来比较，他在美帝能得文学奖，在国内真的就属于平庸的但是带有特定时代气息的作品而已，最有名的bitw在华人地区一线作词人的水平中最多算平庸之作，当然皿煮自由怪肯定不认可，不过这个根本无所谓。日本有很多不错的词，但是情绪和叙事范围比较狭窄，跟国内一线那几个还是有差距，但日本文学毕竟受到中文穿插很深，也确实学到了部分精髓。 至于作曲，国内作曲的逻辑性确实有问题，毕竟所谓琴棋书画，琴在第一，中国真正的音乐是很深奥的东西和大众层面脱离的相当大，这也是国内因为一直无法从上之下形成文化贯穿的原因之一，周杰伦是当代很好的贯穿者，另外香港的人山人海也做的相当不错，只是人山人海的受众就小了很多，基本都在粤语区。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "347994223",
+          "sample": "她被黑是有道理的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uq4y1T7wR/, https://www.bilibili.com/video/BV1is421g7yZ/, https://www.bilibili.com/video/BV1fQg3zkEQU/, https://www.bilibili.com/video/BV1pV4y1i7VU/, https://www.bilibili.com/video/BV14Z421g78r/, https://www.bilibili.com/video/BV1ys4y1F7Gc/, http://www.bilibili.com/video/av547736446, http://www.bilibili.com/video/av114872608100276, http://www.bilibili.com/video/av1155727561, http://www.bilibili.com/video/av115025884747482, http://www.bilibili.com/video/av997679607, http://www.bilibili.com/video/av580921221, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av116072212596613, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av112885128956016, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av112932692231241, http://www.bilibili.com/video/av112887779558294, http://www.bilibili.com/video/av114765619793436, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av34866935, http://www.bilibili.com/video/av114742333016741, http://www.bilibili.com/video/av857235647, http://www.bilibili.com/video/av115637800213806, http://www.bilibili.com/video/av114214739904920, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av288122514, http://www.bilibili.com/video/av1855352649, http://www.bilibili.com/video/av871778362, http://www.bilibili.com/video/av955390078, http://www.bilibili.com/video/av112919740154585, http://www.bilibili.com/video/av113480317276519, http://www.bilibili.com/video/av465848268",
+          "uid": "BV1uq4y1T7wR,BV1is421g7yZ,BV1fQg3zkEQU,BV1pV4y1i7VU,BV14Z421g78r,BV1ys4y1F7Gc",
+          "sample": "中庸还是蛮有道理的"
         }
       ]
     },
@@ -289,53 +320,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
           "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
           "sample": "正确的。我之前在想为什么烂人越来越多了。后来才明白，不是数量变多了，而是互联网让我看到了。至于怎么看待事物，取决于我们是怎样的人，评论只是评论者自我的投射，而不能决定创作者如何。"
-        }
-      ]
-    },
-    {
-      "term": "正解",
-      "evidenceSamples": [
-        "回复 @阴阳怪气的死人 :正解，",
-        "正解",
-        "真夜中的无法成为正解，BV1mv41147ST",
-        "这个正解",
-        "因为想学五线谱你跟我说要先学乐理的（唯一正解）"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "49688971",
-          "sample": "回复 @阴阳怪气的死人 :正解，"
-        },
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "49688971",
-          "sample": "正解"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14sZqYeEgc/",
-          "uid": "BV14sZqYeEgc",
-          "sample": "真夜中的无法成为正解，BV1mv41147ST"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L6ZvY1EMm/",
-          "uid": "BV1L6ZvY1EMm",
-          "sample": "这个正解"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Hg411w7n2/",
-          "uid": "BV1Hg411w7n2",
-          "sample": "因为想学五线谱你跟我说要先学乐理的（唯一正解）"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
-          "uid": "31520653556",
-          "sample": "蟹黄豆腐才是正解"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1agVQ6eEh1/",
-          "uid": "BV1agVQ6eEh1",
-          "sample": "正解：这期是小孩陪游"
         }
       ]
     }

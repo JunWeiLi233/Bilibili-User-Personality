@@ -1,28 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evasion",
   "shard": 4,
   "shardCount": 4,
   "entries": [
-    {
-      "term": "没听到",
-      "family": "evasion",
-      "meaning": "声称听觉缺失，推卸信息接收责任。",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T06:01:19.199Z"
-    },
-    {
-      "term": "没必要解释",
-      "family": "evasion",
-      "meaning": "直接否定解释必要性，拒绝提供理由",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:50:17.673Z"
-    },
     {
       "term": "没文化真可怕",
       "family": "evasion",
@@ -139,15 +121,6 @@
       "confidence": 0.68,
       "evidenceCount": 2,
       "updatedAt": "2026-06-29T05:48:08.552Z"
-    },
-    {
-      "term": "狗头保命",
-      "family": "evasion",
-      "meaning": "用狗头表情暗示是玩笑，逃避后续争议",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T04:59:20.629Z"
     },
     {
       "term": "狡辩",
@@ -290,7 +263,7 @@
       "meaning": "表达无奈认输，推卸继续对抗或解释的责任。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:53:52.745Z"
     },
     {
@@ -308,8 +281,8 @@
       "meaning": "暗示对方自行理解，实则回避正面说明",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-30T19:21:05.546Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-03T19:24:37.734Z"
     },
     {
       "term": "细思极恐",
@@ -326,7 +299,7 @@
       "meaning": "说话弯弯绕绕，就是不触及核心问题",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:08:34.169Z"
     },
     {
@@ -407,7 +380,7 @@
       "meaning": "要求对方翻阅资料自行查找",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:05:59.690Z"
     },
     {
@@ -453,7 +426,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "自己搜去",
@@ -480,7 +453,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "自己查一下",
@@ -498,7 +471,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "自己查证",
@@ -542,7 +515,7 @@
       "meaning": "动词化百度，要求对方",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T04:30:37.164Z"
     },
     {
@@ -1248,15 +1221,6 @@
       "updatedAt": "2026-06-29T05:08:34.170Z"
     },
     {
-      "term": "避重就轻",
-      "family": "evasion",
-      "meaning": "批评对方回避主要问题，自己也在用",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-30T19:38:02.840Z"
-    },
-    {
       "term": "那不是重点",
       "family": "evasion",
       "meaning": "转移话题焦点，避开核心问题",
@@ -1451,8 +1415,8 @@
       "meaning": "将解释义务转嫁给搜索引擎",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:05:59.690Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-07-03T19:24:37.734Z"
     },
     {
       "term": "问谷歌",
@@ -1550,7 +1514,7 @@
       "meaning": "表示无所谓，实则放弃话语权",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
+      "evidenceCount": 1,
       "updatedAt": "2026-06-29T05:36:27.890Z"
     },
     {

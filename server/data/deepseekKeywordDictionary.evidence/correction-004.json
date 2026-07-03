@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "correction",
   "shard": 4,
   "shardCount": 10,
@@ -519,23 +519,13 @@
     {
       "term": "我看错",
       "evidenceSamples": [
-        "你看错了，那是湖鸽[doge]",
-        "发现up模特接单拍的衣服了，第一眼还以为自己看错了[笑哭]",
         "那个小炮打野我看错了，看成小野打炮了",
         "我真的心凉了[大哭]我也是一直在看前两天视频没了我还以为我看错了。。。[大哭][大哭]后面的口诀我还一个都没看呢",
-        "各位大佬，小弟想问，就是‘也许你今天看错了我徐坤，但你今天依然看错了，但我仍然是狗’宁可天下人揍我，休叫我去打篮球‘天下娘炮唯我徐坤一人，其他都是正常人’这首好听的歌出自哪里呀"
+        "各位大佬，小弟想问，就是‘也许你今天看错了我徐坤，但你今天依然看错了，但我仍然是狗’宁可天下人揍我，休叫我去打篮球‘天下娘炮唯我徐坤一人，其他都是正常人’这首好听的歌出自哪里呀",
+        "看错了以为byd[doge]",
+        "你看错了，那是湖鸽[doge]"
       ],
       "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV13bZpYvEiZ/",
-          "uid": "BV13bZpYvEiZ",
-          "sample": "你看错了，那是湖鸽[doge]"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1pEZhY5EsD/",
-          "uid": "BV1pEZhY5EsD",
-          "sample": "发现up模特接单拍的衣服了，第一眼还以为自己看错了[笑哭]"
-        },
         {
           "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
           "uid": "",
@@ -555,6 +545,16 @@
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1M9fNYEEta/",
           "uid": "BV1M9fNYEEta",
           "sample": "看错了以为byd[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV13bZpYvEiZ/",
+          "uid": "BV13bZpYvEiZ",
+          "sample": "你看错了，那是湖鸽[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1pEZhY5EsD/",
+          "uid": "BV1pEZhY5EsD",
+          "sample": "发现up模特接单拍的衣服了，第一眼还以为自己看错了[笑哭]"
         },
         {
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1C84y127W2/",
@@ -571,13 +571,23 @@
     {
       "term": "我看错了",
       "evidenceSamples": [
+        "我真的心凉了[大哭]我也是一直在看前两天视频没了我还以为我看错了。。。[大哭][大哭]后面的口诀我还一个都没看呢",
+        "看错了以为byd[doge]",
         "你看错了，那是湖鸽[doge]",
         "发现up模特接单拍的衣服了，第一眼还以为自己看错了[笑哭]",
-        "那个小炮打野我看错了，看成小野打炮了",
-        "各位大佬，小弟想问，就是‘也许你今天看错了我徐坤，但你今天依然看错了，但我仍然是狗’宁可天下人揍我，休叫我去打篮球‘天下娘炮唯我徐坤一人，其他都是正常人’这首好听的歌出自哪里呀",
-        "我真的心凉了[大哭]我也是一直在看前两天视频没了我还以为我看错了。。。[大哭][大哭]后面的口诀我还一个都没看呢"
+        "那个小炮打野我看错了，看成小野打炮了"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1S1QAY8Eqk/",
+          "uid": "BV1S1QAY8Eqk",
+          "sample": "我真的心凉了[大哭]我也是一直在看前两天视频没了我还以为我看错了。。。[大哭][大哭]后面的口诀我还一个都没看呢"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1M9fNYEEta/",
+          "uid": "BV1M9fNYEEta",
+          "sample": "看错了以为byd[doge]"
+        },
         {
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV13bZpYvEiZ/",
           "uid": "BV13bZpYvEiZ",
@@ -597,16 +607,6 @@
           "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
           "uid": "50981705",
           "sample": "各位大佬，小弟想问，就是‘也许你今天看错了我徐坤，但你今天依然看错了，但我仍然是狗’宁可天下人揍我，休叫我去打篮球‘天下娘炮唯我徐坤一人，其他都是正常人’这首好听的歌出自哪里呀"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1S1QAY8Eqk/",
-          "uid": "BV1S1QAY8Eqk",
-          "sample": "我真的心凉了[大哭]我也是一直在看前两天视频没了我还以为我看错了。。。[大哭][大哭]后面的口诀我还一个都没看呢"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1M9fNYEEta/",
-          "uid": "BV1M9fNYEEta",
-          "sample": "看错了以为byd[doge]"
         },
         {
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1C84y127W2/",

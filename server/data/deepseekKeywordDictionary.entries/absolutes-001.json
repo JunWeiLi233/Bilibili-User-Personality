@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "absolutes",
   "shard": 1,
   "shardCount": 4,
@@ -147,7 +147,7 @@
       "risk": "medium",
       "confidence": 0.9,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "一定不",
@@ -155,8 +155,8 @@
       "meaning": "表示必然否定。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "一定不会",
@@ -164,8 +164,8 @@
       "meaning": "确定性否定，保证不发生",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "一定会",
@@ -173,8 +173,8 @@
       "meaning": "确定性肯定，保证发生",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "一定可以",
@@ -200,8 +200,8 @@
       "meaning": "断定唯一性，排除其他可能性，容易显得武断。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "一定没错",
@@ -345,7 +345,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "一直如此",
@@ -372,7 +372,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "一直都这样",
@@ -750,7 +750,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "人人皆知",
@@ -768,7 +768,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "人人都能做到",
@@ -956,8 +956,8 @@
       "meaning": "以绝对时间跨度概括整体历史，否定任何例外情况的可能性",
       "risk": "high",
       "confidence": 0.93,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "从来不",
@@ -1056,7 +1056,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "从来没见过",
@@ -1082,8 +1082,8 @@
       "meaning": "频率夸张，表示从过去到现在一直如此，用于概括",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "从来都是",
@@ -1092,7 +1092,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "从没",
@@ -1254,7 +1254,7 @@
       "risk": "medium",
       "confidence": 0.93,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "全是假的",
@@ -1326,7 +1326,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:49:40.280Z"
     },
     {
       "term": "全部出完",
@@ -1397,8 +1397,8 @@
       "meaning": "全称量化断言，强调无一例外，常用于地图炮式批评。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "全部都是垃圾",
@@ -1425,7 +1425,7 @@
       "risk": "medium",
       "confidence": 0.94,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "全都一样",
@@ -1460,8 +1460,8 @@
       "meaning": "全称量化",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "全面",
@@ -2135,8 +2135,8 @@
       "meaning": "形容坚守不变，完全一致",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T06:01:19.196Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-03T19:39:47.733Z"
     },
     {
       "term": "完全",
@@ -2144,8 +2144,8 @@
       "meaning": "强调程度和范围的绝对性，排斥任何部分或有限的可能性",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "完全一样",
@@ -2163,7 +2163,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "完全不可能",
@@ -2216,8 +2216,8 @@
       "meaning": "绝对肯定，表示某事物没有任何障碍或问题",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-03T19:49:40.280Z"
     },
     {
       "term": "完全同意",
@@ -2253,7 +2253,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:36:03.802Z"
     },
     {
       "term": "完全就是我",

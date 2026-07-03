@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evasion",
   "shard": 3,
-  "shardCount": 12,
+  "shardCount": 15,
   "evidence": [
     {
       "term": "你品你细品",
@@ -49,6 +49,11 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
           "uid": "38708512571",
           "sample": "管你们怎么说呢，反正你听爽了，那你品味是到头了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sg411a7AA/, https://www.bilibili.com/video/BV1AD4y1r76q/, https://www.bilibili.com/video/BV1XRTq61E8x/, https://www.bilibili.com/video/BV1f44y1E7SH/, http://www.bilibili.com/video/av516632146, http://www.bilibili.com/video/av731645645, http://www.bilibili.com/video/av116844820239644, http://www.bilibili.com/video/av977422610",
+          "uid": "BV1sg411a7AA,BV1AD4y1r76q,BV1XRTq61E8x,BV1f44y1E7SH",
+          "sample": "现今的华流是个屁！流行歌曲压根没有一丝内涵，掺杂几句英文、乱喊乱叫说是标新立异。吊个戏腔，词里加个殇、兮、否就说是古风。偶尔那么几个还可以，但是整个市场发风格都争相抄袭，趋同化，造成满大街都是粗制滥造的作品。希望所有中国文艺圈能好好沉淀，用..."
         }
       ]
     },
@@ -569,6 +574,11 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
           "uid": "38708512571",
           "sample": "管你们怎么说呢，反正你听爽了，那你品味是到头了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sg411a7AA/, https://www.bilibili.com/video/BV1AD4y1r76q/, https://www.bilibili.com/video/BV1XRTq61E8x/, https://www.bilibili.com/video/BV1f44y1E7SH/, http://www.bilibili.com/video/av516632146, http://www.bilibili.com/video/av731645645, http://www.bilibili.com/video/av116844820239644, http://www.bilibili.com/video/av977422610",
+          "uid": "BV1sg411a7AA,BV1AD4y1r76q,BV1XRTq61E8x,BV1f44y1E7SH",
+          "sample": "现今的华流是个屁！流行歌曲压根没有一丝内涵，掺杂几句英文、乱喊乱叫说是标新立异。吊个戏腔，词里加个殇、兮、否就说是古风。偶尔那么几个还可以，但是整个市场发风格都争相抄袭，趋同化，造成满大街都是粗制滥造的作品。希望所有中国文艺圈能好好沉淀，用..."
         }
       ]
     },
@@ -632,13 +642,23 @@
     {
       "term": "你自己搜",
       "evidenceSamples": [
+        "无毒——更新资料库没绷住\\n整半天还得自己查，自己甄别真假",
+        "以前讲过的吧 你自己搜一下",
         "笑死我了，粉丝自己搜搜看，哪个明星搜出来按排放量前面全是鬼畜",
         "回复 @网易它没马 :自己查",
-        "叫马嘉祺，https://www.bilibili.com/read/cv17066744 其他就不说了我困了自己搜[脱单doge]",
-        "去年没出？京红一面自己搜",
-        "无毒——更新资料库没绷住\\n整半天还得自己查，自己甄别真假"
+        "叫马嘉祺，https://www.bilibili.com/read/cv17066744 其他就不说了我困了自己搜[脱单doge]"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FVVE6WEb3/",
+          "uid": "BV1FVVE6WEb3",
+          "sample": "无毒——更新资料库没绷住\\n整半天还得自己查，自己甄别真假"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1W9ZbYkEwf/",
+          "uid": "BV1W9ZbYkEwf",
+          "sample": "以前讲过的吧 你自己搜一下"
+        },
         {
           "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
           "uid": "374752669",
@@ -658,16 +678,6 @@
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1zfVn68Ead/",
           "uid": "BV1zfVn68Ead",
           "sample": "去年没出？京红一面自己搜"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FVVE6WEb3/",
-          "uid": "BV1FVVE6WEb3",
-          "sample": "无毒——更新资料库没绷住\\n整半天还得自己查，自己甄别真假"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1W9ZbYkEwf/",
-          "uid": "BV1W9ZbYkEwf",
-          "sample": "以前讲过的吧 你自己搜一下"
         },
         {
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",

@@ -1,0 +1,837 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-03T19:51:05.336Z",
+  "family": "cooperation",
+  "shard": 7,
+  "shardCount": 7,
+  "entries": [
+    {
+      "term": "重量级",
+      "family": "cooperation",
+      "meaning": "调侃某人或某事非常突出、厉害，B站常用作友好调侃",
+      "risk": "positive",
+      "confidence": 0.82,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T07:11:58.068Z"
+    },
+    {
+      "term": "金手指",
+      "family": "cooperation",
+      "meaning": "游戏作弊代码或修改器，常指不通过正常手段获得优势",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T00:57:39.053Z"
+    },
+    {
+      "term": "金蓝",
+      "family": "cooperation",
+      "meaning": "在MyGO圈中指代CP金（高松灯？）×蓝（千早爱音？），实为长崎素世×千早爱音，粉丝自嘲调侃",
+      "risk": "neutral",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T01:38:16.499Z"
+    },
+    {
+      "term": "金蓝人",
+      "family": "cooperation",
+      "meaning": "在MyGO圈中指代CP金（高松灯？）×蓝（千早爱音？），实为长崎素世×千早爱音，粉丝自嘲调侃",
+      "risk": "neutral",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T01:38:16.499Z"
+    },
+    {
+      "term": "金蓝厨",
+      "family": "cooperation",
+      "meaning": "在MyGO圈中指代CP金（高松灯？）×蓝（千早爱音？），实为长崎素世×千早爱音，粉丝自嘲调侃",
+      "risk": "neutral",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T01:38:16.499Z"
+    },
+    {
+      "term": "金蓝王朝",
+      "family": "cooperation",
+      "meaning": "夸张描述官方配对（如金蓝）被粉丝摆成主流统治地位，带有调侃",
+      "risk": "neutral",
+      "confidence": 0.93,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T01:38:16.499Z"
+    },
+    {
+      "term": "鉴于",
+      "family": "cooperation",
+      "meaning": "原因提及，基于情况，引导合作决策。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T05:45:25.473Z"
+    },
+    {
+      "term": "鉴定一下网络热门生物视频",
+      "family": "cooperation",
+      "meaning": "B站up主狐主任的经典口头禅，用于科普生物视频开头",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T11:19:40.832Z"
+    },
+    {
+      "term": "鉴定完毕",
+      "family": "cooperation",
+      "meaning": "表示看完某内容后给出明确肯定的结论，常用于表态",
+      "risk": "low",
+      "confidence": 1,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T09:13:30.756Z"
+    },
+    {
+      "term": "链接挂了",
+      "family": "cooperation",
+      "meaning": "指出分享的链接已失效，需要重新提供",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T23:24:39.725Z"
+    },
+    {
+      "term": "链接链接",
+      "family": "cooperation",
+      "meaning": "重复强调链接，多用于索要或提供购物/资源链接的互动",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T17:09:36.796Z"
+    },
+    {
+      "term": "锁了",
+      "family": "cooperation",
+      "meaning": "网络用语，指视频或内容被平台删除、隐藏或和谐，常带有无奈或调侃",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T07:43:19.286Z"
+    },
+    {
+      "term": "锁了呀",
+      "family": "cooperation",
+      "meaning": "网络用语，指视频或内容被平台删除、隐藏或和谐，常带有无奈或调侃",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T07:43:19.286Z"
+    },
+    {
+      "term": "锐评",
+      "family": "cooperation",
+      "meaning": "指尖锐、直接的评论，常用于视频标题或自我标榜，表示内容敢于直言不讳",
+      "risk": "positive",
+      "confidence": 0.78,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T10:15:40.365Z"
+    },
+    {
+      "term": "长见识了",
+      "family": "cooperation",
+      "meaning": "表示从对方处学到新知识",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "问题在于",
+      "family": "cooperation",
+      "meaning": "引出关键矛盾或局限，引导对方聚焦核心问题，推进讨论。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T05:36:27.891Z"
+    },
+    {
+      "term": "闽兔",
+      "family": "cooperation",
+      "meaning": "B站UP的福建粉丝自称，或特定粉丝群体名称",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T08:48:38.573Z"
+    },
+    {
+      "term": "阉割版",
+      "family": "cooperation",
+      "meaning": "功能缩减的产品版本，带简化但可接受的意味",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T05:29:40.582Z"
+    },
+    {
+      "term": "阳光闺女",
+      "family": "cooperation",
+      "meaning": "对女性角色或UP主的昵称/赞美，表达喜爱，无攻击性",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T08:27:33.381Z"
+    },
+    {
+      "term": "阳间斗技",
+      "family": "cooperation",
+      "meaning": "指代该AI辅助斗技项目，与阴间斗技相对，含义为健康正常的斗技",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T05:57:54.590Z"
+    },
+    {
+      "term": "阿姨我喜欢你",
+      "family": "cooperation",
+      "meaning": "观众对UP主的调侃式表白，通常用于玩梗",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T04:29:27.951Z"
+    },
+    {
+      "term": "阿姨我喜欢你的脚",
+      "family": "cooperation",
+      "meaning": "观众对UP主的调侃式表白，通常用于玩梗",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T04:29:27.951Z"
+    },
+    {
+      "term": "阿星",
+      "family": "cooperation",
+      "meaning": "昵称，在蹲守语境中代表期待出现的角色或用户",
+      "risk": "neutral",
+      "confidence": 0.6,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T22:17:44.508Z"
+    },
+    {
+      "term": "阿瓦隆ai",
+      "family": "cooperation",
+      "meaning": "B站用户对内部AI弹幕审核系统（阿瓦隆）的戏称，常用于抱怨评论或弹幕被误删",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T13:53:33.972Z"
+    },
+    {
+      "term": "附议",
+      "family": "cooperation",
+      "meaning": "正式附和，表示同意。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:30:30.578Z"
+    },
+    {
+      "term": "陈巨龙还在冷却中",
+      "family": "cooperation",
+      "meaning": "游戏或自创梗，表示角色技能未冷却或自己暂时无法行动，常用于自嘲或解释缺席",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T03:14:57.820Z"
+    },
+    {
+      "term": "限流",
+      "family": "cooperation",
+      "meaning": "指平台限制视频/账号流量，常被用户讨论",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T13:50:06.479Z"
+    },
+    {
+      "term": "除了",
+      "family": "cooperation",
+      "meaning": "限定词，排除某些情况。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T20:01:58.559Z"
+    },
+    {
+      "term": "除了这个",
+      "family": "cooperation",
+      "meaning": "引入例外或补充，表示并非全盘否定，体现包容性",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "除非",
+      "family": "cooperation",
+      "meaning": "强调例外情况，引导对方承认前提，有助于化解分歧",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T14:33:48.382Z"
+    },
+    {
+      "term": "陪一根",
+      "family": "cooperation",
+      "meaning": "‘烟’梗，表示赞同、附和，常用于评论区互动",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T21:24:53.562Z"
+    },
+    {
+      "term": "陪跑",
+      "family": "cooperation",
+      "meaning": "付出努力但徒劳无获，常用来自嘲或描述抽奖失败",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T14:45:06.607Z"
+    },
+    {
+      "term": "陷阱",
+      "family": "cooperation",
+      "meaning": "用来指看似好用实则不利的选择或策略，常出现在技巧分析中",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T12:27:17.432Z"
+    },
+    {
+      "term": "随你",
+      "family": "cooperation",
+      "meaning": "表示不干预对方选择，配合",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T05:02:28.054Z"
+    },
+    {
+      "term": "随你吧",
+      "family": "cooperation",
+      "meaning": "放弃主导权，让对方决定，减少冲突可能性。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:18:10.870Z"
+    },
+    {
+      "term": "难崩",
+      "family": "cooperation",
+      "meaning": "表示好笑到难以忍住，常用于自嘲或表达对搞笑内容的共鸣",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T13:15:15.744Z"
+    },
+    {
+      "term": "难绷",
+      "family": "cooperation",
+      "meaning": "难以忍住笑或尴尬，是“绷不住”的变体",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 1,
+      "updatedAt": "2026-07-03T19:42:37.361Z"
+    },
+    {
+      "term": "难绷的",
+      "family": "cooperation",
+      "meaning": "谐音'难蚌'，表示忍不住笑或无法保持镇定",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T15:21:16.939Z"
+    },
+    {
+      "term": "难绷程度",
+      "family": "cooperation",
+      "meaning": "形容尴尬、无语、令人哭笑不得",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T15:21:16.939Z"
+    },
+    {
+      "term": "难蚌",
+      "family": "cooperation",
+      "meaning": "‘难绷’的谐音，表示尴尬、难以忍受的情绪",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T08:49:21.421Z"
+    },
+    {
+      "term": "难说",
+      "family": "cooperation",
+      "meaning": "表达不确定",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "雀氏",
+      "family": "cooperation",
+      "meaning": "谐音'确实'，网络口语中表示肯定、赞同，语气随意",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T04:13:53.473Z"
+    },
+    {
+      "term": "雀食",
+      "family": "cooperation",
+      "meaning": "对前述观点表示同意，带调侃语气，常搭配doge表情",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T10:01:51.884Z"
+    },
+    {
+      "term": "雄鹰般的女人",
+      "family": "cooperation",
+      "meaning": "形容女性强大、独立的网络流行语，常带调侃或赞赏语气",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T20:41:25.090Z"
+    },
+    {
+      "term": "雅实在是雅",
+      "family": "cooperation",
+      "meaning": "引用或模仿式赞叹，表达对文言文内容的高度欣赏",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T14:34:22.730Z"
+    },
+    {
+      "term": "雌小鬼",
+      "family": "cooperation",
+      "meaning": "源自日语的二次元属性，指任性嚣张的少女角色，常与调戏和征服欲相关",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T11:30:32.316Z"
+    },
+    {
+      "term": "零氪",
+      "family": "cooperation",
+      "meaning": "指不花钱充值的玩家，游戏圈用语",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T08:27:55.709Z"
+    },
+    {
+      "term": "露头就秒",
+      "family": "cooperation",
+      "meaning": "形容火力强大，怪物一出现就被消灭",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T17:09:48.689Z"
+    },
+    {
+      "term": "非杠",
+      "family": "cooperation",
+      "meaning": "否认恶意抬杠，解释为认真讨论",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T05:59:18.194Z"
+    },
+    {
+      "term": "非碳基生物",
+      "family": "cooperation",
+      "meaning": "形容内容非同寻常、外星化或奇怪，带有幽默调侃",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T07:29:30.936Z"
+    },
+    {
+      "term": "非黑",
+      "family": "cooperation",
+      "meaning": "否认非此即彼的极端立场",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T05:59:18.194Z"
+    },
+    {
+      "term": "音画不同步",
+      "family": "cooperation",
+      "meaning": "指出视频音画不同步问题，帮助改进",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T09:07:49.236Z"
+    },
+    {
+      "term": "顶一个",
+      "family": "cooperation",
+      "meaning": "支持楼主或前面发言",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "顶我上去",
+      "family": "cooperation",
+      "meaning": "求点赞或支持的弹幕常用语",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T03:02:05.275Z"
+    },
+    {
+      "term": "顶星星眼",
+      "family": "cooperation",
+      "meaning": "网络用语，表示支持、赞赏，配合星星眼表情表达喜爱",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T17:00:17.998Z"
+    },
+    {
+      "term": "顶碗人",
+      "family": "cooperation",
+      "meaning": "虚拟主播向晚粉丝群体的自称呼，带有社群归属感",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T22:03:59.835Z"
+    },
+    {
+      "term": "顶礼膜拜",
+      "family": "cooperation",
+      "meaning": "极度崇拜对方，用夸张表达表示认同",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T05:02:28.054Z"
+    },
+    {
+      "term": "顺便提一句",
+      "family": "cooperation",
+      "meaning": "附带提及，无意冲撞",
+      "risk": "positive",
+      "confidence": 0.87,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "顺带一提",
+      "family": "cooperation",
+      "meaning": "附言式补充，显示开放",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-29T04:05:59.692Z"
+    },
+    {
+      "term": "预言家刀了",
+      "family": "cooperation",
+      "meaning": "狼人杀梗，调侃预测准确，常用于友好互动",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T12:57:13.406Z"
+    },
+    {
+      "term": "预言家刀了刀了",
+      "family": "cooperation",
+      "meaning": "狼人杀梗，调侃预测准确，常用于友好互动",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T12:57:13.406Z"
+    },
+    {
+      "term": "食用更佳",
+      "family": "cooperation",
+      "meaning": "网络用语，表示搭配使用效果更好，建议性合作",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T23:24:39.725Z"
+    },
+    {
+      "term": "饭托酒托",
+      "family": "cooperation",
+      "meaning": "指诱骗顾客消费的托儿，常用来批评或提醒",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T12:05:23.848Z"
+    },
+    {
+      "term": "饱和度战神",
+      "family": "cooperation",
+      "meaning": "调侃画面饱和度调色过艳的网友戏称，此处为评价‘终于不再过饱和’的正面变化",
+      "risk": "positive",
+      "confidence": 0.6,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T23:12:04.783Z"
+    },
+    {
+      "term": "馆公面前耍大刀",
+      "family": "cooperation",
+      "meaning": "改编自‘关公面前耍大刀’，用于自嘲在道馆（游戏场景）前卖弄，带调侃意味",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T06:15:39.485Z"
+    },
+    {
+      "term": "首评",
+      "family": "cooperation",
+      "meaning": "弹幕中抢第一条评论的行为，表示抢先发言，带有戏谑或争夺意味",
+      "risk": "neutral",
+      "confidence": 0.6,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T00:39:42.737Z"
+    },
+    {
+      "term": "首页通知书",
+      "family": "cooperation",
+      "meaning": "B站文化梗，指视频被推荐到首页的专属弹幕，表达祝贺和认证",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T11:30:55.493Z"
+    },
+    {
+      "term": "马可b罗",
+      "family": "cooperation",
+      "meaning": "游戏英雄马可波罗的谐音变体，用于轻松称呼",
+      "risk": "neutral",
+      "confidence": 0.6,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T20:07:49.949Z"
+    },
+    {
+      "term": "马邦德",
+      "family": "cooperation",
+      "meaning": "来自电影《让子弹飞》的角色名，用于玩梗或自嘲",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T02:30:26.926Z"
+    },
+    {
+      "term": "马骝",
+      "family": "cooperation",
+      "meaning": "粤语音译指猴子，网络用语用于自嘲或形容人调皮",
+      "risk": "low",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T12:17:04.655Z"
+    },
+    {
+      "term": "骑虎难下",
+      "family": "cooperation",
+      "meaning": "自嘲或调侃处境尴尬，被观众要求继续，无奈又配合",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T11:15:02.055Z"
+    },
+    {
+      "term": "骨科",
+      "family": "cooperation",
+      "meaning": "网络梗，指兄妹/姐弟乱伦恋情，源自德国骨科故事，用于讨论相关剧情",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T05:41:58.319Z"
+    },
+    {
+      "term": "高下立判",
+      "family": "cooperation",
+      "meaning": "比较两者优劣，当即能看出好坏，常用于对比评价",
+      "risk": "neutral",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T01:33:26.880Z"
+    },
+    {
+      "term": "高情商",
+      "family": "cooperation",
+      "meaning": "网络用语，指说话让人舒服，常用于对比情境",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T07:59:38.703Z"
+    },
+    {
+      "term": "高淫商",
+      "family": "cooperation",
+      "meaning": "谐音'高情商'，但故意改字调侃性话题",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T18:34:49.718Z"
+    },
+    {
+      "term": "高清黑历史",
+      "family": "cooperation",
+      "meaning": "指清晰记录的黑历史视频，用于调侃",
+      "risk": "low",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T13:10:46.707Z"
+    },
+    {
+      "term": "高端局",
+      "family": "cooperation",
+      "meaning": "网络流行语，形容当前情况复杂或局面高级，带有调侃或郑重其事的意味",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T03:08:07.632Z"
+    },
+    {
+      "term": "高能",
+      "family": "cooperation",
+      "meaning": "弹幕预警用语，提示即将出现精彩或重要内容，属于合作提醒",
+      "risk": "low",
+      "confidence": 0.95,
+      "evidenceCount": 1,
+      "updatedAt": "2026-07-03T19:43:05.240Z"
+    },
+    {
+      "term": "高能预警",
+      "family": "cooperation",
+      "meaning": "弹幕预警用语，提示即将出现重要或刺激内容",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T17:00:17.998Z"
+    },
+    {
+      "term": "高见",
+      "family": "cooperation",
+      "meaning": "称赞对方观点，但可能带调侃",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "鬼火漂移",
+      "family": "cooperation",
+      "meaning": "网络梗，指夸张的漂移动作，常用于搞笑视频",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T06:56:57.031Z"
+    },
+    {
+      "term": "魍精卫",
+      "family": "cooperation",
+      "meaning": "利用谐音双关将“精卫”与“旺”组合，调侃如果精卫火了大家就变成‘旺精卫’，形似历史人物汪精卫，属于文字游戏和幽默调侃",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-01T17:05:11.764Z"
+    },
+    {
+      "term": "魔鬼",
+      "family": "cooperation",
+      "meaning": "夸张式调侃，表达对内容的震惊或搞笑评价，不构成真实攻击",
+      "risk": "positive",
+      "confidence": 0.65,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T09:48:43.598Z"
+    },
+    {
+      "term": "鱼塘",
+      "family": "cooperation",
+      "meaning": "指游戏低分段玩家群体，社区约定俗成的分类用语",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T11:05:37.988Z"
+    },
+    {
+      "term": "鲸鱼娘",
+      "family": "cooperation",
+      "meaning": "对DeepSeek AI的拟人化称呼，表达亲切、陪伴或调侃，无攻击性",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T13:56:04.415Z"
+    },
+    {
+      "term": "鸟枪换炮",
+      "family": "cooperation",
+      "meaning": "比喻从小件换到大件，此处指显卡大幅升级",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T04:50:26.043Z"
+    },
+    {
+      "term": "鸡哥",
+      "family": "cooperation",
+      "meaning": "对蔡徐坤的昵称，源自‘鸡你太美’梗，常用于玩梗或自称",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T12:36:11.920Z"
+    },
+    {
+      "term": "鸽鸽",
+      "family": "cooperation",
+      "meaning": "蔡徐坤玩梗用语，此处为粉丝或调侃式称",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T01:48:40.363Z"
+    },
+    {
+      "term": "黄磊测不准",
+      "family": "cooperation",
+      "meaning": "引用自《极限挑战》的经典梗，指黄磊无法准确预测队友行为，讨论节目内容时引用",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T13:01:53.869Z"
+    },
+    {
+      "term": "黑化",
+      "family": "cooperation",
+      "meaning": "网络用语指人物心理或行为变得黑暗、中二，常用于调侃或描述虚构情节",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T10:15:40.365Z"
+    },
+    {
+      "term": "鼠到临头",
+      "family": "cooperation",
+      "meaning": "谐音‘数到临头’，结合视频老鼠主题玩梗，表达幽默自嘲",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T02:12:57.757Z"
+    },
+    {
+      "term": "龙卷风摧毁停车场",
+      "family": "cooperation",
+      "meaning": "同上作品的梗，常与‘乌鸦坐飞机’连用，作为弹幕文化的一部分，用于娱乐",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-02T13:30:15.327Z"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "correction",
   "shard": 3,
   "shardCount": 4,
@@ -1743,15 +1743,6 @@
       "updatedAt": "2026-06-29T13:54:47.905Z"
     },
     {
-      "term": "有道理",
-      "family": "correction",
-      "meaning": "自我修正或结论降级",
-      "risk": "positive",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-30T19:32:44.468Z"
-    },
-    {
       "term": "服软",
       "family": "correction",
       "meaning": "在争论或冲突中承认对方正确，自己错误，放弃坚持",
@@ -1938,7 +1929,7 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "真诚道歉",
@@ -2157,15 +2148,6 @@
       "updatedAt": "2026-06-29T05:48:08.554Z"
     },
     {
-      "term": "翻车",
-      "family": "correction",
-      "meaning": "计划或言论出现重大失误后承认失败，常用于直播或观点输出",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T06:03:59.580Z"
-    },
-    {
       "term": "自我检讨",
       "family": "correction",
       "meaning": "主动反思错误，进行自我批评",
@@ -2272,6 +2254,24 @@
       "confidence": 0.68,
       "evidenceCount": 2,
       "updatedAt": "2026-06-29T04:56:48.346Z"
+    },
+    {
+      "term": "认输",
+      "family": "correction",
+      "meaning": "在辩论或冲突中承认自己观点错误，放弃争论",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-29T06:03:59.581Z"
+    },
+    {
+      "term": "认错",
+      "family": "correction",
+      "meaning": "承认错误",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-30T19:48:25.898Z"
     }
   ]
 }

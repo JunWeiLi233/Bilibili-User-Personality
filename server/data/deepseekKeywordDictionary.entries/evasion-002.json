@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evasion",
   "shard": 2,
   "shardCount": 4,
@@ -542,8 +542,8 @@
       "meaning": "拒绝对方干涉，推卸回应对方质疑的责任。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T04:45:01.415Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-03T19:46:59.115Z"
     },
     {
       "term": "关我什么事",
@@ -857,8 +857,8 @@
       "meaning": "拒绝解释，用固定句式敷衍回答，逃避具体说明",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T06:06:52.697Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-07-03T19:36:03.802Z"
     },
     {
       "term": "动动手指的事",
@@ -1794,7 +1794,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
+      "updatedAt": "2026-07-03T19:51:05.336Z"
     },
     {
       "term": "我不管了",
@@ -1856,8 +1856,8 @@
       "meaning": "以遗忘为由回避解释，推卸责任",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T05:11:02.193Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-03T19:45:09.810Z"
     },
     {
       "term": "我不评价",

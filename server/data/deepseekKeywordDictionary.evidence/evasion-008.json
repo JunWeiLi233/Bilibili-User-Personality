@@ -1,10 +1,70 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evasion",
   "shard": 8,
-  "shardCount": 12,
+  "shardCount": 15,
   "evidence": [
+    {
+      "term": "我无言以对",
+      "evidenceSamples": [
+        "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。",
+        "都无言以对(¯―¯٥)",
+        "唉！无言以对………",
+        "哈哈哈哈我竟无言以对",
+        "刚看过有这内容的小说，你哪怕换个红薯我都不会说啥，杂交水稻？种子？我无言以对了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "都无言以对(¯―¯٥)"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "唉！无言以对………"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ug411P7pD/",
+          "uid": "BV1Ug411P7pD",
+          "sample": "哈哈哈哈我竟无言以对"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1R94y1t7id/, https://www.bilibili.com/video/BV17BJVzYEs2/, https://www.bilibili.com/video/BV1Dkju6pEv4/, https://www.bilibili.com/video/BV1Qu4y1J7YK/, https://www.bilibili.com/video/BV1ns4y1F7Sh/, https://www.bilibili.com/video/BV1zt4y1M7NB/, https://www.bilibili.com/video/BV1iLTn6ME9F/, https://www.bilibili.com/video/BV1Qw4m1a7LB/, http://www.bilibili.com/video/av364798379, http://www.bilibili.com/video/av114528624841450, http://www.bilibili.com/video/av116758367180809, http://www.bilibili.com/video/av919957229, http://www.bilibili.com/video/av955343477, http://www.bilibili.com/video/av987211060, http://www.bilibili.com/video/av116851463952511, http://www.bilibili.com/video/av1106112784",
+          "uid": "BV1R94y1t7id,BV17BJVzYEs2,BV1Dkju6pEv4,BV1Qu4y1J7YK,BV1ns4y1F7Sh,BV1zt4y1M7NB,BV1iLTn6ME9F,BV1Qw4m1a7LB",
+          "sample": "刚看过有这内容的小说，你哪怕换个红薯我都不会说啥，杂交水稻？种子？我无言以对了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1vCTc67ErM/, https://www.bilibili.com/video/BV1wmTe69EJD/, https://www.bilibili.com/video/BV1TzTe6FEEt/, https://www.bilibili.com/video/BV18DTc6kEZj/, https://www.bilibili.com/video/BV1zhTY61EFg/, https://www.bilibili.com/video/BV1Q8TF6ME6u/, https://www.bilibili.com/video/BV1PMTi6FEKw/, https://www.bilibili.com/video/BV1D5b8zxEAb/, http://www.bilibili.com/video/av116840005114579, http://www.bilibili.com/video/av116844383962236, http://www.bilibili.com/video/av116842672692656, http://www.bilibili.com/video/av116839921224695, http://www.bilibili.com/video/av116843410885049, http://www.bilibili.com/video/av116838663066092, http://www.bilibili.com/video/av116843511678549, http://www.bilibili.com/video/av115019995938893",
+          "uid": "BV1vCTc67ErM,BV1wmTe69EJD,BV1TzTe6FEEt,BV18DTc6kEZj,BV1zhTY61EFg,BV1Q8TF6ME6u,BV1PMTi6FEKw,BV1D5b8zxEAb",
+          "sample": "我竟无言以对[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1frTq6sEob/, https://www.bilibili.com/video/BV1CxTv6oEip/, https://www.bilibili.com/video/BV1zhTY61EFg/, https://www.bilibili.com/video/BV18DTc6kEZj/, https://www.bilibili.com/video/BV1xwTi6AEmD/, https://www.bilibili.com/video/BV1CuTi6tEQk/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1dT41197yJ/, http://www.bilibili.com/video/av116844702799181, http://www.bilibili.com/video/av116844300076879, http://www.bilibili.com/video/av116843410885049, http://www.bilibili.com/video/av116839921224695, http://www.bilibili.com/video/av116843578657538, http://www.bilibili.com/video/av116843561950102, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av479018786",
+          "uid": "BV1frTq6sEob,BV1CxTv6oEip,BV1zhTY61EFg,BV18DTc6kEZj,BV1xwTi6AEmD,BV1CuTi6tEQk,BV1u37J6EEd9,BV1dT41197yJ",
+          "sample": "我竟无言以对[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "我无话可说",
+      "evidenceSamples": [
+        "回复 @祖宗在上给个话 :真的她能忍到现在，我真的我无话可说了，我已经，就是因为刘爽说话比较犀利，她就能当刘的梦女，还能把他惯成这样，我是真的看着就糟心。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av113718083982025/",
+          "uid": "19329578",
+          "sample": "回复 @祖宗在上给个话 :真的她能忍到现在，我真的我无话可说了，我已经，就是因为刘爽说话比较犀利，她就能当刘的梦女，还能把他惯成这样，我是真的看着就糟心。"
+        }
+      ]
+    },
     {
       "term": "我朋友说",
       "evidenceSamples": [
@@ -586,234 +646,6 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1b24y1R7G5/",
           "uid": "BV1b24y1R7G5",
           "sample": "打哈哈装糊涂"
-        }
-      ]
-    },
-    {
-      "term": "打太极",
-      "evidenceSamples": [
-        "我发现了太极服装设计的用意 太极有黑有白，而小区里打太极的都穿白衣服，说明世界是其实是黑的",
-        "你说了那么长，但是这一版曲调改的就是奇沈的版本，这是清清楚楚毋庸置疑需要标明的。以前的东西淹没在历史里了就不追究了，现在明明可以追究也要打太极嘛？不会吧？不会是你的逻辑吧？",
-        "银行销户真的烦，柜员打太极",
-        "打太极"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8691449164",
-          "uid": "贴吧用户_G9MUKJ8",
-          "sample": "我发现了太极服装设计的用意 太极有黑有白，而小区里打太极的都穿白衣服，说明世界是其实是黑的"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nA411e74s/",
-          "uid": "BV1nA411e74s",
-          "sample": "你说了那么长，但是这一版曲调改的就是奇沈的版本，这是清清楚楚毋庸置疑需要标明的。以前的东西淹没在历史里了就不追究了，现在明明可以追究也要打太极嘛？不会吧？不会是你的逻辑吧？"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1fK4y1A7bQ/",
-          "uid": "BV1fK4y1A7bQ",
-          "sample": "银行销户真的烦，柜员打太极"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
-          "uid": "25901335434",
-          "sample": "打太极"
-        }
-      ]
-    },
-    {
-      "term": "打开百度",
-      "evidenceSamples": [
-        "来来来，我不沉，大家捞我一把，音频，，，，，，，，，复制这段内容后打开百度网盘手机App，操作更方便哦 链接:https://pan.baidu.com/s/1mjmQtIo__iAWZN9Od2PfTA 提取码:ujx5"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1GE411a7se/",
-          "uid": "BV1GE411a7se",
-          "sample": "来来来，我不沉，大家捞我一把，音频，，，，，，，，，复制这段内容后打开百度网盘手机App，操作更方便哦 链接:https://pan.baidu.com/s/1mjmQtIo__iAWZN9Od2PfTA 提取码:ujx5"
-        }
-      ]
-    },
-    {
-      "term": "找借口",
-      "evidenceSamples": [
-        "又用颜值找借口吗？这视频是教你提升，而不是让你去和那些帅哥比，我身边有很多用颜值找借口的，其实以我看，他们最大的问题恰恰不在颜值上[喜极而泣]",
-        "永远在找借口罢了",
-        "女主好善良，还为别人找借口"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mpVM6iE7s/",
-          "uid": "BV1mpVM6iE7s",
-          "sample": "又用颜值找借口吗？这视频是教你提升，而不是让你去和那些帅哥比，我身边有很多用颜值找借口的，其实以我看，他们最大的问题恰恰不在颜值上[喜极而泣]"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
-          "uid": "1591706674",
-          "sample": "永远在找借口罢了"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
-          "uid": "BV1m7KJzPEGg",
-          "sample": "女主好善良，还为别人找借口"
-        }
-      ]
-    },
-    {
-      "term": "找替罪羊",
-      "evidenceSamples": [
-        "至于黑人吧！被举报了n次了没有被封。原因是什么！是zf故意留下来让人看的，官媒不能说，影响国际关系，小道消息不要紧，让人看到，聪明的人会相信从而避免受到伤害，媚黑的人自以为自己道德多么高尚，zf其实非常讨厌你：就知道给我添乱！我想提醒吧务一下，千万不要容留那些喊打喊杀的言论，那样杀光……杀光……的言论要赶紧删除，因为网络上的言论随时可能被截图发到国外去，一旦发出去了影响国际关系！找替罪羊出气会找谁不用多说，如（广州黑人吧）！"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "至于黑人吧！被举报了n次了没有被封。原因是什么！是zf故意留下来让人看的，官媒不能说，影响国际关系，小道消息不要紧，让人看到，聪明的人会相信从而避免受到伤害，媚黑的人自以为自己道德多么高尚，zf其实非常讨厌你：就知道给我添乱！我想提醒吧务一下，千万不要容留那些喊打喊杀的言论，那样杀光……杀光……的言论要赶紧删除，因为网络上的言论随时可能被截图发到国外去，一旦发出去了影响国际关系！找替罪羊出气会找谁不用多说，如（广州黑人吧）！"
-        }
-      ]
-    },
-    {
-      "term": "把水搅浑",
-      "evidenceSamples": [
-        "就是因为赔不起，所以来把水搅浑，让厂家承认错误，让厂家赔钱",
-        "这女的是想把水搅浑啊"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
-          "uid": "BV1LxZfYVEdT",
-          "sample": "就是因为赔不起，所以来把水搅浑，让厂家承认错误，让厂家赔钱"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
-          "uid": "BV1Z3G96mEx1",
-          "sample": "这女的是想把水搅浑啊"
-        }
-      ]
-    },
-    {
-      "term": "指桑骂槐",
-      "evidenceSamples": [
-        "“指桑骂槐”"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av876720416/",
-          "uid": "1353830685",
-          "sample": "“指桑骂槐”"
-        }
-      ]
-    },
-    {
-      "term": "推脱",
-      "evidenceSamples": [
-        "找交警交警也不给赔钱，车主不想赔钱，小米有钱，他想让小米配，以人性来说出事，先推脱，这是一个人的自然反应，然后这个人就想让小米来赔钱了[笑哭]",
-        "说这话是推脱责任",
-        "那还说啥了？到现在还不想好好反思，就是推脱责任"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
-          "uid": "BV1LxZfYVEdT",
-          "sample": "找交警交警也不给赔钱，车主不想赔钱，小米有钱，他想让小米配，以人性来说出事，先推脱，这是一个人的自然反应，然后这个人就想让小米来赔钱了[笑哭]"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
-          "uid": "BV1Z3G96mEx1",
-          "sample": "说这话是推脱责任"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
-          "uid": "BV1sCVt69Egy",
-          "sample": "那还说啥了？到现在还不想好好反思，就是推脱责任"
-        }
-      ]
-    },
-    {
-      "term": "推锅",
-      "evidenceSamples": [
-        "别往我身上推锅，是你不是我"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1RnLb6LEyu/",
-          "uid": "BV1RnLb6LEyu",
-          "sample": "别往我身上推锅，是你不是我"
-        }
-      ]
-    },
-    {
-      "term": "搜一下",
-      "evidenceSamples": [
-        "回复 @周泽楷-一枪穿云V :你也可以去搜一下他",
-        "搜一下蔡徐坤，看看最新的视频有新天地哦[吃瓜]",
-        "娘化，粉丝不干人事，详细的可以去搜一下"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "89408149",
-          "sample": "回复 @周泽楷-一枪穿云V :你也可以去搜一下他"
-        },
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "378636150",
-          "sample": "搜一下蔡徐坤，看看最新的视频有新天地哦[吃瓜]"
-        },
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "1599979504",
-          "sample": "娘化，粉丝不干人事，详细的可以去搜一下"
-        }
-      ]
-    },
-    {
-      "term": "搜索一下",
-      "evidenceSamples": [
-        "把动画和神话故事里牵扯在一起。我知道你想说什么。秦时明月，起个屌炸天的外号而已，你真打的当成真正东皇太一了。脑残才觉得他是。你搜索一下。神话故事。东皇太一是真实存在的神话传说人物。山海经中有的。不记得是东经还是西经来的。[笑哭][笑哭]顺便提一下，山海经出现比秦朝还要早。春秋战国之前的出现。",
-        "你可以搜索一下假面骑士甲斗的主角，名叫天道总司，你就会发现有多相似了(*°∀°)",
-        "区去搜索一下并夕夕是怎么抗法的"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uTGX6aEkB/",
-          "uid": "BV1uTGX6aEkB",
-          "sample": "把动画和神话故事里牵扯在一起。我知道你想说什么。秦时明月，起个屌炸天的外号而已，你真打的当成真正东皇太一了。脑残才觉得他是。你搜索一下。神话故事。东皇太一是真实存在的神话传说人物。山海经中有的。不记得是东经还是西经来的。[笑哭][笑哭]顺便提一下，山海经出现比秦朝还要早。春秋战国之前的出现。"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L6ZvY1EMm/",
-          "uid": "BV1L6ZvY1EMm",
-          "sample": "你可以搜索一下假面骑士甲斗的主角，名叫天道总司，你就会发现有多相似了(*°∀°)"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
-          "uid": "BV1vdL46CEqG",
-          "sample": "区去搜索一下并夕夕是怎么抗法的"
-        }
-      ]
-    },
-    {
-      "term": "搪塞",
-      "evidenceSamples": [
-        "搪塞"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uU4y1V7yj/",
-          "uid": "BV1uU4y1V7yj",
-          "sample": "搪塞"
-        }
-      ]
-    },
-    {
-      "term": "撇清",
-      "evidenceSamples": [
-        "这个人不愧是当地的，还撇清洗地呢"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Y5VH6JEUt/",
-          "uid": "BV1Y5VH6JEUt",
-          "sample": "这个人不愧是当地的，还撇清洗地呢"
         }
       ]
     }

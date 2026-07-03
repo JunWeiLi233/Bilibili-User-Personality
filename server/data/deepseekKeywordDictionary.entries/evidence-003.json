@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evidence",
   "shard": 3,
   "shardCount": 4,
@@ -695,8 +695,8 @@
       "meaning": "请求有人提供有依据的科普解释，期待证据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T04:56:48.344Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-03T19:43:05.240Z"
     },
     {
       "term": "求背书",
@@ -796,15 +796,6 @@
       "confidence": 0.68,
       "evidenceCount": 1,
       "updatedAt": "2026-06-29T06:06:52.696Z"
-    },
-    {
-      "term": "求锤得锤",
-      "family": "evidence",
-      "meaning": "形容对方要求证据结果真的拿到了证据，常用于证实爆料",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:05:59.689Z"
     },
     {
       "term": "求验证",
@@ -1010,8 +1001,8 @@
       "meaning": "追溯来源",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T04:33:20.368Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-03T19:49:40.280Z"
     },
     {
       "term": "演绎",
@@ -2353,6 +2344,15 @@
       "confidence": 0.8,
       "evidenceCount": 6,
       "updatedAt": "2026-06-30T19:48:25.898Z"
+    },
+    {
+      "term": "诉诸权威",
+      "family": "evidence",
+      "meaning": "质疑依赖权威而非证据的论证方式，要求回归事实。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:42:48.188Z"
     }
   ]
 }

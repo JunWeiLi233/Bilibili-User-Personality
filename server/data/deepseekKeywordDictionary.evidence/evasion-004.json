@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evasion",
   "shard": 4,
-  "shardCount": 12,
+  "shardCount": 15,
   "evidence": [
     {
       "term": "你还不知道吧",
@@ -227,7 +227,9 @@
       "term": "关你屁事",
       "evidenceSamples": [
         "管天管地管空气，别人笑不笑关你屁事",
-        "就是关你屁事儿 不该管的不要管看热闹不好吗？"
+        "就是关你屁事儿 不该管的不要管看热闹不好吗？",
+        "回复 @名字太长会被姐姐注意 :我不认为“关你屁事”，这句话是对的，这是我的亲身经历，前些年有个几十万粉丝的网红在九一八事变纪念馆门口跳宅舞，宅舞是什么相信各位成年人都懂。关键是底下有很多人评论说姐姐好美，好喜欢之类的话，我当时忍不住说了一...",
+        "日子人[呲牙][呲牙]，关我屁事，关你屁事，虚无主义者，认为世界是物质的，精神是跳跃的，以保守为根基的激进人士"
       ],
       "evidenceSources": [
         {
@@ -239,6 +241,16 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1QSjV6PEh1/",
           "uid": "BV1QSjV6PEh1",
           "sample": "就是关你屁事儿 不该管的不要管看热闹不好吗？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cqTt6TEU6/, https://www.bilibili.com/video/BV1g4Ew6MEU4/, https://www.bilibili.com/video/BV1ad4y1i7kJ/, https://www.bilibili.com/video/BV1AirWB3EtQ/, https://www.bilibili.com/video/BV14J4m13764/, https://www.bilibili.com/video/BV1vgzZYfExb/, https://www.bilibili.com/video/BV1tjJp6bECd/, https://www.bilibili.com/video/BV1vZ4y1b7Je/, http://www.bilibili.com/video/av116857369528498, http://www.bilibili.com/video/av116691090544275, http://www.bilibili.com/video/av388920362, http://www.bilibili.com/video/av115894055343199, http://www.bilibili.com/video/av1255159323, http://www.bilibili.com/video/av113577759344717, http://www.bilibili.com/video/av116743351573309, http://www.bilibili.com/video/av384471724, http://www.bilibili.com/video/av114846620191263",
+          "uid": "BV1cqTt6TEU6,BV1g4Ew6MEU4,BV1ad4y1i7kJ,BV1AirWB3EtQ,BV14J4m13764,BV1vgzZYfExb,BV1tjJp6bECd,BV1vZ4y1b7Je",
+          "sample": "回复 @名字太长会被姐姐注意 :我不认为“关你屁事”，这句话是对的，这是我的亲身经历，前些年有个几十万粉丝的网红在九一八事变纪念馆门口跳宅舞，宅舞是什么相信各位成年人都懂。关键是底下有很多人评论说姐姐好美，好喜欢之类的话，我当时忍不住说了一..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Z6xFzLEYc/, https://www.bilibili.com/video/BV1KMxxzPErh/, https://www.bilibili.com/video/BV1bsTt6LEMy/, https://www.bilibili.com/video/BV12aYKzhEVA/, https://www.bilibili.com/video/BV1pv42117pH/, https://www.bilibili.com/video/BV14w411a7by/, https://www.bilibili.com/video/BV1sF786iEcc/, https://www.bilibili.com/video/BV1ECFTzTEUP/, http://www.bilibili.com/video/av115436154783474, http://www.bilibili.com/video/av115314872291293, http://www.bilibili.com/video/av116857235381816, http://www.bilibili.com/video/av115157233634930, http://www.bilibili.com/video/av1450255122, http://www.bilibili.com/video/av321804024",
+          "uid": "BV1Z6xFzLEYc,BV1KMxxzPErh,BV1bsTt6LEMy,BV12aYKzhEVA,BV1pv42117pH,BV14w411a7by,BV1sF786iEcc,BV1ECFTzTEUP",
+          "sample": "日子人[呲牙][呲牙]，关我屁事，关你屁事，虚无主义者，认为世界是物质的，精神是跳跃的，以保守为根基的激进人士"
         }
       ]
     },
@@ -537,6 +549,19 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13rEy6ZE17/",
           "uid": "BV13rEy6ZE17",
           "sample": "这一脚可能直接踹进ICU，别问我为什么知道的"
+        }
+      ]
+    },
+    {
+      "term": "别问问就是",
+      "evidenceSamples": [
+        "别问，问就是魔法"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ks411s7Cq/, https://www.bilibili.com/video/BV1WS411c7ou/, https://www.bilibili.com/video/BV1vL41157ag/, https://www.bilibili.com/video/BV1cu4m1T7Ma/, https://www.bilibili.com/video/BV1qa4y1i7wN/, https://www.bilibili.com/video/BV1VKSNBtEjZ/, https://www.bilibili.com/video/BV1DV411k7Mg/, http://www.bilibili.com/video/av1901390859, http://www.bilibili.com/video/av6858359, http://www.bilibili.com/video/av1904446520, http://www.bilibili.com/video/av465108003, http://www.bilibili.com/video/av1302082336, http://www.bilibili.com/video/av668117386, http://www.bilibili.com/video/av115636340523327",
+          "uid": "BV1ks411s7Cq,BV1WS411c7ou,BV1vL41157ag,BV1cu4m1T7Ma,BV1qa4y1i7wN,BV1VKSNBtEjZ,BV1DV411k7Mg",
+          "sample": "别问，问就是魔法"
         }
       ]
     },

@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evidence",
   "shard": 10,
-  "shardCount": 16,
+  "shardCount": 17,
   "evidence": [
     {
       "term": "查证",
@@ -255,7 +255,8 @@
       "term": "求科普",
       "evidenceSamples": [
         "回复 @STM32F103ZET :what？网暴了哪个明星？求科普……",
-        "宁大人的衣服怎么了？求科普"
+        "宁大人的衣服怎么了？求科普",
+        "回复 @一心想水经验的萌新 :求科普他到底做了什么"
       ],
       "evidenceSources": [
         {
@@ -267,6 +268,11 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
           "uid": "96367415",
           "sample": "宁大人的衣服怎么了？求科普"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JJgPzpEkX/, https://www.bilibili.com/video/BV1vX4y1d7Kd/, https://www.bilibili.com/video/BV1Ck4y197i1/, https://www.bilibili.com/video/BV1Uo4y1s7Cq/, https://www.bilibili.com/video/BV1gogZzdEAD/, https://www.bilibili.com/video/BV1B4411W79T/, https://www.bilibili.com/video/BV1AgtmzFEDS/, https://www.bilibili.com/video/BV19pTn6YEVz/, http://www.bilibili.com/video/av114868699143186",
+          "uid": "BV1JJgPzpEkX,BV1vX4y1d7Kd,BV1Ck4y197i1,BV1Uo4y1s7Cq,BV1gogZzdEAD,BV1B4411W79T,BV1AgtmzFEDS,BV19pTn6YEVz",
+          "sample": "回复 @一心想水经验的萌新 :求科普他到底做了什么"
         }
       ]
     },
@@ -345,19 +351,6 @@
     },
     {
       "term": "求锤",
-      "evidenceSamples": [
-        "求锤得锤"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1J1mJBgEWv/",
-          "uid": "BV1J1mJBgEWv",
-          "sample": "求锤得锤"
-        }
-      ]
-    },
-    {
-      "term": "求锤得锤",
       "evidenceSamples": [
         "求锤得锤"
       ],
@@ -525,7 +518,8 @@
       "term": "溯源",
       "evidenceSamples": [
         "无法溯源 一律当是在讲故事",
-        "关注了，大概率是大怨种。看叶底的话，的确是青茶，但碎的有点太多了….。茶叶这种东西要喝的，属于是食品范畴，卫生安全是很重要的，我不反对从各种陌生的电商获取产品，但一定要保护好自身权益，尽量向商家获取安全检测报告，并做到可以溯源。青茶给我的感觉就是更注重产品的工艺技术，相对来说柔嫩度，形制不是特别重要，主要还是看看香型把握的对不对，是不是。我认为尽量还是选择大厂产品，技术更成熟，安全把控更好，能够溯源，一分价钱一分货，尽量不要贪小便宜。等待后续"
+        "关注了，大概率是大怨种。看叶底的话，的确是青茶，但碎的有点太多了….。茶叶这种东西要喝的，属于是食品范畴，卫生安全是很重要的，我不反对从各种陌生的电商获取产品，但一定要保护好自身权益，尽量向商家获取安全检测报告，并做到可以溯源。青茶给我的感觉就是更注重产品的工艺技术，相对来说柔嫩度，形制不是特别重要，主要还是看看香型把握的对不对，是不是。我认为尽量还是选择大厂产品，技术更成熟，安全把控更好，能够溯源，一分价钱一分货，尽量不要贪小便宜。等待后续",
+        "哭卿卿……我本来也想录个这个溯源，但奈何第一没时间，第二人物也没收集齐全，还有诗作，你直接让我圆满了😭😭😭"
       ],
       "evidenceSources": [
         {
@@ -537,6 +531,11 @@
           "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1CF4m157yf/",
           "uid": "414971600",
           "sample": "关注了，大概率是大怨种。看叶底的话，的确是青茶，但碎的有点太多了….。茶叶这种东西要喝的，属于是食品范畴，卫生安全是很重要的，我不反对从各种陌生的电商获取产品，但一定要保护好自身权益，尽量向商家获取安全检测报告，并做到可以溯源。青茶给我的感觉就是更注重产品的工艺技术，相对来说柔嫩度，形制不是特别重要，主要还是看看香型把握的对不对，是不是。我认为尽量还是选择大厂产品，技术更成熟，安全把控更好，能够溯源，一分价钱一分货，尽量不要贪小便宜。等待后续"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Jg411b7MH/, https://www.bilibili.com/video/BV1ZGjY6cEMb/, https://www.bilibili.com/video/BV1TjKS6TEzV/, http://www.bilibili.com/video/av519208778, http://www.bilibili.com/video/av769787914, http://www.bilibili.com/video/av588007254, http://www.bilibili.com/video/av113263807370027, http://www.bilibili.com/video/av116773667999983, http://www.bilibili.com/video/av674448347, http://www.bilibili.com/video/av116832488916838, http://www.bilibili.com/video/av460069942, http://www.bilibili.com/video/av114696665437616, http://www.bilibili.com/video/av115022109872692",
+          "uid": "BV1Jg411b7MH,BV1ZGjY6cEMb,BV1TjKS6TEzV",
+          "sample": "哭卿卿……我本来也想录个这个溯源，但奈何第一没时间，第二人物也没收集齐全，还有诗作，你直接让我圆满了😭😭😭"
         }
       ]
     },
@@ -599,43 +598,6 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1zJxczUEgD/",
           "uid": "BV1zJxczUEgD",
           "sample": "你有人证物证法证吗 你就出来装逼 你要不看看你自己长啥样吧"
-        }
-      ]
-    },
-    {
-      "term": "独立思考",
-      "evidenceSamples": [
-        "开场白就很难绷，翻译就是喜欢up的都是独立思考的，不喜欢的就是跟风黑的，这不就是粉丝提纯的路子吗，和鉴证区一个味",
-        "说明你才是真正的独立思考，评论区一堆跟着up跑的人，这up张口这不好，闭口那不好，也不证明一下自己的专业水平，他说不好我还说好呢。拽一些高大上的名词，但实际没有一处落在确切的点上。而且音乐最重要的就是看你喜不喜欢，再好的作品不喜欢一样是垃圾，跟着别人说好不过是附庸风雅罢了。至于我的话，听听就行了，自己思考才是对的",
-        "我发各领域原神，你们打来分 先来科普一下各领域原神的几大特征：年轻人第一款xx、恰爱国饭、反华、有LGBT元素、孝子多且宗教化、粉丝群体爱咬人、风评差、热度高但质量低下、角色厨、盲目自信瞧不起同行或同类型、缺乏独立思考能力喜欢拾人牙慧引经据典、抄袭或模仿、偷梗与玩烂梗、逆天言论0.出生里的出生1.比原神还要出生2.和原神半斤八两3.也就比原神好一点点4.部分因素与原神重合5.不好评价6.勉强接受绿毛龟黄狗镇楼",
-        "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。",
-        "回复 @双凤戏珠 :按你这么说学生就应该不听老师的话人这一辈要有自己的独立思考不去听任何人的[doge][吃瓜]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
-          "uid": "",
-          "sample": "开场白就很难绷，翻译就是喜欢up的都是独立思考的，不喜欢的就是跟风黑的，这不就是粉丝提纯的路子吗，和鉴证区一个味"
-        },
-        {
-          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
-          "uid": "",
-          "sample": "说明你才是真正的独立思考，评论区一堆跟着up跑的人，这up张口这不好，闭口那不好，也不证明一下自己的专业水平，他说不好我还说好呢。拽一些高大上的名词，但实际没有一处落在确切的点上。而且音乐最重要的就是看你喜不喜欢，再好的作品不喜欢一样是垃圾，跟着别人说好不过是附庸风雅罢了。至于我的话，听听就行了，自己思考才是对的"
-        },
-        {
-          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
-          "uid": "",
-          "sample": "我发各领域原神，你们打来分 先来科普一下各领域原神的几大特征：年轻人第一款xx、恰爱国饭、反华、有LGBT元素、孝子多且宗教化、粉丝群体爱咬人、风评差、热度高但质量低下、角色厨、盲目自信瞧不起同行或同类型、缺乏独立思考能力喜欢拾人牙慧引经据典、抄袭或模仿、偷梗与玩烂梗、逆天言论0.出生里的出生1.比原神还要出生2.和原神半斤八两3.也就比原神好一点点4.部分因素与原神重合5.不好评价6.勉强接受绿毛龟黄狗镇楼"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
-          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
-          "sample": "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
-          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
-          "sample": "回复 @双凤戏珠 :按你这么说学生就应该不听老师的话人这一辈要有自己的独立思考不去听任何人的[doge][吃瓜]"
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "correction",
   "shard": 8,
   "shardCount": 10,
@@ -209,48 +209,6 @@
       ]
     },
     {
-      "term": "翻车",
-      "evidenceSamples": [
-        "配钥匙属不属于翻车",
-        "这次考试翻车了，所以没拿到驾驶证",
-        "根据老师之前的回复，大概是这样的:\\n这个是tony翻车后自己补救的，有点像波波头，然后加点狼尾，把发尾卷翘就是这个效果了",
-        "要洗白了[笑哭]果然路人还是斗不过资本，各位下次白男翻车再见[笑哭]",
-        "一直以为时团粉的粉丝比王的粉丝多很多 [笑哭] 还有其他人应该咖位也比他大吧 ，怎么那么久竟然都没翻车"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7744336925",
-          "uid": "月夜魔术师",
-          "sample": "配钥匙属不属于翻车"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7443477631",
-          "uid": "贴吧用户_QbXWCaM",
-          "sample": "这次考试翻车了，所以没拿到驾驶证"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1HAQ4Y7Esf/",
-          "uid": "BV1HAQ4Y7Esf",
-          "sample": "根据老师之前的回复，大概是这样的:\\n这个是tony翻车后自己补救的，有点像波波头，然后加点狼尾，把发尾卷翘就是这个效果了"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kqVG6kEkD/",
-          "uid": "BV1kqVG6kEkD",
-          "sample": "要洗白了[笑哭]果然路人还是斗不过资本，各位下次白男翻车再见[笑哭]"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uiVE6BEMW/",
-          "uid": "BV1uiVE6BEMW",
-          "sample": "一直以为时团粉的粉丝比王的粉丝多很多 [笑哭] 还有其他人应该咖位也比他大吧 ，怎么那么久竟然都没翻车"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
-          "uid": "BV1sCVt69Egy",
-          "sample": "“第一次翻车”请问你还记得游戏咖啡馆吗"
-        }
-      ]
-    },
-    {
       "term": "自打嘴巴",
       "evidenceSamples": [
         "那你天天伤害他，跟你所谓的爱他不就自打嘴巴了吗"
@@ -397,6 +355,25 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1cT411A7Ti/",
           "uid": "BV1cT411A7Ti",
           "sample": "这个字幕是语音自动识别的吗？需要订正一下呀"
+        }
+      ]
+    },
+    {
+      "term": "认怂",
+      "evidenceSamples": [
+        "为什么世界上会有这种人啊，挨打的时候怂了认错道歉，挨完了不长记性继续嚣张，然后再挨打再认怂，是觉得自己毁了别人号不犯法还是长期辱骂别人不犯法呢？就，按正常人的逻辑，不管是从遵纪守法还是道德素养，还是单纯的挨了打记住疼，都不应该再嚣张了啊",
+        "现实里学校里的小卖部和食堂都是领导亲戚承包的，我遇到过现实这种事，有东西已经付款了他们说我没付，我都是直接说认怂三块五块的给他了[笑哭]，要不麻烦的事后面一大堆"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1naV76HE2j/",
+          "uid": "BV1naV76HE2j",
+          "sample": "为什么世界上会有这种人啊，挨打的时候怂了认错道歉，挨完了不长记性继续嚣张，然后再挨打再认怂，是觉得自己毁了别人号不犯法还是长期辱骂别人不犯法呢？就，按正常人的逻辑，不管是从遵纪守法还是道德素养，还是单纯的挨了打记住疼，都不应该再嚣张了啊"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1j4421D7ZC/",
+          "uid": "516109327",
+          "sample": "现实里学校里的小卖部和食堂都是领导亲戚承包的，我遇到过现实这种事，有东西已经付款了他们说我没付，我都是直接说认怂三块五块的给他了[笑哭]，要不麻烦的事后面一大堆"
         }
       ]
     }

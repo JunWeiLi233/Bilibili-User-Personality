@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evasion",
   "shard": 7,
-  "shardCount": 12,
+  "shardCount": 15,
   "evidence": [
     {
       "term": "我不背锅",
@@ -53,7 +53,9 @@
       "term": "我不记得了",
       "evidenceSamples": [
         "回复 @山寨的价值原本是0 :小昔涟好像写过一些吧，我不记得在哪看过了，反正印象中有一篇是把阿雅和猫猫的位置调换过来了，这东西只能说是昔涟的小爱好，不会放到公共场合上吧？",
-        "这里的情节应该致敬了a神的某个电音作品的MV，但是我不记得那个作品的名字了。"
+        "这里的情节应该致敬了a神的某个电音作品的MV，但是我不记得那个作品的名字了。",
+        "我不记得，我不记得了",
+        "我不记得，我不 记得了，困难总是好多"
       ],
       "evidenceSources": [
         {
@@ -65,6 +67,16 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1dwFSeREkQ/",
           "uid": "BV1dwFSeREkQ",
           "sample": "这里的情节应该致敬了a神的某个电音作品的MV，但是我不记得那个作品的名字了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18w411P7yw/, https://www.bilibili.com/video/BV1yQJx6wEVy/, https://www.bilibili.com/video/BV1kwTF64Efp/, https://www.bilibili.com/video/BV1ntTg6JEua/, https://www.bilibili.com/video/BV1Z7411r7CF/, https://www.bilibili.com/video/BV16tXpYqEhD/, https://www.bilibili.com/video/BV1hSTY6YEdw/, https://www.bilibili.com/video/BV1qfTp62ERT/, http://www.bilibili.com/video/av278769231",
+          "uid": "BV18w411P7yw,BV1yQJx6wEVy,BV1kwTF64Efp,BV1ntTg6JEua,BV1Z7411r7CF,BV16tXpYqEhD,BV1hSTY6YEdw,BV1qfTp62ERT",
+          "sample": "我不记得，我不记得了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18w411P7yw/, https://www.bilibili.com/video/BV1yQJx6wEVy/, https://www.bilibili.com/video/BV1kwTF64Efp/, https://www.bilibili.com/video/BV1ntTg6JEua/, https://www.bilibili.com/video/BV1Z7411r7CF/, https://www.bilibili.com/video/BV16tXpYqEhD/, https://www.bilibili.com/video/BV1hSTY6YEdw/, https://www.bilibili.com/video/BV1qfTp62ERT/, http://www.bilibili.com/video/av278769231",
+          "uid": "BV18w411P7yw,BV1yQJx6wEVy,BV1kwTF64Efp,BV1ntTg6JEua,BV1Z7411r7CF,BV16tXpYqEhD,BV1hSTY6YEdw,BV1qfTp62ERT",
+          "sample": "我不记得，我不 记得了，困难总是好多"
         }
       ]
     },
@@ -532,50 +544,6 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Cg411X7pt/",
           "uid": "BV1Cg411X7pt",
           "sample": "你找保险他能给我无所谓"
-        }
-      ]
-    },
-    {
-      "term": "我无言以对",
-      "evidenceSamples": [
-        "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。",
-        "都无言以对(¯―¯٥)",
-        "唉！无言以对………",
-        "哈哈哈哈我竟无言以对"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
-          "uid": "",
-          "sample": "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
-          "uid": "BV1K69rYKEx5",
-          "sample": "都无言以对(¯―¯٥)"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
-          "uid": "BV1z2jg6zEB6",
-          "sample": "唉！无言以对………"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ug411P7pD/",
-          "uid": "BV1Ug411P7pD",
-          "sample": "哈哈哈哈我竟无言以对"
-        }
-      ]
-    },
-    {
-      "term": "我无话可说",
-      "evidenceSamples": [
-        "回复 @祖宗在上给个话 :真的她能忍到现在，我真的我无话可说了，我已经，就是因为刘爽说话比较犀利，她就能当刘的梦女，还能把他惯成这样，我是真的看着就糟心。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av113718083982025/",
-          "uid": "19329578",
-          "sample": "回复 @祖宗在上给个话 :真的她能忍到现在，我真的我无话可说了，我已经，就是因为刘爽说话比较犀利，她就能当刘的梦女，还能把他惯成这样，我是真的看着就糟心。"
         }
       ]
     }
