@@ -50,7 +50,7 @@ export function isTransientCoverageError(error) {
 /** Exponential backoff with full jitter, capped at `cap` ms. Pure. */
 export function computeBackoffMs(attempt, base = 5000, cap = 120000) {
   const exp = Math.min(cap, base * 2 ** (attempt - 1));
-  return Math.floor(exp * (0.5 + Math.random() * 0.5));
+  return Math.floor(exp * (0.5 + Math.random() * 0.5)); // lgtm [js/insecure-randomness] — jitter only, not crypto
 }
 
 /**
@@ -738,7 +738,7 @@ while (cycle <= maxCycles && !audit.ok) {
         }
       } catch (checkpointError) {
         // Checkpoint failure must never abort the harvest cycle — it's best-effort.
-        console.warn(`Coverage checkpoint failed (non-fatal): ${checkpointError.message}`);
+        console.warn(`Coverage checkpoint failed (non-fatal): ${checkpointError?.code || 'unknown'}`);
       }
     }
     // Cycle body completed without throwing — reset failure tracking and advance.
