@@ -1125,7 +1125,9 @@ export function normalizeKeywordEntries(rawEntries = []) {
       const evidenceCount =
         sampleBackedEvidenceCount > 0
           ? Math.min(rawEvidenceCount || sampleBackedEvidenceCount, sampleBackedEvidenceCount)
-          : Math.max(termEvidenceSamples.length, termEvidenceSources.length);
+          : termEvidenceSamples.length || termEvidenceSources.length
+            ? Math.max(termEvidenceSamples.length, termEvidenceSources.length)
+            : rawEvidenceCount;
       entries.push({
         term,
         family,
@@ -3564,6 +3566,7 @@ async function readDictionary(dictionaryPath) {
               family: entry.family || family,
             })));
           } catch (error) {
+            if (error?.code === 'ENOENT') continue;
             throw new Error(`Could not read split keyword dictionary entries ${filePath}: ${error.message}`);
           }
         }
