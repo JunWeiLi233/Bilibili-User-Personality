@@ -1127,7 +1127,9 @@ export function normalizeKeywordEntries(rawEntries = []) {
           ? Math.min(rawEvidenceCount || sampleBackedEvidenceCount, sampleBackedEvidenceCount)
           : termEvidenceSamples.length || termEvidenceSources.length
             ? Math.max(termEvidenceSamples.length, termEvidenceSources.length)
-            : rawEvidenceCount;
+            : rawEvidenceSamples.length > 0
+              ? 0  // samples were loaded but all filtered out as invalid
+              : rawEvidenceCount;  // no samples loaded (evidence shard missing) — preserve stored count
       entries.push({
         term,
         family,
