@@ -4843,23 +4843,37 @@ function parseRetryAfterMs(value) {
   return null;
 }
 
-function abortableSleep(ms, signal) {
-  // Clamp to safe bounds — ms comes from server-controlled Retry-After headers
-  // but a malformed/malicious response could inject an arbitrarily large value.
-  const safeMs = Math.min(300_000, Math.max(0, Number(ms) || 0));
+// Upper bound for any backoff delay (5 min). All callers already clamp or
+// compute bounded values (parseRetryAfterMs caps at 10 s, exponential-backoff
+// loops are bounded by retry-count limits). This constant is the final
+// safeguard — setTimeout never sees an unbounded external value.
+const MAX_BACKOFF_MS = 300_000;
+
+function abortableSleep(requestedMs, signal) {
+  // Sanitize: coerce to a finite, non-negative integer clamped to MAX_BACKOFF_MS.
+  // The only call site derives `requestedMs` from parseRetryAfterMs (HTTP
+  // Retry-After header, already clamped to 10 s) or from a bounded exponential-
+  // backoff formula. This guard exists for defense-in-depth and to satisfy
+  // static-analysis taint rules that see "HTTP header → setTimeout."
+  const delay = Number.isFinite(requestedMs) && requestedMs >= 0
+    ? Math.min(MAX_BACKOFF_MS, Math.floor(requestedMs))
+    : 0;
   if (signal?.aborted) {
     return Promise.reject(new Error('Aborted during rate-limit backoff'));
   }
   return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      signal?.removeEventListener?.('abort', onAbort);
-      resolve();
-    }, safeMs);
     const onAbort = () => {
       clearTimeout(timer);
       reject(new Error('Aborted during rate-limit backoff'));
     };
     signal?.addEventListener?.('abort', onAbort, { once: true });
+    // DS172411 false positive: the first arg is a function (not a string),
+    // and `delay` is clamped to [0, MAX_BACKOFF_MS] above.
+    const timer = setTimeout(resolveAndCleanup, delay); // DevSkim: ignore DS172411
+    function resolveAndCleanup() {
+      signal?.removeEventListener?.('abort', onAbort);
+      resolve();
+    }
   });
 }
 
