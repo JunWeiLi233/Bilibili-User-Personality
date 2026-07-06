@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-07-06T20:05:02.968440Z",
+  "generatedAt": "2026-07-06T20:08:28.933639Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -8,16 +8,16 @@
   "coverage": {
     "complete": false,
     "targetEvidence": 3,
-    "terms": 4382,
-    "totalEvidence": 19785,
-    "averageEvidence": 4.52,
-    "coverageRatio": 0.7549,
-    "evidenceDeficit": 2834,
-    "sourcedEvidenceTerms": 3637,
-    "sourceCoverageRatio": 0.83,
-    "unsourcedEvidenceTerms": 20,
-    "weakTerms": 1074,
-    "zeroEvidenceTerms": 725,
+    "terms": 2647,
+    "totalEvidence": 14748,
+    "averageEvidence": 4.7,
+    "coverageRatio": 0.79,
+    "evidenceDeficit": 1814,
+    "sourcedEvidenceTerms": 1456,
+    "sourceCoverageRatio": 0.464,
+    "unsourcedEvidenceTerms": 1162,
+    "weakTerms": 659,
+    "zeroEvidenceTerms": 520,
     "weakSamples": [
       {
         "term": "一个不落",
@@ -244,164 +244,164 @@
     ],
     "unsourcedEvidenceSamples": [
       {
-        "term": "闭着眼买",
-        "family": "absolutes",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "魔法对轰",
+        "term": "图穷匕见",
         "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "麦批的",
+        "term": "我笑了",
         "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "黑元首",
+        "term": "托儿",
         "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "黑皮体育生",
+        "term": "时代变了",
         "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "龙鸣说唱",
+        "term": "水货花瓶解说",
         "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "酱紫",
-        "family": "cooperation",
+        "term": "求solo",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "阅片有数",
-        "family": "cooperation",
+        "term": "汉化大师",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "阿姨洗铁路",
-        "family": "cooperation",
+        "term": "汉服小警察",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "难办那就别办了",
-        "family": "cooperation",
+        "term": "汪汪叫",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "难蹦",
-        "family": "cooperation",
+        "term": "沙口",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "雌堕了",
-        "family": "cooperation",
+        "term": "没占便宜就吃亏",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "顷刻炼化",
-        "family": "cooperation",
+        "term": "没图你说个j8",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "风水轮流转",
-        "family": "cooperation",
+        "term": "漂泊者",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "饭要恰的",
-        "family": "cooperation",
+        "term": "演子",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "高能君",
-        "family": "cooperation",
+        "term": "燃烧精血",
+        "family": "attack",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
       {
-        "term": "首当其冲",
-        "family": "cooperation",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
+        "term": "燃烧精血喽",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
       },
       {
-        "term": "反正现在肯定是很低了",
-        "family": "absolutes",
-        "evidenceCount": 7,
-        "coverageEvidenceCount": 7
+        "term": "爬远点",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
       },
       {
-        "term": "古代肯定是必死的",
-        "family": "absolutes",
-        "evidenceCount": 7,
-        "coverageEvidenceCount": 7
+        "term": "特级厨师算老几",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
       },
       {
-        "term": "非商业都可以",
-        "family": "cooperation",
-        "evidenceCount": 7,
-        "coverageEvidenceCount": 7
+        "term": "狗吠",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "狗都不买",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
       }
     ],
     "byFamily": {
       "attack": {
-        "terms": 1249,
+        "terms": 778,
         "evidence": 5948,
         "weak": 239,
         "zero": 92,
         "sourced": 1152
       },
       "absolutes": {
-        "terms": 735,
+        "terms": 475,
         "evidence": 3819,
         "weak": 134,
         "zero": 97,
         "sourced": 635
       },
       "evidence": {
-        "terms": 321,
+        "terms": 204,
         "evidence": 1310,
         "weak": 103,
         "zero": 90,
         "sourced": 231
       },
       "evasion": {
-        "terms": 405,
+        "terms": 173,
         "evidence": 1221,
         "weak": 179,
         "zero": 151,
         "sourced": 254
       },
       "cooperation": {
-        "terms": 1296,
+        "terms": 850,
         "evidence": 6322,
         "weak": 242,
         "zero": 129,
         "sourced": 1155
       },
       "correction": {
-        "terms": 376,
+        "terms": 167,
         "evidence": 1165,
         "weak": 177,
         "zero": 166,
@@ -412,7 +412,7 @@
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 4382,
+    "unattemptedTerms": 3138,
     "unattemptedSamples": [
       {
         "term": "一个不落",
@@ -520,57 +520,57 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "harvest": 1074,
-    "none": 3308
+    "harvest": 659,
+    "none": 2479
   },
   "familyGaps": [
     {
-      "family": "cooperation",
-      "terms": 1296,
-      "weak": 242,
-      "zero": 129,
-      "evidence": 6322,
-      "coverageRatio": 0.8133
-    },
-    {
       "family": "attack",
-      "terms": 1249,
-      "weak": 239,
-      "zero": 92,
-      "evidence": 5948,
-      "coverageRatio": 0.8086
+      "terms": 962,
+      "weak": 135,
+      "zero": 66,
+      "evidence": 4793,
+      "coverageRatio": 0.8597
     },
     {
-      "family": "evasion",
-      "terms": 405,
-      "weak": 179,
-      "zero": 151,
-      "evidence": 1221,
-      "coverageRatio": 0.558
+      "family": "cooperation",
+      "terms": 945,
+      "weak": 126,
+      "zero": 92,
+      "evidence": 4877,
+      "coverageRatio": 0.8667
     },
     {
       "family": "correction",
-      "terms": 376,
-      "weak": 177,
-      "zero": 166,
-      "evidence": 1165,
-      "coverageRatio": 0.5293
+      "terms": 249,
+      "weak": 125,
+      "zero": 122,
+      "evidence": 703,
+      "coverageRatio": 0.498
     },
     {
-      "family": "absolutes",
-      "terms": 735,
-      "weak": 134,
-      "zero": 97,
-      "evidence": 3819,
-      "coverageRatio": 0.8177
+      "family": "evasion",
+      "terms": 244,
+      "weak": 115,
+      "zero": 103,
+      "evidence": 700,
+      "coverageRatio": 0.5287
     },
     {
       "family": "evidence",
-      "terms": 321,
-      "weak": 103,
-      "zero": 90,
-      "evidence": 1310,
-      "coverageRatio": 0.6791
+      "terms": 248,
+      "weak": 88,
+      "zero": 79,
+      "evidence": 948,
+      "coverageRatio": 0.6452
+    },
+    {
+      "family": "absolutes",
+      "terms": 490,
+      "weak": 70,
+      "zero": 58,
+      "evidence": 2727,
+      "coverageRatio": 0.8571
     }
   ],
   "nextActions": [
@@ -1018,7 +1018,7 @@
     "全方位无死角 绝对化 评论 热评"
   ],
   "failureReasons": [
-    "coverage ratio 0.7549 is below 1",
-    "1074 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.79 is below 1",
+    "659 term(s) are below 3 evidence hit(s)"
   ]
 }
