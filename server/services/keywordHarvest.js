@@ -1,9 +1,10 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 
 import { readKeywordDictionary as defaultReadKeywordDictionary } from './deepseekKeywordTrainer.js';
+import { writeJsonFileAtomic, writeSerializedAtomic } from './deepseekKeywordTrainer.js';
 import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywordSearch.js';
 
 const execFileAsync = promisify(execFile);
@@ -2512,26 +2513,86 @@ export function buildKeywordHarvestQueries(dictionary, options = {}) {
 import { DEFAULT_HARVEST_STATE_PATH as DATA_HARVEST_STATE_PATH } from '../utils/paths.js';
 export const DEFAULT_HARVEST_STATE_PATH = DATA_HARVEST_STATE_PATH;
 
+async function isZeroedOrEmptyFile(path) {
+  // Power-loss can leave files as all-zero bytes (the corruption we hit).
+  // Detect that specifically so we can fall back to the .bak copy instead of
+  // silently blanking all harvest progress.
+  try {
+    const data = await readFile(path);
+    if (!data || data.length === 0) return true;
+    // Sample the first 200 bytes — a zeroed file is all 0x00, a JSON file never is.
+    const sample = data.subarray(0, Math.min(200, data.length));
+    return sample.every((byte) => byte === 0);
+  } catch {
+    return false;
+  }
+}
+
+function normalizeHarvestState(state) {
+  return {
+    version: state.version || 1,
+    harvestStrategyVersion: Math.max(0, Number(state.harvestStrategyVersion) || 0),
+    updatedAt: state.updatedAt || null,
+    searchedQueries: Array.isArray(state.searchedQueries) ? state.searchedQueries : [],
+    scannedBvids: Array.isArray(state.scannedBvids) ? state.scannedBvids : [],
+    termAttempts: state.termAttempts && typeof state.termAttempts === 'object' ? state.termAttempts : {},
+    runs: Array.isArray(state.runs) ? state.runs : [],
+  };
+}
+
+const BLANK_HARVEST_STATE = { version: 1, harvestStrategyVersion: 0, updatedAt: null, searchedQueries: [], scannedBvids: [], termAttempts: {}, runs: [] };
+
 export async function readKeywordHarvestState(statePath = DEFAULT_HARVEST_STATE_PATH) {
+  const backupPath = `${statePath}.bak`;
+  // Power-loss zeroed the live state file? Fall back to the .bak from the prior
+  // round before blanking — preserves harvest progress instead of silent loss.
+  if (await isZeroedOrEmptyFile(statePath)) {
+    console.warn(`[harvest-state] ${statePath} is zeroed/empty (likely power-loss corruption) — attempting .bak fallback`);
+    try {
+      const backupRaw = await readFile(backupPath, 'utf8');
+      const state = JSON.parse(backupRaw);
+      console.warn(`[harvest-state] restored harvest state from ${backupPath}`);
+      return normalizeHarvestState(state);
+    } catch (backupError) {
+      console.warn(`[harvest-state] no usable .bak at ${backupPath}: ${backupError.message} — returning blank state`);
+      return { ...BLANK_HARVEST_STATE };
+    }
+  }
   try {
     const state = JSON.parse(await readFile(statePath, 'utf8'));
-    return {
-      version: state.version || 1,
-      harvestStrategyVersion: Math.max(0, Number(state.harvestStrategyVersion) || 0),
-      updatedAt: state.updatedAt || null,
-      searchedQueries: Array.isArray(state.searchedQueries) ? state.searchedQueries : [],
-      scannedBvids: Array.isArray(state.scannedBvids) ? state.scannedBvids : [],
-      termAttempts: state.termAttempts && typeof state.termAttempts === 'object' ? state.termAttempts : {},
-      runs: Array.isArray(state.runs) ? state.runs : [],
-    };
-  } catch {
-    return { version: 1, harvestStrategyVersion: 0, updatedAt: null, searchedQueries: [], scannedBvids: [], termAttempts: {}, runs: [] };
+    return normalizeHarvestState(state);
+  } catch (error) {
+    // Unparseable but not all-zero (truncation): try .bak, else blank.
+    console.warn(`[harvest-state] ${statePath} failed to parse (${error.message}) — attempting .bak fallback`);
+    try {
+      const backupRaw = await readFile(backupPath, 'utf8');
+      const state = JSON.parse(backupRaw);
+      console.warn(`[harvest-state] restored harvest state from ${backupPath}`);
+      return normalizeHarvestState(state);
+    } catch {
+      return { ...BLANK_HARVEST_STATE };
+    }
   }
 }
 
 async function writeKeywordHarvestState(state, statePath = DEFAULT_HARVEST_STATE_PATH) {
+  const backupPath = `${statePath}.bak`;
   await mkdir(dirname(statePath), { recursive: true });
-  await writeFile(statePath, `${escapeJsonUnicode(JSON.stringify(state, null, 2))}\n`, 'utf8');
+  // Rotate: if a live state exists, snapshot it to .bak first (best-effort).
+  try {
+    const existing = await readFile(statePath);
+    if (existing.length > 0 && !existing.subarray(0, Math.min(200, existing.length)).every((byte) => byte === 0)) {
+      await writeFile(backupPath, existing);
+    }
+  } catch {
+    // No existing state or read error — skip the rotation.
+  }
+  // Atomic + fsync'd write so a power-loss mid-write cannot truncate/zero the
+  // live state. escapeJsonUnicode keeps non-ASCII as \uXXXX for Windows-safe
+  // round-tripping (state holds Chinese search queries); writeSerializedAtomic
+  // owns the temp+rename+fsync durability without re-serializing.
+  const escaped = `${escapeJsonUnicode(JSON.stringify(state, null, 2))}\n`;
+  await writeSerializedAtomic(statePath, escaped);
 }
 
 export function summarizeDictionaryGrowth(before, after) {
@@ -3307,6 +3368,16 @@ async function firecrawlFallbackSearch(term) {
 // bucket and dictionary merges serialize in mergeEntriesIntoDictionary, so
 // parallelism never raises the Bilibili request rate or corrupts the dictionary.
 // concurrency=1 reproduces the original strictly sequential run.
+// Bounded worker pool over the harvest plan. The synchronous read-increment of
+// `cursor` (no await between them) makes index handout atomic on the JS event
+// loop, so no two runners ever receive the same plan index.
+//
+// Concurrency cost note (queryConcurrency > 1): overlapping queries also
+// overlap their DeepSeek validation calls (~N× in-flight model calls), which
+// raises DeepSeek-side rate-limit pressure (1302 / model limits). The Bilibili
+// request rate itself stays capped by the per-endpoint token bucket in
+// bilibiliCrawler.js (which serializes concurrent takers), so overlap adds
+// model pressure, not Bilibili request bursts.
 async function runHarvestQueriesBounded(plan, concurrency, worker) {
   const limit = Math.max(1, Math.min(concurrency, plan.length || 1));
   let cursor = 0;
@@ -3338,6 +3409,12 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const stateStrategyIsCurrent = hasCurrentHarvestStrategyState(state);
   const searchedQuerySet = new Set(stateStrategyIsCurrent && Array.isArray(state.searchedQueries) ? state.searchedQueries : []);
   const skipSearchedQuerySet = new Set(searchedQuerySet);
+  // Cross-query video dedup. Best-effort under queryConcurrency > 1: two
+  // queries overlapping in time each snapshot this set before the other has
+  // recorded its scanned bvids, so they may both scan the same popular video.
+  // That is benign redundant work (bounded by the token-bucket request cap),
+  // not data corruption — skipSeen still fully dedupes any query that starts
+  // after a peer's scan completes.
   const scannedBvidSet = new Set(stateStrategyIsCurrent && Array.isArray(state.scannedBvids) ? state.scannedBvids : []);
   const maxQueries = asPositiveInt(options.maxQueries, 12, 100);
   const termAttempts = stateStrategyIsCurrent ? { ...state.termAttempts } : {};

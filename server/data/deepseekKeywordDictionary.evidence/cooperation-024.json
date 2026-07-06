@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "cooperation",
   "shard": 24,
-  "shardCount": 38,
+  "shardCount": 40,
   "evidence": [
     {
       "term": "支持",
@@ -58,6 +58,32 @@
       ]
     },
     {
+      "term": "支持一下",
+      "evidenceSamples": [
+        "支持一下up！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Uv411n7yi/, https://www.bilibili.com/video/BV1JMSfBdEbN/, https://www.bilibili.com/video/BV1JETB6FEQf/, https://www.bilibili.com/video/BV1DWTr6pEos/, https://www.bilibili.com/video/BV1ZbHse1E8G/, https://www.bilibili.com/video/BV14TTB6qEJx/, https://www.bilibili.com/video/BV12hTr6mETL/, https://www.bilibili.com/video/BV1uq4y1w7cv/, http://www.bilibili.com/video/av248799078, http://www.bilibili.com/video/av116358096424130, http://www.bilibili.com/video/av116846715997026, http://www.bilibili.com/video/av116848712489033, http://www.bilibili.com/video/av113072832251141, http://www.bilibili.com/video/av116846565004964, http://www.bilibili.com/video/av116848829925522, http://www.bilibili.com/video/av550955083, http://www.bilibili.com/video/av116850641865696, http://www.bilibili.com/video/av116697533057219",
+          "uid": "BV1Uv411n7yi,BV1JMSfBdEbN,BV1JETB6FEQf,BV1DWTr6pEos,BV1ZbHse1E8G,BV14TTB6qEJx,BV12hTr6mETL,BV1uq4y1w7cv",
+          "sample": "支持一下up！"
+        }
+      ]
+    },
+    {
+      "term": "支持一下up",
+      "evidenceSamples": [
+        "支持一下up！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Uv411n7yi/, https://www.bilibili.com/video/BV1JMSfBdEbN/, https://www.bilibili.com/video/BV1JETB6FEQf/, https://www.bilibili.com/video/BV1DWTr6pEos/, https://www.bilibili.com/video/BV1ZbHse1E8G/, https://www.bilibili.com/video/BV14TTB6qEJx/, https://www.bilibili.com/video/BV12hTr6mETL/, https://www.bilibili.com/video/BV1uq4y1w7cv/, http://www.bilibili.com/video/av248799078, http://www.bilibili.com/video/av116358096424130, http://www.bilibili.com/video/av116846715997026, http://www.bilibili.com/video/av116848712489033, http://www.bilibili.com/video/av113072832251141, http://www.bilibili.com/video/av116846565004964, http://www.bilibili.com/video/av116848829925522, http://www.bilibili.com/video/av550955083, http://www.bilibili.com/video/av116850641865696, http://www.bilibili.com/video/av116697533057219",
+          "uid": "BV1Uv411n7yi,BV1JMSfBdEbN,BV1JETB6FEQf,BV1DWTr6pEos,BV1ZbHse1E8G,BV14TTB6qEJx,BV12hTr6mETL,BV1uq4y1w7cv",
+          "sample": "支持一下up！"
+        }
+      ]
+    },
+    {
       "term": "故而",
       "evidenceSamples": [
         "温故而知新[doge]",
@@ -79,6 +105,19 @@
           "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
           "uid": "286503491",
           "sample": "温故而知新"
+        }
+      ]
+    },
+    {
+      "term": "无意冒犯",
+      "evidenceSamples": [
+        "无意冒犯"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1C34y1v7kt/",
+          "uid": "BV1C34y1v7kt",
+          "sample": "无意冒犯"
         }
       ]
     },
@@ -205,6 +244,19 @@
       ]
     },
     {
+      "term": "是哥们",
+      "evidenceSamples": [
+        "不是哥们，哪都有你……"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JJgPzpEkX/, https://www.bilibili.com/video/BV1vX4y1d7Kd/, https://www.bilibili.com/video/BV1Ck4y197i1/, https://www.bilibili.com/video/BV1Uo4y1s7Cq/, https://www.bilibili.com/video/BV1gogZzdEAD/, https://www.bilibili.com/video/BV1B4411W79T/, https://www.bilibili.com/video/BV1AgtmzFEDS/, https://www.bilibili.com/video/BV19pTn6YEVz/, http://www.bilibili.com/video/av114868699143186",
+          "uid": "BV1JJgPzpEkX,BV1vX4y1d7Kd,BV1Ck4y197i1,BV1Uo4y1s7Cq,BV1gogZzdEAD,BV1B4411W79T,BV1AgtmzFEDS,BV19pTn6YEVz",
+          "sample": "不是哥们，哪都有你……"
+        }
+      ]
+    },
+    {
       "term": "是我小人之心",
       "evidenceSamples": [
         "真的假的？员工可以吃，但禁止外带才对吧，像这种没卖完的，让员工带走，不是会造成故意藏东西，客人来了说没了，就等下班，自己大包小包的带回去？（当然，是我小人之心了"
@@ -276,69 +328,6 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
           "uid": "25901335434",
           "sample": "你们俩暂且遥寄一下"
-        }
-      ]
-    },
-    {
-      "term": "有一说一",
-      "evidenceSamples": [
-        "有一说一，这up主做的视频不行还得改进。首先没有白带异常，第二原来明明是个女的现在弄得我都看不懂了。[吃瓜][吃瓜][吃瓜]",
-        "有一说一 没一不说一",
-        "有一说一，这沟是真的猛"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "12371819",
-          "sample": "有一说一，这up主做的视频不行还得改进。首先没有白带异常，第二原来明明是个女的现在弄得我都看不懂了。[吃瓜][吃瓜][吃瓜]"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8322737612",
-          "uid": "ared_hong78",
-          "sample": "有一说一 没一不说一"
-        },
-        {
-          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
-          "uid": "",
-          "sample": "有一说一，这沟是真的猛"
-        }
-      ]
-    },
-    {
-      "term": "有一说一啊",
-      "evidenceSamples": [
-        "有一说一，这up主做的视频不行还得改进。首先没有白带异常，第二原来明明是个女的现在弄得我都看不懂了。[吃瓜][吃瓜][吃瓜]",
-        "有一说一 没一不说一",
-        "有一说一，这沟是真的猛"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "12371819",
-          "sample": "有一说一，这up主做的视频不行还得改进。首先没有白带异常，第二原来明明是个女的现在弄得我都看不懂了。[吃瓜][吃瓜][吃瓜]"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8322737612",
-          "uid": "ared_hong78",
-          "sample": "有一说一 没一不说一"
-        },
-        {
-          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
-          "uid": "",
-          "sample": "有一说一，这沟是真的猛"
-        }
-      ]
-    },
-    {
-      "term": "有一说一确实",
-      "evidenceSamples": [
-        "回复 @尘烟寂染暮雪 :正确的[热] 之前一直都是跟的影月 但海岛须弥的攻略标题有一说一确实乱七八糟观感不好 然后我这次过世界任务的时候有解谜没解出来想去看一下攻略 明明点进的是他单独发出的任务视频 但[热词系列_好家伙]进度条是按宝箱标分的 一个任务视频长得要死 很难找到想了解的部分 咱就是说为什么把宝箱和任务混一块[捂脸] 于是润来看莴苣的攻略 任务攻略按阶段划分 想看哪里一目了然"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1iG4y1r7Mt/",
-          "uid": "BV1iG4y1r7Mt",
-          "sample": "回复 @尘烟寂染暮雪 :正确的[热] 之前一直都是跟的影月 但海岛须弥的攻略标题有一说一确实乱七八糟观感不好 然后我这次过世界任务的时候有解谜没解出来想去看一下攻略 明明点进的是他单独发出的任务视频 但[热词系列_好家伙]进度条是按宝箱标分的 一个任务视频长得要死 很难找到想了解的部分 咱就是说为什么把宝箱和任务混一块[捂脸] 于是润来看莴苣的攻略 任务攻略按阶段划分 想看哪里一目了然"
         }
       ]
     }

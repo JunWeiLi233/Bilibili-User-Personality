@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evidence",
   "shard": 1,
-  "shardCount": 16,
+  "shardCount": 17,
   "evidence": [
     {
       "term": "pdf文件",
@@ -149,13 +149,18 @@
     {
       "term": "不信",
       "evidenceSamples": [
+        "国足：不信谣不传谣",
         "法老：不信谣，不传谣！[滑稽]",
         "国足：不传谣不信谣",
         "回复 @百合小姐姐_ :你能发图吗，我不信[呲牙][傲娇]",
-        "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326",
-        "1.【26.2.14 不信谣不传谣，看9.21日的公告自己琢磨-哔哩哔哩】 https://b23.tv/7UR2rY8"
+        "同学们，你要的资料都整理好了，能满足你 学习剪辑 99%的需求！长期有效！小白也能变大神！真心换真心，不信你来看看！cv21992326"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "国足：不信谣不传谣"
+        },
         {
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV12L4y1s7QQ/",
           "uid": "BV12L4y1s7QQ",
@@ -180,11 +185,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
           "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
           "sample": "1.【26.2.14 不信谣不传谣，看9.21日的公告自己琢磨-哔哩哔哩】 https://b23.tv/7UR2rY8"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
-          "uid": "BV114421F7cT",
-          "sample": "国足：不信谣不传谣"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",

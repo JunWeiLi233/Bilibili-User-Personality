@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "correction",
   "shard": 3,
   "shardCount": 10,
@@ -520,13 +520,23 @@
     {
       "term": "我失误",
       "evidenceSamples": [
+        "回复 @浅夏忆梦- :跟小海比的又不是跟我比的 她的失误次数比小海多太多 很多失误都是不会发生在小海身上的",
+        "换评论区的上也是不如海大富 人家开头都说了 很长没一起玩了 居然在纠结没有海大富有默契 真把自己代入进去了 貌似一点失误的操作都能拿出来指点 人均王者",
         "emm有没有up知道这是错误[笑哭]而且古董商应该是要来刷分，或者是要ob，因为红夫人没追古董商了一会，就要换抓了，然后古董商就去找红夫人，以古董商当时的视角来讲，古董商完全可以看到红夫人换抓，也来得及发信息，不过也有可能是操作失误，没来得...",
         "1. 历史红线、女性安全两大舆论雷点完全没有正面认错：731编号、“引狼入室”“锅里洗澡”的争议，全程没有承认文案设计存在原则性失误，只定性为审核疏漏，没有追责、没有完整的内容风控方案公示。",
-        "侯明昊好听在哪，就算齐姐有大失误也能听出来全场只有他一个人跟别的歌手不在一个图层[笑哭]",
-        "播放在节目中的个人展示视频也没失误出糗，人家还表现得特自信，反倒成为黑人家的视频，笑死，好逻辑",
-        "回复 @浅夏忆梦- :跟小海比的又不是跟我比的 她的失误次数比小海多太多 很多失误都是不会发生在小海身上的"
+        "侯明昊好听在哪，就算齐姐有大失误也能听出来全场只有他一个人跟别的歌手不在一个图层[笑哭]"
       ],
       "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @浅夏忆梦- :跟小海比的又不是跟我比的 她的失误次数比小海多太多 很多失误都是不会发生在小海身上的"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "换评论区的上也是不如海大富 人家开头都说了 很长没一起玩了 居然在纠结没有海大富有默契 真把自己代入进去了 貌似一点失误的操作都能拿出来指点 人均王者"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
           "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm",
@@ -543,24 +553,14 @@
           "sample": "侯明昊好听在哪，就算齐姐有大失误也能听出来全场只有他一个人跟别的歌手不在一个图层[笑哭]"
         },
         {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "28098542",
-          "sample": "播放在节目中的个人展示视频也没失误出糗，人家还表现得特自信，反倒成为黑人家的视频，笑死，好逻辑"
-        },
-        {
-          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
-          "uid": "",
-          "sample": "回复 @浅夏忆梦- :跟小海比的又不是跟我比的 她的失误次数比小海多太多 很多失误都是不会发生在小海身上的"
-        },
-        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV12VKf6FE2Y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av904214610, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
           "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV12VKf6FE2Y",
           "sample": "emm有没有up知道这是错误[笑哭]而且古董商应该是要来刷分，或者是要ob，因为红夫人没追古董商了一会，就要换抓了，然后古董商就去找红夫人，以古董商当时的视角来讲，古董商完全可以看到红夫人换抓，也来得及发信息，不过也有可能是操作失误，没来得..."
         },
         {
-          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
-          "uid": "",
-          "sample": "换评论区的上也是不如海大富 人家开头都说了 很长没一起玩了 居然在纠结没有海大富有默契 真把自己代入进去了 貌似一点失误的操作都能拿出来指点 人均王者"
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "28098542",
+          "sample": "播放在节目中的个人展示视频也没失误出糗，人家还表现得特自信，反倒成为黑人家的视频，笑死，好逻辑"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",

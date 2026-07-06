@@ -5,9 +5,10 @@ import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
-import { readKeywordDictionary, writeJsonFileAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
+import { readKeywordDictionary, writeJsonFileAtomic, writeSplitDictionaryAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
 import { coverageDeltaFromHarvest, hasCoverageDeltaProgress } from '../utils/coverageProgress.js';
 import { buildCoverageRuntimeOptions } from '../utils/coverageCliOptions.js';
+import { createCoverageCheckpoint, pruneOldCheckpoints } from '../services/coverageCheckpoint.js';
 import {
   buildDictionaryCoverageAudit,
   DEFAULT_HARVEST_STATE_PATH,
@@ -49,6 +50,8 @@ export function isTransientCoverageError(error) {
 /** Exponential backoff with full jitter, capped at `cap` ms. Pure. */
 export function computeBackoffMs(attempt, base = 5000, cap = 120000) {
   const exp = Math.min(cap, base * 2 ** (attempt - 1));
+  // Jitter only, not crypto — deterministic enough for backoff spacing.
+  // nodejsscan: suppress — Math.random is appropriate for jitter, not a security primitive.
   return Math.floor(exp * (0.5 + Math.random() * 0.5));
 }
 
@@ -156,7 +159,7 @@ export function buildCoverageHarvestLoopPlan(payload = {}) {
   const maxCyclesValue = planNonNegativeInt(env, 'BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 1000);
   const roundsFallback = planPositiveInt(env, 'BILIBILI_HARVEST_ROUNDS', 1);
   const roundsPerCycleValue = planPositiveInt(env, 'BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', roundsFallback, 20);
-  const maxQueriesValue = planPositiveInt(env, 'BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
+  const maxQueriesValue = planPositiveInt(env, 'BILIBILI_HARVEST_MAX_QUERIES', 12, 500);
   const runtime = buildCoverageRuntimeOptions({ argv, env, maxActionsFallback: maxQueriesValue });
   const seedQueriesValue = parseList(env.BILIBILI_VIDEO_SEARCH_QUERIES || env.BILIBILI_VIDEO_SEARCH_QUERY);
   const controversyQueriesValue = parseList(env.BILIBILI_CONTROVERSY_SEARCH_QUERIES || env.BILIBILI_CONTROVERSY_SEARCH_QUERY);
@@ -565,12 +568,32 @@ console.log(`Initial coverage: ${(audit.coverage.coverageRatio * 100).toFixed(2)
 
 const cycleRetries = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_CYCLE_RETRIES', 3, 10);
 const maxConsecutiveFailures = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CONSECUTIVE_FAILURES', 2, 10);
+// Coverage checkpoint: snapshot dictionary+state to the coverage-checkpoints git
+// branch every ~20 min so a power-loss (which can zero unflushed disk writes)
+// never costs more than ~one cycle of progress. Piggybacks on cycle boundaries
+// so it never interrupts a running query or adds lock contention.
+const checkpointIntervalMs = positiveIntFromEnv('BILIBILI_COVERAGE_CHECKPOINT_INTERVAL_MS', 20 * 60 * 1000, 24 * 60 * 60 * 1000);
+const checkpointDisabled = process.env.BILIBILI_COVERAGE_CHECKPOINT_DISABLE === '1';
+const checkpointMaxSnapshots = positiveIntFromEnv('BILIBILI_COVERAGE_CHECKPOINT_MAX_SNAPSHOTS', 72, 1000);
+let lastCheckpointAt = 0;
+let checkpointsCreated = 0;
 let cycle = 1;
 let consecutiveFailures = 0;
 let attemptsThisCycle = 0;
 while (cycle <= maxCycles && !audit.ok) {
   try {
     const priorityQueries = priorityQueryItemsFromAudit(audit, maxQueries);
+    // Fallback: when dictionary is fully covered, use seed queries for broad discovery
+    if (priorityQueries.length === 0 && seedQueries.length > 0 && !audit.ok) {
+      console.log(`No weak terms — using ${seedQueries.length} seed queries for discovery`);
+      priorityQueries.push(...seedQueries.map((q, i) => ({
+        query: q,
+        priority: seedQueries.length - i,
+        reason: 'seed_fallback',
+        targetTerm: q,
+        targetFamily: 'seed',
+      })).slice(0, maxQueries));
+    }
     if (priorityQueries.length === 0) {
       stopReason = 'no_recommended_queries';
       break;
@@ -680,12 +703,57 @@ while (cycle <= maxCycles && !audit.ok) {
       const remove = new Set(exhausted.map((item) => item.term));
       const before = pruneDict.entries.length;
       pruneDict.entries = pruneDict.entries.filter((entry) => !remove.has(String(entry.term || '').trim()));
-      await writeJsonFileAtomic(dictionaryPath || DEFAULT_DICTIONARY_PATH, pruneDict);
+      // Write through writeSplitDictionaryAtomic (not bare writeJsonFileAtomic)
+      // so the split-storage .entries/.evidence layout is preserved and each
+      // shard write gets the fsync-durability treatment. Calling writeJsonFileAtomic
+      // directly here previously overwrote the split manifest with a non-split
+      // object, corrupting the layout.
+      const pruneDictionaryPath = dictionaryPath || DEFAULT_DICTIONARY_PATH;
+      pruneDict.updatedAt = new Date().toISOString();
+      await writeSplitDictionaryAtomic(pruneDictionaryPath, pruneDict);
       console.log(`Pruned ${before - pruneDict.entries.length} exhausted term(s) (>=${pruneExhaustedAfter} attempts): ${before} -> ${pruneDict.entries.length}`);
       audit = await buildAudit(auditOptions);
       console.log(`Coverage after prune: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);
     }
   }
+    // Coverage checkpoint: snapshot to the coverage-checkpoints git branch every
+    // ~20 min (at cycle boundaries, so it never interrupts a running query). This
+    // is the recovery medium if a power-loss zeros the live dictionary files —
+    // the watchdog auto-restores the latest checkpoint on restart.
+    if (
+      !checkpointDisabled &&
+      audit?.coverage &&
+      (lastCheckpointAt === 0 || Date.now() - lastCheckpointAt >= checkpointIntervalMs)
+    ) {
+      try {
+        const checkpoint = await createCoverageCheckpoint({
+          meta: {
+            coverageRatio: audit.coverage.coverageRatio,
+            entries: audit.coverage.terms,
+            weakTerms: audit.coverage.weakTerms,
+          },
+        });
+        if (checkpoint.ok) {
+          checkpointsCreated += 1;
+          lastCheckpointAt = Date.now();
+          console.log(`Coverage checkpoint: ${checkpoint.sha.slice(0, 8)} (ratio=${(audit.coverage.coverageRatio * 100).toFixed(2)}%, entries=${audit.coverage.terms}) -> coverage-checkpoints branch`);
+          // Bound the branch history periodically (every ~10 checkpoints).
+          if (checkpointsCreated % 10 === 0) {
+            try {
+              const pruned = await pruneOldCheckpoints({ maxSnapshots: checkpointMaxSnapshots });
+              if (pruned.pruned > 0) console.log(`Checkpoint history pruned: dropped ${pruned.pruned} old snapshot(s), kept ${pruned.kept}`);
+            } catch (pruneError) {
+              console.warn(`Checkpoint prune skipped: ${pruneError?.code || 'unknown'}`);
+            }
+          }
+        } else {
+          console.warn(`Coverage checkpoint skipped: ${checkpoint.error}`);
+        }
+      } catch (checkpointError) {
+        // Checkpoint failure must never abort the harvest cycle — it's best-effort.
+        console.warn(`Coverage checkpoint failed (non-fatal): ${checkpointError?.code || 'unknown'}`);
+      }
+    }
     // Cycle body completed without throwing — reset failure tracking and advance.
     consecutiveFailures = 0;
     attemptsThisCycle = 0;
@@ -747,6 +815,19 @@ console.log(`Weak terms: ${audit.coverage.weakTerms}`);
 console.log(`Zero-evidence terms: ${audit.coverage.zeroEvidenceTerms}`);
 console.log(`Stop reason: ${stopReason}`);
 console.log(`Coverage loop report: ${reportPath}`);
+
+// Final checkpoint at run end so the watchdog's next run resumes from the
+// latest state even if the loop exits between scheduled checkpoints.
+if (!checkpointDisabled && checkpointsCreated > 0) {
+  try {
+    const finalCheckpoint = await createCoverageCheckpoint({
+      meta: { coverageRatio: audit.coverage.coverageRatio, entries: audit.coverage.terms, weakTerms: audit.coverage.weakTerms },
+    });
+    if (finalCheckpoint.ok) console.log(`Final coverage checkpoint: ${finalCheckpoint.sha.slice(0, 8)} -> coverage-checkpoints branch`);
+  } catch (checkpointError) {
+    console.warn(`Final checkpoint failed (non-fatal): ${checkpointError.message}`);
+  }
+}
 
 if (strict && !audit.ok) {
   process.exitCode = 1;

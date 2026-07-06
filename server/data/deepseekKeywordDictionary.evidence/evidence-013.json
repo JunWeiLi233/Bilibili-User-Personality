@@ -1,10 +1,138 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evidence",
   "shard": 13,
-  "shardCount": 16,
+  "shardCount": 17,
   "evidence": [
+    {
+      "term": "考证",
+      "evidenceSamples": [
+        "食人族专业学生对本专业悠久历史的考证 “村中闻有此人咸，来问讯。” ——晋·陶渊明《桃花源记》 诏曰：“卿去有日，使人酸然。”——《晋书·卷八十四·殷仲堪传》 （长无）利[益]多，是食辛人。——《楞严经·卷八》",
+        "准考证呢，什么叫没有？什么叫你要进去玩手机?",
+        "我们群就有凭准考证免费带打团，任何团本[傲娇]",
+        "准考证号漏出来了",
+        "有些网友说，这个机制还和不同账号有关，和平时观看的内容和发布评论的情况有关。这种现象我目前还没发现，有待考证。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8322684749",
+          "uid": "熊孩子不可取名",
+          "sample": "食人族专业学生对本专业悠久历史的考证 “村中闻有此人咸，来问讯。” ——晋·陶渊明《桃花源记》 诏曰：“卿去有日，使人酸然。”——《晋书·卷八十四·殷仲堪传》 （长无）利[益]多，是食辛人。——《楞严经·卷八》"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1CCVt69Etc/",
+          "uid": "BV1CCVt69Etc",
+          "sample": "准考证呢，什么叫没有？什么叫你要进去玩手机?"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1CCVt69Etc/",
+          "uid": "BV1CCVt69Etc",
+          "sample": "我们群就有凭准考证免费带打团，任何团本[傲娇]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VPV46aENm/",
+          "uid": "BV1VPV46aENm",
+          "sample": "准考证号漏出来了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
+          "sample": "有些网友说，这个机制还和不同账号有关，和平时观看的内容和发布评论的情况有关。这种现象我目前还没发现，有待考证。"
+        }
+      ]
+    },
+    {
+      "term": "耳听为虚",
+      "evidenceSamples": [
+        "回复 @烧烤鳜鱼 :哦漏……这下真的耳听为虚眼见不为实了……",
+        "《眼见为实，耳听为虚》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1ZH4y1V7Ug/",
+          "uid": "13421654",
+          "sample": "回复 @烧烤鳜鱼 :哦漏……这下真的耳听为虚眼见不为实了……"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Vz4y1Q7UM/",
+          "uid": "BV1Vz4y1Q7UM",
+          "sample": "《眼见为实，耳听为虚》"
+        }
+      ]
+    },
+    {
+      "term": "聊天记录",
+      "evidenceSamples": [
+        "受不了了想找个地方说出来 楼主去年这个时候在网上口嗨，不小心找到了个女朋友。一开始我觉得她人挺好，不像xxn，但是现在我越来越受不了了。我感觉我都快回到以前的阴影里了（附聊天记录）",
+        "fw木薯追学长的故事 聊天记录镇楼",
+        "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。",
+        "[喜极而泣]只能说这可太普遍了。一些人一边总拿聊天记录当铁证, 一边又喜欢对着官方通告咬文嚼字，要求官方自证其通告真伪说是。",
+        "就是一坨。假如你换了手机，没有把聊天记录转到新手机，群聊没人发新消息的情况下你都找不到这个群聊，需要你事先把这个群聊保存到的通讯录才能找到[辣眼睛]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "受不了了想找个地方说出来 楼主去年这个时候在网上口嗨，不小心找到了个女朋友。一开始我觉得她人挺好，不像xxn，但是现在我越来越受不了了。我感觉我都快回到以前的阴影里了（附聊天记录）"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "fw木薯追学长的故事 聊天记录镇楼"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "BV1YKmPBQE6P",
+          "sample": "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "BV1VKVK66E8K",
+          "sample": "[喜极而泣]只能说这可太普遍了。一些人一边总拿聊天记录当铁证, 一边又喜欢对着官方通告咬文嚼字，要求官方自证其通告真伪说是。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1sVZhYmEeK/",
+          "uid": "BV1sVZhYmEeK",
+          "sample": "就是一坨。假如你换了手机，没有把聊天记录转到新手机，群聊没人发新消息的情况下你都找不到这个群聊，需要你事先把这个群聊保存到的通讯录才能找到[辣眼睛]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1fK4y1A7bQ/",
+          "uid": "BV1fK4y1A7bQ",
+          "sample": "前面的，确实知道，但没涉及什么就不会去管，就像聊天记录一样，出事了才查"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "285814498",
+          "sample": "借楼科普，评论区五大典型诈骗套路 1. 病童筹款型 • 昵称：“祈求您救救我的孩子”等情感绑架词汇 • 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助 • 破绽：视频画质模糊、发布时间集中，评论区关闭互动 2. 外卖员求助型 • 昵称：随机变化，自称“外卖员孩子病重” • 手段：文案雷同，仅放支付码无具体证明 3. 求职被骗型 • 头像：固定使用哆啦A梦等卡通形象 • 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账 4. 家庭矛盾型 • 内容：伪造微信聊天记录，称“被父母拉黑要钱” • 目的：利用同情心索要红包/转账 5. 兼职诱导型 • 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群 • 风险：实为刷单诈骗或信息窃取 二、识别诈骗的三大核心逻辑 1. 账号异常 • 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作 • 真正求助者会主动提供正规平台链接及医院证明 2. 逃避正规渠道 • 拒用正规平台（需提交病历、身份证等严格审核） • 仅提供收款码/私信转账，资金流向无保障 3. 内容痕迹 • 视频/动态短期内密集发布，画质低清； • 关闭弹幕、精选评论，回避质疑 三、安全应对守则 两要 1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性） 2. 要保留证据：截图账号信息、聊天记录，向平台举报 两不要 1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗 2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费” 转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+        }
+      ]
+    },
+    {
+      "term": "胡扯",
+      "evidenceSamples": [
+        "胡扯，日本食品规范是十分严格的，森永牛奶里面掺着砒霜，造成日本130人死亡，几万人受害，森永集团当时的社长的女婿，当上过首相叫安倍什么的被直接枪毙了。[生气]",
+        "回复 @你叫什么啊w :我说好多 好多≠全部，如果是借鉴或有出处就标出来呗，不敢吗？ [星星眼]看给你应激成什么了，全篇不是给我扣帽子就是胡扯，是抄诗表自己的作者本人来了吗？[笑哭]",
+        "这是在胡扯什么"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KeV56WE7K/",
+          "uid": "BV1KeV56WE7K",
+          "sample": "胡扯，日本食品规范是十分严格的，森永牛奶里面掺着砒霜，造成日本130人死亡，几万人受害，森永集团当时的社长的女婿，当上过首相叫安倍什么的被直接枪毙了。[生气]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1VpJG6yEfK/",
+          "uid": "690185338",
+          "sample": "回复 @你叫什么啊w :我说好多 好多≠全部，如果是借鉴或有出处就标出来呗，不敢吗？ [星星眼]看给你应激成什么了，全篇不是给我扣帽子就是胡扯，是抄诗表自己的作者本人来了吗？[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1b24y1R7G5/",
+          "uid": "BV1b24y1R7G5",
+          "sample": "这是在胡扯什么"
+        }
+      ]
+    },
     {
       "term": "胡编乱造",
       "evidenceSamples": [
@@ -318,116 +446,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
           "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
           "sample": "回复 @没昵称2号 :我不敢想象现在b站的观众有多低龄，发个这玩意儿就能收购一大片流量，那些高质创作者怎么讲？证据是拿不出来的，流量是要吃的，而且现实中的亲人死了，为什么要发到网上来？"
-        }
-      ]
-    },
-    {
-      "term": "讲逻辑",
-      "evidenceSamples": [
-        "回复 @年年有雨 : 首先，自己讲话要负责任。既然发了评论，就要接受质询。其次，讲话要讲逻辑。如果你的本意是想找“高级中国音乐”，那么就不会问“您有啥作品”，而应该问“高级中国音乐有哪些”，这既不合逻辑，也有偷换论题、剥夺他人发言权的嫌疑。",
-        "回复 @岁月流逝--- :我真知道了，什么叫喷子，真就一点儿逻辑都不讲，只要我说一点儿蔡徐坤不好的事儿，他瞬间就[吐][吐]",
-        "回复 @独钓_一江秋 :绷不住了，所谓创新是什么，是在什么的基础上才叫创新？你原来的都守不住怎么在原来的基础上创新，你隔这搭空中楼阁呢？连基本逻辑都不讲了吗[笑哭] 而且最招笑的是你在这说要创新，国内音乐圈却一直在玩抄袭[笑哭]，真是讽刺到哭笑不得了",
-        "我信了，所以怎么暖暖写那么割裂。暖暖是不是叠纸写的，难道是外包出去的，好的编剧给原神写了，对自己亲女儿就打包给外包公司了。难道暖暖不是亲生的，叠纸的编剧钱真好拿，豆包都比叠纸的编剧有逻辑。",
-        "他那基金90% 是普通人走个面 想用同样逻辑套到票房上"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
-          "uid": "",
-          "sample": "回复 @年年有雨 : 首先，自己讲话要负责任。既然发了评论，就要接受质询。其次，讲话要讲逻辑。如果你的本意是想找“高级中国音乐”，那么就不会问“您有啥作品”，而应该问“高级中国音乐有哪些”，这既不合逻辑，也有偷换论题、剥夺他人发言权的嫌疑。"
-        },
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "285598075",
-          "sample": "回复 @岁月流逝--- :我真知道了，什么叫喷子，真就一点儿逻辑都不讲，只要我说一点儿蔡徐坤不好的事儿，他瞬间就[吐][吐]"
-        },
-        {
-          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
-          "uid": "",
-          "sample": "回复 @独钓_一江秋 :绷不住了，所谓创新是什么，是在什么的基础上才叫创新？你原来的都守不住怎么在原来的基础上创新，你隔这搭空中楼阁呢？连基本逻辑都不讲了吗[笑哭] 而且最招笑的是你在这说要创新，国内音乐圈却一直在玩抄袭[笑哭]，真是讽刺到哭笑不得了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1idKZ6kEwX/, https://www.bilibili.com/video/BV1xRKo6WE36/, https://www.bilibili.com/video/BV1FmEm6HEaz/, https://www.bilibili.com/video/BV1xsKQ6zEBA/, https://www.bilibili.com/video/BV1sSk6B8Efv/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116833227184706, http://www.bilibili.com/video/av115529922713807, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116810410235206, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116793549003302, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116837471880832, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116837656434353, http://www.bilibili.com/video/av116818865817289",
-          "uid": "BV1Z1Kd66ExR,BV1idKZ6kEwX,BV1xRKo6WE36,BV1FmEm6HEaz,BV1xsKQ6zEBA,BV1sSk6B8Efv",
-          "sample": "我信了，所以怎么暖暖写那么割裂。暖暖是不是叠纸写的，难道是外包出去的，好的编剧给原神写了，对自己亲女儿就打包给外包公司了。难道暖暖不是亲生的，叠纸的编剧钱真好拿，豆包都比叠纸的编剧有逻辑。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
-          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
-          "sample": "他那基金90% 是普通人走个面 想用同样逻辑套到票房上"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV17dKU6DEmg/, https://www.bilibili.com/video/BV1Ss4y1A7Ha/, https://www.bilibili.com/video/BV1DSKS6CEYt/, https://www.bilibili.com/video/BV1G47a6dE16/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1GY4y1F7f8/, http://www.bilibili.com/video/av116832639916697, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116831784274708, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116051559915029, http://www.bilibili.com/video/av112903734692424, http://www.bilibili.com/video/av922945358, http://www.bilibili.com/video/av952879650, http://www.bilibili.com/video/av114727468406529, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av112677158389246, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av116836196683195, http://www.bilibili.com/video/av116742781209921, http://www.bilibili.com/video/av116832488917392, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116821667612714, http://www.bilibili.com/video/av116819100702476, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av115644645251192, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116811248967460, http://www.bilibili.com/video/av644775116, http://www.bilibili.com/video/av116742026172205, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av113958182721133",
-          "uid": "BV17dKU6DEmg,BV1Ss4y1A7Ha,BV1DSKS6CEYt,BV1G47a6dE16,BV1d5KZ66E5S,BV1GY4y1F7f8",
-          "sample": "他那基金90% 是普通人走个面 想用同样逻辑套到票房上"
-        }
-      ]
-    },
-    {
-      "term": "论证",
-      "evidenceSamples": [
-        "你这叫什么论证？什么时候一夫一妻可以给你保证一个光棍没有？但一夫一妻的实行确实让光棍数量能够做到历史最低。",
-        "经过我的论证，中国足球有希望了 阿美莉卡白人＞黑人 拜仁慕尼黑≈白人慕尼黑＝（黑人＞白人） 观察地球仪可知，中国正对阿美莉卡 所以拜仁慕尼黑队是我国的，快去足协申诉，晚了人家就该名了",
-        "作者在一开始就承认了我们音乐的落后，而且也论证了中华的音乐文化没传承好。可能你有点困了，建议早点睡，休息好之后再思考一下问题，希望你的下次讨论能更贴合主题，能更理智，能更清晰、准确的表达观点与看法[给心心]",
-        "说白了，多角度要有，但必须进一步明确立场，同时论证确定的立场的必要性。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "你这叫什么论证？什么时候一夫一妻可以给你保证一个光棍没有？但一夫一妻的实行确实让光棍数量能够做到历史最低。"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7932663635",
-          "uid": "哇哈哈哈克拉克",
-          "sample": "经过我的论证，中国足球有希望了 阿美莉卡白人＞黑人 拜仁慕尼黑≈白人慕尼黑＝（黑人＞白人） 观察地球仪可知，中国正对阿美莉卡 所以拜仁慕尼黑队是我国的，快去足协申诉，晚了人家就该名了"
-        },
-        {
-          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
-          "uid": "",
-          "sample": "作者在一开始就承认了我们音乐的落后，而且也论证了中华的音乐文化没传承好。可能你有点困了，建议早点睡，休息好之后再思考一下问题，希望你的下次讨论能更贴合主题，能更理智，能更清晰、准确的表达观点与看法[给心心]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WATF6dERc/, https://www.bilibili.com/video/BV15qEqztEPH/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1EWeuztELy/, https://www.bilibili.com/video/BV16VTw6oEF3/, https://www.bilibili.com/video/BV13SLX6kEvp/, http://www.bilibili.com/video/av116838881038788, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116839669630900, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av116838763595343, http://www.bilibili.com/video/av116836834220796, http://www.bilibili.com/video/av116018106074435, http://www.bilibili.com/video/av116833176847118, http://www.bilibili.com/video/av116734778541191, http://www.bilibili.com/video/av116834250523470, http://www.bilibili.com/video/av116832136599724, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116832673466589, http://www.bilibili.com/video/av116838360947637, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av114506713792950, http://www.bilibili.com/video/av115059237919866, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116061391292085, http://www.bilibili.com/video/av1555838446, http://www.bilibili.com/video/av115121129068885",
-          "uid": "BV1WATF6dERc,BV15qEqztEPH,BV11KKX66Eeo,BV1EWeuztELy,BV16VTw6oEF3,BV13SLX6kEvp",
-          "sample": "说白了，多角度要有，但必须进一步明确立场，同时论证确定的立场的必要性。"
-        }
-      ]
-    },
-    {
-      "term": "证人证言",
-      "evidenceSamples": [
-        "拿不出人证的老王，被法官判为猴子",
-        "为吧友谋福利#吧友# 假如，我是说假如我可以办证，根据本吧的行情 弱智证:500元 正常人证:1000元 出院纪念证:2元 超人纪念证:1元 上辈子弱智证500元 下辈子弱智证500元 求问:我怎么给自己转钱 挺急的",
-        "无法证明是不是胁迫啊，只要没人证明一样是可以的",
-        "你有人证物证法证吗 你就出来装逼 你要不看看你自己长啥样吧",
-        "当老师就可以随意侮辱他人人格，在别人没有做错事的情况下，让别人自己扇自己巴掌吗？就为了要让别人证明对自己的话有执行力，让别人扇自己巴掌拍成视频发到群里？心理变态是吧？每个人都是有尊严的，尊严是不容侵犯的！你别说你财务自由，你就是年薪千万，年..."
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/6922024404",
-          "uid": "凉伴suan什么",
-          "sample": "拿不出人证的老王，被法官判为猴子"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8399846503",
-          "uid": "贴吧用户_GC8379t",
-          "sample": "为吧友谋福利#吧友# 假如，我是说假如我可以办证，根据本吧的行情 弱智证:500元 正常人证:1000元 出院纪念证:2元 超人纪念证:1元 上辈子弱智证500元 下辈子弱智证500元 求问:我怎么给自己转钱 挺急的"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
-          "uid": "BV1uw411Z7jE",
-          "sample": "无法证明是不是胁迫啊，只要没人证明一样是可以的"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1zJxczUEgD/",
-          "uid": "BV1zJxczUEgD",
-          "sample": "你有人证物证法证吗 你就出来装逼 你要不看看你自己长啥样吧"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
-          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
-          "sample": "当老师就可以随意侮辱他人人格，在别人没有做错事的情况下，让别人自己扇自己巴掌吗？就为了要让别人证明对自己的话有执行力，让别人扇自己巴掌拍成视频发到群里？心理变态是吧？每个人都是有尊严的，尊严是不容侵犯的！你别说你财务自由，你就是年薪千万，年..."
         }
       ]
     }

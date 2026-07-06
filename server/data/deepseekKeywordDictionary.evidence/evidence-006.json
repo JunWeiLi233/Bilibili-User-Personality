@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T20:01:58.559Z",
+  "updatedAt": "2026-07-03T19:51:05.336Z",
   "family": "evidence",
   "shard": 6,
-  "shardCount": 16,
+  "shardCount": 17,
   "evidence": [
     {
       "term": "官方认证",
@@ -172,6 +172,58 @@
     {
       "term": "实锤",
       "evidenceSamples": [
+        "都说圆了，没品牌不行，有品牌也不行，做茶的都没良心实锤了。那喝开水，然后又说水也有各种问题[doge]",
+        "杨博文考核大魔王实锤！次次舞蹈考核断层第一🔥\\n💗💗💗四代第一且唯一主舞的实力从来靠成绩说话：卡点精准到毫米，力度收放自如，控制力直接拉满，每个动作都干净到没有一丝冗余，舞台跳唱双稳全程在线💯💕💕💕\\n杨博文就是标准答案✨",
+        "回复 @水目凉神 :又看到传说中的杠精，录视频是会丢帧的，你甚至可以说他整首歌都是用的录音，正如前段时间铺天盖地的游戏实锤，全是拿录像来实锤，其实都是橡皮锤，拿视频说事儿没任何意义，任何一个视频都可以经过后期加工，他只能用现场才能证明他是不是真唱录的，所以别发这种钻牛角尖的评论了，看着很捞朋友，别一句评论就否定了别人一个月的努力",
+        "这个应该不是实锤吧，up收藏夹好多各种类别的视频，应该是留作参考用的",
+        "回复 @爱吃绿豆饼的花生果 : 我的原话是“不要迷信品牌，尤其是没有自己茶厂的品牌～”，你是怎么自己脑补出来“没品牌不行，有品牌也不行，做茶的都没良心实锤了”？？？？ 我哪句话擦到你的G点了？？？？？你的眼睛都歪楼歪到外太空？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1a74neKEBh/",
+          "uid": "22763856",
+          "sample": "都说圆了，没品牌不行，有品牌也不行，做茶的都没良心实锤了。那喝开水，然后又说水也有各种问题[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EqVJ6dEYG/",
+          "uid": "BV1EqVJ6dEYG",
+          "sample": "杨博文考核大魔王实锤！次次舞蹈考核断层第一🔥\\n💗💗💗四代第一且唯一主舞的实力从来靠成绩说话：卡点精准到毫米，力度收放自如，控制力直接拉满，每个动作都干净到没有一丝冗余，舞台跳唱双稳全程在线💯💕💕💕\\n杨博文就是标准答案✨"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mK4y1x7Mb/",
+          "uid": "BV1mK4y1x7Mb",
+          "sample": "回复 @水目凉神 :又看到传说中的杠精，录视频是会丢帧的，你甚至可以说他整首歌都是用的录音，正如前段时间铺天盖地的游戏实锤，全是拿录像来实锤，其实都是橡皮锤，拿视频说事儿没任何意义，任何一个视频都可以经过后期加工，他只能用现场才能证明他是不是真唱录的，所以别发这种钻牛角尖的评论了，看着很捞朋友，别一句评论就否定了别人一个月的努力"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ndV86WEpR/",
+          "uid": "BV1ndV86WEpR",
+          "sample": "这个应该不是实锤吧，up收藏夹好多各种类别的视频，应该是留作参考用的"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1a74neKEBh/",
+          "uid": "1984228662",
+          "sample": "回复 @爱吃绿豆饼的花生果 : 我的原话是“不要迷信品牌，尤其是没有自己茶厂的品牌～”，你是怎么自己脑补出来“没品牌不行，有品牌也不行，做茶的都没良心实锤了”？？？？ 我哪句话擦到你的G点了？？？？？你的眼睛都歪楼歪到外太空？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UB4y1i7K3/",
+          "uid": "BV1UB4y1i7K3",
+          "sample": "这首歌是潘长江的小品《过河》里的，全员喜剧人实锤了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19EapznEST/",
+          "uid": "BV19EapznEST",
+          "sample": "吞弹幕实锤"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19EapznEST/",
+          "uid": "BV19EapznEST",
+          "sample": "实锤吞弹幕"
+        }
+      ]
+    },
+    {
+      "term": "实锤了",
+      "evidenceSamples": [
         "回复 @水目凉神 :又看到传说中的杠精，录视频是会丢帧的，你甚至可以说他整首歌都是用的录音，正如前段时间铺天盖地的游戏实锤，全是拿录像来实锤，其实都是橡皮锤，拿视频说事儿没任何意义，任何一个视频都可以经过后期加工，他只能用现场才能证明他是不是真唱录的，所以别发这种钻牛角尖的评论了，看着很捞朋友，别一句评论就否定了别人一个月的努力",
         "这个应该不是实锤吧，up收藏夹好多各种类别的视频，应该是留作参考用的",
         "回复 @爱吃绿豆饼的花生果 : 我的原话是“不要迷信品牌，尤其是没有自己茶厂的品牌～”，你是怎么自己脑补出来“没品牌不行，有品牌也不行，做茶的都没良心实锤了”？？？？ 我哪句话擦到你的G点了？？？？？你的眼睛都歪楼歪到外太空？",
@@ -208,58 +260,6 @@
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EqVJ6dEYG/",
           "uid": "BV1EqVJ6dEYG",
           "sample": "杨博文考核大魔王实锤！次次舞蹈考核断层第一🔥\\n💗💗💗四代第一且唯一主舞的实力从来靠成绩说话：卡点精准到毫米，力度收放自如，控制力直接拉满，每个动作都干净到没有一丝冗余，舞台跳唱双稳全程在线💯💕💕💕\\n杨博文就是标准答案✨"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19EapznEST/",
-          "uid": "BV19EapznEST",
-          "sample": "吞弹幕实锤"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19EapznEST/",
-          "uid": "BV19EapznEST",
-          "sample": "实锤吞弹幕"
-        }
-      ]
-    },
-    {
-      "term": "实锤了",
-      "evidenceSamples": [
-        "回复 @爱吃绿豆饼的花生果 : 我的原话是“不要迷信品牌，尤其是没有自己茶厂的品牌～”，你是怎么自己脑补出来“没品牌不行，有品牌也不行，做茶的都没良心实锤了”？？？？ 我哪句话擦到你的G点了？？？？？你的眼睛都歪楼歪到外太空？",
-        "这首歌是潘长江的小品《过河》里的，全员喜剧人实锤了",
-        "都说圆了，没品牌不行，有品牌也不行，做茶的都没良心实锤了。那喝开水，然后又说水也有各种问题[doge]",
-        "杨博文考核大魔王实锤！次次舞蹈考核断层第一🔥\\n💗💗💗四代第一且唯一主舞的实力从来靠成绩说话：卡点精准到毫米，力度收放自如，控制力直接拉满，每个动作都干净到没有一丝冗余，舞台跳唱双稳全程在线💯💕💕💕\\n杨博文就是标准答案✨",
-        "回复 @水目凉神 :又看到传说中的杠精，录视频是会丢帧的，你甚至可以说他整首歌都是用的录音，正如前段时间铺天盖地的游戏实锤，全是拿录像来实锤，其实都是橡皮锤，拿视频说事儿没任何意义，任何一个视频都可以经过后期加工，他只能用现场才能证明他是不是真唱录的，所以别发这种钻牛角尖的评论了，看着很捞朋友，别一句评论就否定了别人一个月的努力"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1a74neKEBh/",
-          "uid": "1984228662",
-          "sample": "回复 @爱吃绿豆饼的花生果 : 我的原话是“不要迷信品牌，尤其是没有自己茶厂的品牌～”，你是怎么自己脑补出来“没品牌不行，有品牌也不行，做茶的都没良心实锤了”？？？？ 我哪句话擦到你的G点了？？？？？你的眼睛都歪楼歪到外太空？"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UB4y1i7K3/",
-          "uid": "BV1UB4y1i7K3",
-          "sample": "这首歌是潘长江的小品《过河》里的，全员喜剧人实锤了"
-        },
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1a74neKEBh/",
-          "uid": "22763856",
-          "sample": "都说圆了，没品牌不行，有品牌也不行，做茶的都没良心实锤了。那喝开水，然后又说水也有各种问题[doge]"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EqVJ6dEYG/",
-          "uid": "BV1EqVJ6dEYG",
-          "sample": "杨博文考核大魔王实锤！次次舞蹈考核断层第一🔥\\n💗💗💗四代第一且唯一主舞的实力从来靠成绩说话：卡点精准到毫米，力度收放自如，控制力直接拉满，每个动作都干净到没有一丝冗余，舞台跳唱双稳全程在线💯💕💕💕\\n杨博文就是标准答案✨"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mK4y1x7Mb/",
-          "uid": "BV1mK4y1x7Mb",
-          "sample": "回复 @水目凉神 :又看到传说中的杠精，录视频是会丢帧的，你甚至可以说他整首歌都是用的录音，正如前段时间铺天盖地的游戏实锤，全是拿录像来实锤，其实都是橡皮锤，拿视频说事儿没任何意义，任何一个视频都可以经过后期加工，他只能用现场才能证明他是不是真唱录的，所以别发这种钻牛角尖的评论了，看着很捞朋友，别一句评论就否定了别人一个月的努力"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ndV86WEpR/",
-          "uid": "BV1ndV86WEpR",
-          "sample": "这个应该不是实锤吧，up收藏夹好多各种类别的视频，应该是留作参考用的"
         },
         {
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19EapznEST/",

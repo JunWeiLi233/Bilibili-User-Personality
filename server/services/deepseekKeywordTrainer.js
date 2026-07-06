@@ -1,4 +1,5 @@
 import { mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises';
+import { closeSync, fsyncSync, openSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 import { withFileLock } from '../utils/fileLock.js';
@@ -1124,7 +1125,11 @@ export function normalizeKeywordEntries(rawEntries = []) {
       const evidenceCount =
         sampleBackedEvidenceCount > 0
           ? Math.min(rawEvidenceCount || sampleBackedEvidenceCount, sampleBackedEvidenceCount)
-          : Math.max(termEvidenceSamples.length, termEvidenceSources.length);
+          : termEvidenceSamples.length || termEvidenceSources.length
+            ? Math.max(termEvidenceSamples.length, termEvidenceSources.length)
+            : rawEvidenceSamples.length > 0
+              ? 0  // samples were loaded but all filtered out as invalid
+              : rawEvidenceCount;  // no samples loaded (evidence shard missing) — preserve stored count
       entries.push({
         term,
         family,
@@ -3563,6 +3568,7 @@ async function readDictionary(dictionaryPath) {
               family: entry.family || family,
             })));
           } catch (error) {
+            if (error?.code === 'ENOENT') continue;
             throw new Error(`Could not read split keyword dictionary entries ${filePath}: ${error.message}`);
           }
         }
@@ -3723,11 +3729,53 @@ function splitDictionaryEvidenceBySerializedBytes(dictionary, family, entries) {
 }
 
 export async function writeJsonFileAtomic(filePath, value) {
+  await writeSerializedAtomic(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+/**
+ * Power-loss-safe atomic write of an already-serialized string. Writes to a
+ * temp file, fsyncs the temp fd, atomically renames, then fsyncs the parent
+ * directory. Callers that need custom escaping (e.g. \uXXXX for Windows-safe
+ * Chinese round-tripping) pass their pre-serialized string here instead of
+ * going through writeJsonFileAtomic (which serializes with plain JSON.stringify).
+ */
+export async function writeSerializedAtomic(filePath, serialized) {
   await mkdir(dirname(filePath), { recursive: true });
   const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
   try {
-    await writeFile(tempPath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+    // Write to the temp file, then fsync its file descriptor BEFORE the rename.
+    // Without fsync, a power-loss after rename() returns can leave the kernel
+    // page cache unwritten and the target file zeroed on disk (the corruption
+    // we hit). fsync forces the temp file's bytes to stable storage so the
+    // subsequent atomic rename is durable.
+    await writeFile(tempPath, serialized, 'utf8');
+    let fd = -1;
+    try {
+      fd = openSync(tempPath, 'r');
+      fsyncSync(fd);
+    } catch {
+      // fsync may be unsupported on some filesystems/ephemeral mounts —
+      // the rename still provides crash-consistency without power-loss safety.
+    } finally {
+      if (fd !== -1) {
+        try { closeSync(fd); } catch {}
+      }
+    }
     await rename(tempPath, filePath);
+    // fsync the parent directory so the rename's directory-entry update is
+    // durable too. Directory fsync is rejected on some platforms (e.g. Windows
+    // FAT/exFAT) — best-effort, never abort the write.
+    let dirFd = -1;
+    try {
+      dirFd = openSync(dirname(filePath), 'r');
+      fsyncSync(dirFd);
+    } catch {
+      // best-effort: directory fsync unsupported here
+    } finally {
+      if (dirFd !== -1) {
+        try { closeSync(dirFd); } catch {}
+      }
+    }
   } catch (error) {
     await rm(tempPath, { force: true }).catch(() => {});
     throw error;
@@ -3760,7 +3808,7 @@ async function removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles, evide
   await removeStaleSplitFiles(dictionaryPath, evidenceDir, evidenceFiles);
 }
 
-async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
+export async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
   const entriesByFamily = new Map(SUPPORTED_FAMILIES.map((family) => [family, []]));
   for (const rawEntry of Array.isArray(dictionary?.entries) ? dictionary.entries : []) {
     const entry = entryToWireFormat(rawEntry);
@@ -4095,7 +4143,7 @@ function heuristicKeywordEntries(text) {
   return normalizeKeywordEntries(entries);
 }
 
-async function generateKeywordEntries(payload, config, options = {}) {
+export async function generateKeywordEntries(payload, config, options = {}) {
   const fetchImpl = options.fetch || fetch;
   const heuristicEntries = heuristicKeywordEntries(payload.text);
   const evidenceOptions = { source: payload.source, uid: payload.uid };
@@ -4782,6 +4830,53 @@ export function normalizeDeepSeekAnalysisResult({
   };
 }
 
+function parseRetryAfterMs(value) {
+  if (value == null || value === '') return null;
+  const seconds = Number(value);
+  if (Number.isFinite(seconds)) {
+    return Math.min(10000, Math.max(0, Math.round(seconds * 1000)));
+  }
+  const dateMs = Date.parse(value);
+  if (Number.isFinite(dateMs)) {
+    return Math.min(10000, Math.max(0, dateMs - Date.now()));
+  }
+  return null;
+}
+
+// Upper bound for any backoff delay (5 min). All callers already clamp or
+// compute bounded values (parseRetryAfterMs caps at 10 s, exponential-backoff
+// loops are bounded by retry-count limits). This constant is the final
+// safeguard — setTimeout never sees an unbounded external value.
+const MAX_BACKOFF_MS = 300_000;
+
+function abortableSleep(requestedMs, signal) {
+  // Sanitize: coerce to a finite, non-negative integer clamped to MAX_BACKOFF_MS.
+  // The only call site derives `requestedMs` from parseRetryAfterMs (HTTP
+  // Retry-After header, already clamped to 10 s) or from a bounded exponential-
+  // backoff formula. This guard exists for defense-in-depth and to satisfy
+  // static-analysis taint rules that see "HTTP header → setTimeout."
+  const delay = Number.isFinite(requestedMs) && requestedMs >= 0
+    ? Math.min(MAX_BACKOFF_MS, Math.floor(requestedMs))
+    : 0;
+  if (signal?.aborted) {
+    return Promise.reject(new Error('Aborted during rate-limit backoff'));
+  }
+  return new Promise((resolve, reject) => {
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(new Error('Aborted during rate-limit backoff'));
+    };
+    signal?.addEventListener?.('abort', onAbort, { once: true });
+    // DS172411 false positive: the first arg is a function (not a string),
+    // and `delay` is clamped to [0, MAX_BACKOFF_MS] above.
+    const timer = setTimeout(resolveAndCleanup, delay); // DevSkim: ignore DS172411
+    function resolveAndCleanup() {
+      signal?.removeEventListener?.('abort', onAbort);
+      resolve();
+    }
+  });
+}
+
 async function requestDeepSeekMessages({ config, fetchImpl, messages, options, maxTokens = 2000 }) {
   // DeepSeek V4 reasoning models split output budget between reasoning_content
   // and content. For structured JSON output, reasoning often consumes 60-80% of
@@ -4795,19 +4890,44 @@ async function requestDeepSeekMessages({ config, fetchImpl, messages, options, m
     max_tokens: maxTokens,
   };
 
-  const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
-    body: JSON.stringify(requestBody),
-    ...(options.signal ? { signal: options.signal } : {}),
-  });
-  if (!response.ok) {
+  // Retry on DeepSeek rate-limiting (HTTP 429 or body error code 1302). The
+  // harvest runs queries and multi-agent specialists in parallel, raising model
+  // RPM; without backoff a single 429 fails the whole query. CONSERVATIVE
+  // DEFAULT (1 retry, ≤10s sleep): under a SUSTAINED rate limit, retrying both
+  // amplifies RPM load and hangs the query past its timeout, so we fail fast
+  // instead of looping. Override via options.rateLimitRetries / rateLimitBaseBackoffMs.
+  const url = `${config.baseUrl}/chat/completions`;
+  const headers = authHeaders((options.env || process.env).DEEPSEEK_API_KEY);
+  const maxRetries = Number.isFinite(Number(options.rateLimitRetries)) ? Number(options.rateLimitRetries) : 1;
+  const baseBackoffMs = Number(options.rateLimitBaseBackoffMs) || 1000;
+  for (let attempt = 0; ; attempt++) {
+    const response = await fetchImpl(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestBody),
+      ...(options.signal ? { signal: options.signal } : {}),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const raw = data.choices?.[0]?.message?.content || '';
+      return { raw, parsed: extractJsonObject(raw) };
+    }
     const errorBody = await response.text().catch(() => '');
+    const lowerBody = errorBody.toLowerCase();
+    const isRateLimited =
+      response.status === 429 ||
+      errorBody.includes('1302') ||
+      lowerBody.includes('rate limit') ||
+      lowerBody.includes('rate_limit');
+    if (isRateLimited && attempt < maxRetries) {
+      const retryAfterMs = parseRetryAfterMs(response.headers?.get?.('retry-after'));
+      const backoffMs = retryAfterMs ?? baseBackoffMs * 2 ** attempt + Math.floor(Math.random() * 750);
+      console.warn(`[deepseek-backoff] HTTP ${response.status} rate-limited; retry ${attempt + 1}/${maxRetries} after ${Math.round(backoffMs)}ms`);
+      await abortableSleep(backoffMs, options.signal);
+      continue;
+    }
     throw new Error(`DeepSeek analyze failed with HTTP ${response.status}: ${errorBody.slice(0, 200)}`);
   }
-  const data = await response.json();
-  const raw = data.choices?.[0]?.message?.content || '';
-  return { raw, parsed: extractJsonObject(raw) };
 }
 
 async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact = false }) {
