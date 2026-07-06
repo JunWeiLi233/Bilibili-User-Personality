@@ -1,377 +1,517 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-30T18:04:29.189Z",
+  "generatedAt": "2026-07-06T20:05:02.968440Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
   "requireSourceBackedEvidence": false,
-  "requireCommentBackedEvidence": false,
   "coverage": {
     "complete": false,
     "targetEvidence": 3,
-    "terms": 4957,
-    "totalEvidence": 2490,
-    "averageEvidence": 0.5,
-    "coverageRatio": 0.0969,
-    "evidenceDeficit": 12538,
-    "sourcedEvidenceTerms": 1165,
-    "sourceCoverageRatio": 0.2351,
-    "unsourcedEvidenceTerms": 0,
-    "weakTerms": 4476,
-    "zeroEvidenceTerms": 3791,
+    "terms": 4382,
+    "totalEvidence": 19785,
+    "averageEvidence": 4.52,
+    "coverageRatio": 0.7549,
+    "evidenceDeficit": 2834,
+    "sourcedEvidenceTerms": 3637,
+    "sourceCoverageRatio": 0.83,
+    "unsourcedEvidenceTerms": 20,
+    "weakTerms": 1074,
+    "zeroEvidenceTerms": 725,
     "weakSamples": [
       {
-        "term": "100\u8d5e\u540c",
+        "term": "一个不落",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "cp\u7c89",
-        "family": "attack",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "pdf\u6587\u4ef6",
-        "family": "evidence",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "p\u503c",
-        "family": "evidence",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "\u4e00\u4e01\u70b9",
+        "term": "一个都不落",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u4e01\u70b9\u90fd\u4e0d",
+        "term": "一分都不能少",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u4e1d",
+        "term": "一口咬定",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5171",
+        "term": "一定得",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5200\u5207",
+        "term": "一点都不能少",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u5c3d\u5728\u638c\u63e1",
+        "term": "万分确定",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u90fd",
+        "term": "万分肯定",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u95ee\u9898",
+        "term": "万无一失",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u523b\u4e0d\u505c",
+        "term": "不存在如果",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u52b3\u6c38\u9038",
+        "term": "不是就是",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5411\u5982\u6b64",
+        "term": "事实如此",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u53ef\u4ee5",
+        "term": "亘古不变",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u5c31\u662f",
+        "term": "仅此一家",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u6ca1\u9519",
+        "term": "从没有",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u884c",
+        "term": "你对你对",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "\u4e00\u5bb6\u4e4b\u8a00",
-        "family": "cooperation",
+        "term": "全副身心",
+        "family": "absolutes",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "全员坏人",
+        "family": "absolutes",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "全方位",
+        "family": "absolutes",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "全方位无死角",
+        "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       }
     ],
     "zeroEvidenceSamples": [
       {
-        "term": "100\u8d5e\u540c",
-        "family": "absolutes"
+        "term": "一个不落",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "cp\u7c89",
-        "family": "attack"
+        "term": "一个都不落",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "pdf\u6587\u4ef6",
-        "family": "evidence"
+        "term": "一分都不能少",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "p\u503c",
-        "family": "evidence"
+        "term": "一口咬定",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u4e01\u70b9",
-        "family": "absolutes"
+        "term": "一定得",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u4e01\u70b9\u90fd\u4e0d",
-        "family": "absolutes"
+        "term": "一点都不能少",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u4e1d",
-        "family": "absolutes"
+        "term": "万分确定",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5171",
-        "family": "absolutes"
+        "term": "万分肯定",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5200\u5207",
-        "family": "absolutes"
+        "term": "万无一失",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u5c3d\u5728\u638c\u63e1",
-        "family": "absolutes"
+        "term": "不存在如果",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u90fd",
-        "family": "absolutes"
+        "term": "不是就是",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u95ee\u9898",
-        "family": "absolutes"
+        "term": "事实如此",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u523b\u4e0d\u505c",
-        "family": "absolutes"
+        "term": "亘古不变",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u52b3\u6c38\u9038",
-        "family": "absolutes"
+        "term": "仅此一家",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5411\u5982\u6b64",
-        "family": "absolutes"
+        "term": "从没有",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u53ef\u4ee5",
-        "family": "absolutes"
+        "term": "你对你对",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u5c31\u662f",
-        "family": "absolutes"
+        "term": "全副身心",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u6ca1\u9519",
-        "family": "absolutes"
+        "term": "全员坏人",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u884c",
-        "family": "absolutes"
+        "term": "全方位",
+        "family": "absolutes",
+        "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5bb6\u4e4b\u8a00",
-        "family": "cooperation"
+        "term": "全方位无死角",
+        "family": "absolutes",
+        "evidenceCount": 0
       }
     ],
-    "unsourcedEvidenceSamples": [],
+    "unsourcedEvidenceSamples": [
+      {
+        "term": "闭着眼买",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "魔法对轰",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "麦批的",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "黑元首",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "黑皮体育生",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "龙鸣说唱",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "酱紫",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "阅片有数",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "阿姨洗铁路",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "难办那就别办了",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "难蹦",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "雌堕了",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "顷刻炼化",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "风水轮流转",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "饭要恰的",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "高能君",
+        "family": "cooperation",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "首当其冲",
+        "family": "cooperation",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "反正现在肯定是很低了",
+        "family": "absolutes",
+        "evidenceCount": 7,
+        "coverageEvidenceCount": 7
+      },
+      {
+        "term": "古代肯定是必死的",
+        "family": "absolutes",
+        "evidenceCount": 7,
+        "coverageEvidenceCount": 7
+      },
+      {
+        "term": "非商业都可以",
+        "family": "cooperation",
+        "evidenceCount": 7,
+        "coverageEvidenceCount": 7
+      }
+    ],
     "byFamily": {
-      "absolutes": {
-        "terms": 842,
-        "evidence": 772,
-        "weak": 689,
-        "zero": 552,
-        "sourced": 290
-      },
       "attack": {
-        "terms": 642,
-        "evidence": 659,
-        "weak": 511,
-        "zero": 320,
-        "sourced": 322
+        "terms": 1249,
+        "evidence": 5948,
+        "weak": 239,
+        "zero": 92,
+        "sourced": 1152
       },
-      "cooperation": {
-        "terms": 868,
-        "evidence": 495,
-        "weak": 762,
-        "zero": 631,
-        "sourced": 237
-      },
-      "correction": {
-        "terms": 812,
-        "evidence": 189,
-        "weak": 777,
-        "zero": 712,
-        "sourced": 100
-      },
-      "evasion": {
-        "terms": 931,
-        "evidence": 172,
-        "weak": 909,
-        "zero": 831,
-        "sourced": 100
+      "absolutes": {
+        "terms": 735,
+        "evidence": 3819,
+        "weak": 134,
+        "zero": 97,
+        "sourced": 635
       },
       "evidence": {
-        "terms": 861,
-        "evidence": 203,
-        "weak": 828,
-        "zero": 745,
-        "sourced": 116
+        "terms": 321,
+        "evidence": 1310,
+        "weak": 103,
+        "zero": 90,
+        "sourced": 231
+      },
+      "evasion": {
+        "terms": 405,
+        "evidence": 1221,
+        "weak": 179,
+        "zero": 151,
+        "sourced": 254
+      },
+      "cooperation": {
+        "terms": 1296,
+        "evidence": 6322,
+        "weak": 242,
+        "zero": 129,
+        "sourced": 1155
+      },
+      "correction": {
+        "terms": 376,
+        "evidence": 1165,
+        "weak": 177,
+        "zero": 166,
+        "sourced": 210
       }
     }
   },
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 4956,
+    "unattemptedTerms": 4382,
     "unattemptedSamples": [
       {
-        "term": "100\u8d5e\u540c",
+        "term": "一个不落",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "cp\u7c89",
-        "family": "attack",
-        "evidenceCount": 0
-      },
-      {
-        "term": "pdf\u6587\u4ef6",
-        "family": "evidence",
-        "evidenceCount": 0
-      },
-      {
-        "term": "p\u503c",
-        "family": "evidence",
-        "evidenceCount": 0
-      },
-      {
-        "term": "\u4e00\u4e01\u70b9",
+        "term": "一个都不落",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u4e01\u70b9\u90fd\u4e0d",
+        "term": "一分都不能少",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u4e1d",
+        "term": "一口咬定",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5171",
+        "term": "一定得",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5200\u5207",
+        "term": "一点都不能少",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u5c3d\u5728\u638c\u63e1",
+        "term": "万分确定",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u90fd",
+        "term": "万分肯定",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5207\u95ee\u9898",
+        "term": "万无一失",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u523b\u4e0d\u505c",
+        "term": "不存在如果",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u52b3\u6c38\u9038",
+        "term": "不是就是",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5411\u5982\u6b64",
+        "term": "事实如此",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u53ef\u4ee5",
+        "term": "亘古不变",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u5c31\u662f",
+        "term": "仅此一家",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u6ca1\u9519",
+        "term": "从没有",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5b9a\u884c",
+        "term": "你对你对",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "\u4e00\u5bb6\u4e4b\u8a00",
-        "family": "cooperation",
+        "term": "全副身心",
+        "family": "absolutes",
+        "evidenceCount": 0
+      },
+      {
+        "term": "全员坏人",
+        "family": "absolutes",
+        "evidenceCount": 0
+      },
+      {
+        "term": "全方位",
+        "family": "absolutes",
+        "evidenceCount": 0
+      },
+      {
+        "term": "全方位无死角",
+        "family": "absolutes",
         "evidenceCount": 0
       }
     ],
@@ -380,505 +520,505 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "harvest": 4476,
-    "none": 480
+    "harvest": 1074,
+    "none": 3308
   },
   "familyGaps": [
     {
-      "family": "evasion",
-      "terms": 931,
-      "weak": 909,
-      "zero": 831,
-      "evidence": 172,
-      "coverageRatio": 0.0236
-    },
-    {
-      "family": "evidence",
-      "terms": 861,
-      "weak": 828,
-      "zero": 745,
-      "evidence": 203,
-      "coverageRatio": 0.0383
-    },
-    {
-      "family": "correction",
-      "terms": 812,
-      "weak": 777,
-      "zero": 712,
-      "evidence": 189,
-      "coverageRatio": 0.0431
-    },
-    {
       "family": "cooperation",
-      "terms": 868,
-      "weak": 762,
-      "zero": 631,
-      "evidence": 495,
-      "coverageRatio": 0.1221
-    },
-    {
-      "family": "absolutes",
-      "terms": 842,
-      "weak": 689,
-      "zero": 552,
-      "evidence": 772,
-      "coverageRatio": 0.1817
+      "terms": 1296,
+      "weak": 242,
+      "zero": 129,
+      "evidence": 6322,
+      "coverageRatio": 0.8133
     },
     {
       "family": "attack",
-      "terms": 642,
-      "weak": 511,
-      "zero": 320,
-      "evidence": 659,
-      "coverageRatio": 0.204
+      "terms": 1249,
+      "weak": 239,
+      "zero": 92,
+      "evidence": 5948,
+      "coverageRatio": 0.8086
+    },
+    {
+      "family": "evasion",
+      "terms": 405,
+      "weak": 179,
+      "zero": 151,
+      "evidence": 1221,
+      "coverageRatio": 0.558
+    },
+    {
+      "family": "correction",
+      "terms": 376,
+      "weak": 177,
+      "zero": 166,
+      "evidence": 1165,
+      "coverageRatio": 0.5293
+    },
+    {
+      "family": "absolutes",
+      "terms": 735,
+      "weak": 134,
+      "zero": 97,
+      "evidence": 3819,
+      "coverageRatio": 0.8177
+    },
+    {
+      "family": "evidence",
+      "terms": 321,
+      "weak": 103,
+      "zero": 90,
+      "evidence": 1310,
+      "coverageRatio": 0.6791
     }
   ],
   "nextActions": [
     {
-      "term": "p\u9057\u7167",
-      "family": "attack",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "p\u9057\u7167",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "p\u9057\u7167 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e00\u5207",
+      "term": "一个不落",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e00\u5207",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "一个不落",
       "targetEvidence": 3,
-      "evidenceNeeded": 1,
+      "evidenceNeeded": 3,
       "attempts": 0,
       "successfulAttempts": 0,
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "\u4e00\u5207 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+      "nextQuery": "一个不落 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "\u4e00\u53e5\u8bdd",
-      "family": "cooperation",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e00\u53e5\u8bdd",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e00\u53e5\u8bdd \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e00\u5b9a\u7a0b\u5ea6\u4e0a",
-      "family": "cooperation",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e00\u5b9a\u7a0b\u5ea6\u4e0a",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e00\u5b9a\u7a0b\u5ea6\u4e0a \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e07\u4e00",
-      "family": "cooperation",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e07\u4e00",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e07\u4e00 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e09\u4eba\u6210\u864e",
-      "family": "evidence",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e09\u4eba\u6210\u864e",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e09\u4eba\u6210\u864e \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0a\u7f51\u67e5",
-      "family": "evasion",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0a\u7f51\u67e5",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0a\u7f51\u67e5 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0b\u996d",
-      "family": "attack",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0b\u996d",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0b\u996d \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0d\u4f1a\u771f\u6709\u4eba\u5427",
-      "family": "attack",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0d\u4f1a\u771f\u6709\u4eba",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0d\u4f1a\u771f\u6709\u4eba\u5427 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0d\u53ef\u5426\u8ba4",
+      "term": "一个都不落",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0d\u53ef\u5426\u8ba4",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "一个都不落",
       "targetEvidence": 3,
-      "evidenceNeeded": 1,
+      "evidenceNeeded": 3,
       "attempts": 0,
       "successfulAttempts": 0,
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "\u4e0d\u53ef\u5426\u8ba4 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+      "nextQuery": "一个都不落 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "\u4e0d\u5439\u4e0d\u9ed1",
-      "family": "cooperation",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0d\u5439\u4e0d\u9ed1",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0d\u5439\u4e0d\u9ed1 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0d\u559c\u52ff\u55b7",
-      "family": "cooperation",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0d\u559c\u52ff\u55b7",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0d\u559c\u52ff\u55b7 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0d\u597d\u8bf4",
-      "family": "cooperation",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0d\u597d\u8bf4",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0d\u597d\u8bf4 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0d\u6392\u9664",
-      "family": "cooperation",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0d\u6392\u9664",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0d\u6392\u9664 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e0d\u6e05\u695a",
-      "family": "evasion",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e0d\u6e05\u695a",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e0d\u6e05\u695a \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4e8c\u523a\u733f",
-      "family": "attack",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4e8c\u523a\u733f",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "\u4e8c\u523a\u733f \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "\u4eba\u4eba",
+      "term": "一分都不能少",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4eba\u4eba",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "一分都不能少",
       "targetEvidence": 3,
-      "evidenceNeeded": 1,
+      "evidenceNeeded": 3,
       "attempts": 0,
       "successfulAttempts": 0,
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "\u4eba\u4eba \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+      "nextQuery": "一分都不能少 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "\u4eba\u4eba\u90fd",
+      "term": "一口咬定",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4eba\u4eba\u90fd",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "一口咬定",
       "targetEvidence": 3,
-      "evidenceNeeded": 1,
+      "evidenceNeeded": 3,
       "attempts": 0,
       "successfulAttempts": 0,
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "\u4eba\u4eba\u90fd \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+      "nextQuery": "一口咬定 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "\u4eba\u8bc1",
-      "family": "evidence",
+      "term": "一定得",
+      "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u8bc1\u4eba\u8bc1\u8a00",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "一定得",
       "targetEvidence": 3,
-      "evidenceNeeded": 1,
+      "evidenceNeeded": 3,
       "attempts": 0,
       "successfulAttempts": 0,
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "\u4eba\u8bc1 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
+      "nextQuery": "一定得 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "\u4ec0\u4e48\u73a9\u610f",
-      "family": "attack",
+      "term": "一点都不能少",
+      "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4ec0\u4e48\u73a9\u610f",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "一点都不能少",
       "targetEvidence": 3,
-      "evidenceNeeded": 1,
+      "evidenceNeeded": 3,
       "attempts": 0,
       "successfulAttempts": 0,
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "\u4ec0\u4e48\u73a9\u610f \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
+      "nextQuery": "一点都不能少 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "万分确定",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "万分确定",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "万分确定 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "万分肯定",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "万分肯定",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "万分肯定 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "万无一失",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "万无一失",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "万无一失 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "不存在如果",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "不存在如果",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "不存在如果 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "不是就是",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "不是就是",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "不是就是 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "事实如此",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "事实如此",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "事实如此 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "亘古不变",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "亘古不变",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "亘古不变 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "仅此一家",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "仅此一家",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "仅此一家 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "从没有",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "从没有",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "从没有 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "你对你对",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "你对你对",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "你对你对 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "全副身心",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "全副身心",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "全副身心 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "全员坏人",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "全员坏人",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "全员坏人 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "全方位",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "全方位",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "全方位 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "全方位无死角",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "全方位无死角",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "全方位无死角 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     }
   ],
   "recommendedQueries": [
-    "p\u9057\u7167 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-    "\u4e00\u5207 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
-    "\u4e00\u53e5\u8bdd \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e00\u5b9a\u7a0b\u5ea6\u4e0a \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e07\u4e00 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e09\u4eba\u6210\u864e \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
-    "\u4e0a\u7f51\u67e5 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e0b\u996d \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e0d\u4f1a\u771f\u6709\u4eba\u5427 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-    "\u4e0d\u53ef\u5426\u8ba4 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
-    "\u4e0d\u5439\u4e0d\u9ed1 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e0d\u559c\u52ff\u55b7 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e0d\u597d\u8bf4 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e0d\u6392\u9664 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e0d\u6e05\u695a \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-    "\u4e8c\u523a\u733f \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-    "\u4eba\u4eba \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
-    "\u4eba\u4eba\u90fd \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
-    "\u4eba\u8bc1 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
-    "\u4ec0\u4e48\u73a9\u610f \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
+    "一个不落 绝对化 评论 热评",
+    "一个都不落 绝对化 评论 热评",
+    "一分都不能少 绝对化 评论 热评",
+    "一口咬定 绝对化 评论 热评",
+    "一定得 绝对化 评论 热评",
+    "一点都不能少 绝对化 评论 热评",
+    "万分确定 绝对化 评论 热评",
+    "万分肯定 绝对化 评论 热评",
+    "万无一失 绝对化 评论 热评",
+    "不存在如果 绝对化 评论 热评",
+    "不是就是 绝对化 评论 热评",
+    "事实如此 绝对化 评论 热评",
+    "亘古不变 绝对化 评论 热评",
+    "仅此一家 绝对化 评论 热评",
+    "从没有 绝对化 评论 热评",
+    "你对你对 绝对化 评论 热评",
+    "全副身心 绝对化 评论 热评",
+    "全员坏人 绝对化 评论 热评",
+    "全方位 绝对化 评论 热评",
+    "全方位无死角 绝对化 评论 热评"
   ],
   "failureReasons": [
-    "coverage ratio 0.0969 is below 1",
-    "4476 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.7549 is below 1",
+    "1074 term(s) are below 3 evidence hit(s)"
   ]
 }
