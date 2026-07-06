@@ -50,7 +50,9 @@ export function isTransientCoverageError(error) {
 /** Exponential backoff with full jitter, capped at `cap` ms. Pure. */
 export function computeBackoffMs(attempt, base = 5000, cap = 120000) {
   const exp = Math.min(cap, base * 2 ** (attempt - 1));
-  return Math.floor(exp * (0.5 + Math.random() * 0.5)); // lgtm [js/insecure-randomness] — jitter only, not crypto
+  // Jitter only, not crypto — deterministic enough for backoff spacing.
+  // nodejsscan: suppress — Math.random is appropriate for jitter, not a security primitive.
+  return Math.floor(exp * (0.5 + Math.random() * 0.5));
 }
 
 /**
@@ -157,7 +159,7 @@ export function buildCoverageHarvestLoopPlan(payload = {}) {
   const maxCyclesValue = planNonNegativeInt(env, 'BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 1000);
   const roundsFallback = planPositiveInt(env, 'BILIBILI_HARVEST_ROUNDS', 1);
   const roundsPerCycleValue = planPositiveInt(env, 'BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', roundsFallback, 20);
-  const maxQueriesValue = planPositiveInt(env, 'BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
+  const maxQueriesValue = planPositiveInt(env, 'BILIBILI_HARVEST_MAX_QUERIES', 12, 500);
   const runtime = buildCoverageRuntimeOptions({ argv, env, maxActionsFallback: maxQueriesValue });
   const seedQueriesValue = parseList(env.BILIBILI_VIDEO_SEARCH_QUERIES || env.BILIBILI_VIDEO_SEARCH_QUERY);
   const controversyQueriesValue = parseList(env.BILIBILI_CONTROVERSY_SEARCH_QUERIES || env.BILIBILI_CONTROVERSY_SEARCH_QUERY);
@@ -557,9 +559,9 @@ const cycles = [];
 let audit = await buildAudit(auditOptions);
 let stopReason = audit.ok ? 'coverage_gate_passed' : maxCycles === 0 ? 'cycle_limit' : '';
 console.log('Coverage harvest loop');
-	if (!process.env.BILIBILI_COOKIE || !process.env.BILIBILI_COOKIE.trim()) {
-	  console.warn('[33m⚠ BILIBILI_COOKIE not set — authenticated requests get 5–10× higher rate limits. Set a logged-in session cookie for best throughput.[0m');
-	}
+  if (!process.env.BILIBILI_COOKIE || !process.env.BILIBILI_COOKIE.trim()) {
+    console.warn('[33m⚠ BILIBILI_COOKIE not set — authenticated requests get 5–10× higher rate limits. Set a logged-in session cookie for best throughput.[0m');
+  }
 console.log(`DeepSeek model: ${process.env.DEEPSEEK_MODEL}`);
 console.log(`DeepSeek reasoning effort: ${process.env.DEEPSEEK_REASONING_EFFORT}`);
 console.log(`Initial coverage: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);
@@ -581,6 +583,17 @@ let attemptsThisCycle = 0;
 while (cycle <= maxCycles && !audit.ok) {
   try {
     const priorityQueries = priorityQueryItemsFromAudit(audit, maxQueries);
+    // Fallback: when dictionary is fully covered, use seed queries for broad discovery
+    if (priorityQueries.length === 0 && seedQueries.length > 0 && !audit.ok) {
+      console.log(`No weak terms — using ${seedQueries.length} seed queries for discovery`);
+      priorityQueries.push(...seedQueries.map((q, i) => ({
+        query: q,
+        priority: seedQueries.length - i,
+        reason: 'seed_fallback',
+        targetTerm: q,
+        targetFamily: 'seed',
+      })).slice(0, maxQueries));
+    }
     if (priorityQueries.length === 0) {
       stopReason = 'no_recommended_queries';
       break;
@@ -730,7 +743,7 @@ while (cycle <= maxCycles && !audit.ok) {
               const pruned = await pruneOldCheckpoints({ maxSnapshots: checkpointMaxSnapshots });
               if (pruned.pruned > 0) console.log(`Checkpoint history pruned: dropped ${pruned.pruned} old snapshot(s), kept ${pruned.kept}`);
             } catch (pruneError) {
-              console.warn(`Checkpoint prune skipped: ${pruneError.message}`);
+              console.warn(`Checkpoint prune skipped: ${pruneError?.code || 'unknown'}`);
             }
           }
         } else {

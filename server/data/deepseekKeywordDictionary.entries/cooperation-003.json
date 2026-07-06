@@ -1,2079 +1,45 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-03T19:51:05.336Z",
+  "updatedAt": "2026-07-05T11:09:33.476Z",
   "family": "cooperation",
   "shard": 3,
-  "shardCount": 7,
+  "shardCount": 4,
   "entries": [
-    {
-      "term": "我理解",
-      "family": "cooperation",
-      "meaning": "表达同理心认知，缓和语气",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我理解你",
-      "family": "cooperation",
-      "meaning": "表达共情，降低防御心理，推动理性交流。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T05:22:54.422Z"
-    },
-    {
-      "term": "我理解你的意思",
-      "family": "cooperation",
-      "meaning": "表达同理心，缓和争论",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "我的初步看法",
-      "family": "cooperation",
-      "meaning": "限定为初步看法，非最终结论",
-      "risk": "positive",
-      "confidence": 0.89,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我的推测是",
-      "family": "cooperation",
-      "meaning": "强调是推测，非确定事实",
-      "risk": "positive",
-      "confidence": 0.88,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我的理解是",
-      "family": "cooperation",
-      "meaning": "陈述个人理解，暗示可能有偏差",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我的看法是",
-      "family": "cooperation",
-      "meaning": "明确表达主观意见，避免绝对化。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T05:51:09.801Z"
-    },
-    {
-      "term": "我目光短浅",
-      "family": "cooperation",
-      "meaning": "承认缺乏长远考虑，表达改进意愿。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我看这样吧",
-      "family": "cooperation",
-      "meaning": "提议决定",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
-    },
-    {
-      "term": "我站你说的",
-      "family": "cooperation",
-      "meaning": "站队支持",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "我能力不足",
-      "family": "cooperation",
-      "meaning": "承认能力欠缺，降低他人期待，避免指责。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我自己觉得",
-      "family": "cooperation",
-      "meaning": "主观表达，不具强制力",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我虚心接受",
-      "family": "cooperation",
-      "meaning": "表达愿意接纳他人观点，促进合作",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:47:01.435Z"
-    },
-    {
-      "term": "我补充一下",
-      "family": "cooperation",
-      "meaning": "礼貌性地增加信息",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "我补充一句",
-      "family": "cooperation",
-      "meaning": "礼貌地添加信息，不否定对方，共同完善讨论",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:13:22.151Z"
-    },
-    {
-      "term": "我补充一点",
-      "family": "cooperation",
-      "meaning": "追加相关信息，丰富讨论内容，表现合作姿态",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:42:23.308Z"
-    },
-    {
-      "term": "我要说的是",
-      "family": "cooperation",
-      "meaning": "直接引出个人看法，强调后续重要性。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T05:51:09.801Z"
-    },
-    {
-      "term": "我见识短",
-      "family": "cooperation",
-      "meaning": "自谦知识有限，为错误观点铺垫，缓和批评。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我觉得",
-      "family": "cooperation",
-      "meaning": "合作讨论或条件化表达",
-      "risk": "positive",
-      "confidence": 0.91,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-03T19:42:37.361Z"
-    },
-    {
-      "term": "我觉得你可能误会了",
-      "family": "cooperation",
-      "meaning": "委婉指出对方理解偏差，使用假设语气减少对抗。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:36:27.891Z"
-    },
-    {
-      "term": "我觉得可以",
-      "family": "cooperation",
-      "meaning": "表达有限度同意，留有商量余地。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-03T19:42:37.361Z"
-    },
-    {
-      "term": "我觉得可以理解",
-      "family": "cooperation",
-      "meaning": "表示认可对方的做法或想法",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T14:36:42.040Z"
-    },
-    {
-      "term": "我觉得吧",
-      "family": "cooperation",
-      "meaning": "弱化断言语气，表明这是个人主观看法，为讨论留出余地。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-03T19:39:47.733Z"
-    },
-    {
-      "term": "我觉得差不多",
-      "family": "cooperation",
-      "meaning": "非精确判断，留出差异",
-      "risk": "positive",
-      "confidence": 0.84,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我觉得有道理",
-      "family": "cooperation",
-      "meaning": "认可对方逻辑，缓和分歧，推动对话",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:53:52.746Z"
-    },
-    {
-      "term": "我认为",
-      "family": "cooperation",
-      "meaning": "合作讨论或条件化表达",
-      "risk": "positive",
-      "confidence": 0.88,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T14:41:40.079Z"
-    },
-    {
-      "term": "我认为不对",
-      "family": "cooperation",
-      "meaning": "否定对方观点",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "我认可",
-      "family": "cooperation",
-      "meaning": "正式认可对方观点或能力，建立信任。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T05:18:10.870Z"
-    },
-    {
-      "term": "我认可你的一部分",
-      "family": "cooperation",
-      "meaning": "选择性同意，既保留立场又表达尊重",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:47:01.435Z"
-    },
-    {
-      "term": "我认可你的努力",
-      "family": "cooperation",
-      "meaning": "肯定付出，维持关系",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "我认同",
-      "family": "cooperation",
-      "meaning": "表示同意对方观点，建立共识",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:59:20.629Z"
-    },
-    {
-      "term": "我认同你的看法",
-      "family": "cooperation",
-      "meaning": "明确一致意见，巩固共识",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "我讲一下我的看法",
-      "family": "cooperation",
-      "meaning": "主动分享但不强加",
-      "risk": "positive",
-      "confidence": 0.89,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我试着理解",
-      "family": "cooperation",
-      "meaning": "主动努力共情，减少对立",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "我误判了",
-      "family": "cooperation",
-      "meaning": "承认判断失误，展现反思态度，推动对话。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我说两句",
-      "family": "cooperation",
-      "meaning": "谦逊开场，控制发言篇幅",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T05:25:46.975Z"
-    },
-    {
-      "term": "我说句公道话",
-      "family": "cooperation",
-      "meaning": "标榜中立立场，试图在争论中扮演调停角色，促进对话。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我说的对吧",
-      "family": "cooperation",
-      "meaning": "寻求确认，加强互动",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:59:20.629Z"
-    },
-    {
-      "term": "我说话直",
-      "family": "cooperation",
-      "meaning": "提前预警直截了当的风格，减少被冒犯感。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:51:09.801Z"
-    },
-    {
-      "term": "我负荆请罪",
-      "family": "cooperation",
-      "meaning": "引用典故表示彻底认错，诚意满满，消除芥蒂。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我赔不是",
-      "family": "cooperation",
-      "meaning": "表达歉意，主动化解矛盾，恢复关系。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我赞同",
-      "family": "cooperation",
-      "meaning": "正式表示支持，强化合作信号。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T05:18:10.870Z"
-    },
-    {
-      "term": "我赞同你的观点",
-      "family": "cooperation",
-      "meaning": "直接表达同意，强化合作氛围。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:20:25.600Z"
-    },
-    {
-      "term": "我赞成",
-      "family": "cooperation",
-      "meaning": "用于支持观点，推动协作",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T04:59:20.629Z"
-    },
-    {
-      "term": "我赞成大部分",
-      "family": "cooperation",
-      "meaning": "几乎全面同意，仅保留微小异议",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "我还没查证",
-      "family": "cooperation",
-      "meaning": "承认信息未核实，降低权威",
-      "risk": "positive",
-      "confidence": 0.87,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我还没说完",
-      "family": "cooperation",
-      "meaning": "提醒对方耐心，避免抢话，维护对话秩序。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "我这就改",
-      "family": "cooperation",
-      "meaning": "承诺立即改正，展现诚意",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:47:01.435Z"
-    },
-    {
-      "term": "我这里再补充一点",
-      "family": "cooperation",
-      "meaning": "追加信息，深化讨论",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "我退一步",
-      "family": "cooperation",
-      "meaning": "主动降低立场，促成和解",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "我退一步讲",
-      "family": "cooperation",
-      "meaning": "让步姿态提出假设，降低己方立场硬度，引导对方思考。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:29:28.730Z"
-    },
-    {
-      "term": "我退让一步",
-      "family": "cooperation",
-      "meaning": "主动让步以化解僵局",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:47:01.435Z"
-    },
-    {
-      "term": "我部分同意",
-      "family": "cooperation",
-      "meaning": "有限度认可，既坚持又妥协",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "我重新审视",
-      "family": "cooperation",
-      "meaning": "承诺复盘，显示诚意",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "我附和",
-      "family": "cooperation",
-      "meaning": "跟随对方观点，避免唱反调，维持氛围和谐。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:18:10.870Z"
-    },
-    {
-      "term": "我隐约记得",
-      "family": "cooperation",
-      "meaning": "模糊记忆，降低确定性",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "或多或少",
-      "family": "cooperation",
-      "meaning": "承认差异普遍，减少绝对化，利于合作",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T04:45:01.416Z"
-    },
-    {
-      "term": "或许",
-      "family": "cooperation",
-      "meaning": "合作讨论或条件化表达",
-      "risk": "positive",
-      "confidence": 0.87,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-30T19:17:24.682Z"
-    },
-    {
-      "term": "或许你是对的",
-      "family": "cooperation",
-      "meaning": "让步性认可，缓和冲突",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "或许是",
-      "family": "cooperation",
-      "meaning": "限定词，用不确定性软化断言，留出讨论余地",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T05:53:55.946Z"
-    },
-    {
-      "term": "或许有误",
-      "family": "cooperation",
-      "meaning": "预判自己可能错误，降低攻击性，留有余地",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:33:28.341Z"
-    },
-    {
-      "term": "所以",
-      "family": "cooperation",
-      "meaning": "因果结论词，总结前文，推动合作行动。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:20.403Z"
-    },
-    {
-      "term": "所以呢",
-      "family": "cooperation",
-      "meaning": "要求结论",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-30T20:01:20.403Z"
-    },
-    {
-      "term": "所以我的观点是",
-      "family": "cooperation",
-      "meaning": "明确结论",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "打个比方",
-      "family": "cooperation",
-      "meaning": "比喻说明",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
-    },
-    {
-      "term": "打开天窗说亮话",
-      "family": "cooperation",
-      "meaning": "强调开诚布公，消除隐藏意图。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T06:01:19.200Z"
-    },
-    {
-      "term": "承认错误",
-      "family": "cooperation",
-      "meaning": "正式认错，展示诚意。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-30T19:48:25.898Z"
-    },
-    {
-      "term": "折中",
-      "family": "cooperation",
-      "meaning": "简略表示采取中间立场或调和意见",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T06:06:52.698Z"
-    },
-    {
-      "term": "抛砖引玉",
-      "family": "cooperation",
-      "meaning": "用自己观点引出更优见解，体现合作姿态",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T05:25:46.975Z"
-    },
-    {
-      "term": "按你说的来",
-      "family": "cooperation",
-      "meaning": "让步接受对方观点，推动合作",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:11:02.193Z"
-    },
-    {
-      "term": "按理说",
-      "family": "cooperation",
-      "meaning": "引用常规逻辑，引导理性讨论，减少情绪",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T13:53:18.666Z"
-    },
-    {
-      "term": "换个思路",
-      "family": "cooperation",
-      "meaning": "提议改变讨论方向，避免僵持",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "换个角度",
-      "family": "cooperation",
-      "meaning": "提示视角转换",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T13:54:47.905Z"
-    },
-    {
-      "term": "换个角度来看",
-      "family": "cooperation",
-      "meaning": "建议视角转换，促进理解与妥协",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:33:28.341Z"
-    },
-    {
-      "term": "换个角度看",
-      "family": "cooperation",
-      "meaning": "提议多角度思考，非对立，推动建设性对话",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:13:22.151Z"
-    },
-    {
-      "term": "换位思考",
-      "family": "cooperation",
-      "meaning": "移情思考",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
-    },
-    {
-      "term": "换句话讲",
-      "family": "cooperation",
-      "meaning": "重新表述，促进理解",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:39:16.223Z"
-    },
-    {
-      "term": "换句话说",
-      "family": "cooperation",
-      "meaning": "重新表述，澄清原意",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "换而言之",
-      "family": "cooperation",
-      "meaning": "同义转换，促进理解",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T06:03:59.579Z"
-    },
-    {
-      "term": "换言之",
-      "family": "cooperation",
-      "meaning": "换种说法，促进理解",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:39:16.223Z"
-    },
-    {
-      "term": "据我了解",
-      "family": "cooperation",
-      "meaning": "以了解程度为准，避免错漏",
-      "risk": "positive",
-      "confidence": 0.89,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "据我所知",
-      "family": "cooperation",
-      "meaning": "合作讨论或条件化表达",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-30T19:34:05.319Z"
-    },
-    {
-      "term": "据我所见",
-      "family": "cooperation",
-      "meaning": "亲身所见为限，不妄下断语",
-      "risk": "positive",
-      "confidence": 0.87,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "据我观察",
-      "family": "cooperation",
-      "meaning": "基于个人经验陈述，留出讨论空间。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:51:09.801Z"
-    },
-    {
-      "term": "探讨一下",
-      "family": "cooperation",
-      "meaning": "商量建议",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
-    },
-    {
-      "term": "提前声明",
-      "family": "cooperation",
-      "meaning": "预先说明立场或限制条件，避免误解。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:05:57.263Z"
-    },
-    {
-      "term": "提取码",
-      "family": "cooperation",
-      "meaning": "网盘文件分享时使用的密码，常见于资源分享话术",
-      "risk": "neutral",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T11:13:26.204Z"
-    },
-    {
-      "term": "插一句",
-      "family": "cooperation",
-      "meaning": "临时补充，保持对话流畅",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "插一句嘴",
-      "family": "cooperation",
-      "meaning": "表示临时插入意见，常带谦逊语气，维持对话流畅",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:42:23.308Z"
-    },
-    {
-      "term": "插个话",
-      "family": "cooperation",
-      "meaning": "礼貌打断，加入观点",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "插眼",
-      "family": "cooperation",
-      "meaning": "网络用语，表示标记、收藏或关注以便后续查看",
-      "risk": "positive",
-      "confidence": 0.95,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T06:43:57.396Z"
-    },
-    {
-      "term": "搁这递归呢",
-      "family": "cooperation",
-      "meaning": "用编程递归概念调侃某事物不断循环重复",
-      "risk": "neutral",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T09:38:46.650Z"
-    },
-    {
-      "term": "摆事实讲道理",
-      "family": "cooperation",
-      "meaning": "倡导用证据和逻辑",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "摆软隐送老",
-      "family": "cooperation",
-      "meaning": "游戏中的特定阵容或策略短语，形容某种打法",
-      "risk": "low",
-      "confidence": 0.65,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T15:29:37.436Z"
-    },
-    {
-      "term": "摇一摇",
-      "family": "cooperation",
-      "meaning": "B站常见刷屏梗，源自某广告或歌曲，用于表达喜庆或凑热闹",
-      "risk": "neutral",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T13:31:58.856Z"
-    },
-    {
-      "term": "摸退化",
-      "family": "cooperation",
-      "meaning": "调侃过度抚摸导致状态退化，出自猫猫摸梗，幽默表达",
-      "risk": "positive",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T19:07:26.809Z"
-    },
-    {
-      "term": "撅力",
-      "family": "cooperation",
-      "meaning": "网络梗，含义模糊，用于调侃",
-      "risk": "neutral",
-      "confidence": 0.6,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T11:12:30.714Z"
-    },
-    {
-      "term": "撒斯给",
-      "family": "cooperation",
-      "meaning": "指代宇智波佐助，表达对角色经历的理解和维护",
-      "risk": "neutral",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T22:55:35.529Z"
-    },
-    {
-      "term": "撤硕",
-      "family": "cooperation",
-      "meaning": "谐音梗，用‘撤硕’代替‘厕所’，常用于网络调侃或规避敏感词",
-      "risk": "positive",
-      "confidence": 0.95,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T13:25:52.294Z"
-    },
-    {
-      "term": "撤硕儿",
-      "family": "cooperation",
-      "meaning": "厕所的谐音，网络用语，常用于调侃或避免敏感词",
-      "risk": "neutral",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T13:25:52.294Z"
-    },
-    {
-      "term": "擦边",
-      "family": "cooperation",
-      "meaning": "指内容或直播带有软色情、打擦边球，形容隐晦暧昧",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:15:05.407Z"
-    },
-    {
-      "term": "攒钱治病",
-      "family": "cooperation",
-      "meaning": "卖惨梗，主播自嘲求关注、求礼物",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T00:07:41.528Z"
-    },
-    {
-      "term": "支持",
-      "family": "cooperation",
-      "meaning": "表示赞同或鼓励，B站点赞表情",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-30T20:01:58.559Z"
-    },
-    {
-      "term": "支持up",
-      "family": "cooperation",
-      "meaning": "表达对视频创作者的支持",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:02:31.355Z"
-    },
-    {
-      "term": "支持一下",
-      "family": "cooperation",
-      "meaning": "表达对UP主的鼓励和支持，号召点赞投币",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 1,
-      "updatedAt": "2026-07-03T19:39:47.733Z"
-    },
-    {
-      "term": "支持一下up",
-      "family": "cooperation",
-      "meaning": "表达对UP主的鼓励和支持，号召点赞投币",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 1,
-      "updatedAt": "2026-07-03T19:39:47.733Z"
-    },
-    {
-      "term": "支持孙笑川",
-      "family": "cooperation",
-      "meaning": "表态支持抽象网红孙笑川，常用于玩梗或反串",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:03:55.430Z"
-    },
-    {
-      "term": "支持的一集",
-      "family": "cooperation",
-      "meaning": "B站常见表达，表示强烈赞同或支持某个视频/观点，常用于弹幕或评论",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:02:31.355Z"
-    },
-    {
-      "term": "收小狗",
-      "family": "cooperation",
-      "meaning": "类似招募用语，表示接纳参与者扮演‘小狗’",
-      "risk": "neutral",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T23:40:14.458Z"
-    },
-    {
-      "term": "收腰子",
-      "family": "cooperation",
-      "meaning": "网络黑话，指非法器官买卖的调侃，常见于调侃或玩梗语境",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T21:08:26.907Z"
-    },
-    {
-      "term": "收藏严选",
-      "family": "cooperation",
-      "meaning": "UP主自创的推荐语，用于关联收藏夹、引导互动",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T05:42:18.779Z"
-    },
-    {
-      "term": "收藏夹吃灰去吧",
-      "family": "cooperation",
-      "meaning": "调侃观众将视频收藏却不观看，属于常见网络话术，表达自嘲或提醒",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T17:26:13.104Z"
-    },
-    {
-      "term": "改日再聊",
-      "family": "cooperation",
-      "meaning": "改日讨论",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
-    },
-    {
-      "term": "故而",
-      "family": "cooperation",
-      "meaning": "书面因果，较古雅，用于正式合作协商。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T05:45:25.473Z"
-    },
-    {
-      "term": "救命",
-      "family": "cooperation",
-      "meaning": "谐音“救命”，用于表达惊讶、好笑或夸张情绪，常见于搞笑互动",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:27:17.432Z"
-    },
-    {
-      "term": "数据女工",
-      "family": "cooperation",
-      "meaning": "指粉丝为偶像做数据（转发、点赞、打投）的戏称，常带有自嘲和无奈情绪",
-      "risk": "neutral",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T17:02:17.386Z"
-    },
-    {
-      "term": "敲黑板",
-      "family": "cooperation",
-      "meaning": "强调重要信息，类似‘划重点’",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:25:46.975Z"
-    },
-    {
-      "term": "整体上讲",
-      "family": "cooperation",
-      "meaning": "宏观概述，留出细节讨论空间",
-      "risk": "positive",
-      "confidence": 0.86,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "整段讲述没有一个多余的字",
-      "family": "cooperation",
-      "meaning": "称赞他人的表达精炼、高质量",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T22:02:22.461Z"
-    },
-    {
-      "term": "整活",
-      "family": "cooperation",
-      "meaning": "网络用语，指出人意料的操作或花式玩法",
-      "risk": "low",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T13:01:53.869Z"
-    },
-    {
-      "term": "整活的",
-      "family": "cooperation",
-      "meaning": "故意制造娱乐效果或有趣内容的行为",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T13:01:53.869Z"
-    },
-    {
-      "term": "文艺复兴",
-      "family": "cooperation",
-      "meaning": "指老梗、旧梗重新流行，表达怀旧或喜闻乐见",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T04:01:40.025Z"
-    },
-    {
-      "term": "文西",
-      "family": "cooperation",
-      "meaning": "B站up主文西与阿漆的简称，粉丝用其刷存在感或玩梗",
-      "risk": "positive",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T03:00:11.101Z"
-    },
-    {
-      "term": "斗胆说一句",
-      "family": "cooperation",
-      "meaning": "自谦表达，降低挑战权威的冒犯感",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:25:46.975Z"
-    },
-    {
-      "term": "斗鸡专利",
-      "family": "cooperation",
-      "meaning": "用谐音‘斗鸡’戏称‘斗技专利’，调侃对方自封发明、抢占话语权的网络梗",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T05:29:40.582Z"
-    },
-    {
-      "term": "斯麦路斯麦路",
-      "family": "cooperation",
-      "meaning": "日语空耳，意为不要哭，用于安慰或卖萌",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T11:43:00.242Z"
-    },
-    {
-      "term": "无人在意",
-      "family": "cooperation",
-      "meaning": "表示没有人关注某件事，常带有自嘲或幽默意味",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T22:28:14.011Z"
-    },
-    {
-      "term": "无意冒犯",
-      "family": "cooperation",
-      "meaning": "灵异视频中常用弹幕，表示无意冒犯鬼神，属于免责声明",
-      "risk": "neutral",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:56:48.345Z"
-    },
-    {
-      "term": "无机物",
-      "family": "cooperation",
-      "meaning": "自嘲梗，指无性特征的想象，用于幽默自嘲",
-      "risk": "low",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T06:08:19.852Z"
-    },
-    {
-      "term": "无脑用",
-      "family": "cooperation",
-      "meaning": "不假思索地使用工具，表达对过度依赖的担忧",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T05:29:40.582Z"
-    },
-    {
-      "term": "无论",
-      "family": "cooperation",
-      "meaning": "无条件包容，扩大范围",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-30T19:46:06.060Z"
-    },
-    {
-      "term": "无论怎样",
-      "family": "cooperation",
-      "meaning": "让步标记，承认对方论据后做出最终结论，表示包容",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T05:53:55.946Z"
-    },
-    {
-      "term": "无限循环",
-      "family": "cooperation",
-      "meaning": "网络文化中的循环梗，表示重复同样流程或事件的幽默表达",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T17:00:17.998Z"
-    },
-    {
-      "term": "既然",
-      "family": "cooperation",
-      "meaning": "基于已知事实引出后续推论或建议",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-30T19:42:37.792Z"
-    },
-    {
-      "term": "既然你这么说",
-      "family": "cooperation",
-      "meaning": "基于对方立场回应，体现尊重与适应性",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:13:22.151Z"
-    },
-    {
-      "term": "时间大侠",
-      "family": "cooperation",
-      "meaning": "对在视频评论中标注时间点、帮助定位内容的用户的称呼，表示感激",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T05:58:27.434Z"
-    },
-    {
-      "term": "旺精卫",
-      "family": "cooperation",
-      "meaning": "利用谐音双关将“精卫”与“旺”组合，调侃如果精卫火了大家就变成‘旺精卫’，形似历史人物汪精卫，属于文字游戏和幽默调侃",
-      "risk": "positive",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T17:05:11.764Z"
-    },
-    {
-      "term": "明人不说暗话",
-      "family": "cooperation",
-      "meaning": "提倡坦率交流",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "星星眼",
-      "family": "cooperation",
-      "meaning": "脸冒星星表情，表示期待、喜欢或兴奋",
-      "risk": "positive",
-      "confidence": 0.95,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T17:00:17.998Z"
-    },
-    {
-      "term": "是哥们",
-      "family": "cooperation",
-      "meaning": "表达惊讶、质疑或调侃的网络梗，常用于反驳或引起注意",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-07-03T19:43:05.240Z"
-    },
-    {
-      "term": "是我乌鸦嘴",
-      "family": "cooperation",
-      "meaning": "承认说坏话应验，自嘲以缓和气氛。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我事后诸葛亮",
-      "family": "cooperation",
-      "meaning": "自嘲事后才明白，承认之前的失误。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我以己度人",
-      "family": "cooperation",
-      "meaning": "承认用自己的想法揣测别人，表达歉意。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我傲慢",
-      "family": "cooperation",
-      "meaning": "承认态度高傲，表达谦卑以推进对话。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我双标",
-      "family": "cooperation",
-      "meaning": "承认标准不一，自我批评以示公平。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我吹毛求疵",
-      "family": "cooperation",
-      "meaning": "承认苛求细节，自我批评以缓和指责。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我好为人师",
-      "family": "cooperation",
-      "meaning": "承认喜欢教训别人，自嘲并收敛。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我小人之心",
-      "family": "cooperation",
-      "meaning": "自认心胸狭隘，承认错误以争取宽容。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我带节奏",
-      "family": "cooperation",
-      "meaning": "承认引导舆论方向，表示纠正立场。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我引战",
-      "family": "cooperation",
-      "meaning": "承认挑起争论，表达和解意愿。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我强词夺理",
-      "family": "cooperation",
-      "meaning": "承认无理争辩，表达认输和妥协。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我愚蠢",
-      "family": "cooperation",
-      "meaning": "自认愚笨，通过贬低自己来化解对立情绪。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我手欠",
-      "family": "cooperation",
-      "meaning": "承认动作多余或错误，自我批评以平息对方不满。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我抬杠",
-      "family": "cooperation",
-      "meaning": "承认故意争辩，表示停止对抗的态度。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我推卸责任",
-      "family": "cooperation",
-      "meaning": "承认逃避责任，道歉并承诺改正。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我搞错了",
-      "family": "cooperation",
-      "meaning": "承认错误，主动承担失误，表示愿意改正。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T06:01:19.200Z"
-    },
-    {
-      "term": "是我无理取闹",
-      "family": "cooperation",
-      "meaning": "承认胡搅蛮缠，表示停止闹腾并道歉。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我杠精",
-      "family": "cooperation",
-      "meaning": "自嘲喜欢抬杠，认错以缓和争论。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我毒奶",
-      "family": "cooperation",
-      "meaning": "自嘲预测失败，用幽默承认错误。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我没说清楚",
-      "family": "cooperation",
-      "meaning": "承认自己在表达上的不足，为对方理解偏差提供台阶",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:47:01.435Z"
-    },
-    {
-      "term": "是我狡辩",
-      "family": "cooperation",
-      "meaning": "承认强行辩解，表示放弃辩护并认错。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我献丑了",
-      "family": "cooperation",
-      "meaning": "自谦水平不足，表示请多指教。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我玻璃心",
-      "family": "cooperation",
-      "meaning": "承认自己敏感脆弱，示弱以获取理解。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我班门弄斧",
-      "family": "cooperation",
-      "meaning": "承认在行家面前卖弄，表示谦逊。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我甩锅",
-      "family": "cooperation",
-      "meaning": "承认推卸责任，表示愿意承担。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我目光短浅",
-      "family": "cooperation",
-      "meaning": "承认视野局限，暗示愿意听取他人意见。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我糊涂",
-      "family": "cooperation",
-      "meaning": "自嘲智力不足，谦卑认错，降低对方敌意。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:15:47.382Z"
-    },
-    {
-      "term": "是我脑残",
-      "family": "cooperation",
-      "meaning": "自嘲智商不足，表示认错和谦逊，避免冲突。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我舔狗",
-      "family": "cooperation",
-      "meaning": "自嘲讨好行为，表示放下姿态。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我造次了",
-      "family": "cooperation",
-      "meaning": "承认言行冒犯，郑重道歉以修复关系。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我钻牛角尖",
-      "family": "cooperation",
-      "meaning": "承认过于纠结细节，表示愿意退一步。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我错了",
-      "family": "cooperation",
-      "meaning": "主动认错，降低姿态，为后续合作铺平道路。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T05:18:10.870Z"
-    },
-    {
-      "term": "是我键盘侠",
-      "family": "cooperation",
-      "meaning": "承认网上言行过激，自律并回归理性。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我闲得蛋疼",
-      "family": "cooperation",
-      "meaning": "自嘲没事找事，用粗俗幽默认错。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我阴阳怪气",
-      "family": "cooperation",
-      "meaning": "承认说话带刺，表示歉意并改进沟通方式。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我马后炮",
-      "family": "cooperation",
-      "meaning": "承认事后发表意见，表示延迟的反思。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是我鸡蛋里挑骨头",
-      "family": "cooperation",
-      "meaning": "承认过分挑剔，表示愿意宽容。",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:39:49.421Z"
-    },
-    {
-      "term": "是故意的还是不小心的",
-      "family": "cooperation",
-      "meaning": "网络常见梗，用于调侃质疑对方行为是故意还是无意，常带互动性质",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T16:43:44.661Z"
-    },
-    {
-      "term": "显卡电磁炉",
-      "family": "cooperation",
-      "meaning": "幽默比喻，形容显卡发热量大，像电磁炉",
-      "risk": "positive",
-      "confidence": 0.6,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T16:37:08.860Z"
-    },
-    {
-      "term": "显眼包",
-      "family": "cooperation",
-      "meaning": "指爱出风头或引人注目的人，常用于自嘲或调侃",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T01:07:52.537Z"
-    },
-    {
-      "term": "显示不出来",
-      "family": "cooperation",
-      "meaning": "指IP属地信息无法正常显示，常被用来调侃网络透明度",
-      "risk": "neutral",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T02:06:58.797Z"
-    },
-    {
-      "term": "智子回家",
-      "family": "cooperation",
-      "meaning": "可能指代三体中的情节，用于网络调侃或预警",
-      "risk": "neutral",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T10:46:37.766Z"
-    },
-    {
-      "term": "暂且",
-      "family": "cooperation",
-      "meaning": "临时认可，暗示可再议，促进对话延续",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T04:45:01.416Z"
-    },
-    {
-      "term": "暂且同意",
-      "family": "cooperation",
-      "meaning": "临时性接受，为后续让步留空间",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:08:34.170Z"
-    },
-    {
-      "term": "暂且按下不表",
-      "family": "cooperation",
-      "meaning": "搁置不议",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
-    },
-    {
-      "term": "暂且搁置",
-      "family": "cooperation",
-      "meaning": "搁置争议",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
-    },
-    {
-      "term": "暂时先这样",
-      "family": "cooperation",
-      "meaning": "临时性让步，保持合作进程",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:11:02.193Z"
-    },
-    {
-      "term": "暂时想到这些",
-      "family": "cooperation",
-      "meaning": "表示思考未穷尽，欢迎补充",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "更准确地说",
-      "family": "cooperation",
-      "meaning": "修正表述",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "更劲爆",
-      "family": "cooperation",
-      "meaning": "表示推荐内容比当前更精彩或刺激，用于吸引注意",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T07:54:55.144Z"
-    },
-    {
-      "term": "最带派的一集",
-      "family": "cooperation",
-      "meaning": "网络用语，表示这一集非常带感、有范儿或有趣，用于表达赞美或调侃",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T03:46:59.534Z"
-    },
-    {
-      "term": "最支持ai的一集",
-      "family": "cooperation",
-      "meaning": "B站弹幕格式，表达对AI相关内容的强烈支持，常作为跟风梗",
-      "risk": "positive",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:03:55.430Z"
-    },
-    {
-      "term": "最支持的一集",
-      "family": "cooperation",
-      "meaning": "B站常见表达，表示强烈赞同或支持某个视频/观点，常用于弹幕或评论",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:02:31.355Z"
-    },
-    {
-      "term": "最正义的一集",
-      "family": "cooperation",
-      "meaning": "B站常见评价语，指某视频或剧情内容正义感爆棚，可真诚称赞也可反讽",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T02:01:30.524Z"
-    },
-    {
-      "term": "最难绷",
-      "family": "cooperation",
-      "meaning": "网络梗，表示某事非常搞笑、难以忍受",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T17:00:17.998Z"
-    },
-    {
-      "term": "有一句说一句",
-      "family": "cooperation",
-      "meaning": "强调诚实, 不夸大",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "有一说一",
-      "family": "cooperation",
-      "meaning": "合作讨论或条件化表达",
-      "risk": "positive",
-      "confidence": 0.95,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T13:53:18.666Z"
-    },
-    {
-      "term": "有一说一你这点对",
-      "family": "cooperation",
-      "meaning": "先肯定再转折，正面引导合作讨论",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:13:22.151Z"
-    },
-    {
-      "term": "有一说一啊",
-      "family": "cooperation",
-      "meaning": "口语版客观标记，用于强调真实性",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T13:53:18.666Z"
-    },
-    {
-      "term": "有一说一确实",
-      "family": "cooperation",
-      "meaning": "强化赞同，同时保留客观姿态",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "有不同意见",
-      "family": "cooperation",
-      "meaning": "宣布持有歧见",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "有了",
-      "family": "cooperation",
-      "meaning": "感叹某事或某人带来了强烈体验，多用于调侃或幽默评价",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T13:58:03.178Z"
-    },
-    {
-      "term": "有内味了",
-      "family": "cooperation",
-      "meaning": "网络梗，表示某事物或氛围有特定味道，多用于调侃或认同",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T05:50:11.061Z"
-    },
-    {
-      "term": "有可能",
-      "family": "cooperation",
-      "meaning": "保持开放，不排除可能性",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-03T19:51:05.336Z"
-    },
-    {
-      "term": "有可能是",
-      "family": "cooperation",
-      "meaning": "合作讨论或条件化表达",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-03T19:51:05.336Z"
-    },
-    {
-      "term": "有品",
-      "family": "cooperation",
-      "meaning": "夸赞他人有品味、审美或选择好，用于表达肯定和认同",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T04:15:52.847Z"
-    },
-    {
-      "term": "有妖气转世投胎",
-      "family": "cooperation",
-      "meaning": "调侃作者才华横溢，像'有妖气'（有才华）转世，属于幽默赞美",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T09:21:03.975Z"
-    },
-    {
-      "term": "有待商榷",
-      "family": "cooperation",
-      "meaning": "提出异议但保持开放，邀请讨论",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:53:52.746Z"
-    },
-    {
-      "term": "有待验证",
-      "family": "cooperation",
-      "meaning": "预留验证空间，避免武断",
-      "risk": "positive",
-      "confidence": 0.91,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
-    },
-    {
-      "term": "有意义",
-      "family": "cooperation",
-      "meaning": "对观点表示认可，推动合作讨论深入",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T06:03:59.579Z"
-    },
-    {
-      "term": "有数据支撑吗",
-      "family": "cooperation",
-      "meaning": "要求证据支持",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "有有有有有",
-      "family": "cooperation",
-      "meaning": "重复“有”表示强烈肯定回应，B站常见话术",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T20:53:16.651Z"
-    },
-    {
-      "term": "有没有一种可能",
-      "family": "cooperation",
-      "meaning": "委婉提出另一种可能性，常带调侃或质疑",
-      "risk": "neutral",
-      "confidence": 0.85,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T17:00:17.998Z"
-    },
-    {
-      "term": "有没有可能",
-      "family": "cooperation",
-      "meaning": "提出可能性，用于质疑或探讨，语气较委婉",
-      "risk": "low",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T15:21:16.939Z"
-    },
-    {
-      "term": "有没有可能呢",
-      "family": "cooperation",
-      "meaning": "提出可能性，用于质疑或探讨，语气较委婉",
-      "risk": "low",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T15:21:16.939Z"
-    },
-    {
-      "term": "有点东西",
-      "family": "cooperation",
-      "meaning": "表达对内容的惊喜或赞赏，带有积极评价意味",
-      "risk": "positive",
-      "confidence": 0.88,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T09:47:15.465Z"
-    },
-    {
-      "term": "有病",
-      "family": "cooperation",
-      "meaning": "网络调侃用语，用于表达对他人言行感到好笑或不可思议，通常不带实际恶意，属于友好玩梗",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T10:12:20.924Z"
-    },
-    {
-      "term": "有的兄弟",
-      "family": "cooperation",
-      "meaning": "游戏回复梗，表示存在某种情况",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T09:38:46.650Z"
-    },
-    {
-      "term": "有的兄弟有的",
-      "family": "cooperation",
-      "meaning": "用网络梗回答‘有没有可能/有没有……’，表示肯定并提供谐谑的答案",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T09:38:46.650Z"
-    },
-    {
-      "term": "有言在先",
-      "family": "cooperation",
-      "meaning": "提前声明立场或限制，避免后续误会",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:33:28.341Z"
-    },
-    {
-      "term": "有话好好说",
-      "family": "cooperation",
-      "meaning": "劝诫语气平和",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-29T04:25:09.059Z"
-    },
-    {
-      "term": "有赚就行",
-      "family": "cooperation",
-      "meaning": "表达小赚即安、不贪心的态度，用于安慰或自足",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T07:20:41.599Z"
-    },
     {
       "term": "有道理",
       "family": "cooperation",
-      "meaning": "表示认同对方观点，理性讨论标记",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-03T17:00:17.998Z"
-    },
-    {
-      "term": "有道理但",
-      "family": "cooperation",
-      "meaning": "先认可后转折，维持讨论平衡",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:25:46.975Z"
-    },
-    {
-      "term": "有點東西",
-      "family": "cooperation",
-      "meaning": "肯定内容有亮点，表达认可",
+      "meaning": "表示赞同对方观点，愿意合作交流",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:01:48.602Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
-      "term": "朕已阅",
+      "term": "有道理啊",
       "family": "cooperation",
-      "meaning": "用皇帝口吻表示已看过，常用于幽默自嘲或调侃式报备",
+      "meaning": "表示认同对方的观点，常用于附和与讨论",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-02T04:09:44.392Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
-      "term": "朕异常兴奋",
+      "term": "朋友圈真绷不住了",
       "family": "cooperation",
-      "meaning": "模仿皇帝语气表示兴奋，玩梗",
-      "risk": "positive",
-      "confidence": 0.6,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T10:02:25.326Z"
+      "meaning": "表达看到朋友圈内容后忍不住笑或吐槽的情感",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:07:42.486Z"
     },
     {
-      "term": "朕的纯元",
+      "term": "服了读出声终于懂了",
       "family": "cooperation",
-      "meaning": "《甄嬛传》经典台词，在评论区表达对纯元角色的喜爱和怀旧，属于剧情梗",
+      "meaning": "表达经过阅读或思考后终于理解，带有恍然大悟的意味",
       "risk": "neutral",
       "confidence": 0.6,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T17:00:17.998Z"
-    },
-    {
-      "term": "望精卫",
-      "family": "cooperation",
-      "meaning": "利用谐音双关将“精卫”与“旺”组合，调侃如果精卫火了大家就变成‘旺精卫’，形似历史人物汪精卫，属于文字游戏和幽默调侃",
-      "risk": "positive",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-01T17:05:11.764Z"
-    },
-    {
-      "term": "期待交流",
-      "family": "cooperation",
-      "meaning": "表达对话意愿，开启合作",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:59:18.194Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
       "term": "未必",
@@ -2081,53 +47,26 @@
       "meaning": "表示不一定是",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-30T19:28:05.380Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T10:58:20.875Z"
     },
     {
-      "term": "未必正确",
+      "term": "本可",
       "family": "cooperation",
-      "meaning": "主动承认可能有误，降低争论倾向，促进合作",
+      "meaning": "部分圈子中第一人称的自称代词，带有戏谑、表演色彩",
+      "risk": "neutral",
+      "confidence": 0.65,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T08:53:00.343Z"
+    },
+    {
+      "term": "本部",
+      "family": "cooperation",
+      "meaning": "威海校区学生自称本部带胜利手势，表示校友身份和友好问候",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:33:28.341Z"
-    },
-    {
-      "term": "本人来了绷不住了",
-      "family": "cooperation",
-      "meaning": "表示忍不住笑或情绪失控，常用于搞笑视频评论，表达共鸣或自嘲",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T14:18:21.510Z"
-    },
-    {
-      "term": "本色出演",
-      "family": "cooperation",
-      "meaning": "夸赞或调侃某人演得像真实状态，常带玩笑意味",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T08:38:03.339Z"
-    },
-    {
-      "term": "本质上说",
-      "family": "cooperation",
-      "meaning": "深入核心，揭示根本原因。",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-29T05:05:57.263Z"
-    },
-    {
-      "term": "术术人",
-      "family": "cooperation",
-      "meaning": "特定up主（星尘）粉丝的自称，表示群体身份",
-      "risk": "neutral",
-      "confidence": 0.75,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T04:17:41.088Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T07:40:56.214Z"
     },
     {
       "term": "机器人",
@@ -2135,53 +74,2042 @@
       "meaning": "指代自动发送评论的账号，常用于质疑真实性",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T14:05:44.153Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T09:32:17.049Z"
     },
     {
-      "term": "杀伐果断",
+      "term": "机箱可以当煎锅了",
       "family": "cooperation",
-      "meaning": "讨论网文角色塑造时使用的固定话术，贬义指滥杀无辜，中性指果断决策",
+      "meaning": "调侃电脑发热严重，幽默的夸张表达",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "杀青梗",
+      "family": "cooperation",
+      "meaning": "指角色杀青后的衍生剧情设定",
       "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T08:35:25.872Z"
+    },
+    {
+      "term": "来了",
+      "family": "cooperation",
+      "meaning": "表达期待或准备观看，常见于弹幕，表示对即将出现内容的反应",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "来了来了",
+      "family": "cooperation",
+      "meaning": "表示到达或即将看到，常用于互动响应",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "来电了",
+      "family": "cooperation",
+      "meaning": "此处用于调侃彼此心意相通（‘来电’）而非原攻击性含义，语气轻松，避开原恶意",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-07-05T11:02:24.961Z"
+    },
+    {
+      "term": "来都来了",
+      "family": "cooperation",
+      "meaning": "中文网络流行语，表示既然来了就接受或参与，用于劝说或自嘲",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "杰哥攻",
+      "family": "cooperation",
+      "meaning": "源自B站梗'杰哥不要'，指角色扮演或开玩笑，无攻击性",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T07:56:12.521Z"
+    },
+    {
+      "term": "极限拉扯",
+      "family": "cooperation",
+      "meaning": "形容情感或辩论中来回推拉，常指暧昧互动或观点对撞",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "某种意义上",
+      "family": "cooperation",
+      "meaning": "引入条件或范围，软化断言，保持谦逊",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T04:54:44.334Z"
+    },
+    {
+      "term": "某种程度上",
+      "family": "cooperation",
+      "meaning": "限定条件，避免过度概括",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T19:16:38.303662Z"
+    },
+    {
+      "term": "某种程度上说",
+      "family": "cooperation",
+      "meaning": "限定观点适用范围，避免绝对化，促进精确讨论。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-30T19:16:38.303662Z"
+    },
+    {
+      "term": "查克拉",
+      "family": "cooperation",
+      "meaning": "《火影忍者》中的能量概念，在本样本中被用于搞笑解释普通行为（脚上附查克拉），是一种创意玩梗",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:06:24.322Z"
+    },
+    {
+      "term": "格鲁",
+      "family": "cooperation",
+      "meaning": "电影《神偷奶爸》角色名，用于形容某人被拉扯变形或形象滑稽",
+      "risk": "positive",
+      "confidence": 0.82,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T08:34:56.387Z"
+    },
+    {
+      "term": "桃黑黑",
+      "family": "cooperation",
+      "meaning": "桃黑黑的缩写，主播昵称，中性称呼",
+      "risk": "neutral",
+      "confidence": 0.95,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:09:13.173Z"
+    },
+    {
+      "term": "梦c吐了梦卡",
+      "family": "cooperation",
+      "meaning": "网络造梗，模仿游戏或视频中的语音，用于接龙或搞笑",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-04T03:47:14.551Z"
+    },
+    {
+      "term": "梦角",
+      "family": "cooperation",
+      "meaning": "梦角缩写，指梦女/梦男的角色对象，圈内术语",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-03T23:05:32.747Z"
+    },
+    {
+      "term": "梦角哥",
+      "family": "cooperation",
+      "meaning": "指梦想中的男性角色，与梦女对应，圈内术语",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-03T23:05:32.747Z"
+    },
+    {
+      "term": "欧布",
+      "family": "cooperation",
+      "meaning": "对‘欧—布—’的语调变体，同样用于玩梗，带有感情起伏",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-03T21:07:05.944Z"
+    },
+    {
+      "term": "欧布十周年快乐",
+      "family": "cooperation",
+      "meaning": "粉丝庆祝欧布奥特曼十周年，表达喜爱",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-03T21:07:05.944Z"
+    },
+    {
+      "term": "欧布无感情",
+      "family": "cooperation",
+      "meaning": "对‘欧—布—’的语调变体，同样用于玩梗，带有感情起伏",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-03T21:07:05.944Z"
+    },
+    {
+      "term": "正确",
+      "family": "cooperation",
+      "meaning": "表示认同或肯定，带√符号加强语气的网络表达",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "正确的",
+      "family": "cooperation",
+      "meaning": "表示对他人观点的完全认同，常见于评论区的肯定回应",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "正确的中肯的一针见血的",
+      "family": "cooperation",
+      "meaning": "高度赞同的复读梗，表示评论完全正确",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "正确示范我",
+      "family": "cooperation",
+      "meaning": "自嘲或提供正确范例，表示'我才是正确示范'，常用于反驳或打样",
+      "risk": "positive",
+      "confidence": 0.65,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "正缘",
+      "family": "cooperation",
+      "meaning": "请求主播查看自己的正缘（命运伴侣）",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "正解",
+      "family": "cooperation",
+      "meaning": "认定正确，结束讨论。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T07:41:03.188Z"
+    },
+    {
+      "term": "此乃何物",
+      "family": "cooperation",
+      "meaning": "一种固定话术，用于表达疑惑或调侃，多见于B站评论区，带古风搞笑色彩",
+      "risk": "positive",
+      "confidence": 0.6,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-04T04:15:59.307Z"
+    },
+    {
+      "term": "此外",
+      "family": "cooperation",
+      "meaning": "书面附加，列举额外点，完善合作内容。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:39:34.453Z"
+    },
+    {
+      "term": "武德",
+      "family": "cooperation",
+      "meaning": "源自网络梗，自夸军事实力或底气，强调自信",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T06:10:21.242Z"
+    },
+    {
+      "term": "武德充沛",
+      "family": "cooperation",
+      "meaning": "源自网络梗，自夸军事实力或底气，强调自信",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T06:10:21.242Z"
+    },
+    {
+      "term": "毒奶",
+      "family": "cooperation",
+      "meaning": "网络用语，指在预测某件事或某方获胜时，因说出悲观结果反而导致该结果成真，或自嘲自己的预测经常反向，常用于电竞、体育等圈子",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-07-05T11:01:32.509Z"
+    },
+    {
+      "term": "比如",
+      "family": "cooperation",
+      "meaning": "条件化表达，举例说明。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:02:24.961Z"
+    },
+    {
+      "term": "比如说",
+      "family": "cooperation",
+      "meaning": "举例说明，丰富讨论内容",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:02:24.961Z"
+    },
+    {
+      "term": "毕竟",
+      "family": "cooperation",
+      "meaning": "原因强调",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:03:50.459Z"
+    },
+    {
+      "term": "民同",
+      "family": "cooperation",
+      "meaning": "民国同人的缩写，指以民国时期为背景的二次创作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-04T00:20:49.983Z"
+    },
+    {
+      "term": "民同女",
+      "family": "cooperation",
+      "meaning": "民国同人的缩写，指以民国时期为背景的二次创作",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-04T00:20:49.983Z"
+    },
+    {
+      "term": "氪金",
+      "family": "cooperation",
+      "meaning": "游戏用语，指充值付费，中性描述",
+      "risk": "low",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T05:09:47.338Z"
+    },
+    {
+      "term": "水龙",
+      "family": "cooperation",
+      "meaning": "指代原神角色那维莱特或相关游戏事件，样本中用于讨论官方操作错误",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T10:25:35.809Z"
+    },
+    {
+      "term": "求一个链接",
+      "family": "cooperation",
+      "meaning": "请求发布者发送资源链接，常见互动话术",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:26.735Z"
+    },
+    {
+      "term": "求三连",
+      "family": "cooperation",
+      "meaning": "请求观众点赞、投币、收藏，是B站常见互动话术",
+      "risk": "positive",
+      "confidence": 0.93,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:26.735Z"
+    },
+    {
+      "term": "求你了",
+      "family": "cooperation",
+      "meaning": "强烈恳求对方继续或同意",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T09:53:06.352Z"
+    },
+    {
+      "term": "求同存异",
+      "family": "cooperation",
+      "meaning": "接受分歧，寻找共识",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
+    },
+    {
+      "term": "求放过",
+      "family": "cooperation",
+      "meaning": "请求对方不再追究，结束讨论。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-04T05:00:53.064Z"
+    },
+    {
+      "term": "求看正缘",
+      "family": "cooperation",
+      "meaning": "请求主播查看自己的正缘（命运伴侣）",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "求链接",
+      "family": "cooperation",
+      "meaning": "请求分享购买或观看链接，表达强烈兴趣",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "污染",
+      "family": "cooperation",
+      "meaning": "同‘污染’，戏称受网络影响，常配合doge使用",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "污染的",
+      "family": "cooperation",
+      "meaning": "同‘污染’，戏称受网络影响，常配合doge使用",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "沉没成本",
+      "family": "cooperation",
+      "meaning": "指已投入无法回收的成本，常用于讨论游戏弃坑心理",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-03T21:30:21.997Z"
+    },
+    {
+      "term": "沙发",
+      "family": "cooperation",
+      "meaning": "第一个评论的固定话术，表达抢到前排",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T10:58:20.875Z"
+    },
+    {
+      "term": "没事哒",
+      "family": "cooperation",
+      "meaning": "卖萌方式表示'没事'，用于安抚或轻松回应",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:28:54.310Z"
+    },
+    {
+      "term": "没事哒没事哒",
+      "family": "cooperation",
+      "meaning": "卖萌方式表示'没事'，用于安抚或轻松回应",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:28:54.310Z"
+    },
+    {
+      "term": "没别的意思",
+      "family": "cooperation",
+      "meaning": "澄清发言无恶意",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T04:25:09.059Z"
+    },
+    {
+      "term": "没有绝对",
+      "family": "cooperation",
+      "meaning": "反对绝对化",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T06:19:34.773Z"
+    },
+    {
+      "term": "没有绝对的反派",
+      "family": "cooperation",
+      "meaning": "强调角色或观点不极端，保留讨论空间",
+      "risk": "positive",
+      "confidence": 0.65,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T06:19:34.773Z"
+    },
+    {
+      "term": "没毛病",
+      "family": "cooperation",
+      "meaning": "表示赞同对方言论或做法没有问题，是网络日常口头禅。",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "没绷住",
+      "family": "cooperation",
+      "meaning": "网络用语，表示忍不住笑，常用于表达幽默或认同，无攻击性",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "没绷住嗑瓜子",
+      "family": "cooperation",
+      "meaning": "网络用语，表示忍不住笑，常用于表达幽默或认同，无攻击性",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "没那么严重",
+      "family": "cooperation",
+      "meaning": "降低冲突级别，尝试缓解紧张情绪",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T05:13:22.151Z"
+    },
+    {
+      "term": "没那么舒服",
+      "family": "cooperation",
+      "meaning": "作为固定回复，表达对某内容的轻微不适或吐槽，已演变为梗",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "没那么轻松",
+      "family": "cooperation",
+      "meaning": "作为固定回复，表达对某内容的轻微不适或吐槽，已演变为梗",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "没错没错",
+      "family": "cooperation",
+      "meaning": "重复肯定，强化合作信号",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-04T04:03:27.999Z"
+    },
+    {
+      "term": "油猴",
+      "family": "cooperation",
+      "meaning": "指浏览器扩展Tampermonkey（油猴），常用于安装脚本",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-04T02:44:27.396Z"
+    },
+    {
+      "term": "注意关注茄子可以涨经验",
+      "family": "cooperation",
+      "meaning": "固定话术，引导观众关注某用户以获取经验值，属分享性互动，但真实性存疑",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "洗眼",
+      "family": "cooperation",
+      "meaning": "网络用语，指观看一些优质、令人愉悦的内容来缓解之前的不良观感",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "洗眼睛",
+      "family": "cooperation",
+      "meaning": "网络用语，指观看一些优质、令人愉悦的内容来缓解之前的不良观感",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "流畅",
+      "family": "cooperation",
+      "meaning": "正面评价视频或内容播放流畅，表示认可",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T09:31:14.526Z"
+    },
+    {
+      "term": "测试",
+      "family": "cooperation",
+      "meaning": "用户用来测试评论是否被屏蔽或审核，属于试探性行为",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:50:42.483Z"
+    },
+    {
+      "term": "浪姐",
+      "family": "cooperation",
+      "meaning": "节目《乘风破浪的姐姐》的简称，用于讨论相关话题",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-03T20:10:49.114Z"
+    },
+    {
+      "term": "淀粉",
+      "family": "cooperation",
+      "meaning": "指特定up主（灰色羊肉汤）的视频系列昵称，表达喜爱和期待",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T09:16:23.382Z"
+    },
+    {
+      "term": "深红之王",
+      "family": "cooperation",
+      "meaning": "SCP基金会中的虚构实体，用于玩梗或讨论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-04T04:15:44.476Z"
+    },
+    {
+      "term": "渎神",
+      "family": "cooperation",
+      "meaning": "自嘲或调侃行为如同亵渎神圣，常用于对喜爱角色表达不敢亲近",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T00:46:04.115Z"
+    },
+    {
+      "term": "滑铲",
+      "family": "cooperation",
+      "meaning": "游戏/网络动作梗，常指冲锋但以搞笑方式使用",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:39:26.227Z"
+    },
+    {
+      "term": "灵魂出窍",
+      "family": "cooperation",
+      "meaning": "B站表情梗，表示震惊、夸张的惊讶反应",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:25:35.809Z"
+    },
+    {
+      "term": "点个赞",
+      "family": "cooperation",
+      "meaning": "社交互动，表达赞许，鼓励合作",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "点个赞吧",
+      "family": "cooperation",
+      "meaning": "求赞话术，常用于视频或评论末尾增加互动",
+      "risk": "positive",
+      "confidence": 0.82,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "点个赞呗",
+      "family": "cooperation",
+      "meaning": "请求点赞的固定话术，常见于视频互动",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "点个赞行吗",
+      "family": "cooperation",
+      "meaning": "求赞话术，常用于视频或评论末尾增加互动",
+      "risk": "positive",
+      "confidence": 0.82,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "点了",
+      "family": "cooperation",
+      "meaning": "表示赞同、支持，网络点赞用语",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:30:05.380Z"
+    },
+    {
+      "term": "点赞",
+      "family": "cooperation",
+      "meaning": "B站电视牛表情下的点赞动作，表达支持或认可",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:08:45.191Z"
+    },
+    {
+      "term": "点赞投币",
+      "family": "cooperation",
+      "meaning": "鼓励观众互动三连的固定话术",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:08:45.191Z"
+    },
+    {
+      "term": "点赞投币收藏",
+      "family": "cooperation",
+      "meaning": "鼓励观众互动三连的固定话术",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:08:45.191Z"
+    },
+    {
+      "term": "热修复",
+      "family": "cooperation",
+      "meaning": "指紧急修复漏洞或功能，常出现在应用更新讨论中",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:42:50.908Z"
+    },
+    {
+      "term": "热知识",
+      "family": "cooperation",
+      "meaning": "强调一个常见或反常识的知识，常带有纠正或分享的语用",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T10:35:13.414Z"
+    },
+    {
+      "term": "热评通知书",
+      "family": "cooperation",
+      "meaning": "格式化玩梗，模仿官方通知形式表彰热评，增加喜剧效果和互动",
+      "risk": "positive",
+      "confidence": 0.78,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T00:05:10.099Z"
+    },
+    {
+      "term": "然后",
+      "family": "cooperation",
+      "meaning": "顺序标记，表示先后关系，理清合作步骤。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:04:26.070Z"
+    },
+    {
+      "term": "然后呢",
+      "family": "cooperation",
+      "meaning": "询问后续逻辑",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:04:26.070Z"
+    },
+    {
+      "term": "然而",
+      "family": "cooperation",
+      "meaning": "正式转折，对比观点",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T10:58:20.875Z"
+    },
+    {
+      "term": "照你这么说",
+      "family": "cooperation",
+      "meaning": "假设对方逻辑成立，再推理",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T06:34:13.741Z"
+    },
+    {
+      "term": "煮啵",
+      "family": "cooperation",
+      "meaning": "主播的谐音，用方言或咬舌方式称呼主播，表示亲昵或玩笑",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T01:11:39.686Z"
+    },
+    {
+      "term": "爱坤",
+      "family": "cooperation",
+      "meaning": "蔡徐坤粉丝自称或玩梗称呼，此处用于友好提供资源",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:48:20.036Z"
+    },
+    {
+      "term": "爱坤们",
+      "family": "cooperation",
+      "meaning": "蔡徐坤粉丝自称或玩梗称呼，此处用于友好提供资源",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T23:48:20.036Z"
+    },
+    {
+      "term": "爱看",
+      "family": "cooperation",
+      "meaning": "要求多发布内容，表示喜欢",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T10:56:51.272Z"
+    },
+    {
+      "term": "爱看up加油",
+      "family": "cooperation",
+      "meaning": "鼓励UP主继续创作，表示支持",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T10:56:51.272Z"
+    },
+    {
+      "term": "爸爸",
+      "family": "cooperation",
+      "meaning": "网络称谓梗，用于调侃或表达崇拜，有时指金主或技术大佬",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T09:31:14.526Z"
+    },
+    {
+      "term": "片哥",
+      "family": "cooperation",
+      "meaning": "指在评论区发布广告片、私信骚扰的用户，属社区黑话",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T10:58:12.718Z"
+    },
+    {
+      "term": "片哥片姐",
+      "family": "cooperation",
+      "meaning": "指在评论区发布广告片、私信骚扰的用户，属社区黑话",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T10:58:12.718Z"
+    },
+    {
+      "term": "片姐",
+      "family": "cooperation",
+      "meaning": "指在评论区发布广告片、私信骚扰的用户，属社区黑话",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T10:58:12.718Z"
+    },
+    {
+      "term": "牛大了",
+      "family": "cooperation",
+      "meaning": "网络自夸梗，表达得意、炫耀或开玩笑，常见于评论区或弹幕",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T07:30:52.068Z"
+    },
+    {
+      "term": "牛逼",
+      "family": "cooperation",
+      "meaning": "网络常见夸赞用语，表示对内容或能力的强烈肯定，属于合作性积极表达",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "牛逼兄弟",
+      "family": "cooperation",
+      "meaning": "称赞对方厉害，网络赞美语",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "牛逼啊",
+      "family": "cooperation",
+      "meaning": "表示非常厉害、称赞，语气强烈但正面",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "牢大",
+      "family": "cooperation",
+      "meaning": "特指某位已故名人作为梗，引申为等级体系创始人",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T09:54:26.824Z"
+    },
+    {
+      "term": "物理刀",
+      "family": "cooperation",
+      "meaning": "指剧情虐心、令人心塞或角色受伤，用于提醒或共鸣",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T04:15:06.853Z"
+    },
+    {
+      "term": "狗头保命",
+      "family": "cooperation",
+      "meaning": "声明前文为玩笑，避免被当真攻击",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T05:12:03.241Z"
+    },
+    {
+      "term": "狗子",
+      "family": "cooperation",
+      "meaning": "对角色或个体的昵称，带亲昵或调侃",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T09:25:54.569Z"
+    },
+    {
+      "term": "猫meme",
+      "family": "cooperation",
+      "meaning": "猫咪相关的流行梗和表情包宇宙，用于表达搞笑或可爱",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-04T23:55:58.580Z"
+    },
+    {
+      "term": "王下七武海",
+      "family": "cooperation",
+      "meaning": "引用《海贼王》梗，在本文中用作戏称或调侃",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T05:31:39.610Z"
+    },
+    {
+      "term": "玩梗",
+      "family": "cooperation",
+      "meaning": "指使用或提及网络梗，表明在开玩笑或引用流行文化",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:30:05.380Z"
+    },
+    {
+      "term": "玻璃大炮",
+      "family": "cooperation",
+      "meaning": "游戏术语，指高风险高回报的装备或玩法（如扣血强化伤害）",
+      "risk": "positive",
+      "confidence": 0.82,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T00:32:25.918Z"
+    },
+    {
+      "term": "珍珠小子",
+      "family": "cooperation",
+      "meaning": "对特定人物的昵称或梗，带有调侃或亲切意味",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T04:17:00.904Z"
+    },
+    {
+      "term": "理性讨论",
+      "family": "cooperation",
+      "meaning": "要求或表示进行客观、理性的对话，合作信号",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T02:37:14.351Z"
+    },
+    {
+      "term": "瓜保熟吗",
+      "family": "cooperation",
+      "meaning": "刘华强买瓜经典台词，网友常用来玩梗或互动，无恶意",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T09:35:44.046Z"
+    },
+    {
+      "term": "生日快乐",
+      "family": "cooperation",
+      "meaning": "祝福UP主生日快乐",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T05:27:28.896Z"
+    },
+    {
+      "term": "用这个自行车",
+      "family": "cooperation",
+      "meaning": "可能为某梗或调侃，指使用特定道具或动作",
+      "risk": "neutral",
+      "confidence": 0.6,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-04T05:26:43.820Z"
+    },
+    {
+      "term": "电子杨伟",
+      "family": "cooperation",
+      "meaning": "指对电子游戏失去兴趣的状态，常用于玩家间自嘲或分享共同体验",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-04T23:17:03.226Z"
+    },
+    {
+      "term": "电子阳痿",
+      "family": "cooperation",
+      "meaning": "电子游戏兴趣丧失的另一种说法，来源于医学ED，用于描述对游戏提不起劲",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-03T20:03:47.942Z"
+    },
+    {
+      "term": "男姨姨",
+      "family": "cooperation",
+      "meaning": "姨姨的谐音缩写，网络称呼，用于亲近或调侃",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T03:54:35.213Z"
+    },
+    {
+      "term": "痛太痛了",
+      "family": "cooperation",
+      "meaning": "源自佛耶戈台词，表达夸张的痛苦，常用于玩梗",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T08:39:08.021Z"
+    },
+    {
+      "term": "痛楚",
+      "family": "cooperation",
+      "meaning": "引用佩恩经典台词，表达感受深刻",
+      "risk": "neutral",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T03:16:28.978Z"
+    },
+    {
+      "term": "白菜",
+      "family": "cooperation",
+      "meaning": "形容价格非常便宜，性价比高，常用于带货或评价",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "白菜价",
+      "family": "cooperation",
+      "meaning": "形容价格非常便宜，性价比高，常用于带货或评价",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "百合",
+      "family": "cooperation",
+      "meaning": "指女性同性恋，网络用语，常用于八卦或描述性向",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T10:57:30.205Z"
+    },
+    {
+      "term": "百大",
+      "family": "cooperation",
+      "meaning": "指B站百大UP主荣誉，用于调侃或祝福",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T09:58:12.438Z"
+    },
+    {
+      "term": "的确",
+      "family": "cooperation",
+      "meaning": "表示确认，认可对方事实或观点",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:45:17.715Z"
+    },
+    {
+      "term": "直白点",
+      "family": "cooperation",
+      "meaning": "呼吁直接坦诚，减少迂回。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-30T20:01:20.403Z"
+    },
+    {
+      "term": "直白点说",
+      "family": "cooperation",
+      "meaning": "去掉委婉，直接表达。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-30T20:01:20.403Z"
+    },
+    {
+      "term": "直说了吧",
+      "family": "cooperation",
+      "meaning": "直接表达核心观点，避免迂回，提高效率。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T13:53:18.666Z"
+    },
+    {
+      "term": "相互理解",
+      "family": "cooperation",
+      "meaning": "强调共情，为合作奠定基础",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-29T05:11:02.193Z"
+    },
+    {
+      "term": "相比之下",
+      "family": "cooperation",
+      "meaning": "引入比较但不贬低，客观分析促进理解",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T07:22:23.017Z"
+    },
+    {
+      "term": "省流",
+      "family": "cooperation",
+      "meaning": "总结省流内容",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "省流助手",
+      "family": "cooperation",
+      "meaning": "自称为他人总结简化信息的人，带有自嘲和帮助他人的混合色彩",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "看情况",
+      "family": "cooperation",
+      "meaning": "依赖条件",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T08:08:09.985Z"
+    },
+    {
+      "term": "看情况吧",
+      "family": "cooperation",
+      "meaning": "条件化回应，保留合作空间",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T08:08:09.985Z"
+    },
+    {
+      "term": "真刀",
+      "family": "cooperation",
+      "meaning": "指剧情虐心、令人心塞或角色受伤，用于提醒或共鸣",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T03:55:12.410Z"
+    },
+    {
+      "term": "真实",
+      "family": "cooperation",
+      "meaning": "表达对内容真实感的认同或共鸣",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T10:25:28.536Z"
+    },
+    {
+      "term": "真正的英雄",
+      "family": "cooperation",
+      "meaning": "调侃或赞美无偿分享资源的用户，强调其无私行为",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:25:11.685Z"
+    },
+    {
+      "term": "真的",
+      "family": "cooperation",
+      "meaning": "肯定陈述，增强说服力。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "真的假的",
+      "family": "cooperation",
+      "meaning": "网络常用疑问句，表示惊讶或求证",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:01:52.059Z"
+    },
+    {
+      "term": "真的服了",
+      "family": "cooperation",
+      "meaning": "表达无奈、无语，常带轻微不满但不直接攻击",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:01:25.494Z"
+    },
+    {
+      "term": "真绷不住了",
+      "family": "cooperation",
+      "meaning": "表达笑到受不了、无法忍受的感叹，常用于搞笑或离谱场景",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:07:42.486Z"
+    },
+    {
+      "term": "瞳孔地震",
+      "family": "cooperation",
+      "meaning": "表达极度震惊的网络流行梗，常用于夸张反应",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T00:04:21.108Z"
+    },
+    {
+      "term": "瞳孔地震了",
+      "family": "cooperation",
+      "meaning": "表达极度震惊的网络流行梗，常用于夸张反应",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T00:04:21.108Z"
+    },
+    {
+      "term": "破千打卡",
+      "family": "cooperation",
+      "meaning": "达到1000播放量或评论数后的纪念性留言，表示庆祝和存在感",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "破站",
+      "family": "cooperation",
+      "meaning": "对B站的亲昵调侃，表达对服务器问题的无奈",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T08:26:11.464Z"
+    },
+    {
+      "term": "硬币",
+      "family": "cooperation",
+      "meaning": "B站投币支持作者",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:03:50.459Z"
+    },
+    {
+      "term": "确实",
+      "family": "cooperation",
+      "meaning": "合作讨论或条件化表达",
+      "risk": "positive",
+      "confidence": 1,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "确实可以",
+      "family": "cooperation",
+      "meaning": "表示认同或赞赏，肯定对方的说法或做法",
+      "risk": "positive",
+      "confidence": 0.6,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "确实没毛病",
+      "family": "cooperation",
+      "meaning": "表示赞同对方观点，常见于网络讨论",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "确实确实",
+      "family": "cooperation",
+      "meaning": "表示同意或确认对方观点，常用于对话中肯定回应",
+      "risk": "low",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "确实绷不住",
+      "family": "cooperation",
+      "meaning": "表达忍不住笑或吐槽，常用于网络评论",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "礼貌三连",
+      "family": "cooperation",
+      "meaning": "B站用语，指用户对视频点赞、投币、收藏，以示支持或感谢",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:26.735Z"
+    },
+    {
+      "term": "社恐",
+      "family": "cooperation",
+      "meaning": "社交恐惧症的缩写，用于描述自己性格内向、不擅社交",
+      "risk": "neutral",
+      "confidence": 0.95,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "社恐大狗",
+      "family": "cooperation",
+      "meaning": "形容角色内向胆小如大狗，可爱调侃",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "祖宗之法",
+      "family": "cooperation",
+      "meaning": "游戏圈常用梗，调侃规则或设定被颠覆，语气轻松",
+      "risk": "low",
+      "confidence": 0.6,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T05:42:23.221Z"
+    },
+    {
+      "term": "神了",
+      "family": "cooperation",
+      "meaning": "称赞对方厉害或表达敬佩，有时用于反讽，需结合上下文",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:04:26.070Z"
+    },
+    {
+      "term": "神人tv",
+      "family": "cooperation",
+      "meaning": "对某个频道或创作者的称呼，此处表达喜欢观看，语用正面",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T06:55:46.522Z"
+    },
+    {
+      "term": "福瑞",
+      "family": "cooperation",
+      "meaning": "指喜欢虚构动物角色（furry）的群体，网络亚文化称谓",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T08:42:08.351Z"
+    },
+    {
+      "term": "科四",
+      "family": "cooperation",
+      "meaning": "科目四缩写，指驾照考试科目四，交流考试话题",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T03:21:50.927Z"
+    },
+    {
+      "term": "科目四",
+      "family": "cooperation",
+      "meaning": "科目四缩写，指驾照考试科目四，交流考试话题",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T03:05:54.483Z"
+    },
+    {
+      "term": "空军",
+      "family": "cooperation",
+      "meaning": "指Nike Air Force 1鞋款，常出现在穿搭讨论中",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T05:31:39.610Z"
+    },
+    {
+      "term": "空降",
+      "family": "cooperation",
+      "meaning": "弹幕指令或操作说明，表示跳转到指定时间点，常用于教程或弹幕互动",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "空降0010",
+      "family": "cooperation",
+      "meaning": "弹幕指令或操作说明，表示跳转到指定时间点，常用于教程或弹幕互动",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "突破叙事层",
+      "family": "cooperation",
+      "meaning": "指跳出当前叙事层面进行评论或攻击，常见于讨论梗或辩论",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T00:08:36.796Z"
+    },
+    {
+      "term": "笑哭",
+      "family": "cooperation",
+      "meaning": "表示哭笑不得、无奈或自嘲的情绪表情文字，广泛用于弹幕和评论。",
+      "risk": "positive",
+      "confidence": 0.99,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "笑哭笑哭",
+      "family": "cooperation",
+      "meaning": "表示哭笑不得、无奈或自嘲的情绪表情文字，广泛用于弹幕和评论。",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "笔芯",
+      "family": "cooperation",
+      "meaning": "网络用语，表示比心、喜爱或感谢，常搭配颜文字使用",
+      "risk": "positive",
+      "confidence": 0.92,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T10:47:03.763Z"
+    },
+    {
+      "term": "第一",
+      "family": "cooperation",
+      "meaning": "抢沙发用语，表示自己是第一个评论或弹幕",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "第一三连",
+      "family": "cooperation",
+      "meaning": "抢占评论区首位并请求观众三连（点赞投币收藏），鼓励互动",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "第一三连了",
+      "family": "cooperation",
+      "meaning": "抢占评论区首位并请求观众三连（点赞投币收藏），鼓励互动",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "第五人格启动",
+      "family": "cooperation",
+      "meaning": "源自游戏《第五人格》的梗，表示开始行动、兴奋或玩梗，常作为评论区的固定刷屏话术",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "等一下",
+      "family": "cooperation",
+      "meaning": "口语化打断，要求对方等待或重新考虑",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:30:05.380Z"
+    },
+    {
+      "term": "简单来说",
+      "family": "cooperation",
+      "meaning": "总结核心要点，便于对方快速把握。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T07:22:23.017Z"
+    },
+    {
+      "term": "糕手",
+      "family": "cooperation",
+      "meaning": "谐音‘高手’，夸赞技术好",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T07:32:53.030Z"
+    },
+    {
+      "term": "紧爷",
+      "family": "cooperation",
+      "meaning": "B站梗，源自某录音，用于调侃或自嘲称呼",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T05:36:58.864Z"
+    },
+    {
+      "term": "紧爷的梗",
+      "family": "cooperation",
+      "meaning": "B站梗，源自某录音，用于调侃或自嘲称呼",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T05:36:58.864Z"
+    },
+    {
+      "term": "紫皮糖",
+      "family": "cooperation",
+      "meaning": "网络梗，特指苏联时期的一种糖果，常用于苏联相关视频的弹幕和评论中表示回忆或调侃",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T10:54:22.121Z"
+    },
+    {
+      "term": "纯血",
+      "family": "cooperation",
+      "meaning": "调侃血统纯正，常带[doge]表示非严肃玩梗",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T00:32:20.400Z"
+    },
+    {
+      "term": "纵使",
+      "family": "cooperation",
+      "meaning": "书面让步，假设极端",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-29T04:39:16.223Z"
+    },
+    {
+      "term": "纸壳子",
+      "family": "cooperation",
+      "meaning": "网络梗，自嘲像纸壳子一样被当宝，或指自己废物但有价值",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-03T20:42:45.095Z"
+    },
+    {
+      "term": "细思极恐",
+      "family": "cooperation",
+      "meaning": "表达细想后觉得恐怖，常用于分享惊人发现",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T03:08:36.706Z"
+    },
+    {
+      "term": "细狗",
+      "family": "cooperation",
+      "meaning": "方言/网络梗，形容人瘦弱，常用于调侃",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T00:15:50.677Z"
+    },
+    {
+      "term": "细说",
+      "family": "cooperation",
+      "meaning": "要求对方详细解释或讲述细节，常见于评论区互动",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T04:28:14.306Z"
+    },
+    {
+      "term": "终究",
+      "family": "cooperation",
+      "meaning": "最终归结，得出结论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T07:55:47.084Z"
+    },
+    {
+      "term": "给个三连",
+      "family": "cooperation",
+      "meaning": "请求观众点赞、投币、收藏，B站常见互动话术",
+      "risk": "low",
+      "confidence": 0.92,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:26.735Z"
+    },
+    {
+      "term": "给心心",
+      "family": "cooperation",
+      "meaning": "B站爱心表情文字，表达喜欢或感谢",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "绝好鸭皮",
+      "family": "cooperation",
+      "meaning": "谐音‘绝好呀皮’，网络流行语，意为好极了、质量超棒",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T23:53:15.391Z"
+    },
+    {
+      "term": "绝配顶配天仙配",
+      "family": "cooperation",
+      "meaning": "网络流行语，夸张形容两人或事物非常般配、完美契合，带有调侃或赞美",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-05T06:02:04.680Z"
+    },
+    {
+      "term": "绷不住了",
+      "family": "cooperation",
+      "meaning": "表示忍不住笑或受不了，常用于搞笑或尴尬场景，承让合作态度",
+      "risk": "positive",
+      "confidence": 1,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "绷住",
+      "family": "cooperation",
+      "meaning": "忍不住笑或破防，常用自嘲或调侃",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "绷住了",
+      "family": "cooperation",
+      "meaning": "忍不住笑或破防，常用自嘲或调侃",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "网友会玩",
+      "family": "cooperation",
+      "meaning": "感叹网友的创意或玩法独特，带有惊叹或调侃成分",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T23:52:21.322Z"
+    },
+    {
+      "term": "美强甜",
+      "family": "cooperation",
+      "meaning": "粉丝圈对CP或偶像的赞美梗，指外表美、能力强、性格甜",
+      "risk": "positive",
       "confidence": 0.78,
       "evidenceCount": 0,
-      "updatedAt": "2026-07-03T13:35:55.085Z"
+      "updatedAt": "2026-07-03T19:59:28.888Z"
     },
     {
-      "term": "权力的味道",
+      "term": "羡慕",
       "family": "cooperation",
-      "meaning": "引用经典梗，指对权力的渴望或享受，用于描述野心家或帝王的特质",
+      "meaning": "表达对他人好运或状态的向往和好感",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T10:58:20.875Z"
+    },
+    {
+      "term": "羡慕侄女",
+      "family": "cooperation",
+      "meaning": "表达羡慕他人（常是二次元相关）的调侃式评论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T02:04:10.946Z"
+    },
+    {
+      "term": "老司机",
+      "family": "cooperation",
+      "meaning": "指有经验的人，常用于调侃或称赞",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-05T09:34:34.709Z"
+    },
+    {
+      "term": "老哔站人",
+      "family": "cooperation",
+      "meaning": "指B站资深用户，带有认同感和身份标识",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T01:03:31.075Z"
+    },
+    {
+      "term": "老头乐",
+      "family": "cooperation",
+      "meaning": "指低速电动老年代步车，带有调侃和讽刺意味",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T03:34:15.765Z"
+    },
+    {
+      "term": "老师",
+      "family": "cooperation",
+      "meaning": "《蔚蓝档案》中对老师角色的日文称呼，作为玩家代称，用于讨论游戏内互动或角色关系",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:07:28.505Z"
+    },
+    {
+      "term": "老师我吃完啦",
+      "family": "cooperation",
+      "meaning": "网络用语，表示已将内容看完，常出现在追番、追更后的评论区，表达满足与感谢",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-05T11:07:28.505Z"
+    },
+    {
+      "term": "老广",
+      "family": "cooperation",
+      "meaning": "对广东人的网络昵称，此处用于正面夸奖广东人会吃，带调侃语气",
       "risk": "positive",
       "confidence": 0.7,
       "evidenceCount": 0,
-      "updatedAt": "2026-07-03T12:27:17.432Z"
+      "updatedAt": "2026-07-03T22:52:22.129Z"
     },
     {
-      "term": "权当参考",
+      "term": "老板大气",
       "family": "cooperation",
-      "meaning": "弱化建议强度，承认仅供参考",
+      "meaning": "称赞打赏者或慷慨者，表示感激和佩服",
       "risk": "positive",
-      "confidence": 0.88,
+      "confidence": 0.92,
       "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.692Z"
+      "updatedAt": "2026-07-04T04:01:37.947Z"
     },
     {
-      "term": "权当抛砖",
+      "term": "考虑不周",
       "family": "cooperation",
-      "meaning": "同抛砖引玉，谦逊引出讨论",
+      "meaning": "承认自己思考不全面，接受对方指正",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T05:02:28.054Z"
+    },
+    {
+      "term": "耍帅这一块",
+      "family": "cooperation",
+      "meaning": "调侃或夸赞某人擅长耍帅，常见于模仿或搞笑视频",
+      "risk": "neutral",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T04:56:35.085Z"
+    },
+    {
+      "term": "胃袋很大",
+      "family": "cooperation",
+      "meaning": "源自‘我的胃袋很大，全都装得下’梗，夸张表达自己能容纳很多，常用于自嘲或幽默",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T00:06:37.582Z"
+    },
+    {
+      "term": "脸黑",
+      "family": "cooperation",
+      "meaning": "网络用语，指运气差，常用于自嘲或描述游戏掉落率低",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T02:20:49.933Z"
+    },
+    {
+      "term": "自取",
+      "family": "cooperation",
+      "meaning": "网络调侃用语，用于说明某行为本质是自取自用，带有幽默或讽刺意味，如'高情商自取'",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T10:39:34.453Z"
+    },
+    {
+      "term": "自用整理不易欢迎补充指正",
+      "family": "cooperation",
+      "meaning": "分享者表达自己辛苦整理，鼓励他人指正补充，促进合作讨论",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:01:32.509Z"
+    },
+    {
+      "term": "臭暗部",
+      "family": "cooperation",
+      "meaning": "火影玩家玩梗，指代暗部（暗杀部队），加上'臭'表示调侃",
+      "risk": "positive",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-04T22:44:00.124Z"
+    },
+    {
+      "term": "至少",
+      "family": "cooperation",
+      "meaning": "限定最低程度，避免过度概括，为分歧留下空间。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-05T11:02:24.961Z"
+    },
+    {
+      "term": "致敬",
+      "family": "cooperation",
+      "meaning": "模仿科比退役短片‘Mamba Out’，用于表示致敬或玩梗",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "致敬科比",
+      "family": "cooperation",
+      "meaning": "模仿科比退役短片‘Mamba Out’，用于表示致敬或玩梗",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "舒服",
+      "family": "cooperation",
+      "meaning": "表达观看体验愉悦或满意，常用于视频高潮或尴尬场景后的轻松感",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "舒服了",
+      "family": "cooperation",
+      "meaning": "表示满意或舒服",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "艾斯吧",
+      "family": "cooperation",
+      "meaning": "贴吧‘艾斯吧’事件梗，指贴吧内部让位闹剧，作为网络文化典故引用",
+      "risk": "neutral",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T21:15:57.045Z"
+    },
+    {
+      "term": "苏炸我",
+      "family": "cooperation",
+      "meaning": "表示被声音或画面帅到酥麻，强烈正面情绪",
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 0,
-      "updatedAt": "2026-06-29T05:59:18.194Z"
+      "updatedAt": "2026-07-04T03:51:54.593Z"
     },
     {
-      "term": "权衡利弊",
+      "term": "英雄",
       "family": "cooperation",
-      "meaning": "分析优缺点，为决策或协商提供依据",
+      "meaning": "调侃或赞美无偿分享资源的用户，强调其无私行为",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T10:25:11.685Z"
+    },
+    {
+      "term": "药不能停",
+      "family": "cooperation",
+      "meaning": "劝告抑郁症患者坚持服药，不能擅自停药，表达关心和支持",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-03T19:51:05.336Z"
+    },
+    {
+      "term": "药不能停啊",
+      "family": "cooperation",
+      "meaning": "劝告抑郁症患者坚持服药，不能擅自停药，表达关心和支持",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T04:09:16.436Z"
+    },
+    {
+      "term": "莎头",
+      "family": "cooperation",
+      "meaning": "粉丝对王楚钦/孙颖莎混双的昵称，表示喜爱和调侃",
+      "risk": "neutral",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T03:23:46.195Z"
+    },
+    {
+      "term": "营业执照思密达",
+      "family": "cooperation",
+      "meaning": "改编自原梗的搞笑短语，无实际意义，用于制造幽默效果",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-04T23:55:27.990Z"
+    },
+    {
+      "term": "蓝v历险记",
+      "family": "cooperation",
+      "meaning": "用户自述发现官方账号发布奇怪内容时的调侃，表示意料之外的滑稽现象",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T04:33:45.325Z"
+    },
+    {
+      "term": "蓝色话题",
+      "family": "cooperation",
+      "meaning": "B站评论区可点击的蓝色话题标签，用于分类或快速跳转",
+      "risk": "neutral",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T03:49:40.160Z"
+    },
+    {
+      "term": "薅流量",
+      "family": "cooperation",
+      "meaning": "网络缩略语，指利用优惠策略获得便宜流量卡或服务",
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 0,
-      "updatedAt": "2026-06-29T06:06:52.698Z"
+      "updatedAt": "2026-07-04T02:53:11.646Z"
+    },
+    {
+      "term": "虎视糖",
+      "family": "cooperation",
+      "meaning": "网络梗，来自歌曲或角色，用于玩梗或模仿",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-07-04T03:52:35.820Z"
+    },
+    {
+      "term": "虚心接受",
+      "family": "cooperation",
+      "meaning": "表达接纳态度，促进良性互动",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-29T04:53:52.746Z"
+    },
+    {
+      "term": "虽然",
+      "family": "cooperation",
+      "meaning": "让步条件，引出后续",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-05T11:09:33.476Z"
     }
   ]
 }
