@@ -535,15 +535,15 @@ class ReadmeStatsSvgRenderer:
   <!-- Compact stat row -->
   <g>
     <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="140" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="140" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
-    <text x="140" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="380" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="380" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
-    <text x="380" y="412" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="620" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="620" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
-    <text x="620" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+    <text x="190" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="190" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
+    <text x="190" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="510" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="510" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
+    <text x="510" y="412" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="750" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="750" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
+    <text x="750" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>
 """
