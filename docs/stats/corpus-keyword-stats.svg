@@ -24,22 +24,22 @@
   <g>
     <circle cx="190" cy="252" r="78" fill="none" stroke="#e8e1d2" stroke-width="24"/>
     <circle cx="190" cy="252" r="78" fill="none" stroke="#3f7558" stroke-width="24"
-      stroke-dasharray="387.2 102.9" stroke-linecap="round"
+      stroke-dasharray="427.0 63.1" stroke-linecap="round"
       transform="rotate(-90 190 252)"/>
-    <text x="190" y="246" text-anchor="middle" class="metric" font-size="26">79.00%</text>
+    <text x="190" y="246" text-anchor="middle" class="metric" font-size="26">87.13%</text>
     <text x="190" y="270" text-anchor="middle" class="small">coverage</text>
   </g>
   <!-- Metric tiles -->
   <g>
     <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
     <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
-    <text x="510" y="240" text-anchor="middle" class="tile-value">659</text>
+    <text x="510" y="240" text-anchor="middle" class="tile-value">638</text>
     <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
   </g>
   <g>
     <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
     <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
-    <text x="750" y="240" text-anchor="middle" class="tile-value">1,814</text>
+    <text x="750" y="240" text-anchor="middle" class="tile-value">1,477</text>
     <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
   </g>
   <!-- Compact stat row -->
