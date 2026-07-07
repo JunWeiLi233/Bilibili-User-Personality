@@ -552,35 +552,27 @@ class ReadmeStatsSvgRenderer:
         points = timeline.get("points") if isinstance(timeline.get("points"), list) else []
         # Downsample to ~50 points for clean rendering
         sampled = self._downsample_points(points, target=50)
-        # Dual Y-axis: left = total + danmaku, right = comments
+        # Single Y-axis: all three lines (comments, danmaku, total) share one scale
         total_max_raw = max([_number(p.get("total")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalTotal")), 1])
-        total_max = self.padded_timeline_max(total_max_raw)
-        comments_max_raw = max([_number(p.get("comments")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalComments")), 1])
-        comments_max = self.padded_timeline_max(comments_max_raw)
+        y_max = self.padded_timeline_max(total_max_raw)
         x0, y0, width, height = 92, 110, 676, 196
         updated = self._date_label(generated_at)
         first_date = self._timeline_date(sampled[0].get("date")) if sampled else "n/a"
         last_date = self._timeline_date(sampled[-1].get("date")) if sampled else "n/a"
-        # Left Y-axis grid (total + danmaku scale, K-format) — 5 ticks
-        left_grid = "\n".join(
-            self._grid_row_k(ratio, total_max, x0, y0, width, height)
+        # Y-axis grid — 5 ticks
+        grid = "\n".join(
+            self._grid_row_k(ratio, y_max, x0, y0, width, height)
             for ratio in (0, 0.25, 0.5, 0.75, 1)
         )
-        # Right Y-axis grid (comments scale, K-format, dashed) — 3 ticks
-        right_grid = "\n".join(
-            self._grid_row_k_right(ratio, comments_max, x0, y0, width, height)
-            for ratio in (0, 0.5, 1)
-        )
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="timeline-title timeline-desc">
-  <title id="timeline-title">Comment and danmaku collection growth over time</title>
-  <desc id="timeline-desc">Cumulative growth lines for total and danmaku (left scale) and comments (right scale) across recorded harvest runs.</desc>
+  <title id="timeline-title">Comment, danmaku and total collection growth over time</title>
+  <desc id="timeline-desc">Cumulative growth lines for comments, danmaku and total across recorded harvest runs.</desc>
   <style>
     .bg {{ fill: #f3ead8; }}
     .panel {{ fill: #fffaf0; stroke: #27231c; stroke-width: 2; }}
     .title {{ font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }}
     .sub {{ font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
     .axis {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
-    .axis-right {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #8c5f32; }}
     .label {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
     .legend-text {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
   </style>
@@ -589,32 +581,27 @@ class ReadmeStatsSvgRenderer:
   <text x="40" y="62" class="title">Corpus Growth Over Time</text>
   <text x="40" y="88" class="sub">auto-generated from corpus run history on {self._escape(updated)} | {self._format_number(len(sampled))} points shown (of {self._format_number(len(points))} total)</text>
   <g>
-{right_grid}
-{left_grid}
+{grid}
     <!-- Chart frame -->
     <line x1="{x0}" y1="{y0 + height}" x2="{x0 + width}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
     <line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
-    <!-- Right axis -->
-    <line x1="{x0 + width}" y1="{y0}" x2="{x0 + width}" y2="{y0 + height}" stroke="#8c5f32" stroke-width="1.5" stroke-dasharray="4,4"/>
-    <!-- Total line (left scale) -->
-    <polyline points="{self._polyline(sampled, "total", total_max, x0, y0, width, height)}" fill="none" stroke="#2b3a55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Danmaku line (left scale) -->
-    <polyline points="{self._polyline(sampled, "danmaku", total_max, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Comments line (right scale) -->
-    <polyline points="{self._polyline(sampled, "comments", comments_max, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,3"/>
+    <!-- Comments line -->
+    <polyline points="{self._polyline(sampled, "comments", y_max, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Danmaku line -->
+    <polyline points="{self._polyline(sampled, "danmaku", y_max, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Total line -->
+    <polyline points="{self._polyline(sampled, "total", y_max, x0, y0, width, height)}" fill="none" stroke="#2b3a55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <!-- Date ticks -->
     <text x="{x0}" y="{y0 + height + 26}" class="axis" text-anchor="start">{self._escape(first_date)}</text>
     <text x="{x0 + width}" y="{y0 + height + 26}" class="axis" text-anchor="end">{self._escape(last_date)}</text>
-    <!-- Left axis label -->
-    <text x="{x0 - 52}" y="{y0 + height // 2}" class="axis" transform="rotate(-90 {x0 - 52} {y0 + height // 2})" text-anchor="middle">Total / Danmaku (K)</text>
-    <!-- Right axis label -->
-    <text x="{x0 + width + 36}" y="{y0 + height // 2}" class="axis-right" transform="rotate(-90 {x0 + width + 36} {y0 + height // 2})" text-anchor="middle">Comments (K)</text>
+    <!-- Axis label -->
+    <text x="{x0 - 52}" y="{y0 + height // 2}" class="axis" transform="rotate(-90 {x0 - 52} {y0 + height // 2})" text-anchor="middle">Count (K)</text>
   </g>
   <!-- Legend -->
   <g>
-    <rect x="72" y="360" width="16" height="16" rx="3" fill="#2b3a55"/><text x="96" y="373" class="legend-text">Total {self._format_number(timeline.get("finalTotal"))} (left)</text>
-    <rect x="300" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="324" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))} (left)</text>
-    <rect x="540" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="564" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))} (right)</text>
+    <rect x="72" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="96" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))}</text>
+    <rect x="270" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="294" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))}</text>
+    <rect x="468" y="360" width="16" height="16" rx="3" fill="#2b3a55"/><text x="492" y="373" class="legend-text">Total {self._format_number(timeline.get("finalTotal"))}</text>
     <text x="880" y="373" class="legend-text" text-anchor="end">Runs: {self._format_number(len(points))}</text>
   </g>
 </svg>

@@ -8103,7 +8103,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("target: 0", summary_svg)
         self.assertIn("gap to close", summary_svg)
         self.assertIn("comments / replies", summary_svg)
-        self.assertIn("<title id=\"timeline-title\">Comment and danmaku collection growth over time</title>", timeline_svg)
+        self.assertIn("<title id=\"timeline-title\">Comment, danmaku and total collection growth over time</title>", timeline_svg)
         self.assertIn("Corpus Growth Over Time", timeline_svg)
         self.assertIn("Total 140", timeline_svg)
         self.assertIn("Comments 100", timeline_svg)
