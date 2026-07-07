@@ -515,74 +515,64 @@ class ReadmeStatsSvgRenderer:
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
   <text x="40" y="88" class="sub">auto-generated from repo data on {self._escape(updated)}</text>
-  <!-- Three centered columns: coverage donut | weak terms | evidence deficit (all centered on y=212) -->
+  <!-- Coverage donut gauge -->
   <g>
-    {self._donut_gauge(160, 212, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
+    {self._donut_gauge(190, 252, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
+  </g>
+  <!-- Metric tiles -->
+  <g>
+    <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
+    <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
+    <text x="510" y="240" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
+    <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
   </g>
   <g>
-    <rect x="350" y="142" width="220" height="140" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="460" y="178" text-anchor="middle" class="tile-label">weak terms</text>
-    <text x="460" y="224" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
-    <text x="460" y="256" text-anchor="middle" class="small">&#8595; target: 0</text>
+    <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
+    <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
+    <text x="750" y="240" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
+    <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
   </g>
+  <!-- Compact stat row -->
   <g>
-    <rect x="650" y="142" width="220" height="140" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="760" y="178" text-anchor="middle" class="tile-label">evidence deficit</text>
-    <text x="760" y="224" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
-    <text x="760" y="256" text-anchor="middle" class="small">gap to close</text>
-  </g>
-  <!-- Stat strip aligned to the same three columns, full-width symmetric -->
-  <g>
-    <line x1="40" y1="310" x2="880" y2="310" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="160" y="346" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="160" y="372" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
-    <text x="160" y="390" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="460" y="346" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="460" y="372" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
-    <text x="460" y="390" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="760" y="346" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="760" y="372" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
-    <text x="760" y="390" text-anchor="middle" class="stat-label">keyword terms</text>
+    <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="140" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="140" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
+    <text x="140" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="380" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="380" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
+    <text x="380" y="412" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="620" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="620" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
+    <text x="620" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>
 """
 
     def render_timeline_svg(self, timeline: dict[str, Any], generated_at: Any) -> str:
         points = timeline.get("points") if isinstance(timeline.get("points"), list) else []
-        # Downsample densely: keep up to ~200 points (was ~50) so the growth
-        # curve carries far more detail without becoming an unreadable blob.
-        target = min(len(points), 200) if points else 50
-        sampled = self._downsample_points(points, target=target)
-        # Dual Y-axis: left = total (danmaku + comments), right = comments.
-        # Plotting total and danmaku on the shared left scale makes the comments
-        # share visible as the gap between the two lines.
+        # Downsample to ~50 points for clean rendering
+        sampled = self._downsample_points(points, target=50)
+        # Single Y-axis: all three lines (comments, danmaku, total) share one scale
         total_max_raw = max([_number(p.get("total")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalTotal")), 1])
-        total_max = self.padded_timeline_max(total_max_raw)
-        comments_max_raw = max([_number(p.get("comments")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalComments")), 1])
-        comments_max = self.padded_timeline_max(comments_max_raw)
+        y_max = self.padded_timeline_max(total_max_raw)
         x0, y0, width, height = 92, 110, 676, 196
         updated = self._date_label(generated_at)
-        date_ticks = self._timeline_date_ticks(sampled, x0, y0, width, height, count=7)
-        # Left Y-axis grid (total scale, K-format)
-        left_grid = "\n".join(
-            self._grid_row_k(ratio, total_max, x0, y0, width, height)
+        first_date = self._timeline_date(sampled[0].get("date")) if sampled else "n/a"
+        last_date = self._timeline_date(sampled[-1].get("date")) if sampled else "n/a"
+        # Y-axis grid — 5 ticks
+        grid = "\n".join(
+            self._grid_row_k(ratio, y_max, x0, y0, width, height)
             for ratio in (0, 0.25, 0.5, 0.75, 1)
         )
-        # Right Y-axis grid (comments scale, K-format, dashed)
-        right_grid = "\n".join(
-            self._grid_row_k_right(ratio, comments_max, x0, y0, width, height)
-            for ratio in (0, 0.5, 1)
-        )
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="timeline-title timeline-desc">
-  <title id="timeline-title">Comment and danmaku collection growth over time</title>
-  <desc id="timeline-desc">Cumulative growth lines for total and danmaku (left scale) and comments (right scale) across recorded harvest runs.</desc>
+  <title id="timeline-title">Comment, danmaku and total collection growth over time</title>
+  <desc id="timeline-desc">Cumulative growth lines for comments, danmaku and total across recorded harvest runs.</desc>
   <style>
     .bg {{ fill: #f3ead8; }}
     .panel {{ fill: #fffaf0; stroke: #27231c; stroke-width: 2; }}
     .title {{ font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }}
     .sub {{ font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
     .axis {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
-    .axis-right {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #8c5f32; }}
     .label {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
     .legend-text {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
   </style>
@@ -591,51 +581,31 @@ class ReadmeStatsSvgRenderer:
   <text x="40" y="62" class="title">Corpus Growth Over Time</text>
   <text x="40" y="88" class="sub">auto-generated from corpus run history on {self._escape(updated)} | {self._format_number(len(sampled))} points shown (of {self._format_number(len(points))} total)</text>
   <g>
-{right_grid}
-{left_grid}
+{grid}
     <!-- Chart frame -->
     <line x1="{x0}" y1="{y0 + height}" x2="{x0 + width}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
     <line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
-    <!-- Right axis -->
-    <line x1="{x0 + width}" y1="{y0}" x2="{x0 + width}" y2="{y0 + height}" stroke="#8c5f32" stroke-width="1.5" stroke-dasharray="4,4"/>
-    <!-- Total line (left scale) -->
-    <polyline points="{self._polyline(sampled, "total", total_max, x0, y0, width, height)}" fill="none" stroke="#2b3a55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Danmaku line (left scale) -->
-    <polyline points="{self._polyline(sampled, "danmaku", total_max, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Comments line (right scale) -->
-    <polyline points="{self._polyline(sampled, "comments", comments_max, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,3"/>
+    <!-- Comments line -->
+    <polyline points="{self._polyline(sampled, "comments", y_max, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Danmaku line -->
+    <polyline points="{self._polyline(sampled, "danmaku", y_max, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Total line -->
+    <polyline points="{self._polyline(sampled, "total", y_max, x0, y0, width, height)}" fill="none" stroke="#2b3a55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <!-- Date ticks -->
-{date_ticks}
-    <!-- Left axis label -->
-    <text x="{x0 - 52}" y="{y0 + height // 2}" class="axis" transform="rotate(-90 {x0 - 52} {y0 + height // 2})" text-anchor="middle">Total / Danmaku (K)</text>
-    <!-- Right axis label -->
-    <text x="{x0 + width + 36}" y="{y0 + height // 2}" class="axis-right" transform="rotate(-90 {x0 + width + 36} {y0 + height // 2})" text-anchor="middle">Comments (K)</text>
+    <text x="{x0}" y="{y0 + height + 26}" class="axis" text-anchor="start">{self._escape(first_date)}</text>
+    <text x="{x0 + width}" y="{y0 + height + 26}" class="axis" text-anchor="end">{self._escape(last_date)}</text>
+    <!-- Axis label -->
+    <text x="{x0 - 52}" y="{y0 + height // 2}" class="axis" transform="rotate(-90 {x0 - 52} {y0 + height // 2})" text-anchor="middle">Count (K)</text>
   </g>
   <!-- Legend -->
   <g>
-    <rect x="72" y="360" width="16" height="16" rx="3" fill="#2b3a55"/><text x="96" y="373" class="legend-text">Total {self._format_number(timeline.get("finalTotal"))} (left)</text>
-    <rect x="300" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="324" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))} (left)</text>
-    <rect x="540" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="564" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))} (right)</text>
+    <rect x="72" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="96" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))}</text>
+    <rect x="270" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="294" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))}</text>
+    <rect x="468" y="360" width="16" height="16" rx="3" fill="#2b3a55"/><text x="492" y="373" class="legend-text">Total {self._format_number(timeline.get("finalTotal"))}</text>
     <text x="880" y="373" class="legend-text" text-anchor="end">Runs: {self._format_number(len(points))}</text>
   </g>
 </svg>
 """
-
-    def _timeline_date_ticks(self, sampled: list[dict[str, Any]], x0: int, y0: int, width: int, height: int, count: int = 7) -> str:
-        # Evenly spaced date labels along the x-axis (was only first + last).
-        if not sampled or count < 1:
-            return ""
-        n = len(sampled)
-        parts: list[str] = []
-        for i in range(count):
-            fraction = i / (count - 1) if count > 1 else 0.0
-            idx = min(n - 1, round(fraction * (n - 1)))
-            x = x0 + fraction * width
-            point = sampled[idx] if isinstance(sampled[idx], dict) else {}
-            date = self._timeline_date(point.get("date"))
-            anchor = "start" if i == 0 else "end" if i == count - 1 else "middle"
-            parts.append(f'    <text x="{x:.1f}" y="{y0 + height + 26}" class="axis" text-anchor="{anchor}">{self._escape(date)}</text>')
-        return "\n".join(parts)
 
     def padded_timeline_max(self, value: Any) -> int | float:
         return ReadmeStatsBuilder().padded_timeline_max(value)
