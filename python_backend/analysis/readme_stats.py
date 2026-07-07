@@ -507,7 +507,7 @@ class ReadmeStatsSvgRenderer:
     .metric {{ font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
     .tile-label {{ font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
     .tile-value {{ font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
-    .stat-icon {{ font: 18px sans-serif; }}
+    .stat-icon {{ font: 18px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }}
     .stat-num {{ font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
     .stat-label {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
   </style>
