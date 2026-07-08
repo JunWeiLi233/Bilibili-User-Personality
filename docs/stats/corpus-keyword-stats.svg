@@ -6,13 +6,11 @@
     .panel { fill: #fffaf0; stroke: #27231c; stroke-width: 2; }
     .title { font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }
     .sub { font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
-    .label { font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .value { font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; text-anchor: start; }
     .small { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }
     .metric { font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
     .tile-label { font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
     .tile-value { font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .stat-icon { font: 18px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+    .stat-icon { font: 22px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
     .stat-num { font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
     .stat-label { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
   </style>
@@ -22,37 +20,37 @@
   <text x="40" y="88" class="sub">auto-generated from repo data on 2026-07-08</text>
   <!-- Coverage donut gauge -->
   <g>
-    <circle cx="190" cy="252" r="78" fill="none" stroke="#e8e1d2" stroke-width="24"/>
-    <circle cx="190" cy="252" r="78" fill="none" stroke="#3f7558" stroke-width="24"
+    <circle cx="165" cy="252" r="78" fill="none" stroke="#e8e1d2" stroke-width="24"/>
+    <circle cx="165" cy="252" r="78" fill="none" stroke="#3f7558" stroke-width="24"
       stroke-dasharray="387.2 102.9" stroke-linecap="round"
-      transform="rotate(-90 190 252)"/>
-    <text x="190" y="246" text-anchor="middle" class="metric" font-size="26">79.00%</text>
-    <text x="190" y="270" text-anchor="middle" class="small">coverage</text>
+      transform="rotate(-90 165 252)"/>
+    <text x="165" y="246" text-anchor="middle" class="metric" font-size="26">79.00%</text>
+    <text x="165" y="270" text-anchor="middle" class="small">coverage</text>
   </g>
   <!-- Metric tiles -->
   <g>
-    <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
-    <text x="510" y="240" text-anchor="middle" class="tile-value">659</text>
-    <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
+    <rect x="345" y="168" width="230" height="94" rx="16" fill="#eadfca" stroke="#27231c"/>
+    <text x="460" y="198" text-anchor="middle" class="tile-label">weak terms</text>
+    <text x="460" y="238" text-anchor="middle" class="tile-value">659</text>
+    <text x="460" y="252" text-anchor="middle" class="small">&#8595; target: 0</text>
   </g>
   <g>
-    <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
-    <text x="750" y="240" text-anchor="middle" class="tile-value">1,814</text>
-    <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
+    <rect x="640" y="168" width="230" height="94" rx="16" fill="#dbe8df" stroke="#27231c"/>
+    <text x="755" y="198" text-anchor="middle" class="tile-label">evidence deficit</text>
+    <text x="755" y="238" text-anchor="middle" class="tile-value">1,814</text>
+    <text x="755" y="252" text-anchor="middle" class="small">gap to close</text>
   </g>
   <!-- Compact stat row -->
   <g>
     <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="190" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="190" y="395" text-anchor="middle" class="stat-num">25,713</text>
-    <text x="190" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="510" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="510" y="395" text-anchor="middle" class="stat-num">153,875</text>
-    <text x="510" y="412" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="750" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="750" y="395" text-anchor="middle" class="stat-num">2,647</text>
-    <text x="750" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+    <text x="165" y="370" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="165" y="394" text-anchor="middle" class="stat-num">25,713</text>
+    <text x="165" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="460" y="370" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="460" y="394" text-anchor="middle" class="stat-num">153,875</text>
+    <text x="460" y="412" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="755" y="370" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="755" y="394" text-anchor="middle" class="stat-num">1,976</text>
+    <text x="755" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>
