@@ -12,7 +12,7 @@
     .metric { font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
     .tile-label { font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
     .tile-value { font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .stat-icon { font: 18px sans-serif; }
+    .stat-icon { font: 18px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
     .stat-num { font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
     .stat-label { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
   </style>
@@ -45,14 +45,14 @@
   <!-- Compact stat row -->
   <g>
     <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="140" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="140" y="395" text-anchor="middle" class="stat-num">25,713</text>
-    <text x="140" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="380" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="380" y="395" text-anchor="middle" class="stat-num">153,875</text>
-    <text x="380" y="412" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="620" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="620" y="395" text-anchor="middle" class="stat-num">2,647</text>
-    <text x="620" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+    <text x="190" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="190" y="395" text-anchor="middle" class="stat-num">25,713</text>
+    <text x="190" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="510" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="510" y="395" text-anchor="middle" class="stat-num">153,875</text>
+    <text x="510" y="412" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="750" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="750" y="395" text-anchor="middle" class="stat-num">2,647</text>
+    <text x="750" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>

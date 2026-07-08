@@ -1,4 +1,4 @@
-import { depsWithBilibiliCookie, discoverPopularVideos, discoverVideosByFavorite, discoverVideosByKeyword, extractBvid, fetchJson, fetchRepliesForVideo, fetchText } from './bilibiliCrawler.js';
+import { depsWithBilibiliCookie, discoverPopularVideos, discoverVideosByFavorite, discoverVideosByKeyword, discoverVideosByKeywordWbi, extractBvid, fetchJson, fetchRepliesForVideo, fetchText } from './bilibiliCrawler.js';
 import {
   DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH,
   historyTagVideosForSearch,
@@ -96,6 +96,25 @@ function depsWithAbortSignal(deps = {}, signal = null) {
 function throwIfAborted(signal) {
   if (!signal?.aborted) return;
   throw new Error('Bilibili video keyword search aborted.');
+}
+
+// Auto-detect whether to use WBI-signed search (no auth required, survives
+// v_voucher when proxied through a CN residential gateway like Decodo).
+// Enabled only when: BILIBILI_USE_WBI=1, or no BILIBILI_COOKIE AND no
+// BILIBILI_PROXY_LIST (proxy already provides a CN IP, so regular search works).
+function shouldUseWbi() {
+  if (process.env.BILIBILI_USE_WBI === '1') return true;
+  // If a proxy is configured, it provides a CN IP — regular search works fine.
+  if (process.env.BILIBILI_PROXY_LIST) return false;
+  // No proxy and no cookie — WBI gives a better chance than raw non-CN search.
+  if (!process.env.BILIBILI_COOKIE || !process.env.BILIBILI_COOKIE.trim()) return true;
+  return false;
+}
+
+function pickDiscoverVideos(deps) {
+  if (deps.discoverVideosByKeyword) return deps.discoverVideosByKeyword; // explicit override wins
+  if (shouldUseWbi()) return discoverVideosByKeywordWbi;
+  return discoverVideosByKeyword;
 }
 
 export const DEFAULT_CONTROVERSIAL_POPULAR_QUERY_LIMIT = boundedInt(
@@ -801,7 +820,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     const discoveryGroups = [];
     const historyTagGroup = await loadHistoryTagVideos();
     if (discoveryMode === 'search' || discoveryMode === 'mixed') {
-      const discoverVideos = deps.discoverVideosByKeyword || discoverVideosByKeyword;
+      const discoverVideos = pickDiscoverVideos(deps);
       const group = [];
       for (const query of discoverySearchQueries) {
         try {
@@ -819,7 +838,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       discoveryGroups.push(historyTagGroup);
     }
     if (discoveryMode === 'controversial') {
-      const discoverVideos = deps.discoverVideosByKeyword || discoverVideosByKeyword;
+      const discoverVideos = pickDiscoverVideos(deps);
       const controversialPopularGroup = [];
       const controversyGroup = [];
       const searchGroup = [];
