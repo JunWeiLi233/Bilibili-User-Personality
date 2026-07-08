@@ -6,53 +6,55 @@
     .panel { fill: #fffaf0; stroke: #27231c; stroke-width: 2; }
     .title { font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }
     .sub { font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
-    .label { font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .value { font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; text-anchor: start; }
     .small { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }
-    .metric { font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .tile-label { font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
-    .tile-value { font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .stat-icon { font: 18px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
-    .stat-num { font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
-    .stat-label { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
+    .metric { font: 700 24px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .card-label { font: 700 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; letter-spacing: 0.5px; }
+    .card-value { font: 700 30px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .card-sub { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #8a8170; }
+    .stat-icon { font: 26px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+    .stat-num { font: 700 17px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .stat-label { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
   </style>
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
-  <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
-  <text x="40" y="88" class="sub">auto-generated from repo data on 2026-07-08</text>
-  <!-- Coverage donut gauge -->
+  <text x="40" y="60" class="title">Corpus Collection + Keyword Analysis</text>
+  <text x="40" y="84" class="sub">auto-generated from repo data on 2026-07-08</text>
+  <!-- Top row: three equally-sized cards, vertically aligned at cy=196 -->
+  <!-- Column 1: coverage donut (r=56, cy matches card centers) -->
   <g>
-    <circle cx="190" cy="252" r="78" fill="none" stroke="#e8e1d2" stroke-width="24"/>
-    <circle cx="190" cy="252" r="78" fill="none" stroke="#3f7558" stroke-width="24"
-      stroke-dasharray="370.2 119.9" stroke-linecap="round"
-      transform="rotate(-90 190 252)"/>
-    <text x="190" y="246" text-anchor="middle" class="metric" font-size="26">75.54%</text>
-    <text x="190" y="270" text-anchor="middle" class="small">coverage</text>
+    <circle cx="165" cy="196" r="56" fill="none" stroke="#e8e1d2" stroke-width="24"/>
+    <circle cx="165" cy="196" r="56" fill="none" stroke="#3f7558" stroke-width="24"
+      stroke-dasharray="265.8 86.1" stroke-linecap="round"
+      transform="rotate(-90 165 196)"/>
+    <text x="165" y="190" text-anchor="middle" class="metric" font-size="26">75.54%</text>
+    <text x="165" y="214" text-anchor="middle" class="small">coverage</text>
   </g>
-  <!-- Metric tiles -->
+  <!-- Column 2: weak terms card -->
   <g>
-    <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
-    <text x="510" y="240" text-anchor="middle" class="tile-value">981</text>
-    <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
+    <rect x="340" y="148" width="240" height="96" rx="14" fill="#eadfca" stroke="#27231c" stroke-width="1.5"/>
+    <text x="460" y="172" text-anchor="middle" class="card-label">WEAK TERMS</text>
+    <text x="460" y="210" text-anchor="middle" class="card-value">981</text>
+    <text x="460" y="231" text-anchor="middle" class="card-sub">&#8595; target: 0</text>
   </g>
+  <!-- Column 3: evidence deficit card -->
   <g>
-    <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
-    <text x="750" y="240" text-anchor="middle" class="tile-value">2,265</text>
-    <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
+    <rect x="635" y="148" width="240" height="96" rx="14" fill="#dbe8df" stroke="#27231c" stroke-width="1.5"/>
+    <text x="755" y="172" text-anchor="middle" class="card-label">EVIDENCE DEFICIT</text>
+    <text x="755" y="210" text-anchor="middle" class="card-value">2,265</text>
+    <text x="755" y="231" text-anchor="middle" class="card-sub">gap to close</text>
   </g>
-  <!-- Compact stat row -->
+  <!-- Divider -->
+  <line x1="40" y1="290" x2="880" y2="290" stroke="#d7ccb8" stroke-width="1"/>
+  <!-- Bottom row: corpus collection stats, same 3 column centers -->
   <g>
-    <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="190" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="190" y="395" text-anchor="middle" class="stat-num">25,713</text>
-    <text x="190" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="510" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="510" y="395" text-anchor="middle" class="stat-num">153,875</text>
-    <text x="510" y="412" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="750" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="750" y="395" text-anchor="middle" class="stat-num">4,011</text>
-    <text x="750" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+    <text x="165" y="330" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="165" y="358" text-anchor="middle" class="stat-num">25,713</text>
+    <text x="165" y="378" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="460" y="330" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="460" y="358" text-anchor="middle" class="stat-num">153,875</text>
+    <text x="460" y="378" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="755" y="330" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="755" y="358" text-anchor="middle" class="stat-num">4,011</text>
+    <text x="755" y="378" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>
