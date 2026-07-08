@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { randomInt } from 'node:crypto';
+import { createHash, randomInt } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -533,6 +533,7 @@ export function resetBilibiliRequestState() {
   resetAllBuckets();
   resetWafState();
   resetProxyState();
+  resetWbiKey();
 }
 
 function cacheKey(url, referer) {
@@ -1076,6 +1077,100 @@ export async function discoverVideosByKeyword(query, limit = 6, deps = {}) {
     }
   }
   return videos;
+}
+
+// ── WBI signing (no-auth search, survives v_voucher when proxied through CN) ──
+
+const WBI_TABLE = [46, 47, 41, 9, 23, 27, 42, 15, 31, 16, 44, 36, 4, 24, 19, 7, 26, 12, 5, 28, 21, 17, 33, 11, 39, 22, 30, 35, 38, 0, 34, 6];
+
+let _wbiKey = null;
+let _wbiKeyExpires = 0;
+
+async function getWbiKey(deps = {}) {
+  const nowFn = deps.nowFn || (() => Date.now());
+  if (_wbiKey && nowFn() < _wbiKeyExpires) return _wbiKey;
+  const requestJson = deps.fetchJson || fetchJson;
+  const data = await requestJson(
+    'https://api.bilibili.com/x/web-interface/nav',
+    'https://www.bilibili.com/',
+    { config: { minDelayMs: 0, jitterMs: 0, cacheTtlMs: 0, longPauseProbability: 0 } },
+  );
+  const w = data?.data?.wbi_img;
+  if (!w) throw new Error('WBI keys unavailable from nav endpoint');
+  const ik = w.img_url.split('/').pop().split('.')[0];
+  const sk = w.sub_url.split('/').pop().split('.')[0];
+  _wbiKey = WBI_TABLE.map(i => (ik + sk)[i]).join('');
+  _wbiKeyExpires = nowFn() + 1800000; // 30 min cache
+  return _wbiKey;
+}
+
+function signWbi(params, key) {
+  const wts = String(Math.floor(Date.now() / 1000));
+  const sorted = Object.entries({ ...params, wts })
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+  return { ...params, wts, w_rid: createHash('md5').update(sorted + key).digest('hex') };
+}
+
+function videoObjectFromWbiItem(item) {
+  return {
+    id: `video-1-${item.aid || item.id || item.bvid}`,
+    kind: 'video',
+    bvid: item.bvid,
+    oid: String(item.aid || item.id || ''),
+    replyType: 1,
+    title: cleanSearchTitle(item.title, item.bvid),
+    authorMid: String(item.mid || item.author_mid || ''),
+    sourceUrl: item.arcurl || `https://www.bilibili.com/video/${item.bvid}/`,
+    replyCount: Number(item.video_review || item.comment || 0),
+  };
+}
+
+/**
+ * Discover videos by keyword using WBI-signed search (no auth required).
+ * Survives the v_voucher anti-bot challenge when routed through a CN proxy.
+ */
+export async function discoverVideosByKeywordWbi(query, limit = 6, deps = {}) {
+  const keyword = String(query || '').trim();
+  if (!keyword) return [];
+  const requestJson = deps.fetchJson || fetchJson;
+  const pageSize = Math.max(1, Math.min(Number(limit || 6), 20));
+  const order = String(deps.searchOrder || 'click').trim();
+  const searchPages = Math.max(1, Math.min(Number(deps.searchPages || deps.discoveryPages || 1), 5));
+  const videos = [];
+  const seen = new Set();
+
+  const wbiKey = await getWbiKey(deps);
+
+  for (let page = 1; page <= searchPages && videos.length < pageSize; page += 1) {
+    const signed = signWbi({ search_type: 'video', keyword, order, page: String(page) }, wbiKey);
+    const qs = Object.entries(signed)
+      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+    const url = `https://api.bilibili.com/x/web-interface/wbi/search/type?${qs}`;
+    const data = await requestJson(
+      url,
+      `https://search.bilibili.com/all?keyword=${encodeURIComponent(keyword)}`,
+    );
+    if (data.code !== 0) {
+      throw new Error(data.message || `WBI search failed with code ${data.code}`);
+    }
+    const results = data?.data?.result || [];
+    for (const item of results) {
+      if (!item?.bvid || seen.has(item.bvid)) continue;
+      if (item.type !== 'video' && item.type !== undefined) continue;
+      seen.add(item.bvid);
+      videos.push(videoObjectFromWbiItem(item));
+      if (videos.length >= pageSize) break;
+    }
+    if (results.length === 0) break;
+  }
+  return videos;
+}
+
+/** Reset WBI key cache (for tests). */
+export function resetWbiKey() {
+  _wbiKey = null;
+  _wbiKeyExpires = 0;
 }
 
 export async function discoverPopularVideos(limit = 6, deps = {}) {
@@ -1894,4 +1989,4 @@ export function guardAuthEndpoint(url) {
 
 // ── Public API: exporter for TokenBucket, proxy state, WAF state ─────────────
 
-export { TokenBucket, SessionIdentity, getEndpointBucket, initProxyRotator, initBilibiliProxyDispatcher, applyBilibiliProxy, resetWafState, isEndpointExhausted, isWafResponse, recordWaf, ENDPOINT_BUCKET_DEFAULTS, sessionIdentity, buildSecChUa, USER_AGENTS };
+export { TokenBucket, SessionIdentity, getEndpointBucket, initProxyRotator, initBilibiliProxyDispatcher, applyBilibiliProxy, resetWafState, isEndpointExhausted, isWafResponse, recordWaf, ENDPOINT_BUCKET_DEFAULTS, sessionIdentity, buildSecChUa, USER_AGENTS, getWbiKey, signWbi, WBI_TABLE };
