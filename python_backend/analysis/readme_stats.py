@@ -493,18 +493,19 @@ class ReadmeStatsSvgRenderer:
         coverage_label = stats.get("coverageRatioLabel") or f"{coverage_ratio * 100:.2f}%"
         weak_terms = int(_number(stats.get("weakTerms")))
         evidence_deficit = int(_number(stats.get("evidenceDeficit")))
-        # Even 3-column grid across the 884px-wide panel (x=18..902).
-        # Column centers at 1/6, 1/2, 5/6 of the panel, giving equal 295px spacing
-        # so the donut/tiles and the bottom stat row all share the same x-centers
-        # (previously 190/510/750 had unequal 320px/240px gaps -> icons looked
-        # misaligned / "flying around").
+        # Balanced 3-column grid. Each column is a vertical stack of (card on
+        # top, icon+number+label on the bottom row) sharing the same x-center.
+        # Equal gaps so nothing looks shifted / "flying around".
         col_w = 884 / 3.0
-        c1 = round(18 + col_w / 2)           # 165  — donut + comments
-        c2 = round(18 + col_w * 1.5)         # 460  — weak terms + danmaku
-        c3 = round(18 + col_w * 2.5)         # 755  — evidence deficit + keywords
-        tile_w = 230
-        tile_y = 168
-        tile_h = 94
+        c1 = round(18 + col_w / 2)       # 165  — coverage + comments
+        c2 = round(18 + col_w * 1.5)     # 460  — weak terms + danmaku
+        c3 = round(18 + col_w * 2.5)     # 755  — evidence deficit + keywords
+        card_w = 240
+        card_y = 148
+        card_h = 96
+        card_cy = card_y + card_h // 2    # 196 — vertical center shared with donut
+        card_x2 = c2 - card_w // 2
+        card_x3 = c3 - card_w // 2
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
   <title id="title">Bilibili User Personality data collection and keyword analysis stats</title>
   <desc id="desc">Current counts for collected comments, danmaku, analyzed dictionary keywords, and coverage metrics.</desc>
@@ -514,46 +515,50 @@ class ReadmeStatsSvgRenderer:
     .title {{ font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }}
     .sub {{ font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
     .small {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
-    .metric {{ font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
-    .tile-label {{ font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
-    .tile-value {{ font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
-    .stat-icon {{ font: 22px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }}
-    .stat-num {{ font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
-    .stat-label {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
+    .metric {{ font: 700 24px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
+    .card-label {{ font: 700 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; letter-spacing: 0.5px; }}
+    .card-value {{ font: 700 30px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
+    .card-sub {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #8a8170; }}
+    .stat-icon {{ font: 26px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }}
+    .stat-num {{ font: 700 17px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
+    .stat-label {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
   </style>
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
-  <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
-  <text x="40" y="88" class="sub">auto-generated from repo data on {self._escape(updated)}</text>
-  <!-- Coverage donut gauge -->
+  <text x="40" y="60" class="title">Corpus Collection + Keyword Analysis</text>
+  <text x="40" y="84" class="sub">auto-generated from repo data on {self._escape(updated)}</text>
+  <!-- Top row: three equally-sized cards, vertically aligned at cy={card_cy} -->
+  <!-- Column 1: coverage donut (r=56, cy matches card centers) -->
   <g>
-    {self._donut_gauge(c1, 252, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
+    {self._donut_gauge(c1, card_cy, 56, coverage_ratio, coverage_label, "#3f7558", "coverage")}
   </g>
-  <!-- Metric tiles -->
+  <!-- Column 2: weak terms card -->
   <g>
-    <rect x="{c2 - tile_w // 2}" y="{tile_y}" width="{tile_w}" height="{tile_h}" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="{c2}" y="{tile_y + 30}" text-anchor="middle" class="tile-label">weak terms</text>
-    <text x="{c2}" y="{tile_y + 70}" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
-    <text x="{c2}" y="{tile_y + 84}" text-anchor="middle" class="small">&#8595; target: 0</text>
+    <rect x="{card_x2}" y="{card_y}" width="{card_w}" height="{card_h}" rx="14" fill="#eadfca" stroke="#27231c" stroke-width="1.5"/>
+    <text x="{c2}" y="{card_y + 24}" text-anchor="middle" class="card-label">WEAK TERMS</text>
+    <text x="{c2}" y="{card_y + 62}" text-anchor="middle" class="card-value">{self._format_number(weak_terms)}</text>
+    <text x="{c2}" y="{card_y + 83}" text-anchor="middle" class="card-sub">&#8595; target: 0</text>
   </g>
+  <!-- Column 3: evidence deficit card -->
   <g>
-    <rect x="{c3 - tile_w // 2}" y="{tile_y}" width="{tile_w}" height="{tile_h}" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="{c3}" y="{tile_y + 30}" text-anchor="middle" class="tile-label">evidence deficit</text>
-    <text x="{c3}" y="{tile_y + 70}" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
-    <text x="{c3}" y="{tile_y + 84}" text-anchor="middle" class="small">gap to close</text>
+    <rect x="{card_x3}" y="{card_y}" width="{card_w}" height="{card_h}" rx="14" fill="#dbe8df" stroke="#27231c" stroke-width="1.5"/>
+    <text x="{c3}" y="{card_y + 24}" text-anchor="middle" class="card-label">EVIDENCE DEFICIT</text>
+    <text x="{c3}" y="{card_y + 62}" text-anchor="middle" class="card-value">{self._format_number(evidence_deficit)}</text>
+    <text x="{c3}" y="{card_y + 83}" text-anchor="middle" class="card-sub">gap to close</text>
   </g>
-  <!-- Compact stat row -->
+  <!-- Divider -->
+  <line x1="40" y1="290" x2="880" y2="290" stroke="#d7ccb8" stroke-width="1"/>
+  <!-- Bottom row: corpus collection stats, same 3 column centers -->
   <g>
-    <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="{c1}" y="370" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="{c1}" y="394" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
-    <text x="{c1}" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="{c2}" y="370" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="{c2}" y="394" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
-    <text x="{c2}" y="412" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="{c3}" y="370" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="{c3}" y="394" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
-    <text x="{c3}" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+    <text x="{c1}" y="330" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="{c1}" y="358" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
+    <text x="{c1}" y="378" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="{c2}" y="330" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="{c2}" y="358" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
+    <text x="{c2}" y="378" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="{c3}" y="330" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="{c3}" y="358" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
+    <text x="{c3}" y="378" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>
 """
