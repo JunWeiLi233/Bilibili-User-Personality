@@ -493,6 +493,18 @@ class ReadmeStatsSvgRenderer:
         coverage_label = stats.get("coverageRatioLabel") or f"{coverage_ratio * 100:.2f}%"
         weak_terms = int(_number(stats.get("weakTerms")))
         evidence_deficit = int(_number(stats.get("evidenceDeficit")))
+        # Even 3-column grid across the 884px-wide panel (x=18..902).
+        # Column centers at 1/6, 1/2, 5/6 of the panel, giving equal 295px spacing
+        # so the donut/tiles and the bottom stat row all share the same x-centers
+        # (previously 190/510/750 had unequal 320px/240px gaps -> icons looked
+        # misaligned / "flying around").
+        col_w = 884 / 3.0
+        c1 = round(18 + col_w / 2)           # 165  — donut + comments
+        c2 = round(18 + col_w * 1.5)         # 460  — weak terms + danmaku
+        c3 = round(18 + col_w * 2.5)         # 755  — evidence deficit + keywords
+        tile_w = 230
+        tile_y = 168
+        tile_h = 94
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
   <title id="title">Bilibili User Personality data collection and keyword analysis stats</title>
   <desc id="desc">Current counts for collected comments, danmaku, analyzed dictionary keywords, and coverage metrics.</desc>
@@ -501,13 +513,11 @@ class ReadmeStatsSvgRenderer:
     .panel {{ fill: #fffaf0; stroke: #27231c; stroke-width: 2; }}
     .title {{ font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }}
     .sub {{ font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
-    .label {{ font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
-    .value {{ font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; text-anchor: start; }}
     .small {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
     .metric {{ font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
     .tile-label {{ font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
     .tile-value {{ font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
-    .stat-icon {{ font: 18px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }}
+    .stat-icon {{ font: 22px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }}
     .stat-num {{ font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
     .stat-label {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
   </style>
@@ -517,33 +527,33 @@ class ReadmeStatsSvgRenderer:
   <text x="40" y="88" class="sub">auto-generated from repo data on {self._escape(updated)}</text>
   <!-- Coverage donut gauge -->
   <g>
-    {self._donut_gauge(190, 252, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
+    {self._donut_gauge(c1, 252, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
   </g>
   <!-- Metric tiles -->
   <g>
-    <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
-    <text x="510" y="240" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
-    <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
+    <rect x="{c2 - tile_w // 2}" y="{tile_y}" width="{tile_w}" height="{tile_h}" rx="16" fill="#eadfca" stroke="#27231c"/>
+    <text x="{c2}" y="{tile_y + 30}" text-anchor="middle" class="tile-label">weak terms</text>
+    <text x="{c2}" y="{tile_y + 70}" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
+    <text x="{c2}" y="{tile_y + 84}" text-anchor="middle" class="small">&#8595; target: 0</text>
   </g>
   <g>
-    <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
-    <text x="750" y="240" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
-    <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
+    <rect x="{c3 - tile_w // 2}" y="{tile_y}" width="{tile_w}" height="{tile_h}" rx="16" fill="#dbe8df" stroke="#27231c"/>
+    <text x="{c3}" y="{tile_y + 30}" text-anchor="middle" class="tile-label">evidence deficit</text>
+    <text x="{c3}" y="{tile_y + 70}" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
+    <text x="{c3}" y="{tile_y + 84}" text-anchor="middle" class="small">gap to close</text>
   </g>
   <!-- Compact stat row -->
   <g>
     <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
-    <text x="190" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="190" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
-    <text x="190" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="510" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="510" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
-    <text x="510" y="412" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="750" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="750" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
-    <text x="750" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+    <text x="{c1}" y="370" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="{c1}" y="394" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
+    <text x="{c1}" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="{c2}" y="370" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="{c2}" y="394" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
+    <text x="{c2}" y="412" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="{c3}" y="370" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="{c3}" y="394" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
+    <text x="{c3}" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
   </g>
 </svg>
 """
