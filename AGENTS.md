@@ -490,3 +490,93 @@ dictionary snapshots. Never hand-stage `server/data/deepseekKeywordDictionary.*`
 or `keywordHarvestState.json` onto feature branches (see §5.1). The checkpoint
 system uses `git add --force` to bypass this policy for the checkpoint branch
 alone.
+
+---
+
+## 14. Stats Diagram Format (MANDATORY for `render_summary_svg`)
+
+The corpus-stats diagram (`docs/stats/corpus-keyword-stats.svg`) is auto-generated
+by `python_backend/analysis/readme_stats.py` → `render_summary_svg()`. It renders
+in the README. **Do NOT hand-edit the SVG file** — always regenerate via
+`npm run stats:update`. When modifying the generator, obey these layout rules
+(hard-won from three rounds of misalignment bugs):
+
+### 14.1 Regeneration — ALWAYS restore the checkpoint first
+
+The generator reads the LIVE dictionary (`server/data/deepseekKeywordDictionary.json`)
+and coverage audit (`server/data/keywordCoverageAudit.json`). These files
+frequently regress to the stale git-HEAD baseline after branch switches. Before
+running `npm run stats:update`, verify the dictionary has the expected entry count:
+
+```bash
+# 1. Check the live dictionary isn't stale (regressed to baseline)
+node -e "import('./server/services/deepseekKeywordTrainer.js').then(async m=>console.log((await m.readKeywordDictionary({})).entries.length))"
+# 2. If the count looks stale/wrong, restore the latest checkpoint:
+node server/scripts/restoreCoverageCheckpoint.js --restore-latest
+# 3. Regenerate the coverage audit (reads the restored dictionary):
+npm run dictionary:coverage
+# 4. THEN regenerate the SVG + README table:
+npm run stats:update
+```
+
+### 14.2 Layout rules — the "correct format" (do NOT deviate)
+
+The diagram is a **920×430 SVG** with a **3-column grid**. These constants are
+load-bearing — changing any of them reintroduces the alignment bugs:
+
+```
+Panel:        x=18, y=18, w=884, h=394
+Columns:      c1=165, c2=460, c3=755  (computed as 1/6, 1/2, 5/6 of 884)
+              → equal 295px gaps. NEVER use 190/510/750 (unequal 320/240 gaps).
+Cards:        y=148, h=96  → vertical center = 196
+Donut:        cy=196 (MUST equal card center), r=56, stroke-width=20
+Divider:      y=290
+Bottom row:   icons y=322, numbers y=358, labels y=378
+```
+
+### 14.3 Three rendering pitfalls (the bugs that were fixed)
+
+1. **Donut arc gap** — use `stroke-linecap="butt"` (NOT `"round"`). Round caps
+   extend half the stroke-width past each arc endpoint, creating an irregular
+   gap. Also use `stroke-width="20"` (NOT 24) so the donut doesn't dwarf the
+   rest of the layout.
+
+2. **Emoji icon centering** — emoji glyphs have non-standard baselines in SVG.
+   EVERY `<text>` element (icons, numbers, labels, card text, donut labels)
+   MUST have `dominant-baseline="central"` or it renders off-center vertically.
+
+3. **Column alignment** — the donut, the two metric cards, and the three
+   bottom-row stats (comments/danmaku/keywords) MUST all share the same
+   x-centers (165/460/755). If any element uses a different x, the columns
+   look shifted and icons appear to "fly around."
+
+### 14.4 Column → data mapping
+
+| Column | x-center | Top element | Bottom element |
+|--------|----------|-------------|----------------|
+| 1 | 165 | Coverage donut gauge | 💬 comments / replies |
+| 2 | 460 | Weak terms card (tan) | 🎬 danmaku |
+| 3 | 755 | Evidence deficit card (green) | 📚 keyword terms |
+
+### 14.5 Donut gauge math
+
+The coverage donut shows the coverage ratio as a partial arc:
+
+```
+circumference = 2 × π × r          (r=56 → circumference ≈ 351.9)
+dash = ratio × circumference       (e.g. 0.7554 × 351.9 ≈ 265.8)
+stroke-dasharray = "{dash} {circumference - dash}"
+transform = "rotate(-90 cx cy)"    (starts the arc at 12 o'clock)
+```
+
+Verify after any change: the dash value must equal `ratio × circumference`.
+
+### 14.6 Tests
+
+After modifying `render_summary_svg` or `_donut_gauge`, run:
+
+```bash
+python -m unittest python_backend.tests.test_corpus_contracts
+```
+
+All 1522 tests must pass. The test suite includes SVG structure contracts.
