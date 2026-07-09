@@ -18,29 +18,29 @@
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="60" class="title">Corpus Collection + Keyword Analysis</text>
-  <text x="40" y="84" class="sub">auto-generated from repo data on 2026-07-08</text>
+  <text x="40" y="84" class="sub">auto-generated from repo data on 2026-07-09</text>
   <!-- Top row: three equally-sized cards, vertically aligned at cy=196 -->
   <!-- Column 1: coverage donut (r=56, cy matches card centers) -->
   <g>
     <circle cx="165" cy="196" r="56" fill="none" stroke="#e8e1d2" stroke-width="20"/>
     <circle cx="165" cy="196" r="56" fill="none" stroke="#3f7558" stroke-width="20"
-      stroke-dasharray="265.8 86.1" stroke-linecap="butt"
+      stroke-dasharray="278.0 73.9" stroke-linecap="butt"
       transform="rotate(-90 165 196)"/>
-    <text x="165" y="192" text-anchor="middle" dominant-baseline="central" class="metric" font-size="24">75.54%</text>
+    <text x="165" y="192" text-anchor="middle" dominant-baseline="central" class="metric" font-size="24">79.00%</text>
     <text x="165" y="216" text-anchor="middle" dominant-baseline="central" class="small">coverage</text>
   </g>
   <!-- Column 2: weak terms card -->
   <g>
     <rect x="340" y="148" width="240" height="96" rx="14" fill="#eadfca" stroke="#27231c" stroke-width="1.5"/>
     <text x="460" y="172" text-anchor="middle" dominant-baseline="central" class="card-label">WEAK TERMS</text>
-    <text x="460" y="206" text-anchor="middle" dominant-baseline="central" class="card-value">981</text>
+    <text x="460" y="206" text-anchor="middle" dominant-baseline="central" class="card-value">659</text>
     <text x="460" y="230" text-anchor="middle" dominant-baseline="central" class="card-sub">&#8595; target: 0</text>
   </g>
   <!-- Column 3: evidence deficit card -->
   <g>
     <rect x="635" y="148" width="240" height="96" rx="14" fill="#dbe8df" stroke="#27231c" stroke-width="1.5"/>
     <text x="755" y="172" text-anchor="middle" dominant-baseline="central" class="card-label">EVIDENCE DEFICIT</text>
-    <text x="755" y="206" text-anchor="middle" dominant-baseline="central" class="card-value">2,265</text>
+    <text x="755" y="206" text-anchor="middle" dominant-baseline="central" class="card-value">1,814</text>
     <text x="755" y="230" text-anchor="middle" dominant-baseline="central" class="card-sub">gap to close</text>
   </g>
   <!-- Divider -->
@@ -56,7 +56,7 @@
     <text x="460" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">153,875</text>
     <text x="460" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">danmaku</text>
     <text x="755" y="322" text-anchor="middle" dominant-baseline="central" class="stat-icon">&#128218;</text>
-    <text x="755" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">4,011</text>
+    <text x="755" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">2,647</text>
     <text x="755" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">keyword terms</text>
   </g>
 </svg>
