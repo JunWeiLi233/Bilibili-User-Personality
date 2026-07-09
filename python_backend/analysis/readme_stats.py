@@ -535,30 +535,32 @@ class ReadmeStatsSvgRenderer:
   <!-- Column 2: weak terms card -->
   <g>
     <rect x="{card_x2}" y="{card_y}" width="{card_w}" height="{card_h}" rx="14" fill="#eadfca" stroke="#27231c" stroke-width="1.5"/>
-    <text x="{c2}" y="{card_y + 24}" text-anchor="middle" class="card-label">WEAK TERMS</text>
-    <text x="{c2}" y="{card_y + 62}" text-anchor="middle" class="card-value">{self._format_number(weak_terms)}</text>
-    <text x="{c2}" y="{card_y + 83}" text-anchor="middle" class="card-sub">&#8595; target: 0</text>
+    <text x="{c2}" y="{card_y + 24}" text-anchor="middle" dominant-baseline="central" class="card-label">WEAK TERMS</text>
+    <text x="{c2}" y="{card_y + 58}" text-anchor="middle" dominant-baseline="central" class="card-value">{self._format_number(weak_terms)}</text>
+    <text x="{c2}" y="{card_y + 82}" text-anchor="middle" dominant-baseline="central" class="card-sub">&#8595; target: 0</text>
   </g>
   <!-- Column 3: evidence deficit card -->
   <g>
     <rect x="{card_x3}" y="{card_y}" width="{card_w}" height="{card_h}" rx="14" fill="#dbe8df" stroke="#27231c" stroke-width="1.5"/>
-    <text x="{c3}" y="{card_y + 24}" text-anchor="middle" class="card-label">EVIDENCE DEFICIT</text>
-    <text x="{c3}" y="{card_y + 62}" text-anchor="middle" class="card-value">{self._format_number(evidence_deficit)}</text>
-    <text x="{c3}" y="{card_y + 83}" text-anchor="middle" class="card-sub">gap to close</text>
+    <text x="{c3}" y="{card_y + 24}" text-anchor="middle" dominant-baseline="central" class="card-label">EVIDENCE DEFICIT</text>
+    <text x="{c3}" y="{card_y + 58}" text-anchor="middle" dominant-baseline="central" class="card-value">{self._format_number(evidence_deficit)}</text>
+    <text x="{c3}" y="{card_y + 82}" text-anchor="middle" dominant-baseline="central" class="card-sub">gap to close</text>
   </g>
   <!-- Divider -->
   <line x1="40" y1="290" x2="880" y2="290" stroke="#d7ccb8" stroke-width="1"/>
-  <!-- Bottom row: corpus collection stats, same 3 column centers -->
+  <!-- Bottom row: corpus collection stats, same 3 column centers.
+       Emoji icons use dominant-baseline=central because emoji glyphs have
+       non-standard baselines that otherwise render off-center. -->
   <g>
-    <text x="{c1}" y="330" text-anchor="middle" class="stat-icon">&#128172;</text>
-    <text x="{c1}" y="358" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
-    <text x="{c1}" y="378" text-anchor="middle" class="stat-label">comments / replies</text>
-    <text x="{c2}" y="330" text-anchor="middle" class="stat-icon">&#127916;</text>
-    <text x="{c2}" y="358" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
-    <text x="{c2}" y="378" text-anchor="middle" class="stat-label">danmaku</text>
-    <text x="{c3}" y="330" text-anchor="middle" class="stat-icon">&#128218;</text>
-    <text x="{c3}" y="358" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
-    <text x="{c3}" y="378" text-anchor="middle" class="stat-label">keyword terms</text>
+    <text x="{c1}" y="322" text-anchor="middle" dominant-baseline="central" class="stat-icon">&#128172;</text>
+    <text x="{c1}" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">{self._format_number(stats.get("comments"))}</text>
+    <text x="{c1}" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">comments / replies</text>
+    <text x="{c2}" y="322" text-anchor="middle" dominant-baseline="central" class="stat-icon">&#127916;</text>
+    <text x="{c2}" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
+    <text x="{c2}" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">danmaku</text>
+    <text x="{c3}" y="322" text-anchor="middle" dominant-baseline="central" class="stat-icon">&#128218;</text>
+    <text x="{c3}" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
+    <text x="{c3}" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">keyword terms</text>
   </g>
 </svg>
 """
@@ -628,12 +630,12 @@ class ReadmeStatsSvgRenderer:
     def _donut_gauge(self, cx: int, cy: int, r: int, ratio: float, label: str, color: str, sublabel: str) -> str:
         circumference = 2 * math.pi * r
         dash = max(0.0, min(1.0, ratio)) * circumference
-        return f"""<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#e8e1d2" stroke-width="24"/>
-    <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{color}" stroke-width="24"
-      stroke-dasharray="{dash:.1f} {circumference - dash:.1f}" stroke-linecap="round"
+        return f"""<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#e8e1d2" stroke-width="20"/>
+    <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{color}" stroke-width="20"
+      stroke-dasharray="{dash:.1f} {circumference - dash:.1f}" stroke-linecap="butt"
       transform="rotate(-90 {cx} {cy})"/>
-    <text x="{cx}" y="{cy - 6}" text-anchor="middle" class="metric" font-size="26">{self._escape(label)}</text>
-    <text x="{cx}" y="{cy + 18}" text-anchor="middle" class="small">{self._escape(sublabel)}</text>"""
+    <text x="{cx}" y="{cy - 4}" text-anchor="middle" dominant-baseline="central" class="metric" font-size="24">{self._escape(label)}</text>
+    <text x="{cx}" y="{cy + 20}" text-anchor="middle" dominant-baseline="central" class="small">{self._escape(sublabel)}</text>"""
 
     def _downsample_points(self, points: list[dict[str, Any]], target: int = 50) -> list[dict[str, Any]]:
         if len(points) <= target:
