@@ -1,57 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-03T19:51:05.336Z",
+  "updatedAt": "2026-08-09T18:09:20.494Z",
   "family": "evasion",
   "shard": 10,
-  "shardCount": 15,
+  "shardCount": 13,
   "evidence": [
-    {
-      "term": "无言以对",
-      "evidenceSamples": [
-        "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。",
-        "都无言以对(¯―¯٥)",
-        "唉！无言以对………",
-        "哈哈哈哈我竟无言以对",
-        "刚看过有这内容的小说，你哪怕换个红薯我都不会说啥，杂交水稻？种子？我无言以对了"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
-          "uid": "",
-          "sample": "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
-          "uid": "BV1K69rYKEx5",
-          "sample": "都无言以对(¯―¯٥)"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
-          "uid": "BV1z2jg6zEB6",
-          "sample": "唉！无言以对………"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ug411P7pD/",
-          "uid": "BV1Ug411P7pD",
-          "sample": "哈哈哈哈我竟无言以对"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1R94y1t7id/, https://www.bilibili.com/video/BV17BJVzYEs2/, https://www.bilibili.com/video/BV1Dkju6pEv4/, https://www.bilibili.com/video/BV1Qu4y1J7YK/, https://www.bilibili.com/video/BV1ns4y1F7Sh/, https://www.bilibili.com/video/BV1zt4y1M7NB/, https://www.bilibili.com/video/BV1iLTn6ME9F/, https://www.bilibili.com/video/BV1Qw4m1a7LB/, http://www.bilibili.com/video/av364798379, http://www.bilibili.com/video/av114528624841450, http://www.bilibili.com/video/av116758367180809, http://www.bilibili.com/video/av919957229, http://www.bilibili.com/video/av955343477, http://www.bilibili.com/video/av987211060, http://www.bilibili.com/video/av116851463952511, http://www.bilibili.com/video/av1106112784",
-          "uid": "BV1R94y1t7id,BV17BJVzYEs2,BV1Dkju6pEv4,BV1Qu4y1J7YK,BV1ns4y1F7Sh,BV1zt4y1M7NB,BV1iLTn6ME9F,BV1Qw4m1a7LB",
-          "sample": "刚看过有这内容的小说，你哪怕换个红薯我都不会说啥，杂交水稻？种子？我无言以对了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1vCTc67ErM/, https://www.bilibili.com/video/BV1wmTe69EJD/, https://www.bilibili.com/video/BV1TzTe6FEEt/, https://www.bilibili.com/video/BV18DTc6kEZj/, https://www.bilibili.com/video/BV1zhTY61EFg/, https://www.bilibili.com/video/BV1Q8TF6ME6u/, https://www.bilibili.com/video/BV1PMTi6FEKw/, https://www.bilibili.com/video/BV1D5b8zxEAb/, http://www.bilibili.com/video/av116840005114579, http://www.bilibili.com/video/av116844383962236, http://www.bilibili.com/video/av116842672692656, http://www.bilibili.com/video/av116839921224695, http://www.bilibili.com/video/av116843410885049, http://www.bilibili.com/video/av116838663066092, http://www.bilibili.com/video/av116843511678549, http://www.bilibili.com/video/av115019995938893",
-          "uid": "BV1vCTc67ErM,BV1wmTe69EJD,BV1TzTe6FEEt,BV18DTc6kEZj,BV1zhTY61EFg,BV1Q8TF6ME6u,BV1PMTi6FEKw,BV1D5b8zxEAb",
-          "sample": "我竟无言以对[笑哭]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1frTq6sEob/, https://www.bilibili.com/video/BV1CxTv6oEip/, https://www.bilibili.com/video/BV1zhTY61EFg/, https://www.bilibili.com/video/BV18DTc6kEZj/, https://www.bilibili.com/video/BV1xwTi6AEmD/, https://www.bilibili.com/video/BV1CuTi6tEQk/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1dT41197yJ/, http://www.bilibili.com/video/av116844702799181, http://www.bilibili.com/video/av116844300076879, http://www.bilibili.com/video/av116843410885049, http://www.bilibili.com/video/av116839921224695, http://www.bilibili.com/video/av116843578657538, http://www.bilibili.com/video/av116843561950102, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av479018786",
-          "uid": "BV1frTq6sEob,BV1CxTv6oEip,BV1zhTY61EFg,BV18DTc6kEZj,BV1xwTi6AEmD,BV1CuTi6tEQk,BV1u37J6EEd9,BV1dT41197yJ",
-          "sample": "我竟无言以对[笑哭]"
-        }
-      ]
-    },
     {
       "term": "时间会证明",
       "evidenceSamples": [
@@ -90,32 +43,6 @@
       ]
     },
     {
-      "term": "是你逼我的",
-      "evidenceSamples": [
-        "我不得不收藏了，是你逼我的"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18gNFz5EsJ/",
-          "uid": "BV18gNFz5EsJ",
-          "sample": "我不得不收藏了，是你逼我的"
-        }
-      ]
-    },
-    {
-      "term": "是别人说的",
-      "evidenceSamples": [
-        "最搞笑的是这可不是别人说的，是品牌方自己说的🤣"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1rLX4BrE89/",
-          "uid": "175073588",
-          "sample": "最搞笑的是这可不是别人说的，是品牌方自己说的🤣"
-        }
-      ]
-    },
-    {
       "term": "是我不对",
       "evidenceSamples": [
         "以前没跟风黑他是我不对了，蔡皇对不起，全世界都得了解蔡皇的发型和背后历史，以后我一定天天看鸡你太美的视频好好补课[doge]",
@@ -141,15 +68,27 @@
       ]
     },
     {
-      "term": "是系统问题",
+      "term": "是是是",
       "evidenceSamples": [
-        "我也是，经常看一个主播的直播，啥话也没说过，昨天发现被拉黑了，想着那主播人挺好的可能是系统问题，我就退出登录照常看直播[笑哭]"
+        "是是是是是是是是是",
+        "是是是，烤着吃是少点哈",
+        "是是是男主是他们碟，他们当然要孝顺亲爱的叠叠"
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1DZxceVEaJ/",
-          "uid": "25627177",
-          "sample": "我也是，经常看一个主播的直播，啥话也没说过，昨天发现被拉黑了，想着那主播人挺好的可能是系统问题，我就退出登录照常看直播[笑哭]"
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV16741127uX/",
+          "uid": "BV16741127uX",
+          "sample": "是是是是是是是是是"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV17vJn6BE7P/",
+          "uid": "BV17vJn6BE7P",
+          "sample": "是是是，烤着吃是少点哈"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1bbVZ62Edu/",
+          "uid": "BV1bbVZ62Edu",
+          "sample": "是是是男主是他们碟，他们当然要孝顺亲爱的叠叠"
         }
       ]
     },
@@ -206,6 +145,31 @@
       ]
     },
     {
+      "term": "有点道理",
+      "evidenceSamples": [
+        "好像确实有点道理，因为不知道",
+        "还真有点道理,只要把工农挪一下就行了",
+        "姐妹，你这室友说话真是太……有点道理了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CgnezKEHN/",
+          "uid": "BV1CgnezKEHN",
+          "sample": "好像确实有点道理，因为不知道"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NBJg6dEhy/",
+          "uid": "BV1NBJg6dEhy",
+          "sample": "还真有点道理,只要把工农挪一下就行了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1wWM8zZEZP/",
+          "uid": "BV1wWM8zZEZP",
+          "sample": "姐妹，你这室友说话真是太……有点道理了"
+        }
+      ]
+    },
+    {
       "term": "查一下",
       "evidenceSamples": [
         "现在全网黑cxk，真的是一种网络暴力。网络暴力的危害我就不在这里科普了，感兴趣的可以自己上网查一下就知道了。所以一般遇到这种过分黑cxk的视频，我都会直接举报。因为这种行为甚至可能造成生命危险，比如把我笑死啥的。",
@@ -244,6 +208,37 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uEK96HE9d/, https://www.bilibili.com/video/BV1dW2gBzEyk/, https://www.bilibili.com/video/BV16tTg6JEtb/, https://www.bilibili.com/video/BV1uY7a6QEPQ/, http://www.bilibili.com/video/av116834065974513, http://www.bilibili.com/video/av115508431030532, http://www.bilibili.com/video/av116827489372933, http://www.bilibili.com/video/av116811181852053",
           "uid": "BV1uEK96HE9d,BV1dW2gBzEyk,BV16tTg6JEtb,BV1uY7a6QEPQ",
           "sample": "回复 @该昵称将注销 :那是真实有的人还是祖师，你这样搞别人能不生气吗！多久的事了能不能去查一下，别随口就来"
+        }
+      ]
+    },
+    {
+      "term": "查无此人",
+      "evidenceSamples": [
+        "难怪职业生涯查无此人",
+        "影视化不是网文读文章，角色之间的迭代在文字中高速切换，读者也不会有太大的突兀感，但到了动画中，一个角色长时间不上线，其实跟查无此人般的让观众失去对该角色的热度，后续即便突然就出来跟友情客串一下毫无区别",
+        "回复 @殷子你看你保不保 :查无此人只会让人更加怜爱，逆反心理直接上来了[笑哭]",
+        "其实不大吧，都是偶尔能拿出来用一下但平时查无此人，她俩的马甲强度差距倒是挺大的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1J142187tz/",
+          "uid": "BV1J142187tz",
+          "sample": "难怪职业生涯查无此人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116662133131390/",
+          "uid": "38716770150",
+          "sample": "影视化不是网文读文章，角色之间的迭代在文字中高速切换，读者也不会有太大的突兀感，但到了动画中，一个角色长时间不上线，其实跟查无此人般的让观众失去对该角色的热度，后续即便突然就出来跟友情客串一下毫无区别"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1MRVS6dERE/",
+          "uid": "BV1MRVS6dERE",
+          "sample": "回复 @殷子你看你保不保 :查无此人只会让人更加怜爱，逆反心理直接上来了[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VNVS6cEoh/",
+          "uid": "BV1VNVS6cEoh",
+          "sample": "其实不大吧，都是偶尔能拿出来用一下但平时查无此人，她俩的马甲强度差距倒是挺大的。"
         }
       ]
     },
@@ -300,19 +295,6 @@
       ]
     },
     {
-      "term": "查百度",
-      "evidenceSamples": [
-        "不玩正版之前 如果是我没查百度 我也是这么掰的 [笑哭]因为盗版盘根本没这么细的包装 都是那种塑料袋套的"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV19J4m1g7Sb/, https://www.bilibili.com/video/BV1jxynBwEpP/, https://www.bilibili.com/video/BV1n3zQB5Ehh/, http://www.bilibili.com/video/av1255576727, http://www.bilibili.com/video/av115575774775611, http://www.bilibili.com/video/av115955225068545, http://www.bilibili.com/video/av116832388253434",
-          "uid": "BV19J4m1g7Sb,BV1jxynBwEpP,BV1n3zQB5Ehh",
-          "sample": "不玩正版之前 如果是我没查百度 我也是这么掰的 [笑哭]因为盗版盘根本没这么细的包装 都是那种塑料袋套的"
-        }
-      ]
-    },
-    {
       "term": "查资料",
       "evidenceSamples": [
         "为做视频现查资料不行吗",
@@ -365,15 +347,205 @@
       ]
     },
     {
-      "term": "死不承认",
+      "term": "此事不归我管",
       "evidenceSamples": [
-        "百度评论区大多都是小学生，自己判断能力本就不高还要在评论区装很懂的样子。他们不会像ks一堆疯子一样轻易地骂的那么凶，只是和小学生交流很麻烦，有的时候你给他们看证据他们也死不承认"
+        "祖宗：这事不归我管，你要许愿你去庙里啊。",
+        "牛顿：中国不归我管，钱学森：哥们，这是你们外国",
+        "牛顿：中国不归我管这个得我弟弟牛逼管 钱学森：这里是外国"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1BC411b7ec/",
+          "uid": "BV1BC411b7ec",
+          "sample": "祖宗：这事不归我管，你要许愿你去庙里啊。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "牛顿：中国不归我管，钱学森：哥们，这是你们外国"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "牛顿：中国不归我管这个得我弟弟牛逼管 钱学森：这里是外国"
+        }
+      ]
+    },
+    {
+      "term": "死不承认",
+      "evidenceSamples": [
+        "她肯定整过呀！我们又不是瞎子，就是她死不承认罢了",
+        "他们可能会说“如果那么不重要你为什么还要提呢？而且他根本就没走就是你俩听错了还死不承认”",
+        "骗你的还有不知道和死不承认的",
+        "她东食西宿，被发现了。老公要和她离婚，她死不承认，她把锅甩给UP把老公带坏了。结果自己说漏了嘴。",
+        "可以理解，不是不能提示，而是死不承认那种烦人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1ia411v7cS",
+          "sample": "她肯定整过呀！我们又不是瞎子，就是她死不承认罢了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1vETR6PEPx",
+          "sample": "他们可能会说“如果那么不重要你为什么还要提呢？而且他根本就没走就是你俩听错了还死不承认”"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Ub4y1f7C1",
+          "sample": "骗你的还有不知道和死不承认的"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV12hTX67EaL",
+          "sample": "她东食西宿，被发现了。老公要和她离婚，她死不承认，她把锅甩给UP把老公带坏了。结果自己说漏了嘴。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1soTQ6rE6N",
+          "sample": "可以理解，不是不能提示，而是死不承认那种烦人"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1i2421Z77s/, https://www.bilibili.com/video/BV1RMYszfE7o/, https://www.bilibili.com/video/BV1hebCe6EmW/, https://www.bilibili.com/video/BV1QmpceuEVS/, http://www.bilibili.com/video/av1606488021, http://www.bilibili.com/video/av115049238629174, http://www.bilibili.com/video/av112800923913080, http://www.bilibili.com/video/av113079929014473",
           "uid": "BV1i2421Z77s,BV1RMYszfE7o,BV1hebCe6EmW,BV1QmpceuEVS",
           "sample": "百度评论区大多都是小学生，自己判断能力本就不高还要在评论区装很懂的样子。他们不会像ks一堆疯子一样轻易地骂的那么凶，只是和小学生交流很麻烦，有的时候你给他们看证据他们也死不承认"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1YgT26qETR",
+          "sample": "不仅没有对不起 还死不承认"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1U2T76JEnp",
+          "sample": "回复 @超级草鱼 :咬死不承认，只要他不动不认，那没人能靠推测判刑"
+        }
+      ]
+    },
+    {
+      "term": "沉淀",
+      "evidenceSamples": [
+        "会沉淀啊，清理只是减少沉淀下来的脏东西",
+        "用的不是明矾，明矾的作用是沉淀、降沉。这里应该用的是石灰[CaO]",
+        "因为被时间沉淀了",
+        "那过段时间沉淀后，你觉得你心里能想喝吗？",
+        "这个又不用洗，等过段时间沉淀的就行了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "会沉淀啊，清理只是减少沉淀下来的脏东西"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "用的不是明矾，明矾的作用是沉淀、降沉。这里应该用的是石灰[CaO]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "因为被时间沉淀了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "那过段时间沉淀后，你觉得你心里能想喝吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "这个又不用洗，等过段时间沉淀的就行了"
+        }
+      ]
+    },
+    {
+      "term": "沉淀沉淀",
+      "evidenceSamples": [
+        "会沉淀啊，清理只是减少沉淀下来的脏东西",
+        "用的不是明矾，明矾的作用是沉淀、降沉。这里应该用的是石灰[CaO]",
+        "因为被时间沉淀了",
+        "那过段时间沉淀后，你觉得你心里能想喝吗？",
+        "这个又不用洗，等过段时间沉淀的就行了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "会沉淀啊，清理只是减少沉淀下来的脏东西"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "用的不是明矾，明矾的作用是沉淀、降沉。这里应该用的是石灰[CaO]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "因为被时间沉淀了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "那过段时间沉淀后，你觉得你心里能想喝吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "这个又不用洗，等过段时间沉淀的就行了"
+        }
+      ]
+    },
+    {
+      "term": "没办法",
+      "evidenceSamples": [
+        "合着…我二阳之后没有头皮屑了。后来又出现了，是因为…太虚弱没办法有头皮屑了吗？！",
+        "没办法了，福利和制作组的肝拉满了实在是喷不动[笑哭]只能扣字眼了",
+        "回复 @仔灰灰 :我加一些条件[妙啊]给灰灰仔一些补充[藏狐]想混日子的不要当班主任[藏狐]有责任心的不要带初三高三[藏狐]以我为例，小学教信息没信没肺学生上课呜呜泱泱的也不用管,[藏狐]学校也没办法因为我有岗有编，当老师我自己这些年的感受...",
+        "3、漫画里的很多人看到夏禾的外在表现，就判定她是那种水性杨花的女人，对她没有什么好印象，但在我的设定里，她的内在偏偏与之相反。在漫画中，她是怎样的人我一人就可以证明，因为我是作者，但在现实中，当一个人被大多数人贴上标签，当一件事被大多数人认...",
+        "好像说是语音没办法监管所以才取消了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "合着…我二阳之后没有头皮屑了。后来又出现了，是因为…太虚弱没办法有头皮屑了吗？！"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "没办法了，福利和制作组的肝拉满了实在是喷不动[笑哭]只能扣字眼了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "回复 @仔灰灰 :我加一些条件[妙啊]给灰灰仔一些补充[藏狐]想混日子的不要当班主任[藏狐]有责任心的不要带初三高三[藏狐]以我为例，小学教信息没信没肺学生上课呜呜泱泱的也不用管,[藏狐]学校也没办法因为我有岗有编，当老师我自己这些年的感受..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "3、漫画里的很多人看到夏禾的外在表现，就判定她是那种水性杨花的女人，对她没有什么好印象，但在我的设定里，她的内在偏偏与之相反。在漫画中，她是怎样的人我一人就可以证明，因为我是作者，但在现实中，当一个人被大多数人贴上标签，当一件事被大多数人认..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "好像说是语音没办法监管所以才取消了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "回复 @_哑鲸 :[妙啊]是的，微信语音通话和视频通话也是没办法监管的，但因为是一对一所以也无所谓"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1oG5R6XE8y/",
+          "uid": "352213177",
+          "sample": "回复 @-花中樱木- :那就没办法了，看到越来越多的人动不动豆包说的，然后当真理，甚至完全不懂ai也是需要信息源有错误的，就很无语。[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV11d6rB4Evy/",
+          "uid": "BV11d6rB4Evy",
+          "sample": "全屏根本没办法发弹幕"
         }
       ]
     },
@@ -430,34 +602,52 @@
       ]
     },
     {
-      "term": "没必要解释",
+      "term": "没听清",
       "evidenceSamples": [
-        "其实根本没必要解释任何理由，想剪就剪， up这个角度真的很新颖，其实我们的头发变成什么样都无需向任何人解释。短头发确实很方便，我也知道一些好处，但是我为什么要和他们多解释这么一句呢？"
+        "刚没听清他们说什么在来听一遍",
+        "吃东西问 没听清不让么？",
+        "估计没听清"
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L3Vv6fEAF/",
-          "uid": "BV1L3Vv6fEAF",
-          "sample": "其实根本没必要解释任何理由，想剪就剪， up这个角度真的很新颖，其实我们的头发变成什么样都无需向任何人解释。短头发确实很方便，我也知道一些好处，但是我为什么要和他们多解释这么一句呢？"
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1J9yKYTE2A/",
+          "uid": "BV1J9yKYTE2A",
+          "sample": "刚没听清他们说什么在来听一遍"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "吃东西问 没听清不让么？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "估计没听清"
         }
       ]
     },
     {
-      "term": "没文化真可怕",
+      "term": "没文化",
       "evidenceSamples": [
+        "没文化展示的淋漓尽致",
         "我就直说了：没文化真可怕",
-        "那无敌了，不管偷多值钱的东西只要卖的加钱低于刑事标准就随便卖哈，没文化真可怕"
+        "毕竟小兴没文化，也正好呼应上了"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1hm41127sN/",
+          "uid": "BV1hm41127sN",
+          "sample": "没文化展示的淋漓尽致"
+        },
         {
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
           "uid": "31520653556",
           "sample": "我就直说了：没文化真可怕"
         },
         {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
-          "uid": "BV1Z3G96mEx1",
-          "sample": "那无敌了，不管偷多值钱的东西只要卖的加钱低于刑事标准就随便卖哈，没文化真可怕"
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "毕竟小兴没文化，也正好呼应上了"
         }
       ]
     }

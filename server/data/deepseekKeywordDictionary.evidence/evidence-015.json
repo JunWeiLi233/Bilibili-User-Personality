@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-03T19:51:05.336Z",
+  "updatedAt": "2026-08-09T18:09:20.494Z",
   "family": "evidence",
   "shard": 15,
-  "shardCount": 17,
+  "shardCount": 16,
   "evidence": [
     {
       "term": "说得好",
@@ -59,13 +59,18 @@
     {
       "term": "谁主张谁举证",
       "evidenceSamples": [
+        "事实认定的专业性：如何从纷繁复杂的证据中梳理出法律上认可的事实？哪些证据是合法有效的？证据的证明力如何？如何运用证据规则？这同样需要专业的训练和经验。法官虽然最终认定事实，但需要双方律师通过举证、质证、辩论来帮助法官更清晰地认识案情。",
         "回复 @妲己把茶倒我嘴里丿 :谁主张谁举证",
         "直接退货量数据化，已付款未发货，已发货不足三天，已发货3天（其实是想要已收货的数据但担心技术等方面不好实现）的退款率，按照订单数和金额算占比，就有了六个退货率，已发货三天的退款率最有价值，商家可以选择拒绝某项退款率高于多少的客户下单，同时在淘宝纠纷可以作为参考，对于已收货退货率高的客户，比如高于中位数2倍的，退货退款后，商家可以收取部分合理费用作为补偿（需合理举证，商品被拆开，有污损程度不一样，可以收取补偿不一样）",
         "谁主张谁举证",
-        "回复 @宋成彦 :你首先要举证他是故意训练，如果按过失判只能判3-7年，而且可以减刑缓刑，江西4条大狗撕咬三岁女童最后也只判了十个月。",
-        "骗了钱 自己举证都不一定能有用吧 。"
+        "回复 @宋成彦 :你首先要举证他是故意训练，如果按过失判只能判3-7年，而且可以减刑缓刑，江西4条大狗撕咬三岁女童最后也只判了十个月。"
       ],
       "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "事实认定的专业性：如何从纷繁复杂的证据中梳理出法律上认可的事实？哪些证据是合法有效的？证据的证明力如何？如何运用证据规则？这同样需要专业的训练和经验。法官虽然最终认定事实，但需要双方律师通过举证、质证、辩论来帮助法官更清晰地认识案情。"
+        },
         {
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1xxZzYrEri/",
           "uid": "BV1xxZzYrEri",
@@ -98,7 +103,8 @@
       "evidenceSamples": [
         "谁说的普京叫，我真要笑死了",
         "回复 @1-trojan :谁说的呀，就是因为中国的反倾销。鸦片都卖到了英国。英国成瘾性也多了，这时候英国才怕了。后面才有了各国联合禁烟。",
-        "谁说的，看着看着就瞅对眼了[吃瓜]"
+        "谁说的，看着看着就瞅对眼了[吃瓜]",
+        "重音teto：这里没有阻止我们的neru，要确认谁说的才正确的话......只有这个方法了，让我们决斗吧，只有这个办法了，让我们以枪决斗吧，竭尽全力"
       ],
       "evidenceSources": [
         {
@@ -115,19 +121,44 @@
           "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1wRVR6wE1a/",
           "uid": "3546689329694904",
           "sample": "谁说的，看着看着就瞅对眼了[吃瓜]"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "重音teto：这里没有阻止我们的neru，要确认谁说的才正确的话......只有这个方法了，让我们决斗吧，只有这个办法了，让我们以枪决斗吧，竭尽全力"
         }
       ]
     },
     {
       "term": "调查",
       "evidenceSamples": [
-        "回复 @鱼卡太短了 :你当璃月，层岩巨渊，沉玉谷三张专辑共150首左右的歌不存在？来讨论前总得先调查调查吧？一张嘴就可以乱说话？",
-        "根据调查， “你上大号说话”是唯一一句同时适用于美国前总统和现总统的嘲讽",
-        "跟踪调查，然后举报三非滞留",
-        "我到这一年刚结丹，然后就遇到这个任务和一个去调查灭门的任务，还有一个地图上的任务。好家伙，两个金丹后期一个金丹中期[难过]这个时候做了星宫那任务，走星灵儿路线，结果还要去打个邪修[辣眼睛]又打不过。这个时候去打那个禾山道士，又被打趴了[大哭...",
-        "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。"
+        "现代法治国家普遍采用（或借鉴）了“对抗制”或“混合制”的诉讼模式。其核心理念是：真相和公正的最佳实现途径，是通过双方（或控辩双方）在法律框架内的平等对抗和充分辩论。法官的角色是居中裁判者，而非主动的调查员或某一方的代言人。",
+        "中立性：法官必须保持中立，不能偏向任何一方。如果法官既负责调查取证、又负责提出主张、还要负责最终裁判，就很容易陷入“既当运动员又当裁判员”的困境，难以保证中立，也容易形成先入为主的偏见。",
+        "程序性权利的保护：法律赋予当事人许多程序性权利（如申请回避、申请调查取证、质证权、辩论权等）。普通民众往往不了解这些权利的存在及其行使方式。律师的核心职责之一就是帮助当事人了解并有效行使这些权利，防止其权利侵犯。",
+        "-向警方强调朋友是成年人，其被限制自由属于非法拘禁，且存在人身伤害。要求警方依据《刑法》立案调查。",
+        "回复 @鱼卡太短了 :你当璃月，层岩巨渊，沉玉谷三张专辑共150首左右的歌不存在？来讨论前总得先调查调查吧？一张嘴就可以乱说话？"
       ],
       "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "现代法治国家普遍采用（或借鉴）了“对抗制”或“混合制”的诉讼模式。其核心理念是：真相和公正的最佳实现途径，是通过双方（或控辩双方）在法律框架内的平等对抗和充分辩论。法官的角色是居中裁判者，而非主动的调查员或某一方的代言人。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "中立性：法官必须保持中立，不能偏向任何一方。如果法官既负责调查取证、又负责提出主张、还要负责最终裁判，就很容易陷入“既当运动员又当裁判员”的困境，难以保证中立，也容易形成先入为主的偏见。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "程序性权利的保护：法律赋予当事人许多程序性权利（如申请回避、申请调查取证、质证权、辩论权等）。普通民众往往不了解这些权利的存在及其行使方式。律师的核心职责之一就是帮助当事人了解并有效行使这些权利，防止其权利侵犯。"
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "-向警方强调朋友是成年人，其被限制自由属于非法拘禁，且存在人身伤害。要求警方依据《刑法》立案调查。"
+        },
         {
           "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
           "uid": "",
@@ -147,30 +178,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1YL4y1c7pJ/, https://www.bilibili.com/video/BV1Y34y1L7VY/, https://www.bilibili.com/video/BV1FdxdzCEf7/, https://www.bilibili.com/video/BV1tekfBpEqb/, https://www.bilibili.com/video/BV17bjF63EZz/, https://www.bilibili.com/video/BV1tB736ZEs6/, http://www.bilibili.com/video/av853731292, http://www.bilibili.com/video/av115333897718064, http://www.bilibili.com/video/av115524520381483, http://www.bilibili.com/video/av116815393064136, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av812248609, http://www.bilibili.com/video/av115812350296786, http://www.bilibili.com/video/av116504930682724, http://www.bilibili.com/video/av506697444, http://www.bilibili.com/video/av115282022500562, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115783527046852, http://www.bilibili.com/video/av116817490089412, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116768785827305, http://www.bilibili.com/video/av115981833803316, http://www.bilibili.com/video/av116819100702476",
           "uid": "BV1YL4y1c7pJ,BV1Y34y1L7VY,BV1FdxdzCEf7,BV1tekfBpEqb,BV17bjF63EZz,BV1tB736ZEs6",
           "sample": "我到这一年刚结丹，然后就遇到这个任务和一个去调查灭门的任务，还有一个地图上的任务。好家伙，两个金丹后期一个金丹中期[难过]这个时候做了星宫那任务，走星灵儿路线，结果还要去打个邪修[辣眼睛]又打不过。这个时候去打那个禾山道士，又被打趴了[大哭..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
-          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
-          "sample": "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。"
-        }
-      ]
-    },
-    {
-      "term": "调查结果",
-      "evidenceSamples": [
-        "这时有人可能会问，女权不是反婚吗？其实女权反婚是假，她们想通过反婚获得更多福利保障是真。当一个国家的这种“女本位传统主义”达到巅峰值的时候，她们对婚姻的需求只会大于男性，因为她们可以通过婚姻获得更多好处。【延伸话题:在经济市场中，市场需求度决定价格，需求度越高，商家越是爱卖限量产品，这样会吸引更多买家花更多的钱来买成本并非那么高的产品，自己也可以说“既然是限量，说明你现在不买以后就没有机会了，除非你马上就出特别高的价钱”。可是当市场需求度低了以后，商家就不会卖贵的限量产品，而会降低价格求着买家来买，这回就不会装做“不买就没有了”了。之所以女权反婚，主要是因为男人都太想结婚了，既然男人太想结婚，就干脆把婚姻改成“限量商品”吧，男人既然比女人更想结婚，那么一旦反婚，男人受的伤害就比女人更大，因为谁更需要婚姻谁就受更大的伤害。而解决这个问题的关键就在于对婚姻的需求度。在欧美90年代初，调查结果是男人比女人更想结婚，可是现在，男女对结婚的需求度180度大反转，男人不想结婚而女人想结婚，西方女权从此不再反婚】",
-        "看完了你的视频，开始是批评米粉，但完整的看下来你其实对小米也是持有批评态度的，警方结果也还没出来，你就得出了小米不够真诚的结论。说实话，这件事等警方调查结果不好么？何必早早下场发表意见呢？"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "这时有人可能会问，女权不是反婚吗？其实女权反婚是假，她们想通过反婚获得更多福利保障是真。当一个国家的这种“女本位传统主义”达到巅峰值的时候，她们对婚姻的需求只会大于男性，因为她们可以通过婚姻获得更多好处。【延伸话题:在经济市场中，市场需求度决定价格，需求度越高，商家越是爱卖限量产品，这样会吸引更多买家花更多的钱来买成本并非那么高的产品，自己也可以说“既然是限量，说明你现在不买以后就没有机会了，除非你马上就出特别高的价钱”。可是当市场需求度低了以后，商家就不会卖贵的限量产品，而会降低价格求着买家来买，这回就不会装做“不买就没有了”了。之所以女权反婚，主要是因为男人都太想结婚了，既然男人太想结婚，就干脆把婚姻改成“限量商品”吧，男人既然比女人更想结婚，那么一旦反婚，男人受的伤害就比女人更大，因为谁更需要婚姻谁就受更大的伤害。而解决这个问题的关键就在于对婚姻的需求度。在欧美90年代初，调查结果是男人比女人更想结婚，可是现在，男女对结婚的需求度180度大反转，男人不想结婚而女人想结婚，西方女权从此不再反婚】"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
-          "uid": "BV1LxZfYVEdT",
-          "sample": "看完了你的视频，开始是批评米粉，但完整的看下来你其实对小米也是持有批评态度的，警方结果也还没出来，你就得出了小米不够真诚的结论。说实话，这件事等警方调查结果不好么？何必早早下场发表意见呢？"
         }
       ]
     },
@@ -227,27 +234,40 @@
       ]
     },
     {
-      "term": "谨慎发言",
+      "term": "质疑",
       "evidenceSamples": [
-        "谨慎发言"
+        "从来没有人质疑日升月落，也没有人质疑万物生长。",
+        "首先是犯下暴食之罪的生真，直到20集之前都在神推心置腹下竟敢隐瞒自己的身世，以此来质疑神的全知全能，整料神早就知道了他的小心思，正如圣经中说写，神是不可质疑的，于是神降下了他那穿越时间空间的神罚，结果用力过猛，让其眼睁睁的看到自己的老妈成了...",
+        "0. 【蹭热度】一般大家刷b站很难对让人头大的数学感兴趣，所以当时觉得机会难得就冲了。不同于高考数学或者刘谦魔术，这是第一次尝试涉及社会性热点，的确有风险。虽说一般人看到新闻不会想着去查验细节，因为信任官媒也没那个时间精力，但身为数学自媒体...",
+        "1. 【动态站队】有一个最大的误解是，我发那条动态是在站队支持jp，并且无差别地对质疑者攻击。我很诚实的和大家分享当时的情景和动机：风向开始变化时，有很多人在私信中攻击我，说“余元公式你都不认识吗”、“无穷/2都看不出来你怎么当的清华博士”...",
+        "我是一个激进的反激进主义者。尽管看了当时的质疑后，我自己对这件事情的可信度也降低到不到10%，但我仍然认为质疑应该有基本的尊重。在那之前几天我发了一期讲高考的视频，我发自内心是很欣赏和希望这个故事背后传递出的价值的：不管自己的出身，找到自己..."
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1LKBqBtE26/",
-          "uid": "BV1LKBqBtE26",
-          "sample": "谨慎发言"
-        }
-      ]
-    },
-    {
-      "term": "质疑",
-      "evidenceSamples": [
-        "我艹这太典了，想起来我第一次听到这种质疑还是在三叠纪食草的问小型食肉的有什么大型猎物捕[笑哭]",
-        "才二十一岁的他，需要承受你们铺天盖地的谩骂质疑，困难重重可是他有说过一句放弃？你们不分青红皂白的就开骂，四个月了难道这个梗还不能过去吗？真希望坤坤可以赶快离开这样的世界【开心】",
-        "去年，他的众多小号被本人扒出，这也导致他气急败坏，不断用小号来反对同吧反串捣乱。他使用小号“自律佩奇”伪装撑同者，与大号唱双簧，质疑反对同吧是被撑同人士以不光彩的手段夺来的。这一说法很快被吧主bangaa攻破。虽然这一时期的发言都已经被他删除，但在反对同吧的精品贴里，仍然可以一窥当时的情景",
-        "回复 @领结猪醉山 :还有红薯上有个老师只是质疑他用AI，然后觉得哪些描点像，然后那个画师就把所有作品对他屏蔽掉了[笑哭]"
-      ],
-      "evidenceSources": [
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "从来没有人质疑日升月落，也没有人质疑万物生长。"
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "首先是犯下暴食之罪的生真，直到20集之前都在神推心置腹下竟敢隐瞒自己的身世，以此来质疑神的全知全能，整料神早就知道了他的小心思，正如圣经中说写，神是不可质疑的，于是神降下了他那穿越时间空间的神罚，结果用力过猛，让其眼睁睁的看到自己的老妈成了..."
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "0. 【蹭热度】一般大家刷b站很难对让人头大的数学感兴趣，所以当时觉得机会难得就冲了。不同于高考数学或者刘谦魔术，这是第一次尝试涉及社会性热点，的确有风险。虽说一般人看到新闻不会想着去查验细节，因为信任官媒也没那个时间精力，但身为数学自媒体..."
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "1. 【动态站队】有一个最大的误解是，我发那条动态是在站队支持jp，并且无差别地对质疑者攻击。我很诚实的和大家分享当时的情景和动机：风向开始变化时，有很多人在私信中攻击我，说“余元公式你都不认识吗”、“无穷/2都看不出来你怎么当的清华博士”..."
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "我是一个激进的反激进主义者。尽管看了当时的质疑后，我自己对这件事情的可信度也降低到不到10%，但我仍然认为质疑应该有基本的尊重。在那之前几天我发了一期讲高考的视频，我发自内心是很欣赏和希望这个故事背后传递出的价值的：不管自己的出身，找到自己..."
+        },
         {
           "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
           "uid": "",
@@ -262,47 +282,24 @@
           "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
           "uid": "",
           "sample": "去年，他的众多小号被本人扒出，这也导致他气急败坏，不断用小号来反对同吧反串捣乱。他使用小号“自律佩奇”伪装撑同者，与大号唱双簧，质疑反对同吧是被撑同人士以不光彩的手段夺来的。这一说法很快被吧主bangaa攻破。虽然这一时期的发言都已经被他删除，但在反对同吧的精品贴里，仍然可以一窥当时的情景"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV17p4y1e7a9/, https://www.bilibili.com/video/BV1mKniz2ExW/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av969516125, http://www.bilibili.com/video/av116703086251330, http://www.bilibili.com/video/av114567917142268",
-          "uid": "BV1SXTc63E8Q,BV1Cv411t7gz,BV1BWQHYtEWS,BV1tc411h7SY,BV17p4y1e7a9,BV1mKniz2ExW",
-          "sample": "回复 @领结猪醉山 :还有红薯上有个老师只是质疑他用AI，然后觉得哪些描点像，然后那个画师就把所有作品对他屏蔽掉了[笑哭]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV11r5F6LEKo/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1QnTT64Ek8/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SF7s6cEZW/, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av114438329868187, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av115596746300250, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av114613366687292, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av565805442, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116804588537830, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av843335704, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av116675068368192, http://www.bilibili.com/video/av116825308273284, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116757645756455",
-          "uid": "BV1nAKd6gEWn,BV11r5F6LEKo,BV19X7G6TEiG,BV1QnTT64Ek8,BV1SXTc63E8Q,BV1SF7s6cEZW",
-          "sample": "回复 @领结猪醉山 :还有红薯上有个老师只是质疑他用AI，然后觉得哪些描点像，然后那个画师就把所有作品对他屏蔽掉了[笑哭]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
-          "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
-          "sample": "回复 @领结猪醉山 :还有红薯上有个老师只是质疑他用AI，然后觉得哪些描点像，然后那个画师就把所有作品对他屏蔽掉了[笑哭]"
-        }
-      ]
-    },
-    {
-      "term": "转账记录",
-      "evidenceSamples": [
-        "我也是被骗过，告诉你，拿着转账记录，直接到派出所报诈骗，如果立案，会第一时间冻结他银行卡。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Ab4y137Ct/",
-          "uid": "70543574",
-          "sample": "我也是被骗过，告诉你，拿着转账记录，直接到派出所报诈骗，如果立案，会第一时间冻结他银行卡。"
         }
       ]
     },
     {
       "term": "辟谣",
       "evidenceSamples": [
+        "这网红新的辟谣视频出来了~直播的时候说她已经在新加坡！但是立马就被人扒出她直播的IP任然在泰国汶昆县！[捂眼]",
         "因为我从小喜欢机器人，加上那时候央视05~09年间，央视新闻就有对波士顿动力的机器人访谈，我也了解当年波士顿机器人叛变的视频是由Corridor Digital特效公司做出来恶搞的，人家早就澄清了，结果今年春节宇数机器人火了一把，我当年的辟谣就被骂惨了，骂了我几百楼，可我也没否定国内的实力，我是站在了中立的角度出发，并通过实事求是，发表了对波士顿动力和宇数的看法，我承认了波士顿在算法上的落后和工艺的先进，也表达了对宇数在算法上的超凡，但也指明了宇数机器人的高度不稳定性，因为事实就在那里，宇数的机器人还得依赖古早CMG技术和控制终端才能勉强活动，因为大量视频有目共睹，它无端倒地发癫都是很常见的，但波士顿动力10多年前就已经克服了（虽然克服了，但表现得不是很好，需要依赖识别码）总之我就是被骂惨了",
         "回复 @keliinn :冷知识，杨静媛的宝石首饰事发几个月后，被官方辟谣是玻璃做的",
         "这强力的人脉辟谣起来都这么困难，很符合我对隔壁平台评论区以及本平台部分类人生物的刻板印象。视频最后我突然想到，人是有固定思维的，只要一开始接触到的思维是不正确的，那么以后不管怎么解释抨击甚至粉碎掉，都不可能回到大家认为的正确思维里。因为它们认为的“正确”思维只能是它们自己认为的一切，它们也会认为大家的正确思维是“不正确的”。",
-        "冷知识，不久后会辟谣[doge]",
-        "是什么人在举报辟谣视频？[呲牙]"
+        "冷知识，不久后会辟谣[doge]"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV14h4y1475H/, https://www.bilibili.com/video/BV1QRUoYGEBS/, https://www.bilibili.com/video/BV1TT411z7aH/, https://www.bilibili.com/video/BV1qs4y1W7Ji/, http://www.bilibili.com/video/av614113506, http://www.bilibili.com/video/av113508050016305, http://www.bilibili.com/video/av483988908, http://www.bilibili.com/video/av948846370",
+          "uid": "BV14h4y1475H,BV1QRUoYGEBS,BV1TT411z7aH,BV1qs4y1W7Ji",
+          "sample": "这网红新的辟谣视频出来了~直播的时候说她已经在新加坡！但是立马就被人扒出她直播的IP任然在泰国汶昆县！[捂眼]"
+        },
         {
           "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
           "uid": "",
@@ -393,19 +390,6 @@
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
           "uid": "BV1uw411Z7jE",
           "sample": "（）很难不说是过度解读"
-        }
-      ]
-    },
-    {
-      "term": "这是谣言吧",
-      "evidenceSamples": [
-        "这是谣言，这报考的女的根本不符合岗位要求，伪造的资历"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
-          "uid": "BV1z2jg6zEB6",
-          "sample": "这是谣言，这报考的女的根本不符合岗位要求，伪造的资历"
         }
       ]
     },

@@ -1,344 +1,514 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-03T19:51:05.336Z",
+  "updatedAt": "2026-08-09T18:09:20.494Z",
   "family": "absolutes",
   "shard": 17,
-  "shardCount": 51,
+  "shardCount": 37,
   "evidence": [
     {
-      "term": "到死都",
+      "term": "封神",
       "evidenceSamples": [
-        "这貂蝉大招到死都不用 笑死了",
-        "五金不受潮能保存到死都没问题",
-        "这石头到死都感觉自己操作的很帅",
-        "一个亿万富翁眼里百万富翁就是穷人，很多东西在他们眼里是自以为是的常识，就像网上说光绪还是谁到死都以为鸡蛋几两银子一个，明星早餐几百块不够吃一样。他们与其说是提建议不如说是在教低他们一个档的人做事，没能力承担就稍微降一点。但是能降多少呢？是鸡..."
+        "娱乐圈动不动就有人封神，会不会姜子牙还活着",
+        "从弱智吧大佬那里抄来的，改了两个字 学了两年半一直学不会写字但我觉得这句话真的可以封神了",
+        "补充两点： 1. 衡量华语音乐复兴的标志，不是欧美up主为了那点流量进行的（或者花钱去外网找欧美博主），如同“夸夸群”般的“华语音乐反应视频”，而是我们不再需要通过出口转内销的外国赞许来获得极其病态的审美确认； 2. 很多方面可以接受刀郎2023年的现象：成千上万的营销号对乐理的践踏、认知闭环和信息茧房——由于英语壁垒和网络封锁，下沉市场的听众接触不到世界前沿的先锋音乐。营销号利用这种信息匮乏，将刀郎神化为一个“全球音乐的救世主”形象。 以及，下沉市场的大众在生活中往往是沉默和被忽视的。因此，“草根出身、被主流排挤、沉寂多年一战封神”的包装形象，完美契合了民众们的“复仇幻想”。在这种情绪高潮下，乐理、审美、编曲结构都不重要了。唯一的评判标准居然是态度和出身。讽刺又无奈。"
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19NLR6HEZH/",
-          "uid": "BV19NLR6HEZH",
-          "sample": "这貂蝉大招到死都不用 笑死了"
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7984083684",
+          "uid": "347097708",
+          "sample": "娱乐圈动不动就有人封神，会不会姜子牙还活着"
         },
         {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SEVH62EZP/",
-          "uid": "BV1SEVH62EZP",
-          "sample": "五金不受潮能保存到死都没问题"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av319218604/",
-          "uid": "1287199456",
-          "sample": "这石头到死都感觉自己操作的很帅"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1w24y1P7i1/, https://www.bilibili.com/video/BV1rQx9zqELn/, https://www.bilibili.com/video/BV1vM411n766/, https://www.bilibili.com/video/BV1CsDRBHEVN/, https://www.bilibili.com/video/BV17v4y1q7wh/, https://www.bilibili.com/video/BV16h411k7yu/, http://www.bilibili.com/video/av784209641, http://www.bilibili.com/video/av524392638, http://www.bilibili.com/video/av564830669, http://www.bilibili.com/video/av561153456, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av116175744800736, http://www.bilibili.com/video/av113165845138957, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av1305738757, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av510233943, http://www.bilibili.com/video/av114121173376264, http://www.bilibili.com/video/av809107132, http://www.bilibili.com/video/av114885023241277, http://www.bilibili.com/video/av292625519, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av834634537, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av439315266, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av115333109121345, http://www.bilibili.com/video/av114662809013161, http://www.bilibili.com/video/av116030202451386, http://www.bilibili.com/video/av116393278177372, http://www.bilibili.com/video/av204420944, http://www.bilibili.com/video/av114454050111548",
-          "uid": "BV1w24y1P7i1,BV1rQx9zqELn,BV1vM411n766,BV1CsDRBHEVN,BV17v4y1q7wh,BV16h411k7yu",
-          "sample": "一个亿万富翁眼里百万富翁就是穷人，很多东西在他们眼里是自以为是的常识，就像网上说光绪还是谁到死都以为鸡蛋几两银子一个，明星早餐几百块不够吃一样。他们与其说是提建议不如说是在教低他们一个档的人做事，没能力承担就稍微降一点。但是能降多少呢？是鸡..."
-        }
-      ]
-    },
-    {
-      "term": "务必",
-      "evidenceSamples": [
-        "生而为人 请务必善良",
-        "支持惹。反对同性恋要毫不动摇的做到4个坚持：坚持一网打尽，坚持斩草除根，坚持一扫而光，坚持赶尽杀绝。务必做到：反同、恨同、赶同、抓同、灭同五位一体的全民反同新局面。",
-        "文言文拿到试卷不要从头读起，直接先写第12题材料内容概述题，顺着ABCD四个选项去文中比对，一个一个比对的过程就是梳理全文的过程，比对完毕对文章的理解也就完成了。翻译题重点突破课内学过的虚词“以、之、而、于、乃、则”等，高考考查方式与课内完全一致不会超纲。实词速成的方法是拿近三年高考文言文自己动手翻译在A4纸上，再对照答案逐字核对翻译差异，动手翻译三篇就能获得读文言文如读白话文的语感。\\n\\n古诗文阅读遵循三步：先看标题判断题材，再看注释理解背景和典故，最后看尾联判断情感方向（以景结情或直接抒情）。赏析题统一用四步走：翻译句子、指出手法、描绘画面、点明情感，这个方法可以解决80%以上的古诗文赏析题目。信息筛选题同样采用N加1原则答题，概括特点时尽量用四字词语并用自己的语言组织。\\n\\n视频最后提醒考生，写完试卷只是完成一半，交卷前要从头到尾检查一遍确保没有遗漏。弹幕反馈中有多位去年看了视频的考生成功上岸，有人考上了清华，也有考生许愿高考语文130分以上。考生需要注意的是，如果平时做题顺序已经很熟练，临近高考不要轻易尝试新方法，务必确保考前多次练习已经非常熟练再上考场使用。\\n\\n记得随时呼叫Milky哦！🤍",
-        "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。",
-        "请务必尝试cos一下明日方舟的德克萨斯[脱单doge][脱单doge][脱单doge]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "357931412",
-          "sample": "生而为人 请务必善良"
-        },
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "支持惹。反对同性恋要毫不动摇的做到4个坚持：坚持一网打尽，坚持斩草除根，坚持一扫而光，坚持赶尽杀绝。务必做到：反同、恨同、赶同、抓同、灭同五位一体的全民反同新局面。"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KUV36jEuG/",
-          "uid": "BV1KUV36jEuG",
-          "sample": "文言文拿到试卷不要从头读起，直接先写第12题材料内容概述题，顺着ABCD四个选项去文中比对，一个一个比对的过程就是梳理全文的过程，比对完毕对文章的理解也就完成了。翻译题重点突破课内学过的虚词“以、之、而、于、乃、则”等，高考考查方式与课内完全一致不会超纲。实词速成的方法是拿近三年高考文言文自己动手翻译在A4纸上，再对照答案逐字核对翻译差异，动手翻译三篇就能获得读文言文如读白话文的语感。\\n\\n古诗文阅读遵循三步：先看标题判断题材，再看注释理解背景和典故，最后看尾联判断情感方向（以景结情或直接抒情）。赏析题统一用四步走：翻译句子、指出手法、描绘画面、点明情感，这个方法可以解决80%以上的古诗文赏析题目。信息筛选题同样采用N加1原则答题，概括特点时尽量用四字词语并用自己的语言组织。\\n\\n视频最后提醒考生，写完试卷只是完成一半，交卷前要从头到尾检查一遍确保没有遗漏。弹幕反馈中有多位去年看了视频的考生成功上岸，有人考上了清华，也有考生许愿高考语文130分以上。考生需要注意的是，如果平时做题顺序已经很熟练，临近高考不要轻易尝试新方法，务必确保考前多次练习已经非常熟练再上考场使用。\\n\\n记得随时呼叫Milky哦！🤍"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YKmPBQE6P/",
-          "uid": "BV1YKmPBQE6P",
-          "sample": "借楼科普，评论区五大典型诈骗套路\\n1. 病童筹款型\\n• 昵称：“祈求您救救我的孩子”等情感绑架词汇\\n• 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助\\n• 破绽：视频画质模糊、发布时间集中，评论区关闭互动\\n2. 外卖员求助型\\n• 昵称：随机变化，自称“外卖员孩子病重”\\n• 手段：文案雷同，仅放支付码无具体证明\\n3. 求职被骗型\\n• 头像：固定使用哆啦A梦等卡通形象\\n• 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账\\n4. 家庭矛盾型\\n• 内容：伪造微信聊天记录，称“被父母拉黑要钱”\\n• 目的：利用同情心索要红包/转账\\n5. 兼职诱导型\\n• 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群\\n• 风险：实为刷单诈骗或信息窃取\\n二、识别诈骗的三大核心逻辑\\n1. 账号异常\\n• 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作\\n• 真正求助者会主动提供正规平台链接及医院证明\\n2. 逃避正规渠道\\n• 拒用正规平台（需提交病历、身份证等严格审核）\\n• 仅提供收款码/私信转账，资金流向无保障\\n3. 内容痕迹\\n• 视频/动态短期内密集发布，画质低清；\\n• 关闭弹幕、精选评论，回避质疑\\n三、安全应对守则\\n两要\\n1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性）\\n2. 要保留证据：截图账号信息、聊天记录，向平台举报\\n两不要\\n1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗\\n2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费”\\n转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PpZcYcEHz/",
-          "uid": "BV1PpZcYcEHz",
-          "sample": "请务必尝试cos一下明日方舟的德克萨斯[脱单doge][脱单doge][脱单doge]"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
-          "uid": "38708512571",
-          "sample": "务必关闭弹幕观看，弹幕争论影响观感"
-        },
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
-          "uid": "285814498",
-          "sample": "借楼科普，评论区五大典型诈骗套路 1. 病童筹款型 • 昵称：“祈求您救救我的孩子”等情感绑架词汇 • 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助 • 破绽：视频画质模糊、发布时间集中，评论区关闭互动 2. 外卖员求助型 • 昵称：随机变化，自称“外卖员孩子病重” • 手段：文案雷同，仅放支付码无具体证明 3. 求职被骗型 • 头像：固定使用哆啦A梦等卡通形象 • 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账 4. 家庭矛盾型 • 内容：伪造微信聊天记录，称“被父母拉黑要钱” • 目的：利用同情心索要红包/转账 5. 兼职诱导型 • 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群 • 风险：实为刷单诈骗或信息窃取 二、识别诈骗的三大核心逻辑 1. 账号异常 • 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作 • 真正求助者会主动提供正规平台链接及医院证明 2. 逃避正规渠道 • 拒用正规平台（需提交病历、身份证等严格审核） • 仅提供收款码/私信转账，资金流向无保障 3. 内容痕迹 • 视频/动态短期内密集发布，画质低清； • 关闭弹幕、精选评论，回避质疑 三、安全应对守则 两要 1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性） 2. 要保留证据：截图账号信息、聊天记录，向平台举报 两不要 1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗 2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费” 转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
-        }
-      ]
-    },
-    {
-      "term": "势必",
-      "evidenceSamples": [
-        "恩格斯就说了真正平等的婚姻在以后的历史中实现时，女性群体的主体意愿越来越无法忽视，势必成为更重要于男性群体的意愿。现在风气就是争当烧鸡，爱浪爱玩，你一个男的有啥好纯情的，想爽的直接模仿版本之子黑叔叔就行了，提裤子就走人",
-        "回复 @阿卡多123 :升降级确实有利于预防摆烂，不过是否要升降级也是要看当前联赛发展的核心目标是什么。比如LPL、KPL起步阶段，包括OWL成立之初，首要任务是拉更多的资本进来玩，要让资本无后顾之忧，就不能有升降级。但随着联赛发展到一定程度，完全没有升降级势必会滋养出摆烂心态，那重新引入升降级，或者至少是联赛划分组别就是有必要的。联赛赛制也是要根据实际情况随时变化的",
-        "其实去医院可以选医生性别，你预约的时候那么大的头像，你不仔细看，怪谁呢。\\n甚至临时换也可以，但换人势必要等，这很正常。",
-        "该了势必产生剧情冲突"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "恩格斯就说了真正平等的婚姻在以后的历史中实现时，女性群体的主体意愿越来越无法忽视，势必成为更重要于男性群体的意愿。现在风气就是争当烧鸡，爱浪爱玩，你一个男的有啥好纯情的，想爽的直接模仿版本之子黑叔叔就行了，提裤子就走人"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LYV364Eu3/",
-          "uid": "BV1LYV364Eu3",
-          "sample": "回复 @阿卡多123 :升降级确实有利于预防摆烂，不过是否要升降级也是要看当前联赛发展的核心目标是什么。比如LPL、KPL起步阶段，包括OWL成立之初，首要任务是拉更多的资本进来玩，要让资本无后顾之忧，就不能有升降级。但随着联赛发展到一定程度，完全没有升降级势必会滋养出摆烂心态，那重新引入升降级，或者至少是联赛划分组别就是有必要的。联赛赛制也是要根据实际情况随时变化的"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV13rULBnEpx/",
-          "uid": "BV13rULBnEpx",
-          "sample": "其实去医院可以选医生性别，你预约的时候那么大的头像，你不仔细看，怪谁呢。\\n甚至临时换也可以，但换人势必要等，这很正常。"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116662133131390/",
-          "uid": "38716770150",
-          "sample": "该了势必产生剧情冲突"
-        }
-      ]
-    },
-    {
-      "term": "包罗万象",
-      "evidenceSamples": [
-        "这期好好！这就是长视频的魅力呀，其实不到20分钟但因为我反复暂停回拉实际看了至少1小时。感谢Ahalolo坚持不懈得把时尚讲得深入浅出[给心心]，干货满满，信息量巨大，整体氛围又是轻松愉悦的。\\n这季Alaia也真得好美，look35真的好喜欢！！！\\n看Ahalolo越来越多，也越来越能get到时尚之美了；大千世界，包罗万象，能越来越多地欣赏、理解到不同的美好，那个美好也就开始对我产生意义和正反馈，这实在真得是一件很幸福的事情！[惊喜][惊喜][惊喜]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YNZcYrEbt/",
-          "uid": "BV1YNZcYrEbt",
-          "sample": "这期好好！这就是长视频的魅力呀，其实不到20分钟但因为我反复暂停回拉实际看了至少1小时。感谢Ahalolo坚持不懈得把时尚讲得深入浅出[给心心]，干货满满，信息量巨大，整体氛围又是轻松愉悦的。\\n这季Alaia也真得好美，look35真的好喜欢！！！\\n看Ahalolo越来越多，也越来越能get到时尚之美了；大千世界，包罗万象，能越来越多地欣赏、理解到不同的美好，那个美好也就开始对我产生意义和正反馈，这实在真得是一件很幸福的事情！[惊喜][惊喜][惊喜]"
-        }
-      ]
-    },
-    {
-      "term": "包赢",
-      "evidenceSamples": [
-        "边路雅典娜，优先断兵线，是包赢滴，嚯嚯"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Vf7D62EwZ/",
-          "uid": "BV1Vf7D62EwZ",
-          "sample": "边路雅典娜，优先断兵线，是包赢滴，嚯嚯"
-        }
-      ]
-    },
-    {
-      "term": "十全十美",
-      "evidenceSamples": [
-        "其实消失好像也不是坏事，毕竟只爱你好的一面而对你无可避免的缺点一点容忍都没有的人不值得，没有人能真的十全十美"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1tT4y1S7LC/",
-          "uid": "452734832",
-          "sample": "其实消失好像也不是坏事，毕竟只爱你好的一面而对你无可避免的缺点一点容忍都没有的人不值得，没有人能真的十全十美"
-        }
-      ]
-    },
-    {
-      "term": "十分",
-      "evidenceSamples": [
-        "认知局限，人的精力是有限的，尤其是冲浪的，个个恨不得一目十行，仅见微而难知其广，很多人根本不会去了解事件的全部，抓住自己能理解的那部分开喷就行了。另外，现在编段子比编故事更玩的转互联网，只要观点够爆，你说三十分钟车轱辘话都有人追捧。",
-        "王警官十分疑惑自己为什么在疑惑",
-        "别在同情什么非洲黑人了，想想自己同胞的处境都十分坚难！！！",
-        "高一女同桌找我见面 背景:高一暗恋过女同桌，高三毕业写信表白了，表达喜欢，没说谈恋爱什么的现在我24了，这些年几乎没有联系，都不怎么理我，所以也不找她她说有事必须见面说，但我觉得希望渺茫，她言语间十分平淡，我觉得不会是喜欢我",
-        "哥们ai文案味溢出屏幕了，一个意思重复讲十分钟[笑哭]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uq4y1T7wR/, https://www.bilibili.com/video/BV1is421g7yZ/, https://www.bilibili.com/video/BV1fQg3zkEQU/, https://www.bilibili.com/video/BV1pV4y1i7VU/, https://www.bilibili.com/video/BV14Z421g78r/, https://www.bilibili.com/video/BV1ys4y1F7Gc/, http://www.bilibili.com/video/av547736446, http://www.bilibili.com/video/av114872608100276, http://www.bilibili.com/video/av1155727561, http://www.bilibili.com/video/av115025884747482, http://www.bilibili.com/video/av997679607, http://www.bilibili.com/video/av580921221, http://www.bilibili.com/video/av116788130156199, http://www.bilibili.com/video/av116072212596613, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av112885128956016, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av112932692231241, http://www.bilibili.com/video/av112887779558294, http://www.bilibili.com/video/av114765619793436, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av34866935, http://www.bilibili.com/video/av114742333016741, http://www.bilibili.com/video/av857235647, http://www.bilibili.com/video/av115637800213806, http://www.bilibili.com/video/av114214739904920, http://www.bilibili.com/video/av921988768, http://www.bilibili.com/video/av288122514, http://www.bilibili.com/video/av1855352649, http://www.bilibili.com/video/av871778362, http://www.bilibili.com/video/av955390078, http://www.bilibili.com/video/av112919740154585, http://www.bilibili.com/video/av113480317276519, http://www.bilibili.com/video/av465848268",
-          "uid": "BV1uq4y1T7wR,BV1is421g7yZ,BV1fQg3zkEQU,BV1pV4y1i7VU,BV14Z421g78r,BV1ys4y1F7Gc",
-          "sample": "认知局限，人的精力是有限的，尤其是冲浪的，个个恨不得一目十行，仅见微而难知其广，很多人根本不会去了解事件的全部，抓住自己能理解的那部分开喷就行了。另外，现在编段子比编故事更玩的转互联网，只要观点够爆，你说三十分钟车轱辘话都有人追捧。"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8439459265",
-          "uid": "贴吧用户_aU5S344",
-          "sample": "王警官十分疑惑自己为什么在疑惑"
-        },
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "别在同情什么非洲黑人了，想想自己同胞的处境都十分坚难！！！"
-        },
-        {
-          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
-          "uid": "",
-          "sample": "高一女同桌找我见面 背景:高一暗恋过女同桌，高三毕业写信表白了，表达喜欢，没说谈恋爱什么的现在我24了，这些年几乎没有联系，都不怎么理我，所以也不找她她说有事必须见面说，但我觉得希望渺茫，她言语间十分平淡，我觉得不会是喜欢我"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
-          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
-          "sample": "哥们ai文案味溢出屏幕了，一个意思重复讲十分钟[笑哭]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
-          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
-          "sample": "观念明确，立场鲜明，站队站的十分坚定的声音和精神，是非常能够让一些人形成有相同的感受群体，这个好像我社会学还是什么课学过，学艺不精现在都忘了"
-        }
-      ]
-    },
-    {
-      "term": "十拿九稳",
-      "evidenceSamples": [
-        "25新一卷数学126，给一个血的教训：绝对、绝对不要在考试最后几分钟改答案，尤其是前面的题，如果要改一定是千真万确、十拿九稳地确定自己之前错了，否则大概率是你考到最后眼睛已经花了，把对的当成错的了"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1iRVG6cE5g/",
-          "uid": "BV1iRVG6cE5g",
-          "sample": "25新一卷数学126，给一个血的教训：绝对、绝对不要在考试最后几分钟改答案，尤其是前面的题，如果要改一定是千真万确、十拿九稳地确定自己之前错了，否则大概率是你考到最后眼睛已经花了，把对的当成错的了"
-        }
-      ]
-    },
-    {
-      "term": "千万",
-      "evidenceSamples": [
-        "千万不要回游 叠纸改了条款 太恶毒了",
-        "回复 @Kanzaki-千枼 :玩游戏可以，千万不要混圈，一旦混圈各种腥风血雨",
-        "千万别点开是陷阱[doge]",
-        "本质上还是对着原曲扣音高，术力口好歹是个创造过程，鬼畜区音感好点的做得好听，做在调上，音感不好的，调都不知道跑了几个，然后一堆看的还说爽爽爽，但是我听得怪难受的。那个千万播放的进击的巨人鬼畜也是跑调的[笑哭]",
-        "千万不要和王源谈恋爱，因为王源生的孩子都是逆天"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
-          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm",
-          "sample": "千万不要回游 叠纸改了条款 太恶毒了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XWKZ6eE5d/, https://www.bilibili.com/video/BV1orKQ6ZEqm/, https://www.bilibili.com/video/BV138TF6MEvD/, https://www.bilibili.com/video/BV1ShTu6tEAY/, https://www.bilibili.com/video/BV1CLEG6xEzA/, https://www.bilibili.com/video/BV1Su4y1k7Sd/, http://www.bilibili.com/video/av116837824206333, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av116714712927492, http://www.bilibili.com/video/av113037969195553, http://www.bilibili.com/video/av112930662122741, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av643459458, http://www.bilibili.com/video/av113958182721133, http://www.bilibili.com/video/av114052084798274, http://www.bilibili.com/video/av116804689072153, http://www.bilibili.com/video/av116832035932385, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116838293903940, http://www.bilibili.com/video/av116836196683195, http://www.bilibili.com/video/av116826851776167, http://www.bilibili.com/video/av116837673075458, http://www.bilibili.com/video/av116481073354187, http://www.bilibili.com/video/av116839032095496, http://www.bilibili.com/video/av116832069556939, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116832975651913, http://www.bilibili.com/video/av116811248967460, http://www.bilibili.com/video/av116828445611869, http://www.bilibili.com/video/av915851253, http://www.bilibili.com/video/av115121129068885",
-          "uid": "BV1XWKZ6eE5d,BV1orKQ6ZEqm,BV138TF6MEvD,BV1ShTu6tEAY,BV1CLEG6xEzA,BV1Su4y1k7Sd",
-          "sample": "回复 @Kanzaki-千枼 :玩游戏可以，千万不要混圈，一旦混圈各种腥风血雨"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1idKZ6kEwX/, https://www.bilibili.com/video/BV1xRKo6WE36/, https://www.bilibili.com/video/BV1FmEm6HEaz/, https://www.bilibili.com/video/BV1xsKQ6zEBA/, https://www.bilibili.com/video/BV1sSk6B8Efv/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116833227184706, http://www.bilibili.com/video/av115529922713807, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116810410235206, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116793549003302, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116837471880832, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116837656434353, http://www.bilibili.com/video/av116818865817289",
-          "uid": "BV1Z1Kd66ExR,BV1idKZ6kEwX,BV1xRKo6WE36,BV1FmEm6HEaz,BV1xsKQ6zEBA,BV1sSk6B8Efv",
-          "sample": "千万别点开是陷阱[doge]"
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467247968",
+          "uid": "tanghao813020",
+          "sample": "从弱智吧大佬那里抄来的，改了两个字 学了两年半一直学不会写字但我觉得这句话真的可以封神了"
         },
         {
           "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
           "uid": "",
-          "sample": "本质上还是对着原曲扣音高，术力口好歹是个创造过程，鬼畜区音感好点的做得好听，做在调上，音感不好的，调都不知道跑了几个，然后一堆看的还说爽爽爽，但是我听得怪难受的。那个千万播放的进击的巨人鬼畜也是跑调的[笑哭]"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8503560183",
-          "uid": "贴吧用户_GRttXV3",
-          "sample": "千万不要和王源谈恋爱，因为王源生的孩子都是逆天"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1u3411r7uq/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV12VKf6FE2Y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av904214610, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av114993387406954",
-          "uid": "BV1BETw6WERX,BV1u3411r7uq,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV12VKf6FE2Y",
-          "sample": "千万不要回游 叠纸改了条款 太恶毒了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1BETw6WERX/, https://www.bilibili.com/video/BV1m9myYhEsi/, https://www.bilibili.com/video/BV12Wj46bEVT/, https://www.bilibili.com/video/BV19DK96bEqA/, https://www.bilibili.com/video/BV14iKU6eEyz/, https://www.bilibili.com/video/BV1uqG26mEKm/, https://www.bilibili.com/video/BV12VKf6FE2Y/, https://www.bilibili.com/video/BV1nmVEzgEZM/, https://www.bilibili.com/video/BV1kHKf69EVa/, https://www.bilibili.com/video/BV1PXRDBHEKF/, https://www.bilibili.com/video/BV138TF6MEvD/, https://www.bilibili.com/video/BV1H8jbzVE8y/, http://www.bilibili.com/video/av116839283758458, http://www.bilibili.com/video/av116785797926918, http://www.bilibili.com/video/av116835861137840, http://www.bilibili.com/video/av116646278662149, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av116832589585823, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av114562145714386, http://www.bilibili.com/video/av116509594617472, http://www.bilibili.com/video/av116533720255159, http://www.bilibili.com/video/av115422984669866, http://www.bilibili.com/video/av116799907565159, http://www.bilibili.com/video/av116837287201229, http://www.bilibili.com/video/av623912149, http://www.bilibili.com/video/av346764543, http://www.bilibili.com/video/av115437933167788, http://www.bilibili.com/video/av116836632959938, http://www.bilibili.com/video/av116725634833096, http://www.bilibili.com/video/av116838797214797, http://www.bilibili.com/video/av116710266899915, http://www.bilibili.com/video/av115468450995884, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116798766715919, http://www.bilibili.com/video/av116165242257758, http://www.bilibili.com/video/av116801501404913, http://www.bilibili.com/video/av116804789733514, http://www.bilibili.com/video/av116812540805378, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115813927490776, http://www.bilibili.com/video/av116819906005180, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116799773351835, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116839334086369, http://www.bilibili.com/video/av116754592372373, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av113461929447808, http://www.bilibili.com/video/av116837253647678, http://www.bilibili.com/video/av116543769810463, http://www.bilibili.com/video/av115446456128129, http://www.bilibili.com/video/av116838847612619, http://www.bilibili.com/video/av116832186926995",
-          "uid": "BV1BETw6WERX,BV1m9myYhEsi,BV12Wj46bEVT,BV19DK96bEqA,BV14iKU6eEyz,BV1uqG26mEKm,BV12VKf6FE2Y,BV1nmVEzgEZM,BV1kHKf69EVa,BV1PXRDBHEKF,BV138TF6MEvD,BV1H8jbzVE8y",
-          "sample": "千万不要回游 叠纸改了条款 太恶毒了"
-        },
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "517281234",
-          "sample": "https://b23.tv/0R1kTy千万不要点进来\u0014[doge](复制的)"
+          "sample": "补充两点： 1. 衡量华语音乐复兴的标志，不是欧美up主为了那点流量进行的（或者花钱去外网找欧美博主），如同“夸夸群”般的“华语音乐反应视频”，而是我们不再需要通过出口转内销的外国赞许来获得极其病态的审美确认； 2. 很多方面可以接受刀郎2023年的现象：成千上万的营销号对乐理的践踏、认知闭环和信息茧房——由于英语壁垒和网络封锁，下沉市场的听众接触不到世界前沿的先锋音乐。营销号利用这种信息匮乏，将刀郎神化为一个“全球音乐的救世主”形象。 以及，下沉市场的大众在生活中往往是沉默和被忽视的。因此，“草根出身、被主流排挤、沉寂多年一战封神”的包装形象，完美契合了民众们的“复仇幻想”。在这种情绪高潮下，乐理、审美、编曲结构都不重要了。唯一的评判标准居然是态度和出身。讽刺又无奈。"
         }
       ]
     },
     {
-      "term": "千真万确",
+      "term": "就是",
       "evidenceSamples": [
-        "我就是那小区的，那天我亲眼见着是条哈士奇从造船厂下班出来骑着辆刹车不灵光的破电驴搁楼底下练了二十分钟埙，千真万确",
-        "25新一卷数学126，给一个血的教训：绝对、绝对不要在考试最后几分钟改答案，尤其是前面的题，如果要改一定是千真万确、十拿九稳地确定自己之前错了，否则大概率是你考到最后眼睛已经花了，把对的当成错的了"
+        "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，...",
+        "食神里戴龙师傅就是本人出镜[滑稽]",
+        "回复 @游星栗子 :是的，所以后来很多up也解读过这一点，就是为什么周星驰的人缘不好。",
+        "情商高是能给出解决办法，他jkl就是个两边都不得罪的老好人。左手都气到开饭桌了，饭桌反呛韩服第一没游戏理解，他jkl还在和稀泥，结果被坑最惨的还不是他自己。",
+        "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
-          "uid": "BV1VKVK66E8K",
-          "sample": "我就是那小区的，那天我亲眼见着是条哈士奇从造船厂下班出来骑着辆刹车不灵光的破电驴搁楼底下练了二十分钟埙，千真万确"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
         },
         {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1iRVG6cE5g/",
-          "uid": "BV1iRVG6cE5g",
-          "sample": "25新一卷数学126，给一个血的教训：绝对、绝对不要在考试最后几分钟改答案，尤其是前面的题，如果要改一定是千真万确、十拿九稳地确定自己之前错了，否则大概率是你考到最后眼睛已经花了，把对的当成错的了"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "食神里戴龙师傅就是本人出镜[滑稽]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "回复 @游星栗子 :是的，所以后来很多up也解读过这一点，就是为什么周星驰的人缘不好。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "情商高是能给出解决办法，他jkl就是个两边都不得罪的老好人。左手都气到开饭桌了，饭桌反呛韩服第一没游戏理解，他jkl还在和稀泥，结果被坑最惨的还不是他自己。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "。可以这样说，现在的国产大爆发新势力的泛滥，就是源于当年花园宾馆（一汽大门旁边）各大汽车厂商的招聘摊（徐三搞得全体起立）。不签竞业协议这件事情简直就是故意放他们走。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "这就是老一辈观念的局限性，他们对职业的认知是静止的，是一种一成不变的期望，这种期望来源于世纪初的高速增长，他们或许自己就吃到了红利，并认为接下来的数十年世界依旧如此一成不变，和平、增长、稳中向好，电梯会一直上升，只要你牢牢坐稳不掉下去，你的..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @芝士脑袋一万年 :我军哥，我可爱他了，贼帅，就是和魏大勋一样不能开口[滑稽]"
         }
       ]
     },
     {
-      "term": "历来",
+      "term": "就是事实",
       "evidenceSamples": [
-        "回复 @不眠樣 :北京不知道，但是浙江新高考以来，地理分数评价一直是玄学，浙江是100分制，对于认真学的同学分数在70和100之间波动都很正常，主要是多刷题，见多识广。生物是达到一定水平后就比较稳定了。付出经历来说，地理背诵压力很小，因为基本考分析，只需要记角度就可以了。而生物虽然是理科，但它的小知识点是真的多，背诵强度不下历史，还有看能不能克服遗传题吧",
-        "jade会有这样的脑回路对她的经历来说正常的"
+        "西方国家有规定，同居半年以上就是事实婚姻，但中国没有这项规定，然后一些来中国赚钱的白男就很喜欢找中国女的同居，女的怀孕后，他们就要求女的打掉，但让他们没有想到的是，女的不会打还会把事闹大，白男没办法跑回国，这就正中了小仙女的下怀，他们会追到白男的国家去，然后和当地大使馆说这个事，大使馆绝对会帮忙起诉，维护中国公民的权利，然后当地法院就只能案当地的法律判离婚案，小仙女就高高兴兴地拿钱回国。",
+        "解释就是掩饰，掩饰就是事实",
+        "过了一遍，我佛了，大人将自己的主观臆想擅自强加在孩子身上，以为自己以为的就是事实，还把自己的观念强加在别人身上，傲慢与偏见。现实中很多人也是这个样子觉得自己说的就是绝对正确的，不容别人反驳.可能说的不对，但是这就是我自己思考这个视频的。"
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YC4y1o7E3/",
-          "uid": "BV1YC4y1o7E3",
-          "sample": "回复 @不眠樣 :北京不知道，但是浙江新高考以来，地理分数评价一直是玄学，浙江是100分制，对于认真学的同学分数在70和100之间波动都很正常，主要是多刷题，见多识广。生物是达到一定水平后就比较稳定了。付出经历来说，地理背诵压力很小，因为基本考分析，只需要记角度就可以了。而生物虽然是理科，但它的小知识点是真的多，背诵强度不下历史，还有看能不能克服遗传题吧"
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "西方国家有规定，同居半年以上就是事实婚姻，但中国没有这项规定，然后一些来中国赚钱的白男就很喜欢找中国女的同居，女的怀孕后，他们就要求女的打掉，但让他们没有想到的是，女的不会打还会把事闹大，白男没办法跑回国，这就正中了小仙女的下怀，他们会追到白男的国家去，然后和当地大使馆说这个事，大使馆绝对会帮忙起诉，维护中国公民的权利，然后当地法院就只能案当地的法律判离婚案，小仙女就高高兴兴地拿钱回国。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1EzcFzSEbB/",
+          "uid": "BV1EzcFzSEbB",
+          "sample": "解释就是掩饰，掩饰就是事实"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YA411q7wM/",
+          "uid": "159954254",
+          "sample": "过了一遍，我佛了，大人将自己的主观臆想擅自强加在孩子身上，以为自己以为的就是事实，还把自己的观念强加在别人身上，傲慢与偏见。现实中很多人也是这个样子觉得自己说的就是绝对正确的，不容别人反驳.可能说的不对，但是这就是我自己思考这个视频的。"
+        }
+      ]
+    },
+    {
+      "term": "就是如此",
+      "evidenceSamples": [
+        "刚才睡醒了，眼睛真黑 由此我由衷的想到，人们经常把不真实的美好形容成“梦一般”可是事实就是如此，你度过的上一秒就是虚幻的，因为你永远无法复刻你的上一秒，实际上我们在回忆里短暂的快乐终究是时间的自我说服——即你在永恒孤独的每个下一刻，你都如此依靠着以往美好经验，来面对他的流逝。",
+        "但是本就是如此，如果真论传统的话，我们平常听的东西就不应该是钢琴吉他，有发展才有融合，日本虽说也是脱胎于西方音乐，但也发展出了自己的风格，有自己的爵士摇滚风格，也去融合了传统，比如说和风融合爵士电子音乐等等，包括我们现在常提的国风，也是在西方的乐器基础上再去融合中国传统旋律乐器",
+        "我觉得老师说的很对，现在国乐就是如此，浮躁，急功近利。但是文化自卑我觉得不是罪魁祸首而是果，真正的病根是文化忽视，这是因。这不是现在才产生的，而是自古如此，文人弹琴古称风雅，但是乐工谱曲就成了卑贱。这就导致一种很畸形的发展状态，音乐本身地位很高，甚至六艺术中礼、乐、射、御、书、数，排名第二，仅次于“礼”，孔子说“兴于诗，立于礼，成于乐”，认为音乐是人格养成的最高境界。但是古时“倡优”与“伶人”这些从事演奏歌舞的人，他们后代不能参加科举，不能穿丝绸，不能与良民通婚，这种“重道轻技”、“重士轻工”的社会结构，导致了中国传统音乐在理论体系化、乐器改革、以及多声部和声发展上，远远落后于西方的最核心原因之一，中国音乐虽然有极高的单体表演水平，却始终没能建立起类似西方的庞大和声体系和管弦乐配器法。但是在欧美，音乐家是高雅艺术，是受人爱戴和追捧的，这就从底子上就形成了截然相反的一种发展趋势。从国人走出国门后，才对艺术有了重新的认识，不过底子里这种心态却没有转变。就算到了现在，人们对音乐还是持消极态度，很多人喜欢音乐，也很有天赋，但是在一些家长看来，这是不务正业的。中国从古至今从来不缺人才，缺的只是对于天赋的重视，是人们对于文化的漠不关心，真正到了其它文化袭来的时候，我们再想去捡起发现已经落后一大截了，从而急于求成，自卑乃至放弃。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8680476067",
+          "uid": "大忘z",
+          "sample": "刚才睡醒了，眼睛真黑 由此我由衷的想到，人们经常把不真实的美好形容成“梦一般”可是事实就是如此，你度过的上一秒就是虚幻的，因为你永远无法复刻你的上一秒，实际上我们在回忆里短暂的快乐终究是时间的自我说服——即你在永恒孤独的每个下一刻，你都如此依靠着以往美好经验，来面对他的流逝。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "但是本就是如此，如果真论传统的话，我们平常听的东西就不应该是钢琴吉他，有发展才有融合，日本虽说也是脱胎于西方音乐，但也发展出了自己的风格，有自己的爵士摇滚风格，也去融合了传统，比如说和风融合爵士电子音乐等等，包括我们现在常提的国风，也是在西方的乐器基础上再去融合中国传统旋律乐器"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我觉得老师说的很对，现在国乐就是如此，浮躁，急功近利。但是文化自卑我觉得不是罪魁祸首而是果，真正的病根是文化忽视，这是因。这不是现在才产生的，而是自古如此，文人弹琴古称风雅，但是乐工谱曲就成了卑贱。这就导致一种很畸形的发展状态，音乐本身地位很高，甚至六艺术中礼、乐、射、御、书、数，排名第二，仅次于“礼”，孔子说“兴于诗，立于礼，成于乐”，认为音乐是人格养成的最高境界。但是古时“倡优”与“伶人”这些从事演奏歌舞的人，他们后代不能参加科举，不能穿丝绸，不能与良民通婚，这种“重道轻技”、“重士轻工”的社会结构，导致了中国传统音乐在理论体系化、乐器改革、以及多声部和声发展上，远远落后于西方的最核心原因之一，中国音乐虽然有极高的单体表演水平，却始终没能建立起类似西方的庞大和声体系和管弦乐配器法。但是在欧美，音乐家是高雅艺术，是受人爱戴和追捧的，这就从底子上就形成了截然相反的一种发展趋势。从国人走出国门后，才对艺术有了重新的认识，不过底子里这种心态却没有转变。就算到了现在，人们对音乐还是持消极态度，很多人喜欢音乐，也很有天赋，但是在一些家长看来，这是不务正业的。中国从古至今从来不缺人才，缺的只是对于天赋的重视，是人们对于文化的漠不关心，真正到了其它文化袭来的时候，我们再想去捡起发现已经落后一大截了，从而急于求成，自卑乃至放弃。"
+        }
+      ]
+    },
+    {
+      "term": "就是就是",
+      "evidenceSamples": [
+        "就是就是，评论区里一会儿踩原唱，一会儿踩翻唱，就很烦，本来就是想进来听歌欣赏的，一看评论区，唉，都不知道说什么( ´_ゝ｀)",
+        "[大哭]就是就是",
+        "就是就是，生产队的驴都不敢这么歇[傲娇]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nA411e74s/",
+          "uid": "BV1nA411e74s",
+          "sample": "就是就是，评论区里一会儿踩原唱，一会儿踩翻唱，就很烦，本来就是想进来听歌欣赏的，一看评论区，唉，都不知道说什么( ´_ゝ｀)"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ESZuYCEaB/",
+          "uid": "BV1ESZuYCEaB",
+          "sample": "[大哭]就是就是"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vMVh6LEBT/",
+          "uid": "BV1vMVh6LEBT",
+          "sample": "就是就是，生产队的驴都不敢这么歇[傲娇]"
+        }
+      ]
+    },
+    {
+      "term": "就是死",
+      "evidenceSamples": [
+        "死神本来就是死的",
+        "那个年代得了艾滋就是死的很快",
+        "死亡就是死亡，死亡可不是出生"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1sFVz6XEFM/",
+          "uid": "489594454",
+          "sample": "死神本来就是死的"
         },
         {
           "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
           "uid": "BV1SAVe6LEeP",
-          "sample": "jade会有这样的脑回路对她的经历来说正常的"
+          "sample": "那个年代得了艾滋就是死的很快"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yg4y1Y7L9/",
+          "uid": "BV1yg4y1Y7L9",
+          "sample": "死亡就是死亡，死亡可不是出生"
         }
       ]
     },
     {
-      "term": "压根",
+      "term": "就是绝对",
       "evidenceSamples": [
-        "回复 @啊啊啊ii :美女和粉丝太惨惹...前两天打开热搜还没反应过来，那张图不说谁知道是鸡本人啊[疑惑]之前玩这个梗对他压根没恶意单纯觉得好玩，结果癌鲲疯批成这样有够恶臭惹，表情包不让人用，那我不介意再和周围的人一起复盘鸡你太美[OK]",
-        "没办法，如果不这么说，可能就不会有人关注，更不会盈利。美国英国日本韩国的本土传统音乐都可以盈利，甚至进入榜单跟流行歌比销量，只有中国音乐没做到，因为中国压根就没有榜单[喜极而泣][喜极而泣][喜极而泣]Q音网易云的什么热歌榜飙升榜，感觉都是随机生成的，以及歌手花钱做推广的。",
-        "掉帧是试玩版本的问题 试玩的版本是1.01 但是四月份的state of play 的版本已经是1.03了 说明试玩的版本是很久以前的 正式版应该没有问题，口型是压根就没做日语口型，但是中文翻译字幕又是按日语翻的，导致用英配就有时候语音和字幕不是一个意思，就挺别扭的",
-        "是的，所以我每天娱乐时间就打游戏压根没空看这些牛鬼蛇神，玩游戏真爽"
+        "有一说一 up就算现在这体能在同样年纪绝对算好的了 加油加油",
+        "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。",
+        "乐器类的绝对重灾区[doge]",
+        "一人之下最吸引我的地方，是它的人物塑造。在一人的世界里，没有绝对的好坏，没有绝对的善恶。所谓的正义和邪恶只是世人所想罢了，十佬善吗？全性又全恶了吗？甚至连处男，王也，诸葛青这些人他们也并非是表现中的那个样子，他们也有自己的困扰，自己的心魔。...",
+        "总之就是人格面具用的更好了，且日抛，更自恋更自我但是也能够理解并在需要的时候回应外界了，边界感更强了，保证自己可以处在独处的绝对舒适区不被侵犯，能够较平稳的保持好能量和状态。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EM4y1A7UN/, https://www.bilibili.com/video/BV1kaKHzaEL3/, https://www.bilibili.com/video/BV1rdy8BYE2s/, https://www.bilibili.com/video/BV1Rtq6YiEMT/, http://www.bilibili.com/video/av934772048, http://www.bilibili.com/video/av114743725524550, http://www.bilibili.com/video/av115462159669361, http://www.bilibili.com/video/av113628627865608",
+          "uid": "BV1EM4y1A7UN,BV1kaKHzaEL3,BV1rdy8BYE2s,BV1Rtq6YiEMT",
+          "sample": "有一说一 up就算现在这体能在同样年纪绝对算好的了 加油加油"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8486643952",
+          "uid": "极汨",
+          "sample": "有个小小的想法 有句谚语叫人类一思考，上帝就发笑。 那么学校绝对是上帝发笑最多的地方。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bx4y1t7QB/, https://www.bilibili.com/video/BV1Co7L6cEQ4/, https://www.bilibili.com/video/BV1Bm421g7LM/, https://www.bilibili.com/video/BV1DveJenEiW/, http://www.bilibili.com/video/av1006037834, http://www.bilibili.com/video/av116817137769173, http://www.bilibili.com/video/av1606244969, http://www.bilibili.com/video/av112960609584146",
+          "uid": "BV1bx4y1t7QB,BV1Co7L6cEQ4,BV1Bm421g7LM,BV1DveJenEiW",
+          "sample": "乐器类的绝对重灾区[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "一人之下最吸引我的地方，是它的人物塑造。在一人的世界里，没有绝对的好坏，没有绝对的善恶。所谓的正义和邪恶只是世人所想罢了，十佬善吗？全性又全恶了吗？甚至连处男，王也，诸葛青这些人他们也并非是表现中的那个样子，他们也有自己的困扰，自己的心魔。..."
+        },
+        {
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "总之就是人格面具用的更好了，且日抛，更自恋更自我但是也能够理解并在需要的时候回应外界了，边界感更强了，保证自己可以处在独处的绝对舒适区不被侵犯，能够较平稳的保持好能量和状态。"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "我真的很多年前就在期待这种产品的诞生了，但它就是没有，有一些游戏键鼠按键没有行走，在有些好看的场景只能奔跑真的代入感很糟糕，大部分切换行走的也很糟糕，因为你从奔跑到行走的过渡非常难受，感觉人就像卡了一下然后开始行走了，以前刺客信条的高调模式..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16njuzUEnF/, https://www.bilibili.com/video/BV1i54Az9EZj/, https://www.bilibili.com/video/BV1Ya411E75V/, https://www.bilibili.com/video/BV1NHcrzVEKy/, http://www.bilibili.com/video/av114566122116071, http://www.bilibili.com/video/av115355791919319, http://www.bilibili.com/video/av214368418, http://www.bilibili.com/video/av116214433062152",
+          "uid": "BV16njuzUEnF,BV1i54Az9EZj,BV1Ya411E75V,BV1NHcrzVEKy",
+          "sample": "回复 @艾利托斯 :对，风起地那个大树，但是神樱大祓的最终任务的那个湖底洞，里面晶金蝶也很多，还有孤云阁副本，一天去那随便能抓到十只左右，一天一刷新，我相信给50多级那种，手上没有什么脆弱树脂的人，一天绝对够用"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "本来这里吉他就是绝对的主角，调小了还听什么，原版音轨吗"
+        }
+      ]
+    },
+    {
+      "term": "归根结底",
+      "evidenceSamples": [
+        "但归根结底是萝卜的问题啊",
+        "挤地铁是因为油贵，归根结底还是因为钱",
+        "归根结底是明里挣名义，暗里挣权力。认谁做爹，其实没那么重要"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "但归根结底是萝卜的问题啊"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "挤地铁是因为油贵，归根结底还是因为钱"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18QLX6GE8y/",
+          "uid": "BV18QLX6GE8y",
+          "sample": "归根结底是明里挣名义，暗里挣权力。认谁做爹，其实没那么重要"
+        }
+      ]
+    },
+    {
+      "term": "当之无愧",
+      "evidenceSamples": [
+        "💕磁场中心 · 领袖觉醒💘当之无愧的团队心脏💓舞台秩序的绝对坐标📍【#杨博文 实力核心ace# 】团队凝聚的引力核心🪐追随TF家族-杨博文YBW 💗即是站在实力与领袖力的最前沿🔝💕天生慕强💓无限追求💕准备好为“神级”队长与“顶级”实力俯首称臣了吗💗",
+        "曾卓君就是继WAR3人皇之后，当之无愧的中国电竞第一人[doge]",
+        "东亚卷王，当之无愧"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EqVJ6dEYG/",
+          "uid": "BV1EqVJ6dEYG",
+          "sample": "💕磁场中心 · 领袖觉醒💘当之无愧的团队心脏💓舞台秩序的绝对坐标📍【#杨博文 实力核心ace# 】团队凝聚的引力核心🪐追随TF家族-杨博文YBW 💗即是站在实力与领袖力的最前沿🔝💕天生慕强💓无限追求💕准备好为“神级”队长与“顶级”实力俯首称臣了吗💗"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LiVV6AEzm/",
+          "uid": "BV1LiVV6AEzm",
+          "sample": "曾卓君就是继WAR3人皇之后，当之无愧的中国电竞第一人[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "东亚卷王，当之无愧"
+        }
+      ]
+    },
+    {
+      "term": "当然",
+      "evidenceSamples": [
+        "不用这么麻烦，还得记路线，就那玩意，做浓缩树脂，一天你顶多需要5到6个，当然，拿原石买树脂，和刚到45级刷圣遗物的除外，看他这还得记路线，风起地神像大树下，直接拿，鸣神大社下的洞（神樱大祓任务最终点），直接跳，下面就是，离传送点特别近，一个...",
+        "王沥川up最大的功劳就是给新、兰、新兰粉创造了可以说话的b站环境。 和魔怔ca不要纠缠，那种爱而不自知，买包论，护身符论一出来就知道是二创同人吃多了脑子不好使。理中客可以先看它踩不踩小兰，如果落脚点是踩小兰90%是ca，不踩小兰客观看待双方...",
+        "回复 @Mtt貘貘 :是的[doge]她哪怕再怎么吃醋都不会迁怒到一个来寻求帮助女孩子身上呢（当然，某些[tv_白眼]觉得大头娃娃凶人都要上纲上线的分析文，那我也是无奈）",
+        "回复 @仔灰灰 :我加一些条件[妙啊]给灰灰仔一些补充[藏狐]想混日子的不要当班主任[藏狐]有责任心的不要带初三高三[藏狐]以我为例，小学教信息没信没肺学生上课呜呜泱泱的也不用管,[藏狐]学校也没办法因为我有岗有编，当老师我自己这些年的感受...",
+        "是啊，这里的每一处，都有你的影子，我当然能够看到啊。可是我所渴求的，从来都不是这些……☹️"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16njuzUEnF/, https://www.bilibili.com/video/BV1i54Az9EZj/, https://www.bilibili.com/video/BV1Ya411E75V/, https://www.bilibili.com/video/BV1NHcrzVEKy/, http://www.bilibili.com/video/av114566122116071, http://www.bilibili.com/video/av115355791919319, http://www.bilibili.com/video/av214368418, http://www.bilibili.com/video/av116214433062152",
+          "uid": "BV16njuzUEnF,BV1i54Az9EZj,BV1Ya411E75V,BV1NHcrzVEKy",
+          "sample": "不用这么麻烦，还得记路线，就那玩意，做浓缩树脂，一天你顶多需要5到6个，当然，拿原石买树脂，和刚到45级刷圣遗物的除外，看他这还得记路线，风起地神像大树下，直接拿，鸣神大社下的洞（神樱大祓任务最终点），直接跳，下面就是，离传送点特别近，一个..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "王沥川up最大的功劳就是给新、兰、新兰粉创造了可以说话的b站环境。 和魔怔ca不要纠缠，那种爱而不自知，买包论，护身符论一出来就知道是二创同人吃多了脑子不好使。理中客可以先看它踩不踩小兰，如果落脚点是踩小兰90%是ca，不踩小兰客观看待双方..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "回复 @Mtt貘貘 :是的[doge]她哪怕再怎么吃醋都不会迁怒到一个来寻求帮助女孩子身上呢（当然，某些[tv_白眼]觉得大头娃娃凶人都要上纲上线的分析文，那我也是无奈）"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "回复 @仔灰灰 :我加一些条件[妙啊]给灰灰仔一些补充[藏狐]想混日子的不要当班主任[藏狐]有责任心的不要带初三高三[藏狐]以我为例，小学教信息没信没肺学生上课呜呜泱泱的也不用管,[藏狐]学校也没办法因为我有岗有编，当老师我自己这些年的感受..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "是啊，这里的每一处，都有你的影子，我当然能够看到啊。可是我所渴求的，从来都不是这些……☹️"
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "经过张学良的精兵简政，东北军还有40万左右的主力，但战斗力还是不错的，装备方面无法统计(因为东北兵工厂生产力太高了，在东亚都可以排的上号的，每天的产量就可以武装一个营)，步枪型号为六五、七九，迫击炮是16年式;冲锋枪是伯格曼、重机枪是马克沁..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "不粉你家，看到这种都很不舒服，很明显就是故意的啊，况且还是在直播间里这样做，那个沛恩说的那两句话看直播的人都能听见吧，就闭着眼睛装瞎装聋呗，况且就算你是不是故意打到人说句抱歉要命了？（当然直播里一看就是故意的）只能说什么样的正主什么样的粉丝..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV15u7W6TExb/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1i7NpetEhd/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV1bXKf6YEod/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116652737824287, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av114052084798274, http://www.bilibili.com/video/av1001282424, http://www.bilibili.com/video/av114923493396003, http://www.bilibili.com/video/av116742177164233, http://www.bilibili.com/video/av115094319071448, http://www.bilibili.com/video/av112912408511183, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116092798240853, http://www.bilibili.com/video/av114827292907700, http://www.bilibili.com/video/av116782912247024, http://www.bilibili.com/video/av1355764750, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av619420176, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av115860987450392, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116822942883165, http://www.bilibili.com/video/av113958182721133, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av113018541180502, http://www.bilibili.com/video/av116720165521615",
+          "uid": "BV1h7jgzzEn6,BV15u7W6TExb,BV16VTw6oEwv,BV1i7NpetEhd,BV1PETM6UEcg,BV1bXKf6YEod",
+          "sample": "老实说，喜欢的角色出SP谁都高兴，但最起码的得跟原本角色有明显的差异化吧，平时比流水比质量都会往好了比，现在“第一款二游吗？其他游戏不也是这样出SP吗？”比SP反而比烂，是真的没意思吧，当然，希望建模师能狠狠打我脸多整点不一样的，俩角色都挺..."
+        }
+      ]
+    },
+    {
+      "term": "彻底",
+      "evidenceSamples": [
+        "回复 @Serendpiaty :我懂了，其实你也是黑粉，看到蔡徐坤的名声因为其他人的恶劣行为，稍稍有些好转，无法忍受蔡徐坤之流也能被认成正常明星，所以才来这样到处喷人，说出这种反智的话，委屈你了，继续加油，这样才能彻底败光昆昆的路人缘，我们一定要创造一个没有这种明星的网络环境[给心心]",
+        "你没看懂作者要表达什么，而且文化同文化之间不能这般对比；人类在彻底灭亡之前不断追求进步，这没问题，作者更多是为了不让音乐发展固步自封才会发表看法与问题，本质上没有追求超越，就像文学一样，作品之间不能直接比较，所以在音乐上才会追求体系、创新，最后能为中华民族、人类文明的音乐进步作出贡献，就像爵士或j-pop",
+        "鼠鼠被偷家了，我妈彻底被洗脑，天天打拳 鼠鼠毕业两年，做游戏开发，房租至少2k-4k，为了省💰就和父母住。我妈从之前就满嘴伪史论，说金字塔那些全是假的，工业革命理论基础是《永乐大典》和《天工开物》。现在天天逼我听这些：铿锵玫瑰应该同工同酬，凭什么就男足💰多（实际上铿锵玫瑰就一坨，男足U14都踢不过）；沃森和克里克偷了富兰克林女士的研究，世界上第一个程序员是女性；根据研究，普遍男性薪资比女性高20%，从小就这样。还羡慕希拉里、哈里斯这些，说真羡慕它们能掌👊还说我们三姐妹真傻，当年没要一分钱彩礼，但鼠鼠爹是农村出来的，90年代上个带专都要每家每户借钱，别说5w，2k拿出来都能把吸干了，当年结婚也是公司办的集体婚礼鼠鼠本来在小红薯和视频号等野区鲨的飞起，结果一回城发现泉水已经被对面偷了，水晶已经变成摆设了。",
+        "LTG：老子只受重伤，又没有彻底下线[doge]",
+        "最后一丝理智彻底被击溃了，冲琳老哥不住地后退，一个倒栽葱跌到了台下，连喊痛都来不及就连滚带爬地往场馆外跑去。"
       ],
       "evidenceSources": [
         {
           "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "565774",
-          "sample": "回复 @啊啊啊ii :美女和粉丝太惨惹...前两天打开热搜还没反应过来，那张图不说谁知道是鸡本人啊[疑惑]之前玩这个梗对他压根没恶意单纯觉得好玩，结果癌鲲疯批成这样有够恶臭惹，表情包不让人用，那我不介意再和周围的人一起复盘鸡你太美[OK]"
+          "uid": "18634108",
+          "sample": "回复 @Serendpiaty :我懂了，其实你也是黑粉，看到蔡徐坤的名声因为其他人的恶劣行为，稍稍有些好转，无法忍受蔡徐坤之流也能被认成正常明星，所以才来这样到处喷人，说出这种反智的话，委屈你了，继续加油，这样才能彻底败光昆昆的路人缘，我们一定要创造一个没有这种明星的网络环境[给心心]"
         },
         {
           "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
           "uid": "",
-          "sample": "没办法，如果不这么说，可能就不会有人关注，更不会盈利。美国英国日本韩国的本土传统音乐都可以盈利，甚至进入榜单跟流行歌比销量，只有中国音乐没做到，因为中国压根就没有榜单[喜极而泣][喜极而泣][喜极而泣]Q音网易云的什么热歌榜飙升榜，感觉都是随机生成的，以及歌手花钱做推广的。"
+          "sample": "你没看懂作者要表达什么，而且文化同文化之间不能这般对比；人类在彻底灭亡之前不断追求进步，这没问题，作者更多是为了不让音乐发展固步自封才会发表看法与问题，本质上没有追求超越，就像文学一样，作品之间不能直接比较，所以在音乐上才会追求体系、创新，最后能为中华民族、人类文明的音乐进步作出贡献，就像爵士或j-pop"
         },
         {
-          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
           "uid": "",
-          "sample": "掉帧是试玩版本的问题 试玩的版本是1.01 但是四月份的state of play 的版本已经是1.03了 说明试玩的版本是很久以前的 正式版应该没有问题，口型是压根就没做日语口型，但是中文翻译字幕又是按日语翻的，导致用英配就有时候语音和字幕不是一个意思，就挺别扭的"
+          "sample": "鼠鼠被偷家了，我妈彻底被洗脑，天天打拳 鼠鼠毕业两年，做游戏开发，房租至少2k-4k，为了省💰就和父母住。我妈从之前就满嘴伪史论，说金字塔那些全是假的，工业革命理论基础是《永乐大典》和《天工开物》。现在天天逼我听这些：铿锵玫瑰应该同工同酬，凭什么就男足💰多（实际上铿锵玫瑰就一坨，男足U14都踢不过）；沃森和克里克偷了富兰克林女士的研究，世界上第一个程序员是女性；根据研究，普遍男性薪资比女性高20%，从小就这样。还羡慕希拉里、哈里斯这些，说真羡慕它们能掌👊还说我们三姐妹真傻，当年没要一分钱彩礼，但鼠鼠爹是农村出来的，90年代上个带专都要每家每户借钱，别说5w，2k拿出来都能把吸干了，当年结婚也是公司办的集体婚礼鼠鼠本来在小红薯和视频号等野区鲨的飞起，结果一回城发现泉水已经被对面偷了，水晶已经变成摆设了。"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XWKZ6eE5d/, https://www.bilibili.com/video/BV1orKQ6ZEqm/, https://www.bilibili.com/video/BV138TF6MEvD/, https://www.bilibili.com/video/BV1ShTu6tEAY/, https://www.bilibili.com/video/BV1CLEG6xEzA/, https://www.bilibili.com/video/BV1Su4y1k7Sd/, http://www.bilibili.com/video/av116837824206333, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av116714712927492, http://www.bilibili.com/video/av113037969195553, http://www.bilibili.com/video/av112930662122741, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av643459458, http://www.bilibili.com/video/av113958182721133, http://www.bilibili.com/video/av114052084798274, http://www.bilibili.com/video/av116804689072153, http://www.bilibili.com/video/av116832035932385, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116838293903940, http://www.bilibili.com/video/av116836196683195, http://www.bilibili.com/video/av116826851776167, http://www.bilibili.com/video/av116837673075458, http://www.bilibili.com/video/av116481073354187, http://www.bilibili.com/video/av116839032095496, http://www.bilibili.com/video/av116832069556939, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116832975651913, http://www.bilibili.com/video/av116811248967460, http://www.bilibili.com/video/av116828445611869, http://www.bilibili.com/video/av915851253, http://www.bilibili.com/video/av115121129068885",
-          "uid": "BV1XWKZ6eE5d,BV1orKQ6ZEqm,BV138TF6MEvD,BV1ShTu6tEAY,BV1CLEG6xEzA,BV1Su4y1k7Sd",
-          "sample": "是的，所以我每天娱乐时间就打游戏压根没空看这些牛鬼蛇神，玩游戏真爽"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "LTG：老子只受重伤，又没有彻底下线[doge]"
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "最后一丝理智彻底被击溃了，冲琳老哥不住地后退，一个倒栽葱跌到了台下，连喊痛都来不及就连滚带爬地往场馆外跑去。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1DuVB6oEqK/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV11b87zHES7/, https://www.bilibili.com/video/BV1UhxQzVEC1/, https://www.bilibili.com/video/BV1KBEm6tEpw/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av116797877526453, http://www.bilibili.com/video/av116114658958920, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116815090947597, http://www.bilibili.com/video/av116700368341722, http://www.bilibili.com/video/av116812507252608, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116816986770813, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av116825945873834, http://www.bilibili.com/video/av116815023838952, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116726440136064, http://www.bilibili.com/video/av116764692185541, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av585034028, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116805125275968, http://www.bilibili.com/video/av116724578124362, http://www.bilibili.com/video/av116774221647430, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av115172400171685, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114929449372370, http://www.bilibili.com/video/av116720064861381, http://www.bilibili.com/video/av922688107, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av114031130119231, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av1454637424, http://www.bilibili.com/video/av1700668450",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV1VrVL6qEHk,BV1AcYnezEkW,BV1Ra7L67ELc,BV1f4V16bEs8,BV1DuVB6oEqK,BV17R4y1Z7Zv,BV1yF7n6yEqz,BV11b87zHES7,BV1UhxQzVEC1,BV1KBEm6tEpw",
+          "sample": "LTG：老子只受重伤，又没有彻底下线[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV11n7Y6UEk3/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1Md7J6EEqB/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116810728868614, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av115909356224580, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782710985062, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av1454637424",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV11n7Y6UEk3,BV1f4V16bEs8,BV1Md7J6EEqB,BV17R4y1Z7Zv",
+          "sample": "LTG：老子只受重伤，又没有彻底下线[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV11n7Y6UEk3/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Md7J6EEqB/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116810728868614, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av115909356224580, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782710985062, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av116837991843682",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV11n7Y6UEk3,BV1AcYnezEkW,BV1Md7J6EEqB,BV1f4V16bEs8",
+          "sample": "LTG：老子只受重伤，又没有彻底下线[doge]"
         }
       ]
     },
     {
-      "term": "压根儿",
+      "term": "彻底改变",
       "evidenceSamples": [
-        "人家压根儿就没当一回事儿，就是想着赔钱了当"
+        "现在还真是大解构时代，取消一切仪式消解一切意义，我真服了评论区这么多人问意义何在，现在信息这么发达为什么不动动手去查一下这东西的历史呢？那按照这些思维很多以食物为原材料做出的工艺品，像花馍，面人，杏仁雕像这些国内外非物质文化遗产是不是也毫无意义呢？\\n既然这么多人不知道我就简单科普一下，巧克力工艺品的历史最早可到到19世纪，一系列技术突破让巧克力彻底改变。先是能从可可豆里分离出可可脂，接着出现了世界上第一块固体巧克力，再后来发明了能让巧克力变丝滑的精炼技术。终于，巧克力变得可塑、光亮，第一批真正的巧克力工艺品就诞生了，复活节彩蛋就在是最具代表性的。\\n进入20世纪后，巧克力工艺成为一门专业手艺。巧克力师们开始挑战大型雕塑，作品出现在世博会和国宴上。二战后，法国、比利时等国的工匠更是将巧克力雕塑、喷绘发展到艺术高度，花样繁多的巧克力装饰片成了高级甜点的标配。\\n20世纪末，巧克力工艺高速发展，迈入时尚与纯艺术领域。从巧克力时装秀、世界级造型大赛，到遍布全球的巧克力博物馆和3D打印技术，巧克力成了主流艺术媒介之一。近年来，中国的巧克力工艺师也在国际舞台上崭露头角，开始用本土文化元素进行创作，难道UP主用巧克力复刻清明上河图不在此之列吗？\\n还是那句话，自己不了解的东西就先上网查查，问百度问AI的了解一下，不认同可以说，但决不代表什么不认同就比认同更清醒。",
+        "原神至少彻底改变了人们对手游的认知",
+        "小米汽车彻底改变小米公司，市值从2千亿到现在1万亿，现在小米su7订新车依然要等2个月。。而且今年还会出suv，明年还会出对标S级的大型车，市值还会上涨",
+        "这个是实话，小米汽车彻底改变了小米"
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
-          "uid": "BV1Z3G96mEx1",
-          "sample": "人家压根儿就没当一回事儿，就是想着赔钱了当"
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16YGC6XEco/",
+          "uid": "BV16YGC6XEco",
+          "sample": "现在还真是大解构时代，取消一切仪式消解一切意义，我真服了评论区这么多人问意义何在，现在信息这么发达为什么不动动手去查一下这东西的历史呢？那按照这些思维很多以食物为原材料做出的工艺品，像花馍，面人，杏仁雕像这些国内外非物质文化遗产是不是也毫无意义呢？\\n既然这么多人不知道我就简单科普一下，巧克力工艺品的历史最早可到到19世纪，一系列技术突破让巧克力彻底改变。先是能从可可豆里分离出可可脂，接着出现了世界上第一块固体巧克力，再后来发明了能让巧克力变丝滑的精炼技术。终于，巧克力变得可塑、光亮，第一批真正的巧克力工艺品就诞生了，复活节彩蛋就在是最具代表性的。\\n进入20世纪后，巧克力工艺成为一门专业手艺。巧克力师们开始挑战大型雕塑，作品出现在世博会和国宴上。二战后，法国、比利时等国的工匠更是将巧克力雕塑、喷绘发展到艺术高度，花样繁多的巧克力装饰片成了高级甜点的标配。\\n20世纪末，巧克力工艺高速发展，迈入时尚与纯艺术领域。从巧克力时装秀、世界级造型大赛，到遍布全球的巧克力博物馆和3D打印技术，巧克力成了主流艺术媒介之一。近年来，中国的巧克力工艺师也在国际舞台上崭露头角，开始用本土文化元素进行创作，难道UP主用巧克力复刻清明上河图不在此之列吗？\\n还是那句话，自己不了解的东西就先上网查查，问百度问AI的了解一下，不认同可以说，但决不代表什么不认同就比认同更清醒。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ThTE6nE6G",
+          "sample": "原神至少彻底改变了人们对手游的认知"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1LL4y1e7WK",
+          "sample": "小米汽车彻底改变小米公司，市值从2千亿到现在1万亿，现在小米su7订新车依然要等2个月。。而且今年还会出suv，明年还会出对标S级的大型车，市值还会上涨"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1LL4y1e7WK",
+          "sample": "这个是实话，小米汽车彻底改变了小米"
+        }
+      ]
+    },
+    {
+      "term": "必定",
+      "evidenceSamples": [
+        "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。",
+        "说的很好，等出pc了哥们必定支持",
+        "我觉得不久AI就会把音乐逼回纯粹的演奏和更加纯粹的审美和情感表达，商业应用型的音乐必定会被率先取代，普通海报、广告画的制作由喷绘代替了人工。",
+        "兄弟我们完全可以放心这货必定会是下一个陈怡说不定这货早就被虫类身边几大母虫左右互博说白这些女早已是СПИД携带者而且从她来看再她眼里虫类及其它们后代必定是比它们亲生父母还要亲"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8687794647",
+          "uid": "坐忘道心",
+          "sample": "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "说的很好，等出pc了哥们必定支持"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我觉得不久AI就会把音乐逼回纯粹的演奏和更加纯粹的审美和情感表达，商业应用型的音乐必定会被率先取代，普通海报、广告画的制作由喷绘代替了人工。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "兄弟我们完全可以放心这货必定会是下一个陈怡说不定这货早就被虫类身边几大母虫左右互博说白这些女早已是СПИД携带者而且从她来看再她眼里虫类及其它们后代必定是比它们亲生父母还要亲"
+        }
+      ]
+    },
+    {
+      "term": "必定会",
+      "evidenceSamples": [
+        "我觉得不久AI就会把音乐逼回纯粹的演奏和更加纯粹的审美和情感表达，商业应用型的音乐必定会被率先取代，普通海报、广告画的制作由喷绘代替了人工。",
+        "兄弟我们完全可以放心这货必定会是下一个陈怡说不定这货早就被虫类身边几大母虫左右互博说白这些女早已是СПИД携带者而且从她来看再她眼里虫类及其它们后代必定是比它们亲生父母还要亲",
+        "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。",
+        "说的很好，等出pc了哥们必定支持"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我觉得不久AI就会把音乐逼回纯粹的演奏和更加纯粹的审美和情感表达，商业应用型的音乐必定会被率先取代，普通海报、广告画的制作由喷绘代替了人工。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "兄弟我们完全可以放心这货必定会是下一个陈怡说不定这货早就被虫类身边几大母虫左右互博说白这些女早已是СПИД携带者而且从她来看再她眼里虫类及其它们后代必定是比它们亲生父母还要亲"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8687794647",
+          "uid": "坐忘道心",
+          "sample": "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "说的很好，等出pc了哥们必定支持"
+        }
+      ]
+    },
+    {
+      "term": "必定是",
+      "evidenceSamples": [
+        "兄弟我们完全可以放心这货必定会是下一个陈怡说不定这货早就被虫类身边几大母虫左右互博说白这些女早已是СПИД携带者而且从她来看再她眼里虫类及其它们后代必定是比它们亲生父母还要亲",
+        "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。",
+        "说的很好，等出pc了哥们必定支持",
+        "我觉得不久AI就会把音乐逼回纯粹的演奏和更加纯粹的审美和情感表达，商业应用型的音乐必定会被率先取代，普通海报、广告画的制作由喷绘代替了人工。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "兄弟我们完全可以放心这货必定会是下一个陈怡说不定这货早就被虫类身边几大母虫左右互博说白这些女早已是СПИД携带者而且从她来看再她眼里虫类及其它们后代必定是比它们亲生父母还要亲"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8687794647",
+          "uid": "坐忘道心",
+          "sample": "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "说的很好，等出pc了哥们必定支持"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我觉得不久AI就会把音乐逼回纯粹的演奏和更加纯粹的审美和情感表达，商业应用型的音乐必定会被率先取代，普通海报、广告画的制作由喷绘代替了人工。"
         }
       ]
     }

@@ -1,0 +1,328 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "cooperation",
+  "shard": 42,
+  "shardCount": 42,
+  "evidence": [
+    {
+      "term": "顶一个",
+      "evidenceSamples": [
+        "虽然三个臭皮匠顶一个诸葛亮，但三个臭皮匠没水喝",
+        "吓哭了，一盒顶一个周",
+        "在这里能较真的人不多了，顶一个",
+        "这分均伤害顶一个ad了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8383512667",
+          "uid": "行人夕👻",
+          "sample": "虽然三个臭皮匠顶一个诸葛亮，但三个臭皮匠没水喝"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV17DVx63EDv/",
+          "uid": "BV17DVx63EDv",
+          "sample": "吓哭了，一盒顶一个周"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FuV566EcT/",
+          "uid": "BV1FuV566EcT",
+          "sample": "在这里能较真的人不多了，顶一个"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1J142187tz/",
+          "uid": "BV1J142187tz",
+          "sample": "这分均伤害顶一个ad了"
+        }
+      ]
+    },
+    {
+      "term": "顶我上去",
+      "evidenceSamples": [
+        "复制的\n粉丝群潜入指南\n蔡徐坤的鞋码是多少\n答：43.5\n蔡徐坤喜欢什么衣服\n答：白色衬衫和背带裤\n蔡徐坤穿多大码的衣服\n答：xxl\n坤坤的具体生日？\n答：生日 8月2日\n坤坤的应援色？\n答：王者金\n坤坤最喜欢的运动？\n答：游泳、篮球\n坤坤最爱的水果？\n答：水果应该是西瓜\n坤坤为什么做手戳脸的动作？\n答：戳脸动作，是和ikun约定好的，想对方就做这个动作，意思是想你了。\n坤坤想拥有的超能力是什么\n...",
+        "四个恶魔，四只小狗，血债血偿，支持死刑，立即执行，狗的命也是命。[奋斗]兄弟们顶我上去",
+        "想看av332732多p30万弹幕的顶我上去，尤其是p4亿千万"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV12fKf6bEEN",
+          "sample": "四个恶魔，四只小狗，血债血偿，支持死刑，立即执行，狗的命也是命。[奋斗]兄弟们顶我上去"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1NY4y1F7th",
+          "sample": "复制的\n粉丝群潜入指南\n蔡徐坤的鞋码是多少\n答：43.5\n蔡徐坤喜欢什么衣服\n答：白色衬衫和背带裤\n蔡徐坤穿多大码的衣服\n答：xxl\n坤坤的具体生日？\n答：生日 8月2日\n坤坤的应援色？\n答：王者金\n坤坤最喜欢的运动？\n答：游泳、篮球\n坤坤"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1rs411t7ce/",
+          "uid": "27137899",
+          "sample": "想看av332732多p30万弹幕的顶我上去，尤其是p4亿千万"
+        }
+      ]
+    },
+    {
+      "term": "顶配",
+      "evidenceSamples": [
+        "都拯救世界了，还开破奔驰油车，不奖励辆尊界S800顶配",
+        "必须顶配啊！拿着考核表呢",
+        "鸡蛋果子+砂锅馄饨才是顶配，不行，给我自己说饿了",
+        "用半砖封顶配重更轻吧",
+        "顶配幽魂"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1xUTf6FEHS",
+          "sample": "都拯救世界了，还开破奔驰油车，不奖励辆尊界S800顶配"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1bfMu6AEvo",
+          "sample": "必须顶配啊！拿着考核表呢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1gAMA67EfT",
+          "sample": "鸡蛋果子+砂锅馄饨才是顶配，不行，给我自己说饿了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1TJTZ6cEv5",
+          "sample": "用半砖封顶配重更轻吧"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1C4421U76U",
+          "sample": "顶配幽魂"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1vy4y1K7fJ",
+          "sample": "回复 @天守御晴 :天仙配\n和楼上"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV17Z421K7ib",
+          "sample": "拿顶配PC跟ps5比画质就没意思了呀，这画面要的配置价格都是ps5价格的10倍了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV163411t7Wy",
+          "sample": "买皮肤才多少钱，一百来块就能一个英雄的顶配了"
+        }
+      ]
+    },
+    {
+      "term": "顺带一提",
+      "evidenceSamples": [
+        "别洗了，别洗了，互联网的记忆是短，可是我的记忆不短，我还记得蔡徐坤运营给B站发律师函，粉丝爆破b站的时候呢，顺带一提，当初就是个网易云的纯路人，在鸡你太美评论区下面发了一个不是太好听，被两个人围着骂呢，忘不了的，毕竟对线到凌晨2点呢。",
+        "别这么说，有些财阀还是很良心的，据我所知，有个财阀的女婿为了他们公司当年的下毒致人死亡，在街上公开演讲，最后情到深处，以死谢罪，据说曾经还在倭寇政府担任高管呢[doge_金箍] 顺带一提，这条是我复制的 原评论被株式会社干掉了",
+        "别这么说，有些财阀还是很良心的，据我所知，有个财阀的女婿为了他们公司当年的下毒致人死亡，在街上公开演讲，最后情到深处，以死谢罪，据说曾经还在倭寇政府担任高管呢[doge_金箍] 顺带一提，这条是我复制的 原评论被株式会社干掉了aa",
+        "转型当抽象也是个不错的选择，我会支持小鹿的[星星眼]，顺带一提我是火影忍者玩家[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "544472438",
+          "sample": "别洗了，别洗了，互联网的记忆是短，可是我的记忆不短，我还记得蔡徐坤运营给B站发律师函，粉丝爆破b站的时候呢，顺带一提，当初就是个网易云的纯路人，在鸡你太美评论区下面发了一个不是太好听，被两个人围着骂呢，忘不了的，毕竟对线到凌晨2点呢。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KeV56WE7K/",
+          "uid": "BV1KeV56WE7K",
+          "sample": "别这么说，有些财阀还是很良心的，据我所知，有个财阀的女婿为了他们公司当年的下毒致人死亡，在街上公开演讲，最后情到深处，以死谢罪，据说曾经还在倭寇政府担任高管呢[doge_金箍] 顺带一提，这条是我复制的 原评论被株式会社干掉了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1KeV56WE7K/",
+          "uid": "BV1KeV56WE7K",
+          "sample": "别这么说，有些财阀还是很良心的，据我所知，有个财阀的女婿为了他们公司当年的下毒致人死亡，在街上公开演讲，最后情到深处，以死谢罪，据说曾经还在倭寇政府担任高管呢[doge_金箍] 顺带一提，这条是我复制的 原评论被株式会社干掉了aa"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19wZHYPEeJ/",
+          "uid": "BV19wZHYPEeJ",
+          "sample": "转型当抽象也是个不错的选择，我会支持小鹿的[星星眼]，顺带一提我是火影忍者玩家[doge]"
+        }
+      ]
+    },
+    {
+      "term": "颖宝",
+      "evidenceSamples": [
+        "这一对真的觉得是颖宝独美，因为林狗那些花花事儿，大家谁不知道啊？",
+        "颖宝加油加油支持你",
+        "颖宝新剧演技又进步了，爱了爱了。",
+        "颖宝这段哭戏真的绝，看哭了。",
+        "期待颖宝下一部作品，永远支持！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV12YwpeiE5o",
+          "sample": "这一对真的觉得是颖宝独美，因为林狗那些花花事儿，大家谁不知道啊？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1AJ411S7s6",
+          "sample": "颖宝加油加油支持你"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "颖宝新剧演技又进步了，爱了爱了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "颖宝这段哭戏真的绝，看哭了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "期待颖宝下一部作品，永远支持！"
+        }
+      ]
+    },
+    {
+      "term": "飞八分钱",
+      "evidenceSamples": [
+        "丢到飞八分钱了",
+        "这两集传奇切片我觉得是九顺叔除了辛巴飞八分钱以外最好笑的了",
+        "要是这时候来个飞八分钱把张顺飞砍死就好玩了",
+        "没有飞八分钱谁知道你张顺飞",
+        "飞八分钱"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1eATy6eEow",
+          "sample": "丢到飞八分钱了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1oSw9zvEFh",
+          "sample": "这两集传奇切片我觉得是九顺叔除了辛巴飞八分钱以外最好笑的了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1oSw9zvEFh",
+          "sample": "要是这时候来个飞八分钱把张顺飞砍死就好玩了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1oSw9zvEFh",
+          "sample": "没有飞八分钱谁知道你张顺飞"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1oSw9zvEFh",
+          "sample": "飞八分钱"
+        }
+      ]
+    },
+    {
+      "term": "高创视频",
+      "evidenceSamples": [
+        "高创视频，三连支持！",
+        "这才是高创视频，低创都学着点",
+        "高创视频值得反复观看"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "高创视频，三连支持！"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这才是高创视频，低创都学着点"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "高创视频值得反复观看"
+        }
+      ]
+    },
+    {
+      "term": "高情商自取",
+      "evidenceSamples": [
+        "其实对他这种人考试就是出卷人在自取其辱",
+        "咎由自取",
+        "自取其辱",
+        "原图自取[Ave Mujica_我有话说]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1H9Ts6ZEYh",
+          "sample": "其实对他这种人考试就是出卷人在自取其辱"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1eUT56HEz6",
+          "sample": "咎由自取"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1zDJJ6BEgi",
+          "sample": "自取其辱"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SnTx6gEph",
+          "sample": "原图自取[Ave Mujica_我有话说]"
+        }
+      ]
+    },
+    {
+      "term": "高锰酸钾你被捕了",
+      "evidenceSamples": [
+        "高锰酸钾你被捕了，化学梗玩得溜",
+        "高锰酸钾你被捕了，实验室日常[doge]",
+        "高锰酸钾你被捕了，这个谐音梗我笑了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "高锰酸钾你被捕了，化学梗玩得溜"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "高锰酸钾你被捕了，实验室日常[doge]"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "高锰酸钾你被捕了，这个谐音梗我笑了"
+        }
+      ]
+    },
+    {
+      "term": "黑屁",
+      "evidenceSamples": [
+        "哪敢上去啊？这远远看着都觉得心里有愧呢。平时高雅二创不会做，逆天发情又拉不下脸，只能一转黑屁妄想让乃琳能看自己一眼，嘴硬说这是扭曲的爱维持一下面子。现在正主就在眼前，别说讲话了，腿一软都想跪了！",
+        "哆哆嗦嗦地走到了台上，一路上的AU的眼神又是羡慕又是祝贺，看到乃琳还是那样一脸温柔地笑着，心跳居然放缓一些了。确实，现实生活谁认识我啊？只要保持镇定，谁知道我黑屁过乃琳啊，搞不好这香顶边还得跟我讲两句油腻情话呢。想到这，冲琳老哥不由得挺了挺...",
+        "“你所有的黑屁都饱含着爱意！”甜腻的嗓音再一次响了起来。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "哪敢上去啊？这远远看着都觉得心里有愧呢。平时高雅二创不会做，逆天发情又拉不下脸，只能一转黑屁妄想让乃琳能看自己一眼，嘴硬说这是扭曲的爱维持一下面子。现在正主就在眼前，别说讲话了，腿一软都想跪了！"
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "哆哆嗦嗦地走到了台上，一路上的AU的眼神又是羡慕又是祝贺，看到乃琳还是那样一脸温柔地笑着，心跳居然放缓一些了。确实，现实生活谁认识我啊？只要保持镇定，谁知道我黑屁过乃琳啊，搞不好这香顶边还得跟我讲两句油腻情话呢。想到这，冲琳老哥不由得挺了挺..."
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "“你所有的黑屁都饱含着爱意！”甜腻的嗓音再一次响了起来。"
+        }
+      ]
+    }
+  ]
+}
