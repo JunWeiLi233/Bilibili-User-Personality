@@ -1,0 +1,902 @@
+{
+  "version": "1.0",
+  "createdAt": "2026-07-07T12:52:31.029Z",
+  "description": "3-annotator labeling protocol for Phase 0.1 baseline",
+  "annotators": {
+    "A1": {
+      "role": "balanced",
+      "description": "Balanced annotator — scores based on holistic reading"
+    },
+    "A2": {
+      "role": "strict",
+      "description": "Strict annotator — scores only with explicit textual evidence"
+    },
+    "A3": {
+      "role": "adjudicator",
+      "description": "Adjudicator — resolves A1/A2 disagreements, sees both scores"
+    }
+  },
+  "iaaProtocol": {
+    "sharedComments": 200,
+    "cohensKappaTarget": 0.61,
+    "doubleLabelRate": 0.1,
+    "weeklyKappaCheck": true,
+    "thresholds": {
+      "haltAndRetrain": 0.5,
+      "acceptable": 0.7
+    },
+    "disagreementResolution": "third_adjudicator",
+    "goldStandard": {
+      "size": 200,
+      "description": "200 comments labeled by all 3 annotators + adjudicated, frozen as eval set"
+    }
+  },
+  "labelingSchema": {
+    "isRisky": {
+      "type": "boolean",
+      "description": "Does the comment contain argumentative-behavior markers (attack, extreme language, evasion, malice)?",
+      "shortcut": "Y/N"
+    },
+    "riskAxis": {
+      "type": "string",
+      "values": [
+        "attack",
+        "absolutes",
+        "evasion",
+        "cooperation",
+        "correction",
+        null
+      ],
+      "description": "Primary risk axis if isRisky=true",
+      "shortcuts": {
+        "1": "attack",
+        "2": "absolutes",
+        "3": "evasion",
+        "4": "cooperation",
+        "5": "correction",
+        "6": "null"
+      }
+    },
+    "sentiment": {
+      "type": "string",
+      "values": [
+        "positive",
+        "negative",
+        "neutral"
+      ],
+      "description": "Overall sentiment of the comment",
+      "shortcuts": {
+        "7": "positive",
+        "8": "negative",
+        "9": "neutral"
+      }
+    },
+    "isMemeOrQuote": {
+      "type": "boolean",
+      "description": "Is this a meme reference, quote, or non-original expression?",
+      "shortcut": "M"
+    },
+    "difficult": {
+      "type": "boolean",
+      "description": "Flag if this comment was particularly difficult to classify",
+      "default": false
+    }
+  },
+  "sharedCommentSet": [
+    {
+      "id": "s0432",
+      "message": "又来！"
+    },
+    {
+      "id": "s0860",
+      "message": "运气好"
+    },
+    {
+      "id": "s0668",
+      "message": "不是防空的理由"
+    },
+    {
+      "id": "s0463",
+      "message": "我现在是7月5日。"
+    },
+    {
+      "id": "s0154",
+      "message": "你们这些人奇奇怪怪的关注点"
+    },
+    {
+      "id": "s0270",
+      "message": "骂的 装摄像头呢吧"
+    },
+    {
+      "id": "s0176",
+      "message": "琉球严格来说不是日本"
+    },
+    {
+      "id": "s0324",
+      "message": "半志龙"
+    },
+    {
+      "id": "s0999",
+      "message": "权责对等就行了。"
+    },
+    {
+      "id": "s0471",
+      "message": "★~☆･☆.~*∴*~★ 李煜东你是最棒的小孩★~*∴*~☆･☆.~★ 李煜东你最棒★~☆･☆.~*∴*~★"
+    },
+    {
+      "id": "s0504",
+      "message": "哈哈哈哈哈哈哈"
+    },
+    {
+      "id": "s0057",
+      "message": "不是孟子见梁惠王么，要祭祀用牛换成了羊"
+    },
+    {
+      "id": "s0227",
+      "message": "10"
+    },
+    {
+      "id": "s0000",
+      "message": "圈外人一般认为摇滚就是大声吼的，实际上并不只是如此，查克贝利发明的摇滚其实是白人乡村和黑人蓝调的结合，到60年代英伦入侵时披头士谁人滚石出现，正是走进大众视野，这个时候的一些摇滚乐已经脱离小情歌，进入了严肃音乐，如迷幻摇滚，70年代出现的华丽摇滚硬摇滚重金属等都是世俗意义上大桥认知中比较重的摇滚，但实际上的摇滚绝不止于此，比如70年代一另一条重要的分支:前卫摇滚，在严肃叙事的同时，保持了美丽但有不"
+    },
+    {
+      "id": "s0534",
+      "message": "？"
+    },
+    {
+      "id": "s0226",
+      "message": "哈哈哈哈哈哈哈"
+    },
+    {
+      "id": "s0656",
+      "message": "灵魂都被净化了"
+    },
+    {
+      "id": "s0612",
+      "message": "那么神姜维的缺点在哪里"
+    },
+    {
+      "id": "s0727",
+      "message": "秒赤"
+    },
+    {
+      "id": "s0803",
+      "message": "有"
+    },
+    {
+      "id": "s0038",
+      "message": "？这不是蒸的吗？还有炸的？"
+    },
+    {
+      "id": "s0673",
+      "message": "挺有意思"
+    },
+    {
+      "id": "s0280",
+      "message": "蝴蝶夫人太好打了 没玩过魂系的一遍过"
+    },
+    {
+      "id": "s0698",
+      "message": "哼哼晚安"
+    },
+    {
+      "id": "s0194",
+      "message": "笑死我了"
+    },
+    {
+      "id": "s0263",
+      "message": "被割韭菜"
+    },
+    {
+      "id": "s0464",
+      "message": "留痕"
+    },
+    {
+      "id": "s0465",
+      "message": "史上第一个因为拼豆丢掉性命的哈基米"
+    },
+    {
+      "id": "s0535",
+      "message": "迷之炖菜"
+    },
+    {
+      "id": "s0892",
+      "message": "去日本吧"
+    },
+    {
+      "id": "s0640",
+      "message": "做题区"
+    },
+    {
+      "id": "s0382",
+      "message": "A"
+    },
+    {
+      "id": "s0620",
+      "message": "没人注意到否决人类吗？"
+    },
+    {
+      "id": "s0093",
+      "message": "卡威！"
+    },
+    {
+      "id": "s0163",
+      "message": "只要金坷垃"
+    },
+    {
+      "id": "s0735",
+      "message": "逆天dyg狼砍都不敢放苏烈"
+    },
+    {
+      "id": "s0841",
+      "message": "真正的诸神黄昏！呜呜呜呜呜呜"
+    },
+    {
+      "id": "s0491",
+      "message": "看不懂，截屏记下来回头看"
+    },
+    {
+      "id": "s0336",
+      "message": "说的你好像见过似的"
+    },
+    {
+      "id": "s0958",
+      "message": "依旧绷住。"
+    },
+    {
+      "id": "s0600",
+      "message": "碰到回满所有血量"
+    },
+    {
+      "id": "s0019",
+      "message": "新的device"
+    },
+    {
+      "id": "s0601",
+      "message": "气笑了"
+    },
+    {
+      "id": "s0393",
+      "message": "凡是涉及这种题材的，我一律都要评论，"
+    },
+    {
+      "id": "s0485",
+      "message": "杀了人还这么淡定"
+    },
+    {
+      "id": "s0356",
+      "message": "他们真不在意啊"
+    },
+    {
+      "id": "s0061",
+      "message": "11点睡觉真的很小众吗，我想多活两年"
+    },
+    {
+      "id": "s0408",
+      "message": "经典 有意时不中 无意时就中了"
+    },
+    {
+      "id": "s0368",
+      "message": "射"
+    },
+    {
+      "id": "s0304",
+      "message": "这谁绷得住"
+    },
+    {
+      "id": "s0754",
+      "message": "無限大な夢のあとの 何もない世の中じゃ"
+    },
+    {
+      "id": "s0752",
+      "message": "？？？"
+    },
+    {
+      "id": "s0481",
+      "message": "相信小鬼子还是非常招台风喜欢的。"
+    },
+    {
+      "id": "s0629",
+      "message": "？？？好超前的艺术"
+    },
+    {
+      "id": "s0409",
+      "message": "扬雾运动"
+    },
+    {
+      "id": "s0659",
+      "message": "可爱捏"
+    },
+    {
+      "id": "s0611",
+      "message": "7.5/9.56"
+    },
+    {
+      "id": "s0883",
+      "message": "开封不算南北方，中原。"
+    },
+    {
+      "id": "s0975",
+      "message": "哈哈哈哈哈哈哈哈哈"
+    },
+    {
+      "id": "s0774",
+      "message": "那就完了 彻底没节目效果"
+    },
+    {
+      "id": "s0840",
+      "message": ":因为他是我唯一的光 ，而我还在等你还我的那笔债呢"
+    },
+    {
+      "id": "s0009",
+      "message": "可以确诊抑郁症了"
+    },
+    {
+      "id": "s0646",
+      "message": "一◣◥◣◥DRANGR◣◥◣◥高能预警◣◥◣◥DRANGR◣◥◣◥◣◥◣◥DRANGR◣◥◣◥高能预警◣◥◣◥DRANGR◣◥◣◥◣◥◣◥DRANGR◣◥◣◥高能预警◣◥◣◥DRANGR◣◥◣◥◣◥"
+    },
+    {
+      "id": "s0501",
+      "message": "付出的代价也有点高！！！"
+    },
+    {
+      "id": "s0145",
+      "message": "大家点点赞"
+    },
+    {
+      "id": "s0898",
+      "message": "5"
+    },
+    {
+      "id": "s0429",
+      "message": "你就站在这里，不用说话，我就知道你理科成绩咋样"
+    },
+    {
+      "id": "s0131",
+      "message": "亚运会不弯的挺好，分人的，lpl不配！"
+    },
+    {
+      "id": "s0524",
+      "message": "猴子"
+    },
+    {
+      "id": "s0899",
+      "message": "发财，佳人身体健康"
+    },
+    {
+      "id": "s0395",
+      "message": "我看着都开始紧张了"
+    },
+    {
+      "id": "s0806",
+      "message": "开门啊——"
+    },
+    {
+      "id": "s0291",
+      "message": "正常喝水太简单了"
+    },
+    {
+      "id": "s0828",
+      "message": "我的梦想，是想做什么就做什么，想做什么人就做什么人……这很难……我不知道能不能实现"
+    },
+    {
+      "id": "s0787",
+      "message": "惊了"
+    },
+    {
+      "id": "s0757",
+      "message": "银月应该是怕控制不住吧"
+    },
+    {
+      "id": "s0462",
+      "message": "我记得好像是你把他们放出来了吧。（doge）"
+    },
+    {
+      "id": "s0704",
+      "message": "龙虾脑袋不要吃。恶心的很。淤泥味道特别大"
+    },
+    {
+      "id": "s0968",
+      "message": "全部带不走说是"
+    },
+    {
+      "id": "s0398",
+      "message": "16度太低了吧，谢老师穿的厚还好，小黑不冷吗？"
+    },
+    {
+      "id": "s0067",
+      "message": "以身证道"
+    },
+    {
+      "id": "s0098",
+      "message": "感谢这个辅助，总决赛也是，改不了"
+    },
+    {
+      "id": "s0539",
+      "message": "啥计划"
+    },
+    {
+      "id": "s0230",
+      "message": "hhhh"
+    },
+    {
+      "id": "s0904",
+      "message": "吓哭了"
+    },
+    {
+      "id": "s0034",
+      "message": "这女人啊，，，，有时候是真蠢"
+    },
+    {
+      "id": "s0768",
+      "message": "命苦哥：我好命苦啊！"
+    },
+    {
+      "id": "s0593",
+      "message": "极具压迫感的通知"
+    },
+    {
+      "id": "s0756",
+      "message": "后卫护框"
+    },
+    {
+      "id": "s0917",
+      "message": "镇魂歌救一下呀"
+    },
+    {
+      "id": "s0585",
+      "message": "？！"
+    },
+    {
+      "id": "s0069",
+      "message": "zb呢k中专"
+    },
+    {
+      "id": "s0643",
+      "message": "这黑卡有力气"
+    },
+    {
+      "id": "s0241",
+      "message": "英文版的"
+    },
+    {
+      "id": "s0692",
+      "message": "红烧本身就是一种烹饪手法，卤肉是卤肉，还是不一样"
+    },
+    {
+      "id": "s0231",
+      "message": "我第一次见用卫生巾 到底是否需要用卫生巾呢"
+    },
+    {
+      "id": "s0649",
+      "message": "好久都没看野猪小队我好久没看，今天来看看。"
+    },
+    {
+      "id": "s0502",
+      "message": "哈哈哈哈哈哈哈"
+    },
+    {
+      "id": "s0854",
+      "message": "他们不是不叫，是压根没法叫"
+    },
+    {
+      "id": "s0283",
+      "message": "？？？"
+    },
+    {
+      "id": "s0969",
+      "message": "存在过这种时期？"
+    },
+    {
+      "id": "s0499",
+      "message": "就你知道心疼，别人就不知道心疼九南？别一天天嘚吧嘚显你"
+    },
+    {
+      "id": "s0569",
+      "message": "哈哈，一周目回来了，大头，你的死期到了！！"
+    },
+    {
+      "id": "s0939",
+      "message": "哈"
+    },
+    {
+      "id": "s0323",
+      "message": "白送小龙"
+    },
+    {
+      "id": "s0713",
+      "message": "叫叫叫！"
+    },
+    {
+      "id": "s0397",
+      "message": "我以为是连狙，仔细一看是g3"
+    },
+    {
+      "id": "s0039",
+      "message": "好像蓝神文"
+    },
+    {
+      "id": "s0448",
+      "message": "有一说一，动画做的还挺好"
+    },
+    {
+      "id": "s0714",
+      "message": "这个“哦”真的笑死我了hhhh守护甜心变脸不给眼神中"
+    },
+    {
+      "id": "s0443",
+      "message": "？骨科吗"
+    },
+    {
+      "id": "s0447",
+      "message": "长发男"
+    },
+    {
+      "id": "s0425",
+      "message": "这是盗号，主播是医学生"
+    },
+    {
+      "id": "s0453",
+      "message": "哈哈哈哈"
+    },
+    {
+      "id": "s0590",
+      "message": "111111111111111111111111111111弹幕护体"
+    },
+    {
+      "id": "s0043",
+      "message": "光之国赶紧完蛋吧"
+    },
+    {
+      "id": "s0706",
+      "message": "这不是死定了？"
+    },
+    {
+      "id": "s0518",
+      "message": "三连支持！"
+    },
+    {
+      "id": "s0703",
+      "message": "四大天王是吧"
+    },
+    {
+      "id": "s0456",
+      "message": "此时的我：尝试殴打老头"
+    },
+    {
+      "id": "s0296",
+      "message": "前面那个问马的，剧情自带"
+    },
+    {
+      "id": "s0660",
+      "message": "前面的必要牺牲真的很招笑"
+    },
+    {
+      "id": "s0107",
+      "message": "细节跳过"
+    },
+    {
+      "id": "s0454",
+      "message": "弹幕礼仪！"
+    },
+    {
+      "id": "s0042",
+      "message": "白男士跳舞很有阳刚之力，很板硬"
+    },
+    {
+      "id": "s0381",
+      "message": "正义必胜"
+    },
+    {
+      "id": "s0337",
+      "message": "左舷发现鱼雷快速接近！"
+    },
+    {
+      "id": "s0573",
+      "message": "朋友，你听说过全职高手吗"
+    },
+    {
+      "id": "s0105",
+      "message": "了不起的李斯特"
+    },
+    {
+      "id": "s0856",
+      "message": "五万多人为何没人发？"
+    },
+    {
+      "id": "s0027",
+      "message": "终于！"
+    },
+    {
+      "id": "s0160",
+      "message": "你在期待什么"
+    },
+    {
+      "id": "s0996",
+      "message": "一飞冲天去一飞冲天去"
+    },
+    {
+      "id": "s0162",
+      "message": "这！"
+    },
+    {
+      "id": "s0914",
+      "message": "但是晚上不是本来就不吃饭嘛？"
+    },
+    {
+      "id": "s0411",
+      "message": "此时的我；卧槽，这个蓝色的猪咋这么猛"
+    },
+    {
+      "id": "s0517",
+      "message": "有深意"
+    },
+    {
+      "id": "s0832",
+      "message": "牢美多了个姨"
+    },
+    {
+      "id": "s0749",
+      "message": "这么多钱就。。。有点离谱"
+    },
+    {
+      "id": "s0925",
+      "message": "✿❀✿ 陈思罕未来可期 ✿❀✿ 陈思罕未来可期 ✿❀✿ 陈思罕未来可期 ✿❀✿ 陈思罕未来可期 ✿❀✿✿❀✿ 陈思罕未来可期 ✿❀✿ 陈思罕未来可期 ✿❀✿ 陈思罕未来可期 ✿❀✿ 陈思罕未来可期 ✿"
+    },
+    {
+      "id": "s0413",
+      "message": "咬合力堪比成年鬣狗"
+    },
+    {
+      "id": "s0418",
+      "message": "？"
+    },
+    {
+      "id": "s0759",
+      "message": "康夫完爆莱芬"
+    },
+    {
+      "id": "s0376",
+      "message": "李泉18年上的歌手"
+    },
+    {
+      "id": "s0488",
+      "message": "？你是要把整张图都夷为平地吗"
+    },
+    {
+      "id": "s0853",
+      "message": "事实证明！先看到这个的人一定会去看另外一个！"
+    },
+    {
+      "id": "s0389",
+      "message": "浪漫 浪漫 浪漫怎么能丢"
+    },
+    {
+      "id": "s0962",
+      "message": "？"
+    },
+    {
+      "id": "s0631",
+      "message": "不会"
+    },
+    {
+      "id": "s0391",
+      "message": "@邪恶坏土豆"
+    },
+    {
+      "id": "s0258",
+      "message": "我那么的老风骚"
+    },
+    {
+      "id": "s0948",
+      "message": "摸老师～"
+    },
+    {
+      "id": "s0879",
+      "message": "请输入文本"
+    },
+    {
+      "id": "s0047",
+      "message": "李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒李煜东你最棒"
+    },
+    {
+      "id": "s0234",
+      "message": "要！点赞催更"
+    },
+    {
+      "id": "s0286",
+      "message": "看标题就知道有这个辣椒粥"
+    },
+    {
+      "id": "s0604",
+      "message": "后知后觉"
+    },
+    {
+      "id": "s0653",
+      "message": "差点又没看到"
+    },
+    {
+      "id": "s0249",
+      "message": "极右翼才是多数，搞事就是这么上来的"
+    },
+    {
+      "id": "s0846",
+      "message": "吸血鬼：噗噗噗。"
+    },
+    {
+      "id": "s0196",
+      "message": "你混豆儿了"
+    },
+    {
+      "id": "s0655",
+      "message": "4"
+    },
+    {
+      "id": "s0934",
+      "message": "沾床秒入睡"
+    },
+    {
+      "id": "s0595",
+      "message": "这猴子可是个太爷爷辈儿的"
+    },
+    {
+      "id": "s0747",
+      "message": "舒服了"
+    },
+    {
+      "id": "s0680",
+      "message": "这游戏170多GB..."
+    },
+    {
+      "id": "s0080",
+      "message": "哈哈哈哈哈哈哈哈哈哈哈哈"
+    },
+    {
+      "id": "s0235",
+      "message": "事实证明韩国队没有主场优势 没有裁判帮忙屁都不是。"
+    },
+    {
+      "id": "s0207",
+      "message": "我也是 看电影看着看着就切出去看别的了"
+    },
+    {
+      "id": "s0915",
+      "message": "3"
+    },
+    {
+      "id": "s0172",
+      "message": "。"
+    },
+    {
+      "id": "s0551",
+      "message": "我去，不早说，专家攻克几十年的技术突破了"
+    },
+    {
+      "id": "s0017",
+      "message": "乐队本来就是"
+    },
+    {
+      "id": "s0056",
+      "message": "也看过原片"
+    },
+    {
+      "id": "s0477",
+      "message": "卡木当时好像打过百城联赛的"
+    },
+    {
+      "id": "s0995",
+      "message": "爱丽丝才是“绝区零第一可爱兔宝”，你的位置被替代了@绝区零第一可爱兔宝"
+    },
+    {
+      "id": "s0571",
+      "message": "。。。。"
+    },
+    {
+      "id": "s0219",
+      "message": "造添棚（）"
+    },
+    {
+      "id": "s0035",
+      "message": "杀"
+    },
+    {
+      "id": "s0171",
+      "message": "袅袅拉爆"
+    },
+    {
+      "id": "s0182",
+      "message": "我导师是副院长"
+    },
+    {
+      "id": "s0475",
+      "message": "你不觉得你跑题了吗"
+    },
+    {
+      "id": "s0724",
+      "message": "我去藏色好牛逼。。"
+    },
+    {
+      "id": "s0052",
+      "message": "哈哈哈哈哈"
+    },
+    {
+      "id": "s0295",
+      "message": "这句话过分了吧up主？"
+    },
+    {
+      "id": "s0016",
+      "message": "开关电源一对一培训"
+    },
+    {
+      "id": "s0120",
+      "message": "哈哈哈哈哈哈哈哈哈我听到这也想要后妈三重唱"
+    },
+    {
+      "id": "s0537",
+      "message": "27 个人"
+    },
+    {
+      "id": "s0725",
+      "message": "金子，原来以前是珠宝导购呀"
+    },
+    {
+      "id": "s0156",
+      "message": "外金升（5/1）"
+    },
+    {
+      "id": "s0880",
+      "message": "这都 8 前年的游戏了"
+    },
+    {
+      "id": "s0115",
+      "message": "威聋99"
+    },
+    {
+      "id": "s0738",
+      "message": "大炮打蚊子，飓风吹头发"
+    },
+    {
+      "id": "s0954",
+      "message": "哈哈哈哈看懂了"
+    },
+    {
+      "id": "s0439",
+      "message": "哐哐哐"
+    },
+    {
+      "id": "s0374",
+      "message": "5"
+    },
+    {
+      "id": "s0344",
+      "message": "又羞于启齿了哈哈"
+    },
+    {
+      "id": "s0933",
+      "message": "666还是个m（"
+    },
+    {
+      "id": "s0871",
+      "message": "5"
+    },
+    {
+      "id": "s0770",
+      "message": "78个人出来！3月4日3:42"
+    }
+  ],
+  "uiFeatures": {
+    "keyboardShortcuts": {
+      "Y": "isRisky = true",
+      "N": "isRisky = false",
+      "1-5": "riskAxis values",
+      "7-9": "sentiment values",
+      "M": "isMemeOrQuote toggle",
+      "D": "difficult flag",
+      "Enter": "submit + next",
+      "Escape": "skip"
+    },
+    "progressBar": true,
+    "timer": true,
+    "difficultCaseFlag": true
+  }
+}

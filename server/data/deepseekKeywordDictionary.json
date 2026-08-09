@@ -1,7 +1,7 @@
 {
   "version": 1,
   "storage": "split",
-  "updatedAt": "2026-07-06T20:09:10.257Z",
+  "updatedAt": "2026-08-09T18:09:20.494Z",
   "shardMaxBytes": 65536,
   "entryFiles": {
     "attack": [
@@ -18,7 +18,8 @@
       "deepseekKeywordDictionary.entries/evidence-001.json"
     ],
     "evasion": [
-      "deepseekKeywordDictionary.entries/evasion-001.json"
+      "deepseekKeywordDictionary.entries/evasion-001.json",
+      "deepseekKeywordDictionary.entries/evasion-002.json"
     ],
     "cooperation": [
       "deepseekKeywordDictionary.entries/cooperation-001.json",
@@ -62,7 +63,10 @@
       "deepseekKeywordDictionary.evidence/attack-028.json",
       "deepseekKeywordDictionary.evidence/attack-029.json",
       "deepseekKeywordDictionary.evidence/attack-030.json",
-      "deepseekKeywordDictionary.evidence/attack-031.json"
+      "deepseekKeywordDictionary.evidence/attack-031.json",
+      "deepseekKeywordDictionary.evidence/attack-032.json",
+      "deepseekKeywordDictionary.evidence/attack-033.json",
+      "deepseekKeywordDictionary.evidence/attack-034.json"
     ],
     "absolutes": [
       "deepseekKeywordDictionary.evidence/absolutes-001.json",
@@ -101,21 +105,7 @@
       "deepseekKeywordDictionary.evidence/absolutes-034.json",
       "deepseekKeywordDictionary.evidence/absolutes-035.json",
       "deepseekKeywordDictionary.evidence/absolutes-036.json",
-      "deepseekKeywordDictionary.evidence/absolutes-037.json",
-      "deepseekKeywordDictionary.evidence/absolutes-038.json",
-      "deepseekKeywordDictionary.evidence/absolutes-039.json",
-      "deepseekKeywordDictionary.evidence/absolutes-040.json",
-      "deepseekKeywordDictionary.evidence/absolutes-041.json",
-      "deepseekKeywordDictionary.evidence/absolutes-042.json",
-      "deepseekKeywordDictionary.evidence/absolutes-043.json",
-      "deepseekKeywordDictionary.evidence/absolutes-044.json",
-      "deepseekKeywordDictionary.evidence/absolutes-045.json",
-      "deepseekKeywordDictionary.evidence/absolutes-046.json",
-      "deepseekKeywordDictionary.evidence/absolutes-047.json",
-      "deepseekKeywordDictionary.evidence/absolutes-048.json",
-      "deepseekKeywordDictionary.evidence/absolutes-049.json",
-      "deepseekKeywordDictionary.evidence/absolutes-050.json",
-      "deepseekKeywordDictionary.evidence/absolutes-051.json"
+      "deepseekKeywordDictionary.evidence/absolutes-037.json"
     ],
     "evidence": [
       "deepseekKeywordDictionary.evidence/evidence-001.json",
@@ -133,8 +123,7 @@
       "deepseekKeywordDictionary.evidence/evidence-013.json",
       "deepseekKeywordDictionary.evidence/evidence-014.json",
       "deepseekKeywordDictionary.evidence/evidence-015.json",
-      "deepseekKeywordDictionary.evidence/evidence-016.json",
-      "deepseekKeywordDictionary.evidence/evidence-017.json"
+      "deepseekKeywordDictionary.evidence/evidence-016.json"
     ],
     "evasion": [
       "deepseekKeywordDictionary.evidence/evasion-001.json",
@@ -147,7 +136,9 @@
       "deepseekKeywordDictionary.evidence/evasion-008.json",
       "deepseekKeywordDictionary.evidence/evasion-009.json",
       "deepseekKeywordDictionary.evidence/evasion-010.json",
-      "deepseekKeywordDictionary.evidence/evasion-011.json"
+      "deepseekKeywordDictionary.evidence/evasion-011.json",
+      "deepseekKeywordDictionary.evidence/evasion-012.json",
+      "deepseekKeywordDictionary.evidence/evasion-013.json"
     ],
     "cooperation": [
       "deepseekKeywordDictionary.evidence/cooperation-001.json",
@@ -191,8 +182,7 @@
       "deepseekKeywordDictionary.evidence/cooperation-039.json",
       "deepseekKeywordDictionary.evidence/cooperation-040.json",
       "deepseekKeywordDictionary.evidence/cooperation-041.json",
-      "deepseekKeywordDictionary.evidence/cooperation-042.json",
-      "deepseekKeywordDictionary.evidence/cooperation-043.json"
+      "deepseekKeywordDictionary.evidence/cooperation-042.json"
     ],
     "correction": [
       "deepseekKeywordDictionary.evidence/correction-001.json",
@@ -204,7 +194,9 @@
       "deepseekKeywordDictionary.evidence/correction-007.json",
       "deepseekKeywordDictionary.evidence/correction-008.json",
       "deepseekKeywordDictionary.evidence/correction-009.json",
-      "deepseekKeywordDictionary.evidence/correction-010.json"
+      "deepseekKeywordDictionary.evidence/correction-010.json",
+      "deepseekKeywordDictionary.evidence/correction-011.json",
+      "deepseekKeywordDictionary.evidence/correction-012.json"
     ]
   }
 }

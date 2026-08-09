@@ -12,6 +12,7 @@
  * - `/api/deepseek`  — AI dictionary training & comment analysis
  * - `/api/aicu`      — AICU scraper integration
  * - `/api/admin`     — human-in-the-loop dictionary review (auth required)
+ * - `/api/annotate`  — Phase 0.2 manual baseline labeling (annotation.html)
  * - `/api/health`    — liveness check
  *
  * @module server/index
@@ -26,6 +27,7 @@ import bilibili from './routes/bilibili.js';
 import deepseek from './routes/deepseek.js';
 import aicu from './routes/aicu.js';
 import admin from './routes/admin.js';
+import annotate from './routes/annotate.js';
 
 const PORT = Number(process.env.PORT || 8787);
 const VITE_PORT = Number(process.env.VITE_PORT || 5191);
@@ -51,6 +53,7 @@ app.route('/api/bilibili', bilibili);
 app.route('/api/deepseek', deepseek);
 app.route('/api/aicu', aicu);
 app.route('/api/admin', admin);
+app.route('/api/annotate', annotate);
 app.get('/api/health', (c) => c.json({ ok: true }));
 
 // Start the Hono HTTP server (loopback only — not exposed to LAN)
