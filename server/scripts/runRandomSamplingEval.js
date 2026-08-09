@@ -23,6 +23,7 @@ import { existsSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { MODELS } from '../services/deepseekRouter.js';
 
+const RUN_ARGS = process.argv.slice(2);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..', '..');
 const OUTPUT_DIR = join(ROOT, '.claude', 'random_sampling_eval');
@@ -308,8 +309,8 @@ async function step3_scoreBatch() {
     const uid = filename.replace('.json', '');
     const outputPath = join(SCORED_DIR, `${uid}.json`);
 
-    // Skip if already scored
-    if (existsSync(outputPath)) {
+    // Skip if already scored (pass --force to rescore everything)
+    if (existsSync(outputPath) && !RUN_ARGS.includes('--force')) {
       completed++;
       continue;
     }

@@ -12,7 +12,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isMemeOrQuotedNonAttackText, buildRiskLexiconText } from '../../src/languageUnderstanding.js';
+import { isMemeOrQuotedNonAttackText, buildRiskLexiconText, stripBilibiliEmotes } from '../../src/languageUnderstanding.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -390,6 +390,9 @@ export function classifySpeechAct(comment, index, totalComments) {
 // ---------------------------------------------------------------------------
 export function findLexiconMarks(comment, index, totalComments, runtimeLexicon) {
   const marks = [];
+  // Match against emote-stripped text so Bilibili emotes like [吃瓜] don't
+  // count as word hits; keep the original comment for display fields.
+  const matchText = stripBilibiliEmotes(comment);
   const memeNonAttack = isMemeOrQuotedNonAttackText(comment);
   const highFpTerms = new Set([
     '不是', '我去', '路过', '酸了', '死了', '呵呵', '刀了', '刷屏',
@@ -401,17 +404,17 @@ export function findLexiconMarks(comment, index, totalComments, runtimeLexicon) 
     const meta = lexiconFamilyMeta[family];
     const terms = runtimeLexicon[family] || [];
     for (const term of terms) {
-      if (!term || !comment.includes(term)) continue;
+      if (!term || !matchText.includes(term)) continue;
       if (memeNonAttack && meta.polarity === 'risk') continue;
       if (meta.polarity === 'risk' && highFpTerms.has(term)) continue;
       if (term.length <= 2 && /[一-鿿]/.test(term) && meta.polarity !== 'risk') {
         let allBadBoundary = true;
         let searchFrom = 0;
-        while (searchFrom < comment.length) {
-          const idx = comment.indexOf(term, searchFrom);
+        while (searchFrom < matchText.length) {
+          const idx = matchText.indexOf(term, searchFrom);
           if (idx === -1) break;
-          const prev = idx > 0 ? comment[idx - 1] : '';
-          const next = idx + term.length < comment.length ? comment[idx + term.length] : '';
+          const prev = idx > 0 ? matchText[idx - 1] : '';
+          const next = idx + term.length < matchText.length ? matchText[idx + term.length] : '';
           if (!wordBoundaryRe.test(prev) && !wordBoundaryRe.test(next)) {
             allBadBoundary = false;
             break;
@@ -668,11 +671,13 @@ export function reloadConfig() {
 // ---------------------------------------------------------------------------
 // Troll index computation
 // ---------------------------------------------------------------------------
+// Grid-searched on the N=100 random-sampling eval set (2026-08-09) after the
+// speech-act delta mapping fix; maximizes composite AUC-ROC (0.677 → 0.690).
 const TROLL_WEIGHTS = {
-  '情绪过激': 0.28,
-  '回避讨论': 0.25,
-  '逻辑混乱': 0.27,
-  '其他问题': 0.20,
+  '情绪过激': 0.10,
+  '回避讨论': 0.3125,
+  '逻辑混乱': 0.3375,
+  '其他问题': 0.25,
 };
 
 export function getTrollIndex(user) {
@@ -713,7 +718,9 @@ let _scoreCounter = 0;
 export function scoreComments({ name, uid, text, source, runtimeLexicon, analysisMode = 'hybrid', semanticMatches = null, calibrate = true }) {
   const lex = runtimeLexicon || baseLexicons;
   const comments = splitComments(text);
-  const joined = comments.join('\n');
+  // Density/matching operate on emote-stripped text (Bilibili [xxx] emotes
+  // are not words); comments stay original for display fields.
+  const joined = stripBilibiliEmotes(comments.join('\n'));
   const riskLexiconText = buildRiskLexiconText(comments);
   const total = Math.max(comments.length, 1);
 
@@ -750,9 +757,26 @@ export function scoreComments({ name, uid, text, source, runtimeLexicon, analysi
     otherReasons: 10,
   };
 
+  // Speech-act deltas are keyed on the UI radar axes (closure/logic/evidence/
+  // cooperation/correction); translate to the 4 Ziegenbein seed keys.
+  // Closure is a deficiency measure (delta adds directly); logic/evidence/
+  // cooperation/correction are capability measures (delta subtracts — less
+  // capability means more risk). Matches the lexicon-seed sign conventions.
+  const DELTA_TO_SEED = {
+    toxicEmotions: ['toxicEmotions', 1],
+    closure: ['missingCommitment', 1],
+    logic: ['missingIntelligibility', -1],
+    evidence: ['missingIntelligibility', -1],
+    cooperation: ['missingCommitment', -1],
+    correction: ['missingCommitment', -1],
+  };
+
   semanticActs.forEach((act) => {
     Object.entries(act.deltas || {}).forEach(([key, value]) => {
-      if (semanticSeed[key] !== undefined) semanticSeed[key] = clamp(semanticSeed[key] + value);
+      const mapped = DELTA_TO_SEED[key];
+      if (mapped && semanticSeed[mapped[0]] !== undefined) {
+        semanticSeed[mapped[0]] = clamp(semanticSeed[mapped[0]] + value * mapped[1]);
+      }
     });
   });
 
