@@ -198,13 +198,13 @@ npm run dictionary:prune-exhausted
 
 ```powershell
 # Run near-target resolver in parallel across 3 worktrees
-node server/resolveNearTargetTerms.js
+node server/scripts/resolveNearTargetTerms.js
 # Use RESOLVE_OVERRIDE_TERMS to specify target terms
 $env:RESOLVE_OVERRIDE_TERMS="term1,term2,term3"
 $env:RESOLVE_VIDEOS_PER_TERM="5"
 $env:RESOLVE_PAGES="3"
 $env:RESOLVE_BATCH="80"
-node server/resolveNearTargetTerms.js
+node server/scripts/resolveNearTargetTerms.js
 ```
 
 ### Crawler Pacing
@@ -252,7 +252,7 @@ Convergence to ~100% coverage requires:
 1. **Sustained Harvesting**: Repeatedly run the auto-coverage loop
 2. **Exhausted Term Pruning**: Set `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER=3` to drop terms that remain unverifiable after multiple attempts
 3. **Parallelization**: Split weak terms into batches and run near-target resolvers in parallel across isolated worktrees
-4. **Merge Results**: Use `node server/mergeAgentDictionaries.js` to merge parallel agent outputs
+4. **Merge Results**: Use `node server/scripts/mergeAgentDictionaries.js` to merge parallel agent outputs
 
 > 📅 **Run it daily, unattended.** `daily-harvest.ps1` wraps this loop with a process lock, dated logs, and bounded defaults; `register-daily-harvest.ps1` installs a Windows Task Scheduler entry. Full guide → [Daily Harvest Pipeline](docs/DAILY_HARVEST.md).
 
@@ -453,7 +453,7 @@ The dictionary harvester is iterative: run repeatedly for broader coverage. Mode
 After parallel execution, merge evidence from all worktrees:
 
 ```powershell
-node server/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/worktrees/resolver-2 .claude/worktrees/resolver-3
+node server/scripts/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/worktrees/resolver-2 .claude/worktrees/resolver-3
 ```
 
 Then run a coverage audit to measure improvement:
@@ -608,13 +608,13 @@ npm run dictionary:prune-exhausted
 
 ```powershell
 # 在3个工作树中并行运行近目标解析器
-node server/resolveNearTargetTerms.js
+node server/scripts/resolveNearTargetTerms.js
 # 使用 RESOLVE_OVERRIDE_TERMS 指定目标术语
 $env:RESOLVE_OVERRIDE_TERMS="术语1,术语2,术语3"
 $env:RESOLVE_VIDEOS_PER_TERM="5"
 $env:RESOLVE_PAGES="3"
 $env:RESOLVE_BATCH="80"
-node server/resolveNearTargetTerms.js
+node server/scripts/resolveNearTargetTerms.js
 ```
 
 ### 爬虫调速
@@ -662,7 +662,7 @@ $env:BILIBILI_CRAWLER_CACHE_TTL_MS="120000"
 1. **持续采集**: 重复运行自动覆盖循环
 2. **用尽术语精简**: 设置 `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER=3` 以在多次尝试后移除无法证实的术语
 3. **平行化**: 将弱术语分批，在独立工作树中并行运行近目标解析器
-4. **合并结果**: 使用 `node server/mergeAgentDictionaries.js` 合并并行agent的输出
+4. **合并结果**: 使用 `node server/scripts/mergeAgentDictionaries.js` 合并并行agent的输出
 
 > 📅 **每天无人值守自动运行。** `daily-harvest.ps1` 为本循环加上了进程锁、按日期归档的日志与有界的默认参数；`register-daily-harvest.ps1` 用于注册 Windows 任务计划。完整指南 → [每日采集流水线](docs/DAILY_HARVEST.md)。
 
@@ -863,7 +863,7 @@ PS1脚本会根据查询超时自动计算爬虫速率。如仍遇到 -412 或 -
 并行执行后，使用合并脚本收集所有工作树的证据：
 
 ```powershell
-node server/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/worktrees/resolver-2 .claude/worktrees/resolver-3
+node server/scripts/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/worktrees/resolver-2 .claude/worktrees/resolver-3
 npm run dictionary:coverage
 ```
 
