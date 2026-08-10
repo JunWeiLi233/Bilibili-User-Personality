@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "evasion",
+  "shard": 2,
+  "shardCount": 2,
+  "entries": [
+    {
+      "term": "随便你怎么说",
+      "family": "evasion",
+      "meaning": "表示放弃争辩，让对方自说自话。",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 10,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
+      "term": "随意",
+      "family": "evasion",
+      "meaning": "敷衍同意，不承担任何后续责任或深入解释。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T10:59:07.306Z"
+    },
+    {
+      "term": "隐身",
+      "family": "evasion",
+      "meaning": "假装不在线或没看到信息，回避回应。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
+    },
+    {
+      "term": "难评",
+      "family": "evasion",
+      "meaning": "以评价难度为由回避发表意见。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:43:31.990Z"
+    }
+  ]
+}

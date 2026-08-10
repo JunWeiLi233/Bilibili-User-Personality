@@ -148,7 +148,7 @@ function stripReplyPrefix(text) {
   return text.replace(/^\u56de\u590d\s*@\S+\s*[:\uff1a]?\s*/, '').trim();
 }
 
-function stripBilibiliEmotes(text) {
+export function stripBilibiliEmotes(text) {
   // Remove Bilibili-style [xxx] emotes
   return text.replace(/\[[\u4e00-\u9fff\w_]+?\]/g, ' ').replace(/\s+/g, ' ').trim();
 }
@@ -214,7 +214,7 @@ export function isMemeOrQuotedNonAttackText(text = '') {
 
 export function buildRiskLexiconText(comments = []) {
   return (Array.isArray(comments) ? comments : [comments])
-    .map((comment) => String(comment || '').trim())
+    .map((comment) => stripBilibiliEmotes(String(comment || '').trim()))
     .filter(Boolean)
     .filter((comment) => !isMemeOrQuotedNonAttackText(comment))
     .join('\n');

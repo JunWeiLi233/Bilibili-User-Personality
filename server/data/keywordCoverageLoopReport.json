@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-06-29T05:19:30.685Z",
-  "maxCycles": 3,
+  "generatedAt": "2026-08-09T14:08:54.593Z",
+  "maxCycles": 1000,
   "roundsPerCycle": 1,
-  "stopReason": "coverage_gate_passed",
-  "finalOk": true,
+  "stopReason": "no_recommended_queries",
+  "finalOk": false,
   "finalAudit": {
-    "ok": true,
-    "generatedAt": "2026-06-29T05:19:30.613Z",
+    "ok": false,
+    "generatedAt": "2026-08-09T14:08:54.591Z",
     "targetEvidence": 3,
     "minCoverageRatio": 1,
     "requireComplete": true,
-    "requireSourceBackedEvidence": false,
-    "requireCommentBackedEvidence": false,
+    "requireSourceBackedEvidence": true,
+    "requireCommentBackedEvidence": true,
     "coverage": {
       "complete": true,
       "targetEvidence": 3,
-      "terms": 0,
-      "totalEvidence": 0,
-      "averageEvidence": 0,
+      "terms": 2749,
+      "totalEvidence": 12957,
+      "averageEvidence": 4.71,
       "coverageRatio": 1,
       "evidenceDeficit": 0,
-      "sourcedEvidenceTerms": 0,
+      "sourcedEvidenceTerms": 2749,
       "sourceCoverageRatio": 1,
       "unsourcedEvidenceTerms": 0,
       "weakTerms": 0,
@@ -28,2052 +28,391 @@
       "weakSamples": [],
       "zeroEvidenceSamples": [],
       "unsourcedEvidenceSamples": [],
-      "byFamily": {}
+      "byFamily": {
+        "absolutes": {
+          "terms": 484,
+          "evidence": 2438,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 484
+        },
+        "attack": {
+          "terms": 762,
+          "evidence": 3396,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 762
+        },
+        "cooperation": {
+          "terms": 823,
+          "evidence": 4006,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 823
+        },
+        "correction": {
+          "terms": 201,
+          "evidence": 950,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 201
+        },
+        "evasion": {
+          "terms": 254,
+          "evidence": 1118,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 254
+        },
+        "evidence": {
+          "terms": 225,
+          "evidence": 1049,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 225
+        }
+      }
     },
     "termAttemptSummary": {
-      "attemptedTerms": 0,
-      "successfulTerms": 0,
-      "unattemptedTerms": 0,
-      "unattemptedSamples": [],
+      "attemptedTerms": 1303,
+      "successfulTerms": 530,
+      "unattemptedTerms": 1446,
+      "unattemptedSamples": [
+        {
+          "term": "ai\u5408\u6210",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "ai\u751f\u6210",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u4e01\u70b9",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u5207\u5c3d\u5728\u638c\u63e1",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u52b3\u6c38\u9038",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u5b9a\u53ef\u4ee5",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u68cd\u5b50\u6253\u6b7b",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u6b21\u70b9\u4eae",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u76f4\u5982\u6b64",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u773cai",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u7b14\u5e26\u8fc7",
+          "family": "evasion",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u822c\u6765\u8bb2",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u8a00\u96be\u5c3d",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u8d2f",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u8d77\u770b\u770b",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e07\u4e00\u662f\u4e1c\u98ce\u8c37\u65e9\u82d7\u5462",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e09\u4eba\u6210\u864e",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e09\u89c2\u4e0d\u6b63",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e0b\u6b21\u4e00\u5b9a",
+          "family": "evasion",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e0b\u9762\u8981\u662f\u5168\u662f\u827e\u7279\u4eba\u7684",
+          "family": "absolutes",
+          "evidenceCount": 3
+        }
+      ],
       "repeatedlyMissedTerms": [
         {
-          "term": "0\u4eba\u5728\u610f",
-          "family": "attack",
-          "attempts": 4,
-          "lastQuery": "0\u4eba\u5728\u610f \u5f39\u5e55",
-          "lastError": "Bilibili harvest query \"0\u4eba\u5728\u610f \u5f39\u5e55\" timed out after 180000ms"
-        },
-        {
-          "term": "\u88c5\u4ec0\u4e48",
-          "family": "attack",
-          "attempts": 4,
-          "lastQuery": "\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms"
-        },
-        {
-          "term": "get\u5230",
-          "family": "cooperation",
-          "attempts": 3,
-          "lastQuery": "\u5b8c\u5168get\u5230 \u56de\u590d",
-          "lastError": "Bilibili harvest query \"\u5b8c\u5168get\u5230 \u56de\u590d\" timed out after 180000ms"
-        },
-        {
-          "term": "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48",
-          "family": "attack",
-          "attempts": 3,
-          "lastQuery": "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms"
-        },
-        {
-          "term": "\u4f60\u88c5\u4ec0\u4e48",
-          "family": "attack",
-          "attempts": 3,
-          "lastQuery": "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms"
-        },
-        {
-          "term": "\u5305\u6709",
+          "term": "\u90fd\u662f",
           "family": "absolutes",
-          "attempts": 3,
-          "lastQuery": "\u5305\u6709 \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u5305\u6709 \u70ed\u8bc4\" timed out after 180000ms"
+          "attempts": 22,
+          "lastQuery": "mikufans\u7684\u80dc\u5229 \u8bc4\u8bba\u533a",
+          "lastError": ""
         },
         {
-          "term": "\u597d\u4f3c",
-          "family": "attack",
-          "attempts": 3,
-          "lastQuery": "\u597d\u4f3c \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u597d\u4f3c \u70ed\u8bc4\" timed out after 180000ms"
+          "term": "100\u662f\u4e2d\u56fd\u7684",
+          "family": "absolutes",
+          "attempts": 19,
+          "lastQuery": "100\u662f\u4e2d\u56fd\u7684 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+          "lastError": "Bilibili harvest query \"100\u662f\u4e2d\u56fd\u7684 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4\" timed out after 300000ms"
         },
         {
-          "term": "\u5b66\u4e60\u4e86",
+          "term": "\u54c8\u54c8\u54c8",
+          "family": "cooperation",
+          "attempts": 19,
+          "lastQuery": "\u7c73\u536b\u5175 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u9519\u7684\u90a3\u4e2a\u5c0f\u4e11",
           "family": "correction",
-          "attempts": 3,
-          "lastQuery": "\u5b66\u4e60\u4e86 \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u5b66\u4e60\u4e86 \u70ed\u8bc4\" timed out after 180000ms"
-        },
-        {
-          "term": "\u4e0b\u5934",
-          "family": "attack",
-          "attempts": 2,
-          "lastQuery": "\u4e0b\u5934 \u8bc4\u8bba\u533a",
+          "attempts": 19,
+          "lastQuery": "\u8d4c\u6027\u5f88\u5927 \u8bc4\u8bba\u533a \u70ed\u8bc4",
           "lastError": ""
         },
         {
-          "term": "\u53c8\u5f00\u59cb\u4e86",
-          "family": "evasion",
-          "attempts": 2,
-          "lastQuery": "\u5f00\u59cb\u4e86 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "lastError": ""
-        },
-        {
-          "term": "\u597d\u5bb6\u4f19",
-          "family": "cooperation",
-          "attempts": 2,
-          "lastQuery": "\u597d\u5bb6\u4f19 \u8bc4\u8bba\u533a",
-          "lastError": ""
-        },
-        {
-          "term": "\u5f00\u59cb\u4e86",
-          "family": "evasion",
-          "attempts": 2,
-          "lastQuery": "\u5f00\u59cb\u4e86 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "lastError": ""
-        },
-        {
-          "term": "10\u5e74\u8001\u7c89",
-          "family": "evidence",
-          "attempts": 1,
-          "lastQuery": "10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms"
-        },
-        {
-          "term": "\u4e0a\u5cb8",
-          "family": "cooperation",
-          "attempts": 1,
-          "lastQuery": "\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms"
-        },
-        {
-          "term": "\u4e94\u4e07",
-          "family": "evidence",
-          "attempts": 1,
-          "lastQuery": "\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
-          "lastError": "Bilibili harvest query \"\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a\" timed out after 180000ms"
-        },
-        {
-          "term": "\u4ece\u53e4\u81f3\u4eca",
+          "term": "\u975ea\u5373",
           "family": "absolutes",
-          "attempts": 1,
-          "lastQuery": "\u4ece\u53e4\u81f3\u4eca \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+          "attempts": 19,
+          "lastQuery": "\u4e24\u79cd\u53ef \u975ea\u5373",
+          "lastError": "\u4e24\u79cd\u53ef \u975ea\u5373: Bilibili endpoint exhausted (WAF early-exit): /x/web-interface/nav"
+        },
+        {
+          "term": "\u975e\u5b98\u5ba3\u4e0d\u7ea6",
+          "family": "evasion",
+          "attempts": 18,
+          "lastQuery": "\u8ba4\u7531\u56de \u975e\u5b98\u5ba3\u4e0d\u7ea6",
+          "lastError": "\u8ba4\u7531\u56de \u975e\u5b98\u5ba3\u4e0d\u7ea6: Bilibili endpoint exhausted (WAF early-exit): /x/web-interface/nav"
+        },
+        {
+          "term": "\u80af\u5b9a\u662f\u554a",
+          "family": "absolutes",
+          "attempts": 16,
+          "lastQuery": "\u4e00\u822c\u90fd\u662f\u5168\u662f\u4f60\u7684\u9519 \u70ed\u8bc4",
           "lastError": ""
         },
         {
-          "term": "\u4f18\u96c5",
+          "term": "\u6beb\u65e0\u529e\u6cd5",
+          "family": "absolutes",
+          "attempts": 15,
+          "lastQuery": "\u4e07\u4e00\u4e2d\u4e86\u5462 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u4f60\u4e0d\u5c31\u662f\u53ea\u5927\u72f8\u732b\u5417",
           "family": "cooperation",
-          "attempts": 1,
-          "lastQuery": "\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms"
+          "attempts": 14,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
         },
         {
-          "term": "\u4f60\u731c",
-          "family": "evasion",
-          "attempts": 1,
-          "lastQuery": "\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms"
+          "term": "\u5927\u72f8\u732b",
+          "family": "cooperation",
+          "attempts": 14,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
         },
         {
-          "term": "\u522b\u53eb",
+          "term": "\u5982\u679c",
+          "family": "cooperation",
+          "attempts": 14,
+          "lastQuery": "\u5403\u74dc \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6beb\u65e0",
+          "family": "absolutes",
+          "attempts": 14,
+          "lastQuery": "\u4e5f\u5c31\u8fd9\u610f\u601d\u4e86 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6ca1\u5f97\u5375\u7528",
+          "family": "absolutes",
+          "attempts": 14,
+          "lastQuery": "\u7231\u732b\u72d7\u80dc\u8fc7\u7231\u4eba \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u4e00\u770b\u5c31\u61c2\u4e00\u5b66\u5c31\u5e9f",
           "family": "attack",
-          "attempts": 1,
-          "lastQuery": "\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms"
+          "attempts": 13,
+          "lastQuery": "\u7231\u732b\u72d7\u80dc\u8fc7\u7231\u4eba \u8bc4\u8bba\u533a",
+          "lastError": ""
         },
         {
-          "term": "\u5305\u5b50",
+          "term": "\u5185\u5fc3\u6beb\u65e0\u6ce2\u5170",
           "family": "attack",
-          "attempts": 1,
-          "lastQuery": "\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "Bilibili harvest query \"\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms"
+          "attempts": 13,
+          "lastQuery": "\u996d\u90fd\u61d2\u5f97\u5403 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u5185\u5fc3\u6beb\u65e0\u6ce2\u5170\u4e86",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u996d\u90fd\u61d2\u5f97\u5403 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u53cd\u5411\u6253\u5e7f",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u53cd\u5411\u6253\u5e7f \u8bc4\u8bba \u6897",
+          "lastError": "Bilibili harvest query \"\u53cd\u5411\u6253\u5e7f \u8bc4\u8bba \u6897\" timed out after 300000ms"
+        },
+        {
+          "term": "\u5973\u4eba\u4e0d\u80fd\u4e0a\u684c",
+          "family": "absolutes",
+          "attempts": 13,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6320\u644a",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6709\u7f18\u4eba\u62ff\u8d70\u5427",
+          "family": "cooperation",
+          "attempts": 13,
+          "lastQuery": "\u7231\u732b\u72d7\u80dc\u8fc7\u7231\u4eba \u8bc4\u8bba\u533a",
+          "lastError": ""
         }
       ],
-      "exhaustedTerms": 0,
-      "exhaustedSamples": []
+      "exhaustedTerms": 3,
+      "exhaustedSamples": [
+        {
+          "term": "ip\u5730\u5740",
+          "family": "evidence",
+          "evidenceCount": 3,
+          "attempts": 8,
+          "variantsTried": 6,
+          "lastQuery": "ip\u5730\u5740 \u8bc4\u8bba \u6897",
+          "lastError": "ip\u5730\u5740 \u8bc4\u8bba \u6897: fetch failed",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u4e0d\u662f\u6211\u7684\u9519",
+          "family": "evasion",
+          "evidenceCount": 3,
+          "attempts": 8,
+          "variantsTried": 6,
+          "lastQuery": "\u4e0d\u662f\u6211\u7684\u9519 \u8bc4\u8bba \u6897",
+          "lastError": "Bilibili harvest query \"\u4e0d\u662f\u6211\u7684\u9519 \u8bc4\u8bba \u6897\" timed out after 300000ms",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u5634\u74e2",
+          "family": "correction",
+          "evidenceCount": 3,
+          "attempts": 6,
+          "variantsTried": 6,
+          "lastQuery": "\u5634\u74e2 \u8bc4\u8bba \u6897",
+          "lastError": "\u5634\u74e2 \u8bc4\u8bba \u6897: fetch failed",
+          "suggestedQueries": []
+        }
+      ]
     },
-    "actionSummary": {},
-    "familyGaps": [],
+    "actionSummary": {
+      "none": 2749
+    },
+    "familyGaps": [
+      {
+        "family": "absolutes",
+        "terms": 484,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 2438,
+        "coverageRatio": 1
+      },
+      {
+        "family": "attack",
+        "terms": 762,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 3396,
+        "coverageRatio": 1
+      },
+      {
+        "family": "cooperation",
+        "terms": 823,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 4006,
+        "coverageRatio": 1
+      },
+      {
+        "family": "correction",
+        "terms": 201,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 950,
+        "coverageRatio": 1
+      },
+      {
+        "family": "evasion",
+        "terms": 254,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 1118,
+        "coverageRatio": 1
+      },
+      {
+        "family": "evidence",
+        "terms": 225,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 1049,
+        "coverageRatio": 1
+      }
+    ],
     "nextActions": [],
     "recommendedQueries": [],
-    "failureReasons": []
+    "failureReasons": [
+      "3 exhausted term(s) need extra query templates"
+    ]
   },
-  "cycles": [
-    {
-      "cycle": 1,
-      "priorityQueries": [
-        {
-          "term": "0\u4eba\u5728\u610f",
-          "family": "attack",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "0\u4eba\u5728\u610f",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 2,
-          "exhausted": false,
-          "nextQuery": "0\u4eba\u5728\u610f \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "0\u4eba\u5728\u610f \u8bc4\u8bba\u533a",
-          "lastError": "",
-          "query": "0\u4eba\u5728\u610f \u70ed\u8bc4"
-        },
-        {
-          "term": "get\u5230",
-          "family": "cooperation",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "get\u5230",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 2,
-          "exhausted": false,
-          "nextQuery": "\u5b8c\u5168get\u5230 \u56de\u590d",
-          "suggestedQueries": [],
-          "lastQuery": "\u6211get\u5230\u4e86 \u8bc4\u8bba",
-          "lastError": "",
-          "query": "\u5b8c\u5168get\u5230 \u56de\u590d"
-        },
-        {
-          "term": "\u4f60\u88c5\u4ec0\u4e48",
-          "family": "attack",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u4f60\u88c5\u4ec0\u4e48",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 2,
-          "exhausted": false,
-          "nextQuery": "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "",
-          "query": "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5305\u6709",
-          "family": "absolutes",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u5305\u6709",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 2,
-          "exhausted": false,
-          "nextQuery": "\u5305\u6709 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "\u5305\u6709 \u8bc4\u8bba\u533a",
-          "lastError": "",
-          "query": "\u5305\u6709 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u597d\u4f3c",
-          "family": "attack",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u597d\u4f3c",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 2,
-          "exhausted": false,
-          "nextQuery": "\u597d\u4f3c \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "\u597d\u4f3c \u8bc4\u8bba\u533a",
-          "lastError": "",
-          "query": "\u597d\u4f3c \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5b66\u4e60\u4e86",
-          "family": "correction",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u5b66\u4e60\u4e86",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 2,
-          "exhausted": false,
-          "nextQuery": "\u5b66\u4e60\u4e86 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "\u5b66\u4e60\u4e86 \u8bc4\u8bba\u533a",
-          "lastError": "",
-          "query": "\u5b66\u4e60\u4e86 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u88c5\u4ec0\u4e48",
-          "family": "attack",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u88c5\u4ec0\u4e48",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 1,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "",
-          "query": "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "10\u5e74\u8001\u7c89",
-          "family": "evidence",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "10\u5e74\u8001\u7c89",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4"
-        },
-        {
-          "term": "\u4e0a\u5cb8",
-          "family": "cooperation",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u4e0a\u5cb8",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4"
-        },
-        {
-          "term": "\u4e94\u4e07",
-          "family": "evidence",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u4e94\u4e07",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a"
-        },
-        {
-          "term": "\u4f18\u96c5",
-          "family": "cooperation",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u4f18\u96c5",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4"
-        },
-        {
-          "term": "\u4f60\u731c",
-          "family": "evasion",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u4f60\u731c",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4"
-        }
-      ],
-      "harvest": {
-        "ok": false,
-        "rounds": 1,
-        "queries": [
-          "0\u4eba\u5728\u610f \u70ed\u8bc4",
-          "\u5b8c\u5168get\u5230 \u56de\u590d",
-          "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u5305\u6709 \u70ed\u8bc4",
-          "\u597d\u4f3c \u70ed\u8bc4",
-          "\u5b66\u4e60\u4e86 \u70ed\u8bc4",
-          "10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
-          "\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "0\u4eba\u5728\u610f \u5f39\u5e55"
-        ],
-        "warnings": [
-          "0\u4eba\u5728\u610f \u70ed\u8bc4: Bilibili harvest query \"0\u4eba\u5728\u610f \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5b8c\u5168get\u5230 \u56de\u590d: Bilibili harvest query \"\u5b8c\u5168get\u5230 \u56de\u590d\" timed out after 180000ms",
-          "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5305\u6709 \u70ed\u8bc4: Bilibili harvest query \"\u5305\u6709 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u597d\u4f3c \u70ed\u8bc4: Bilibili harvest query \"\u597d\u4f3c \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5b66\u4e60\u4e86 \u70ed\u8bc4: Bilibili harvest query \"\u5b66\u4e60\u4e86 \u70ed\u8bc4\" timed out after 180000ms",
-          "10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4: Bilibili harvest query \"10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-          "\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4: Bilibili harvest query \"\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-          "\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a: Bilibili harvest query \"\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a\" timed out after 180000ms",
-          "\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4: Bilibili harvest query \"\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-          "\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4: Bilibili harvest query \"\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-          "0\u4eba\u5728\u610f \u5f39\u5e55: Bilibili harvest query \"0\u4eba\u5728\u610f \u5f39\u5e55\" timed out after 180000ms"
-        ],
-        "coverageProgress": [
-          {
-            "weakTermsResolved": 0,
-            "zeroEvidenceResolved": 0,
-            "evidenceGained": 0,
-            "evidenceDeficitReduced": 0
-          }
-        ],
-        "trainingDiagnostics": [
-          {
-            "deepseekCalls": 0,
-            "fallbackCalls": 0,
-            "evidenceRejected": 0,
-            "dictionaryEvidenceTerms": 0,
-            "dictionaryEvidenceCount": 0,
-            "generatedTerms": 0,
-            "warnings": []
-          }
-        ],
-        "queryDiagnostics": [
-          [
-            {
-              "query": "0\u4eba\u5728\u610f \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"0\u4eba\u5728\u610f \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "0\u4eba\u5728\u610f"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5b8c\u5168get\u5230 \u56de\u590d",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5b8c\u5168get\u5230 \u56de\u590d\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "get\u5230"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u88c5\u5565 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u4f60\u88c5\u4ec0\u4e48",
-                "\u88c5\u4ec0\u4e48",
-                "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5305\u6709 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5305\u6709 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5305\u6709"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u597d\u4f3c \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u597d\u4f3c \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u597d\u4f3c"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5b66\u4e60\u4e86 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5b66\u4e60\u4e86 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5b66\u4e60\u4e86"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "10\u5e74\u8001\u7c89"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u4e0a\u5cb8 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u4e0a\u5cb8"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u4e94\u4e07 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u4e94\u4e07"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u4f18\u96c5 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u4f18\u96c5"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u4f60\u731c \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u4f60\u731c"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "0\u4eba\u5728\u610f \u5f39\u5e55",
-              "ok": false,
-              "error": "Bilibili harvest query \"0\u4eba\u5728\u610f \u5f39\u5e55\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "0\u4eba\u5728\u610f"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            }
-          ]
-        ]
-      },
-      "coverageDelta": {
-        "evidenceDeficitReduced": 0,
-        "zeroEvidenceResolved": 0,
-        "weakTermsResolved": 0,
-        "unsourcedEvidenceReduced": 0,
-        "totalEvidenceGained": 0,
-        "termsAdded": 0,
-        "coverageRatioDelta": 0
-      },
-      "coverageBefore": {
-        "complete": false,
-        "targetEvidence": 3,
-        "terms": 2076,
-        "totalEvidence": 2124,
-        "averageEvidence": 1.02,
-        "coverageRatio": 0.158,
-        "evidenceDeficit": 4893,
-        "sourcedEvidenceTerms": 603,
-        "sourceCoverageRatio": 0.2905,
-        "unsourcedEvidenceTerms": 0,
-        "weakTerms": 1748,
-        "zeroEvidenceTerms": 1473,
-        "weakSamples": [
-          {
-            "term": "0\u6c2a",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "0\u7ea7",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "12300\u5de5\u4fe1\u90e8\u6295\u8bc9",
-            "family": "evidence",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "3a\u666f\u533a",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "4s\u5e97",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "avemujica\u5f00\u5fc3",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "a\u5723",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "cd4\u7ec6\u80de",
-            "family": "evidence",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "dna\u89c9\u9192",
-            "family": "absolutes",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "ex\u4eba",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "flop\u5230\u5730\u5fc3",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "gay\u8fbe",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "giegie",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "ip\u6b63\u786e\u85cf\u72d0",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "kda\u5927\u5e1d",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "k\u54e5",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "lsp",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "nat\u7c7b\u578b",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "play\u7684\u4e00\u73af",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "pv\u8bc8\u9a97",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          }
-        ],
-        "zeroEvidenceSamples": [
-          {
-            "term": "0\u6c2a",
-            "family": "cooperation"
-          },
-          {
-            "term": "0\u7ea7",
-            "family": "attack"
-          },
-          {
-            "term": "12300\u5de5\u4fe1\u90e8\u6295\u8bc9",
-            "family": "evidence"
-          },
-          {
-            "term": "3a\u666f\u533a",
-            "family": "cooperation"
-          },
-          {
-            "term": "4s\u5e97",
-            "family": "cooperation"
-          },
-          {
-            "term": "avemujica\u5f00\u5fc3",
-            "family": "attack"
-          },
-          {
-            "term": "a\u5723",
-            "family": "attack"
-          },
-          {
-            "term": "cd4\u7ec6\u80de",
-            "family": "evidence"
-          },
-          {
-            "term": "dna\u89c9\u9192",
-            "family": "absolutes"
-          },
-          {
-            "term": "ex\u4eba",
-            "family": "attack"
-          },
-          {
-            "term": "flop\u5230\u5730\u5fc3",
-            "family": "attack"
-          },
-          {
-            "term": "gay\u8fbe",
-            "family": "attack"
-          },
-          {
-            "term": "giegie",
-            "family": "attack"
-          },
-          {
-            "term": "ip\u6b63\u786e\u85cf\u72d0",
-            "family": "attack"
-          },
-          {
-            "term": "kda\u5927\u5e1d",
-            "family": "attack"
-          },
-          {
-            "term": "k\u54e5",
-            "family": "cooperation"
-          },
-          {
-            "term": "lsp",
-            "family": "attack"
-          },
-          {
-            "term": "nat\u7c7b\u578b",
-            "family": "cooperation"
-          },
-          {
-            "term": "play\u7684\u4e00\u73af",
-            "family": "attack"
-          },
-          {
-            "term": "pv\u8bc8\u9a97",
-            "family": "attack"
-          }
-        ],
-        "unsourcedEvidenceSamples": [],
-        "byFamily": {
-          "absolutes": {
-            "terms": 202,
-            "evidence": 322,
-            "weak": 155,
-            "zero": 137,
-            "sourced": 65
-          },
-          "attack": {
-            "terms": 1037,
-            "evidence": 960,
-            "weak": 887,
-            "zero": 713,
-            "sourced": 324
-          },
-          "cooperation": {
-            "terms": 422,
-            "evidence": 622,
-            "weak": 327,
-            "zero": 281,
-            "sourced": 141
-          },
-          "correction": {
-            "terms": 129,
-            "evidence": 63,
-            "weak": 119,
-            "zero": 105,
-            "sourced": 24
-          },
-          "evasion": {
-            "terms": 159,
-            "evidence": 74,
-            "weak": 146,
-            "zero": 135,
-            "sourced": 24
-          },
-          "evidence": {
-            "terms": 127,
-            "evidence": 83,
-            "weak": 114,
-            "zero": 102,
-            "sourced": 25
-          }
-        }
-      },
-      "coverageAfter": {
-        "complete": false,
-        "targetEvidence": 3,
-        "terms": 2076,
-        "totalEvidence": 2124,
-        "averageEvidence": 1.02,
-        "coverageRatio": 0.158,
-        "evidenceDeficit": 4893,
-        "sourcedEvidenceTerms": 603,
-        "sourceCoverageRatio": 0.2905,
-        "unsourcedEvidenceTerms": 0,
-        "weakTerms": 1748,
-        "zeroEvidenceTerms": 1473,
-        "weakSamples": [
-          {
-            "term": "0\u6c2a",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "0\u7ea7",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "12300\u5de5\u4fe1\u90e8\u6295\u8bc9",
-            "family": "evidence",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "3a\u666f\u533a",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "4s\u5e97",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "avemujica\u5f00\u5fc3",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "a\u5723",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "cd4\u7ec6\u80de",
-            "family": "evidence",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "dna\u89c9\u9192",
-            "family": "absolutes",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "ex\u4eba",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "flop\u5230\u5730\u5fc3",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "gay\u8fbe",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "giegie",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "ip\u6b63\u786e\u85cf\u72d0",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "kda\u5927\u5e1d",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "k\u54e5",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "lsp",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "nat\u7c7b\u578b",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "play\u7684\u4e00\u73af",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "pv\u8bc8\u9a97",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          }
-        ],
-        "zeroEvidenceSamples": [
-          {
-            "term": "0\u6c2a",
-            "family": "cooperation"
-          },
-          {
-            "term": "0\u7ea7",
-            "family": "attack"
-          },
-          {
-            "term": "12300\u5de5\u4fe1\u90e8\u6295\u8bc9",
-            "family": "evidence"
-          },
-          {
-            "term": "3a\u666f\u533a",
-            "family": "cooperation"
-          },
-          {
-            "term": "4s\u5e97",
-            "family": "cooperation"
-          },
-          {
-            "term": "avemujica\u5f00\u5fc3",
-            "family": "attack"
-          },
-          {
-            "term": "a\u5723",
-            "family": "attack"
-          },
-          {
-            "term": "cd4\u7ec6\u80de",
-            "family": "evidence"
-          },
-          {
-            "term": "dna\u89c9\u9192",
-            "family": "absolutes"
-          },
-          {
-            "term": "ex\u4eba",
-            "family": "attack"
-          },
-          {
-            "term": "flop\u5230\u5730\u5fc3",
-            "family": "attack"
-          },
-          {
-            "term": "gay\u8fbe",
-            "family": "attack"
-          },
-          {
-            "term": "giegie",
-            "family": "attack"
-          },
-          {
-            "term": "ip\u6b63\u786e\u85cf\u72d0",
-            "family": "attack"
-          },
-          {
-            "term": "kda\u5927\u5e1d",
-            "family": "attack"
-          },
-          {
-            "term": "k\u54e5",
-            "family": "cooperation"
-          },
-          {
-            "term": "lsp",
-            "family": "attack"
-          },
-          {
-            "term": "nat\u7c7b\u578b",
-            "family": "cooperation"
-          },
-          {
-            "term": "play\u7684\u4e00\u73af",
-            "family": "attack"
-          },
-          {
-            "term": "pv\u8bc8\u9a97",
-            "family": "attack"
-          }
-        ],
-        "unsourcedEvidenceSamples": [],
-        "byFamily": {
-          "absolutes": {
-            "terms": 202,
-            "evidence": 322,
-            "weak": 155,
-            "zero": 137,
-            "sourced": 65
-          },
-          "attack": {
-            "terms": 1037,
-            "evidence": 960,
-            "weak": 887,
-            "zero": 713,
-            "sourced": 324
-          },
-          "cooperation": {
-            "terms": 422,
-            "evidence": 622,
-            "weak": 327,
-            "zero": 281,
-            "sourced": 141
-          },
-          "correction": {
-            "terms": 129,
-            "evidence": 63,
-            "weak": 119,
-            "zero": 105,
-            "sourced": 24
-          },
-          "evasion": {
-            "terms": 159,
-            "evidence": 74,
-            "weak": 146,
-            "zero": 135,
-            "sourced": 24
-          },
-          "evidence": {
-            "terms": 127,
-            "evidence": 83,
-            "weak": 114,
-            "zero": 102,
-            "sourced": 25
-          }
-        }
-      }
-    },
-    {
-      "cycle": 2,
-      "priorityQueries": [
-        {
-          "term": "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48",
-          "family": "attack",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u4f60\u88c5\u4ec0\u4e48",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "",
-          "query": "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u88c5\u4ec0\u4e48",
-          "family": "attack",
-          "status": "weak_missed",
-          "action": "retry_with_new_variant",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u88c5\u4ec0\u4e48",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 2,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "lastError": "",
-          "query": "\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u522b\u53eb",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u522b\u53eb",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5305\u5b50",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u5305\u5b50",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u53d1\u766b",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u53d1\u766b",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u53d1\u766b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u53d1\u766b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u57fa\u672c\u76d8",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u57fa\u672c\u76d8",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u57fa\u672c\u76d8 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u57fa\u672c\u76d8 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5927\u6bd4\u515c",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u6bd4\u515c",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u592a\u771f\u5b9e\u4e86",
-          "family": "cooperation",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u592a\u771f\u5b9e\u4e86",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u592a\u771f\u5b9e\u4e86 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u592a\u771f\u5b9e\u4e86 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5a9a\u7537",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u5a9a\u7537",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u5a9a\u7537 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u5a9a\u7537 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5b9a\u65f6\u70b8\u5f39",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u5b9a\u65f6\u70b8\u5f39",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u5b9a\u65f6\u70b8\u5f39 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u5b9a\u65f6\u70b8\u5f39 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5c0f\u4f5c\u6587",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u5c0f\u4f5c\u6587",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u5c0f\u4f5c\u6587 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u5c0f\u4f5c\u6587 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        },
-        {
-          "term": "\u5c0f\u767d",
-          "family": "attack",
-          "status": "weak_unattempted",
-          "action": "harvest",
-          "evidenceCount": 2,
-          "coverageEvidenceCount": 2,
-          "sourcedEvidence": true,
-          "recommendationGroup": "\u5c0f\u767d",
-          "targetEvidence": 3,
-          "evidenceNeeded": 1,
-          "attempts": 0,
-          "successfulAttempts": 0,
-          "duplicateAcceptedNoProgress": false,
-          "currentCommentMisses": 0,
-          "exhausted": false,
-          "nextQuery": "\u5c0f\u767d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "suggestedQueries": [],
-          "lastQuery": "",
-          "lastError": "",
-          "query": "\u5c0f\u767d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        }
-      ],
-      "harvest": {
-        "ok": false,
-        "rounds": 1,
-        "queries": [
-          "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u53d1\u766b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u57fa\u672c\u76d8 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u592a\u771f\u5b9e\u4e86 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-          "\u5a9a\u7537 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u5b9a\u65f6\u70b8\u5f39 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u5c0f\u4f5c\u6587 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-          "\u5c0f\u767d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"
-        ],
-        "warnings": [
-          "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u53d1\u766b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u53d1\u766b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u57fa\u672c\u76d8 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u57fa\u672c\u76d8 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u592a\u771f\u5b9e\u4e86 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4: Bilibili harvest query \"\u592a\u771f\u5b9e\u4e86 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5a9a\u7537 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u5a9a\u7537 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5b9a\u65f6\u70b8\u5f39 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u5b9a\u65f6\u70b8\u5f39 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5c0f\u4f5c\u6587 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u5c0f\u4f5c\u6587 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-          "\u5c0f\u767d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4: Bilibili harvest query \"\u5c0f\u767d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms"
-        ],
-        "coverageProgress": [
-          {
-            "weakTermsResolved": 0,
-            "zeroEvidenceResolved": 0,
-            "evidenceGained": 0,
-            "evidenceDeficitReduced": 0
-          }
-        ],
-        "trainingDiagnostics": [
-          {
-            "deepseekCalls": 0,
-            "fallbackCalls": 0,
-            "evidenceRejected": 0,
-            "dictionaryEvidenceTerms": 0,
-            "dictionaryEvidenceCount": 0,
-            "generatedTerms": 0,
-            "warnings": []
-          }
-        ],
-        "queryDiagnostics": [
-          [
-            {
-              "query": "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48",
-                "\u4f60\u88c5\u4ec0\u4e48",
-                "\u88c5\u4ec0\u4e48"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5728\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u4e0d\u662f\u5229\u5203\u4f60\u88c5\u4ec0\u4e48",
-                "\u4f60\u88c5\u4ec0\u4e48",
-                "\u88c5\u4ec0\u4e48"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u522b\u53eb \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u522b\u53eb"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5305\u5b50 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5305\u5b50"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u53d1\u766b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u53d1\u766b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u53d1\u766b"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u57fa\u672c\u76d8 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u57fa\u672c\u76d8 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u57fa\u672c\u76d8"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5927\u6bd4\u515c",
-                "\u6bd4\u515c"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u592a\u771f\u5b9e\u4e86 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u592a\u771f\u5b9e\u4e86 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u592a\u771f\u5b9e\u4e86"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5a9a\u7537 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5a9a\u7537 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5a9a\u7537"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5b9a\u65f6\u70b8\u5f39 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5b9a\u65f6\u70b8\u5f39 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5b9a\u65f6\u70b8\u5f39"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5c0f\u4f5c\u6587 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5c0f\u4f5c\u6587 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5c0f\u4f5c\u6587"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            },
-            {
-              "query": "\u5c0f\u767d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
-              "ok": false,
-              "error": "Bilibili harvest query \"\u5c0f\u767d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4\" timed out after 180000ms",
-              "discoveredVideos": 0,
-              "discoveryContextVideos": 0,
-              "scannedVideos": 0,
-              "commentsCollected": 0,
-              "trainingTextChars": 0,
-              "targetExistingTerms": [
-                "\u5c0f\u767d"
-              ],
-              "targetTextHits": [],
-              "acceptedTerms": [],
-              "evidenceRejected": 0,
-              "sampleVideos": []
-            }
-          ]
-        ]
-      },
-      "coverageDelta": {
-        "evidenceDeficitReduced": 0,
-        "zeroEvidenceResolved": 0,
-        "weakTermsResolved": 0,
-        "unsourcedEvidenceReduced": 0,
-        "totalEvidenceGained": 0,
-        "termsAdded": 0,
-        "coverageRatioDelta": 0
-      },
-      "coverageBefore": {
-        "complete": false,
-        "targetEvidence": 3,
-        "terms": 2076,
-        "totalEvidence": 2124,
-        "averageEvidence": 1.02,
-        "coverageRatio": 0.158,
-        "evidenceDeficit": 4893,
-        "sourcedEvidenceTerms": 603,
-        "sourceCoverageRatio": 0.2905,
-        "unsourcedEvidenceTerms": 0,
-        "weakTerms": 1748,
-        "zeroEvidenceTerms": 1473,
-        "weakSamples": [
-          {
-            "term": "0\u6c2a",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "0\u7ea7",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "12300\u5de5\u4fe1\u90e8\u6295\u8bc9",
-            "family": "evidence",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "3a\u666f\u533a",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "4s\u5e97",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "avemujica\u5f00\u5fc3",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "a\u5723",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "cd4\u7ec6\u80de",
-            "family": "evidence",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "dna\u89c9\u9192",
-            "family": "absolutes",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "ex\u4eba",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "flop\u5230\u5730\u5fc3",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "gay\u8fbe",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "giegie",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "ip\u6b63\u786e\u85cf\u72d0",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "kda\u5927\u5e1d",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "k\u54e5",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "lsp",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "nat\u7c7b\u578b",
-            "family": "cooperation",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "play\u7684\u4e00\u73af",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          },
-          {
-            "term": "pv\u8bc8\u9a97",
-            "family": "attack",
-            "evidenceCount": 0,
-            "coverageEvidenceCount": 0
-          }
-        ],
-        "zeroEvidenceSamples": [
-          {
-            "term": "0\u6c2a",
-            "family": "cooperation"
-          },
-          {
-            "term": "0\u7ea7",
-            "family": "attack"
-          },
-          {
-            "term": "12300\u5de5\u4fe1\u90e8\u6295\u8bc9",
-            "family": "evidence"
-          },
-          {
-            "term": "3a\u666f\u533a",
-            "family": "cooperation"
-          },
-          {
-            "term": "4s\u5e97",
-            "family": "cooperation"
-          },
-          {
-            "term": "avemujica\u5f00\u5fc3",
-            "family": "attack"
-          },
-          {
-            "term": "a\u5723",
-            "family": "attack"
-          },
-          {
-            "term": "cd4\u7ec6\u80de",
-            "family": "evidence"
-          },
-          {
-            "term": "dna\u89c9\u9192",
-            "family": "absolutes"
-          },
-          {
-            "term": "ex\u4eba",
-            "family": "attack"
-          },
-          {
-            "term": "flop\u5230\u5730\u5fc3",
-            "family": "attack"
-          },
-          {
-            "term": "gay\u8fbe",
-            "family": "attack"
-          },
-          {
-            "term": "giegie",
-            "family": "attack"
-          },
-          {
-            "term": "ip\u6b63\u786e\u85cf\u72d0",
-            "family": "attack"
-          },
-          {
-            "term": "kda\u5927\u5e1d",
-            "family": "attack"
-          },
-          {
-            "term": "k\u54e5",
-            "family": "cooperation"
-          },
-          {
-            "term": "lsp",
-            "family": "attack"
-          },
-          {
-            "term": "nat\u7c7b\u578b",
-            "family": "cooperation"
-          },
-          {
-            "term": "play\u7684\u4e00\u73af",
-            "family": "attack"
-          },
-          {
-            "term": "pv\u8bc8\u9a97",
-            "family": "attack"
-          }
-        ],
-        "unsourcedEvidenceSamples": [],
-        "byFamily": {
-          "absolutes": {
-            "terms": 202,
-            "evidence": 322,
-            "weak": 155,
-            "zero": 137,
-            "sourced": 65
-          },
-          "attack": {
-            "terms": 1037,
-            "evidence": 960,
-            "weak": 887,
-            "zero": 713,
-            "sourced": 324
-          },
-          "cooperation": {
-            "terms": 422,
-            "evidence": 622,
-            "weak": 327,
-            "zero": 281,
-            "sourced": 141
-          },
-          "correction": {
-            "terms": 129,
-            "evidence": 63,
-            "weak": 119,
-            "zero": 105,
-            "sourced": 24
-          },
-          "evasion": {
-            "terms": 159,
-            "evidence": 74,
-            "weak": 146,
-            "zero": 135,
-            "sourced": 24
-          },
-          "evidence": {
-            "terms": 127,
-            "evidence": 83,
-            "weak": 114,
-            "zero": 102,
-            "sourced": 25
-          }
-        }
-      },
-      "coverageAfter": {
-        "complete": true,
-        "targetEvidence": 3,
-        "terms": 0,
-        "totalEvidence": 0,
-        "averageEvidence": 0,
-        "coverageRatio": 1,
-        "evidenceDeficit": 0,
-        "sourcedEvidenceTerms": 0,
-        "sourceCoverageRatio": 1,
-        "unsourcedEvidenceTerms": 0,
-        "weakTerms": 0,
-        "zeroEvidenceTerms": 0,
-        "weakSamples": [],
-        "zeroEvidenceSamples": [],
-        "unsourcedEvidenceSamples": [],
-        "byFamily": {}
-      }
-    }
-  ]
+  "cycles": []
 }

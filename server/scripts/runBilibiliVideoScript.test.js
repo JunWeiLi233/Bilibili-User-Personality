@@ -104,7 +104,7 @@ test('run-bilibili-auto-coverage.ps1 forwards per-query timeout seconds', (t) =>
   assert.match(result.stdout, /Per-query timeout: 45s/);
 });
 
-test('run-bilibili-auto-coverage.ps1 caps crawler pacing from timeout seconds', (t) => {
+test('run-bilibili-auto-coverage.ps1 applies conservative floor pacing from timeout seconds', (t) => {
   const result = runScript(['-MaxCycles', '1', '-MaxQueries', '1', '-QueryTimeoutSeconds', '20'], '.\\run-bilibili-auto-coverage.ps1');
   if (!result) {
     t.skip('PowerShell is unavailable in this environment');
@@ -113,10 +113,12 @@ test('run-bilibili-auto-coverage.ps1 caps crawler pacing from timeout seconds', 
 
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /HARVEST_QUERY_TIMEOUT=20000/);
-  assert.match(result.stdout, /BLOCK_COOLDOWN=2000/);
+  // Pacing floors (9de610c6f): cooldown max(60000, t/3), delay max(2500, t/60),
+  // jitter max(1500, t/120) — for a 20s timeout all hit their floors.
+  assert.match(result.stdout, /BLOCK_COOLDOWN=60000/);
   assert.match(result.stdout, /REQUEST_TIMEOUT=10000/);
-  assert.match(result.stdout, /MIN_DELAY=200/);
-  assert.match(result.stdout, /JITTER=100/);
+  assert.match(result.stdout, /MIN_DELAY=2500/);
+  assert.match(result.stdout, /JITTER=1500/);
 });
 
 test('run-bilibili-auto-coverage.ps1 expands weak targets from collected comments by default', (t) => {

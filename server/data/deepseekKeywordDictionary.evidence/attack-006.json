@@ -1,10 +1,684 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-03T19:51:05.336Z",
+  "updatedAt": "2026-08-09T18:09:20.494Z",
   "family": "attack",
   "shard": 6,
-  "shardCount": 28,
+  "shardCount": 34,
   "evidence": [
+    {
+      "term": "删评",
+      "evidenceSamples": [
+        "人肉哥也学会删评了，把说他是伤影的都删了[吃瓜]",
+        "我看有人说 别人评论说那人都没有关注艺兴 投票也没投艺兴 根本不是艺兴粉丝 然后被他删评论了 然后就又7天了[呲牙]",
+        "特定视频我会被无限秒删评，无论发什么",
+        "请求支援:av19603058，火力覆盖到此人删评论删不过来[滑稽]",
+        "癌鲲路人缘真是差到至极，因为鸡美姐本来也不优秀，反正她的优秀我是看不到的，骂就骂，骂不过就删评论，黑名单，没点本事就别惹事"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "人肉哥也学会删评了，把说他是伤影的都删了[吃瓜]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "我看有人说 别人评论说那人都没有关注艺兴 投票也没投艺兴 根本不是艺兴粉丝 然后被他删评论了 然后就又7天了[呲牙]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Z5411o7KA/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1T8Kd6QEPu/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av114953658829417, http://www.bilibili.com/video/av112903734692424, http://www.bilibili.com/video/av115445701149836, http://www.bilibili.com/video/av116351586868579, http://www.bilibili.com/video/av116652737824287, http://www.bilibili.com/video/av715289392, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116624652832651, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av1453105960, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av466576236, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116836985215126, http://www.bilibili.com/video/av113018541180502, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116831230693734",
+          "uid": "BV19X7G6TEiG,BV1Z5411o7KA,BV1yZKo6HEWx,BV1dT41197yJ,BV1PsKQ6zEZp,BV1T8Kd6QEPu",
+          "sample": "特定视频我会被无限秒删评，无论发什么"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "21220600",
+          "sample": "请求支援:av19603058，火力覆盖到此人删评论删不过来[滑稽]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "404503122",
+          "sample": "癌鲲路人缘真是差到至极，因为鸡美姐本来也不优秀，反正她的优秀我是看不到的，骂就骂，骂不过就删评论，黑名单，没点本事就别惹事"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1DuVB6oEqK/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV11b87zHES7/, https://www.bilibili.com/video/BV1UhxQzVEC1/, https://www.bilibili.com/video/BV1KBEm6tEpw/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av116797877526453, http://www.bilibili.com/video/av116114658958920, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116815090947597, http://www.bilibili.com/video/av116700368341722, http://www.bilibili.com/video/av116812507252608, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116816986770813, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av116825945873834, http://www.bilibili.com/video/av116815023838952, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116726440136064, http://www.bilibili.com/video/av116764692185541, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av585034028, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116805125275968, http://www.bilibili.com/video/av116724578124362, http://www.bilibili.com/video/av116774221647430, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av115172400171685, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114929449372370, http://www.bilibili.com/video/av116720064861381, http://www.bilibili.com/video/av922688107, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av114031130119231, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av1454637424, http://www.bilibili.com/video/av1700668450",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV1VrVL6qEHk,BV1AcYnezEkW,BV1Ra7L67ELc,BV1f4V16bEs8,BV1DuVB6oEqK,BV17R4y1Z7Zv,BV1yF7n6yEqz,BV11b87zHES7,BV1UhxQzVEC1,BV1KBEm6tEpw",
+          "sample": "人肉哥也学会删评了，把说他是伤影的都删了[吃瓜]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV11n7Y6UEk3/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1Md7J6EEqB/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116810728868614, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av115909356224580, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782710985062, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av1454637424",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV11n7Y6UEk3,BV1f4V16bEs8,BV1Md7J6EEqB,BV17R4y1Z7Zv",
+          "sample": "人肉哥也学会删评了，把说他是伤影的都删了[吃瓜]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV11n7Y6UEk3/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Md7J6EEqB/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116810728868614, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av115909356224580, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782710985062, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av116837991843682",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV11n7Y6UEk3,BV1AcYnezEkW,BV1Md7J6EEqB,BV1f4V16bEs8",
+          "sample": "人肉哥也学会删评了，把说他是伤影的都删了[吃瓜]"
+        }
+      ]
+    },
+    {
+      "term": "别叫了",
+      "evidenceSamples": [
+        "“别叫了，安静死了！”在知了的吵闹中失去了安静的我痛苦的大叫",
+        "弹幕一堆懂哥别叫了，闹腾",
+        "你别叫了，狗都睡觉了",
+        "别叫了，审核扫完码在看呢"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8487661197",
+          "uid": "tttghue",
+          "sample": "“别叫了，安静死了！”在知了的吵闹中失去了安静的我痛苦的大叫"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "弹幕一堆懂哥别叫了，闹腾"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ej411R7an/",
+          "uid": "BV1Ej411R7an",
+          "sample": "你别叫了，狗都睡觉了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1v5SZYpEsa/",
+          "uid": "BV1v5SZYpEsa",
+          "sample": "别叫了，审核扫完码在看呢"
+        }
+      ]
+    },
+    {
+      "term": "别尬黑",
+      "evidenceSamples": [
+        "回复 @雨声鱼zz :别尬黑，我打过电话给法条了，它说没开，我力挺法条的",
+        "别尬黑，是41个",
+        "00后不这样，别尬黑"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av1701675619/",
+          "uid": "4910135",
+          "sample": "回复 @雨声鱼zz :别尬黑，我打过电话给法条了，它说没开，我力挺法条的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1J142187tz/",
+          "uid": "BV1J142187tz",
+          "sample": "别尬黑，是41个"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13W4y1W7Fg/",
+          "uid": "BV13W4y1W7Fg",
+          "sample": "00后不这样，别尬黑"
+        }
+      ]
+    },
+    {
+      "term": "别洗了",
+      "evidenceSamples": [
+        "别洗了，别洗了，互联网的记忆是短，可是我的记忆不短，我还记得蔡徐坤运营给B站发律师函，粉丝爆破b站的时候呢，顺带一提，当初就是个网易云的纯路人，在鸡你太美评论区下面发了一个不是太好听，被两个人围着骂呢，忘不了的，毕竟对线到凌晨2点呢。",
+        "别洗了，坤坤被黑是活该",
+        "弹幕别洗了 这怎么洗都是脏的",
+        "这个就别洗了 刚刚怎么说的买家现在就怎么说你杨梅卖家",
+        "这种垃圾行为就别洗了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "544472438",
+          "sample": "别洗了，别洗了，互联网的记忆是短，可是我的记忆不短，我还记得蔡徐坤运营给B站发律师函，粉丝爆破b站的时候呢，顺带一提，当初就是个网易云的纯路人，在鸡你太美评论区下面发了一个不是太好听，被两个人围着骂呢，忘不了的，毕竟对线到凌晨2点呢。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "204885346",
+          "sample": "别洗了，坤坤被黑是活该"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12aiPBCEM2/",
+          "uid": "BV12aiPBCEM2",
+          "sample": "弹幕别洗了 这怎么洗都是脏的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1RnLb6LEyu/",
+          "uid": "BV1RnLb6LEyu",
+          "sample": "这个就别洗了 刚刚怎么说的买家现在就怎么说你杨梅卖家"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "这种垃圾行为就别洗了"
+        }
+      ]
+    },
+    {
+      "term": "别狗叫了",
+      "evidenceSamples": [
+        "咖米，丝茉茉，高寒，巴老师，鸣叶竟然互相狗叫，到底在狗叫什么[doge][doge]",
+        "2001年：很难想象20年后我们用互联网干什么[惊喜] 2021年：听狗叫[傲娇][傲娇][傲娇]",
+        "回复 @狗叫小子izi :主要，只是因为看歌查德不顺眼就以“男主演员是战犯后代”这种没有查证的话，借煽动民族情绪而占据道德制高点来造谣，不合适。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1hV9RB6E4j/",
+          "uid": "1622357958",
+          "sample": "咖米，丝茉茉，高寒，巴老师，鸣叶竟然互相狗叫，到底在狗叫什么[doge][doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Ug411P7pD/",
+          "uid": "370497952",
+          "sample": "2001年：很难想象20年后我们用互联网干什么[惊喜] 2021年：听狗叫[傲娇][傲娇][傲娇]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1AWwNeSEZF/",
+          "uid": "651616020",
+          "sample": "回复 @狗叫小子izi :主要，只是因为看歌查德不顺眼就以“男主演员是战犯后代”这种没有查证的话，借煽动民族情绪而占据道德制高点来造谣，不合适。"
+        }
+      ]
+    },
+    {
+      "term": "制杖",
+      "evidenceSamples": [
+        "看到好多人都说拉黑别人的都是心虚或者过错方，但你们真的没遇到那种制杖嘛[笑哭]就是沉浸在自己世界里面意淫高潮然后不讲道理的，我刚刚就遇到个制杖，讨论画质的评论，他说我没电脑，我说我有电脑我才这么评论的，他还是自己意淫我没电脑显得他高人一等，但是我真有啊而且重点也不是画质了成了有没有电脑[热词系列_问号]来来回回真太无语了[笑哭][辣眼睛]",
+        "小姐姐:哪来的制杖",
+        "制杖玩意，看的一肚子火"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Aa4y1i7mA/",
+          "uid": "322610998",
+          "sample": "看到好多人都说拉黑别人的都是心虚或者过错方，但你们真的没遇到那种制杖嘛[笑哭]就是沉浸在自己世界里面意淫高潮然后不讲道理的，我刚刚就遇到个制杖，讨论画质的评论，他说我没电脑，我说我有电脑我才这么评论的，他还是自己意淫我没电脑显得他高人一等，但是我真有啊而且重点也不是画质了成了有没有电脑[热词系列_问号]来来回回真太无语了[笑哭][辣眼睛]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "小姐姐:哪来的制杖"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ZRGdzKEnp/",
+          "uid": "BV1ZRGdzKEnp",
+          "sample": "制杖玩意，看的一肚子火"
+        }
+      ]
+    },
+    {
+      "term": "刷屏",
+      "evidenceSamples": [
+        "那么为什么一些乐子视频评论都刷屏了，或者有很多敏感词都没有被吞",
+        "度度又在刷屏啊，找没找到我是小号的证据啊",
+        "那时候的b站评论还都是卖萌沙雕的颜文字，而且很多都非常有梗，绝不是现在动不动就阴阳怪气的反问和那种毫无新意的刷屏抖机灵[微笑]",
+        "每次细节日语切换刷屏屏蔽一个弹幕全没了",
+        "为什么弹幕里经常会有念佛的？不分场合，跟斜角似的，这种比刷屏ky还烦人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1DuVB6oEqK/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV11b87zHES7/, https://www.bilibili.com/video/BV1UhxQzVEC1/, https://www.bilibili.com/video/BV1KBEm6tEpw/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av116797877526453, http://www.bilibili.com/video/av116114658958920, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116815090947597, http://www.bilibili.com/video/av116700368341722, http://www.bilibili.com/video/av116812507252608, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116816986770813, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av116825945873834, http://www.bilibili.com/video/av116815023838952, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116726440136064, http://www.bilibili.com/video/av116764692185541, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av585034028, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116805125275968, http://www.bilibili.com/video/av116724578124362, http://www.bilibili.com/video/av116774221647430, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av115172400171685, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114929449372370, http://www.bilibili.com/video/av116720064861381, http://www.bilibili.com/video/av922688107, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av114031130119231, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av1454637424, http://www.bilibili.com/video/av1700668450",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV1VrVL6qEHk,BV1AcYnezEkW,BV1Ra7L67ELc,BV1f4V16bEs8,BV1DuVB6oEqK,BV17R4y1Z7Zv,BV1yF7n6yEqz,BV11b87zHES7,BV1UhxQzVEC1,BV1KBEm6tEpw",
+          "sample": "那么为什么一些乐子视频评论都刷屏了，或者有很多敏感词都没有被吞"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "度度又在刷屏啊，找没找到我是小号的证据啊"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Cv41187pd/",
+          "uid": "BV1Cv41187pd",
+          "sample": "那时候的b站评论还都是卖萌沙雕的颜文字，而且很多都非常有梗，绝不是现在动不动就阴阳怪气的反问和那种毫无新意的刷屏抖机灵[微笑]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1TWVh6NEe2/",
+          "uid": "BV1TWVh6NEe2",
+          "sample": "每次细节日语切换刷屏屏蔽一个弹幕全没了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1TeZnYWEvP/",
+          "uid": "BV1TeZnYWEvP",
+          "sample": "为什么弹幕里经常会有念佛的？不分场合，跟斜角似的，这种比刷屏ky还烦人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1XbsmzNEFz/",
+          "uid": "BV1XbsmzNEFz",
+          "sample": "弹幕刷屏的现身说法了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1U6jN6MEgw/",
+          "uid": "BV1U6jN6MEgw",
+          "sample": "yt弹幕青鸟闹麻了一直刷屏"
+        }
+      ]
+    },
+    {
+      "term": "副产",
+      "evidenceSamples": [
+        "回复 @致敬传奇耐遮王莫公主 : 基本功扎实、训练量大、喜怒不形于色，典型的那种认真做事话不多的类型。不用期望陈梦有什么超长的发挥，她是属于那种平时训练如何比赛就是如何的人。或者说成功是她辛勤付出的副产品。",
+        "666，画等号？有副产物的",
+        "你这直接吸不对，得除杂，副产物乙醚和乙醇碳化得到的二氧化硫二氧化碳都得除去"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "100525987",
+          "sample": "回复 @致敬传奇耐遮王莫公主 : 基本功扎实、训练量大、喜怒不形于色，典型的那种认真做事话不多的类型。不用期望陈梦有什么超长的发挥，她是属于那种平时训练如何比赛就是如何的人。或者说成功是她辛勤付出的副产品。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1pcuAzQEHQ/",
+          "uid": "BV1pcuAzQEHQ",
+          "sample": "666，画等号？有副产物的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1pcuAzQEHQ/",
+          "uid": "BV1pcuAzQEHQ",
+          "sample": "你这直接吸不对，得除杂，副产物乙醚和乙醇碳化得到的二氧化硫二氧化碳都得除去"
+        }
+      ]
+    },
+    {
+      "term": "割割",
+      "evidenceSamples": [
+        "回复 @肖战割割正能量 :[doge][doge][doge]",
+        "回复 @肖战割割正能量 :艹，一语道破",
+        "回复 @白泽是只不咕鸟 :我只是欣赏不来他的舞蹈，这tm都能被开冲。粉丝不允许说他们割割一点不好，说了就是黑子"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "418768786",
+          "sample": "回复 @肖战割割正能量 :[doge][doge][doge]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "359463469",
+          "sample": "回复 @肖战割割正能量 :艹，一语道破"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "16825499",
+          "sample": "回复 @白泽是只不咕鸟 :我只是欣赏不来他的舞蹈，这tm都能被开冲。粉丝不允许说他们割割一点不好，说了就是黑子"
+        }
+      ]
+    },
+    {
+      "term": "割韭菜",
+      "evidenceSamples": [
+        "金主一边割韭菜一边嫌弃某某咖位太low，只给了《客人》的名头，得，这个代言人是给粉丝看的。",
+        "韭菜快被割死时大喊道 韭命啊",
+        "没吃过韭菜盒子，韭菜盒子啥馅的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1882201828",
+          "sample": "金主一边割韭菜一边嫌弃某某咖位太low，只给了《客人》的名头，得，这个代言人是给粉丝看的。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7835500284",
+          "uid": "贴吧用户_a2Ja88W",
+          "sample": "韭菜快被割死时大喊道 韭命啊"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8072478458",
+          "uid": "梦雪飞舞6589",
+          "sample": "没吃过韭菜盒子，韭菜盒子啥馅的"
+        }
+      ]
+    },
+    {
+      "term": "北斗你是否清醒",
+      "evidenceSamples": [
+        "你是否清醒",
+        "皇帝你是否清醒",
+        "息吹同学，你是否清醒？",
+        "没有数值吗，你是否清醒",
+        "5060ti那个你是否清醒"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1KbMw66EtB",
+          "sample": "你是否清醒"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV16xKo6VECt",
+          "sample": "皇帝你是否清醒"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1dVMw6DE77",
+          "sample": "息吹同学，你是否清醒？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1NeMw6TEsR",
+          "sample": "没有数值吗，你是否清醒"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1FCTt6AEhV",
+          "sample": "5060ti那个你是否清醒"
+        }
+      ]
+    },
+    {
+      "term": "卖焦虑",
+      "evidenceSamples": [
+        "B站都还有好多，都是为了卖课",
+        "他可能要教培卖课了",
+        "也不带货，也不直播，也不卖课，就天天画那个雷霆大拼装[笑哭][doge]",
+        "不难，从1-30分 有好的脱敏技巧，亲身经历，不卖产品不卖课程，就是不希望有人再走弯路了，纯分享。",
+        "卖课的一个字都不能信"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV11nMT6nEKD",
+          "sample": "B站都还有好多，都是为了卖课"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "他可能要教培卖课了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1BgTn6rEUg",
+          "sample": "也不带货，也不直播，也不卖课，就天天画那个雷霆大拼装[笑哭][doge]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1YXET6REPq",
+          "sample": "不难，从1-30分 有好的脱敏技巧，亲身经历，不卖产品不卖课程，就是不希望有人再走弯路了，纯分享。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XPLRzAEZ5",
+          "sample": "卖课的一个字都不能信"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV14zTo6tEP6",
+          "sample": "贩卖焦虑来了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV14zTo6tEP6",
+          "sample": "在看你们卖焦虑啊，光看不买的那种"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1aF411z7GG",
+          "sample": "这么潇洒的生活，就不要贩卖焦虑了好么"
+        }
+      ]
+    },
+    {
+      "term": "卖课",
+      "evidenceSamples": [
+        "B站都还有好多，都是为了卖课",
+        "他可能要教培卖课了",
+        "也不带货，也不直播，也不卖课，就天天画那个雷霆大拼装[笑哭][doge]",
+        "不难，从1-30分 有好的脱敏技巧，亲身经历，不卖产品不卖课程，就是不希望有人再走弯路了，纯分享。",
+        "卖课的一个字都不能信"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV11nMT6nEKD",
+          "sample": "B站都还有好多，都是为了卖课"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "他可能要教培卖课了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1BgTn6rEUg",
+          "sample": "也不带货，也不直播，也不卖课，就天天画那个雷霆大拼装[笑哭][doge]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1YXET6REPq",
+          "sample": "不难，从1-30分 有好的脱敏技巧，亲身经历，不卖产品不卖课程，就是不希望有人再走弯路了，纯分享。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XPLRzAEZ5",
+          "sample": "卖课的一个字都不能信"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV14zTo6tEP6",
+          "sample": "贩卖焦虑来了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV14zTo6tEP6",
+          "sample": "在看你们卖焦虑啊，光看不买的那种"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1aF411z7GG",
+          "sample": "这么潇洒的生活，就不要贩卖焦虑了好么"
+        }
+      ]
+    },
+    {
+      "term": "卖课卖焦虑",
+      "evidenceSamples": [
+        "B站都还有好多，都是为了卖课",
+        "他可能要教培卖课了",
+        "也不带货，也不直播，也不卖课，就天天画那个雷霆大拼装[笑哭][doge]",
+        "不难，从1-30分 有好的脱敏技巧，亲身经历，不卖产品不卖课程，就是不希望有人再走弯路了，纯分享。",
+        "卖课的一个字都不能信"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV11nMT6nEKD",
+          "sample": "B站都还有好多，都是为了卖课"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "他可能要教培卖课了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1BgTn6rEUg",
+          "sample": "也不带货，也不直播，也不卖课，就天天画那个雷霆大拼装[笑哭][doge]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1YXET6REPq",
+          "sample": "不难，从1-30分 有好的脱敏技巧，亲身经历，不卖产品不卖课程，就是不希望有人再走弯路了，纯分享。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XPLRzAEZ5",
+          "sample": "卖课的一个字都不能信"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV14zTo6tEP6",
+          "sample": "贩卖焦虑来了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV14zTo6tEP6",
+          "sample": "在看你们卖焦虑啊，光看不买的那种"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1aF411z7GG",
+          "sample": "这么潇洒的生活，就不要贩卖焦虑了好么"
+        }
+      ]
+    },
+    {
+      "term": "卖钩子",
+      "evidenceSamples": [
+        "卖钩子（即答）",
+        "卖钩子",
+        "靠卖钩子"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CF41177Js/",
+          "uid": "BV1CF41177Js",
+          "sample": "卖钩子（即答）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CF41177Js/",
+          "uid": "BV1CF41177Js",
+          "sample": "卖钩子"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CF41177Js/",
+          "uid": "BV1CF41177Js",
+          "sample": "靠卖钩子"
+        }
+      ]
+    },
+    {
+      "term": "印度阿三",
+      "evidenceSamples": [
+        "印度阿三是这样的",
+        "印度阿三日常操作",
+        "戳了，是印度阿三"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1crJK6MEC4/",
+          "uid": "BV1crJK6MEC4",
+          "sample": "印度阿三是这样的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1crJK6MEC4/",
+          "uid": "BV1crJK6MEC4",
+          "sample": "印度阿三日常操作"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "戳了，是印度阿三"
+        }
+      ]
+    },
+    {
+      "term": "压力",
+      "evidenceSamples": [
+        "- 体验预期：全极致画质+100FPS以上，4K渲染无压力",
+        "“这啥阴？”“打不到气不气[呲牙]”“这是什么扫码忍者😡”“压力这么大吗？老弟[喜欢]”“你a你雷霆呢😒”“通灵犬啊”“卡十秒！[星星眼]”“又投入了😭”",
+        "《《《》小孩子能有什么压力》》》",
+        "那为什么樊振东压力这么大呢",
+        "他俩不一个类型，二叔能夺冠是反常规，野区规划好加上fpx当时一号种子线优。三叔是ap野核出名，ad也还可以，当时夺冠没啥压力，他强的是英雄池深，特别会刷野，操作顶尖。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "- 体验预期：全极致画质+100FPS以上，4K渲染无压力"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1zd5o6wEtX/",
+          "uid": "472730760",
+          "sample": "“这啥阴？”“打不到气不气[呲牙]”“这是什么扫码忍者😡”“压力这么大吗？老弟[喜欢]”“你a你雷霆呢😒”“通灵犬啊”“卡十秒！[星星眼]”“又投入了😭”"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yg4y1Y7L9/",
+          "uid": "BV1yg4y1Y7L9",
+          "sample": "《《《》小孩子能有什么压力》》》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "BV12Z421T7c6",
+          "sample": "那为什么樊振东压力这么大呢"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "他俩不一个类型，二叔能夺冠是反常规，野区规划好加上fpx当时一号种子线优。三叔是ap野核出名，ad也还可以，当时夺冠没啥压力，他强的是英雄池深，特别会刷野，操作顶尖。"
+        }
+      ]
+    },
+    {
+      "term": "厌蠢症",
+      "evidenceSamples": [
+        "我厌蠢症犯了，真的",
+        "？？？？？真有意思，我厌蠢症都犯了。",
+        "厌蠢症，有一群蠢货想不明白简单的事一直教一直教"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1J9yKYTE2A/",
+          "uid": "BV1J9yKYTE2A",
+          "sample": "我厌蠢症犯了，真的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "？？？？？真有意思，我厌蠢症都犯了。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "厌蠢症，有一群蠢货想不明白简单的事一直教一直教"
+        }
+      ]
+    },
+    {
+      "term": "又当又立",
+      "evidenceSamples": [
+        "都魔障了，而且又当又立，硬说别人是小号还死鸭子嘴硬，结果半点证据都拿不出来，这都有人附和他，ip啊，ip都不会看吗，就这还想洗白自己，连承认错误都不敢，还能干什么",
+        "刚刷到一个视频 一个高三小朋友当时在直播间连麦想为张艺兴辩解 结果被骂哭了 人家。。唉 我看的都心疼的不行 真的无语 主播观众一起在骂 现在又在说不要骂无关人员 又当又立是吧",
+        "嘉靖这就是又当又立",
+        "这皇帝又当又立，光想拿好事了",
+        "既要也要，又当又立还好说这话？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "都魔障了，而且又当又立，硬说别人是小号还死鸭子嘴硬，结果半点证据都拿不出来，这都有人附和他，ip啊，ip都不会看吗，就这还想洗白自己，连承认错误都不敢，还能干什么"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "刚刷到一个视频 一个高三小朋友当时在直播间连麦想为张艺兴辩解 结果被骂哭了 人家。。唉 我看的都心疼的不行 真的无语 主播观众一起在骂 现在又在说不要骂无关人员 又当又立是吧"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18QLX6GE8y/",
+          "uid": "BV18QLX6GE8y",
+          "sample": "嘉靖这就是又当又立"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18QLX6GE8y/",
+          "uid": "BV18QLX6GE8y",
+          "sample": "这皇帝又当又立，光想拿好事了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18QLX6GE8y/",
+          "uid": "BV18QLX6GE8y",
+          "sample": "既要也要，又当又立还好说这话？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1DuVB6oEqK/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV11b87zHES7/, https://www.bilibili.com/video/BV1UhxQzVEC1/, https://www.bilibili.com/video/BV1KBEm6tEpw/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av116797877526453, http://www.bilibili.com/video/av116114658958920, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116815090947597, http://www.bilibili.com/video/av116700368341722, http://www.bilibili.com/video/av116812507252608, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116816986770813, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av116825945873834, http://www.bilibili.com/video/av116815023838952, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116726440136064, http://www.bilibili.com/video/av116764692185541, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av585034028, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116805125275968, http://www.bilibili.com/video/av116724578124362, http://www.bilibili.com/video/av116774221647430, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av115172400171685, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114929449372370, http://www.bilibili.com/video/av116720064861381, http://www.bilibili.com/video/av922688107, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av114031130119231, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av1454637424, http://www.bilibili.com/video/av1700668450",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV1VrVL6qEHk,BV1AcYnezEkW,BV1Ra7L67ELc,BV1f4V16bEs8,BV1DuVB6oEqK,BV17R4y1Z7Zv,BV1yF7n6yEqz,BV11b87zHES7,BV1UhxQzVEC1,BV1KBEm6tEpw",
+          "sample": "刚刷到一个视频 一个高三小朋友当时在直播间连麦想为张艺兴辩解 结果被骂哭了 人家。。唉 我看的都心疼的不行 真的无语 主播观众一起在骂 现在又在说不要骂无关人员 又当又立是吧"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV11n7Y6UEk3/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1Md7J6EEqB/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116810728868614, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av115909356224580, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782710985062, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av1454637424",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV11n7Y6UEk3,BV1f4V16bEs8,BV1Md7J6EEqB,BV17R4y1Z7Zv",
+          "sample": "刚刷到一个视频 一个高三小朋友当时在直播间连麦想为张艺兴辩解 结果被骂哭了 人家。。唉 我看的都心疼的不行 真的无语 主播观众一起在骂 现在又在说不要骂无关人员 又当又立是吧"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV11n7Y6UEk3/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Md7J6EEqB/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116810728868614, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av115909356224580, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782710985062, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av116837991843682",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV11n7Y6UEk3,BV1AcYnezEkW,BV1Md7J6EEqB,BV1f4V16bEs8",
+          "sample": "刚刷到一个视频 一个高三小朋友当时在直播间连麦想为张艺兴辩解 结果被骂哭了 人家。。唉 我看的都心疼的不行 真的无语 主播观众一起在骂 现在又在说不要骂无关人员 又当又立是吧"
+        }
+      ]
+    },
     {
       "term": "双标狗",
       "evidenceSamples": [
@@ -70,393 +744,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
           "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
           "sample": "造谣，没有依据，凭空杜撰是他们的拿手好戏…反串，加倍，抬旗反旗这些已经是出现的手段…"
-        }
-      ]
-    },
-    {
-      "term": "反串黑",
-      "evidenceSamples": [
-        "刚刚看到你的帖子讲述经历，我不知道这是真的还是反串黑！",
-        "会不会是反串黑啊",
-        "搞笑的是，很多反串黑，很多逆天角色厨子完全看不出来[笑哭]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "刚刚看到你的帖子讲述经历，我不知道这是真的还是反串黑！"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV171Vc6BEDj/",
-          "uid": "BV171Vc6BEDj",
-          "sample": "会不会是反串黑啊"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bUKSzsEtW/, https://www.bilibili.com/video/BV1g1ASz2EKs/, https://www.bilibili.com/video/BV1sN2hBVEDs/, https://www.bilibili.com/video/BV1xiZJBkErk/, https://www.bilibili.com/video/BV11u4m1w7PV/, https://www.bilibili.com/video/BV18rTb6pErb/, https://www.bilibili.com/video/BV1GU1vBiEV5/, https://www.bilibili.com/video/BV1DDTH6AEKb/, http://www.bilibili.com/video/av114745084479630, http://www.bilibili.com/video/av116143247397567, http://www.bilibili.com/video/av115658654226609, http://www.bilibili.com/video/av116069595354734, http://www.bilibili.com/video/av116856597776427, http://www.bilibili.com/video/av1301257630",
-          "uid": "BV1bUKSzsEtW,BV1g1ASz2EKs,BV1sN2hBVEDs,BV1xiZJBkErk,BV11u4m1w7PV,BV18rTb6pErb,BV1GU1vBiEV5,BV1DDTH6AEKb",
-          "sample": "搞笑的是，很多反串黑，很多逆天角色厨子完全看不出来[笑哭]"
-        }
-      ]
-    },
-    {
-      "term": "反讽",
-      "evidenceSamples": [
-        "心理学上讲有个投射效应很有意思。在毁号豿駡人时尤为明显，除了脏话，这毁号豿说别人没有爷爷奶奶疼爱，但实际上自己却只有奶奶，而且看奶奶的态度，转头就走；这毁号者一直强调自己有钱，但实际上却只是一个需要直播，收入不稳定，态度还极差的赛博讨口子，他每一句对钱的炫耀，都在说明他渴望钱，他才是真的没钱，毁号者一直在强调别人活的没他好，炫耀优越感，实际上恰恰说明他活的真不咋滴，需要和别人对比贬低别人才能让自己舒服，他駡别人是g儿，但他自己的家庭环境，尤其是他爸的态度，大家想必也看到了[笑哭]，他从小就是生活在父母压力下的，是缺爱的，却还想以此攻击别人，意图实在是过于明显。而最薄纱的就莫过于，他駡别人家没电梯，结果他自己家才是真的没电梯，投射效应在这一刻简直具象化了，反讽，甚至是相当戏剧性的反讽，使我不禁笑出声，也使我因此而激动，因为真的像我预料的那样[笑哭]，他駡表妹的每句话，实际上都是在駡他自己，他用这种方式向别人倾倒着他自己不堪的生活。",
-        "回复 @玩手机的屑资源君 :反讽听不懂吗[笑哭]",
-        "你这个是反讽么，怎么看，美学角度也是青花鱼更强啊。。。这个什么玩意儿，和盘山糕大差不差。商业胡吹啊。。",
-        "这个涨是反讽应该",
-        "根本原因：媒体的春秋笔法断章取义。比如那个回复民跪官制度，原话其实是在反讽。再比如失业税，那是对企业收的"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1naV76HE2j/",
-          "uid": "BV1naV76HE2j",
-          "sample": "心理学上讲有个投射效应很有意思。在毁号豿駡人时尤为明显，除了脏话，这毁号豿说别人没有爷爷奶奶疼爱，但实际上自己却只有奶奶，而且看奶奶的态度，转头就走；这毁号者一直强调自己有钱，但实际上却只是一个需要直播，收入不稳定，态度还极差的赛博讨口子，他每一句对钱的炫耀，都在说明他渴望钱，他才是真的没钱，毁号者一直在强调别人活的没他好，炫耀优越感，实际上恰恰说明他活的真不咋滴，需要和别人对比贬低别人才能让自己舒服，他駡别人是g儿，但他自己的家庭环境，尤其是他爸的态度，大家想必也看到了[笑哭]，他从小就是生活在父母压力下的，是缺爱的，却还想以此攻击别人，意图实在是过于明显。而最薄纱的就莫过于，他駡别人家没电梯，结果他自己家才是真的没电梯，投射效应在这一刻简直具象化了，反讽，甚至是相当戏剧性的反讽，使我不禁笑出声，也使我因此而激动，因为真的像我预料的那样[笑哭]，他駡表妹的每句话，实际上都是在駡他自己，他用这种方式向别人倾倒着他自己不堪的生活。"
-        },
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1rnKNexEBT/",
-          "uid": "860959",
-          "sample": "回复 @玩手机的屑资源君 :反讽听不懂吗[笑哭]"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
-          "uid": "31520653556",
-          "sample": "你这个是反讽么，怎么看，美学角度也是青花鱼更强啊。。。这个什么玩意儿，和盘山糕大差不差。商业胡吹啊。。"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV16NqmYvEkq/",
-          "uid": "BV16NqmYvEkq",
-          "sample": "这个涨是反讽应该"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1w24y1P7i1/, https://www.bilibili.com/video/BV1rQx9zqELn/, https://www.bilibili.com/video/BV1vM411n766/, https://www.bilibili.com/video/BV1CsDRBHEVN/, https://www.bilibili.com/video/BV17v4y1q7wh/, https://www.bilibili.com/video/BV16h411k7yu/, http://www.bilibili.com/video/av784209641, http://www.bilibili.com/video/av524392638, http://www.bilibili.com/video/av564830669, http://www.bilibili.com/video/av561153456, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av116175744800736, http://www.bilibili.com/video/av113165845138957, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av1305738757, http://www.bilibili.com/video/av507554870, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av510233943, http://www.bilibili.com/video/av114121173376264, http://www.bilibili.com/video/av809107132, http://www.bilibili.com/video/av114885023241277, http://www.bilibili.com/video/av292625519, http://www.bilibili.com/video/av346950949, http://www.bilibili.com/video/av834634537, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1850591365, http://www.bilibili.com/video/av1700994919, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av439315266, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av115333109121345, http://www.bilibili.com/video/av114662809013161, http://www.bilibili.com/video/av116030202451386, http://www.bilibili.com/video/av116393278177372, http://www.bilibili.com/video/av204420944, http://www.bilibili.com/video/av114454050111548",
-          "uid": "BV1w24y1P7i1,BV1rQx9zqELn,BV1vM411n766,BV1CsDRBHEVN,BV17v4y1q7wh,BV16h411k7yu",
-          "sample": "根本原因：媒体的春秋笔法断章取义。比如那个回复民跪官制度，原话其实是在反讽。再比如失业税，那是对企业收的"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Tv4y157te/, https://www.bilibili.com/video/BV1QfTj6pEHd/, https://www.bilibili.com/video/BV1UpTz6LEme/, https://www.bilibili.com/video/BV15qEqztEPH/, https://www.bilibili.com/video/BV18hZ1YaEcN/, https://www.bilibili.com/video/BV1we7x6oEfq/, https://www.bilibili.com/video/BV1hXTc63EsS/, https://www.bilibili.com/video/BV1a5Tj6WEd2/, http://www.bilibili.com/video/av568894256, http://www.bilibili.com/video/av116849316594587, http://www.bilibili.com/video/av116845675807802, http://www.bilibili.com/video/av114506713792950, http://www.bilibili.com/video/av114272688409424, http://www.bilibili.com/video/av116806316460933, http://www.bilibili.com/video/av116839568906875, http://www.bilibili.com/video/av116849534765478",
-          "uid": "BV1Tv4y157te,BV1QfTj6pEHd,BV1UpTz6LEme,BV15qEqztEPH,BV18hZ1YaEcN,BV1we7x6oEfq,BV1hXTc63EsS,BV1a5Tj6WEd2",
-          "sample": "——反耳呢，氵🦠说是反讽，反派剧情才用，反而秒变爱国情怀[doge_金箍][doge_金箍]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Nh4y1v7w3/, https://www.bilibili.com/video/BV1X2Kf6qEA8/, https://www.bilibili.com/video/BV1e17g6PEuu/, https://www.bilibili.com/video/BV1LyTv6yErv/, http://www.bilibili.com/video/av660728344, http://www.bilibili.com/video/av116839132763868, http://www.bilibili.com/video/av116796988392908, http://www.bilibili.com/video/av116843830777837",
-          "uid": "BV1Nh4y1v7w3,BV1X2Kf6qEA8,BV1e17g6PEuu,BV1LyTv6yErv",
-          "sample": "看到up给你点赞才知道他在反讽"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1n64y1t7TY/, https://www.bilibili.com/video/BV11LTY6dE9y/, https://www.bilibili.com/video/BV1anKZ6iEXa/, https://www.bilibili.com/video/BV1WNE76BEQf/, https://www.bilibili.com/video/BV1sATw6eEFj/, https://www.bilibili.com/video/BV1wW4VzbE6A/, https://www.bilibili.com/video/BV1k3Jtz7EW4/, https://www.bilibili.com/video/BV1Pfje6UEAr/, http://www.bilibili.com/video/av761784149, http://www.bilibili.com/video/av116843243113752, http://www.bilibili.com/video/av116837656365850, http://www.bilibili.com/video/av116717984481882, http://www.bilibili.com/video/av116839518570643, http://www.bilibili.com/video/av115361747895370, http://www.bilibili.com/video/av114538993156311, http://www.bilibili.com/video/av116774708185269",
-          "uid": "BV1n64y1t7TY,BV11LTY6dE9y,BV1anKZ6iEXa,BV1WNE76BEQf,BV1sATw6eEFj,BV1wW4VzbE6A,BV1k3Jtz7EW4,BV1Pfje6UEAr",
-          "sample": "这种断章取义也是黑子们的常用做法了……教员讲话比较幽默风趣，经常会用一些反讽的方式来阐述某个道理，但是黑他的就断章取义去掉他“讽”的那一内容把剩下的拿出来大书特书，意思直接就变了"
-        }
-      ]
-    },
-    {
-      "term": "反黑",
-      "evidenceSamples": [
-        "我做不了吧主。坚定反黑。",
-        "这是我们ikun的反黑宣言给你们看看",
-        "苏醒，起来自己反黑哈哈哈哈哈",
-        "反黑需要批准，但是反恐只需要坐标",
-        "回复 @月下独呆 :刘宇宁粉丝没那么蠢，还给别人做数据，自己正主的活都干不完了，专注自家，管自己是最出名。一个腾讯视频要给高原，开推，地球表白，做热度，都忙死了。还要打歌，反黑，微博数据等。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
-          "uid": "",
-          "sample": "我做不了吧主。坚定反黑。"
-        },
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "388207804",
-          "sample": "这是我们ikun的反黑宣言给你们看看"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Dj421X77J/",
-          "uid": "BV1Dj421X77J",
-          "sample": "苏醒，起来自己反黑哈哈哈哈哈"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1801196154/",
-          "uid": "1451380945",
-          "sample": "反黑需要批准，但是反恐只需要坐标"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Lco6Y9EZf/, https://www.bilibili.com/video/BV1NMWveZERW/, https://www.bilibili.com/video/BV1RqKf6CE8N/, https://www.bilibili.com/video/BV1hRTq61ES9/, https://www.bilibili.com/video/BV1mRjp6QE36/, https://www.bilibili.com/video/BV15fKU6UEZp/, https://www.bilibili.com/video/BV1ku7a6MEJC/, https://www.bilibili.com/video/BV1CNTe6pExq/, http://www.bilibili.com/video/av114213162850446, http://www.bilibili.com/video/av113018541180502, http://www.bilibili.com/video/av116839166315936, http://www.bilibili.com/video/av116844820170471, http://www.bilibili.com/video/av116784053163686, http://www.bilibili.com/video/av116832673466589, http://www.bilibili.com/video/av116809302873847, http://www.bilibili.com/video/av116842706305933",
-          "uid": "BV1Lco6Y9EZf,BV1NMWveZERW,BV1RqKf6CE8N,BV1hRTq61ES9,BV1mRjp6QE36,BV15fKU6UEZp,BV1ku7a6MEJC,BV1CNTe6pExq",
-          "sample": "回复 @月下独呆 :刘宇宁粉丝没那么蠢，还给别人做数据，自己正主的活都干不完了，专注自家，管自己是最出名。一个腾讯视频要给高原，开推，地球表白，做热度，都忙死了。还要打歌，反黑，微博数据等。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mSKo6oEDK/, https://www.bilibili.com/video/BV1vsJG6VE8J/, http://www.bilibili.com/video/av116820392543988, http://www.bilibili.com/video/av116837991908171, http://www.bilibili.com/video/av116809789344321, http://www.bilibili.com/video/av116754055500910",
-          "uid": "BV1mSKo6oEDK,BV1vsJG6VE8J",
-          "sample": "我也实在不理解 就那个长青 以前我还关注来着 当时他反黑 团结一致对外 挺好的 现在几个月没看 结果他完全变了 攻击小孩老师 特别极端..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1kV4y1m7Lf/, https://www.bilibili.com/video/BV1aDNmzHEg5/, https://www.bilibili.com/video/BV1gV4y1e7g9/, http://www.bilibili.com/video/av116832371672312, http://www.bilibili.com/video/av869790232, http://www.bilibili.com/video/av114722233913053, http://www.bilibili.com/video/av872365795",
-          "uid": "BV1kV4y1m7Lf,BV1aDNmzHEg5,BV1gV4y1e7g9",
-          "sample": "我在微博超话 找反黑帖数据贴啥的都没找到[OK]然后发了个帖子有人告诉我 不能科普…我 行 火速删帖[捂眼]顺手微博一块删了…平时也不用…"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1fY41117mA/, https://www.bilibili.com/video/BV1MQ4y1m7Nb/, https://www.bilibili.com/video/BV1jRtMejEdA/, https://www.bilibili.com/video/BV1uP4y177Ee/, https://www.bilibili.com/video/BV1E97n6BEqo/, https://www.bilibili.com/video/BV1vsJG6VE8J/, https://www.bilibili.com/video/BV1RQwne1EM2/, https://www.bilibili.com/video/BV1RbKaz5EHi/, http://www.bilibili.com/video/av264961416, http://www.bilibili.com/video/av717439701, http://www.bilibili.com/video/av113135897877332, http://www.bilibili.com/video/av893248026, http://www.bilibili.com/video/av116820392543988, http://www.bilibili.com/video/av116754055500910, http://www.bilibili.com/video/av113841396581162, http://www.bilibili.com/video/av114732635788018",
-          "uid": "BV1fY41117mA,BV1MQ4y1m7Nb,BV1jRtMejEdA,BV1uP4y177Ee,BV1E97n6BEqo,BV1vsJG6VE8J,BV1RQwne1EM2,BV1RbKaz5EHi",
-          "sample": "我也实在不理解 就那个长青 以前我还关注来着 当时他反黑 团结一致对外 挺好的 现在几个月没看 结果他完全变了 攻击小孩老师 特别极端..."
-        }
-      ]
-    },
-    {
-      "term": "发病",
-      "evidenceSamples": [
-        "分享一下自己入院前的一些发病行为",
-        "小明天天在网上发病，竟奇迹般地治好了秃头 rt",
-        "吧内人员公开发病，疑似拘押要凑满减，被医生当场识破",
-        "不是智商税，治好了我的肠易激综合症。我大概十年前因为疑病症患了肠易激综合症，每天肠子准时不舒服，去照了肠镜啥事没有，仍然消除不了躯干反应，又不想去看精神科因为知道吃了那些药会经常睡觉工作不了，然后研究了下试着吃大剂量的复合维生素B片，吃了大...",
-        "轩狗和顺强都发病很严重"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8249584669",
-          "uid": "秋夜星物语",
-          "sample": "分享一下自己入院前的一些发病行为"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8479071513",
-          "uid": "患病山龙青🌿",
-          "sample": "小明天天在网上发病，竟奇迹般地治好了秃头 rt"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8471337128",
-          "uid": "沋希♂",
-          "sample": "吧内人员公开发病，疑似拘押要凑满减，被医生当场识破"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Ueb6zpEfM/, https://www.bilibili.com/video/BV1rATE6BEg1/, https://www.bilibili.com/video/BV1Mh4y1h7gY/, http://www.bilibili.com/video/av116844719511526, http://www.bilibili.com/video/av115026102848693, http://www.bilibili.com/video/av116850692200275, http://www.bilibili.com/video/av661498799",
-          "uid": "BV1Ueb6zpEfM,BV1rATE6BEg1,BV1Mh4y1h7gY",
-          "sample": "不是智商税，治好了我的肠易激综合症。我大概十年前因为疑病症患了肠易激综合症，每天肠子准时不舒服，去照了肠镜啥事没有，仍然消除不了躯干反应，又不想去看精神科因为知道吃了那些药会经常睡觉工作不了，然后研究了下试着吃大剂量的复合维生素B片，吃了大..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hxiTe9EhP/, https://www.bilibili.com/video/BV1Hh4y1q7EN/, https://www.bilibili.com/video/BV1ZUVA6VEZb/, http://www.bilibili.com/video/av112890363513475, http://www.bilibili.com/video/av662191158, http://www.bilibili.com/video/av116175795132446, http://www.bilibili.com/video/av116640289130655",
-          "uid": "BV1hxiTe9EhP,BV1Hh4y1q7EN,BV1ZUVA6VEZb",
-          "sample": "轩狗和顺强都发病很严重"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uM4y147VG/, https://www.bilibili.com/video/BV19EG66vEeE/, https://www.bilibili.com/video/BV1em41117oK/, https://www.bilibili.com/video/BV1TXFHz4E46/, http://www.bilibili.com/video/av913531369, http://www.bilibili.com/video/av116624988313079, http://www.bilibili.com/video/av1903862331, http://www.bilibili.com/video/av116028407285692",
-          "uid": "BV1uM4y147VG,BV19EG66vEeE,BV1em41117oK,BV1TXFHz4E46",
-          "sample": "回复 @Azusa亲酱 :知道，但夏彦还是会在发病的时候瞒着女主，每次都是忍着痛先支开女主，然后剧情在演一段他多么痛苦，又多么不忍心女主为他担心"
-        }
-      ]
-    },
-    {
-      "term": "口吐芬芳",
-      "evidenceSamples": [
-        "回复 @一路口吐芬芳的屑面包 :发际线后移是因为甲醛不是吼而导致的",
-        "女生没那么强（鸟语花香口吐芬芳）",
-        "前排帮up来个口吐芬芳预警[喜欢]性感小伟，在线骂街",
-        "公交车司机会直接把你踹下车然后口吐芬芳[doge]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mK4y1x7Mb/",
-          "uid": "BV1mK4y1x7Mb",
-          "sample": "回复 @一路口吐芬芳的屑面包 :发际线后移是因为甲醛不是吼而导致的"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1XYDvB5EFa/",
-          "uid": "BV1XYDvB5EFa",
-          "sample": "女生没那么强（鸟语花香口吐芬芳）"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1qa4y1a78C/, https://www.bilibili.com/video/BV1PE411k7M8/, https://www.bilibili.com/video/BV1Ua411e7gs/, https://www.bilibili.com/video/BV1Rg4y1J7Dh/, https://www.bilibili.com/video/BV1mq4y1a7Bs/, https://www.bilibili.com/video/BV1LY411n7hY/, https://www.bilibili.com/video/BV1hv4y1J7gC/, https://www.bilibili.com/video/BV1j64y1d7my/, http://www.bilibili.com/video/av668945967, http://www.bilibili.com/video/av71682014, http://www.bilibili.com/video/av213185995, http://www.bilibili.com/video/av822720127, http://www.bilibili.com/video/av595502513, http://www.bilibili.com/video/av254893811, http://www.bilibili.com/video/av569946565, http://www.bilibili.com/video/av758623948",
-          "uid": "BV1qa4y1a78C,BV1PE411k7M8,BV1Ua411e7gs,BV1Rg4y1J7Dh,BV1mq4y1a7Bs,BV1LY411n7hY,BV1hv4y1J7gC,BV1j64y1d7my",
-          "sample": "前排帮up来个口吐芬芳预警[喜欢]性感小伟，在线骂街"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1jrfrYAENW/, https://www.bilibili.com/video/BV1fQLQ6pEpt/, https://www.bilibili.com/video/BV18qKX6JEaX/, https://www.bilibili.com/video/BV1dQ4y1F7KM/, http://www.bilibili.com/video/av113895352049514, http://www.bilibili.com/video/av116764859960816, http://www.bilibili.com/video/av116834518960062, http://www.bilibili.com/video/av709114791",
-          "uid": "BV1jrfrYAENW,BV1fQLQ6pEpt,BV18qKX6JEaX,BV1dQ4y1F7KM",
-          "sample": "公交车司机会直接把你踹下车然后口吐芬芳[doge]"
-        }
-      ]
-    },
-    {
-      "term": "右派",
-      "evidenceSamples": [
-        "脑容量这一块 左派右派吵一天想着怎么让国家进步，打开手机天塌了"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
-          "uid": "",
-          "sample": "脑容量这一块 左派右派吵一天想着怎么让国家进步，打开手机天塌了"
-        }
-      ]
-    },
-    {
-      "term": "司马",
-      "evidenceSamples": [
-        "司马懿为什么不找三个臭皮匠把诸葛亮顶住",
-        "司马光在缸下点了一堆火笑着说将水煮干后小朋友就不会淹死了",
-        "“没有踩李，你就不配当男人”汉武帝对司马迁说",
-        "人家竹林七贤本来就是装疯卖傻，防止被司马炎给诛杀的，你这不是纯属抛开事实吗？[星星眼]",
-        "主要是现在神司马制衡加极智太深入人心了，很多人都忘了放逐这个强控神技了[笑哭]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8699022748",
-          "uid": "断梭寻瑾year",
-          "sample": "司马懿为什么不找三个臭皮匠把诸葛亮顶住"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/2070788899",
-          "uid": "-神圣大提米-",
-          "sample": "司马光在缸下点了一堆火笑着说将水煮干后小朋友就不会淹死了"
-        },
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8352925765",
-          "uid": "笺墨无颜",
-          "sample": "“没有踩李，你就不配当男人”汉武帝对司马迁说"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Mm7S6KEK6/, https://www.bilibili.com/video/BV1sZEW64Eie/, https://www.bilibili.com/video/BV1jZTp67EEb/, https://www.bilibili.com/video/BV1FmEm6HEaz/, https://www.bilibili.com/video/BV1Eo4y1p72q/, https://www.bilibili.com/video/BV13Q7k6JE3N/, https://www.bilibili.com/video/BV1Qbj26oE51/, https://www.bilibili.com/video/BV1DvFfzYE5A/, http://www.bilibili.com/video/av116701156935912, http://www.bilibili.com/video/av116706961922180, http://www.bilibili.com/video/av116853913423171, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av397132997, http://www.bilibili.com/video/av116697113563484, http://www.bilibili.com/video/av116799035216259, http://www.bilibili.com/video/av116034832962824",
-          "uid": "BV1Mm7S6KEK6,BV1sZEW64Eie,BV1jZTp67EEb,BV1FmEm6HEaz,BV1Eo4y1p72q,BV13Q7k6JE3N,BV1Qbj26oE51,BV1DvFfzYE5A",
-          "sample": "人家竹林七贤本来就是装疯卖傻，防止被司马炎给诛杀的，你这不是纯属抛开事实吗？[星星眼]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1zhTY61EFg/, https://www.bilibili.com/video/BV1YmTc6yEYh/, https://www.bilibili.com/video/BV1WvVW6CEvP/, https://www.bilibili.com/video/BV1pGTi6xEgh/, https://www.bilibili.com/video/BV191KhzyE3j/, https://www.bilibili.com/video/BV1999vYwE6s/, https://www.bilibili.com/video/BV1z65t6SEPb/, https://www.bilibili.com/video/BV18gLt6PE79/, http://www.bilibili.com/video/av116843410885049, http://www.bilibili.com/video/av116839887673997, http://www.bilibili.com/video/av116652737824287, http://www.bilibili.com/video/av116843729655449, http://www.bilibili.com/video/av114733105679437, http://www.bilibili.com/video/av114096208943829, http://www.bilibili.com/video/av116556419893495, http://www.bilibili.com/video/av116610828341593",
-          "uid": "BV1zhTY61EFg,BV1YmTc6yEYh,BV1WvVW6CEvP,BV1pGTi6xEgh,BV191KhzyE3j,BV1999vYwE6s,BV1z65t6SEPb,BV18gLt6PE79",
-          "sample": "主要是现在神司马制衡加极智太深入人心了，很多人都忘了放逐这个强控神技了[笑哭]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV11E411t76Z/, https://www.bilibili.com/video/BV1Zz4y1H7kp/, https://www.bilibili.com/video/BV1vb411s7zg/, https://www.bilibili.com/video/BV1Fq4y1n7bJ/, http://www.bilibili.com/video/av74300749, http://www.bilibili.com/video/av572739219, http://www.bilibili.com/video/av47910197, http://www.bilibili.com/video/av545490928",
-          "uid": "BV11E411t76Z,BV1Zz4y1H7kp,BV1vb411s7zg,BV1Fq4y1n7bJ",
-          "sample": "没有文件密码才恶心！上传资源不给密码，司马"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gfT56yE5W/, https://www.bilibili.com/video/BV12DpMenExq/, https://www.bilibili.com/video/BV1K5GX6oEJL/, https://www.bilibili.com/video/BV1mX4y1V7bN/, https://www.bilibili.com/video/BV19x4y1Z7t3/, https://www.bilibili.com/video/BV15ujJ6dE2J/, https://www.bilibili.com/video/BV1ju411k73p/, https://www.bilibili.com/video/BV16h4y157p5/, http://www.bilibili.com/video/av116830962193704, http://www.bilibili.com/video/av113083620069257, http://www.bilibili.com/video/av116649298494166, http://www.bilibili.com/video/av714553526, http://www.bilibili.com/video/av1000241394, http://www.bilibili.com/video/av116782291487302, http://www.bilibili.com/video/av510942999, http://www.bilibili.com/video/av616534573",
-          "uid": "BV1gfT56yE5W,BV12DpMenExq,BV1K5GX6oEJL,BV1mX4y1V7bN,BV19x4y1Z7t3,BV15ujJ6dE2J,BV1ju411k73p,BV16h4y157p5",
-          "sample": "司马迁出生于史官世家，自幼聪明过人,心怀壮志。他早年游历各地，积累了丰富的知识和经验。这为他的未来成就奠定了基础。虽然他可以选择安逸的生活，但他却选择了一条充满挑战的道路，勇敢地逆流而上。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gfT56yE5W/, https://www.bilibili.com/video/BV12DpMenExq/, https://www.bilibili.com/video/BV1K5GX6oEJL/, https://www.bilibili.com/video/BV1mX4y1V7bN/, https://www.bilibili.com/video/BV19x4y1Z7t3/, https://www.bilibili.com/video/BV15ujJ6dE2J/, https://www.bilibili.com/video/BV1ju411k73p/, https://www.bilibili.com/video/BV16h4y157p5/, http://www.bilibili.com/video/av116830962193704, http://www.bilibili.com/video/av113083620069257, http://www.bilibili.com/video/av116649298494166, http://www.bilibili.com/video/av714553526, http://www.bilibili.com/video/av1000241394, http://www.bilibili.com/video/av116782291487302, http://www.bilibili.com/video/av510942999, http://www.bilibili.com/video/av616534573",
-          "uid": "BV1gfT56yE5W,BV12DpMenExq,BV1K5GX6oEJL,BV1mX4y1V7bN,BV19x4y1Z7t3,BV15ujJ6dE2J,BV1ju411k73p,BV16h4y157p5",
-          "sample": "后来,司马迁囚替李陵辩护而入狱,并遭受了腐刑。生则遭尽世人的白眼，死亦无颜面对已逝的宗族。然而,每当他回想起自己的著作”草创未就，惜其不成”，他便以周文王、孔子、屈原、左丘明、孙子、韩非等人在逆境中发奋有为来激励自己。正因如此，即使遭受了极..."
-        }
-      ]
-    },
-    {
-      "term": "吉吉国王",
-      "evidenceSamples": [
-        "近日狗熊岭突发一起伤亡事件 目击者毛某称一头名叫熊二的黄色狗熊刺杀了被害人吉吉国王 警惕二刺猿！",
-        "鼠标用久了就会有人性，鼠标知道吉吉国王要右半身瘫痪，所以自己就反转了。",
-        "精神错乱吉吉的故事:有一天毛毛干事不利，导致木头砸到了吉吉国王，把吉吉国王砸晕了，毛毛因为害怕便逃跑了，吉吉国王醒来后，发现毛毛畏罪潜逃便十分生气，他在森林中遇到了“光头强？”，“光头强？”告诉了毛毛的位置，还给了吉吉国王一把权杖，和一瓶药...",
-        "熊大：你不是吉吉国王？！（震惊的看向吉吉手里的头），我现在要保护我的弟弟！！",
-        "吉吉国王说话属于专属于专业表演，小朋友请不要模仿哦[吃瓜]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8431842575",
-          "uid": "特摄界缝合怪-",
-          "sample": "近日狗熊岭突发一起伤亡事件 目击者毛某称一头名叫熊二的黄色狗熊刺杀了被害人吉吉国王 警惕二刺猿！"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV17E411A7oE/, https://www.bilibili.com/video/BV1W4411H7PW/, https://www.bilibili.com/video/BV1Ld4y1k7pn/, https://www.bilibili.com/video/BV1eYjE6nEVL/, https://www.bilibili.com/video/BV1dC1GB6Erk/, https://www.bilibili.com/video/BV1SBTV6uEeE/, https://www.bilibili.com/video/BV1hJTE6oEjg/, https://www.bilibili.com/video/BV1Udt9zQEEb/, http://www.bilibili.com/video/av97866335, http://www.bilibili.com/video/av54013432, http://www.bilibili.com/video/av390034319, http://www.bilibili.com/video/av116780278225502, http://www.bilibili.com/video/av115471890255954, http://www.bilibili.com/video/av116829972337087, http://www.bilibili.com/video/av116850239213041, http://www.bilibili.com/video/av115014526637543",
-          "uid": "BV17E411A7oE,BV1W4411H7PW,BV1Ld4y1k7pn,BV1eYjE6nEVL,BV1dC1GB6Erk,BV1SBTV6uEeE,BV1hJTE6oEjg,BV1Udt9zQEEb",
-          "sample": "鼠标用久了就会有人性，鼠标知道吉吉国王要右半身瘫痪，所以自己就反转了。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cC4y1v76Z/, https://www.bilibili.com/video/BV16cFQePEA4/, https://www.bilibili.com/video/BV15P4y127ft/, https://www.bilibili.com/video/BV1quwweaE9B/, http://www.bilibili.com/video/av793369433, http://www.bilibili.com/video/av113922363363439, http://www.bilibili.com/video/av902371710, http://www.bilibili.com/video/av113847234987390",
-          "uid": "BV1cC4y1v76Z,BV16cFQePEA4,BV15P4y127ft,BV1quwweaE9B",
-          "sample": "精神错乱吉吉的故事:有一天毛毛干事不利，导致木头砸到了吉吉国王，把吉吉国王砸晕了，毛毛因为害怕便逃跑了，吉吉国王醒来后，发现毛毛畏罪潜逃便十分生气，他在森林中遇到了“光头强？”，“光头强？”告诉了毛毛的位置，还给了吉吉国王一把权杖，和一瓶药..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cC4y1v76Z/, https://www.bilibili.com/video/BV16cFQePEA4/, https://www.bilibili.com/video/BV15P4y127ft/, https://www.bilibili.com/video/BV1quwweaE9B/, http://www.bilibili.com/video/av793369433, http://www.bilibili.com/video/av113922363363439, http://www.bilibili.com/video/av902371710, http://www.bilibili.com/video/av113847234987390",
-          "uid": "BV1cC4y1v76Z,BV16cFQePEA4,BV15P4y127ft,BV1quwweaE9B",
-          "sample": "熊大：你不是吉吉国王？！（震惊的看向吉吉手里的头），我现在要保护我的弟弟！！"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cC4y1v76Z/, https://www.bilibili.com/video/BV16cFQePEA4/, https://www.bilibili.com/video/BV15P4y127ft/, https://www.bilibili.com/video/BV1quwweaE9B/, http://www.bilibili.com/video/av793369433, http://www.bilibili.com/video/av113922363363439, http://www.bilibili.com/video/av902371710, http://www.bilibili.com/video/av113847234987390",
-          "uid": "BV1cC4y1v76Z,BV16cFQePEA4,BV15P4y127ft,BV1quwweaE9B",
-          "sample": "吉吉国王说话属于专属于专业表演，小朋友请不要模仿哦[吃瓜]"
-        }
-      ]
-    },
-    {
-      "term": "味太冲了",
-      "evidenceSamples": [
-        "这tvb味太冲了，再加上配音，真就是以前国配tvb电影，这个篇章没什么诡异的，能做一下犬封国，穿胸国，小人国，直肠国之类的吗",
-        "宅男味太冲了",
-        "味太冲了",
-        "这味太冲了"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1wfV36zECf/",
-          "uid": "BV1wfV36zECf",
-          "sample": "这tvb味太冲了，再加上配音，真就是以前国配tvb电影，这个篇章没什么诡异的，能做一下犬封国，穿胸国，小人国，直肠国之类的吗"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VmV763EEi/",
-          "uid": "BV1VmV763EEi",
-          "sample": "宅男味太冲了"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1u94y1u7Eg/",
-          "uid": "BV1u94y1u7Eg",
-          "sample": "味太冲了"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
-          "uid": "BV1uw411Z7jE",
-          "sample": "这味太冲了"
-        }
-      ]
-    },
-    {
-      "term": "哈人",
-      "evidenceSamples": [
-        "哈哈哈哈哈哈人才啊兄弟",
-        "有点哈人说实在话[doge]",
-        "毕竟经常哈人的逼罗猫都已经被大象踩踩背了[doge]",
-        "猫不哈人不哈的时候，网友就会",
-        "哈哈哈哈哈人间真实"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
-          "uid": "456324265",
-          "sample": "哈哈哈哈哈哈人才啊兄弟"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AGZKYGE4n/",
-          "uid": "BV1AGZKYGE4n",
-          "sample": "有点哈人说实在话[doge]"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1TeZnYWEvP/",
-          "uid": "BV1TeZnYWEvP",
-          "sample": "毕竟经常哈人的逼罗猫都已经被大象踩踩背了[doge]"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1TeZnYWEvP/",
-          "uid": "BV1TeZnYWEvP",
-          "sample": "猫不哈人不哈的时候，网友就会"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
-          "uid": "96367415",
-          "sample": "哈哈哈哈哈人间真实"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1czVc6kE7P/, https://www.bilibili.com/video/BV1mSYjzfEWf/, https://www.bilibili.com/video/BV16KTn65EGt/, https://www.bilibili.com/video/BV1dvTJ6vEgW/, http://www.bilibili.com/video/av116639282497777, http://www.bilibili.com/video/av115163625752084, http://www.bilibili.com/video/av116851497503556, http://www.bilibili.com/video/av116851564610392",
-          "uid": "BV1czVc6kE7P,BV1mSYjzfEWf,BV16KTn65EGt,BV1dvTJ6vEgW",
-          "sample": "我就喜欢这种会咬人的巴神，我家的巴会哈人但是都不敢真咬我[大哭]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ATqjBVExs/, https://www.bilibili.com/video/BV1FmEm6HEaz/, https://www.bilibili.com/video/BV1gBJ56GE6M/, https://www.bilibili.com/video/BV1DLdWBRE3q/, https://www.bilibili.com/video/BV1pHBQBCEMD/, https://www.bilibili.com/video/BV15LTE6hEbK/, https://www.bilibili.com/video/BV18GKQ6mEfG/, https://www.bilibili.com/video/BV1dT41197yJ/, http://www.bilibili.com/video/av115735829414653, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116737294997165, http://www.bilibili.com/video/av116426799055557, http://www.bilibili.com/video/av115780238711330, http://www.bilibili.com/video/av116850289673133, http://www.bilibili.com/video/av116833092962529, http://www.bilibili.com/video/av479018786",
-          "uid": "BV1ATqjBVExs,BV1FmEm6HEaz,BV1gBJ56GE6M,BV1DLdWBRE3q,BV1pHBQBCEMD,BV15LTE6hEbK,BV18GKQ6mEfG,BV1dT41197yJ",
-          "sample": "家养猫跑出去了 找回来后不让接近还哈人[笑哭]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1fj421m7SG/, https://www.bilibili.com/video/BV1iy421B7NN/, https://www.bilibili.com/video/BV1Y6Kf6rEXd/, http://www.bilibili.com/video/av1651328539, http://www.bilibili.com/video/av116820946257607, http://www.bilibili.com/video/av1551309296, http://www.bilibili.com/video/av116839199803727",
-          "uid": "BV1fj421m7SG,BV1iy421B7NN,BV1Y6Kf6rEXd",
-          "sample": "之前在评论区看别人说过好像是因为梦老师以前觉得压着嗓子说话很帅，结果久而久之就变成这样了哈哈哈哈，人不对声哈哈哈哈看着奶奶的其实中气十足[脱单doge]"
         }
       ]
     }

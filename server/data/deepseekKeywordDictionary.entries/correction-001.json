@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-05T11:09:33.476Z",
+  "updatedAt": "2026-08-09T18:09:20.494Z",
   "family": "correction",
   "shard": 1,
   "shardCount": 1,
@@ -11,7 +11,7 @@
       "meaning": "承认因为激动而说了不当的话，现在冷静了。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-04T04:36:30.703Z"
     },
     {
@@ -20,8 +20,8 @@
       "meaning": "直接否定自己之前的说法，简单直接。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:01:25.494Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:44:12.131Z"
     },
     {
       "term": "不对不对",
@@ -29,8 +29,8 @@
       "meaning": "连续否定自己之前的说法",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:01:25.494Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:44:12.131Z"
     },
     {
       "term": "不是",
@@ -38,16 +38,16 @@
       "meaning": "日语‘不是’的谐音，用于否定自己之前说过的话，表示开玩笑或撤回",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-09T11:46:47.139Z"
     },
     {
       "term": "不是bug",
       "family": "correction",
       "meaning": "纠正认为游戏有Bug的误解，说明是设计机制",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 6,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
@@ -56,8 +56,8 @@
       "meaning": "澄清与之前表述相反的真相",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:26.735Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-09T11:46:47.139Z"
     },
     {
       "term": "不说了",
@@ -65,8 +65,8 @@
       "meaning": "停止发言",
       "risk": "low",
       "confidence": 0.74,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:07:28.505Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:33:32.802Z"
     },
     {
       "term": "举报了",
@@ -74,7 +74,7 @@
       "meaning": "声称举报，结束争论",
       "risk": "high",
       "confidence": 0.88,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T10:25:11.685Z"
     },
     {
@@ -83,44 +83,26 @@
       "meaning": "承认自己说话不经思考，错误百出",
       "risk": "low",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:45:17.715Z"
     },
     {
-      "term": "你厉害",
+      "term": "井底之蛙",
       "family": "correction",
-      "meaning": "承认对方高明",
+      "meaning": "自谦承认眼界狭窄，常用于纠正错误认知。",
       "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-05T09:47:43.432Z"
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "你说得对",
       "family": "correction",
       "meaning": "自我修正或结论降级",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:01:32.509Z"
-    },
-    {
-      "term": "你说的都对",
-      "family": "correction",
-      "meaning": "表面同意实际讽刺，但也可真同意",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:25:09.060Z"
-    },
-    {
-      "term": "你赢了",
-      "family": "correction",
-      "meaning": "认输，放弃争论",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:13:31.299Z"
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "修一下",
@@ -128,8 +110,17 @@
       "meaning": "对自己评论进行简单修改。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T10:25:43.497Z"
+    },
+    {
+      "term": "修改一下",
+      "family": "correction",
+      "meaning": "对自己发表的评论或内容进行修改，类似于编辑修正。",
+      "risk": "low",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "修正",
@@ -137,7 +128,7 @@
       "meaning": "自我修正或结论降级",
       "risk": "positive",
       "confidence": 0.88,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T09:58:12.438Z"
     },
     {
@@ -146,8 +137,8 @@
       "meaning": "用户对自己之前表述的全面更正，用于承认错误并修正",
       "risk": "positive",
       "confidence": 0.88,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "全更正",
@@ -155,8 +146,8 @@
       "meaning": "用户对自己之前表述的全面更正，用于承认错误并修正",
       "risk": "positive",
       "confidence": 0.88,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "写错了",
@@ -164,7 +155,7 @@
       "meaning": "自嘲写错汉字，承认错误并自我纠正，带[笑哭]表情缓解尴尬",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T01:33:51.473Z"
     },
     {
@@ -173,7 +164,7 @@
       "meaning": "开启更精确陈述",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T09:17:20.612Z"
     },
     {
@@ -199,8 +190,8 @@
       "family": "correction",
       "meaning": "劝阻对方停止某种言论，带有纠正或制止功能",
       "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 6,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T03:39:59.019Z"
     },
     {
@@ -209,17 +200,35 @@
       "meaning": "请求对方停止施压，间接服软",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T07:44:07.631Z"
+    },
+    {
+      "term": "别骂了",
+      "family": "correction",
+      "meaning": "以夸张方式认错求饶，常见于评论区吐槽。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
+      "term": "别骂了别骂了",
+      "family": "correction",
+      "meaning": "以夸张方式认错求饶，常见于评论区吐槽。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "到此为止",
       "family": "correction",
       "meaning": "结束争论",
       "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-03T22:45:50.436Z"
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "前面说重了",
@@ -228,7 +237,7 @@
       "risk": "positive",
       "confidence": 0.9,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:15:14.225Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "勘误",
@@ -240,12 +249,21 @@
       "updatedAt": "2026-06-29T04:36:14.011Z"
     },
     {
+      "term": "卡了",
+      "family": "correction",
+      "meaning": "指网络或设备卡顿导致操作失误（如发送重复信息），常作为解释或道歉。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
       "term": "原来如此",
       "family": "correction",
       "meaning": "承认恍然大悟，修正此前认知",
       "risk": "low",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T07:25:44.789Z"
     },
     {
@@ -254,8 +272,8 @@
       "meaning": "请求原谅",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:36:14.011Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:46:14.408Z"
     },
     {
       "term": "发错了",
@@ -263,7 +281,7 @@
       "meaning": "声称错误发送",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T03:19:42.665Z"
     },
     {
@@ -272,7 +290,7 @@
       "meaning": "表示取消关注，作为抗议",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T11:03:50.459Z"
     },
     {
@@ -281,7 +299,7 @@
       "meaning": "网络用语，指胡乱说话或口误，常用于虚构或漫展语境。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-04T00:20:22.349Z"
     },
     {
@@ -290,44 +308,35 @@
       "meaning": "强调只是口误，非本意",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T00:10:25.044Z"
     },
     {
       "term": "口误了",
       "family": "correction",
-      "meaning": "因口误导致表述错误，进行自我修正",
+      "meaning": "承认自己口误，说错话。",
       "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-04T00:10:25.044Z"
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "古早",
       "family": "correction",
       "meaning": "表示老旧过时，这里用于纠正用词错误",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T10:29:57.005Z"
-    },
-    {
-      "term": "可能说错了",
-      "family": "correction",
-      "meaning": "自我纠正或降低发言可信度，表示不确定",
       "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T04:28:20.625Z"
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-05T10:29:57.005Z"
     },
     {
       "term": "听我说",
       "family": "correction",
       "meaning": "请求对方重新倾听",
       "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T01:35:27.112Z"
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "告辞",
@@ -348,12 +357,39 @@
       "updatedAt": "2026-06-30T19:16:38.303662Z"
     },
     {
+      "term": "啪啪打脸",
+      "family": "correction",
+      "meaning": "自己推翻自己之前的言论，承认错误。",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
+      "term": "嘴瓢",
+      "family": "correction",
+      "meaning": "口误，承认说错话，常以玩笑方式纠正。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
+    },
+    {
+      "term": "嘴硬",
+      "family": "correction",
+      "meaning": "承认之前固执、不认错，现在改变态度，常说‘我嘴硬了’。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
+    },
+    {
       "term": "大意了",
       "family": "correction",
       "meaning": "源自马保国梗，表示自我调侃的认错或疏忽",
       "risk": "low",
       "confidence": 0.9,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T04:12:10.817Z"
     },
     {
@@ -362,8 +398,17 @@
       "meaning": "源自马保国梗，表示自我调侃的认错或疏忽",
       "risk": "low",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-04T04:12:10.817Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-06T20:09:10.257Z"
+    },
+    {
+      "term": "太激动了",
+      "family": "correction",
+      "meaning": "承认情绪失控或言辞激烈，冷静后认错。",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
       "term": "失误",
@@ -372,7 +417,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "好吧",
@@ -380,8 +425,8 @@
       "meaning": "勉强同意，终止辩论",
       "risk": "low",
       "confidence": 0.74,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:39:34.453Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:32:55.433Z"
     },
     {
       "term": "学到了",
@@ -389,7 +434,7 @@
       "meaning": "表达从对方言论中学到东西，谦虚接受",
       "risk": "low",
       "confidence": 0.84,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T02:55:13.104Z"
     },
     {
@@ -397,9 +442,9 @@
       "family": "correction",
       "meaning": "道歉，承认错误或表达歉意",
       "risk": "neutral",
-      "confidence": 0.87,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:57:05.133Z"
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:45:54.920Z"
     },
     {
       "term": "对对对",
@@ -408,7 +453,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:57:05.133Z"
+      "updatedAt": "2026-07-09T11:40:41.907Z"
     },
     {
       "term": "当我没说",
@@ -416,7 +461,7 @@
       "meaning": "彻底撤回言论",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T05:22:30.946Z"
     },
     {
@@ -425,8 +470,8 @@
       "meaning": "强调程度的道歉，语气更诚恳。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T04:50:17.675Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T18:58:06.354Z"
     },
     {
       "term": "怪我",
@@ -434,8 +479,17 @@
       "meaning": "简短的认错，表示责任在自己。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T07:25:44.789Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:45:54.920Z"
+    },
+    {
+      "term": "憨憨",
+      "family": "correction",
+      "meaning": "自嘲笨拙、愚蠢，承认自己犯傻或理解错误，常见于弹幕。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "我删了",
@@ -443,8 +497,17 @@
       "meaning": "删除自己言论",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T03:06:22.179Z"
+    },
+    {
+      "term": "我卡了",
+      "family": "correction",
+      "meaning": "指网络或设备卡顿导致操作失误（如发送重复信息），常作为解释或道歉。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "我反思",
@@ -461,7 +524,7 @@
       "meaning": "承认口误",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T00:10:25.044Z"
     },
     {
@@ -470,7 +533,7 @@
       "meaning": "口误",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T00:10:25.044Z"
     },
     {
@@ -479,8 +542,17 @@
       "meaning": "夸张表达认输或感动",
       "risk": "positive",
       "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T09:25:54.569Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T18:59:00.158Z"
+    },
+    {
+      "term": "我嘴硬了",
+      "family": "correction",
+      "meaning": "承认之前固执、不认错，现在改变态度，常说‘我嘴硬了’。",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "我失误",
@@ -489,16 +561,16 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "我孤陋寡闻",
       "family": "correction",
       "meaning": "承认自己见识少",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 3,
-      "updatedAt": "2026-07-04T01:30:00.604Z"
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "我怎么汉语也写错了",
@@ -506,8 +578,17 @@
       "meaning": "自嘲写错汉字，承认错误并自我纠正，带[笑哭]表情缓解尴尬",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T01:33:51.473Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-06T20:09:10.257Z"
+    },
+    {
+      "term": "我打脸了",
+      "family": "correction",
+      "meaning": "自己推翻自己之前的言论，承认错误。",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "我承担",
@@ -523,9 +604,9 @@
       "family": "correction",
       "meaning": "夸张认输",
       "risk": "positive",
-      "confidence": 0.68,
+      "confidence": 0.8,
       "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:25:09.061Z"
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "我投降了",
@@ -542,8 +623,17 @@
       "meaning": "说话者彻底否定自己之前的主张，进行立场转变",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-03T20:20:02.896Z"
+    },
+    {
+      "term": "我撤回",
+      "family": "correction",
+      "meaning": "表示收回之前说的话或信息。",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "我收回",
@@ -551,8 +641,8 @@
       "meaning": "撤销之前不实或不当表述",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:14:07.486Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:43:55.677Z"
     },
     {
       "term": "我收回刚才的话",
@@ -560,8 +650,8 @@
       "meaning": "明确撤销不当言论",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:14:07.486Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:43:55.677Z"
     },
     {
       "term": "我收回我的话",
@@ -569,17 +659,17 @@
       "meaning": "明确表示撤回自己之前说的所有话。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:13:50.355Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:43:31.990Z"
     },
     {
       "term": "我改",
       "family": "correction",
-      "meaning": "承诺改变态度或言论",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:01:06.538Z"
+      "meaning": "承认错误并承诺改正，态度诚恳，常用于工作或社交反馈。",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "我改正",
@@ -587,8 +677,8 @@
       "meaning": "承诺改正错误，行动导向",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:01:06.538Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-08-09T17:15:16.330Z"
     },
     {
       "term": "我改过",
@@ -596,8 +686,26 @@
       "meaning": "表示要改正错误",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:01:06.538Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-08-09T17:15:16.330Z"
+    },
+    {
+      "term": "我无知了",
+      "family": "correction",
+      "meaning": "承认缺乏相关知识或信息，自谦式认错。",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
+      "term": "我是憨憨",
+      "family": "correction",
+      "meaning": "自嘲笨拙、愚蠢，承认自己犯傻或理解错误，常见于弹幕。",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "我晕",
@@ -605,8 +713,8 @@
       "meaning": "表达因出错而懊恼或困惑，有时带自嘲。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T02:09:14.709Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-09T11:46:30.866Z"
     },
     {
       "term": "我晕了",
@@ -614,8 +722,8 @@
       "meaning": "表达对错误无语或混乱状态，间接承认过失。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T05:51:09.802Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-09T11:46:30.866Z"
     },
     {
       "term": "我有罪",
@@ -623,8 +731,17 @@
       "meaning": "夸张自责，常用于玩笑语境。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T03:40:41.053Z"
+    },
+    {
+      "term": "我服了",
+      "family": "correction",
+      "meaning": "在网络争论中主动退出，承认对方有理。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:38:56.025Z"
     },
     {
       "term": "我理解错了",
@@ -632,7 +749,7 @@
       "meaning": "承认理解偏差，重新定位",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T09:21:17.424Z"
     },
     {
@@ -641,8 +758,8 @@
       "meaning": "口语化快速认错，重复词强调责任归属。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-29T05:11:02.195Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:46:14.408Z"
     },
     {
       "term": "我的错",
@@ -650,8 +767,8 @@
       "meaning": "直接承认过失，承担责任，请求对方原谅。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:44:12.131Z"
     },
     {
       "term": "我的问题",
@@ -660,7 +777,16 @@
       "risk": "positive",
       "confidence": 0.9,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:31:14.526Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
+    },
+    {
+      "term": "我的问题我改",
+      "family": "correction",
+      "meaning": "承认错误并承诺改正，态度诚恳，常用于工作或社交反馈。",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "我看错",
@@ -669,7 +795,7 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:25:14.460Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "我看错了",
@@ -678,7 +804,7 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:25:14.460Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "我瞎说",
@@ -704,7 +830,7 @@
       "meaning": "网络用语，承认被情绪击倒",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T05:02:40.739Z"
     },
     {
@@ -713,7 +839,7 @@
       "meaning": "承认情绪崩溃",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T02:12:04.021Z"
     },
     {
@@ -732,7 +858,7 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:13:31.299Z"
+      "updatedAt": "2026-07-07T18:23:41.481Z"
     },
     {
       "term": "我蠢",
@@ -740,7 +866,7 @@
       "meaning": "自认愚蠢，承认自己行为或想法笨拙。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T01:01:57.012Z"
     },
     {
@@ -749,7 +875,7 @@
       "meaning": "自嘲愚笨，承认之前做法不对",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T01:01:57.012Z"
     },
     {
@@ -758,7 +884,7 @@
       "meaning": "补充说明",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-03T20:19:31.641Z"
     },
     {
@@ -767,17 +893,17 @@
       "meaning": "简短认错，表示接受指责。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:39:34.453Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:44:12.131Z"
     },
     {
       "term": "我记住了",
       "family": "correction",
       "meaning": "表示接受对方意见",
       "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-07-03T20:29:44.615Z"
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "我记错",
@@ -785,7 +911,7 @@
       "meaning": "承认自己记忆有误，信息不准",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T05:43:35.030Z"
     },
     {
@@ -794,8 +920,17 @@
       "meaning": "记忆错误",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T05:43:35.030Z"
+    },
+    {
+      "term": "我谢罪",
+      "family": "correction",
+      "meaning": "正式而夸张地承认错误，请求原谅。",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "我负责",
@@ -807,13 +942,22 @@
       "updatedAt": "2026-06-29T04:36:14.011Z"
     },
     {
+      "term": "我躺平了",
+      "family": "correction",
+      "meaning": "放弃争辩或修正，任人批评。",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 10,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
       "term": "我输了",
       "family": "correction",
-      "meaning": "承认失败或错误，降低姿态，常用于认输或嬉皮认错",
-      "risk": "medium",
+      "meaning": "简略认输，承认自己在观点或争论中失败，常用于游戏或辩论。",
+      "risk": "neutral",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-03T20:25:54.578Z"
+      "updatedAt": "2026-07-09T11:39:10.421Z"
     },
     {
       "term": "我道歉",
@@ -822,7 +966,7 @@
       "risk": "positive",
       "confidence": 0.92,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-04T01:23:28.289Z"
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "我错了",
@@ -830,16 +974,16 @@
       "meaning": "自我修正或结论降级",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T01:24:37.194Z"
     },
     {
       "term": "戳啦",
       "family": "correction",
       "meaning": "语气词，用于纠正对方错误或否认，相当于‘切’或‘才不是’",
-      "risk": "neutral",
-      "confidence": 0.7,
-      "evidenceCount": 5,
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T07:41:03.188Z"
     },
     {
@@ -848,26 +992,35 @@
       "meaning": "网络用语，指因操作失误导致错误行为。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T05:26:47.401Z"
     },
     {
       "term": "手滑了",
       "family": "correction",
-      "meaning": "借口手滑，实为撤回言论",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T05:26:25.895Z"
+      "meaning": "承认自己打字错误或操作失误。",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
+    },
+    {
+      "term": "手误",
+      "family": "correction",
+      "meaning": "承认写错字或打字错误。",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 10,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "打住",
       "family": "correction",
       "meaning": "要求停止争论",
       "risk": "positive",
-      "confidence": 0.68,
+      "confidence": 0.8,
       "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:25:09.061Z"
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "打扰了",
@@ -879,12 +1032,21 @@
       "updatedAt": "2026-06-29T04:25:09.060Z"
     },
     {
+      "term": "打脸了",
+      "family": "correction",
+      "meaning": "自己推翻自己之前的言论，承认错误。",
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
       "term": "打错了",
       "family": "correction",
       "meaning": "承认是输入错误，并非本意。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T11:01:06.538Z"
     },
     {
@@ -894,7 +1056,7 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 4,
-      "updatedAt": "2026-07-04T02:33:11.122Z"
+      "updatedAt": "2026-07-09T11:46:14.408Z"
     },
     {
       "term": "投降",
@@ -902,7 +1064,7 @@
       "meaning": "夸张式认错，表示彻底承认自己错误并服从正确观点",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T07:10:48.396Z"
     },
     {
@@ -910,9 +1072,9 @@
       "family": "correction",
       "meaning": "简短道歉，表示歉意",
       "risk": "low",
-      "confidence": 0.81,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:43:25.803Z"
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "抱歉抱歉",
@@ -929,7 +1091,7 @@
       "meaning": "实际或威胁拉黑",
       "risk": "high",
       "confidence": 0.87,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T10:58:12.718Z"
     },
     {
@@ -938,7 +1100,7 @@
       "meaning": "完全否定自己之前的观点或结论",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-03T20:20:02.896Z"
     },
     {
@@ -946,8 +1108,8 @@
       "family": "correction",
       "meaning": "用于纠正自己或他人的认知错误，常出现在辩论或解释中",
       "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 7,
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T08:30:07.074Z"
     },
     {
@@ -956,17 +1118,17 @@
       "meaning": "自我修正或结论降级",
       "risk": "positive",
       "confidence": 0.95,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T08:30:07.074Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "撤回",
       "family": "correction",
-      "meaning": "要求删除或撤回",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:13:16.375Z"
+      "meaning": "表示收回之前说的话或信息。",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "收回",
@@ -974,8 +1136,8 @@
       "meaning": "正式撤销之前所说的话或观点",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:13:50.355Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:43:31.990Z"
     },
     {
       "term": "收回我的话",
@@ -983,17 +1145,17 @@
       "meaning": "撤销之前说过的话，表示言论不当或错误。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:13:50.355Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:43:31.990Z"
     },
     {
       "term": "改一下",
       "family": "correction",
-      "meaning": "表示要对自己的言论进行修改。",
-      "risk": "positive",
-      "confidence": 0.8,
+      "meaning": "对自己发表的评论或内容进行修改，类似于编辑修正。",
+      "risk": "low",
+      "confidence": 0.85,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T01:47:54.303Z"
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "改口",
@@ -1001,7 +1163,7 @@
       "meaning": "改变之前的说法，承认错误或调整表述。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T06:30:56.871Z"
     },
     {
@@ -1010,8 +1172,17 @@
       "meaning": "承认自己切取错误",
       "risk": "low",
       "confidence": 0.88,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T08:08:09.985Z"
+    },
+    {
+      "term": "无知",
+      "family": "correction",
+      "meaning": "承认缺乏相关知识或信息，自谦式认错。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "是我的错",
@@ -1019,8 +1190,8 @@
       "meaning": "认错",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:44:12.131Z"
     },
     {
       "term": "是我的问题",
@@ -1028,7 +1199,7 @@
       "meaning": "承认自身责任",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T09:31:14.526Z"
     },
     {
@@ -1046,7 +1217,7 @@
       "meaning": "自嘲式承认错误，通常用于轻率言论。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T01:01:57.012Z"
     },
     {
@@ -1055,17 +1226,8 @@
       "meaning": "明确承担错误责任，常用于道歉开头。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T04:56:26.798Z"
-    },
-    {
-      "term": "是是是",
-      "family": "correction",
-      "meaning": "同对对对",
-      "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-04T02:26:57.907Z"
     },
     {
       "term": "更正",
@@ -1073,7 +1235,7 @@
       "meaning": "自我修正或结论降级",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
@@ -1082,8 +1244,26 @@
       "meaning": "实施修正，澄清前误",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "有点夸张",
+      "family": "correction",
+      "meaning": "承认之前表述夸大，需要调低强度。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
+      "term": "有眼无珠",
+      "family": "correction",
+      "meaning": "成语，承认自己没认清人或事实，自嘲眼光差。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "有误",
@@ -1091,8 +1271,17 @@
       "meaning": "指出内容存在错误，需修正",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T06:57:27.926Z"
+    },
+    {
+      "term": "没想到",
+      "family": "correction",
+      "meaning": "承认自己疏忽，没有全面考虑问题，请求谅解。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:46:30.866Z"
     },
     {
       "term": "没搞清楚",
@@ -1100,7 +1289,7 @@
       "meaning": "承认对事实理解不清，导致错误发言。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T01:44:51.126Z"
     },
     {
@@ -1110,7 +1299,16 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 7,
-      "updatedAt": "2026-07-05T10:06:21.502Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
+    },
+    {
+      "term": "没注意到",
+      "family": "correction",
+      "meaning": "承认因忽略导致错误。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "没看清",
@@ -1118,7 +1316,7 @@
       "meaning": "承认因为没看清楚而误解，常见于视觉相关错误。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T09:26:27.962Z"
     },
     {
@@ -1136,7 +1334,7 @@
       "meaning": "快速认错或道歉，常用于评价对方反应",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 5,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T06:41:04.847Z"
     },
     {
@@ -1145,7 +1343,7 @@
       "meaning": "指出对信息理解错误，重新表述",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T09:21:17.424Z"
     },
     {
@@ -1154,7 +1352,7 @@
       "meaning": "同我误解了",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T09:21:17.424Z"
     },
     {
@@ -1163,7 +1361,7 @@
       "meaning": "承认对信息理解有偏差，重新阐述正确观点",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T09:20:25.827Z"
     },
     {
@@ -1173,7 +1371,16 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T05:25:14.460Z"
+      "updatedAt": "2026-08-09T18:09:20.494Z"
+    },
+    {
+      "term": "眼瞎",
+      "family": "correction",
+      "meaning": "自嘲看错东西，语气诙谐。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "瞎说的",
@@ -1185,13 +1392,22 @@
       "updatedAt": "2026-06-29T04:53:52.747Z"
     },
     {
+      "term": "确实如此",
+      "family": "correction",
+      "meaning": "自我修正或结论降级",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:24:32.962Z"
+    },
+    {
       "term": "社死",
       "family": "correction",
       "meaning": "因公开出丑而极度尴尬，常伴随承认错误和自嘲",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T06:03:59.581Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:36:57.163Z"
     },
     {
       "term": "秒删",
@@ -1209,16 +1425,7 @@
       "risk": "low",
       "confidence": 0.75,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T11:08:45.191Z"
-    },
-    {
-      "term": "算了算了",
-      "family": "correction",
-      "meaning": "放弃争论，息事宁人",
-      "risk": "low",
-      "confidence": 0.79,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T11:08:45.191Z"
+      "updatedAt": "2026-07-09T11:41:20.662Z"
     },
     {
       "term": "算我输",
@@ -1226,7 +1433,7 @@
       "meaning": "在争论中认输，承认对方正确",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-03T20:10:17.873Z"
     },
     {
@@ -1235,7 +1442,7 @@
       "meaning": "对自己或他人的错误进行修正。",
       "risk": "low",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
@@ -1244,8 +1451,26 @@
       "meaning": "主动发起修正，完善信息",
       "risk": "positive",
       "confidence": 0.93,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "网卡了",
+      "family": "correction",
+      "meaning": "指网络或设备卡顿导致操作失误（如发送重复信息），常作为解释或道歉。",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
+      "term": "翻车了",
+      "family": "correction",
+      "meaning": "操作失误或预期结果失败，承认错误或判断失误，常用于游戏、教程、测评等场景。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "致歉",
@@ -1254,7 +1479,16 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:13:31.299Z"
+      "updatedAt": "2026-07-07T18:23:41.481Z"
+    },
+    {
+      "term": "虚了",
+      "family": "correction",
+      "meaning": "表示底气不足，承认自己不行。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "行吧",
@@ -1262,7 +1496,7 @@
       "meaning": "同好吧，带无奈",
       "risk": "low",
       "confidence": 0.73,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T09:17:38.492Z"
     },
     {
@@ -1271,7 +1505,7 @@
       "meaning": "在出现错误后采取行动弥补，挽回影响并承认过失",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T06:26:10.167Z"
     },
     {
@@ -1279,18 +1513,18 @@
       "family": "correction",
       "meaning": "更正",
       "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T07:41:55.104Z"
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "认怂",
       "family": "correction",
       "meaning": "网络用语，承认自己软弱或错误，幽默自嘲。",
       "risk": "positive",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-05T09:22:36.130Z"
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "认输",
@@ -1298,7 +1532,7 @@
       "meaning": "在辩论或冲突中承认自己观点错误，放弃争论",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T06:15:50.551Z"
     },
     {
@@ -1307,8 +1541,8 @@
       "meaning": "承认错误",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T02:38:45.630Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:46:14.408Z"
     },
     {
       "term": "记错了",
@@ -1316,7 +1550,7 @@
       "meaning": "自我修正或结论降级",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T05:43:35.030Z"
     },
     {
@@ -1325,7 +1559,7 @@
       "meaning": "自嘲该受到惩罚，承认错误并祈求原谅。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T03:40:31.082Z"
     },
     {
@@ -1334,8 +1568,17 @@
       "meaning": "承认自己理解有误，表示歉意并纠正",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T05:53:48.990Z"
+    },
+    {
+      "term": "误伤",
+      "family": "correction",
+      "meaning": "承认自己的言论或行为错误地伤害了合理质疑者，表达歉意",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:35:12.044Z"
     },
     {
       "term": "误解",
@@ -1344,7 +1587,16 @@
       "risk": "positive",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T07:46:37.942Z"
+      "updatedAt": "2026-07-07T18:56:19.585Z"
+    },
+    {
+      "term": "说人话",
+      "family": "correction",
+      "meaning": "自嘲之前表达复杂，要求自己直白简单。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "说反了",
@@ -1356,13 +1608,22 @@
       "updatedAt": "2026-06-29T04:50:17.675Z"
     },
     {
+      "term": "说着玩的",
+      "family": "correction",
+      "meaning": "降低言论严肃性，表明并非认真。",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
       "term": "说错",
       "family": "correction",
       "meaning": "发言者自我纠正，承认之前表述有误",
       "risk": "positive",
-      "confidence": 0.9,
+      "confidence": 0.68,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T04:28:20.625Z"
+      "updatedAt": "2026-07-09T11:36:57.163Z"
     },
     {
       "term": "说错了",
@@ -1371,25 +1632,43 @@
       "risk": "positive",
       "confidence": 0.95,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T04:28:20.625Z"
+      "updatedAt": "2026-07-09T11:36:57.163Z"
     },
     {
       "term": "说错了是全部",
       "family": "correction",
       "meaning": "承认自己之前的表述有误，进行更正",
       "risk": "positive",
-      "confidence": 0.88,
+      "confidence": 0.68,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T10:58:12.718Z"
+      "updatedAt": "2026-07-09T11:36:57.163Z"
+    },
+    {
+      "term": "说错啦",
+      "family": "correction",
+      "meaning": "承认之前表述有误，主动修正错误",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:36:57.163Z"
     },
     {
       "term": "说错话",
       "family": "correction",
       "meaning": "承认自己言语有误，表达不准确，请求谅解或纠正。",
       "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
+    },
+    {
+      "term": "谢罪",
+      "family": "correction",
+      "meaning": "正式而夸张地承认错误，请求原谅。",
+      "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:53:52.747Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
       "term": "谢谢指正",
@@ -1397,8 +1676,8 @@
       "meaning": "感谢对方纠错，接受批评",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.693Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "跑了",
@@ -1406,17 +1685,26 @@
       "meaning": "退出争论",
       "risk": "low",
       "confidence": 0.73,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:05:31.051Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:57:11.725Z"
     },
     {
-      "term": "这不是酸甜啊",
+      "term": "躺平了",
       "family": "correction",
-      "meaning": "纠正视频标题或内容与预期不符，表示‘这并非酸甜风格’",
-      "risk": "low",
+      "meaning": "放弃争辩或修正，任人批评。",
+      "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 10,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
+      "term": "输了",
+      "family": "correction",
+      "meaning": "简略认输，承认自己在观点或争论中失败，常用于游戏或辩论。",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:39:10.421Z"
     },
     {
       "term": "这个不那么绝对",
@@ -1424,17 +1712,17 @@
       "meaning": "用于修正或缓和之前过于绝对的表述，承认结论有例外或不确定性",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-04T02:53:40.789Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T10:15:07.132Z"
     },
     {
       "term": "这波亏了",
       "family": "correction",
       "meaning": "承认失败或错误，降低姿态，常用于认输或嬉皮认错",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T20:25:54.578Z"
+      "risk": "positive",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "道歉",
@@ -1442,8 +1730,8 @@
       "meaning": "道歉",
       "risk": "positive",
       "confidence": 0.95,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:57:30.205Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "道歉了",
@@ -1451,7 +1739,7 @@
       "meaning": "已经进行过道歉，表达悔意",
       "risk": "low",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:57:30.205Z"
     },
     {
@@ -1460,17 +1748,8 @@
       "meaning": "正式发布道歉公告，承认错误并请求原谅",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-04T01:22:51.982Z"
-    },
-    {
-      "term": "那很美味了不是",
-      "family": "correction",
-      "meaning": "表面肯定后加否定，表示收回夸张说法，带有调侃自嘲",
-      "risk": "positive",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-08-09T18:09:20.494Z"
     },
     {
       "term": "那肯定是我错",
@@ -1478,8 +1757,8 @@
       "meaning": "承认错误，让步自谦，主动降低争议",
       "risk": "positive",
       "confidence": 0.88,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-03T19:51:05.336Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T10:15:07.132Z"
     },
     {
       "term": "那肯定是我错了",
@@ -1487,8 +1766,8 @@
       "meaning": "承认错误，让步自谦，主动降低争议",
       "risk": "positive",
       "confidence": 0.88,
-      "evidenceCount": 0,
-      "updatedAt": "2026-07-04T04:56:26.798Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T10:15:07.132Z"
     },
     {
       "term": "重新来过",
@@ -1496,17 +1775,44 @@
       "meaning": "表示因错误而重新开始或重新阐述。",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 0,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T04:06:50.810Z"
+    },
+    {
+      "term": "重说",
+      "family": "correction",
+      "meaning": "要求自己重新表述正确内容，以纠正之前的错误。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
+    },
+    {
+      "term": "问题我改",
+      "family": "correction",
+      "meaning": "承认错误并承诺改正，态度诚恳，常用于工作或社交反馈。",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-08-09T18:09:20.494Z"
+    },
+    {
+      "term": "闹着玩的",
+      "family": "correction",
+      "meaning": "降低言论严肃性，表明并非认真。",
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "高仿",
       "family": "correction",
       "meaning": "自称模仿者或假用户，用于自嘲或调侃身份真实性",
-      "risk": "neutral",
-      "confidence": 0.6,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T09:58:29.428Z"
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:46:30.866Z"
     }
   ]
 }

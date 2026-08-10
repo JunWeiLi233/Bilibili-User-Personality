@@ -1,17 +1,35 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-05T11:09:33.476Z",
+  "updatedAt": "2026-08-09T18:09:20.494Z",
   "family": "evidence",
   "shard": 1,
   "shardCount": 1,
   "entries": [
     {
+      "term": "ai合成",
+      "family": "evidence",
+      "meaning": "指出对方截图、视频很可能是AI合成，质疑真实性。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
+    },
+    {
+      "term": "ai生成",
+      "family": "evidence",
+      "meaning": "指出对方截图、视频很可能是AI合成，质疑真实性。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
+    },
+    {
       "term": "bin哥",
       "family": "evidence",
       "meaning": "指代选手Bin相关的梗，常用于称呼或调侃",
-      "risk": "neutral",
-      "confidence": 0.7,
-      "evidenceCount": 8,
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:30:05.380Z"
     },
     {
@@ -20,17 +38,35 @@
       "meaning": "指代选手Bin相关的梗，常用于称呼或调侃",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T09:42:45.788Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-08T01:27:54.405Z"
     },
     {
       "term": "bv号",
       "family": "evidence",
       "meaning": "B站视频编号前缀，用于定位和引用视频",
-      "risk": "neutral",
-      "confidence": 0.95,
-      "evidenceCount": 6,
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:06:21.502Z"
+    },
+    {
+      "term": "ip地址",
+      "family": "evidence",
+      "meaning": "网络地址作为线索或证据，常用于定位或溯源。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
+    },
+    {
+      "term": "ip属地",
+      "family": "evidence",
+      "meaning": "指网络IP定位的地理位置信息，用于分析讨论者背景，常作为客观依据",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T18:56:19.585Z"
     },
     {
       "term": "一无二随",
@@ -38,8 +74,17 @@
       "meaning": "SCP社群对‘一个宇宙、两个基金会、随机分配’设定的简称，用于讨论设定",
       "risk": "neutral",
       "confidence": 0.85,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-04T05:00:53.064Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-08T01:45:28.142Z"
+    },
+    {
+      "term": "一眼ai",
+      "family": "evidence",
+      "meaning": "指出对方截图、视频很可能是AI合成，质疑真实性。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "三人成虎",
@@ -53,11 +98,11 @@
     {
       "term": "上链接",
       "family": "evidence",
-      "meaning": "要求对方提供可直接访问的链接证据，简化验证流程的请求",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:05:59.689Z"
+      "meaning": "要求或提供链接作为信息来源。",
+      "risk": "neutral",
+      "confidence": 0.95,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:40:41.907Z"
     },
     {
       "term": "不传谣",
@@ -66,7 +111,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:33:16.955Z"
+      "updatedAt": "2026-07-09T11:38:40.707Z"
     },
     {
       "term": "不信",
@@ -75,7 +120,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:34:18.552Z"
+      "updatedAt": "2026-07-09T11:38:40.707Z"
     },
     {
       "term": "不信谣",
@@ -84,7 +129,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:34:18.552Z"
+      "updatedAt": "2026-07-09T11:38:40.707Z"
     },
     {
       "term": "不信谣不传谣",
@@ -93,7 +138,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:33:16.955Z"
+      "updatedAt": "2026-07-09T11:38:40.707Z"
     },
     {
       "term": "不是吧",
@@ -101,16 +146,16 @@
       "meaning": "质疑对方说法，暗示需要证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:25:54.569Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:32:55.433Z"
     },
     {
       "term": "不羡仙",
       "family": "evidence",
       "meaning": "提及B站UP主不羡仙作为引证来源，表示其观点",
-      "risk": "neutral",
-      "confidence": 0.75,
-      "evidenceCount": 4,
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T05:38:20.391Z"
     },
     {
@@ -119,7 +164,7 @@
       "meaning": "直接否定信息可信度，要求证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-04T04:34:23.754Z"
     },
     {
@@ -128,17 +173,8 @@
       "meaning": "批评对方说话不经调查，强调说话要有依据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T11:03:50.459Z"
-    },
-    {
-      "term": "不要瞎说",
-      "family": "evidence",
-      "meaning": "指责对方在无证据情况下发言。",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T09:17:38.492Z"
     },
     {
       "term": "不靠谱",
@@ -159,40 +195,22 @@
       "updatedAt": "2026-06-29T05:20:25.598Z"
     },
     {
-      "term": "严格实验验证",
-      "family": "evidence",
-      "meaning": "强调需要经过严谨实验验证才能得出结论，质疑缺乏证据的论断",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:36:47.999Z"
-    },
-    {
       "term": "举证",
       "family": "evidence",
       "meaning": "要求对方提供证据来支持自己的主张。",
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "updatedAt": "2026-07-07T18:22:56.264Z"
     },
     {
-      "term": "书证",
+      "term": "亲眼目睹",
       "family": "evidence",
-      "meaning": "要求证据",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-03T20:57:15.442Z"
-    },
-    {
-      "term": "云盘链接",
-      "family": "evidence",
-      "meaning": "提供资源分享链接",
+      "meaning": "以目击者身份提供第一手证据，反驳怀疑。",
       "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:08:45.191Z"
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-09T11:45:54.920Z"
     },
     {
       "term": "人证",
@@ -200,7 +218,7 @@
       "meaning": "要求证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T01:26:47.532Z"
     },
     {
@@ -209,7 +227,7 @@
       "meaning": "质疑样本代表性，要求更全面的数据支持。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-03T21:29:54.168Z"
     },
     {
@@ -228,15 +246,15 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:33:16.955Z"
+      "updatedAt": "2026-07-09T11:36:57.163Z"
     },
     {
       "term": "传送门",
       "family": "evidence",
       "meaning": "网络用语，指代跳转链接或购买渠道",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 7,
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T08:39:30.208Z"
     },
     {
@@ -244,18 +262,18 @@
       "family": "evidence",
       "meaning": "要求提供辅助证据或旁证",
       "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-05T00:16:18.427Z"
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "你信吗",
       "family": "evidence",
       "meaning": "质疑对方是否相信某个无凭无据的说法",
       "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T10:06:39.075Z"
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:32:55.433Z"
     },
     {
       "term": "你凭什么",
@@ -263,7 +281,7 @@
       "meaning": "质问对方有何资格或证据做出论断，表达强烈质疑",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-04T05:08:06.087Z"
     },
     {
@@ -272,7 +290,7 @@
       "meaning": "批评对方信口胡说，要求提供证明",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T09:17:38.492Z"
     },
     {
@@ -300,7 +318,16 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T06:36:15.828Z"
+      "updatedAt": "2026-07-07T19:52:26.102Z"
+    },
+    {
+      "term": "保留证据",
+      "family": "evidence",
+      "meaning": "保存网页或截图作为证据，防止被删改。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:36:57.163Z"
     },
     {
       "term": "假新闻",
@@ -325,9 +352,9 @@
       "family": "evidence",
       "meaning": "对视频中出现的第一个片段或物品的真实性提出质疑，属于要求证据或事实确认",
       "risk": "medium",
-      "confidence": 0.72,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T10:11:47.628Z"
     },
     {
       "term": "偷换概念",
@@ -335,7 +362,7 @@
       "meaning": "指责逻辑错误。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T06:45:47.491Z"
     },
     {
@@ -344,7 +371,7 @@
       "meaning": "要求先确认事实再讨论。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T02:38:45.630Z"
     },
     {
@@ -353,17 +380,17 @@
       "meaning": "强调先验证事实真实性，再探究原因。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T02:38:45.630Z"
     },
     {
-      "term": "六指琴魔",
+      "term": "典中典",
       "family": "evidence",
-      "meaning": "指AI生成图像中手指数量异常的梗，常用于调侃AI作画错误",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 3,
-      "updatedAt": "2026-07-05T04:02:22.178Z"
+      "meaning": "讽刺对方说的话是陈词滥调或造谣成经典，缺乏新证据，暗指应该被‘流传’批判。",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:32:55.433Z"
     },
     {
       "term": "再问为什么",
@@ -371,7 +398,7 @@
       "meaning": "承接上句，强调逻辑顺序。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T02:38:45.630Z"
     },
     {
@@ -380,17 +407,17 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:39:34.453Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
-      "term": "出处是哪里",
+      "term": "出处呢",
       "family": "evidence",
-      "meaning": "直接询问信息的原始来源。",
+      "meaning": "类似'出处'，追问信息来源或引用来源。",
       "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T07:25:44.789Z"
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "别yy",
@@ -425,7 +452,7 @@
       "meaning": "否定对方无根据的断言",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T09:17:38.492Z"
     },
     {
@@ -452,7 +479,7 @@
       "meaning": "警告对方不要传播虚假信息",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T11:03:50.459Z"
     },
     {
@@ -461,8 +488,26 @@
       "meaning": "要求明确论证的基础前提是否真实可靠",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T09:42:45.788Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-09T11:41:20.662Z"
+    },
+    {
+      "term": "原图",
+      "family": "evidence",
+      "meaning": "要求未经修改的原始图片作为证据。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
+    },
+    {
+      "term": "原图呢",
+      "family": "evidence",
+      "meaning": "要求未经修改的原始图片作为证据。",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "原文",
@@ -470,8 +515,8 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T08:11:29.086Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T18:58:06.354Z"
     },
     {
       "term": "原文链接",
@@ -479,8 +524,8 @@
       "meaning": "要求证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T08:11:29.086Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T18:58:06.354Z"
     },
     {
       "term": "原视频呢",
@@ -488,8 +533,8 @@
       "meaning": "要求提供原始视频作为证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T10:06:21.502Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:45:54.920Z"
     },
     {
       "term": "参考文献",
@@ -497,7 +542,7 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T02:58:11.297Z"
     },
     {
@@ -506,8 +551,8 @@
       "meaning": "指责标准不一致。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T18:58:06.354Z"
     },
     {
       "term": "双标了",
@@ -515,7 +560,7 @@
       "meaning": "指出对方对不同对象使用不同标准，要求统一判断依据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
@@ -524,7 +569,7 @@
       "meaning": "事件或事实出现相反结论，通常基于新证据出现。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T11:09:33.476Z"
     },
     {
@@ -533,8 +578,17 @@
       "meaning": "指出事件出现新证据推翻原有说法。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T11:09:33.476Z"
+    },
+    {
+      "term": "发原图",
+      "family": "evidence",
+      "meaning": "要求未经修改的原始图片作为证据。",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "发链接",
@@ -542,8 +596,8 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:08:45.191Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:40:41.907Z"
     },
     {
       "term": "可信度",
@@ -551,8 +605,17 @@
       "meaning": "评估信息或信息来源的可靠程度，用于判断是否采纳。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T03:06:50.585Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:38:56.025Z"
+    },
+    {
+      "term": "可查",
+      "family": "evidence",
+      "meaning": "声称数据公开可查，强调证据的可验证性。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "可靠性",
@@ -564,21 +627,12 @@
       "updatedAt": "2026-07-03T19:38:32.200Z"
     },
     {
-      "term": "后封机",
-      "family": "evidence",
-      "meaning": "指商家重新封装的二手或问题手机，常与百亿补贴等渠道关联",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-04T05:04:32.530Z"
-    },
-    {
       "term": "听君一席话",
       "family": "evidence",
       "meaning": "讽刺对方说了很多但无实质证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T05:13:15.789Z"
     },
     {
@@ -587,8 +641,17 @@
       "meaning": "表示信息来源于口头传闻，缺乏证据支持。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:30:51.037Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:46:14.408Z"
+    },
+    {
+      "term": "听风就是雨",
+      "family": "evidence",
+      "meaning": "讽刺对方根据不可靠的传言或迹象下结论，缺乏真实证据。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
       "term": "哪来的",
@@ -596,8 +659,17 @@
       "meaning": "质问信息来源何处，表达怀疑态度",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:07:28.505Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:41:38.367Z"
+    },
+    {
+      "term": "嘴炮",
+      "family": "evidence",
+      "meaning": "讽刺对方只凭一张嘴说话，缺乏实际证据。",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "坐实",
@@ -605,7 +677,7 @@
       "meaning": "指通过证据使某一指控或说法被证实。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-03T19:57:43.602Z"
     },
     {
@@ -614,7 +686,7 @@
       "meaning": "要求实验或研究结果能被重复验证",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T02:50:20.554Z"
     },
     {
@@ -623,8 +695,17 @@
       "meaning": "建议从多个不同来源进行验证",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-04T02:01:27.611Z"
+    },
+    {
+      "term": "好的我信了",
+      "family": "evidence",
+      "meaning": "反话，表面上说相信，实则讽刺对方证据不足或荒谬。",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "媒体报道",
@@ -632,8 +713,17 @@
       "meaning": "引用媒体报道作为证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T05:06:30.859Z"
+    },
+    {
+      "term": "存档",
+      "family": "evidence",
+      "meaning": "保存网页或截图作为证据，防止被删改。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "存疑",
@@ -641,26 +731,26 @@
       "meaning": "表示对信息持怀疑态度，暂不采信。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T10:35:13.414Z"
     },
     {
       "term": "学术造假",
       "family": "evidence",
       "meaning": "指控学术研究造假。",
-      "risk": "high",
+      "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T09:16:23.382Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "官方数据",
       "family": "evidence",
-      "meaning": "确认是否为官方发布的数据，质疑非官方来源",
-      "risk": "medium",
-      "confidence": 0.68,
+      "meaning": "引用官方发布的声明或数据作为权威证据。",
+      "risk": "positive",
+      "confidence": 0.9,
       "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:25:09.058Z"
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
       "term": "官方认证",
@@ -678,7 +768,16 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:25:35.809Z"
+      "updatedAt": "2026-07-09T11:36:15.529Z"
+    },
+    {
+      "term": "官方通报",
+      "family": "evidence",
+      "meaning": "引用官方发布的声明或数据作为权威证据。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
       "term": "实物证据",
@@ -686,7 +785,7 @@
       "meaning": "要求证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-03T20:57:15.442Z"
     },
     {
@@ -695,7 +794,7 @@
       "meaning": "强调依靠实际证据而非逻辑推理或假设。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T09:51:00.637Z"
     },
     {
@@ -704,8 +803,8 @@
       "meaning": "通过可控条件验证假设或获取一手数据的方法。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:36:47.999Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T18:58:06.354Z"
     },
     {
       "term": "客观事实",
@@ -713,7 +812,7 @@
       "meaning": "强调需要基于客观事实而非主观意见",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-04T04:13:47.446Z"
     },
     {
@@ -722,8 +821,17 @@
       "meaning": "质疑对方通过不实信息引导舆论。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T09:17:38.492Z"
+    },
+    {
+      "term": "干货",
+      "family": "evidence",
+      "meaning": "指有实质内容、基于证据的信息，与空洞说教相对。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "幸存者偏差",
@@ -731,7 +839,7 @@
       "meaning": "指幸存者偏差，用来指出结论基于筛选样本的统计谬误",
       "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T07:08:16.239Z"
     },
     {
@@ -740,17 +848,8 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T08:29:31.695Z"
-    },
-    {
-      "term": "张口就来",
-      "family": "evidence",
-      "meaning": "要求或提供可核验证据",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:03:50.459Z"
     },
     {
       "term": "归纳",
@@ -767,7 +866,7 @@
       "meaning": "要求提供屏幕录制作为证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T05:01:21.482Z"
     },
     {
@@ -777,7 +876,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:36:50.928Z"
+      "updatedAt": "2026-07-09T11:46:30.866Z"
     },
     {
       "term": "怎么证明",
@@ -785,8 +884,17 @@
       "meaning": "最直接的问题式追问，要求对方说明其论证方法和证据链条",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T10:30:51.037Z"
+    },
+    {
+      "term": "我信了",
+      "family": "evidence",
+      "meaning": "反话，表面上说相信，实则讽刺对方证据不足或荒谬。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "我寻思",
@@ -794,7 +902,7 @@
       "meaning": "表示自己根据经验或常识判断，但缺乏证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T07:55:47.084Z"
     },
     {
@@ -803,17 +911,8 @@
       "meaning": "表示自己已经进行过事实核查并给出结果",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-04T05:50:26.950Z"
-    },
-    {
-      "term": "战地5",
-      "family": "evidence",
-      "meaning": "《战地5》缩写，指代游戏",
-      "risk": "positive",
-      "confidence": 0.95,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-04T02:43:51.052Z"
     },
     {
       "term": "截图",
@@ -821,8 +920,17 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:50:42.483Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:44:48.011Z"
+    },
+    {
+      "term": "截图存档",
+      "family": "evidence",
+      "meaning": "保存网页或截图作为证据，防止被删改。",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "打假",
@@ -830,17 +938,17 @@
       "meaning": "揭露虚假信息或行为，要求真实证据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T09:17:45.661Z"
     },
     {
-      "term": "打脸了",
+      "term": "打水印",
       "family": "evidence",
-      "meaning": "指出对方被证据推翻。",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:25:09.057Z"
+      "meaning": "指证据上的水印，可用于验证真实性或指责盗图。",
+      "risk": "neutral",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-08T00:46:34.012Z"
     },
     {
       "term": "拿出证据",
@@ -848,7 +956,7 @@
       "meaning": "直接要求对方提供证据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T00:04:29.501Z"
     },
     {
@@ -866,8 +974,8 @@
       "meaning": "援引他人说法但未证实，表示不确定。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:31:14.526Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:46:30.866Z"
     },
     {
       "term": "推理",
@@ -875,8 +983,26 @@
       "meaning": "根据已有事实进行逻辑推导",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 7,
       "updatedAt": "2026-07-05T08:33:32.958Z"
+    },
+    {
+      "term": "改数据",
+      "family": "evidence",
+      "meaning": "指控对方伪造或篡改数据。",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
+    },
+    {
+      "term": "数据可查",
+      "family": "evidence",
+      "meaning": "声称数据公开可查，强调证据的可验证性。",
+      "risk": "neutral",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "断章取义",
@@ -884,7 +1010,7 @@
       "meaning": "指责对方曲解原文，要求完整证据。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T08:08:09.985Z"
     },
     {
@@ -900,37 +1026,37 @@
       "term": "新冠",
       "family": "evidence",
       "meaning": "新冠病毒（COVID-19）的缩写，在学术讨论中用于指代新冠相关研究",
-      "risk": "neutral",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-07-04T05:35:39.476Z"
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:46:47.139Z"
     },
     {
       "term": "方法论",
       "family": "evidence",
       "meaning": "要求说明获取数据和研究的方法是否科学",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T09:50:00.779Z"
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "无中生有",
       "family": "evidence",
-      "meaning": "指责对方凭空捏造。",
-      "risk": "high",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T01:02:04.184Z"
+      "meaning": "讽刺对方根据不可靠的传言或迹象下结论，缺乏真实证据。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
-      "term": "显著性",
+      "term": "无水印",
       "family": "evidence",
-      "meaning": "强调统计结果的显著与否",
-      "risk": "positive",
+      "meaning": "指证据上的水印，可用于验证真实性或指责盗图。",
+      "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-04T04:36:57.285Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "曲解",
@@ -938,7 +1064,7 @@
       "meaning": "指责对方错误理解或解读，要求原意证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:58:20.875Z"
     },
     {
@@ -948,7 +1074,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T06:35:54.032Z"
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "有图有真相",
@@ -965,8 +1091,17 @@
       "meaning": "称赞对方证据充分。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T05:56:07.665Z"
+    },
+    {
+      "term": "有视频",
+      "family": "evidence",
+      "meaning": "声称有视频作为证据，或要求对方提供视频。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "有链接吗",
@@ -974,8 +1109,8 @@
       "meaning": "要求提供网络链接作为来源",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:08:45.191Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:40:41.907Z"
     },
     {
       "term": "有隐藏id",
@@ -983,8 +1118,8 @@
       "meaning": "iPhone中未解除的Apple ID，影响使用自签工具",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-04T04:00:07.035Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T10:15:07.132Z"
     },
     {
       "term": "权威",
@@ -992,8 +1127,8 @@
       "meaning": "引用或信赖具有公信力的机构、专家或官方信息。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T09:36:47.999Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:24:32.962Z"
     },
     {
       "term": "权威性",
@@ -1001,8 +1136,8 @@
       "meaning": "质疑来源是否具有专业或官方权威",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T09:36:47.999Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:24:32.962Z"
     },
     {
       "term": "来源不明",
@@ -1010,8 +1145,8 @@
       "meaning": "质疑信息出处不清晰",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-29T04:47:01.433Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:22:56.264Z"
     },
     {
       "term": "来源是",
@@ -1019,7 +1154,7 @@
       "meaning": "询问信息来源于何处",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T06:15:40.871Z"
     },
     {
@@ -1046,7 +1181,7 @@
       "meaning": "指以夸张标题吸引点击缺乏事实",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T10:47:03.763Z"
     },
     {
@@ -1055,7 +1190,7 @@
       "meaning": "表示需要核实",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-04T00:10:25.044Z"
     },
     {
@@ -1068,13 +1203,22 @@
       "updatedAt": "2026-06-29T14:33:48.382Z"
     },
     {
+      "term": "水印",
+      "family": "evidence",
+      "meaning": "指证据上的水印，可用于验证真实性或指责盗图。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
       "term": "求出处",
       "family": "evidence",
-      "meaning": "请求出处。",
-      "risk": "positive",
+      "meaning": "请求信息来源或出处。",
+      "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T07:25:44.789Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
     },
     {
       "term": "求真",
@@ -1082,8 +1226,8 @@
       "meaning": "追求真实和客观的态度",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-03T22:35:53.140Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:39:10.421Z"
     },
     {
       "term": "求科普",
@@ -1095,22 +1239,22 @@
       "updatedAt": "2026-07-03T19:43:05.240Z"
     },
     {
+      "term": "求视频",
+      "family": "evidence",
+      "meaning": "要求提供视频证据。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
+    },
+    {
       "term": "求证",
       "family": "evidence",
       "meaning": "要求验证真伪",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-04T02:01:27.611Z"
-    },
-    {
-      "term": "求验证",
-      "family": "evidence",
-      "meaning": "要求对方验证或提供证明",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-04T04:21:03.378Z"
     },
     {
       "term": "没有依据",
@@ -1119,7 +1263,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T06:35:54.032Z"
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "没有证据",
@@ -1127,7 +1271,7 @@
       "meaning": "断言对方缺乏证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T00:04:29.501Z"
     },
     {
@@ -1136,7 +1280,7 @@
       "meaning": "直接指出对方缺乏证据，否定其观点可靠性。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T06:34:13.741Z"
     },
     {
@@ -1154,8 +1298,8 @@
       "meaning": "追溯来源",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T06:06:19.914Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:46:47.139Z"
     },
     {
       "term": "演绎",
@@ -1164,16 +1308,25 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 7,
-      "updatedAt": "2026-07-05T07:25:44.789Z"
+      "updatedAt": "2026-07-09T11:39:10.421Z"
+    },
+    {
+      "term": "照妖镜",
+      "family": "evidence",
+      "meaning": "比喻能揭露真相的方法或工具，如反查等。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "爆嫂",
       "family": "evidence",
       "meaning": "粉丝圈中指艺人被爆出恋爱对象（嫂子）的事件，通常作为背景信息提及",
       "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "爆嫂事件",
@@ -1181,16 +1334,16 @@
       "meaning": "粉丝圈中指艺人被爆出恋爱对象（嫂子）的事件，通常作为背景信息提及",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
     },
     {
       "term": "物料",
       "family": "evidence",
       "meaning": "粉丝圈指代各种公开资料、照片、视频等作为论据，强调客观证据",
-      "risk": "positive",
-      "confidence": 0.85,
-      "evidenceCount": 5,
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:58:20.875Z"
     },
     {
@@ -1199,7 +1352,7 @@
       "meaning": "要求证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-03T20:57:15.442Z"
     },
     {
@@ -1208,17 +1361,26 @@
       "meaning": "鼓励不盲从权威，基于事实和逻辑自主判断。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T09:33:57.261Z"
+    },
+    {
+      "term": "白纸黑字",
+      "family": "evidence",
+      "meaning": "要求对方写下书面承诺或提供可追溯的证据，常用于打赌或对质。",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
       "term": "看原文",
       "family": "evidence",
       "meaning": "要求直接查看原始文献或消息原文。",
       "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T08:08:36.881Z"
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T10:17:25.804Z"
     },
     {
       "term": "真实性",
@@ -1226,7 +1388,7 @@
       "meaning": "质疑事件的真实程度，要求进一步验证",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T03:33:37.044Z"
     },
     {
@@ -1235,8 +1397,8 @@
       "meaning": "追问事件真实情况，暗示当前说法不可信",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T09:58:12.438Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:40:41.907Z"
     },
     {
       "term": "眼见为实",
@@ -1262,7 +1424,7 @@
       "meaning": "直接否定对方说法，认为其没有依据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T09:17:38.492Z"
     },
     {
@@ -1271,7 +1433,7 @@
       "meaning": "网络用语，指确凿证据",
       "risk": "neutral",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 6,
       "updatedAt": "2026-07-05T05:58:21.474Z"
     },
     {
@@ -1280,8 +1442,8 @@
       "meaning": "学术或系统性的探索工作，产出可靠结论。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:02:24.961Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T19:42:22.106Z"
     },
     {
       "term": "研究发现",
@@ -1307,17 +1469,8 @@
       "meaning": "指出论证中的明显错误。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T10:51:34.080Z"
-    },
-    {
-      "term": "神光棒",
-      "family": "evidence",
-      "meaning": "迪迦变身器的正确翻译，特摄圈讨论翻译准确性时使用",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-07-05T10:57:30.205Z"
     },
     {
       "term": "科学依据",
@@ -1326,7 +1479,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T06:36:15.828Z"
+      "updatedAt": "2026-07-07T19:52:26.102Z"
     },
     {
       "term": "科普一下",
@@ -1334,7 +1487,7 @@
       "meaning": "希望对方用事实和证据进行科普说明。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:47:03.763Z"
     },
     {
@@ -1343,8 +1496,8 @@
       "meaning": "对视频中出现的第一个片段或物品的真实性提出质疑，属于要求证据或事实确认",
       "risk": "medium",
       "confidence": 0.72,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T10:11:47.628Z"
     },
     {
       "term": "等后续",
@@ -1352,7 +1505,7 @@
       "meaning": "等待更多证据或调查结果，暂不表态。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T10:39:34.453Z"
     },
     {
@@ -1360,9 +1513,18 @@
       "family": "evidence",
       "meaning": "质疑来源",
       "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T10:19:30.913Z"
+    },
+    {
+      "term": "经典咏流传",
+      "family": "evidence",
+      "meaning": "讽刺对方说的话是陈词滥调或造谣成经典，缺乏新证据，暗指应该被‘流传’批判。",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-07-05T00:14:11.766Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:44:48.011Z"
     },
     {
       "term": "结论",
@@ -1370,17 +1532,8 @@
       "meaning": "质疑最终结论是否从证据合理推导而来",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:50:42.483Z"
-    },
-    {
-      "term": "绕id",
-      "family": "evidence",
-      "meaning": "指绕过Apple ID的 iPhone，用于解释无法自签或验证",
-      "risk": "medium",
-      "confidence": 0.8,
       "evidenceCount": 4,
-      "updatedAt": "2026-07-05T00:18:08.252Z"
+      "updatedAt": "2026-07-05T10:50:42.483Z"
     },
     {
       "term": "统计",
@@ -1388,17 +1541,17 @@
       "meaning": "基于数字和数据分析得出结论，强调客观性。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T07:22:23.017Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:22:11.739Z"
     },
     {
       "term": "编故事",
       "family": "evidence",
-      "meaning": "指责对方捏造情节。",
-      "risk": "medium",
-      "confidence": 0.82,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T03:38:13.295Z"
+      "meaning": "指责对方编造谎言，要求提供证据反驳。",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T19:39:15.636Z"
     },
     {
       "term": "编的",
@@ -1406,8 +1559,8 @@
       "meaning": "直接认为对方言论是编造的，要求证据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T07:52:15.297Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:39:10.421Z"
     },
     {
       "term": "网传",
@@ -1415,8 +1568,44 @@
       "meaning": "指信息来自网络传言，需验证",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T09:25:41.570Z"
+    },
+    {
+      "term": "翻车",
+      "family": "evidence",
+      "meaning": "事实证据证明原说法失败，常用于直播或事件反转。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
+      "term": "翻车现场",
+      "family": "evidence",
+      "meaning": "事实证据证明原说法失败，常用于直播或事件反转。",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
+      "term": "翻车证据",
+      "family": "evidence",
+      "meaning": "事实证据证明原说法失败，常用于直播或事件反转。",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T22:00:29.948699Z"
+    },
+    {
+      "term": "考古",
+      "family": "evidence",
+      "meaning": "翻找旧帖或历史记录作为证据，多用于论坛。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
     },
     {
       "term": "考证",
@@ -1424,7 +1613,7 @@
       "meaning": "进行考据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-04T01:55:08.496Z"
     },
     {
@@ -1433,17 +1622,8 @@
       "meaning": "要求展示通讯记录来佐证",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
-    },
-    {
-      "term": "聊天记录放这里",
-      "family": "evidence",
-      "meaning": "网络争论中提供聊天截图作为书面证据的固定话术，强调公开透明",
-      "risk": "low",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-07T18:22:11.739Z"
     },
     {
       "term": "胡扯",
@@ -1451,7 +1631,7 @@
       "meaning": "轻蔑地指责对方言论荒谬无证据。",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 7,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-04T01:01:57.012Z"
     },
     {
@@ -1469,7 +1649,7 @@
       "meaning": "指责对方言论无事实基础。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-04T05:32:26.917Z"
     },
     {
@@ -1478,7 +1658,7 @@
       "meaning": "讽刺对方凭借想象而非事实补充内容。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T05:58:21.474Z"
     },
     {
@@ -1488,7 +1668,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T10:58:20.875Z"
+      "updatedAt": "2026-07-07T18:21:02.488Z"
     },
     {
       "term": "自相矛盾",
@@ -1496,7 +1676,7 @@
       "meaning": "指出对方言论前后不一致，逻辑站不住脚。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T09:03:37.577Z"
     },
     {
@@ -1504,18 +1684,9 @@
       "family": "evidence",
       "meaning": "要求或提及本人提供证据证明某事实",
       "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T05:10:00.547Z"
-    },
-    {
-      "term": "营养快线",
-      "family": "evidence",
-      "meaning": "指能量或补给，源自饮料品牌，用于调侃‘营养跟不上’后的搭配",
-      "risk": "neutral",
-      "confidence": 0.7,
-      "evidenceCount": 4,
-      "updatedAt": "2026-07-05T02:05:48.028Z"
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:36:57.163Z"
     },
     {
       "term": "营销号",
@@ -1527,22 +1698,22 @@
       "updatedAt": "2026-07-05T09:32:17.049Z"
     },
     {
-      "term": "虚拟号",
+      "term": "虚幻引擎5",
       "family": "evidence",
-      "meaning": "指外卖平台提供的虚拟电话号码，用于保护隐私，常作为解释拒接电话的理由",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T10:12:30.471Z"
+      "meaning": "游戏开发引擎，用于区分预渲染与实机画面技术术语",
+      "risk": "neutral",
+      "confidence": 0.65,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T18:22:56.264Z"
     },
     {
       "term": "被和谐",
       "family": "evidence",
       "meaning": "指内容被官方删除或屏蔽，常用于表达敏感内容被处理",
       "risk": "medium",
-      "confidence": 0.8,
+      "confidence": 0.85,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T04:29:53.186Z"
+      "updatedAt": "2026-07-07T10:11:47.628Z"
     },
     {
       "term": "被和谐了",
@@ -1551,7 +1722,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-07-05T04:29:53.186Z"
+      "updatedAt": "2026-07-07T10:11:47.628Z"
     },
     {
       "term": "视频呢",
@@ -1559,17 +1730,8 @@
       "meaning": "要求提供视频证据。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T05:57:57.495Z"
-    },
-    {
-      "term": "让子弹飞一会",
-      "family": "evidence",
-      "meaning": "劝告等待更多信息再下结论，避免被反转打脸。",
-      "risk": "positive",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-07-05T04:32:40.268Z"
     },
     {
       "term": "讲证据",
@@ -1586,26 +1748,26 @@
       "meaning": "要求对方基于逻辑和证据推理，而非情绪。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T11:01:25.494Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:46:14.408Z"
     },
     {
       "term": "论持久战",
       "family": "evidence",
       "meaning": "引用毛泽东《论持久战》作为权威依据，强调战略损耗规律，属于提供可核验来源",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T10:19:43.389Z"
     },
     {
       "term": "论持久战都有写",
       "family": "evidence",
       "meaning": "引用毛泽东《论持久战》作为权威依据，强调战略损耗规律，属于提供可核验来源",
-      "risk": "positive",
+      "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-07T10:19:43.389Z"
     },
     {
       "term": "论证",
@@ -1613,8 +1775,8 @@
       "meaning": "用证据和推理支持论点",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-04T04:54:11.180Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-07T18:22:56.264Z"
     },
     {
       "term": "证人证言",
@@ -1622,7 +1784,7 @@
       "meaning": "要求证据",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-07-05T01:26:53.352Z"
     },
     {
@@ -1640,8 +1802,8 @@
       "meaning": "要求证明信息属实",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-07-05T06:57:27.926Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-09T11:45:54.920Z"
     },
     {
       "term": "证据呢",
@@ -1658,7 +1820,7 @@
       "meaning": "要求展示完整的证据逻辑链条，而非孤立的单一证据",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T09:53:06.352Z"
     },
     {
@@ -1667,7 +1829,7 @@
       "meaning": "要求完整的证据链条。",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T09:53:06.352Z"
     },
     {
@@ -1676,8 +1838,8 @@
       "meaning": "通过事实或逻辑论证来确认某事的真实性。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T10:30:05.380Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-07-09T11:33:32.802Z"
     },
     {
       "term": "说得好",
@@ -1685,7 +1847,7 @@
       "meaning": "反话，讽刺对方言之无物",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T10:58:12.718Z"
     },
     {
@@ -1695,7 +1857,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 6,
-      "updatedAt": "2026-07-05T11:09:33.476Z"
+      "updatedAt": "2026-07-07T18:22:56.264Z"
     },
     {
       "term": "谁说的",
@@ -1703,8 +1865,8 @@
       "meaning": "追问言论的具体发出者，质疑匿名性",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 7,
-      "updatedAt": "2026-07-05T09:21:56.986Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-07-07T18:57:11.725Z"
     },
     {
       "term": "调查",
@@ -1713,7 +1875,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T03:16:46.511Z"
+      "updatedAt": "2026-07-07T18:22:56.264Z"
     },
     {
       "term": "谣言",
@@ -1731,7 +1893,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:29:57.005Z"
+      "updatedAt": "2026-07-07T18:54:54.820Z"
     },
     {
       "term": "辟谣",
@@ -1740,7 +1902,7 @@
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 8,
-      "updatedAt": "2026-07-05T10:25:35.809Z"
+      "updatedAt": "2026-07-09T11:36:15.529Z"
     },
     {
       "term": "辟谣了",
@@ -1748,7 +1910,7 @@
       "meaning": "引用官方或权威渠道的辟谣信息",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T10:25:35.809Z"
     },
     {
@@ -1757,7 +1919,7 @@
       "meaning": "指出对方添加了不存在的内容，需回归事实",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T06:41:04.847Z"
     },
     {
@@ -1766,7 +1928,7 @@
       "meaning": "指控数据或证据是伪造的",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-07-05T09:16:23.382Z"
     },
     {
@@ -1775,8 +1937,8 @@
       "meaning": "直指对方在制造虚假信息",
       "risk": "high",
       "confidence": 0.92,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:02:24.961Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:44:12.131Z"
     },
     {
       "term": "造谣一张嘴",
@@ -1784,7 +1946,7 @@
       "meaning": "讽刺谣言易传但缺乏证据。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-07-05T11:02:24.961Z"
     },
     {
@@ -1793,8 +1955,17 @@
       "meaning": "要求对方检查推理是否符合逻辑，避免谬误",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T11:01:25.494Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-07-09T11:46:14.408Z"
+    },
+    {
+      "term": "道听途说",
+      "family": "evidence",
+      "meaning": "指责对方的信息来源于路边传闻，不可靠，要求提供可靠出处。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-09T11:46:47.139Z"
     },
     {
       "term": "道理",
@@ -1802,8 +1973,8 @@
       "meaning": "指逻辑或理由，要求合理解释",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:02:24.961Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-07-09T11:43:31.990Z"
     },
     {
       "term": "铁证",
@@ -1829,8 +2000,26 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-07-05T11:08:45.191Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-09T11:40:41.907Z"
+    },
+    {
+      "term": "链接呢",
+      "family": "evidence",
+      "meaning": "要求或提供链接作为信息来源。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T20:00:12.576Z"
+    },
+    {
+      "term": "闭环了",
+      "family": "evidence",
+      "meaning": "指证据充分、逻辑自洽，没有漏洞。",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-07-07T20:07:50.924Z"
     },
     {
       "term": "隐藏id",
@@ -1838,8 +2027,8 @@
       "meaning": "iPhone中未解除的Apple ID，影响使用自签工具",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-07-05T06:55:53.318Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-07-07T10:15:07.132Z"
     }
   ]
 }

@@ -384,6 +384,73 @@ test('analyzeCommentsWithDeepSeek runs multi-agent analysis and merge when reque
   assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [sentence]);
 });
 
+test('analyzeCommentsWithDeepSeek runs multi-agent specialists concurrently', async () => {
+  const sentence = '这句是在反讽吧[doge]，不是真的骂人。';
+  const chatRequests = [];
+  let inFlight = 0;
+  let maxInFlight = 0;
+  const result = await analyzeCommentsWithDeepSeek(
+    {
+      uid: 'mid concurrency',
+      name: 'concurrency tester',
+      text: sentence,
+      multiagent: true,
+    },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url, options = {}) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        const body = JSON.parse(options.body);
+        chatRequests.push(body);
+        inFlight += 1;
+        maxInFlight = Math.max(maxInFlight, inFlight);
+        // Hold the call open briefly so overlapping specialists are observable.
+        await new Promise((resolve) => setTimeout(resolve, 25));
+        inFlight -= 1;
+        const isMerge = body.messages.some(
+          (message) => String(message.content || '').includes('Merge the specialist agent outputs'),
+        );
+        const content = isMerge
+          ? JSON.stringify({
+              axes: [
+                {
+                  axis: 'cooperation',
+                  score: 60,
+                  evidence: [sentence],
+                  reasoning: '并行合并后判断。',
+                },
+              ],
+              sentenceAnalyses: [],
+              overall: { riskBand: '低风险讨论型', summary: '并行执行无序乱。' },
+              confidence: 0.8,
+            })
+          : JSON.stringify({
+              agentId: 'agent-concurrent',
+              observations: [{ quote: sentence, finding: '并行观察。', confidence: 0.5 }],
+              axisSuggestions: [],
+              risks: [],
+            });
+        return {
+          ok: true,
+          json: async () => ({ choices: [{ message: { content } }] }),
+        };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  // The 3 specialist calls must overlap in flight; the merge runs only after.
+  assert.equal(maxInFlight, 3);
+  assert.equal(chatRequests.length, 4);
+  assert.equal(result.multiagent.mergeAgent, 'quality-merge');
+});
+
 test('analyzeCommentsWithDeepSeek grounds sentence radar quotes to original comments', async () => {
   const originalSentence = '\u4e0d\u662f\u6211\u6760\uff0c\u4f60\u8fd9\u4e2a\u8bc1\u636e\u94fe\u53ea\u8986\u76d6\u4e00\u4e2a\u6837\u672c\uff0c\u5148\u522b\u6025\u7740\u6263\u5e3d\u5b50\u3002';
   const result = await analyzeCommentsWithDeepSeek(

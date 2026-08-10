@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "server": "node --env-file=.env server/index.js",
+    "server": "node --env-file-if-exists=.env server/index.js",
     "video:keywords": "node server/scripts/runVideoKeywordDiscovery.js",
     "dictionary:harvest": "node server/scripts/runVideoKeywordDiscovery.js",
     "dictionary:coverage": "python -m python_backend.cli.coverage_audit --standalone --target-evidence 3 --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
@@ -221,6 +221,6 @@
     "vite": "^8.1.4"
   },
   "devDependencies": {
-    "eslint": "^10.7.0"
+    "eslint": "^8.57.1"
   }
 }

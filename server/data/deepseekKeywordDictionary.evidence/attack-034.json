@@ -1,0 +1,559 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "attack",
+  "shard": 34,
+  "shardCount": 34,
+  "evidence": [
+    {
+      "term": "高级黑",
+      "evidenceSamples": [
+        "高级黑！[吃瓜]",
+        "伞兵，我是友军，没看我是高级黑吗",
+        "可以自建，主要是中后期会有些变化，但BOSS都差不多，高级黑暗视觉不太关键，有普通的也行。",
+        "选择自建角色可以跟着攻略来玩吗，就怕邪念和自建角色差别太大，卓尔的高级黑暗视觉有必要性吗，有点想选半精灵帅一点",
+        "高级黑"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "351775673",
+          "sample": "高级黑！[吃瓜]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "伞兵，我是友军，没看我是高级黑吗"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1cN411h7z7/",
+          "uid": "BV1cN411h7z7",
+          "sample": "可以自建，主要是中后期会有些变化，但BOSS都差不多，高级黑暗视觉不太关键，有普通的也行。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1cN411h7z7/",
+          "uid": "BV1cN411h7z7",
+          "sample": "选择自建角色可以跟着攻略来玩吗，就怕邪念和自建角色差别太大，卓尔的高级黑暗视觉有必要性吗，有点想选半精灵帅一点"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1juYLzMEHc/",
+          "uid": "BV1juYLzMEHc",
+          "sample": "高级黑"
+        }
+      ]
+    },
+    {
+      "term": "魔怔",
+      "evidenceSamples": [
+        "弹幕上面好多崩铁魔怔人，建木到底是代表什么都不懂",
+        "回复 @千早的胸 :狗这一块本身大家其实是比较认可潘宏的，狗圈魔怔人不少，但清醒的更多。猫圈就不是了，整个圈子魔怔人含量几乎≈100％[辣眼睛][辣眼睛][辣眼睛]你敢训猫？[辣眼睛][辣眼睛][辣眼睛]",
+        "农村要牵什么绳？魔怔了？",
+        "回归多少年了弹幕还有魔怔人。。",
+        "我的世界玩魔怔了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1MyEg6ZEPL/",
+          "uid": "BV1MyEg6ZEPL",
+          "sample": "弹幕上面好多崩铁魔怔人，建木到底是代表什么都不懂"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1aaEb6UEvh/",
+          "uid": "230353679",
+          "sample": "回复 @千早的胸 :狗这一块本身大家其实是比较认可潘宏的，狗圈魔怔人不少，但清醒的更多。猫圈就不是了，整个圈子魔怔人含量几乎≈100％[辣眼睛][辣眼睛][辣眼睛]你敢训猫？[辣眼睛][辣眼睛][辣眼睛]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "农村要牵什么绳？魔怔了？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "回归多少年了弹幕还有魔怔人。。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "我的世界玩魔怔了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "王沥川up最大的功劳就是给新、兰、新兰粉创造了可以说话的b站环境。 和魔怔ca不要纠缠，那种爱而不自知，买包论，护身符论一出来就知道是二创同人吃多了脑子不好使。理中客可以先看它踩不踩小兰，如果落脚点是踩小兰90%是ca，不踩小兰客观看待双方..."
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "BV12Z421T7c6",
+          "sample": "有些粉丝魔怔了吧？"
+        }
+      ]
+    },
+    {
+      "term": "魔怔了",
+      "evidenceSamples": [
+        "弹幕上面好多崩铁魔怔人，建木到底是代表什么都不懂",
+        "回复 @千早的胸 :狗这一块本身大家其实是比较认可潘宏的，狗圈魔怔人不少，但清醒的更多。猫圈就不是了，整个圈子魔怔人含量几乎≈100％[辣眼睛][辣眼睛][辣眼睛]你敢训猫？[辣眼睛][辣眼睛][辣眼睛]",
+        "回归多少年了弹幕还有魔怔人。。",
+        "农村要牵什么绳？魔怔了？",
+        "我的世界玩魔怔了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1MyEg6ZEPL/",
+          "uid": "BV1MyEg6ZEPL",
+          "sample": "弹幕上面好多崩铁魔怔人，建木到底是代表什么都不懂"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1aaEb6UEvh/",
+          "uid": "230353679",
+          "sample": "回复 @千早的胸 :狗这一块本身大家其实是比较认可潘宏的，狗圈魔怔人不少，但清醒的更多。猫圈就不是了，整个圈子魔怔人含量几乎≈100％[辣眼睛][辣眼睛][辣眼睛]你敢训猫？[辣眼睛][辣眼睛][辣眼睛]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "回归多少年了弹幕还有魔怔人。。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "农村要牵什么绳？魔怔了？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "我的世界玩魔怔了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "王沥川up最大的功劳就是给新、兰、新兰粉创造了可以说话的b站环境。 和魔怔ca不要纠缠，那种爱而不自知，买包论，护身符论一出来就知道是二创同人吃多了脑子不好使。理中客可以先看它踩不踩小兰，如果落脚点是踩小兰90%是ca，不踩小兰客观看待双方..."
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "BV12Z421T7c6",
+          "sample": "有些粉丝魔怔了吧？"
+        }
+      ]
+    },
+    {
+      "term": "魔怔人",
+      "evidenceSamples": [
+        "回复 @千早的胸 :狗这一块本身大家其实是比较认可潘宏的，狗圈魔怔人不少，但清醒的更多。猫圈就不是了，整个圈子魔怔人含量几乎≈100％[辣眼睛][辣眼睛][辣眼睛]你敢训猫？[辣眼睛][辣眼睛][辣眼睛]",
+        "回归多少年了弹幕还有魔怔人。。",
+        "弹幕上面好多崩铁魔怔人，建木到底是代表什么都不懂",
+        "农村要牵什么绳？魔怔了？",
+        "我的世界玩魔怔了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1aaEb6UEvh/",
+          "uid": "230353679",
+          "sample": "回复 @千早的胸 :狗这一块本身大家其实是比较认可潘宏的，狗圈魔怔人不少，但清醒的更多。猫圈就不是了，整个圈子魔怔人含量几乎≈100％[辣眼睛][辣眼睛][辣眼睛]你敢训猫？[辣眼睛][辣眼睛][辣眼睛]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "回归多少年了弹幕还有魔怔人。。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1MyEg6ZEPL/",
+          "uid": "BV1MyEg6ZEPL",
+          "sample": "弹幕上面好多崩铁魔怔人，建木到底是代表什么都不懂"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "农村要牵什么绳？魔怔了？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "我的世界玩魔怔了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "王沥川up最大的功劳就是给新、兰、新兰粉创造了可以说话的b站环境。 和魔怔ca不要纠缠，那种爱而不自知，买包论，护身符论一出来就知道是二创同人吃多了脑子不好使。理中客可以先看它踩不踩小兰，如果落脚点是踩小兰90%是ca，不踩小兰客观看待双方..."
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "BV12Z421T7c6",
+          "sample": "有些粉丝魔怔了吧？"
+        }
+      ]
+    },
+    {
+      "term": "鳄鱼的眼泪",
+      "evidenceSamples": [
+        "鳄鱼的眼泪罢了",
+        "鳄鱼的眼泪",
+        "又好好活了17年才一丝悔意 鳄鱼的眼泪来的",
+        "中山狼之鳄鱼的眼泪",
+        "鳄鱼的眼泪罢了，这是讽刺"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1eKTx6SE1R",
+          "sample": "鳄鱼的眼泪罢了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1jtE96bEU4",
+          "sample": "鳄鱼的眼泪"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1jtE96bEU4",
+          "sample": "又好好活了17年才一丝悔意 鳄鱼的眼泪来的"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Kg4y1d7ca",
+          "sample": "中山狼之鳄鱼的眼泪"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1YgT26qETR",
+          "sample": "鳄鱼的眼泪罢了，这是讽刺"
+        }
+      ]
+    },
+    {
+      "term": "鸟都不鸟",
+      "evidenceSamples": [
+        "还竖中指呢啊老弟，人家鸟都不鸟你自己还橦车了",
+        "pc哥：我鸟都不鸟你",
+        "鸟都不鸟你",
+        "乒乓球说：我鸟都不鸟你"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1rrSGYTEe3",
+          "sample": "还竖中指呢啊老弟，人家鸟都不鸟你自己还橦车了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV19MTv6uEjR",
+          "sample": "pc哥：我鸟都不鸟你"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1gp421y71R",
+          "sample": "鸟都不鸟你"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1tVDaBhEGg",
+          "sample": "乒乓球说：我鸟都不鸟你"
+        }
+      ]
+    },
+    {
+      "term": "鸡皮疙瘩",
+      "evidenceSamples": [
+        "我老婆问我为什么掉得满地都是鸡皮疙瘩",
+        "我鸡皮疙瘩起来了",
+        "鸡皮疙瘩 这一段"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "我老婆问我为什么掉得满地都是鸡皮疙瘩"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "我鸡皮疙瘩起来了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "鸡皮疙瘩 这一段"
+        }
+      ]
+    },
+    {
+      "term": "麻了",
+      "evidenceSamples": [
+        "闹麻了今天突然有这个bug了，而且除了评论消失外还伴随着不显示评论的网友ip地址[笑哭]",
+        "。。弹幕重庆人闹麻了",
+        "前面懂哥觉得自己懂麻了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV15KRBBNECi/",
+          "uid": "359139812",
+          "sample": "闹麻了今天突然有这个bug了，而且除了评论消失外还伴随着不显示评论的网友ip地址[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "1598914156",
+          "sample": "。。弹幕重庆人闹麻了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "前面懂哥觉得自己懂麻了"
+        }
+      ]
+    },
+    {
+      "term": "麻了麻了",
+      "evidenceSamples": [
+        "闹麻了今天突然有这个bug了，而且除了评论消失外还伴随着不显示评论的网友ip地址[笑哭]",
+        "。。弹幕重庆人闹麻了",
+        "前面懂哥觉得自己懂麻了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV15KRBBNECi/",
+          "uid": "359139812",
+          "sample": "闹麻了今天突然有这个bug了，而且除了评论消失外还伴随着不显示评论的网友ip地址[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "1598914156",
+          "sample": "。。弹幕重庆人闹麻了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "前面懂哥觉得自己懂麻了"
+        }
+      ]
+    },
+    {
+      "term": "黄腔",
+      "evidenceSamples": [
+        "看评论很多纯良观众觉得这期开黄腔不好，但日本桥这一条街本质就是妹子陪聊为主吃为辅人家店请全女店员打工目的就是这个要不不可能有请妹子喝酒这个选项。有的观众别把樱花妹想的那么纯情[汤圆]",
+        "一言不发开黄腔是什么物种",
+        "真的看个番动不动来个黄腔或者地狱梗",
+        "对着小女孩开黄腔你是不是觉得自己可幽默了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1fvVS6zEGq/",
+          "uid": "5667085",
+          "sample": "看评论很多纯良观众觉得这期开黄腔不好，但日本桥这一条街本质就是妹子陪聊为主吃为辅人家店请全女店员打工目的就是这个要不不可能有请妹子喝酒这个选项。有的观众别把樱花妹想的那么纯情[汤圆]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1WAMhzcEBQ/",
+          "uid": "BV1WAMhzcEBQ",
+          "sample": "一言不发开黄腔是什么物种"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1R64y1D7Yu/",
+          "uid": "122749629",
+          "sample": "真的看个番动不动来个黄腔或者地狱梗"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1e7XrBqE2c/",
+          "uid": "BV1e7XrBqE2c",
+          "sample": "对着小女孩开黄腔你是不是觉得自己可幽默了"
+        }
+      ]
+    },
+    {
+      "term": "黑子",
+      "evidenceSamples": [
+        "看过一个评论，虎子都被黑子的话掉称翘嘴了[笑哭]",
+        "弹幕黑子嘉豪来了",
+        "你家奶粉是重要？什么文盲黑子都有",
+        "以前我是阿水黑子，可是自从看了他处理zhuo怼左手态度我立马转粉了",
+        "回复 @温衍墨a :已经骂啦，有个话题是黑子建的内娱四大掀桌咖，嘟嘟和大勋花双双被上榜[呆]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1DjwnezEpA/",
+          "uid": "428939854",
+          "sample": "看过一个评论，虎子都被黑子的话掉称翘嘴了[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SGjP6BEaP/",
+          "uid": "BV1SGjP6BEaP",
+          "sample": "弹幕黑子嘉豪来了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "你家奶粉是重要？什么文盲黑子都有"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "以前我是阿水黑子，可是自从看了他处理zhuo怼左手态度我立马转粉了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @温衍墨a :已经骂啦，有个话题是黑子建的内娱四大掀桌咖，嘟嘟和大勋花双双被上榜[呆]"
+        }
+      ]
+    },
+    {
+      "term": "黑涩会",
+      "evidenceSamples": [
+        "这就是放下屠刀，立地成佛吗？黑涩会",
+        "棒棒堂当年是和黑涩会女孩对应的一个男团。",
+        "哟，黑涩会",
+        "黑涩会，纹身嘎",
+        "简直是黑涩会作派"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1cFHWemE9V",
+          "sample": "这就是放下屠刀，立地成佛吗？黑涩会"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Gg6LBAEbF",
+          "sample": "棒棒堂当年是和黑涩会女孩对应的一个男团。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1anMP69ED5",
+          "sample": "哟，黑涩会"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1AeMw6TEDW",
+          "sample": "黑涩会，纹身嘎"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV159qhBME43",
+          "sample": "简直是黑涩会作派"
+        }
+      ]
+    },
+    {
+      "term": "黑潮",
+      "evidenceSamples": [
+        "我们终将战胜黑潮",
+        "确实有一个人永远不会无意切到手，就是已经被召唤出黑潮火种之主的白厄",
+        "一个视频来了四帮人：装萌新的老登，讲冷笑话的赛诺，认真的剧情考据党，来凑热闹的路人\\n至于黑潮造物，深渊造物和拟态残像，朋友们，那不是人。[doge]",
+        "是不是马上就是米粥调情抗击黑潮了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1GAbUz2E9f/",
+          "uid": "BV1GAbUz2E9f",
+          "sample": "我们终将战胜黑潮"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "确实有一个人永远不会无意切到手，就是已经被召唤出黑潮火种之主的白厄"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1dmVh6UEWq/",
+          "uid": "BV1dmVh6UEWq",
+          "sample": "一个视频来了四帮人：装萌新的老登，讲冷笑话的赛诺，认真的剧情考据党，来凑热闹的路人\\n至于黑潮造物，深渊造物和拟态残像，朋友们，那不是人。[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16njuzUEnF/, https://www.bilibili.com/video/BV1i54Az9EZj/, https://www.bilibili.com/video/BV1Ya411E75V/, https://www.bilibili.com/video/BV1NHcrzVEKy/, http://www.bilibili.com/video/av114566122116071, http://www.bilibili.com/video/av115355791919319, http://www.bilibili.com/video/av214368418, http://www.bilibili.com/video/av116214433062152",
+          "uid": "BV16njuzUEnF,BV1i54Az9EZj,BV1Ya411E75V,BV1NHcrzVEKy",
+          "sample": "是不是马上就是米粥调情抗击黑潮了"
+        }
+      ]
+    },
+    {
+      "term": "黑称",
+      "evidenceSamples": [
+        "人家说rap和篮球一样也是黑称啦，谢谢粉丝科普，今天有被充实到👍👍👍",
+        "我是看到了坤坤粉丝，骂人家迪丽热巴鸡你太美，被路人科普了一路追过来的[doge]讲真，这不是他家黑称吗，怎么还用来骂别人了[doge]",
+        "感谢博主制作这么好的视频！蔡徐坤粉丝就怕他哥哥黑料娱乐圈不能科普到位[歪嘴][歪嘴]太特么神经病了，三天了，还能看到微博广场上蔡徐坤骂人家女明星的黑称黑图！这群心理变态啊"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "280074107",
+          "sample": "人家说rap和篮球一样也是黑称啦，谢谢粉丝科普，今天有被充实到👍👍👍"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "185543028",
+          "sample": "我是看到了坤坤粉丝，骂人家迪丽热巴鸡你太美，被路人科普了一路追过来的[doge]讲真，这不是他家黑称吗，怎么还用来骂别人了[doge]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "299220280",
+          "sample": "感谢博主制作这么好的视频！蔡徐坤粉丝就怕他哥哥黑料娱乐圈不能科普到位[歪嘴][歪嘴]太特么神经病了，三天了，还能看到微博广场上蔡徐坤骂人家女明星的黑称黑图！这群心理变态啊"
+        }
+      ]
+    },
+    {
+      "term": "黑粉",
+      "evidenceSamples": [
+        "黑粉：外行都让你们刷了，那我刷什么",
+        "回复 @莫挨老资_哼哼 :我看微博好多评论在骂不要拿安娜玩家有儿女那段的梗，说什么安娜当年压力很大心里很难受之类的。。。我就不是很理解。。他们就是因为十多年感情相当好才能互相脱敏的，安娜脆脆鲨小鸟玩糊糊离婚梗都多少回了，离婚就不难受吗，蘑菇屋正是糊糊离婚的那段时间，他状态多差啊，后面他们各种玩离婚梗怎么没人骂。。。就感觉都是黑粉。。。",
+        "刘亦菲黑粉是真多呀",
+        "不知道是不是我的错觉，感觉黑粉好像比粉丝还努力，不遗余力地努力黑，这究竟是为什么呢？把黑王一博当成乐趣，又是什么心态呢？",
+        "因为有脂粉引导啊，脂粉拿钱有任务。建个群天天打卡黑王一博，要求每天黑王一博200条。也是当初杜华的不作为导致。揪住一个明显的职业黑粉“王一资”或者那个“晓寒”以造谣立案就会让对方收敛很多！杜华就是个祸害"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1pU4y1S7Uj/",
+          "uid": "BV1pU4y1S7Uj",
+          "sample": "黑粉：外行都让你们刷了，那我刷什么"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1XH4y127oc/",
+          "uid": "40862755",
+          "sample": "回复 @莫挨老资_哼哼 :我看微博好多评论在骂不要拿安娜玩家有儿女那段的梗，说什么安娜当年压力很大心里很难受之类的。。。我就不是很理解。。他们就是因为十多年感情相当好才能互相脱敏的，安娜脆脆鲨小鸟玩糊糊离婚梗都多少回了，离婚就不难受吗，蘑菇屋正是糊糊离婚的那段时间，他状态多差啊，后面他们各种玩离婚梗怎么没人骂。。。就感觉都是黑粉。。。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1dbGt6gERo/",
+          "uid": "BV1dbGt6gERo",
+          "sample": "刘亦菲黑粉是真多呀"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "不知道是不是我的错觉，感觉黑粉好像比粉丝还努力，不遗余力地努力黑，这究竟是为什么呢？把黑王一博当成乐趣，又是什么心态呢？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "因为有脂粉引导啊，脂粉拿钱有任务。建个群天天打卡黑王一博，要求每天黑王一博200条。也是当初杜华的不作为导致。揪住一个明显的职业黑粉“王一资”或者那个“晓寒”以造谣立案就会让对方收敛很多！杜华就是个祸害"
+        }
+      ]
+    },
+    {
+      "term": "龙鸣",
+      "evidenceSamples": [
+        "日本龙鸣",
+        "龙鸣歌曲",
+        "龙鸣英语",
+        "龙鸣口音"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1uKMA6LEFD",
+          "sample": "日本龙鸣"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Lx9yBQEfD",
+          "sample": "龙鸣歌曲"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV15zUbBFEGz",
+          "sample": "龙鸣英语"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Sq4y1m7oR",
+          "sample": "龙鸣口音"
+        }
+      ]
+    }
+  ]
+}
