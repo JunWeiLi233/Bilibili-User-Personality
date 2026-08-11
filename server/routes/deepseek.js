@@ -20,8 +20,18 @@ import {
 } from '../services/deepseekKeywordTrainer.js';
 import { findDictionaryEntriesWithSemanticEvidence } from '../services/semanticMatcher.js';
 import { scoreComments } from '../services/headlessScorer.js';
+import { adminAuth } from '../middleware/adminAuth.js';
 
 const deepseek = new Hono();
+
+// Input caps to prevent CPU-spin / OOM from a single oversized request.
+const MAX_SCORE_TEXT_CHARS = 200_000;      // ~5k comments at ~40 chars each
+const MAX_SEMANTIC_COMMENTS = 1_000;
+
+// All DeepSeek routes are operator-credentialed (spend DeepSeek credits, mutate
+// the trained dictionary). Gate behind ADMIN_TOKEN bearer auth so an exposed
+// server cannot be drained or mutated by anonymous callers.
+deepseek.use('*', adminAuth);
 
 /**
  * GET /api/deepseek/config
@@ -91,11 +101,14 @@ deepseek.post('/score', async (c) => {
   if (!text || typeof text !== 'string') {
     return c.json({ ok: false, error: 'Missing required field: text (newline-separated comments)' }, 400);
   }
+  // Cap input length so a single request cannot spin the CPU / OOM via millions
+  // of split-comments entries.
+  const cappedText = text.length > MAX_SCORE_TEXT_CHARS ? text.slice(0, MAX_SCORE_TEXT_CHARS) : text;
   try {
     const result = scoreComments({
       name: payload.name,
       uid: payload.uid,
-      text,
+      text: cappedText,
       source: payload.source,
       runtimeLexicon: payload.runtimeLexicon,
       analysisMode: payload.analysisMode,
@@ -104,7 +117,8 @@ deepseek.post('/score', async (c) => {
     });
     return c.json({ ok: true, result });
   } catch (err) {
-    return c.json({ ok: false, error: `Scoring failed: ${err?.message || String(err)}` }, 500);
+    // Generic message only — never echo err.message / upstream bodies (info leak).
+    return c.json({ ok: false, error: 'Scoring failed' }, 500);
   }
 });
 
@@ -137,7 +151,7 @@ deepseek.post('/train-keywords', async (c) => {
 deepseek.post('/semantic-match', async (c) => {
   const t0 = performance.now();
   const payload = await c.req.json().catch(() => ({}));
-  const comments = Array.isArray(payload.comments) ? payload.comments : [];
+  const comments = Array.isArray(payload.comments) ? payload.comments.slice(0, MAX_SEMANTIC_COMMENTS) : [];
   const t1 = performance.now();
   const dictionary = await readKeywordDictionary();
   const t2 = performance.now();

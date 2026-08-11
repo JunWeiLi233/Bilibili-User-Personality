@@ -6,6 +6,12 @@ import { mock, test } from 'node:test';
 // and telemetry output. Heavy deps (transformers model, dictionary loading)
 // are mocked to keep tests fast and deterministic.
 
+// All /api/deepseek/* routes are gated by ADMIN_TOKEN bearer auth (the routes
+// spend operator DeepSeek credits / mutate the trained dictionary). Set the
+// token for the test process and add the header to every request.
+process.env.ADMIN_TOKEN = 'test-admin-token-for-deepseek-route-tests';
+const AUTH_HEADERS = { 'content-type': 'application/json', authorization: `Bearer ${process.env.ADMIN_TOKEN}` };
+
 const TEST_COMMENTS = ['狗头保命[doge]', '建议查查资料再说'];
 const MOCK_MATCHES = [
   [{ term: '狗头', chunk: '狗头保命[doge]', score: 0.85 }],
@@ -26,7 +32,7 @@ test('semantic-match route returns empty matches for empty comments', async () =
 
   const req = new Request(`${BASE}/semantic-match`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: AUTH_HEADERS,
     body: JSON.stringify({ comments: [] }),
   });
 
@@ -43,7 +49,7 @@ test('semantic-match route returns error for invalid JSON body', async () => {
 
   const req = new Request(`${BASE}/semantic-match`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: AUTH_HEADERS,
     body: '{broken',
   });
 
@@ -62,8 +68,10 @@ test('semantic-match route only accepts POST', async () => {
   const mod = await import('./deepseek.js');
   const app = mod.default;
 
+  // Authenticated GET — the auth gate passes, then method routing rejects.
   const req = new Request(`${BASE}/semantic-match`, {
     method: 'GET',
+    headers: { authorization: `Bearer ${process.env.ADMIN_TOKEN}` },
   });
 
   const res = await app.fetch(req);
@@ -115,7 +123,7 @@ test('score route rejects missing text with 400', async () => {
   const app = mod.default;
   const res = await app.fetch(new Request(`${BASE}/score`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: AUTH_HEADERS,
     body: JSON.stringify({}),
   }));
   assert.equal(res.status, 400);
@@ -129,7 +137,7 @@ test('score route returns 4 axis scores + trollIndex (calibrate default true)', 
   const app = mod.default;
   const res = await app.fetch(new Request(`${BASE}/score`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: AUTH_HEADERS,
     body: JSON.stringify({ text: '你急了\n完全是洗地\n懂的都懂\n你这种人也配' }),
   }));
   assert.equal(res.status, 200);
@@ -151,7 +159,7 @@ test('score route: calibrate=false opts out of calibration for the live UI', asy
   const app = mod.default;
   const res = await app.fetch(new Request(`${BASE}/score`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: AUTH_HEADERS,
     body: JSON.stringify({ text: '你急了\n完全是洗地\n懂的都懂', calibrate: false }),
   }));
   assert.equal(res.status, 200);
