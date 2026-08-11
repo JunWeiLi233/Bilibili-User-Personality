@@ -41,7 +41,14 @@ def _js_number_or_default(value: Any, fallback: int) -> int:
         number = float(str(value))
     except (TypeError, ValueError):
         return fallback
-    return int(number) if number else fallback
+    # Coerce NaN/inf to fallback; otherwise return the integer value as-is
+    # (including 0). Previously `if number` treated 0.0 as falsy and returned
+    # the fallback, which bypassed the clamp floor in _bounded() — matching
+    # the JS bug fixed in mineLocalCorpusEvidence.js parseArgs.
+    import math
+    if math.isnan(number) or math.isinf(number):
+        return fallback
+    return int(number)
 
 
 def _bounded(value: Any, fallback: int, minimum: int, maximum: int) -> int:

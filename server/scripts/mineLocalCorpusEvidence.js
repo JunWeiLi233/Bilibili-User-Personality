@@ -39,8 +39,12 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
     else if (arg === '--no-comment-backed') options.requireCommentBackedEvidence = false;
     else if (arg === '--write') options.write = true;
   }
-  options.targetEvidence = Math.max(1, Math.min(Number(options.targetEvidence) || 3, 20));
-  options.maxSamplesPerTerm = Math.max(1, Math.min(Number(options.maxSamplesPerTerm) || 3, 20));
+  // Coalesce NaN → default FIRST, then clamp to [1, 20]. Doing `Number(x) || 3`
+  // before clamping would turn an explicit 0 into 3, bypassing the floor.
+  const rawTargetEvidence = Number(options.targetEvidence);
+  options.targetEvidence = Math.max(1, Math.min(Number.isNaN(rawTargetEvidence) ? 3 : rawTargetEvidence, 20));
+  const rawMaxSamples = Number(options.maxSamplesPerTerm);
+  options.maxSamplesPerTerm = Math.max(1, Math.min(Number.isNaN(rawMaxSamples) ? 3 : rawMaxSamples, 20));
   return options;
 }
 
