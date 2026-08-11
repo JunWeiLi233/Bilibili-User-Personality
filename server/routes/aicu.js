@@ -3,6 +3,7 @@ import { readFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { writeJsonAtomic } from '../utils/atomicWrite.js';
 import { adminAuth } from '../middleware/adminAuth.js';
+import { singleFlight } from '../utils/singleFlight.js';
 
 const aicu = new Hono();
 
@@ -130,6 +131,61 @@ async function mutateDatabase(fn) {
   return run;
 }
 
+/**
+ * In-flight coalescer for the AICU scrape, keyed by uid. N concurrent /scrape
+ * requests for the SAME new uid share one underlying scrape run (instead of
+ * each entering the mutateDatabase chain and re-loading the 14MB DB). Composes
+ * with mutateDatabase: the coalescer collapses duplicate in-flight work; the
+ * chain serializes the RMW for distinct uids. The disk-DB cache remains the
+ * fast path for already-scraped uids.
+ */
+const scrapeUserCoalesced = singleFlight(
+  (uid) => mutateDatabase(async (db) => {
+    if (db.users[uid]) return { value: { cached: true, user: db.users[uid] }, save: false };
+
+    const [comments, danmaku] = await Promise.all([
+      scrapeUserComments(uid, 10),
+      scrapeUserDanmaku(uid, 10),
+    ]);
+
+    if (comments.length === 0 && danmaku.length === 0) {
+      return { value: { notFound: true }, save: false };
+    }
+
+    const commentText = comments.map((item) => item.message).join('\n');
+    const danmakuText = danmaku.map((d) => d.content).join('\n');
+    const combinedText = [commentText, danmakuText].filter(Boolean).join('\n');
+
+    const user = {
+      uid,
+      commentCount: comments.length,
+      danmakuCount: danmaku.length,
+      commentText,
+      danmakuText,
+      combinedText,
+      comments: comments.map((item) => ({
+        rpid: item.rpid,
+        message: item.message,
+        time: item.time,
+        rank: item.rank,
+        oid: item.dyn?.oid,
+        type: item.dyn?.type,
+      })),
+      danmaku: danmaku.map((d) => ({
+        id: d.id,
+        content: d.content,
+        time: d.ctime,
+        oid: d.oid,
+      })),
+      scrapedAt: new Date().toISOString(),
+    };
+
+    db.users[uid] = user; // mutate in place — saveDatabase runs after fn returns
+    return { value: { cached: false, user }, save: true };
+  }),
+  { key: (uid) => String(uid), ttlMs: 30_000 },
+);
+
 aicu.get('/users', async (c) => {
   const db = await loadDatabase();
   const users = Object.values(db.users).map((u) => ({
@@ -155,56 +211,11 @@ aicu.post('/scrape', async (c) => {
     return c.json({ ok: false, error: 'Valid UID required' }, 400);
   }
 
-  // Serialized read-modify-write: the cache check, the network scrape, and the
-  // persist all happen inside the database mutex so concurrent /scrape requests
-  // for different UIDs cannot clobber each other's writes, and the same UID is
-  // scraped exactly once even under a thundering herd (the second caller sees
-  // the first's just-persisted cache hit).
+  // Coalesced + serialized scrape: concurrent same-UID requests share one
+  // in-flight promise (singleFlight); distinct UIDs serialize through the
+  // mutateDatabase chain. Either way the network scrape + DB persist run once.
   try {
-    const result = await mutateDatabase(async (db) => {
-      if (db.users[uid]) return { value: { cached: true, user: db.users[uid] }, save: false };
-
-      const [comments, danmaku] = await Promise.all([
-        scrapeUserComments(uid, 10),
-        scrapeUserDanmaku(uid, 10),
-      ]);
-
-      if (comments.length === 0 && danmaku.length === 0) {
-        return { value: { notFound: true }, save: false };
-      }
-
-      const commentText = comments.map((item) => item.message).join('\n');
-      const danmakuText = danmaku.map((d) => d.content).join('\n');
-      const combinedText = [commentText, danmakuText].filter(Boolean).join('\n');
-
-      const user = {
-        uid,
-        commentCount: comments.length,
-        danmakuCount: danmaku.length,
-        commentText,
-        danmakuText,
-        combinedText,
-        comments: comments.map((item) => ({
-          rpid: item.rpid,
-          message: item.message,
-          time: item.time,
-          rank: item.rank,
-          oid: item.dyn?.oid,
-          type: item.dyn?.type,
-        })),
-        danmaku: danmaku.map((d) => ({
-          id: d.id,
-          content: d.content,
-          time: d.ctime,
-          oid: d.oid,
-        })),
-        scrapedAt: new Date().toISOString(),
-      };
-
-      db.users[uid] = user; // mutate in place — saveDatabase runs after fn returns
-      return { value: { cached: false, user }, save: true };
-    });
-
+    const result = await scrapeUserCoalesced(uid);
     if (result.notFound) {
       return c.json({ ok: false, error: 'No comments or danmaku found for this UID' }, 404);
     }

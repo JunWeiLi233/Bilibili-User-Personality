@@ -15,6 +15,7 @@ import { Hono } from 'hono';
 import { analyzeUid } from '../services/bilibiliCrawler.js';
 import { searchVideoKeywords } from '../services/videoKeywordSearch.js';
 import { adminAuth } from '../middleware/adminAuth.js';
+import { singleFlight } from '../utils/singleFlight.js';
 
 const bilibili = new Hono();
 
@@ -22,6 +23,36 @@ const bilibili = new Hono();
 // used to spend the operator's account quota). Gate behind ADMIN_TOKEN so an
 // exposed server cannot be abused by anonymous callers.
 bilibili.use('*', adminAuth);
+
+/**
+ * In-flight coalescer for analyzeUid, keyed by UID + cookie.
+ *
+ * When N web users search the SAME UID concurrently, only ONE underlying
+ * analyzeUid crawl runs against Bilibili — the rest await the same promise and
+ * receive the same result. This removes the N× request multiplier that is the
+ * leading cause of Bilibili IP blocks under multi-user load (AGENTS.md §8).
+ *
+ * A 30s post-resolution TTL keeps a finished result hot briefly so a fast
+ * follow-up (refresh, double-click) still coalesces; the crawler's own LRU
+ * cache handles longer-term freshness. The coalescer does NOT bypass or weaken
+ * the crawler's throttle, token bucket, or block cooldown — it only removes
+ * redundant duplicate work on top of those protection layers. Composes cleanly
+ * with the adminAuth gate above (auth runs first, then the coalesced crawl).
+ */
+const COALESCE_TTL_MS = 30_000;
+const analyzeUidCoalesced = singleFlight(
+  (payload, ...rest) => analyzeUid(payload, ...rest),
+  {
+    key: (payload) => {
+      const uid = String(payload?.uid || '').trim();
+      // Per-cookie namespacing: an authenticated crawl may return different data
+      // than an anonymous one, so callers with different cookies must not share.
+      const cookie = String(payload?.bilibiliCookie || payload?.cookie || '').trim().slice(0, 16);
+      return `${uid}\u0001${cookie}`;
+    },
+    ttlMs: COALESCE_TTL_MS,
+  },
+);
 
 /**
  * POST /api/bilibili/analyze-uid
@@ -40,7 +71,9 @@ bilibili.use('*', adminAuth);
  */
 bilibili.post('/analyze-uid', async (c) => {
   const payload = await c.req.json().catch(() => ({}));
-  return c.json(await analyzeUid(payload));
+  // Coalesce concurrent identical-UID searches so multi-user load doesn't
+  // multiply Bilibili requests (IP-block protection, AGENTS.md §8).
+  return c.json(await analyzeUidCoalesced(payload));
 });
 
 /**
