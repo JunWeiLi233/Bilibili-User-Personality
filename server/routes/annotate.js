@@ -14,9 +14,11 @@
  */
 
 import { Hono } from 'hono';
-import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeJsonAtomic } from '../utils/atomicWrite.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TASKS_PATH = resolve(__dirname, '..', 'data', 'baselines', 'annotation_tasks.json');
@@ -96,10 +98,10 @@ function eligibleTaskCount(tasks, annotator) {
 }
 
 /** Load tasks from disk (returns [] on missing/corrupt file). */
-function loadTasks() {
+async function loadTasks() {
   try {
     if (!existsSync(TASKS_PATH)) return [];
-    const raw = readFileSync(TASKS_PATH, 'utf-8');
+    const raw = await readFile(TASKS_PATH, 'utf-8');
     return JSON.parse(raw);
   } catch (err) {
     console.error('Failed to load annotation tasks:', err.message);
@@ -107,19 +109,37 @@ function loadTasks() {
   }
 }
 
-/** Persist tasks to disk — write to tmp first then copy (simple crash-safe pattern). */
-function saveTasks(tasks) {
-  const tmp = TASKS_PATH + '.tmp';
-  const data = JSON.stringify(tasks, null, 2);
-  writeFileSync(tmp, data, 'utf-8');
-  writeFileSync(TASKS_PATH, data, 'utf-8');
-  try { unlinkSync(tmp); } catch {}
+/**
+ * Persist tasks atomically (temp -> fsync -> rename -> dir fsync).
+ * The previous non-atomic writeFileSync pattern corrupted the file under
+ * concurrent submitters and could lose the whole task set on a crash mid-write.
+ */
+async function saveTasks(tasks) {
+  await writeJsonAtomic(TASKS_PATH, tasks);
+}
+
+/**
+ * In-process mutex (promise chain) that serializes read-modify-write cycles on
+ * the task store. Without this, N concurrent /submit requests each load the
+ * same snapshot, push their own annotation, and clobber each other on save —
+ * only the last writer's annotation survives, the other 999 vanish silently.
+ */
+let _tasksChain = Promise.resolve();
+async function mutateTasks(fn) {
+  const run = _tasksChain.then(async () => {
+    const tasks = await loadTasks();
+    const { value, save } = await fn(tasks);
+    if (save) await saveTasks(tasks);
+    return value;
+  });
+  _tasksChain = run.catch(() => {});
+  return run;
 }
 
 // GET /api/annotate/next?annotator=A1
-app.get('/next', (c) => {
+app.get('/next', async (c) => {
   const annotator = c.req.query('annotator') || 'A1';
-  const tasks = loadTasks();
+  const tasks = await loadTasks();
 
   // Select the next task this annotator should label. Non-shared tasks are
   // stride-partitioned across A1/A2/A3 so each persona sees a different sample;
@@ -163,50 +183,52 @@ app.post('/submit', async (c) => {
     return c.json({ ok: false, error: 'Missing taskId, annotator, or labels' }, 400);
   }
 
-  const tasks = loadTasks();
-  const idx = tasks.findIndex((t) => t.id === taskId);
-  if (idx === -1) {
-    return c.json({ ok: false, error: `Task ${taskId} not found` }, 404);
+  // Serialized RMW: load → mutate the one task → save atomically. Prevents
+  // concurrent submitters from clobbering each other's annotations.
+  try {
+    const result = await mutateTasks((tasks) => {
+      const idx = tasks.findIndex((t) => t.id === taskId);
+      if (idx === -1) {
+        return { value: { ok: false, error: `Task ${taskId} not found`, status: 404 }, save: false };
+      }
+
+      const task = tasks[idx];
+      const annotations = task.annotations || [];
+      const existingIdx = annotations.findIndex((a) => a.annotatorId === annotator);
+      const annotation = {
+        annotatorId: annotator,
+        timestamp: new Date().toISOString(),
+        labels: {
+          isRisky: Boolean(labels.isRisky),
+          riskAxis: labels.riskAxis || null,
+          sentiment: labels.sentiment || null,
+          isMemeOrQuote: Boolean(labels.isMemeOrQuote),
+          difficult: Boolean(labels.difficult),
+        },
+      };
+
+      if (existingIdx >= 0) annotations[existingIdx] = annotation;
+      else annotations.push(annotation);
+
+      task.annotations = annotations;
+      const requiredAnnotators = task.isShared ? 3 : 1;
+      task.status = annotations.length >= requiredAnnotators ? 'completed' : 'in_progress';
+
+      return { value: { ok: true, taskId, annotator, status: task.status }, save: true };
+    });
+
+    if (result.status === 404) {
+      return c.json({ ok: false, error: result.error }, 404);
+    }
+    return c.json(result);
+  } catch (err) {
+    return c.json({ ok: false, error: 'Submit failed' }, 500);
   }
-
-  const task = tasks[idx];
-  const annotations = task.annotations || [];
-
-  // Remove previous annotation by this annotator if re-submitting
-  const existingIdx = annotations.findIndex((a) => a.annotatorId === annotator);
-  const annotation = {
-    annotatorId: annotator,
-    timestamp: new Date().toISOString(),
-    labels: {
-      isRisky: Boolean(labels.isRisky),
-      riskAxis: labels.riskAxis || null,
-      sentiment: labels.sentiment || null,
-      isMemeOrQuote: Boolean(labels.isMemeOrQuote),
-      difficult: Boolean(labels.difficult),
-    },
-  };
-
-  if (existingIdx >= 0) {
-    annotations[existingIdx] = annotation;
-  } else {
-    annotations.push(annotation);
-  }
-
-  // Update status
-  task.annotations = annotations;
-  // Under stride distribution, a non-shared task only needs its single owner
-  // to be complete; a shared task needs all three (for Cohen's κ adjudication).
-  const requiredAnnotators = task.isShared ? 3 : 1;
-  task.status = annotations.length >= requiredAnnotators ? 'completed' : 'in_progress';
-
-  saveTasks(tasks);
-
-  return c.json({ ok: true, taskId, annotator, status: task.status });
 });
 
 // GET /api/annotate/stats
-app.get('/stats', (c) => {
-  const tasks = loadTasks();
+app.get('/stats', async (c) => {
+  const tasks = await loadTasks();
   const annotators = ['A1', 'A2', 'A3'];
 
   const perAnnotator = {};

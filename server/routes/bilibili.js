@@ -14,8 +14,14 @@ import { Hono } from 'hono';
 
 import { analyzeUid } from '../services/bilibiliCrawler.js';
 import { searchVideoKeywords } from '../services/videoKeywordSearch.js';
+import { adminAuth } from '../middleware/adminAuth.js';
 
 const bilibili = new Hono();
+
+// Both routes drive the operator's authenticated Bilibili session (and can be
+// used to spend the operator's account quota). Gate behind ADMIN_TOKEN so an
+// exposed server cannot be abused by anonymous callers.
+bilibili.use('*', adminAuth);
 
 /**
  * POST /api/bilibili/analyze-uid

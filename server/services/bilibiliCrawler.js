@@ -1921,7 +1921,9 @@ export async function validateSession(deps = {}) {
       lastSessionCheck = Date.now();
       const mid = String(data.data.mid || '');
       const uname = data.data.uname || '';
-      console.log(`[bilibili-crawler] Session valid — logged in as ${uname} (mid=${mid})`);
+      // Do NOT log the operator's uname/mid — that ties the server to a specific
+      // Bilibili account and de-anonymizes the operator via any log tail.
+      console.log('[bilibili-crawler] Session valid — operator authenticated');
       return { isLogin: true, mid, uname };
     }
     sessionAuthenticated = false;

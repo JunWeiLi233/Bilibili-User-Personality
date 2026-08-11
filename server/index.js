@@ -39,10 +39,20 @@ if (!Number.isFinite(PORT) || PORT < 1 || PORT > 65535) {
 
 const app = new Hono();
 
-// CORS enabled for all origins — the API is local-only (127.0.0.1)
-app.use('*', cors());
+// CORS allowlist. The previous wide-open cors() let any website drive every
+// route cross-origin — including the unauthenticated cost-incurring ones. For
+// a local deployment the default still allows the Vite dev origin; for an
+// exposed deployment, set ALLOWED_ORIGINS to a comma-separated allowlist.
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5193,http://127.0.0.1:5193')
+  .split(',').map((o) => o.trim()).filter(Boolean);
+app.use('*', cors({
+  origin: ALLOWED_ORIGINS,
+  allowMethods: ['GET', 'POST', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+}));
 
-// Global error handler — catches unhandled exceptions in route handlers
+// Global error handler — catches unhandled exceptions in route handlers.
+// Returns a GENERIC message only; never echoes err.message/stack (info leak).
 app.onError((err, c) => {
   console.error(err);
   return c.json({ ok: false, error: 'Internal server error' }, 500);
@@ -56,8 +66,15 @@ app.route('/api/admin', admin);
 app.route('/api/annotate', annotate);
 app.get('/api/health', (c) => c.json({ ok: true }));
 
-// Start the Hono HTTP server (loopback only — not exposed to LAN)
-const server = serve({ fetch: app.fetch, port: PORT, hostname: '127.0.0.1' }, () => {
+// Start the Hono HTTP server (loopback only — not exposed to LAN).
+// bodyLimit caps request bodies so a single huge POST cannot OOM the process
+// under load (default 1 MB; analyze-uid/video-keywords payloads are well under).
+const server = serve({
+  fetch: app.fetch,
+  port: PORT,
+  hostname: '127.0.0.1',
+  bodyLimit: Number(process.env.BODY_LIMIT_BYTES) || 1024 * 1024,
+}, () => {
   console.log(`API server listening on http://127.0.0.1:${PORT}`);
 });
 
@@ -98,3 +115,14 @@ function shutdown() {
 
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
+
+// Process-level error handlers. Without these, a single escaped promise
+// rejection (e.g. a coalescer rider missing .catch, or a fire-and-forget
+// callback) terminates the whole process on modern Node — taking every
+// concurrent user down with it. Log and continue instead.
+process.on('unhandledRejection', (reason) => {
+  console.error('[unhandledRejection]', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('[uncaughtException]', err);
+});
