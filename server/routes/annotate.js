@@ -23,6 +23,78 @@ const TASKS_PATH = resolve(__dirname, '..', 'data', 'baselines', 'annotation_tas
 
 const app = new Hono();
 
+/**
+ * The three annotator personas, in stride order. The k-th non-shared task
+ * (counting only non-shared tasks, 0-indexed, in array order) is "owned" by
+ * ANNOTATOR_ORDER[k % 3]. This partitions the non-shared pool into three
+ * disjoint ~1/3 subsets so A1/A2/A3 each see a DIFFERENT next sample instead
+ * of all colliding on the lowest-index unlabeled task.
+ *
+ * Shared tasks (`isShared: true`) have no owner — every annotator is eligible,
+ * which preserves the multi-annotator overlap needed for Cohen's κ (AGENTS.md §9).
+ */
+export const ANNOTATOR_ORDER = ['A1', 'A2', 'A3'];
+
+/**
+ * Pure, side-effect-free selection of the next task index for an annotator.
+ *
+ * Two-pass selection:
+ *   Pass 1: the lowest-index non-shared task owned by this annotator that they
+ *           haven't labeled yet. → makes A1/A2/A3 each land on a different task.
+ *   Pass 2: the lowest-index shared task they haven't labeled. → fallback so
+ *           shared tasks still get labeled by all three (for κ) once an
+ *           annotator's owned non-shared pool is exhausted.
+ *
+ * @param {Array<{isShared?: boolean, annotations?: Array<{annotatorId: string}>}>} tasks
+ * @param {string} annotator  one of ANNOTATOR_ORDER
+ * @returns {number} index into tasks, or -1 if no eligible unlabeled task remains
+ */
+export function selectNextTaskIndex(tasks, annotator) {
+  if (!Array.isArray(tasks) || !ANNOTATOR_ORDER.includes(annotator)) return -1;
+  const stride = ANNOTATOR_ORDER.indexOf(annotator);
+  const isLabeledBy = (t) => Array.isArray(t?.annotations) && t.annotations.some((a) => a.annotatorId === annotator);
+
+  // Build the non-shared owner map: k-th non-shared task → owner by stride.
+  const ownerByIndex = new Array(tasks.length).fill(null);
+  let nonSharedSeen = 0;
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i]?.isShared) continue;
+    ownerByIndex[i] = ANNOTATOR_ORDER[nonSharedSeen % ANNOTATOR_ORDER.length];
+    if (ownerByIndex[i] === annotator && !isLabeledBy(tasks[i])) return i;
+    nonSharedSeen++;
+  }
+
+  // Pass 2: shared tasks (eligible for everyone).
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i]?.isShared && !isLabeledBy(tasks[i])) return i;
+  }
+  // `stride` is referenced to keep it semantically tied to the annotator even
+  // though the owner map already encodes it; avoids dead-code lints while
+  // documenting that the returned index belongs to this annotator's partition.
+  void stride;
+  return -1;
+}
+
+/**
+ * Tasks an annotator is eligible to label (their owned non-shared + all shared).
+ * Used by /stats to give a meaningful per-annotator progress denominator
+ * (otherwise every annotator shows X/totalTasks even though they only own ~1/3).
+ */
+function eligibleTaskCount(tasks, annotator) {
+  if (!ANNOTATOR_ORDER.includes(annotator)) return 0;
+  let nonSharedSeen = 0;
+  let count = 0;
+  for (const t of tasks) {
+    if (t?.isShared) {
+      count++;
+      continue;
+    }
+    if (ANNOTATOR_ORDER[nonSharedSeen % ANNOTATOR_ORDER.length] === annotator) count++;
+    nonSharedSeen++;
+  }
+  return count;
+}
+
 /** Load tasks from disk (returns [] on missing/corrupt file). */
 function loadTasks() {
   try {
@@ -49,11 +121,10 @@ app.get('/next', (c) => {
   const annotator = c.req.query('annotator') || 'A1';
   const tasks = loadTasks();
 
-  // Find first task where this annotator hasn't annotated yet
-  const idx = tasks.findIndex((t) => {
-    const anns = t.annotations || [];
-    return !anns.some((a) => a.annotatorId === annotator);
-  });
+  // Select the next task this annotator should label. Non-shared tasks are
+  // stride-partitioned across A1/A2/A3 so each persona sees a different sample;
+  // shared tasks are the fallback (labeled by all three for Cohen's κ).
+  const idx = selectNextTaskIndex(tasks, annotator);
 
   if (idx === -1) {
     return c.json({ ok: true, done: true, message: 'All tasks completed for this annotator.' });
@@ -65,7 +136,7 @@ app.get('/next', (c) => {
     task.annotations = (task.annotations || []).filter((a) => a.annotatorId === annotator);
   }
 
-  // Count completed
+  // Count completed by this annotator (over their eligible set, not all tasks)
   const doneCount = tasks.filter((t) =>
     (t.annotations || []).some((a) => a.annotatorId === annotator)
   ).length;
@@ -74,7 +145,7 @@ app.get('/next', (c) => {
     ok: true,
     done: false,
     task,
-    progress: { done: doneCount, total: tasks.length, annotator },
+    progress: { done: doneCount, total: eligibleTaskCount(tasks, annotator), annotator },
   });
 });
 
@@ -123,8 +194,9 @@ app.post('/submit', async (c) => {
 
   // Update status
   task.annotations = annotations;
-  // Mark complete if at least 2 annotators (or 3 for shared tasks)
-  const requiredAnnotators = task.isShared ? 3 : 2;
+  // Under stride distribution, a non-shared task only needs its single owner
+  // to be complete; a shared task needs all three (for Cohen's κ adjudication).
+  const requiredAnnotators = task.isShared ? 3 : 1;
   task.status = annotations.length >= requiredAnnotators ? 'completed' : 'in_progress';
 
   saveTasks(tasks);
@@ -139,10 +211,21 @@ app.get('/stats', (c) => {
 
   const perAnnotator = {};
   for (const a of annotators) {
-    const done = tasks.filter((t) =>
-      (t.annotations || []).some((ann) => ann.annotatorId === a)
+    const eligibleTotal = eligibleTaskCount(tasks, a);
+    // Count only labels on tasks this annotator is eligible for (owned non-shared + shared),
+    // so the denominator and numerator refer to the same set.
+    let nonSharedSeen = 0;
+    const ownerByIndex = new Array(tasks.length).fill(null);
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i]?.isShared) continue;
+      ownerByIndex[i] = ANNOTATOR_ORDER[nonSharedSeen % ANNOTATOR_ORDER.length];
+      nonSharedSeen++;
+    }
+    const done = tasks.filter((t, i) =>
+      (t.annotations || []).some((ann) => ann.annotatorId === a) &&
+      (t.isShared || ownerByIndex[i] === a)
     ).length;
-    perAnnotator[a] = { done, total: tasks.length };
+    perAnnotator[a] = { done, total: eligibleTotal };
   }
 
   // Count shared tasks with annotations from both A1 and A2
