@@ -169,8 +169,9 @@ export function parseHuggingFaceRows(raw, options = {}) {
 }
 
 export function uniqueHuggingFaceComments(comments = []) {
+  const list = Array.isArray(comments) ? comments : [];
   return [...new Map(
-    comments
+    list
       .filter((comment) => cleanText(comment?.message))
       .map((comment) => [`${comment.platform || ''}\n${comment.sourceUrl || comment.source || ''}\n${comment.message}`, comment]),
   ).values()];

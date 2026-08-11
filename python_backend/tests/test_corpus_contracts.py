@@ -13712,7 +13712,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpusPaths"], ["one.json", "two.json", "three.txt"])
         self.assertEqual(result["actionFile"], "actions.json")
         self.assertEqual(result["targetEvidence"], 20)
-        self.assertEqual(result["maxSamplesPerTerm"], 3)
+        # --max-samples-per-term=0 clamps to the floor 1 (matches JS parseArgs
+        # after the Number(x)||default → NaN-coalesce-then-clamp fix).
+        self.assertEqual(result["maxSamplesPerTerm"], 1)
         self.assertFalse(result["requireCommentBackedEvidence"])
         self.assertTrue(result["write"])
 
