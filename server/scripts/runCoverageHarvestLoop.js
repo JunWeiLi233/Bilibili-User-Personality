@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { randomInt } from 'node:crypto';
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -50,9 +51,9 @@ export function isTransientCoverageError(error) {
 /** Exponential backoff with full jitter, capped at `cap` ms. Pure. */
 export function computeBackoffMs(attempt, base = 5000, cap = 120000) {
   const exp = Math.min(cap, base * 2 ** (attempt - 1));
-  // Jitter only, not crypto — deterministic enough for backoff spacing.
-  // nodejsscan: suppress — Math.random is appropriate for jitter, not a security primitive.
-  return Math.floor(exp * (0.5 + Math.random() * 0.5));
+  // Full jitter in [exp/2, exp). randomInt is CSPRNG-backed — jitter doesn't
+  // need crypto, but it keeps the insecure-random scanners quiet.
+  return Math.floor(exp / 2) + randomInt(Math.ceil(exp / 2));
 }
 
 /**
@@ -785,7 +786,7 @@ while (cycle <= maxCycles && !audit.ok) {
       try {
         await writeJson(reportPath, { generatedAt: new Date().toISOString(), maxCycles, roundsPerCycle, stopReason, finalOk: false, finalAudit: audit, cycles });
       } catch (reportError) {
-        console.error(`Failed to save crash report: ${reportError.message}`);
+        console.error(`Failed to save crash report: ${reportError?.code || 'unknown'}`);
       }
       break;
     }
@@ -825,7 +826,7 @@ if (!checkpointDisabled && checkpointsCreated > 0) {
     });
     if (finalCheckpoint.ok) console.log(`Final coverage checkpoint: ${finalCheckpoint.sha.slice(0, 8)} -> coverage-checkpoints branch`);
   } catch (checkpointError) {
-    console.warn(`Final checkpoint failed (non-fatal): ${checkpointError.message}`);
+    console.warn(`Final checkpoint failed (non-fatal): ${checkpointError?.code || 'unknown'}`);
   }
 }
 

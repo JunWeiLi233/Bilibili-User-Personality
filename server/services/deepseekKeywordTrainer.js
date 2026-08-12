@@ -1,3 +1,4 @@
+import { randomInt } from 'node:crypto';
 import { mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises';
 import { closeSync, fsyncSync, openSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -207,6 +208,8 @@ const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
   'nb',
   'nt',
   'pua',
+  'sx',
+  'tm',
   'wdnmd',
   'xswl',
   'yygq',
@@ -4921,7 +4924,7 @@ async function requestDeepSeekMessages({ config, fetchImpl, messages, options, m
       lowerBody.includes('rate_limit');
     if (isRateLimited && attempt < maxRetries) {
       const retryAfterMs = parseRetryAfterMs(response.headers?.get?.('retry-after'));
-      const backoffMs = retryAfterMs ?? baseBackoffMs * 2 ** attempt + Math.floor(Math.random() * 750);
+      const backoffMs = retryAfterMs ?? baseBackoffMs * 2 ** attempt + randomInt(750);
       console.warn(`[deepseek-backoff] HTTP ${response.status} rate-limited; retry ${attempt + 1}/${maxRetries} after ${Math.round(backoffMs)}ms`);
       await abortableSleep(backoffMs, options.signal);
       continue;

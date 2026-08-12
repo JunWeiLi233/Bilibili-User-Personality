@@ -1109,6 +1109,7 @@ function signWbi(params, key) {
   const sorted = Object.entries({ ...params, wts })
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+  // MD5 is mandated by Bilibili's WBI signature protocol (compat, not security).
   return { ...params, wts, w_rid: createHash('md5').update(sorted + key).digest('hex') };
 }
 
