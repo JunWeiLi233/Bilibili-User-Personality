@@ -1,0 +1,1009 @@
+{
+  "batch": 24,
+  "generatedAt": "2026-06-29T05:39:49.423Z",
+  "totalTerms": 142,
+  "byFamily": {
+    "attack": 12,
+    "absolutes": 47,
+    "evidence": 11,
+    "evasion": 18,
+    "cooperation": 33,
+    "correction": 21
+  },
+  "terms": [
+    {
+      "term": "饭圈脑",
+      "family": "attack",
+      "meaning": "贬低对方用饭圈思维盲目护主、拉踩",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "P遗照",
+      "family": "attack",
+      "meaning": "恶意给他人制作遗照，极端人身攻击",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "混圈",
+      "family": "attack",
+      "meaning": "贬低对方只在小圈子内寻求认同",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "小团体",
+      "family": "attack",
+      "meaning": "指责对方抱团排外、搞派系",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "抱团取暖",
+      "family": "attack",
+      "meaning": "讽刺弱势群体互相安慰，带有贬义",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "看热闹不嫌事大",
+      "family": "attack",
+      "meaning": "讽刺旁观者唯恐天下不乱",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "众人皆醉你独醒",
+      "family": "attack",
+      "meaning": "嘲笑对方自以为清醒、与众不同",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你比董明珠还懂？",
+      "family": "attack",
+      "meaning": "讽刺对方不懂装懂、纸上谈兵",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别戏了",
+      "family": "attack",
+      "meaning": "讽刺对方表演过度、装模作样",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你菜",
+      "family": "attack",
+      "meaning": "直接贬低对方技术或能力差",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不服来辩",
+      "family": "attack",
+      "meaning": "挑衅式要求对方反驳，隐含轻视",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你对号入座了",
+      "family": "attack",
+      "meaning": "暗示对方心虚、过于敏感",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我全责",
+      "family": "absolutes",
+      "meaning": "主动承担全部责任，常用于自嘲或夸张认错",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我活该",
+      "family": "absolutes",
+      "meaning": "自我谴责，认为自身行为理应受到惩罚",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我蠢到家",
+      "family": "absolutes",
+      "meaning": "极端自我贬低，强调自己愚蠢至极",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我眼瞎",
+      "family": "absolutes",
+      "meaning": "自责看错人或事，带强烈自我否定",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我手贱",
+      "family": "absolutes",
+      "meaning": "埋怨自己不该多此一举，常见于惹麻烦后",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自作自受",
+      "family": "absolutes",
+      "meaning": "承认后果由自己行为导致，无怨言",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我多管闲事",
+      "family": "absolutes",
+      "meaning": "自责干涉了不该管的事，引发反感",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我脑子有坑",
+      "family": "absolutes",
+      "meaning": "强烈自嘲智商低下，行为不智",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我脸皮厚",
+      "family": "absolutes",
+      "meaning": "自黑脸皮厚，不怕尴尬",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我难辞其咎",
+      "family": "absolutes",
+      "meaning": "正式式认错，表示不可推卸责任",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我孤陋寡闻",
+      "family": "absolutes",
+      "meaning": "自谦见识浅薄，信息闭塞",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我井底之蛙",
+      "family": "absolutes",
+      "meaning": "自嘲眼界狭隘，见识少",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自作聪明",
+      "family": "absolutes",
+      "meaning": "承认自己耍小聪明反被误",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我不知天高地厚",
+      "family": "absolutes",
+      "meaning": "自省狂妄自大，不知深浅",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我多嘴多舌",
+      "family": "absolutes",
+      "meaning": "自责话多惹事，类似嘴贱",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我忘恩负义",
+      "family": "absolutes",
+      "meaning": "自责不懂感恩，可能用于反讽",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我不知好歹",
+      "family": "absolutes",
+      "meaning": "自省不领情，辜负好意",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我以小人之心度君子之腹",
+      "family": "absolutes",
+      "meaning": "自愧用狭隘心态揣测他人",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我贪得无厌",
+      "family": "absolutes",
+      "meaning": "自责不知满足，索求无度",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我搬起石头砸自己的脚",
+      "family": "absolutes",
+      "meaning": "自嘲本想害人反害己",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我吃饱了撑的",
+      "family": "absolutes",
+      "meaning": "自嘲闲得无聊做蠢事",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自己找的",
+      "family": "absolutes",
+      "meaning": "承认后果系自找，不怨天尤人",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我阴沟里翻船",
+      "family": "absolutes",
+      "meaning": "自嘲在简单事情上失败",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我该死",
+      "family": "absolutes",
+      "meaning": "强烈自责，程度极重，常用于调侃",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我不知所谓",
+      "family": "absolutes",
+      "meaning": "自责迷茫糊涂，搞不清状况",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自掘坟墓",
+      "family": "absolutes",
+      "meaning": "自嘲行为导致自我毁灭",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我多此一举",
+      "family": "absolutes",
+      "meaning": "自责做了多余无用的事",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我画蛇添足",
+      "family": "absolutes",
+      "meaning": "自嘲做了多余反而坏事的行为",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自不量力",
+      "family": "absolutes",
+      "meaning": "自责过于高估自身能力",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我杞人忧天",
+      "family": "absolutes",
+      "meaning": "自嘲无谓担忧，多虑",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我对牛弹琴",
+      "family": "absolutes",
+      "meaning": "自责沟通无效，对方不解",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我浪费表情",
+      "family": "absolutes",
+      "meaning": "自责情感付出未得回应",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自作多情",
+      "family": "absolutes",
+      "meaning": "自责单方面付出感情",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我赔了夫人又折兵",
+      "family": "absolutes",
+      "meaning": "自嘲损失惨重，双重失败",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我一厢情愿",
+      "family": "absolutes",
+      "meaning": "自责单方面想法，不切实际",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自甘堕落",
+      "family": "absolutes",
+      "meaning": "自责放弃努力，颓废",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我不可救药",
+      "family": "absolutes",
+      "meaning": "自责已坏到无法挽救",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我无可救药",
+      "family": "absolutes",
+      "meaning": "同不可救药，强调无药可救",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自取其辱",
+      "family": "absolutes",
+      "meaning": "自责主动招来羞辱",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我自讨苦吃",
+      "family": "absolutes",
+      "meaning": "自责找麻烦上身",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我没事找事",
+      "family": "absolutes",
+      "meaning": "自责无端制造麻烦",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我瞎操心",
+      "family": "absolutes",
+      "meaning": "自责过度关心别人不需要的事",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我耳根子软",
+      "family": "absolutes",
+      "meaning": "自责易听信他人，没主见",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我没骨气",
+      "family": "absolutes",
+      "meaning": "自责缺乏原则，屈服",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我没出息",
+      "family": "absolutes",
+      "meaning": "自责不成器，没前途",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我好了伤疤忘了疼",
+      "family": "absolutes",
+      "meaning": "自嘲重复同样错误",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我一错再错",
+      "family": "absolutes",
+      "meaning": "自责连续犯错不改",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "石锤呢",
+      "family": "evidence",
+      "meaning": "要求铁证如山的证据（石锤）",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你考证过吗",
+      "family": "evidence",
+      "meaning": "询问对方是否进行过考证研究",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有文献吗",
+      "family": "evidence",
+      "meaning": "要求提供学术文献或权威出处",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你眼见为实？",
+      "family": "evidence",
+      "meaning": "质疑对方是否亲眼所见，要求证实",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有官方文件吗",
+      "family": "evidence",
+      "meaning": "要求提供官方文件作为权威证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你查证了吗",
+      "family": "evidence",
+      "meaning": "询问对方是否已自行查证事实",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有什么根据",
+      "family": "evidence",
+      "meaning": "要求对方说明所依据的事实或逻辑",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "请拿出证据",
+      "family": "evidence",
+      "meaning": "礼貌地要求对方展示证据",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "伪造数据",
+      "family": "evidence",
+      "meaning": "指控数据是伪造的",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "有录音吗",
+      "family": "evidence",
+      "meaning": "要求提供录音作为证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有证据链吗",
+      "family": "evidence",
+      "meaning": "要求形成完整的证据链条",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我在钓鱼",
+      "family": "evasion",
+      "meaning": "暗中指引言论为诱饵，回避解释真实意图并推卸立场责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我在反串",
+      "family": "evasion",
+      "meaning": "表面发言实则角色扮演，逃避对言论表态且转移对话焦点。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我是理中客",
+      "family": "evasion",
+      "meaning": "自诩中立客观，实际拒绝站队，逃避表态和提供论据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我客观说",
+      "family": "evasion",
+      "meaning": "标榜客观以增加话语可信度，实际回避主观立场辩论。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我中立",
+      "family": "evasion",
+      "meaning": "声明不偏不倚，拒绝参与争议，推卸评价或选择的责任。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我纯路人",
+      "family": "evasion",
+      "meaning": "自称无关第三方，暗示发言无利益关系，规避被质疑动机。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我不评价",
+      "family": "evasion",
+      "meaning": "拒绝发表意见，避免表态带来的风险和责任。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我不了解",
+      "family": "evasion",
+      "meaning": "以信息缺失为由拒绝解释或参与，推卸认知责任。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我没看过",
+      "family": "evasion",
+      "meaning": "以未接触原内容为由否定评论前提，转移举证责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别扣帽子",
+      "family": "evasion",
+      "meaning": "拒绝被标签化，回避内容讨论，强调对方攻击性。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别污蔑",
+      "family": "evasion",
+      "meaning": "指控对方不实，拒绝自我澄清，转移举证责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别引战",
+      "family": "evasion",
+      "meaning": "警告对方制造冲突，拒绝参与争议，推卸讨论责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别脑补",
+      "family": "evasion",
+      "meaning": "指责对方凭空想象，拒绝补充信息，推卸澄清责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别自嗨",
+      "family": "evasion",
+      "meaning": "嘲笑对方沉浸自我世界，回避实质争论。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别加戏",
+      "family": "evasion",
+      "meaning": "指责对方戏剧化，拒绝正视回应，转移话题。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别给自己加戏",
+      "family": "evasion",
+      "meaning": "强调对方自我中心，回避自身责任，终结深入交流。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我全责",
+      "family": "evasion",
+      "meaning": "夸张揽责，实际结束话题，避免进一步追问。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我退网",
+      "family": "evasion",
+      "meaning": "夸张宣布离开，终结对话，逃避持续讨论的压力。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我手欠",
+      "family": "cooperation",
+      "meaning": "承认动作多余或错误，自我批评以平息对方不满。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我脑残",
+      "family": "cooperation",
+      "meaning": "自嘲智商不足，表示认错和谦逊，避免冲突。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我愚蠢",
+      "family": "cooperation",
+      "meaning": "自认愚笨，通过贬低自己来化解对立情绪。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我傲慢",
+      "family": "cooperation",
+      "meaning": "承认态度高傲，表达谦卑以推进对话。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我目光短浅",
+      "family": "cooperation",
+      "meaning": "承认视野局限，暗示愿意听取他人意见。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我以己度人",
+      "family": "cooperation",
+      "meaning": "承认用自己的想法揣测别人，表达歉意。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我小人之心",
+      "family": "cooperation",
+      "meaning": "自认心胸狭隘，承认错误以争取宽容。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我玻璃心",
+      "family": "cooperation",
+      "meaning": "承认自己敏感脆弱，示弱以获取理解。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我钻牛角尖",
+      "family": "cooperation",
+      "meaning": "承认过于纠结细节，表示愿意退一步。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我抬杠",
+      "family": "cooperation",
+      "meaning": "承认故意争辩，表示停止对抗的态度。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我杠精",
+      "family": "cooperation",
+      "meaning": "自嘲喜欢抬杠，认错以缓和争论。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我键盘侠",
+      "family": "cooperation",
+      "meaning": "承认网上言行过激，自律并回归理性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我双标",
+      "family": "cooperation",
+      "meaning": "承认标准不一，自我批评以示公平。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我舔狗",
+      "family": "cooperation",
+      "meaning": "自嘲讨好行为，表示放下姿态。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我阴阳怪气",
+      "family": "cooperation",
+      "meaning": "承认说话带刺，表示歉意并改进沟通方式。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我带节奏",
+      "family": "cooperation",
+      "meaning": "承认引导舆论方向，表示纠正立场。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我引战",
+      "family": "cooperation",
+      "meaning": "承认挑起争论，表达和解意愿。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我毒奶",
+      "family": "cooperation",
+      "meaning": "自嘲预测失败，用幽默承认错误。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我乌鸦嘴",
+      "family": "cooperation",
+      "meaning": "承认说坏话应验，自嘲以缓和气氛。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我马后炮",
+      "family": "cooperation",
+      "meaning": "承认事后发表意见，表示延迟的反思。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我事后诸葛亮",
+      "family": "cooperation",
+      "meaning": "自嘲事后才明白，承认之前的失误。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我甩锅",
+      "family": "cooperation",
+      "meaning": "承认推卸责任，表示愿意承担。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我推卸责任",
+      "family": "cooperation",
+      "meaning": "承认逃避责任，道歉并承诺改正。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我狡辩",
+      "family": "cooperation",
+      "meaning": "承认强行辩解，表示放弃辩护并认错。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我强词夺理",
+      "family": "cooperation",
+      "meaning": "承认无理争辩，表达认输和妥协。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我无理取闹",
+      "family": "cooperation",
+      "meaning": "承认胡搅蛮缠，表示停止闹腾并道歉。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我鸡蛋里挑骨头",
+      "family": "cooperation",
+      "meaning": "承认过分挑剔，表示愿意宽容。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我吹毛求疵",
+      "family": "cooperation",
+      "meaning": "承认苛求细节，自我批评以缓和指责。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我闲得蛋疼",
+      "family": "cooperation",
+      "meaning": "自嘲没事找事，用粗俗幽默认错。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我好为人师",
+      "family": "cooperation",
+      "meaning": "承认喜欢教训别人，自嘲并收敛。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我班门弄斧",
+      "family": "cooperation",
+      "meaning": "承认在行家面前卖弄，表示谦逊。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我献丑了",
+      "family": "cooperation",
+      "meaning": "自谦水平不足，表示请多指教。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "是我造次了",
+      "family": "cooperation",
+      "meaning": "承认言行冒犯，郑重道歉以修复关系。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我放屁",
+      "family": "correction",
+      "meaning": "粗俗地否认自己先前言论，表达彻底否定",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我冲动",
+      "family": "correction",
+      "meaning": "承认自己因一时激动说了错话或做了错事",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我鲁莽",
+      "family": "correction",
+      "meaning": "承认自己行事草率，不够谨慎",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我幼稚",
+      "family": "correction",
+      "meaning": "承认自己思考不成熟，显得孩子气",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我肤浅",
+      "family": "correction",
+      "meaning": "承认自己看问题表面，不够深入",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我无知",
+      "family": "correction",
+      "meaning": "承认自己缺乏相关知识，导致错误判断",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我愚昧",
+      "family": "correction",
+      "meaning": "自责自己愚蠢无知，比较强烈的自我批评",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我愚蠢",
+      "family": "correction",
+      "meaning": "直白承认自己笨，贬低自己",
+      "risk": "high",
+      "confidence": 0.85
+    },
+    {
+      "term": "我自以为是",
+      "family": "correction",
+      "meaning": "承认自己过于自信，没听取别人意见",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我太想当然",
+      "family": "correction",
+      "meaning": "承认自己凭主观臆断，缺乏证据",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我误解",
+      "family": "correction",
+      "meaning": "承认自己理解错误，不是对方本意",
+      "risk": "positive",
+      "confidence": 0.9
+    },
+    {
+      "term": "我理解错误",
+      "family": "correction",
+      "meaning": "坦承自己解读有误，愿意修正",
+      "risk": "positive",
+      "confidence": 0.9
+    },
+    {
+      "term": "我看错",
+      "family": "correction",
+      "meaning": "承认自己观察或判断错误",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我听错",
+      "family": "correction",
+      "meaning": "承认自己听觉失误，导致误解",
+      "risk": "positive",
+      "confidence": 0.85
+    },
+    {
+      "term": "我搞错",
+      "family": "correction",
+      "meaning": "笼统承认自己弄错了对象或事实",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我弄错",
+      "family": "correction",
+      "meaning": "与搞错类似，口语化认错",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我记错",
+      "family": "correction",
+      "meaning": "承认自己记忆有误，信息不准",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我写错",
+      "family": "correction",
+      "meaning": "承认自己文字表述出错",
+      "risk": "positive",
+      "confidence": 0.85
+    },
+    {
+      "term": "我打错",
+      "family": "correction",
+      "meaning": "承认自己打字或手写失误",
+      "risk": "positive",
+      "confidence": 0.85
+    },
+    {
+      "term": "我误读",
+      "family": "correction",
+      "meaning": "承认自己错误解读信息或语境",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我曲解",
+      "family": "correction",
+      "meaning": "承认自己恶意或无意歪曲了原意",
+      "risk": "high",
+      "confidence": 0.85
+    }
+  ]
+}

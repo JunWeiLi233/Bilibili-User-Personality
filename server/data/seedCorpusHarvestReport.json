@@ -1,0 +1,44 @@
+{
+  "harvestedAt": "2026-06-26T16:14:11.746Z",
+  "source": "history-tag seed corpus (.claude/seed_results/)",
+  "seeds": 196,
+  "totalComments": 7887,
+  "totalDanmaku": 342360,
+  "totalMessages": 350247,
+  "dateRange": {
+    "oldest": "2013-07-02T21:05:29.000Z",
+    "newest": "2026-06-26T03:37:02.000Z"
+  },
+  "matchedTerms": 2,
+  "newEvidenceSamples": 10,
+  "byFamily": {
+    "cooperation": 1,
+    "evasion": 1
+  },
+  "entries": [
+    {
+      "term": "知识增加",
+      "family": "cooperation",
+      "newSamples": 5,
+      "samples": [
+        "回复 @好好睡觉吧_ :[热词系列_知识增加]",
+        "怎么回事 为什么没有阿根廷的视频？ 是不让出吗？[热词系列_知识增加]",
+        "为什么他们这么幸福可以有这么文雅帅气的老师，而我上中学的时候都是已婚不幸福的人们在教我呢[热词系列_知识增加]",
+        "[热词系列_知识增加]",
+        "[热词系列_知识增加]＋1"
+      ]
+    },
+    {
+      "term": "懂的都懂",
+      "family": "evasion",
+      "newSamples": 5,
+      "samples": [
+        "这视频就是不对称战争！！！！（懂的都懂） 要都这样乌克兰早打到莫斯科了 还在这里BBB",
+        "懂的都懂，意面！！！doge",
+        "团座有的观点太有偏向性，懂的都懂",
+        "明史开口就是远迈汉唐，谁是最大明粉懂的都懂",
+        "中国历史上只要出现 30万 80万 50万之类的 懂的都懂"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1121 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "attack",
+  "shard": 4,
+  "shardCount": 34,
+  "evidence": [
+    {
+      "term": "优越感",
+      "evidenceSamples": [
+        "如果生硬剥夺大多数人对审美话语权，那艺术就会异化成另一种维持权威和压迫的工具，一切审美都源于他们自己的精神需求，精神需求不会整体突然的变高或变低，社会意识由社会存在决定。 up主言论视角只是展现不上不下的音乐人的焦虑，这种焦虑是源于自身在目前环境下的结果，up说的很多内容我也不反对，但得出的看法却很有老一辈部分人士的时代特色，所以同样的内容可以做出不同的解读，可以一片灰暗也可以一片光明。 而且评论区很多人一群听流行音乐的也千万别有什么审美优越感，有种班门弄斧的滑稽感，现在先发展起来的是游戏配乐领域。",
+        "其实就是一种好奇的心理，或者是民族自卑的心理。觉得带一个外貌文化差异不相同的人是一种优越感，我能谈朋友谈到国际上的优越感而已",
+        "回复 @万川境身 :[大笑]男娘莫名其妙的优越感",
+        "看到一半本来已经受不了了关视频了，还是意难平回来说一句，评论区里撕起来的和阴阳怪气的都不是什么好东西[笑]\\n这么好的演唱就这样糟蹋了。互相阴阳怪气的两拨人真的是为了版权、为了京剧吗？我怎么越看越觉得这些人就是为了自己的优越感呢？\\n写到这里我才发现，这个视频我都看完了。。。不得不说优秀的演绎能够解腻解恶心。",
+        "及给个建议，如果评论里面含有辱骂等恶心的词语的话，直接把他删了就是，担心被造谣的话，直接把评论给截图。\\n这种人一般都是打算踩着别人上去的，以此来体现自己的优越感。\\n世界真的是个轮回，和之前不一样的是，以前的都只是小范围，现在是所有的圈子都有。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "如果生硬剥夺大多数人对审美话语权，那艺术就会异化成另一种维持权威和压迫的工具，一切审美都源于他们自己的精神需求，精神需求不会整体突然的变高或变低，社会意识由社会存在决定。 up主言论视角只是展现不上不下的音乐人的焦虑，这种焦虑是源于自身在目前环境下的结果，up说的很多内容我也不反对，但得出的看法却很有老一辈部分人士的时代特色，所以同样的内容可以做出不同的解读，可以一片灰暗也可以一片光明。 而且评论区很多人一群听流行音乐的也千万别有什么审美优越感，有种班门弄斧的滑稽感，现在先发展起来的是游戏配乐领域。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "其实就是一种好奇的心理，或者是民族自卑的心理。觉得带一个外貌文化差异不相同的人是一种优越感，我能谈朋友谈到国际上的优越感而已"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EjoXYwECL/",
+          "uid": "BV1EjoXYwECL",
+          "sample": "回复 @万川境身 :[大笑]男娘莫名其妙的优越感"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nA411e74s/",
+          "uid": "BV1nA411e74s",
+          "sample": "看到一半本来已经受不了了关视频了，还是意难平回来说一句，评论区里撕起来的和阴阳怪气的都不是什么好东西[笑]\\n这么好的演唱就这样糟蹋了。互相阴阳怪气的两拨人真的是为了版权、为了京剧吗？我怎么越看越觉得这些人就是为了自己的优越感呢？\\n写到这里我才发现，这个视频我都看完了。。。不得不说优秀的演绎能够解腻解恶心。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1GUV766ERo/",
+          "uid": "BV1GUV766ERo",
+          "sample": "及给个建议，如果评论里面含有辱骂等恶心的词语的话，直接把他删了就是，担心被造谣的话，直接把评论给截图。\\n这种人一般都是打算踩着别人上去的，以此来体现自己的优越感。\\n世界真的是个轮回，和之前不一样的是，以前的都只是小范围，现在是所有的圈子都有。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1XgtdzcEHR/",
+          "uid": "BV1XgtdzcEHR",
+          "sample": "不是，弹幕上都是傻褔吧！阿婆是我方军师呀！你们刷干什么？刷这些以为自己很优越感吗？(本人口㇏年的)"
+        }
+      ]
+    },
+    {
+      "term": "会谢",
+      "evidenceSamples": [
+        "gh：我真的会谢",
+        "导师：我真的会谢",
+        "老奶奶：我真的会谢",
+        "请各位听之前麻烦看一看评论区up的话，以免产生不必要的误会谢谢。",
+        "你砸钉子会谢锤子吗？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1sXTL6BEgk",
+          "sample": "gh：我真的会谢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1564y1M787",
+          "sample": "导师：我真的会谢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1w8411b7Ya",
+          "sample": "老奶奶：我真的会谢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV11x411H7UY",
+          "sample": "请各位听之前麻烦看一看评论区up的话，以免产生不必要的误会谢谢。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1MbT86nEZC",
+          "sample": "你砸钉子会谢锤子吗？"
+        }
+      ]
+    },
+    {
+      "term": "伞兵",
+      "evidenceSamples": [
+        "回复 @雾-里-藏-星 :快手一个博流量的伞兵",
+        "拜托别侮辱伞兵🙏",
+        "拜托鲲粉可别借着签的事件来洗白了[藏狐]不就是同行衬托嘛，现实中两个人不都是伞兵？还有，②级③级号鲲粉装个p路人呢，洗就洗啊，做好在鬼畜区ky被怼的准备就好了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "433318887",
+          "sample": "回复 @雾-里-藏-星 :快手一个博流量的伞兵"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "498417352",
+          "sample": "拜托别侮辱伞兵🙏"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "361513634",
+          "sample": "拜托鲲粉可别借着签的事件来洗白了[藏狐]不就是同行衬托嘛，现实中两个人不都是伞兵？还有，②级③级号鲲粉装个p路人呢，洗就洗啊，做好在鬼畜区ky被怼的准备就好了"
+        }
+      ]
+    },
+    {
+      "term": "伪军",
+      "evidenceSamples": [
+        "什么军？伪军？这是能用的词吗？",
+        "什么叫伪军？那真军什么样？中流砥柱什么样？",
+        "伪军！好哈哈哈哈"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "什么军？伪军？这是能用的词吗？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "什么叫伪军？那真军什么样？中流砥柱什么样？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "伪军！好哈哈哈哈"
+        }
+      ]
+    },
+    {
+      "term": "伪史",
+      "evidenceSamples": [
+        "欢迎各行各业的都加入西方伪史中来！",
+        "满清入关基本可以推测为明朝治下的八个蛮夷藩王造反成功，八旗每一只都代表一种蛮夷部族势力，所谓六大门派围攻光明顶，他们手里有钱有武装，否则难以想象东北那地方隔一段就冒出一个势力来对抗中原王朝，都是他们胜利后编的伪史",
+        "虽然伪史论很魔怔，但登月阴谋论又把他们牢牢困在地球上[doge]",
+        "实际上是西方伪史论常见言论",
+        "前面伪史入脑的能不能去医院挂个脑科啊？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1tBTp6cELG",
+          "sample": "欢迎各行各业的都加入西方伪史中来！"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1zUvaBkEsu",
+          "sample": "满清入关基本可以推测为明朝治下的八个蛮夷藩王造反成功，八旗每一只都代表一种蛮夷部族势力，所谓六大门派围攻光明顶，他们手里有钱有武装，否则难以想象东北那地方隔一段就冒出一个势力来对抗中原王朝，都是他们胜利后编的伪史"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV18w7f6ZE7c",
+          "sample": "虽然伪史论很魔怔，但登月阴谋论又把他们牢牢困在地球上[doge]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV18w7f6ZE7c",
+          "sample": "实际上是西方伪史论常见言论"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV18w7f6ZE7c",
+          "sample": "前面伪史入脑的能不能去医院挂个脑科啊？"
+        }
+      ]
+    },
+    {
+      "term": "伪史人",
+      "evidenceSamples": [
+        "欢迎各行各业的都加入西方伪史中来！",
+        "满清入关基本可以推测为明朝治下的八个蛮夷藩王造反成功，八旗每一只都代表一种蛮夷部族势力，所谓六大门派围攻光明顶，他们手里有钱有武装，否则难以想象东北那地方隔一段就冒出一个势力来对抗中原王朝，都是他们胜利后编的伪史",
+        "虽然伪史论很魔怔，但登月阴谋论又把他们牢牢困在地球上[doge]",
+        "实际上是西方伪史论常见言论",
+        "前面伪史入脑的能不能去医院挂个脑科啊？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1tBTp6cELG",
+          "sample": "欢迎各行各业的都加入西方伪史中来！"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1zUvaBkEsu",
+          "sample": "满清入关基本可以推测为明朝治下的八个蛮夷藩王造反成功，八旗每一只都代表一种蛮夷部族势力，所谓六大门派围攻光明顶，他们手里有钱有武装，否则难以想象东北那地方隔一段就冒出一个势力来对抗中原王朝，都是他们胜利后编的伪史"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV18w7f6ZE7c",
+          "sample": "虽然伪史论很魔怔，但登月阴谋论又把他们牢牢困在地球上[doge]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV18w7f6ZE7c",
+          "sample": "实际上是西方伪史论常见言论"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV18w7f6ZE7c",
+          "sample": "前面伪史入脑的能不能去医院挂个脑科啊？"
+        }
+      ]
+    },
+    {
+      "term": "伪善",
+      "evidenceSamples": [
+        "《伪善》开玩笑呢？要我有这么一个大方朋友，我还要别的做甚？我直接把她供起来都算是差的了",
+        "养狗的人大多是伪善",
+        "所以放生是伪善说的真没错？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "《伪善》开玩笑呢？要我有这么一个大方朋友，我还要别的做甚？我直接把她供起来都算是差的了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1YG4y1V7Fd/",
+          "uid": "BV1YG4y1V7Fd",
+          "sample": "养狗的人大多是伪善"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "所以放生是伪善说的真没错？"
+        }
+      ]
+    },
+    {
+      "term": "低人一等",
+      "evidenceSamples": [
+        "这个好像确实有点说法，对印度人的善意，有可能被误解成低人一等。",
+        "还因为他以前是个印度民族主义者 ，所以他了解印度的民族主义和所谓的自信是怎么回事。更了解印度对sir这个词是有多么卑微和热爱，在印度你喊sir就是承认你低人一等，都希望自己被喊sir。所谓印度阿三也就是啊sir的中国音译的来由。",
+        "印度人大部分的三观就不是正常人的三观，他们是按种性制来看人，你对他好，他只会觉得你低人一等，只有低种姓才会无条件的服务高种姓。你的善意对他们而言，就是理所应当的，他们看见你对他伸手援助，下意识不是感激，而是觉得你是贱民。所以我们中国人不是排外，而是排斥这种损害中国人自身利益和善意的败类"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1eajXzFEHC/",
+          "uid": "BV1eajXzFEHC",
+          "sample": "这个好像确实有点说法，对印度人的善意，有可能被误解成低人一等。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1eajXzFEHC/",
+          "uid": "3546642091346535",
+          "sample": "还因为他以前是个印度民族主义者 ，所以他了解印度的民族主义和所谓的自信是怎么回事。更了解印度对sir这个词是有多么卑微和热爱，在印度你喊sir就是承认你低人一等，都希望自己被喊sir。所谓印度阿三也就是啊sir的中国音译的来由。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1crJK6MEC4/",
+          "uid": "387841321",
+          "sample": "印度人大部分的三观就不是正常人的三观，他们是按种性制来看人，你对他好，他只会觉得你低人一等，只有低种姓才会无条件的服务高种姓。你的善意对他们而言，就是理所应当的，他们看见你对他伸手援助，下意识不是感激，而是觉得你是贱民。所以我们中国人不是排外，而是排斥这种损害中国人自身利益和善意的败类"
+        }
+      ]
+    },
+    {
+      "term": "低情商",
+      "evidenceSamples": [
+        "高情商：都可以接受 低情商：理由已经找好了",
+        "高情商：没啥味 低情商：不好吃",
+        "高情商：竞争性。低情商：养蛊",
+        "完蛋，低情商发言",
+        "高情商：胶水；低情商：痰"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1E3TC6gE1Z",
+          "sample": "高情商：都可以接受 低情商：理由已经找好了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1j5Ta6BESm",
+          "sample": "高情商：没啥味 低情商：不好吃"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "高情商：竞争性。低情商：养蛊"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "完蛋，低情商发言"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1vYMA6dE8r",
+          "sample": "高情商：胶水；低情商：痰"
+        }
+      ]
+    },
+    {
+      "term": "低情商绯柱",
+      "evidenceSamples": [
+        "高情商：都可以接受 低情商：理由已经找好了",
+        "高情商：没啥味 低情商：不好吃",
+        "高情商：竞争性。低情商：养蛊",
+        "完蛋，低情商发言",
+        "高情商：胶水；低情商：痰"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1E3TC6gE1Z",
+          "sample": "高情商：都可以接受 低情商：理由已经找好了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1j5Ta6BESm",
+          "sample": "高情商：没啥味 低情商：不好吃"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "高情商：竞争性。低情商：养蛊"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "完蛋，低情商发言"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1vYMA6dE8r",
+          "sample": "高情商：胶水；低情商：痰"
+        }
+      ]
+    },
+    {
+      "term": "低级红",
+      "evidenceSamples": [
+        "低级红",
+        "这宣传片太尬了，典型低级红。",
+        "低级红高级黑，这波我站黑。",
+        "别低级红了，看着都替他们尴尬。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "低级红"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这宣传片太尬了，典型低级红。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "低级红高级黑，这波我站黑。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "别低级红了，看着都替他们尴尬。"
+        }
+      ]
+    },
+    {
+      "term": "低能",
+      "evidenceSamples": [
+        "抽海洛因吸白粉的低能儿永远不懂原生态致幻剂的珍贵",
+        "在本吧，光速不是不可逾越的 因为相对论在低能的条件下会回到牛顿力学",
+        "同性恋没有正常人，低龄非主流觉得有和别人与众不同的思想很突出自己的高尚，就算有真正相爱的同性也是心理疾病，同时明明知道会遭到议论和歧视又改变不了，还是要为了自己的爱情把家人置于其他人歧视中的小丑，总结一下捏，txl是个自私而且低能，说理说不过又只会无脑的谩骂的低龄心理变态人群，txl这辈子就这样了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8001734033",
+          "uid": "雷霸天☜",
+          "sample": "抽海洛因吸白粉的低能儿永远不懂原生态致幻剂的珍贵"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8393913775",
+          "uid": "Nipori♂",
+          "sample": "在本吧，光速不是不可逾越的 因为相对论在低能的条件下会回到牛顿力学"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "同性恋没有正常人，低龄非主流觉得有和别人与众不同的思想很突出自己的高尚，就算有真正相爱的同性也是心理疾病，同时明明知道会遭到议论和歧视又改变不了，还是要为了自己的爱情把家人置于其他人歧视中的小丑，总结一下捏，txl是个自私而且低能，说理说不过又只会无脑的谩骂的低龄心理变态人群，txl这辈子就这样了"
+        }
+      ]
+    },
+    {
+      "term": "何意味呢",
+      "evidenceSamples": [
+        "何意味？",
+        "恋爱剧一直刷友谊的何意味呢",
+        "？何意味",
+        "几秒钟的事情，最后在他老婆肚子怀着，你何意味呢？你是你爸肚子十月怀胎的？医学奇迹",
+        "何意味呢"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EM4y1A7UN/, https://www.bilibili.com/video/BV1kaKHzaEL3/, https://www.bilibili.com/video/BV1rdy8BYE2s/, https://www.bilibili.com/video/BV1Rtq6YiEMT/, http://www.bilibili.com/video/av934772048, http://www.bilibili.com/video/av114743725524550, http://www.bilibili.com/video/av115462159669361, http://www.bilibili.com/video/av113628627865608",
+          "uid": "BV1EM4y1A7UN,BV1kaKHzaEL3,BV1rdy8BYE2s,BV1Rtq6YiEMT",
+          "sample": "何意味？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1uGMRzGEUy",
+          "sample": "恋爱剧一直刷友谊的何意味呢"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cnTQ6KE19/, https://www.bilibili.com/video/BV1GKM86FEQW/, https://www.bilibili.com/video/BV1WxM86jEUq/, https://www.bilibili.com/video/BV1NUTS6uErn/, http://www.bilibili.com/video/av116872452245211, http://www.bilibili.com/video/av116878190052544, http://www.bilibili.com/video/av116877972020845, http://www.bilibili.com/video/av116871311461803",
+          "uid": "BV1cnTQ6KE19,BV1GKM86FEQW,BV1WxM86jEUq,BV1NUTS6uErn",
+          "sample": "？何意味"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1fXMK6zEdq",
+          "sample": "几秒钟的事情，最后在他老婆肚子怀着，你何意味呢？你是你爸肚子十月怀胎的？医学奇迹"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Q9MF6yEZy",
+          "sample": "何意味呢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SQMT6FEdq",
+          "sample": "这个守鹤何意味呢？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1AhMF6hEec",
+          "sample": "何意味呢，枪管的好你有意见"
+        }
+      ]
+    },
+    {
+      "term": "何意味呢我请问了",
+      "evidenceSamples": [
+        "这个守鹤何意味呢？",
+        "何意味呢",
+        "何意味？",
+        "恋爱剧一直刷友谊的何意味呢",
+        "？何意味"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1SQMT6FEdq",
+          "sample": "这个守鹤何意味呢？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Q9MF6yEZy",
+          "sample": "何意味呢"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EM4y1A7UN/, https://www.bilibili.com/video/BV1kaKHzaEL3/, https://www.bilibili.com/video/BV1rdy8BYE2s/, https://www.bilibili.com/video/BV1Rtq6YiEMT/, http://www.bilibili.com/video/av934772048, http://www.bilibili.com/video/av114743725524550, http://www.bilibili.com/video/av115462159669361, http://www.bilibili.com/video/av113628627865608",
+          "uid": "BV1EM4y1A7UN,BV1kaKHzaEL3,BV1rdy8BYE2s,BV1Rtq6YiEMT",
+          "sample": "何意味？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1uGMRzGEUy",
+          "sample": "恋爱剧一直刷友谊的何意味呢"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cnTQ6KE19/, https://www.bilibili.com/video/BV1GKM86FEQW/, https://www.bilibili.com/video/BV1WxM86jEUq/, https://www.bilibili.com/video/BV1NUTS6uErn/, http://www.bilibili.com/video/av116872452245211, http://www.bilibili.com/video/av116878190052544, http://www.bilibili.com/video/av116877972020845, http://www.bilibili.com/video/av116871311461803",
+          "uid": "BV1cnTQ6KE19,BV1GKM86FEQW,BV1WxM86jEUq,BV1NUTS6uErn",
+          "sample": "？何意味"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1fXMK6zEdq",
+          "sample": "几秒钟的事情，最后在他老婆肚子怀着，你何意味呢？你是你爸肚子十月怀胎的？医学奇迹"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1AhMF6hEec",
+          "sample": "何意味呢，枪管的好你有意见"
+        }
+      ]
+    },
+    {
+      "term": "你们都是小丑",
+      "evidenceSamples": [
+        "等滔博哥从败者组杀出来你们都是小丑[doge]",
+        "所以什么索狗软粉任豚全都是小丑。。。。",
+        "不要粉任何人，最后都是小丑。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1gHTt67Edg",
+          "sample": "等滔博哥从败者组杀出来你们都是小丑[doge]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV15fMP6ZERS",
+          "sample": "所以什么索狗软粉任豚全都是小丑。。。。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZfTe6LEyR",
+          "sample": "不要粉任何人，最后都是小丑。"
+        }
+      ]
+    },
+    {
+      "term": "你在教我做事",
+      "evidenceSamples": [
+        "集美:你在教我做事？",
+        "你在教我做事？",
+        "你在教我做事啊"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SWrfYdEkt/",
+          "uid": "BV1SWrfYdEkt",
+          "sample": "集美:你在教我做事？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1zS4y1L7an/",
+          "uid": "BV1zS4y1L7an",
+          "sample": "你在教我做事？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Y5VH6JEUt/",
+          "uid": "BV1Y5VH6JEUt",
+          "sample": "你在教我做事啊"
+        }
+      ]
+    },
+    {
+      "term": "你急了你急了",
+      "evidenceSamples": [
+        "回复@蔡徐坤情报局 ?怎么，不让玩梗?急了急了[doge]",
+        "回复 @Lee陌夕 :鲲鲲不可能洗白，鲲鲲nc粉人肉大学生，到处网络暴力流量造假事件可不少，可以说其中有很大一部分原因是鲲鲲团队纵容的，律师函寄错了可就别逗了，而且血xing涩青视频在B站是不会过审的，鲲鲲和粉丝不就是看鬼畜区都在拿黑料做鬼畜急了想制止，结果B站霸气回应，所以说鲲鲲是不可能洗白的，我觉得鲲鲲xz两个人都差不多，该嘲还得嘲[笑]",
+        "我终于知道古代的将军是怎么做到百战百胜的了 每当自己的军队处于劣势，无法继续反击的时候，就对对方的军队说：“急了”，自己便胜利了。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1448763102",
+          "sample": "回复@蔡徐坤情报局 ?怎么，不让玩梗?急了急了[doge]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "367411912",
+          "sample": "回复 @Lee陌夕 :鲲鲲不可能洗白，鲲鲲nc粉人肉大学生，到处网络暴力流量造假事件可不少，可以说其中有很大一部分原因是鲲鲲团队纵容的，律师函寄错了可就别逗了，而且血xing涩青视频在B站是不会过审的，鲲鲲和粉丝不就是看鬼畜区都在拿黑料做鬼畜急了想制止，结果B站霸气回应，所以说鲲鲲是不可能洗白的，我觉得鲲鲲xz两个人都差不多，该嘲还得嘲[笑]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8496112860",
+          "uid": "AAQCXº",
+          "sample": "我终于知道古代的将军是怎么做到百战百胜的了 每当自己的军队处于劣势，无法继续反击的时候，就对对方的军队说：“急了”，自己便胜利了。"
+        }
+      ]
+    },
+    {
+      "term": "你搁这呢",
+      "evidenceSamples": [
+        "你这是找人科普吗？你搁这精准出题呢[doge]。",
+        "你搁这玩塔防呢。。。",
+        "回复 @258我是正义人 :依旧报警，依旧不知所云，依旧主页全部抽奖内容破案，依旧蔚蓝档案[喜欢] 我没想怎么办啊[星星眼]只是吐槽一下，你搁这刷什么存在感[喜极而泣]",
+        "回复 @你搁这儿开玩笑是吧 :消失了",
+        "要么你就考六七百分啊，不然你搁这挑什么劲"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1SvVE6MEKZ/",
+          "uid": "BV1SvVE6MEKZ",
+          "sample": "你这是找人科普吗？你搁这精准出题呢[doge]。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14sZqYeEgc/",
+          "uid": "BV14sZqYeEgc",
+          "sample": "你搁这玩塔防呢。。。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1NHoUBQEN6/",
+          "uid": "3546727665633471",
+          "sample": "回复 @258我是正义人 :依旧报警，依旧不知所云，依旧主页全部抽奖内容破案，依旧蔚蓝档案[喜欢] 我没想怎么办啊[星星眼]只是吐槽一下，你搁这刷什么存在感[喜极而泣]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV14DxbeQER3/",
+          "uid": "357702987",
+          "sample": "回复 @你搁这儿开玩笑是吧 :消失了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "要么你就考六七百分啊，不然你搁这挑什么劲"
+        }
+      ]
+    },
+    {
+      "term": "你是否清醒",
+      "evidenceSamples": [
+        "你是否清醒",
+        "皇帝你是否清醒",
+        "息吹同学，你是否清醒？",
+        "没有数值吗，你是否清醒",
+        "5060ti那个你是否清醒"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1KbMw66EtB",
+          "sample": "你是否清醒"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV16xKo6VECt",
+          "sample": "皇帝你是否清醒"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1dVMw6DE77",
+          "sample": "息吹同学，你是否清醒？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1NeMw6TEsR",
+          "sample": "没有数值吗，你是否清醒"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1FCTt6AEhV",
+          "sample": "5060ti那个你是否清醒"
+        }
+      ]
+    },
+    {
+      "term": "你清醒一点",
+      "evidenceSamples": [
+        "苏太请你清醒一点",
+        "远远你清醒一点！！！！！！！！！ ！！！！！！！！",
+        "远远你不会真觉得这样的苏醒好帅叭!!!远子!你清醒一点!!"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UB4y1i7K3/",
+          "uid": "BV1UB4y1i7K3",
+          "sample": "苏太请你清醒一点"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UB4y1i7K3/",
+          "uid": "BV1UB4y1i7K3",
+          "sample": "远远你清醒一点！！！！！！！！！ ！！！！！！！！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UB4y1i7K3/",
+          "uid": "BV1UB4y1i7K3",
+          "sample": "远远你不会真觉得这样的苏醒好帅叭!!!远子!你清醒一点!!"
+        }
+      ]
+    },
+    {
+      "term": "你配",
+      "evidenceSamples": [
+        "可惜什么？没结婚你配得上吗？",
+        "你配评论人家嘛，不懂可以闭嘴",
+        "说可惜的你配活着吗",
+        "没有百战百胜我把你配了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ca41197bB/",
+          "uid": "BV1ca41197bB",
+          "sample": "可惜什么？没结婚你配得上吗？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV15WgVz6EfV/",
+          "uid": "BV15WgVz6EfV",
+          "sample": "你配评论人家嘛，不懂可以闭嘴"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "说可惜的你配活着吗"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1idKZ6kEwX/, https://www.bilibili.com/video/BV1xRKo6WE36/, https://www.bilibili.com/video/BV1FmEm6HEaz/, https://www.bilibili.com/video/BV1xsKQ6zEBA/, https://www.bilibili.com/video/BV1sSk6B8Efv/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116833227184706, http://www.bilibili.com/video/av115529922713807, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116810410235206, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116793549003302, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116837471880832, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116837656434353, http://www.bilibili.com/video/av116818865817289",
+          "uid": "BV1Z1Kd66ExR,BV1idKZ6kEwX,BV1xRKo6WE36,BV1FmEm6HEaz,BV1xsKQ6zEBA,BV1sSk6B8Efv",
+          "sample": "没有百战百胜我把你配了"
+        }
+      ]
+    },
+    {
+      "term": "你配吗",
+      "evidenceSamples": [
+        "用rocky的BGM你配吗",
+        "逆天玩意儿！这都能活着…配吗！",
+        "相亲之后会交配吗",
+        "这盗月社配吗？嗯？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV127411o73i/",
+          "uid": "BV127411o73i",
+          "sample": "用rocky的BGM你配吗"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV156Jn6NEdx/",
+          "uid": "BV156Jn6NEdx",
+          "sample": "逆天玩意儿！这都能活着…配吗！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1RgYfzxEwH/",
+          "uid": "BV1RgYfzxEwH",
+          "sample": "相亲之后会交配吗"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UK411876U/",
+          "uid": "BV1UK411876U",
+          "sample": "这盗月社配吗？嗯？"
+        }
+      ]
+    },
+    {
+      "term": "依托答辩",
+      "evidenceSamples": [
+        "依托答辩",
+        "超级答辩了属于是，反复回忆鞭尸机油，神人",
+        "呃，其实我觉得他真实的想法就是，贵就是好，但谢霆锋真的问了你为什么都用这么贵的食材，显然真实的回答是不行的，所以紧急硬掰了个理由，很像本科答辩那种感觉。。",
+        "恭喜你发现了答辩"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13W4y1W7Fg/",
+          "uid": "BV13W4y1W7Fg",
+          "sample": "依托答辩"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114482437162385/",
+          "uid": "29886186076",
+          "sample": "超级答辩了属于是，反复回忆鞭尸机油，神人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "呃，其实我觉得他真实的想法就是，贵就是好，但谢霆锋真的问了你为什么都用这么贵的食材，显然真实的回答是不行的，所以紧急硬掰了个理由，很像本科答辩那种感觉。。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1kyBCBdEDg/",
+          "uid": "BV1kyBCBdEDg",
+          "sample": "恭喜你发现了答辩"
+        }
+      ]
+    },
+    {
+      "term": "倒打一耙",
+      "evidenceSamples": [
+        "回复 @小白小猴 :淦！说起权志龙我就生气，当时他们碰瓷大棒家的皇冠灯，结果还倒打一耙问我们申请了专利吗，而且明明是龙自己设计的应援灯，结果癌鲲说是抄袭我国佛灯。那女星用那个表情包也没错呀，二八分奶奶灰他家又没申请专利，真的一群nt",
+        "淘bao店：凯4圣4威[吐]我特意把客服加入了黑名单，倒打一耙真的太气人了！甲醛造成的危害很难取证！大家都要注意！危害是是长期的！人与人的体质不能一概而论！",
+        "cmg倒打一耙喽",
+        "？？？哇，倒打一耙，真的是见识了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "32492370",
+          "sample": "回复 @小白小猴 :淦！说起权志龙我就生气，当时他们碰瓷大棒家的皇冠灯，结果还倒打一耙问我们申请了专利吗，而且明明是龙自己设计的应援灯，结果癌鲲说是抄袭我国佛灯。那女星用那个表情包也没错呀，二八分奶奶灰他家又没申请专利，真的一群nt"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mK4y1x7Mb/",
+          "uid": "BV1mK4y1x7Mb",
+          "sample": "淘bao店：凯4圣4威[吐]我特意把客服加入了黑名单，倒打一耙真的太气人了！甲醛造成的危害很难取证！大家都要注意！危害是是长期的！人与人的体质不能一概而论！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SWrfYdEkt/",
+          "uid": "BV1SWrfYdEkt",
+          "sample": "cmg倒打一耙喽"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18PQPBoESs/",
+          "uid": "BV18PQPBoESs",
+          "sample": "？？？哇，倒打一耙，真的是见识了"
+        }
+      ]
+    },
+    {
+      "term": "倒贴",
+      "evidenceSamples": [
+        "[大哭]啊是得倒贴钱啊，我找上门喂养都很难找[大哭][大哭]",
+        "有种我去动物园喂动物，别人还得倒贴我钱的感觉",
+        "还要倒贴钱哈哈哈",
+        "灏明那次倒贴钱来的吧"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1rNZnYVEwL/",
+          "uid": "BV1rNZnYVEwL",
+          "sample": "[大哭]啊是得倒贴钱啊，我找上门喂养都很难找[大哭][大哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1rNZnYVEwL/",
+          "uid": "BV1rNZnYVEwL",
+          "sample": "有种我去动物园喂动物，别人还得倒贴我钱的感觉"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1N84y1L7n3/",
+          "uid": "BV1N84y1L7n3",
+          "sample": "还要倒贴钱哈哈哈"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1N84y1L7n3/",
+          "uid": "BV1N84y1L7n3",
+          "sample": "灏明那次倒贴钱来的吧"
+        }
+      ]
+    },
+    {
+      "term": "傻篮子",
+      "evidenceSamples": [
+        "灯塔哥又来啦，还白手起家，2000美元在当时知道相当于什么，傻篮子",
+        "傻篮子一个",
+        "你是傻篮子"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1jtE96bEU4",
+          "sample": "灯塔哥又来啦，还白手起家，2000美元在当时知道相当于什么，傻篮子"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZfTe6LEyR",
+          "sample": "傻篮子一个"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kjMA6qEoz",
+          "sample": "你是傻篮子"
+        }
+      ]
+    },
+    {
+      "term": "入关",
+      "evidenceSamples": [
+        "清朝入关250周年是1894年，那年慈禧在过八十大寿，当然还有……[热]",
+        "冷知识：慈禧六十大寿的时候也是带清入关250年",
+        "WE:先入关中者为王，可我出生就在罗马(狗头)",
+        "谁没看过，有空看一下这本书。1.文字版【防止历史再次被篡改，记录下日本档案留存的《灭汉种策》-哔哩哔哩】 https://b23.tv/sDVF4fG 2.解说版【清军入关300年后，清宗室写了一本惨绝人寰的《灭汉种策》-哔哩哔哩】 https://b23.tv/pn1vlVC"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kYVg6qEDx/",
+          "uid": "BV1kYVg6qEDx",
+          "sample": "清朝入关250周年是1894年，那年慈禧在过八十大寿，当然还有……[热]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kYVg6qEDx/",
+          "uid": "BV1kYVg6qEDx",
+          "sample": "冷知识：慈禧六十大寿的时候也是带清入关250年"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yrVj6xEh8/",
+          "uid": "BV1yrVj6xEh8",
+          "sample": "WE:先入关中者为王，可我出生就在罗马(狗头)"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1aNjw6vEab/",
+          "uid": "1592883078",
+          "sample": "谁没看过，有空看一下这本书。1.文字版【防止历史再次被篡改，记录下日本档案留存的《灭汉种策》-哔哩哔哩】 https://b23.tv/sDVF4fG 2.解说版【清军入关300年后，清宗室写了一本惨绝人寰的《灭汉种策》-哔哩哔哩】 https://b23.tv/pn1vlVC"
+        }
+      ]
+    },
+    {
+      "term": "入典",
+      "evidenceSamples": [
+        "怪不得古人也喜欢看名著同人，建议入典",
+        "入典",
+        "入典!!!!"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1K5V46REDU/",
+          "uid": "BV1K5V46REDU",
+          "sample": "怪不得古人也喜欢看名著同人，建议入典"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1cicdeDETK/",
+          "uid": "BV1cicdeDETK",
+          "sample": "入典"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1cicdeDETK/",
+          "uid": "BV1cicdeDETK",
+          "sample": "入典!!!!"
+        }
+      ]
+    },
+    {
+      "term": "全是人机或者没脑",
+      "evidenceSamples": [
+        "这评论区全是人机或者没脑，看得头疼",
+        "队友全是人机或者没脑，这怎么赢",
+        "匹配机制有毒，给我全是人机或者没脑的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这评论区全是人机或者没脑，看得头疼"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "队友全是人机或者没脑，这怎么赢"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "匹配机制有毒，给我全是人机或者没脑的"
+        }
+      ]
+    },
+    {
+      "term": "全是人机或者没脑子的",
+      "evidenceSamples": [
+        "这评论区全是人机或者没脑，看得头疼",
+        "队友全是人机或者没脑，这怎么赢",
+        "匹配机制有毒，给我全是人机或者没脑的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这评论区全是人机或者没脑，看得头疼"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "队友全是人机或者没脑，这怎么赢"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "匹配机制有毒，给我全是人机或者没脑的"
+        }
+      ]
+    },
+    {
+      "term": "全是尬黑",
+      "evidenceSamples": [
+        "回复 @小艺术家阿克曼 :你说在b（锤）站你能找到一个有确实证据锤cxk的？粉丝带节奏本人肯定有一定责任，但你们这样把有的没的锅往别人头上拷然后尬黑真的有点搞不懂你们的脑回路",
+        "为什么要黑蔡徐坤？除了那段鬼畜的跳舞视频和他某些粉丝的过激行为，从一个路人的角度上我是看不到其他任何的黑料了，所以搞不懂你们为什么要这样尬黑，做做鬼畜视频乐一乐还好说但现在看评论区甚至某些up的视频几乎把蔡徐坤当作一种极端的贬义词了（先声明不是水军也不是ikun没有恰烂钱只是从一个路人的角度去看）",
+        "尬黑，意思是韩女正常哺乳都不行吗？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "284603390",
+          "sample": "回复 @小艺术家阿克曼 :你说在b（锤）站你能找到一个有确实证据锤cxk的？粉丝带节奏本人肯定有一定责任，但你们这样把有的没的锅往别人头上拷然后尬黑真的有点搞不懂你们的脑回路"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "284603390",
+          "sample": "为什么要黑蔡徐坤？除了那段鬼畜的跳舞视频和他某些粉丝的过激行为，从一个路人的角度上我是看不到其他任何的黑料了，所以搞不懂你们为什么要这样尬黑，做做鬼畜视频乐一乐还好说但现在看评论区甚至某些up的视频几乎把蔡徐坤当作一种极端的贬义词了（先声明不是水军也不是ikun没有恰烂钱只是从一个路人的角度去看）"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "尬黑，意思是韩女正常哺乳都不行吗？"
+        }
+      ]
+    },
+    {
+      "term": "全是魔怔人",
+      "evidenceSamples": [
+        "这个吧已经废了，全是魔怔人",
+        "微博过来的？全是魔怔人，建议回老家",
+        "弹幕全是魔怔人，我走了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这个吧已经废了，全是魔怔人"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "微博过来的？全是魔怔人，建议回老家"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "弹幕全是魔怔人，我走了"
+        }
+      ]
+    },
+    {
+      "term": "公知",
+      "evidenceSamples": [
+        "小甜甜们最爱问学历了，跟当年的公知粉一个味道。",
+        "回复 @将台独分子绳之以法 :你们这套学历无用论都古墓公知的批话了，还出来唬人呐",
+        "说白了这么多年崇洋媚外公知洗脑意林灌输没有了文化自信，不就是去一趟镀老外的金才能感觉让自己人承认。跟诺贝尔奖和奥斯卡，高校排名一毛一样。没事随着日益强大这些都会有变化，现在不就有所改善了。",
+        "公知：印度免费提供热水，拧开水龙头就有51度。[doge]",
+        "防官如防贼，（但贼不走空）\\n防权如防火，（但难免走火）\\n公知的话，得反着看…"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
+          "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
+          "sample": "小甜甜们最爱问学历了，跟当年的公知粉一个味道。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
+          "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
+          "sample": "回复 @将台独分子绳之以法 :你们这套学历无用论都古墓公知的批话了，还出来唬人呐"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "说白了这么多年崇洋媚外公知洗脑意林灌输没有了文化自信，不就是去一趟镀老外的金才能感觉让自己人承认。跟诺贝尔奖和奥斯卡，高校排名一毛一样。没事随着日益强大这些都会有变化，现在不就有所改善了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1aYV86uEKp/",
+          "uid": "BV1aYV86uEKp",
+          "sample": "公知：印度免费提供热水，拧开水龙头就有51度。[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vMVH6WEEa/",
+          "uid": "BV1vMVH6WEEa",
+          "sample": "防官如防贼，（但贼不走空）\\n防权如防火，（但难免走火）\\n公知的话，得反着看…"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "印度：不怕，反正有公知替我洗白，就像图中这位"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "公知就只会放臭屁"
+        }
+      ]
+    },
+    {
+      "term": "共情",
+      "evidenceSamples": [
+        "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，...",
+        "第一遍看的时候对书里的人物都没有什么感情。所以能冷眼旁观他们的不幸与挣扎。第二遍看会不自觉的共情他们的苦难，会心疼他们。第三遍看，为他们坚韧的灵魂所震撼，全世界最好的小池。",
+        "回复 @小熊窝 :黑屏那里一下勾起我eva的ptsd了完全共情克莱夫，谁摊上这事谁都得走复仇路啊",
+        "利欲熏心的人最喜欢美化共情心理以为自己开脱",
+        "对女性共情就是一种错误，真正的平等是不能够共情的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "第一遍看的时候对书里的人物都没有什么感情。所以能冷眼旁观他们的不幸与挣扎。第二遍看会不自觉的共情他们的苦难，会心疼他们。第三遍看，为他们坚韧的灵魂所震撼，全世界最好的小池。"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @小熊窝 :黑屏那里一下勾起我eva的ptsd了完全共情克莱夫，谁摊上这事谁都得走复仇路啊"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "利欲熏心的人最喜欢美化共情心理以为自己开脱"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "对女性共情就是一种错误，真正的平等是不能够共情的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "本人就单纯好奇，我真的非常好奇，我的审美有这么差的吗？这部电影真的有这么难看吗？还是说你们有些人看到是某个明星演的，就直接抱着批判性的目光去看，导致观感特别差？还是说现在的人大部分已经耻于共情了？我指的共情不是受感动什么的，抹眼泪儿什么的，..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1uhTF6qEPk/, https://www.bilibili.com/video/BV1MhKZ6fEHs/, https://www.bilibili.com/video/BV15u7W6TExb/, https://www.bilibili.com/video/BV1RtE96tE93/, https://www.bilibili.com/video/BV15KjKzhENw/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116837740189721, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av114563957658167, http://www.bilibili.com/video/av116812087890021, http://www.bilibili.com/video/av112834327348881, http://www.bilibili.com/video/av116822103891240, http://www.bilibili.com/video/av114920070910078, http://www.bilibili.com/video/av466576236, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116810410235206, http://www.bilibili.com/video/av116525851808121, http://www.bilibili.com/video/av112996227482644, http://www.bilibili.com/video/av776779095, http://www.bilibili.com/video/av114182829643950, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av115860987450392, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av112930662122741, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116838646155470, http://www.bilibili.com/video/av116822942883165, http://www.bilibili.com/video/av116635927059326, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116809890007152",
+          "uid": "BV1h7jgzzEn6,BV1uhTF6qEPk,BV1MhKZ6fEHs,BV15u7W6TExb,BV1RtE96tE93,BV15KjKzhENw",
+          "sample": "说实话反人类行为来来回回就那几样，什么人体实验、毁灭世界、暴力虐杀。在有限的题材里选择最容易被共情的，是很自然且功利的选择。而且人体实验比起单纯的杀戮，在探讨权力、伦理、人性等方面都更深刻，更容易发挥。"
+        }
+      ]
+    },
+    {
+      "term": "关小黑屋",
+      "evidenceSamples": [
+        "{'text': '关小黑屋。。。怎么突然动作片剧情了。。。', 'sample': '关小黑屋。。。怎么突然动作片剧情了。。。'}",
+        "[带嘤帝国]因语言非常过激被拉入小黑屋",
+        "有赛后小黑屋配词的感觉后面都没戏份",
+        "拉进小黑屋！？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV15p4y1X7bv/",
+          "uid": "BV15p4y1X7bv",
+          "sample": "[带嘤帝国]因语言非常过激被拉入小黑屋"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "有赛后小黑屋配词的感觉后面都没戏份"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
+          "uid": "96367415",
+          "sample": "拉进小黑屋！？"
+        },
+        {
+          "source": "AICU",
+          "uid": "396538152",
+          "sample": "关小黑屋。。。怎么突然动作片剧情了。。。"
+        }
+      ]
+    }
+  ]
+}

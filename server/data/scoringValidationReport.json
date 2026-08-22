@@ -1,0 +1,397 @@
+{
+  "generatedAt": "2026-06-27T23:41:36.501Z",
+  "dataSource": "D:\\Bilibili_User_Personality\\.claude\\personality_analysis_data_100.json",
+  "userCount": 100,
+  "note": null,
+  "baselineWeights": {
+    "toxicEmotions": 0.28,
+    "missingCommitment": 0.25,
+    "missingIntelligibility": 0.27,
+    "otherReasons": 0.2
+  },
+  "weightProvenance": {
+    "toxicEmotions": "Corpus keyword density factor for attack-family terms (highest frequency family, 966 terms)",
+    "missingCommitment": "Derived from evasion/correction/cooperation density balance in 25,753-comment corpus",
+    "missingIntelligibility": "Derived from absolutes/evidence density ratio; absolutes = strongest single-family predictor",
+    "otherReasons": "Residual category; captures unclassified discourse issues not fitting the 3 primary axes",
+    "method": "Corpus-derived keyword density baselines from 179,628 messages (25,753 comments + 153,875 danmaku). Pending label-trained logistic regression weights once .claude/annotation_data/labels_500.json has ≥2 human annotators per comment."
+  },
+  "itemTotalCorrelations": {
+    "toxicEmotions": {
+      "label": "情绪过激",
+      "n": 100,
+      "mean": 14.22,
+      "std": 25.51,
+      "p25": 0,
+      "p50": 6,
+      "p75": 16,
+      "itemTotalR": 0.808,
+      "correctedItemTotalR": -0.112,
+      "interpretation": "strong_contributor"
+    },
+    "missingCommitment": {
+      "label": "回避讨论",
+      "n": 100,
+      "mean": 24.55,
+      "std": 11.2,
+      "p25": 19,
+      "p50": 28,
+      "p75": 33,
+      "itemTotalR": -0.064,
+      "correctedItemTotalR": -0.38,
+      "interpretation": "negligible"
+    },
+    "missingIntelligibility": {
+      "label": "逻辑混乱",
+      "n": 100,
+      "mean": 49.22,
+      "std": 15.54,
+      "p25": 40,
+      "p50": 44,
+      "p75": 49,
+      "itemTotalR": 0.55,
+      "correctedItemTotalR": 0.045,
+      "interpretation": "moderate_contributor"
+    },
+    "otherReasons": {
+      "label": "其他问题",
+      "n": 100,
+      "mean": 0.95,
+      "std": 1.4,
+      "p25": 0,
+      "p50": 1,
+      "p75": 1,
+      "itemTotalR": 0.909,
+      "correctedItemTotalR": 0.904,
+      "interpretation": "strong_contributor"
+    }
+  },
+  "axisCorrelationMatrix": {
+    "toxicEmotions": {
+      "toxicEmotions": 1,
+      "missingCommitment": -0.377,
+      "missingIntelligibility": 0.07,
+      "otherReasons": 0.786
+    },
+    "missingCommitment": {
+      "toxicEmotions": -0.377,
+      "missingCommitment": 1,
+      "missingIntelligibility": -0.132,
+      "otherReasons": -0.372
+    },
+    "missingIntelligibility": {
+      "toxicEmotions": 0.07,
+      "missingCommitment": -0.132,
+      "missingIntelligibility": 1,
+      "otherReasons": 0.615
+    },
+    "otherReasons": {
+      "toxicEmotions": 0.786,
+      "missingCommitment": -0.372,
+      "missingIntelligibility": 0.615,
+      "otherReasons": 1
+    }
+  },
+  "sensitivityAnalysis": [
+    {
+      "axis": "toxicEmotions",
+      "label": "情绪过激",
+      "baseWeight": 0.28,
+      "perturbations": [
+        {
+          "direction": "+",
+          "percentChange": 5,
+          "newWeight": 0.294,
+          "kendallTau": 0.916,
+          "maxRankDisplacement": 14,
+          "meanRankDisplacement": 3.12
+        },
+        {
+          "direction": "-",
+          "percentChange": 5,
+          "newWeight": 0.266,
+          "kendallTau": 0.919,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.9
+        },
+        {
+          "direction": "+",
+          "percentChange": 10,
+          "newWeight": 0.308,
+          "kendallTau": 0.911,
+          "maxRankDisplacement": 14,
+          "meanRankDisplacement": 3.28
+        },
+        {
+          "direction": "-",
+          "percentChange": 10,
+          "newWeight": 0.252,
+          "kendallTau": 0.913,
+          "maxRankDisplacement": 16,
+          "meanRankDisplacement": 3.28
+        },
+        {
+          "direction": "+",
+          "percentChange": 20,
+          "newWeight": 0.336,
+          "kendallTau": 0.899,
+          "maxRankDisplacement": 15,
+          "meanRankDisplacement": 3.9
+        },
+        {
+          "direction": "-",
+          "percentChange": 20,
+          "newWeight": 0.224,
+          "kendallTau": 0.878,
+          "maxRankDisplacement": 19,
+          "meanRankDisplacement": 4.6
+        },
+        {
+          "direction": "+",
+          "percentChange": 30,
+          "newWeight": 0.364,
+          "kendallTau": 0.871,
+          "maxRankDisplacement": 19,
+          "meanRankDisplacement": 5
+        },
+        {
+          "direction": "-",
+          "percentChange": 30,
+          "newWeight": 0.196,
+          "kendallTau": 0.83,
+          "maxRankDisplacement": 37,
+          "meanRankDisplacement": 6.12
+        }
+      ],
+      "stability": "moderate",
+      "meanKendallTau": 0.892
+    },
+    {
+      "axis": "missingCommitment",
+      "label": "回避讨论",
+      "baseWeight": 0.25,
+      "perturbations": [
+        {
+          "direction": "+",
+          "percentChange": 5,
+          "newWeight": 0.263,
+          "kendallTau": 0.92,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.92
+        },
+        {
+          "direction": "-",
+          "percentChange": 5,
+          "newWeight": 0.238,
+          "kendallTau": 0.918,
+          "maxRankDisplacement": 14,
+          "meanRankDisplacement": 3.04
+        },
+        {
+          "direction": "+",
+          "percentChange": 10,
+          "newWeight": 0.275,
+          "kendallTau": 0.902,
+          "maxRankDisplacement": 17,
+          "meanRankDisplacement": 3.9
+        },
+        {
+          "direction": "-",
+          "percentChange": 10,
+          "newWeight": 0.225,
+          "kendallTau": 0.912,
+          "maxRankDisplacement": 14,
+          "meanRankDisplacement": 3.32
+        },
+        {
+          "direction": "+",
+          "percentChange": 20,
+          "newWeight": 0.3,
+          "kendallTau": 0.876,
+          "maxRankDisplacement": 27,
+          "meanRankDisplacement": 4.74
+        },
+        {
+          "direction": "-",
+          "percentChange": 20,
+          "newWeight": 0.2,
+          "kendallTau": 0.901,
+          "maxRankDisplacement": 15,
+          "meanRankDisplacement": 3.64
+        },
+        {
+          "direction": "+",
+          "percentChange": 30,
+          "newWeight": 0.325,
+          "kendallTau": 0.838,
+          "maxRankDisplacement": 34,
+          "meanRankDisplacement": 6.1
+        },
+        {
+          "direction": "-",
+          "percentChange": 30,
+          "newWeight": 0.175,
+          "kendallTau": 0.886,
+          "maxRankDisplacement": 16,
+          "meanRankDisplacement": 4.32
+        }
+      ],
+      "stability": "moderate",
+      "meanKendallTau": 0.894
+    },
+    {
+      "axis": "missingIntelligibility",
+      "label": "逻辑混乱",
+      "baseWeight": 0.27,
+      "perturbations": [
+        {
+          "direction": "+",
+          "percentChange": 5,
+          "newWeight": 0.284,
+          "kendallTau": 0.919,
+          "maxRankDisplacement": 14,
+          "meanRankDisplacement": 2.92
+        },
+        {
+          "direction": "-",
+          "percentChange": 5,
+          "newWeight": 0.257,
+          "kendallTau": 0.913,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 3.16
+        },
+        {
+          "direction": "+",
+          "percentChange": 10,
+          "newWeight": 0.297,
+          "kendallTau": 0.918,
+          "maxRankDisplacement": 14,
+          "meanRankDisplacement": 2.92
+        },
+        {
+          "direction": "-",
+          "percentChange": 10,
+          "newWeight": 0.243,
+          "kendallTau": 0.905,
+          "maxRankDisplacement": 15,
+          "meanRankDisplacement": 3.54
+        },
+        {
+          "direction": "+",
+          "percentChange": 20,
+          "newWeight": 0.324,
+          "kendallTau": 0.914,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 3.26
+        },
+        {
+          "direction": "-",
+          "percentChange": 20,
+          "newWeight": 0.216,
+          "kendallTau": 0.883,
+          "maxRankDisplacement": 18,
+          "meanRankDisplacement": 4.5
+        },
+        {
+          "direction": "+",
+          "percentChange": 30,
+          "newWeight": 0.351,
+          "kendallTau": 0.899,
+          "maxRankDisplacement": 16,
+          "meanRankDisplacement": 3.92
+        },
+        {
+          "direction": "-",
+          "percentChange": 30,
+          "newWeight": 0.189,
+          "kendallTau": 0.847,
+          "maxRankDisplacement": 29,
+          "meanRankDisplacement": 5.68
+        }
+      ],
+      "stability": "moderate",
+      "meanKendallTau": 0.9
+    },
+    {
+      "axis": "otherReasons",
+      "label": "其他问题",
+      "baseWeight": 0.2,
+      "perturbations": [
+        {
+          "direction": "+",
+          "percentChange": 5,
+          "newWeight": 0.21,
+          "kendallTau": 0.918,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.98
+        },
+        {
+          "direction": "-",
+          "percentChange": 5,
+          "newWeight": 0.19,
+          "kendallTau": 0.918,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.94
+        },
+        {
+          "direction": "+",
+          "percentChange": 10,
+          "newWeight": 0.22,
+          "kendallTau": 0.918,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.98
+        },
+        {
+          "direction": "-",
+          "percentChange": 10,
+          "newWeight": 0.18,
+          "kendallTau": 0.918,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.94
+        },
+        {
+          "direction": "+",
+          "percentChange": 20,
+          "newWeight": 0.24,
+          "kendallTau": 0.918,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 3
+        },
+        {
+          "direction": "-",
+          "percentChange": 20,
+          "newWeight": 0.16,
+          "kendallTau": 0.917,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.94
+        },
+        {
+          "direction": "+",
+          "percentChange": 30,
+          "newWeight": 0.26,
+          "kendallTau": 0.917,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 3
+        },
+        {
+          "direction": "-",
+          "percentChange": 30,
+          "newWeight": 0.14,
+          "kendallTau": 0.917,
+          "maxRankDisplacement": 13,
+          "meanRankDisplacement": 2.96
+        }
+      ],
+      "stability": "high",
+      "meanKendallTau": 0.918
+    }
+  ],
+  "compositeStats": {
+    "n": 100,
+    "mean": 23.68,
+    "std": 8.13,
+    "p25": 20,
+    "p50": 22,
+    "p75": 25
+  }
+}

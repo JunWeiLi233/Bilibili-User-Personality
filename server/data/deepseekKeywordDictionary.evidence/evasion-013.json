@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "evasion",
+  "shard": 13,
+  "shardCount": 13,
+  "evidence": [
+    {
+      "term": "难评",
+      "evidenceSamples": [
+        "我娟这首歌很难评",
+        "这些发言太难评了",
+        "小姐姐：这很难评",
+        "会做饭是加分项，不会做饭也不是扣分项，但是不会做饭硬装厨神，那就难评",
+        "回复 @光阴似箭日月 : 你别说 爸爸一就邀请过黄磊 他看不上 没去 结果后来爸爸去哪儿爆火 他马上带着当时八岁的女儿参加了第二季【黄多多是爸爸系列里年龄最大的孩子】 很难评……"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
+          "uid": "1591706674",
+          "sample": "我娟这首歌很难评"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663559131570/",
+          "uid": "38724765203",
+          "sample": "这些发言太难评了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "小姐姐：这很难评"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "会做饭是加分项，不会做饭也不是扣分项，但是不会做饭硬装厨神，那就难评"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "回复 @光阴似箭日月 : 你别说 爸爸一就邀请过黄磊 他看不上 没去 结果后来爸爸去哪儿爆火 他马上带着当时八岁的女儿参加了第二季【黄多多是爸爸系列里年龄最大的孩子】 很难评……"
+        }
+      ]
+    }
+  ]
+}

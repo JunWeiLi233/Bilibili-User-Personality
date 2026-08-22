@@ -1,0 +1,455 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "evasion",
+  "shard": 7,
+  "shardCount": 13,
+  "evidence": [
+    {
+      "term": "我什么都不知道",
+      "evidenceSamples": [
+        "我的妈呀，我什么都不知道",
+        "骗你的，我什么都不知道就跟着走了，什么高能都没有",
+        "我什么都不知道，别问我。",
+        "我什么都不知道，我只是路过。",
+        "我什么都不知道，真的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1zUAheHEZY/",
+          "uid": "BV1zUAheHEZY",
+          "sample": "我的妈呀，我什么都不知道"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SnTz62Eg4",
+          "sample": "骗你的，我什么都不知道就跟着走了，什么高能都没有"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "我什么都不知道，别问我。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "我什么都不知道，我只是路过。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "我什么都不知道，真的。"
+        }
+      ]
+    },
+    {
+      "term": "我以为",
+      "evidenceSamples": [
+        "我以为他要走上侃爷路线，看了视频觉得他好像要走的是卡戴珊路线",
+        "整理内务时，我把好多东西都扔了 我以为是我没留下什么东西，其实是什么东西也没留下我",
+        "很难想象b站运营了12年😅 先说问题，作为一个视频网站，频繁压缩画质。在锁1080p的情况下，无论是否网络波动或者横竖屏，都会出现长时间的画质模糊，音画不同步的情况。甚至今天我在看视频的时候，已经出现了6次画质糊炸的情况（第一次我以为是视频问题没截屏）。而且，***作为一个视频网站，我还要开大会员才能看到理应有的帧率与画质。最逆天的是什么，视频画质变动和实际体验会根据账号使用时长来决定。***，我开的小号在退回主页时，不会出现立刻刷新的情况，长期退后台也不会出现立刻刷新的问题，甚至是竖屏下我看视频也不会出现短暂息屏后自动回到第一个视频并刷新的问题。",
+        "对蔡徐坤已经黑转路了我。昨天在一个OOR粉丝的千人群里，群友发蔡徐坤表情包，我也跟着发了一张。我的号后来被封了七天。当时一个IKUN找上我，私聊骂了一通，我一开始不知道怎么回事，19年自动回复设成了CXKQBL的，后来因为很少会自动回复也没有改。当时有事出去电脑没关，她就疯狂DISS我，正巧就发了自动回复，我后来看到她发的话，先是打了一连串问号。后来我和她说我已经黑转路了，蔡徐坤其实有的想法灵感蛮不错的，结果她那边哦了一声，我以为事情结束了。结果又有一个IKUN来加我QQ。我当然拒绝了。但是过了一分钟我就发现我QQ登不上了，后来发现被她们举报了。封了七天。现在我上网课连班群都进不了，只能靠小号了。我对蔡徐坤本人没有恶意谢谢。蔡徐坤虽然黑过，但我也一直有关注蔡微博的动态，我是美术生将来准备学设计蔡对作品的创意有些的确能激发我的一些灵感。虽然我的确不是蔡粉也可能带有有色眼镜。但是我现在已经暂时不能上原来的QQ了。。。。。希望你们IKUN还是能包容一点吧。",
+        "我以为“刷到就划走”是不留评论的[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1J64y1q7ob/, https://www.bilibili.com/video/BV1ex4y1G7Dq/, https://www.bilibili.com/video/BV1DP411B7cp/, https://www.bilibili.com/video/BV1AZS3YqENp/, http://www.bilibili.com/video/av759838837, http://www.bilibili.com/video/av989989993, http://www.bilibili.com/video/av314717671, http://www.bilibili.com/video/av113395944653183",
+          "uid": "BV1J64y1q7ob,BV1ex4y1G7Dq,BV1DP411B7cp,BV1AZS3YqENp",
+          "sample": "我以为他要走上侃爷路线，看了视频觉得他好像要走的是卡戴珊路线"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8509823978",
+          "uid": "贴吧用户_a2QJ28Z",
+          "sample": "整理内务时，我把好多东西都扔了 我以为是我没留下什么东西，其实是什么东西也没留下我"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "很难想象b站运营了12年😅 先说问题，作为一个视频网站，频繁压缩画质。在锁1080p的情况下，无论是否网络波动或者横竖屏，都会出现长时间的画质模糊，音画不同步的情况。甚至今天我在看视频的时候，已经出现了6次画质糊炸的情况（第一次我以为是视频问题没截屏）。而且，***作为一个视频网站，我还要开大会员才能看到理应有的帧率与画质。最逆天的是什么，视频画质变动和实际体验会根据账号使用时长来决定。***，我开的小号在退回主页时，不会出现立刻刷新的情况，长期退后台也不会出现立刻刷新的问题，甚至是竖屏下我看视频也不会出现短暂息屏后自动回到第一个视频并刷新的问题。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "157369831",
+          "sample": "对蔡徐坤已经黑转路了我。昨天在一个OOR粉丝的千人群里，群友发蔡徐坤表情包，我也跟着发了一张。我的号后来被封了七天。当时一个IKUN找上我，私聊骂了一通，我一开始不知道怎么回事，19年自动回复设成了CXKQBL的，后来因为很少会自动回复也没有改。当时有事出去电脑没关，她就疯狂DISS我，正巧就发了自动回复，我后来看到她发的话，先是打了一连串问号。后来我和她说我已经黑转路了，蔡徐坤其实有的想法灵感蛮不错的，结果她那边哦了一声，我以为事情结束了。结果又有一个IKUN来加我QQ。我当然拒绝了。但是过了一分钟我就发现我QQ登不上了，后来发现被她们举报了。封了七天。现在我上网课连班群都进不了，只能靠小号了。我对蔡徐坤本人没有恶意谢谢。蔡徐坤虽然黑过，但我也一直有关注蔡微博的动态，我是美术生将来准备学设计蔡对作品的创意有些的确能激发我的一些灵感。虽然我的确不是蔡粉也可能带有有色眼镜。但是我现在已经暂时不能上原来的QQ了。。。。。希望你们IKUN还是能包容一点吧。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1UkTL65Efc/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1WuiFeWEMa/, https://www.bilibili.com/video/BV1fg4y1r791/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av112903734692424, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116729762024741, http://www.bilibili.com/video/av115039860168683, http://www.bilibili.com/video/av116791703510621, http://www.bilibili.com/video/av116805729257399, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116839401129981, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av476046989, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av114861719752596, http://www.bilibili.com/video/av115783527046852, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av835254755, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1UkTL65Efc,BV1jjswz2EQF,BV1WuiFeWEMa,BV1fg4y1r791",
+          "sample": "我以为“刷到就划走”是不留评论的[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12L7h65EnU/, https://www.bilibili.com/video/BV1bXKf6YEod/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1QQKS6GE3C/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1CM7s6REyM/, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116809890007152, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116817389425929, http://www.bilibili.com/video/av116837387868380, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116833076118746, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116838646155470, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av116822942883165, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116831767500139",
+          "uid": "BV12L7h65EnU,BV1bXKf6YEod,BV16VTw6oEwv,BV1QQKS6GE3C,BV1nAKd6gEWn,BV1CM7s6REyM",
+          "sample": "我以为是他在玩这个梗，没想到就是他搞出来的这个梗[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1STE26fEoV/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV18gLt6PE79/, https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1KBc7z5Ese/, https://www.bilibili.com/video/BV12L7h65EnU/, https://www.bilibili.com/video/BV1nXgVzDErP/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1aXt2zrERA/, https://www.bilibili.com/video/BV1zG7n6iExr/, https://www.bilibili.com/video/BV1K5o5BbEBv/, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116809890007152, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116820509983609, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av114758892129884, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116817389425929, http://www.bilibili.com/video/av116837387868380, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av1001282424, http://www.bilibili.com/video/av296487174, http://www.bilibili.com/video/av116556419893495, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116813027412052, http://www.bilibili.com/video/av116754743362704, http://www.bilibili.com/video/av115815269531963, http://www.bilibili.com/video/av116820409324029, http://www.bilibili.com/video/av116827036320830, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116772309046331, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av115087524236017, http://www.bilibili.com/video/av116736288429664, http://www.bilibili.com/video/av116610828341593, http://www.bilibili.com/video/av116063723327506, http://www.bilibili.com/video/av114890408790151, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116459078421319, http://www.bilibili.com/video/av1106042428, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av1553251362, http://www.bilibili.com/video/av116141821401035, http://www.bilibili.com/video/av116175224772702",
+          "uid": "BV1h7jgzzEn6,BV1STE26fEoV,BV1PETM6UEcg,BV18gLt6PE79,BV1mqTF6YEig,BV1KBc7z5Ese,BV12L7h65EnU,BV1nXgVzDErP,BV16VTw6oEwv,BV1aXt2zrERA,BV1zG7n6iExr,BV1K5o5BbEBv",
+          "sample": "我以为是他在玩这个梗，没想到就是他搞出来的这个梗[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "我佛了",
+      "evidenceSamples": [
+        "我佛了，我玩个b战，癌坤权限把b站玩成微博，还控你♞的评。恶心死我了[生气]",
+        "我佛了，实在是厉害",
+        "我佛了，人类DNA改造计划[藏狐]",
+        "过了一遍，我佛了，大人将自己的主观臆想擅自强加在孩子身上，以为自己以为的就是事实，还把自己的观念强加在别人身上，傲慢与偏见。现实中很多人也是这个样子觉得自己说的就是绝对正确的，不容别人反驳.可能说的不对，但是这就是我自己思考这个视频的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "366462535",
+          "sample": "我佛了，我玩个b战，癌坤权限把b站玩成微博，还控你♞的评。恶心死我了[生气]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "3064463",
+          "sample": "我佛了，实在是厉害"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1qg411M7ND/",
+          "uid": "BV1qg411M7ND",
+          "sample": "我佛了，人类DNA改造计划[藏狐]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YA411q7wM/",
+          "uid": "159954254",
+          "sample": "过了一遍，我佛了，大人将自己的主观臆想擅自强加在孩子身上，以为自己以为的就是事实，还把自己的观念强加在别人身上，傲慢与偏见。现实中很多人也是这个样子觉得自己说的就是绝对正确的，不容别人反驳.可能说的不对，但是这就是我自己思考这个视频的。"
+        }
+      ]
+    },
+    {
+      "term": "我只能说",
+      "evidenceSamples": [
+        "看它动态就知道了我只能说是这样的",
+        "我只能说[呲牙]你好！同志[给心心]",
+        "我只能说 对衣服有异议的人都是不怎么关注运动的",
+        "作为mc十二年老玩家，我只能说抛开所有节奏不谈，两个视频的质量差距是显而易见的",
+        "吃了几天瓜了，刚刚恋与深空官方发文把敖尹撤了。如果这家玩家因为这个就又能继续回去玩，不把这游戏搞死的话，那我只能说你们真是愿打愿挨，误入你们调情局了，以后再有啥事也不要发出来了，浪费公共资源"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "看它动态就知道了我只能说是这样的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dz5Y6REFU/, https://www.bilibili.com/video/BV1ADKnzhE87/, https://www.bilibili.com/video/BV15d4y1g7eu/, https://www.bilibili.com/video/BV1fGJH6GEfr/, http://www.bilibili.com/video/av116576502160308, http://www.bilibili.com/video/av114743910078740, http://www.bilibili.com/video/av345679120, http://www.bilibili.com/video/av116741573187021",
+          "uid": "BV1dz5Y6REFU,BV1ADKnzhE87,BV15d4y1g7eu,BV1fGJH6GEfr",
+          "sample": "我只能说[呲牙]你好！同志[给心心]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dz5Y6REFU/, https://www.bilibili.com/video/BV1ADKnzhE87/, https://www.bilibili.com/video/BV15d4y1g7eu/, https://www.bilibili.com/video/BV1fGJH6GEfr/, http://www.bilibili.com/video/av116576502160308, http://www.bilibili.com/video/av114743910078740, http://www.bilibili.com/video/av345679120, http://www.bilibili.com/video/av116741573187021",
+          "uid": "BV1dz5Y6REFU,BV1ADKnzhE87,BV15d4y1g7eu,BV1fGJH6GEfr",
+          "sample": "我只能说 对衣服有异议的人都是不怎么关注运动的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "作为mc十二年老玩家，我只能说抛开所有节奏不谈，两个视频的质量差距是显而易见的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
+          "sample": "吃了几天瓜了，刚刚恋与深空官方发文把敖尹撤了。如果这家玩家因为这个就又能继续回去玩，不把这游戏搞死的话，那我只能说你们真是愿打愿挨，误入你们调情局了，以后再有啥事也不要发出来了，浪费公共资源"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1tc411h7SY/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1aMPDz9EFD/, https://www.bilibili.com/video/BV1PsKQ6zEZp/, https://www.bilibili.com/video/BV1BWQHYtEWS/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SiG267EmL/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1Cv411t7gz/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1qB7Y6TEJo/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837136275008, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116633829967092, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av114939985397134, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av114148788737593, http://www.bilibili.com/video/av285132887, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av245427569, http://www.bilibili.com/video/av116197538398486, http://www.bilibili.com/video/av116810275884390, http://www.bilibili.com/video/av114465056038820, http://www.bilibili.com/video/av115123259775445, http://www.bilibili.com/video/av115020130162090, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116749743687235, http://www.bilibili.com/video/av116741288036549, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av25694138, http://www.bilibili.com/video/av116109156093839, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116723722225221, http://www.bilibili.com/video/av116791804169065, http://www.bilibili.com/video/av116606315336091, http://www.bilibili.com/video/av116780714496108, http://www.bilibili.com/video/av829097208, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116012787697548, http://www.bilibili.com/video/av114884368931853, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116833277449797, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116646295373416, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av116824972728111, http://www.bilibili.com/video/av115897779886157, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116655891941894",
+          "uid": "BV1XXKQ6JELs,BV1tc411h7SY,BV11KKX66Eeo,BV1aMPDz9EFD,BV1PsKQ6zEZp,BV1BWQHYtEWS,BV1SXTc63E8Q,BV1SiG267EmL,BV19X7G6TEiG,BV1Cv411t7gz,BV1yZKo6HEWx,BV1qB7Y6TEJo",
+          "sample": "作为mc十二年老玩家，我只能说抛开所有节奏不谈，两个视频的质量差距是显而易见的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1WzQUBrEvJ/, https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1RtE96tE93/, https://www.bilibili.com/video/BV1bXKf6YEod/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1LcSUBDEVE/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116771637959449, http://www.bilibili.com/video/av116828177177168, http://www.bilibili.com/video/av116831784343784, http://www.bilibili.com/video/av116785965700225, http://www.bilibili.com/video/av116713706230179, http://www.bilibili.com/video/av116774188091385, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av114353135162228, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av115811863890393, http://www.bilibili.com/video/av116557174804470, http://www.bilibili.com/video/av116729762024741, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av116691895846916, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av114182829643950, http://www.bilibili.com/video/av116782912247024, http://www.bilibili.com/video/av116196900930149, http://www.bilibili.com/video/av115309201595911, http://www.bilibili.com/video/av116027971084189, http://www.bilibili.com/video/av116770211894318, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av1302081719, http://www.bilibili.com/video/av115310963198001, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av116481627002677, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av116351586868579, http://www.bilibili.com/video/av116390795215362, http://www.bilibili.com/video/av116837656430637, http://www.bilibili.com/video/av115325676880917, http://www.bilibili.com/video/av116837220157688, http://www.bilibili.com/video/av116352979371929",
+          "uid": "BV1XXKQ6JELs,BV1WzQUBrEvJ,BV1Z1Kd66ExR,BV1dT41197yJ,BV1RtE96tE93,BV1bXKf6YEod,BV1yZKo6HEWx,BV1PdEy6EEjj,BV1PETM6UEcg,BV1u37J6EEd9,BV1nAKd6gEWn,BV1LcSUBDEVE",
+          "sample": "作为mc十二年老玩家，我只能说抛开所有节奏不谈，两个视频的质量差距是显而易见的"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1STE26fEoV/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV18gLt6PE79/, https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1KBc7z5Ese/, https://www.bilibili.com/video/BV12L7h65EnU/, https://www.bilibili.com/video/BV1nXgVzDErP/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1aXt2zrERA/, https://www.bilibili.com/video/BV1zG7n6iExr/, https://www.bilibili.com/video/BV1K5o5BbEBv/, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116809890007152, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116820509983609, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av114758892129884, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116817389425929, http://www.bilibili.com/video/av116837387868380, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av1001282424, http://www.bilibili.com/video/av296487174, http://www.bilibili.com/video/av116556419893495, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116813027412052, http://www.bilibili.com/video/av116754743362704, http://www.bilibili.com/video/av115815269531963, http://www.bilibili.com/video/av116820409324029, http://www.bilibili.com/video/av116827036320830, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116772309046331, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av115087524236017, http://www.bilibili.com/video/av116736288429664, http://www.bilibili.com/video/av116610828341593, http://www.bilibili.com/video/av116063723327506, http://www.bilibili.com/video/av114890408790151, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116459078421319, http://www.bilibili.com/video/av1106042428, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av1553251362, http://www.bilibili.com/video/av116141821401035, http://www.bilibili.com/video/av116175224772702",
+          "uid": "BV1h7jgzzEn6,BV1STE26fEoV,BV1PETM6UEcg,BV18gLt6PE79,BV1mqTF6YEig,BV1KBc7z5Ese,BV12L7h65EnU,BV1nXgVzDErP,BV16VTw6oEwv,BV1aXt2zrERA,BV1zG7n6iExr,BV1K5o5BbEBv",
+          "sample": "吃了几天瓜了，刚刚恋与深空官方发文把敖尹撤了。如果这家玩家因为这个就又能继续回去玩，不把这游戏搞死的话，那我只能说你们真是愿打愿挨，误入你们调情局了，以后再有啥事也不要发出来了，浪费公共资源"
+        }
+      ]
+    },
+    {
+      "term": "我太南了",
+      "evidenceSamples": [
+        "{'text': '建国：别骂了别骂了，我记错了还不行吗[热词系列_我太南了]', 'sample': '建国：别骂了别骂了，我记错了还不行吗[热词系列_我太南了]'}",
+        "{'text': '宝 咱不与这种人论长短，谢谢你帮我说话，这种人的脑回路是听不进去正常人发言的[热词系列_我太南了]举报一手就好 谢谢你支持我[给心心]', 'sample': '宝 咱不与这种人论长短，谢谢你帮我说话，这种人的脑回路是听不进去正常人发言的[热词系列_我太南了]举报一手就好 谢谢你支持我[给心心]'}",
+        "北极熊可是陆地上体型最大的食肉动物。🐻\\n但实际上，正常情况下，北极熊打不过棕熊。两者的受伤成本不同，一个是纯肉食动物，一个是杂食动物。要真搏命，那不好说\\n[热词系列_我太南了]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU",
+          "uid": "8037081",
+          "sample": "建国：别骂了别骂了，我记错了还不行吗[热词系列_我太南了]"
+        },
+        {
+          "source": "AICU",
+          "uid": "8048877",
+          "sample": "宝 咱不与这种人论长短，谢谢你帮我说话，这种人的脑回路是听不进去正常人发言的[热词系列_我太南了]举报一手就好 谢谢你支持我[给心心]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nKZnYkEnp/",
+          "uid": "BV1nKZnYkEnp",
+          "sample": "北极熊可是陆地上体型最大的食肉动物。🐻\\n但实际上，正常情况下，北极熊打不过棕熊。两者的受伤成本不同，一个是纯肉食动物，一个是杂食动物。要真搏命，那不好说\\n[热词系列_我太南了]"
+        }
+      ]
+    },
+    {
+      "term": "我就不说了",
+      "evidenceSamples": [
+        "回复 @白银御行の父亲 :呵，四级号也好意思教训我这个人二级号，为什么不配，我就不说了，懂得都懂，不懂得说了也不懂[doge]",
+        "我觉得我有必要说两句🤓👨🦲 🤨我在你们这才买了几件商品 我已经发现三个问题了👆👆👆 首先👏👏👏 机器算账🤔 这钱怎么装进你私人的腰包呢🤷♂ 🙇♂👨🦲对不起 第二🥸✌ 这个冰激凌我刚从冰柜里拿出来🧏♂ 我还没出门呢 这已经要化了😑 😔🤨 唉 这说明你们的冰柜有问题啊 第三 这个豆浆已经算完了账😲 这位带牙套的小同志🤔 你怎么不给我吸管呢🙄 😧🤨（歪头） 豆浆它是热饮 容易烫伤都是不配吸管的😯 那请问 我怎么才能喝它呢🤨 就好像我到餐厅里去吃饭 你不给我筷子我怎么吃呢🤷♂ 我去洗手间解决问题 你不给我手纸 我怎么解决呢🤷♂ 我买了辆车 没有方向盘我怎么开呢🤷♂ 😧🤦♂ 👨🦲🤚好了 你不就要跟吸管吗😒 小钢牙 你给他一根不就完了吗 🙄什么叫我不就要根吸管啊 我说这位秃顶的老同志😓 你这话说的不对啊 你们是超市 你们有义务给我这根吸管 这是我的权利 懂吧 😧🤨 我一个人你们就省一根吸管 十个人就省十根吸管 一百个人你们就省一百根吸管🥸🤚 全国那么多家连锁超市 你们要省多少根吸管啊 🧐😩 😎哼 行了 我感觉我的话已经触及到你的灵魂 我的我就不说了😎我的律师会告诉你们的 😳😱 🚶 （关上门）（插上吸管）（喝口豆浆）🤮（被烫了）😧（赶紧跑了）",
+        "我别的我就不说了啊，就155毫米的榴弹炮打中人，我就我就不说别的了啊，你哪怕就是快石心混凝土水泥块都能给你炸的4分五裂，你跟我说碳基生物嘎了70多发，哥们儿，你这狼是地球物种吗？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1M54y1B7P3/",
+          "uid": "497132874",
+          "sample": "回复 @白银御行の父亲 :呵，四级号也好意思教训我这个人二级号，为什么不配，我就不说了，懂得都懂，不懂得说了也不懂[doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1i1Eu6ME8m/",
+          "uid": "3546619637140109",
+          "sample": "我觉得我有必要说两句🤓👨🦲 🤨我在你们这才买了几件商品 我已经发现三个问题了👆👆👆 首先👏👏👏 机器算账🤔 这钱怎么装进你私人的腰包呢🤷♂ 🙇♂👨🦲对不起 第二🥸✌ 这个冰激凌我刚从冰柜里拿出来🧏♂ 我还没出门呢 这已经要化了😑 😔🤨 唉 这说明你们的冰柜有问题啊 第三 这个豆浆已经算完了账😲 这位带牙套的小同志🤔 你怎么不给我吸管呢🙄 😧🤨（歪头） 豆浆它是热饮 容易烫伤都是不配吸管的😯 那请问 我怎么才能喝它呢🤨 就好像我到餐厅里去吃饭 你不给我筷子我怎么吃呢🤷♂ 我去洗手间解决问题 你不给我手纸 我怎么解决呢🤷♂ 我买了辆车 没有方向盘我怎么开呢🤷♂ 😧🤦♂ 👨🦲🤚好了 你不就要跟吸管吗😒 小钢牙 你给他一根不就完了吗 🙄什么叫我不就要根吸管啊 我说这位秃顶的老同志😓 你这话说的不对啊 你们是超市 你们有义务给我这根吸管 这是我的权利 懂吧 😧🤨 我一个人你们就省一根吸管 十个人就省十根吸管 一百个人你们就省一百根吸管🥸🤚 全国那么多家连锁超市 你们要省多少根吸管啊 🧐😩 😎哼 行了 我感觉我的话已经触及到你的灵魂 我的我就不说了😎我的律师会告诉你们的 😳😱 🚶 （关上门）（插上吸管）（喝口豆浆）🤮（被烫了）😧（赶紧跑了）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CgnezKEHN/",
+          "uid": "BV1CgnezKEHN",
+          "sample": "我别的我就不说了啊，就155毫米的榴弹炮打中人，我就我就不说别的了啊，你哪怕就是快石心混凝土水泥块都能给你炸的4分五裂，你跟我说碳基生物嘎了70多发，哥们儿，你这狼是地球物种吗？"
+        }
+      ]
+    },
+    {
+      "term": "我就这样",
+      "evidenceSamples": [
+        "我就这样说，cxk没啥可黑的，但是他的粉丝和xz粉丝差不多，当年充B站，充明星，什么事没干过？",
+        "前面听的我龇牙咧嘴的然后13块5一出来我就这样😐",
+        "想你啊中 我关注的bup就这样慢慢都转去音符 我就这样在B站独守空房[保卫萝卜_哭哭][保卫萝卜_哭哭]",
+        "听到别人磕我 CP，我就这样",
+        "我就这样回怼我妈"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "521649651",
+          "sample": "我就这样说，cxk没啥可黑的，但是他的粉丝和xz粉丝差不多，当年充B站，充明星，什么事没干过？"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hFGU6DEcM/",
+          "uid": "BV1hFGU6DEcM",
+          "sample": "前面听的我龇牙咧嘴的然后13块5一出来我就这样😐"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1T1V36EEBw/",
+          "uid": "BV1T1V36EEBw",
+          "sample": "想你啊中 我关注的bup就这样慢慢都转去音符 我就这样在B站独守空房[保卫萝卜_哭哭][保卫萝卜_哭哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1jvVS6zEzL/",
+          "uid": "BV1jvVS6zEzL",
+          "sample": "听到别人磕我 CP，我就这样"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1g9Jp6PEqT/",
+          "uid": "BV1g9Jp6PEqT",
+          "sample": "我就这样回怼我妈"
+        }
+      ]
+    },
+    {
+      "term": "我忘了",
+      "evidenceSamples": [
+        "对对 这个忘了说了 确实可以不加魔防加攻击个体 暴风雪超糖手感会高不少",
+        "上一代人在长达二十多年的美梦里沉醉了太久，甚至已经忘了投资之前是要评估一下大环境和未来预期的。",
+        "不就是因为觉得自己恶心吗？什么撞号，分出个1啊，0啊的，简直是笑话。自己歧视自己的群体，应该是个垃圾群体吧。你们谈恋爱有多少人能超过三个月？嗯？不肯一起努力，捡现成，摆烂，物质主义，为了金钱抛弃爱情是你们这个群体的永远主旋律，像张国荣，图灵那样优秀的能有几个？恐怕优秀的人才是你们这个群体的少数派吧，不然你们怎么会经常性恋爱，每一段恋爱都逐渐使你们走向孤独终老的最终归宿。哦，我忘了，你们大多数人压根就没有老的机会，这个群体提倡的主要生活方式同样糟糕，你们真的觉得自己能活过五十？好了，我说的应该都是事实吧，死基佬们应该哑口无言了吧。",
+        "这里没有标题 听说这个吧里聚集了全球各式各样的人才，所以我就突发奇想，想问问各路大佬们一个问题……不好意思我忘了",
+        "看鬼畜这么多年，头一次看见还有伞兵说鬼畜不尊重人。哈哈，我们尊重人，但是不尊重鲲这种没有篮球实力也没有唱歌跳舞的业务能力的垃圾。还整个首先要帅要好看，属实蚌埠住了，就这自行车坐垫的脸，这种人妖都嫌弃的东西还有人爱？哦对了，我忘了饭圈粉丝没有脑子。没事，签子哥已经进去，瀚奸已经身败名裂，霍尊已经退出，肖战仍在毁剧，没事一个一个来，这群流量废物最后都要完蛋，坤坤自求多福，保不齐就是下一个。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1f1Kd66Eau/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1oi421o7GP/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1t3TM6pEhC/, https://www.bilibili.com/video/BV1s7411K7e9/, http://www.bilibili.com/video/av116836750328688, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av116826902106617, http://www.bilibili.com/video/av116831247406473, http://www.bilibili.com/video/av116768634900159, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116835693369364, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av116044966396246, http://www.bilibili.com/video/av323641281, http://www.bilibili.com/video/av369470857, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av276299258, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827002766246, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av91880405, http://www.bilibili.com/video/av1756130534, http://www.bilibili.com/video/av835254755",
+          "uid": "BV1f1Kd66Eau,BV1jjswz2EQF,BV1oi421o7GP,BV1dT41197yJ,BV1t3TM6pEhC,BV1s7411K7e9",
+          "sample": "对对 这个忘了说了 确实可以不加魔防加攻击个体 暴风雪超糖手感会高不少"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "上一代人在长达二十多年的美梦里沉醉了太久，甚至已经忘了投资之前是要评估一下大环境和未来预期的。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "不就是因为觉得自己恶心吗？什么撞号，分出个1啊，0啊的，简直是笑话。自己歧视自己的群体，应该是个垃圾群体吧。你们谈恋爱有多少人能超过三个月？嗯？不肯一起努力，捡现成，摆烂，物质主义，为了金钱抛弃爱情是你们这个群体的永远主旋律，像张国荣，图灵那样优秀的能有几个？恐怕优秀的人才是你们这个群体的少数派吧，不然你们怎么会经常性恋爱，每一段恋爱都逐渐使你们走向孤独终老的最终归宿。哦，我忘了，你们大多数人压根就没有老的机会，这个群体提倡的主要生活方式同样糟糕，你们真的觉得自己能活过五十？好了，我说的应该都是事实吧，死基佬们应该哑口无言了吧。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8686835707",
+          "uid": "小属解说LO",
+          "sample": "这里没有标题 听说这个吧里聚集了全球各式各样的人才，所以我就突发奇想，想问问各路大佬们一个问题……不好意思我忘了"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "281384599",
+          "sample": "看鬼畜这么多年，头一次看见还有伞兵说鬼畜不尊重人。哈哈，我们尊重人，但是不尊重鲲这种没有篮球实力也没有唱歌跳舞的业务能力的垃圾。还整个首先要帅要好看，属实蚌埠住了，就这自行车坐垫的脸，这种人妖都嫌弃的东西还有人爱？哦对了，我忘了饭圈粉丝没有脑子。没事，签子哥已经进去，瀚奸已经身败名裂，霍尊已经退出，肖战仍在毁剧，没事一个一个来，这群流量废物最后都要完蛋，坤坤自求多福，保不齐就是下一个。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "我好喜欢小皇帝和王爷（我忘了是将军还是王爷）的那一篇，有一句话我现在还记得“若有长风绕旗，那便是我想你了。”"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "这种手法引来男性的目光和一些不知名生物的嘲讽、攻击，很多女性就会觉得这是我们自己的事情你凭什么嘲笑我们，然后开始跟不玩的人打起来了，打着打着都忘了是什么事让她这么气的[辣眼睛]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12L7h65EnU/, https://www.bilibili.com/video/BV1bXKf6YEod/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1QQKS6GE3C/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1CM7s6REyM/, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116809890007152, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116817389425929, http://www.bilibili.com/video/av116837387868380, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116833076118746, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116838646155470, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av116822942883165, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116831767500139",
+          "uid": "BV12L7h65EnU,BV1bXKf6YEod,BV16VTw6oEwv,BV1QQKS6GE3C,BV1nAKd6gEWn,BV1CM7s6REyM",
+          "sample": "前面忘了中间忘了后面忘了，我是史"
+        }
+      ]
+    },
+    {
+      "term": "我懒",
+      "evidenceSamples": [
+        "这，我懒得改密码",
+        "你不惹我，我懒得搭理你",
+        "可是我懒得打那么多字……哈哈哈哈哈哈"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1fK4y1A7bQ/",
+          "uid": "BV1fK4y1A7bQ",
+          "sample": "这，我懒得改密码"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1D14y1M78q/",
+          "uid": "BV1D14y1M78q",
+          "sample": "你不惹我，我懒得搭理你"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1dTMmzaET7/",
+          "uid": "BV1dTMmzaET7",
+          "sample": "可是我懒得打那么多字……哈哈哈哈哈哈"
+        }
+      ]
+    },
+    {
+      "term": "我放弃",
+      "evidenceSamples": [
+        "回复 @我有预感要中奖 :对 但是这样拍摄的时候。鼻子就会有两条水柱[笑哭][笑哭]为了美观 我放弃了吐气[笑哭][笑哭]",
+        "我之前也有两缸鱼[笑哭]死成3条…我放弃了，我养不明白鱼…",
+        "这视频成功让我放弃了紫砂的欲望，因为我很清楚如果紫砂的话走马灯会让我再看一遍[笑哭]",
+        "太难了，我放弃了[黑脸]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ESZuYCEaB/",
+          "uid": "BV1ESZuYCEaB",
+          "sample": "回复 @我有预感要中奖 :对 但是这样拍摄的时候。鼻子就会有两条水柱[笑哭][笑哭]为了美观 我放弃了吐气[笑哭][笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1rNZnYVEwL/",
+          "uid": "BV1rNZnYVEwL",
+          "sample": "我之前也有两缸鱼[笑哭]死成3条…我放弃了，我养不明白鱼…"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PJ9QY8Eh9/",
+          "uid": "BV1PJ9QY8Eh9",
+          "sample": "这视频成功让我放弃了紫砂的欲望，因为我很清楚如果紫砂的话走马灯会让我再看一遍[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV11d6rB4Evy/",
+          "uid": "BV11d6rB4Evy",
+          "sample": "太难了，我放弃了[黑脸]"
+        }
+      ]
+    },
+    {
+      "term": "我无言以对",
+      "evidenceSamples": [
+        "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。",
+        "都无言以对(¯―¯٥)",
+        "唉！无言以对………",
+        "哈哈哈哈我竟无言以对",
+        "刚看过有这内容的小说，你哪怕换个红薯我都不会说啥，杂交水稻？种子？我无言以对了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "和女朋友谈彩礼问题，女朋友的发炎让我无言以对…… 弄清资质再应聘，加强防范不交钱。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "都无言以对(¯―¯٥)"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "唉！无言以对………"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ug411P7pD/",
+          "uid": "BV1Ug411P7pD",
+          "sample": "哈哈哈哈我竟无言以对"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1R94y1t7id/, https://www.bilibili.com/video/BV17BJVzYEs2/, https://www.bilibili.com/video/BV1Dkju6pEv4/, https://www.bilibili.com/video/BV1Qu4y1J7YK/, https://www.bilibili.com/video/BV1ns4y1F7Sh/, https://www.bilibili.com/video/BV1zt4y1M7NB/, https://www.bilibili.com/video/BV1iLTn6ME9F/, https://www.bilibili.com/video/BV1Qw4m1a7LB/, http://www.bilibili.com/video/av364798379, http://www.bilibili.com/video/av114528624841450, http://www.bilibili.com/video/av116758367180809, http://www.bilibili.com/video/av919957229, http://www.bilibili.com/video/av955343477, http://www.bilibili.com/video/av987211060, http://www.bilibili.com/video/av116851463952511, http://www.bilibili.com/video/av1106112784",
+          "uid": "BV1R94y1t7id,BV17BJVzYEs2,BV1Dkju6pEv4,BV1Qu4y1J7YK,BV1ns4y1F7Sh,BV1zt4y1M7NB,BV1iLTn6ME9F,BV1Qw4m1a7LB",
+          "sample": "刚看过有这内容的小说，你哪怕换个红薯我都不会说啥，杂交水稻？种子？我无言以对了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1vCTc67ErM/, https://www.bilibili.com/video/BV1wmTe69EJD/, https://www.bilibili.com/video/BV1TzTe6FEEt/, https://www.bilibili.com/video/BV18DTc6kEZj/, https://www.bilibili.com/video/BV1zhTY61EFg/, https://www.bilibili.com/video/BV1Q8TF6ME6u/, https://www.bilibili.com/video/BV1PMTi6FEKw/, https://www.bilibili.com/video/BV1D5b8zxEAb/, http://www.bilibili.com/video/av116840005114579, http://www.bilibili.com/video/av116844383962236, http://www.bilibili.com/video/av116842672692656, http://www.bilibili.com/video/av116839921224695, http://www.bilibili.com/video/av116843410885049, http://www.bilibili.com/video/av116838663066092, http://www.bilibili.com/video/av116843511678549, http://www.bilibili.com/video/av115019995938893",
+          "uid": "BV1vCTc67ErM,BV1wmTe69EJD,BV1TzTe6FEEt,BV18DTc6kEZj,BV1zhTY61EFg,BV1Q8TF6ME6u,BV1PMTi6FEKw,BV1D5b8zxEAb",
+          "sample": "我竟无言以对[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1frTq6sEob/, https://www.bilibili.com/video/BV1CxTv6oEip/, https://www.bilibili.com/video/BV1zhTY61EFg/, https://www.bilibili.com/video/BV18DTc6kEZj/, https://www.bilibili.com/video/BV1xwTi6AEmD/, https://www.bilibili.com/video/BV1CuTi6tEQk/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1dT41197yJ/, http://www.bilibili.com/video/av116844702799181, http://www.bilibili.com/video/av116844300076879, http://www.bilibili.com/video/av116843410885049, http://www.bilibili.com/video/av116839921224695, http://www.bilibili.com/video/av116843578657538, http://www.bilibili.com/video/av116843561950102, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av479018786",
+          "uid": "BV1frTq6sEob,BV1CxTv6oEip,BV1zhTY61EFg,BV18DTc6kEZj,BV1xwTi6AEmD,BV1CuTi6tEQk,BV1u37J6EEd9,BV1dT41197yJ",
+          "sample": "我竟无言以对[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "我有个朋友",
+      "evidenceSamples": [
+        "{'text': '我有个朋友就是类似，只在有新地图的时候，上线玩几天，纯图新鲜感，然后退游直到下次有新地图。他也不抽卡，剧情也不过，全靠刷解说类视频了解剧情。就是几个月玩一次的频率，特轻松。', 'sample': '我有个朋友就是类似，只在有新地图的时候，上线玩几天，纯图新鲜感，然后退游直到下次有新地图。他也不抽卡，剧情也不过，全靠刷解说类视频了解剧情。就是几个月玩一次的频率，特轻松。'}",
+        "{'text': '回复 @9゚ : 所以是啥原因啊，我有个朋友今天上号也被封一天了[笑哭]', 'sample': '回复 @9゚ : 所以是啥原因啊，我有个朋友今天上号也被封一天了[笑哭]'}",
+        "{'text': '我有个朋友。。。。[滑稽]', 'sample': '我有个朋友。。。。[滑稽]'}",
+        "{'text': '我有个朋友的母亲，要求我朋友找对象要对方出示近期的献血证。\\n献血证的话，会漏掉哪些项目吗？', 'sample': '我有个朋友的母亲，要求我朋友找对象要对方出示近期的献血证。\\n献血证的话，会漏掉哪些项目吗？'}",
+        "{'text': '我就在穿白衣服的单位上班，动不动就异地就医等审批排队一堆人，还不一定给你批，不让你异地就医，异地回来难报销，总觉得医保是特别麻烦的东西。我有个朋友家里很有钱，有一回着急去就医就直接去北京了，也不在乎报销不报销了。', 'sample': '我就在穿白衣服的单位上班，动不动就异地就医等审批排队一堆人，还不一定给你批，不让你异地就医，异地回来难报销，总觉得医保是特别麻烦的东西。我有个朋友家里很有钱，有一回着急去就医就直接去北京了，也不在乎报销不报销了。'}"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU",
+          "uid": "50072451",
+          "sample": "我有个朋友就是类似，只在有新地图的时候，上线玩几天，纯图新鲜感，然后退游直到下次有新地图。他也不抽卡，剧情也不过，全靠刷解说类视频了解剧情。就是几个月玩一次的频率，特轻松。"
+        },
+        {
+          "source": "AICU",
+          "uid": "1072842577",
+          "sample": "回复 @9゚ : 所以是啥原因啊，我有个朋友今天上号也被封一天了[笑哭]"
+        },
+        {
+          "source": "AICU",
+          "uid": "356188684",
+          "sample": "我有个朋友。。。。[滑稽]"
+        },
+        {
+          "source": "AICU",
+          "uid": "8496724",
+          "sample": "我有个朋友的母亲，要求我朋友找对象要对方出示近期的献血证。\n献血证的话，会漏掉哪些项目吗？"
+        },
+        {
+          "source": "AICU",
+          "uid": "10404276",
+          "sample": "我就在穿白衣服的单位上班，动不动就异地就医等审批排队一堆人，还不一定给你批，不让你异地就医，异地回来难报销，总觉得医保是特别麻烦的东西。我有个朋友家里很有钱，有一回着急去就医就直接去北京了，也不在乎报销不报销了。"
+        }
+      ]
+    }
+  ]
+}

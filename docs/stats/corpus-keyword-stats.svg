@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">Bilibili User Personality data collection and keyword analysis stats</title>
+  <desc id="desc">Current counts for collected comments, danmaku, analyzed dictionary keywords, and coverage metrics.</desc>
+  <style>
+    .bg { fill: #f7f0df; }
+    .panel { fill: #fffaf0; stroke: #27231c; stroke-width: 2; }
+    .title { font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }
+    .sub { font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
+    .small { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }
+    .metric { font: 700 24px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .card-label { font: 700 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; letter-spacing: 0.5px; }
+    .card-value { font: 700 30px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .card-sub { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #8a8170; }
+    .stat-icon { font: 26px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+    .stat-num { font: 700 17px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }
+    .stat-label { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }
+  </style>
+  <rect class="bg" width="920" height="430" rx="24"/>
+  <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
+  <text x="40" y="60" class="title">Corpus Collection + Keyword Analysis</text>
+  <text x="40" y="84" class="sub">auto-generated from repo data on 2026-08-22</text>
+  <!-- Top row: three equally-sized cards, vertically aligned at cy=196 -->
+  <!-- Column 1: coverage donut (r=56, cy matches card centers) -->
+  <g>
+    <circle cx="165" cy="196" r="56" fill="none" stroke="#e8e1d2" stroke-width="20"/>
+    <circle cx="165" cy="196" r="56" fill="none" stroke="#3f7558" stroke-width="20"
+      stroke-dasharray="351.9 0.0" stroke-linecap="butt"
+      transform="rotate(-90 165 196)"/>
+    <text x="165" y="192" text-anchor="middle" dominant-baseline="central" class="metric" font-size="24">100.00%</text>
+    <text x="165" y="216" text-anchor="middle" dominant-baseline="central" class="small">coverage</text>
+  </g>
+  <!-- Column 2: weak terms card -->
+  <g>
+    <rect x="340" y="148" width="240" height="96" rx="14" fill="#eadfca" stroke="#27231c" stroke-width="1.5"/>
+    <text x="460" y="172" text-anchor="middle" dominant-baseline="central" class="card-label">WEAK TERMS</text>
+    <text x="460" y="206" text-anchor="middle" dominant-baseline="central" class="card-value">0</text>
+    <text x="460" y="230" text-anchor="middle" dominant-baseline="central" class="card-sub">&#8595; target: 0</text>
+  </g>
+  <!-- Column 3: evidence deficit card -->
+  <g>
+    <rect x="635" y="148" width="240" height="96" rx="14" fill="#dbe8df" stroke="#27231c" stroke-width="1.5"/>
+    <text x="755" y="172" text-anchor="middle" dominant-baseline="central" class="card-label">EVIDENCE DEFICIT</text>
+    <text x="755" y="206" text-anchor="middle" dominant-baseline="central" class="card-value">0</text>
+    <text x="755" y="230" text-anchor="middle" dominant-baseline="central" class="card-sub">gap to close</text>
+  </g>
+  <!-- Divider -->
+  <line x1="40" y1="290" x2="880" y2="290" stroke="#d7ccb8" stroke-width="1"/>
+  <!-- Bottom row: corpus collection stats, same 3 column centers.
+       Emoji icons use dominant-baseline=central because emoji glyphs have
+       non-standard baselines that otherwise render off-center. -->
+  <g>
+    <text x="165" y="322" text-anchor="middle" dominant-baseline="central" class="stat-icon">&#128172;</text>
+    <text x="165" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">25,713</text>
+    <text x="165" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">comments / replies</text>
+    <text x="460" y="322" text-anchor="middle" dominant-baseline="central" class="stat-icon">&#127916;</text>
+    <text x="460" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">153,875</text>
+    <text x="460" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">danmaku</text>
+    <text x="755" y="322" text-anchor="middle" dominant-baseline="central" class="stat-icon">&#128218;</text>
+    <text x="755" y="358" text-anchor="middle" dominant-baseline="central" class="stat-num">2,742</text>
+    <text x="755" y="378" text-anchor="middle" dominant-baseline="central" class="stat-label">keyword terms</text>
+  </g>
+</svg>

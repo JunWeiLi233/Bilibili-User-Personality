@@ -1,0 +1,507 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "absolutes",
+  "shard": 24,
+  "shardCount": 37,
+  "evidence": [
+    {
+      "term": "最差",
+      "evidenceSamples": [
+        "生命树播放量低，网上讨论的内容也都是剧情不合理和杨紫演技差。杨紫在生命树里演技最差，还得了水玉兰。",
+        "回复 @侦探白钟直斗 :14是14，16是16，我也理解16是SE背水一战，但宣发方面用力过猛了。前面哪一作像16这么搞的？这代宣发可以说做得很差，我甚至认为是历代最差！",
+        "“你们是我带过最差的一届” ——《师说》",
+        "表现最好的王蓉淘汰\\n表现最差的陈德容混到了三公，我真的不知道怎么说了",
+        "这么多届初c终c，我感觉桃对刘雨昕待遇最差，其他初c都有节目该给的强营销，也是选秀初期打出的招牌，但婧的主题曲舞台在一公后，有了节目时长很长的一公，让观众对主题曲舞台热情没那么高了，压制了本届初c的光芒，让她错过了第一波在大众面前刷脸的机会"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV11r5F6LEKo/, https://www.bilibili.com/video/BV19X7G6TEiG/, https://www.bilibili.com/video/BV1QnTT64Ek8/, https://www.bilibili.com/video/BV1SXTc63E8Q/, https://www.bilibili.com/video/BV1SF7s6cEZW/, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av114438329868187, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av115596746300250, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av114613366687292, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av565805442, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116804588537830, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av843335704, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av116675068368192, http://www.bilibili.com/video/av116825308273284, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116757645756455",
+          "uid": "BV1nAKd6gEWn,BV11r5F6LEKo,BV19X7G6TEiG,BV1QnTT64Ek8,BV1SXTc63E8Q,BV1SF7s6cEZW",
+          "sample": "生命树播放量低，网上讨论的内容也都是剧情不合理和杨紫演技差。杨紫在生命树里演技最差，还得了水玉兰。"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @侦探白钟直斗 :14是14，16是16，我也理解16是SE背水一战，但宣发方面用力过猛了。前面哪一作像16这么搞的？这代宣发可以说做得很差，我甚至认为是历代最差！"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8473422713",
+          "uid": "笺墨无颜",
+          "sample": "“你们是我带过最差的一届” ——《师说》"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV17JoXYFEvs/",
+          "uid": "BV17JoXYFEvs",
+          "sample": "表现最好的王蓉淘汰\\n表现最差的陈德容混到了三公，我真的不知道怎么说了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18pZrYHEyt/",
+          "uid": "BV18pZrYHEyt",
+          "sample": "这么多届初c终c，我感觉桃对刘雨昕待遇最差，其他初c都有节目该给的强营销，也是选秀初期打出的招牌，但婧的主题曲舞台在一公后，有了节目时长很长的一公，让观众对主题曲舞台热情没那么高了，压制了本届初c的光芒，让她错过了第一波在大众面前刷脸的机会"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1HtnJztEt2/",
+          "uid": "384617339",
+          "sample": "李绍希每次都把最差的状态留在奥运会[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1PZy2YdEk6/",
+          "uid": "498143765",
+          "sample": "回复 @打狗的棒 :我也有用了几年的，好吧，拼多多的耳机买了差不多最少30个了，那些质量清楚的很。 比如乐视蓝牙耳机，一个声音大一个声音小。 再比如华强北i12，i18什么的，一个小时就没电，充电耳机。都烧焦了。我靠这简直要吓死我了。 咪咕耳机，这是中国移动出品的。同样问题电流声。滋滋滋的，连接非常不稳定。 影巨人的。音质还可以，但就是续航很差。 还有一个机甲风格的蓝牙耳机。永远只能连一个耳朵，只要连了这个那个就断了。 铂典，这个续航应该是最差的。那耳机本身就轻的离谱。 还有很多买的时候上面有牌子，但实际到货上面没牌子的。 我没有否认有好的，但是有些质量他确实差。漫步者的不错啊，评价不好。但我买的这个声音续航没翻车。但是他那个充电灯坏了。 还有我现在用的迪士尼的，这个音质还有续航可以。(不过虽然有些耳机都叫迪士尼，但好像也不太一样，有的音质就不行，好像不是一个公司，都是授权的)"
+        }
+      ]
+    },
+    {
+      "term": "最强",
+      "evidenceSamples": [
+        "一人之下最吸引我的地方，是它的人物塑造。在一人的世界里，没有绝对的好坏，没有绝对的善恶。所谓的正义和邪恶只是世人所想罢了，十佬善吗？全性又全恶了吗？甚至连处男，王也，诸葛青这些人他们也并非是表现中的那个样子，他们也有自己的困扰，自己的心魔。...",
+        "为什么老说美国最强大，我感觉外国比美国还厉害啊",
+        "布隆说心脏是最强壮的肌肉，食人族大酋长表示赞同 “很有嚼头。”",
+        "我认可up批评的一些乐坛乱象。但仍然没有触及到问题的根本。 为什么中国的艺术、文化之类的文科领域始终达不到所谓发达国家的高度呢？ 这一点我想借用作家边芹的观点：“因为中国丧失了定义美的话语权”。谁来定义美好，谁又来诠释低俗？很显然，目前世界文化体系仍然是依西方文化体系马首是瞻。 在这样的体系之下，国内的大量文化工作者不仅没有跳出这种桎梏反而争先恐后的去充当西方体系的扩音器，拼了命去融合进对方的体系，并且抨击任何反对的人。如果一直保持这样的环境，那国内的文化产业就永远也不可能有领导世界的机会：连世界艺术的皇冠都是别人打造定义的，那你又该如何戴上它加冕成王呢？ 其实说到这里就不得不说西方文化对于国内审美的侵略，说句难听的，就连up也是被西方文化牵着鼻子走。毕竟连你的审美都是对方来定义的，就算审美在高级也不过是对欧美乐理教科书的崇拜和重复罢了。 那如何才能摆脱这种局面呢，我想其实我们已经走在正确的道路上了。从古至今，文化强盛的国家和文明都一定是军事、经济、综合国力及其强盛的。当年被喷成蛮子的英国佬，国立强盛到日不落之后就能摇身一变成为近代文明的代言人。又在说美洲拓荒的罪犯流放徒之国在工业革命两次大战之后成为领导世界至今的文明灯塔。软实力是源生于硬实力的，话语权不是靠别人施舍而是自己争夺的。短期内文化的话语权还能被长期以来的优势卡在他们手里，但军事和经济上的差距在不断缩小追平直到反超的越来越大，这方面是他们无法掩盖无法忽视的。 我自开始了解世界直到现在都十分坚信中华文明是世界最灿烂的文化，最大的底气就是因为我知道中国人的历史比任何国家和文明都更加恢弘。古老的民族最强的地方就是失败了不会消亡而是重新站起来。等到我们打出自己的翻身仗后，文化领域的话语权慢慢就会易手，到那时还会存在审美倒退的问题吗？连审美权都在我手上，自有大儒为我辩经。",
+        "孩子们，我是鳊鱼巴士最强数值怪🧥😈🌂"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "一人之下最吸引我的地方，是它的人物塑造。在一人的世界里，没有绝对的好坏，没有绝对的善恶。所谓的正义和邪恶只是世人所想罢了，十佬善吗？全性又全恶了吗？甚至连处男，王也，诸葛青这些人他们也并非是表现中的那个样子，他们也有自己的困扰，自己的心魔。..."
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/5964105522",
+          "uid": "绫o零",
+          "sample": "为什么老说美国最强大，我感觉外国比美国还厉害啊"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7661742844",
+          "uid": "贴吧用户_0J9KbAM",
+          "sample": "布隆说心脏是最强壮的肌肉，食人族大酋长表示赞同 “很有嚼头。”"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我认可up批评的一些乐坛乱象。但仍然没有触及到问题的根本。 为什么中国的艺术、文化之类的文科领域始终达不到所谓发达国家的高度呢？ 这一点我想借用作家边芹的观点：“因为中国丧失了定义美的话语权”。谁来定义美好，谁又来诠释低俗？很显然，目前世界文化体系仍然是依西方文化体系马首是瞻。 在这样的体系之下，国内的大量文化工作者不仅没有跳出这种桎梏反而争先恐后的去充当西方体系的扩音器，拼了命去融合进对方的体系，并且抨击任何反对的人。如果一直保持这样的环境，那国内的文化产业就永远也不可能有领导世界的机会：连世界艺术的皇冠都是别人打造定义的，那你又该如何戴上它加冕成王呢？ 其实说到这里就不得不说西方文化对于国内审美的侵略，说句难听的，就连up也是被西方文化牵着鼻子走。毕竟连你的审美都是对方来定义的，就算审美在高级也不过是对欧美乐理教科书的崇拜和重复罢了。 那如何才能摆脱这种局面呢，我想其实我们已经走在正确的道路上了。从古至今，文化强盛的国家和文明都一定是军事、经济、综合国力及其强盛的。当年被喷成蛮子的英国佬，国立强盛到日不落之后就能摇身一变成为近代文明的代言人。又在说美洲拓荒的罪犯流放徒之国在工业革命两次大战之后成为领导世界至今的文明灯塔。软实力是源生于硬实力的，话语权不是靠别人施舍而是自己争夺的。短期内文化的话语权还能被长期以来的优势卡在他们手里，但军事和经济上的差距在不断缩小追平直到反超的越来越大，这方面是他们无法掩盖无法忽视的。 我自开始了解世界直到现在都十分坚信中华文明是世界最灿烂的文化，最大的底气就是因为我知道中国人的历史比任何国家和文明都更加恢弘。古老的民族最强的地方就是失败了不会消亡而是重新站起来。等到我们打出自己的翻身仗后，文化领域的话语权慢慢就会易手，到那时还会存在审美倒退的问题吗？连审美权都在我手上，自有大儒为我辩经。"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "孩子们，我是鳊鱼巴士最强数值怪🧥😈🌂"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "主角是超高科技佣兵潜艇Chrono号。每关开头都可以选择火力配置有不同鱼雷选择。没有了深水炸弹攻击，可能是因为3D化视角不好处理的原因。除鱼雷外可浮上水面发射导弹对空和打击岸上目标。还有个类似机枪的辅助武器，设定原理似乎是发射超空泡的针头弹..."
+        }
+      ]
+    },
+    {
+      "term": "最最最",
+      "evidenceSamples": [
+        "那我们最最最和蔼可亲又可爱的工程位呢？[鼓掌]",
+        "记得在出道战前就有消息说 小祺要唱这首歌，不过后来唱的是《雪落》hhhh小祺的声音太适合这种温柔的歌曲了！和深深是不一样的温柔感！我最最最最最最最亲爱的旅人马嘉祺小朋友，希望你越来越好，属于你的路会有繁华簇拥，气球会一直陪着你走下去。“所遇皆所求，所行化坦途。”",
+        "说个最小红书都发不出去，他在这最最最"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1QhV866Esv/",
+          "uid": "BV1QhV866Esv",
+          "sample": "那我们最最最和蔼可亲又可爱的工程位呢？[鼓掌]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1664y1u7bj/",
+          "uid": "BV1664y1u7bj",
+          "sample": "记得在出道战前就有消息说 小祺要唱这首歌，不过后来唱的是《雪落》hhhh小祺的声音太适合这种温柔的歌曲了！和深深是不一样的温柔感！我最最最最最最最亲爱的旅人马嘉祺小朋友，希望你越来越好，属于你的路会有繁华簇拥，气球会一直陪着你走下去。“所遇皆所求，所行化坦途。”"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1FCVY6FEAp/",
+          "uid": "587877195",
+          "sample": "说个最小红书都发不出去，他在这最最最"
+        }
+      ]
+    },
+    {
+      "term": "最棒",
+      "evidenceSamples": [
+        "你们慢慢玩梗，坤慢慢拿奖，等你们玩够了，再后头看看坤的奖项，再看看在你们玩梗的这段时间里坤拿了多少奖，越红才越会被黑，小黑子们，坤坤永远是最棒的我希望你真的是ikun,而不是在这里伪装碟中谍，爱蔡徐坤不是爱在短视频发他视频，这样也可能会招黑，爱他爱在心动的那首歌，爱在为之动容的颜值，爱在每一个爱的瞬间，真爱粉永远都在。其实我感觉cxk其实也没犯什么错对吧，黑的话黑一段时间就够了，如果一直揪着一点不放我就觉得有点过分了虽然说他的表情包我觉得也很好笑，但我不会拿他的表情包去黑他我爱的男孩子左脸有痣右脸有疤左脸是浴火重生右脸却是满目星辰，184的身高撑起了ikun的整个青春，他爱惨了我们，我们也爱惨了他，他说过，与其说时间过得很快，但是我觉得我们的故事是forever! 他还说过，他要爱ikun一辈子，爱蔡徐坤从来不是单恋，他是我唯- -一个拿命来爱的人，他是我唯- -一个爱到骨子里的人，他真的值得，陪他走会娱乐圈，我就不追星了啦!我的眼睛很小，只容得下蔡徐坤，我的心很小，只容得下蔡徐坤，蔡徐坤值得蔡徐坤值得如果你不喜欢，就不要伤害。你黑蔡徐坤，我们只解释不回黑，不是因为我们不敢，而是他告诉我们，无论这个世界怎么样，我们都要漂亮，但是我们跟你好好说话，你不要以为我们好说话，爱坤不惹事，但也不怕事蔡虚坤发烧1000度坚持上台，双腿粉碎性骨折仍练习踢踏舞，每日练习365个小时，大小便失禁仍不去医院，累得高位截瘫还练舞，喉咙肿大30多倍坚持练发音，有全国300亿粉丝却不骄傲，每个2月29、30日慈善义演，将获得的20万亿美元捐给瑞士上不起学的孩子，为了慈善事业每天献出两大桶血，这些你们这些小黑子能做到吗?关于这个事，我简单说两句，你明白就行，总而言之，这个事呢，现在就是这个情况，具体的呢，大家也都看得到，也得出来说那么几句，可能，你听的不是很明白，但是意思就是那么个意思，不知道的你也不用去猜，这种事情见得多了，我只想说懂得都懂，不懂的我也不多解释，毕竟自己知道就好，细细品吧。你们也别来问我怎么了，利益牵扯太大，说了对你我都没好处，当不知道就行了，其余的我只能说这里面水很深，牵扯到很多东西。详细情况你们自己是很难找的，网上大部分已经删除干净了，所以我只能说懂得都懂。懂的人已经基本都获利上岸什么的了，不懂的人永远不懂坤坤下的蛋有多好吃",
+        "你们慢慢玩梗，坤慢慢拿奖，等你们玩够了，再后头看看坤的奖项，再看看在你们玩梗的这段时间里坤拿了多少奖，越红才越会被黑，小黑子们，坤坤永远是最棒的我希望你真的是ikun,而不是在这里伪装碟中谍，爱蔡徐坤不是爱在短视频发他视频，这样也可能会招黑，爱他爱在心动的那首歌，爱在为之动容的颜值，爱在每一个爱的瞬间，真爱粉永远都在。其实我感觉cxk其实也没犯什么错对吧，黑的话黑一段时间就够了，如果一直揪着一点不放我就觉得有点过分了。虽然说他的表情包我觉得也很好笑，但我不会拿他的表情包去黑他我爱的男孩子左脸有痣右脸有疤左脸是浴火重生右脸却是满目星辰，184的身高撑起了ikun的整个青春，他爱惨了我们，我们也爱惨了他，他说过，与其说时间过得很快，但是我觉得我们的故事是forever! 他还说过，他要爱ikun一辈子，爱蔡徐坤从来不是单恋，他是我唯- -一个拿命来爱的人，他是我唯- -一个爱到骨子里的人，他真的值得，陪他走会娱乐圈，我就不追星了啦!待我脱下校服之日，便是金海猖狂之时我的眼睛很小，只容得下蔡徐坤，我的心很小，只容得下蔡徐坤，蔡徐坤值得蔡徐坤值得如果你不喜欢，就不要伤害。你黑蔡徐坤，我们只解释不回黑，不是因为我们不敢，而是他告诉我们，无论这个世界怎么样，我们都要漂亮，但是我们跟你好好说话，你不要以为我们好说话，爱坤不惹事，但也不怕事蔡虚坤发烧1000度坚持上台，双腿粉碎性骨折仍练习踢踏舞，每日练习365个小时，大小便失禁仍不去医院，累得高位截瘫还练舞，喉咙肿大30多倍坚持练发音，有全国300亿粉丝却不骄傲，每个2月29、30日慈善义演，将获得的20万亿美元捐给瑞士上不起学的孩子，为了慈善事业每天献出两大桶血，这些你们这些小黑子能做到吗?",
+        "迄今为止最棒的脑洞，比那些“你骗人”之类的高级多了[吃瓜]",
+        "最棒的……[捂脸][捂脸]",
+        "七个小宝是最棒的[打call]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "523458639",
+          "sample": "你们慢慢玩梗，坤慢慢拿奖，等你们玩够了，再后头看看坤的奖项，再看看在你们玩梗的这段时间里坤拿了多少奖，越红才越会被黑，小黑子们，坤坤永远是最棒的我希望你真的是ikun,而不是在这里伪装碟中谍，爱蔡徐坤不是爱在短视频发他视频，这样也可能会招黑，爱他爱在心动的那首歌，爱在为之动容的颜值，爱在每一个爱的瞬间，真爱粉永远都在。其实我感觉cxk其实也没犯什么错对吧，黑的话黑一段时间就够了，如果一直揪着一点不放我就觉得有点过分了虽然说他的表情包我觉得也很好笑，但我不会拿他的表情包去黑他我爱的男孩子左脸有痣右脸有疤左脸是浴火重生右脸却是满目星辰，184的身高撑起了ikun的整个青春，他爱惨了我们，我们也爱惨了他，他说过，与其说时间过得很快，但是我觉得我们的故事是forever! 他还说过，他要爱ikun一辈子，爱蔡徐坤从来不是单恋，他是我唯- -一个拿命来爱的人，他是我唯- -一个爱到骨子里的人，他真的值得，陪他走会娱乐圈，我就不追星了啦!我的眼睛很小，只容得下蔡徐坤，我的心很小，只容得下蔡徐坤，蔡徐坤值得蔡徐坤值得如果你不喜欢，就不要伤害。你黑蔡徐坤，我们只解释不回黑，不是因为我们不敢，而是他告诉我们，无论这个世界怎么样，我们都要漂亮，但是我们跟你好好说话，你不要以为我们好说话，爱坤不惹事，但也不怕事蔡虚坤发烧1000度坚持上台，双腿粉碎性骨折仍练习踢踏舞，每日练习365个小时，大小便失禁仍不去医院，累得高位截瘫还练舞，喉咙肿大30多倍坚持练发音，有全国300亿粉丝却不骄傲，每个2月29、30日慈善义演，将获得的20万亿美元捐给瑞士上不起学的孩子，为了慈善事业每天献出两大桶血，这些你们这些小黑子能做到吗?关于这个事，我简单说两句，你明白就行，总而言之，这个事呢，现在就是这个情况，具体的呢，大家也都看得到，也得出来说那么几句，可能，你听的不是很明白，但是意思就是那么个意思，不知道的你也不用去猜，这种事情见得多了，我只想说懂得都懂，不懂的我也不多解释，毕竟自己知道就好，细细品吧。你们也别来问我怎么了，利益牵扯太大，说了对你我都没好处，当不知道就行了，其余的我只能说这里面水很深，牵扯到很多东西。详细情况你们自己是很难找的，网上大部分已经删除干净了，所以我只能说懂得都懂。懂的人已经基本都获利上岸什么的了，不懂的人永远不懂坤坤下的蛋有多好吃"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "431246614",
+          "sample": "你们慢慢玩梗，坤慢慢拿奖，等你们玩够了，再后头看看坤的奖项，再看看在你们玩梗的这段时间里坤拿了多少奖，越红才越会被黑，小黑子们，坤坤永远是最棒的我希望你真的是ikun,而不是在这里伪装碟中谍，爱蔡徐坤不是爱在短视频发他视频，这样也可能会招黑，爱他爱在心动的那首歌，爱在为之动容的颜值，爱在每一个爱的瞬间，真爱粉永远都在。其实我感觉cxk其实也没犯什么错对吧，黑的话黑一段时间就够了，如果一直揪着一点不放我就觉得有点过分了。虽然说他的表情包我觉得也很好笑，但我不会拿他的表情包去黑他我爱的男孩子左脸有痣右脸有疤左脸是浴火重生右脸却是满目星辰，184的身高撑起了ikun的整个青春，他爱惨了我们，我们也爱惨了他，他说过，与其说时间过得很快，但是我觉得我们的故事是forever! 他还说过，他要爱ikun一辈子，爱蔡徐坤从来不是单恋，他是我唯- -一个拿命来爱的人，他是我唯- -一个爱到骨子里的人，他真的值得，陪他走会娱乐圈，我就不追星了啦!待我脱下校服之日，便是金海猖狂之时我的眼睛很小，只容得下蔡徐坤，我的心很小，只容得下蔡徐坤，蔡徐坤值得蔡徐坤值得如果你不喜欢，就不要伤害。你黑蔡徐坤，我们只解释不回黑，不是因为我们不敢，而是他告诉我们，无论这个世界怎么样，我们都要漂亮，但是我们跟你好好说话，你不要以为我们好说话，爱坤不惹事，但也不怕事蔡虚坤发烧1000度坚持上台，双腿粉碎性骨折仍练习踢踏舞，每日练习365个小时，大小便失禁仍不去医院，累得高位截瘫还练舞，喉咙肿大30多倍坚持练发音，有全国300亿粉丝却不骄傲，每个2月29、30日慈善义演，将获得的20万亿美元捐给瑞士上不起学的孩子，为了慈善事业每天献出两大桶血，这些你们这些小黑子能做到吗?"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1aLVY6EExv/",
+          "uid": "BV1aLVY6EExv",
+          "sample": "迄今为止最棒的脑洞，比那些“你骗人”之类的高级多了[吃瓜]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1uiVE6BEMW/",
+          "uid": "BV1uiVE6BEMW",
+          "sample": "最棒的……[捂脸][捂脸]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1fsVp6hE8E/",
+          "uid": "BV1fsVp6hE8E",
+          "sample": "七个小宝是最棒的[打call]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1dBjV6rEfJ/",
+          "uid": "2211028",
+          "sample": "🦌guan状态最佳的几次都是什么心理活动，施法材料是谁，怎样才能🦌出最棒的状态？"
+        }
+      ]
+    },
+    {
+      "term": "最烂",
+      "evidenceSamples": [
+        "我当年就没服从调剂，因为我以超过提档线80分的成绩报了该学校最烂的专业，别问为什么",
+        "豹1全游最烂中坦",
+        "刀剑最烂，没有第三部就是神作"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1EBJPzkE2j/",
+          "uid": "BV1EBJPzkE2j",
+          "sample": "我当年就没服从调剂，因为我以超过提档线80分的成绩报了该学校最烂的专业，别问为什么"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1x3Ey6EERS/",
+          "uid": "BV1x3Ey6EERS",
+          "sample": "豹1全游最烂中坦"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114482437162385/",
+          "uid": "29886186076",
+          "sample": "刀剑最烂，没有第三部就是神作"
+        }
+      ]
+    },
+    {
+      "term": "最牛",
+      "evidenceSamples": [
+        "牛头马面是最牛马的组合",
+        "首先，无论哪个国家哪个时代，文艺作品精品率就是极低，就如西方文艺创作最牛X的近代，精品率也不到3%……",
+        "共鸣力可比义体强多了，最牛逼的斯安威斯坦也不如直接时停来得实在[笑哭]",
+        "李咏梅老师英语（音标部分）——最牛初中英语老师!没有之一！\\n\\n认真上课 ，努力学习 ⏩⏩⏩×2（快进×2）\\n9:13———————————————36:52\\n ◀️Ⅱ▶️",
+        "你最牛逼找了一圈"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8096224781",
+          "uid": "嗐说🙈周树入",
+          "sample": "牛头马面是最牛马的组合"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "首先，无论哪个国家哪个时代，文艺作品精品率就是极低，就如西方文艺创作最牛X的近代，精品率也不到3%……"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1BuVW6hE5K/",
+          "uid": "BV1BuVW6hE5K",
+          "sample": "共鸣力可比义体强多了，最牛逼的斯安威斯坦也不如直接时停来得实在[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV17E411K79N/",
+          "uid": "BV17E411K79N",
+          "sample": "李咏梅老师英语（音标部分）——最牛初中英语老师!没有之一！\\n\\n认真上课 ，努力学习 ⏩⏩⏩×2（快进×2）\\n9:13———————————————36:52\\n ◀️Ⅱ▶️"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1zVVE6WEXa/",
+          "uid": "BV1zVVE6WEXa",
+          "sample": "你最牛逼找了一圈"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "最牛逼的是那根绳（划掉）人"
+        }
+      ]
+    },
+    {
+      "term": "最终",
+      "evidenceSamples": [
+        "不用这么麻烦，还得记路线，就那玩意，做浓缩树脂，一天你顶多需要5到6个，当然，拿原石买树脂，和刚到45级刷圣遗物的除外，看他这还得记路线，风起地神像大树下，直接拿，鸣神大社下的洞（神樱大祓任务最终点），直接跳，下面就是，离传送点特别近，一个...",
+        "回复 @艾利托斯 :对，风起地那个大树，但是神樱大祓的最终任务的那个湖底洞，里面晶金蝶也很多，还有孤云阁副本，一天去那随便能抓到十只左右，一天一刷新，我相信给50多级那种，手上没有什么脆弱树脂的人，一天绝对够用",
+        "小了，格局小了，至少是三部。第一部俩人把车修好；第二部比赛然后撞车；第三部修好继续干，最终两人不相上下，然后组建了车队[妙啊]",
+        "回复 @好黑222 :之前被信奉成的他至高无上的神，最终变成利益资本的傀儡",
+        "公司存在过错的情况：如果公司强制员工加班，违反了劳动法对员工工作时间的规定，导致员工猝死，那么公司不仅需承担工伤赔偿责任，还可能面临相应的行政责任。例如，公司不顾员工的身体状况和劳动法规，强行要求员工长时间、高强度地加班，最终导致员工猝死。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16njuzUEnF/, https://www.bilibili.com/video/BV1i54Az9EZj/, https://www.bilibili.com/video/BV1Ya411E75V/, https://www.bilibili.com/video/BV1NHcrzVEKy/, http://www.bilibili.com/video/av114566122116071, http://www.bilibili.com/video/av115355791919319, http://www.bilibili.com/video/av214368418, http://www.bilibili.com/video/av116214433062152",
+          "uid": "BV16njuzUEnF,BV1i54Az9EZj,BV1Ya411E75V,BV1NHcrzVEKy",
+          "sample": "不用这么麻烦，还得记路线，就那玩意，做浓缩树脂，一天你顶多需要5到6个，当然，拿原石买树脂，和刚到45级刷圣遗物的除外，看他这还得记路线，风起地神像大树下，直接拿，鸣神大社下的洞（神樱大祓任务最终点），直接跳，下面就是，离传送点特别近，一个..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16njuzUEnF/, https://www.bilibili.com/video/BV1i54Az9EZj/, https://www.bilibili.com/video/BV1Ya411E75V/, https://www.bilibili.com/video/BV1NHcrzVEKy/, http://www.bilibili.com/video/av114566122116071, http://www.bilibili.com/video/av115355791919319, http://www.bilibili.com/video/av214368418, http://www.bilibili.com/video/av116214433062152",
+          "uid": "BV16njuzUEnF,BV1i54Az9EZj,BV1Ya411E75V,BV1NHcrzVEKy",
+          "sample": "回复 @艾利托斯 :对，风起地那个大树，但是神樱大祓的最终任务的那个湖底洞，里面晶金蝶也很多，还有孤云阁副本，一天去那随便能抓到十只左右，一天一刷新，我相信给50多级那种，手上没有什么脆弱树脂的人，一天绝对够用"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "小了，格局小了，至少是三部。第一部俩人把车修好；第二部比赛然后撞车；第三部修好继续干，最终两人不相上下，然后组建了车队[妙啊]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "回复 @好黑222 :之前被信奉成的他至高无上的神，最终变成利益资本的傀儡"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "公司存在过错的情况：如果公司强制员工加班，违反了劳动法对员工工作时间的规定，导致员工猝死，那么公司不仅需承担工伤赔偿责任，还可能面临相应的行政责任。例如，公司不顾员工的身体状况和劳动法规，强行要求员工长时间、高强度地加班，最终导致员工猝死。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "中立性：法官必须保持中立，不能偏向任何一方。如果法官既负责调查取证、又负责提出主张、还要负责最终裁判，就很容易陷入“既当运动员又当裁判员”的困境，难以保证中立，也容易形成先入为主的偏见。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "剧情方面超古代文明戏份比海底大战争多很多，BOSS战除了人类势力传统的战舰，巨大飞行器和巨大潜艇外。有两个超古代文明BOSS一个是老朋友海底巨大人形兵器。另一个是巨大斯芬克斯。有的关底没有BOSS战只是深入发掘普罗米修斯的遗迹，反派帝国也想..."
+        },
+        {
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "“谁都不知道她将最终走向何方？”"
+        }
+      ]
+    },
+    {
+      "term": "有目共睹",
+      "evidenceSamples": [
+        "因为我从小喜欢机器人，加上那时候央视05~09年间，央视新闻就有对波士顿动力的机器人访谈，我也了解当年波士顿机器人叛变的视频是由Corridor Digital特效公司做出来恶搞的，人家早就澄清了，结果今年春节宇数机器人火了一把，我当年的辟谣就被骂惨了，骂了我几百楼，可我也没否定国内的实力，我是站在了中立的角度出发，并通过实事求是，发表了对波士顿动力和宇数的看法，我承认了波士顿在算法上的落后和工艺的先进，也表达了对宇数在算法上的超凡，但也指明了宇数机器人的高度不稳定性，因为事实就在那里，宇数的机器人还得依赖古早CMG技术和控制终端才能勉强活动，因为大量视频有目共睹，它无端倒地发癫都是很常见的，但波士顿动力10多年前就已经克服了（虽然克服了，但表现得不是很好，需要依赖识别码）总之我就是被骂惨了",
+        "神经质土豆\\nForever Young纯技巧分析\\n 开门见山 之前夸过很多次的咬字和气息这次就不多说了 这首歌在这两个方面的特点很明显 大家已经足够了解也能清楚辨认了 这首歌我主要是想点出宋亚轩对于半声/混声唱法的运用 高音稳定性以及发声位置切换自如这几点 让大家明白为什么这首歌他唱起来能这么舒服却又不失起伏。\\n\\n 首先 半声唱法是把音量介于正常唱歌和哼唱之间 想要保证好听必须要进行控制音量的练习 声音变强但发声位置不变 声音变弱但不能变虚且气息需要保持均匀 这都不是容易的事儿 必须保证从小声到半声到全声 只能有音量的改变 这对声音状态 气息以及哼鸣技巧都有很高的要求。半声唱法能够柔和音质 同时也能增强歌曲强弱 如果把规律掌握好 就能成功制造演唱起伏 宋亚轩这一点做的很好 练习半声唱法的同时还能学会控制声音美感 控制音量以保护嗓子。\\n\\n 其次就是混声 桥段“forever young”的哼唱多是用了头声和咽音 头声混声证明宋亚轩已经能够成功过渡自己的换声点 学会用鼻子出气了 同时也增强了整体共鸣效果 咽音的混入会增加声音的质感 声音会变得通透明亮时常伴有微失真 咽音最大的功效是增加高音区的存在感 让假声不那么无力 这就是为什么宋亚轩的那几句“forever young”的转音会如此顺畅。\\n\\n 然后是高音稳定性 变声期尾声让宋亚轩的声音一改以前的尖锐 变得沉稳厚重有腔调 从之前的种种唱歌视频走来 他在高音方面的进步想必大家有目共睹 从一开始的假声到现在的真声 甚至琶音高音都不在话下 说明他找到了高音的正确处理方式 能够让自己更轻松更直接的切换至高音区 以后只会突破现有的水平 变得更加惊艳。\\n\\n 最后 这首歌想要唱出最舒服最有故事的感觉 离不开真声假声混声半声 他们的发声位置全部都不一样 想有最好的效果必须学会流利的完成横膈膜切换咽喉发声 他做的太完美了以至于我听了好几遍才听出来发声位置换了 这说明他已经有能力判断如何精准使用歌唱技巧来迎合歌曲的演唱情绪了 并且也在用最科学最正确的发声方式而不只是盲目的用真假声切换来带过 不过他在唱歌方面一直都是这么认真 也不意外了。",
+        "挣钱嘛不寒碜，人家受众群体原意就行，不过工作态度还是有目共睹的。",
+        "已经玩不下去了 这次不知道是几连歪了 兢兢业业好几个月 每天签到日体 大月卡小月卡从来没断过 今天抽马拉妮又歪了 但是我不像以前一样愤怒和懊恼 给我的感觉只有释怀 有一种好人没好报 努力了没有任何回报的释怀感 玩ys快两年了 全图满探 我记得我曾经有多爱这款游戏 现在就觉得有多可悲 说是DIY圣遗物 一个版本就产一瓶 当然优点是有的 看人家小保底为啥不歪 概率都上调55%了我还歪 我肯定是菜 肯定是我不够努力 一切都是我的问题 当然 大家都希望这款游戏越来越好而不是越来越冷 FES大伟哥泪洒现场大家也是有目共睹 真心希望原能长远的走下去 继续带给旅行者们欢乐 但是对不起 我要走了",
+        "他的进步有目共睹"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "因为我从小喜欢机器人，加上那时候央视05~09年间，央视新闻就有对波士顿动力的机器人访谈，我也了解当年波士顿机器人叛变的视频是由Corridor Digital特效公司做出来恶搞的，人家早就澄清了，结果今年春节宇数机器人火了一把，我当年的辟谣就被骂惨了，骂了我几百楼，可我也没否定国内的实力，我是站在了中立的角度出发，并通过实事求是，发表了对波士顿动力和宇数的看法，我承认了波士顿在算法上的落后和工艺的先进，也表达了对宇数在算法上的超凡，但也指明了宇数机器人的高度不稳定性，因为事实就在那里，宇数的机器人还得依赖古早CMG技术和控制终端才能勉强活动，因为大量视频有目共睹，它无端倒地发癫都是很常见的，但波士顿动力10多年前就已经克服了（虽然克服了，但表现得不是很好，需要依赖识别码）总之我就是被骂惨了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H44y167rS/",
+          "uid": "BV1H44y167rS",
+          "sample": "神经质土豆\\nForever Young纯技巧分析\\n 开门见山 之前夸过很多次的咬字和气息这次就不多说了 这首歌在这两个方面的特点很明显 大家已经足够了解也能清楚辨认了 这首歌我主要是想点出宋亚轩对于半声/混声唱法的运用 高音稳定性以及发声位置切换自如这几点 让大家明白为什么这首歌他唱起来能这么舒服却又不失起伏。\\n\\n 首先 半声唱法是把音量介于正常唱歌和哼唱之间 想要保证好听必须要进行控制音量的练习 声音变强但发声位置不变 声音变弱但不能变虚且气息需要保持均匀 这都不是容易的事儿 必须保证从小声到半声到全声 只能有音量的改变 这对声音状态 气息以及哼鸣技巧都有很高的要求。半声唱法能够柔和音质 同时也能增强歌曲强弱 如果把规律掌握好 就能成功制造演唱起伏 宋亚轩这一点做的很好 练习半声唱法的同时还能学会控制声音美感 控制音量以保护嗓子。\\n\\n 其次就是混声 桥段“forever young”的哼唱多是用了头声和咽音 头声混声证明宋亚轩已经能够成功过渡自己的换声点 学会用鼻子出气了 同时也增强了整体共鸣效果 咽音的混入会增加声音的质感 声音会变得通透明亮时常伴有微失真 咽音最大的功效是增加高音区的存在感 让假声不那么无力 这就是为什么宋亚轩的那几句“forever young”的转音会如此顺畅。\\n\\n 然后是高音稳定性 变声期尾声让宋亚轩的声音一改以前的尖锐 变得沉稳厚重有腔调 从之前的种种唱歌视频走来 他在高音方面的进步想必大家有目共睹 从一开始的假声到现在的真声 甚至琶音高音都不在话下 说明他找到了高音的正确处理方式 能够让自己更轻松更直接的切换至高音区 以后只会突破现有的水平 变得更加惊艳。\\n\\n 最后 这首歌想要唱出最舒服最有故事的感觉 离不开真声假声混声半声 他们的发声位置全部都不一样 想有最好的效果必须学会流利的完成横膈膜切换咽喉发声 他做的太完美了以至于我听了好几遍才听出来发声位置换了 这说明他已经有能力判断如何精准使用歌唱技巧来迎合歌曲的演唱情绪了 并且也在用最科学最正确的发声方式而不只是盲目的用真假声切换来带过 不过他在唱歌方面一直都是这么认真 也不意外了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VmV763EEi/",
+          "uid": "BV1VmV763EEi",
+          "sample": "挣钱嘛不寒碜，人家受众群体原意就行，不过工作态度还是有目共睹的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14Z421L7DN/",
+          "uid": "BV14Z421L7DN",
+          "sample": "已经玩不下去了 这次不知道是几连歪了 兢兢业业好几个月 每天签到日体 大月卡小月卡从来没断过 今天抽马拉妮又歪了 但是我不像以前一样愤怒和懊恼 给我的感觉只有释怀 有一种好人没好报 努力了没有任何回报的释怀感 玩ys快两年了 全图满探 我记得我曾经有多爱这款游戏 现在就觉得有多可悲 说是DIY圣遗物 一个版本就产一瓶 当然优点是有的 看人家小保底为啥不歪 概率都上调55%了我还歪 我肯定是菜 肯定是我不够努力 一切都是我的问题 当然 大家都希望这款游戏越来越好而不是越来越冷 FES大伟哥泪洒现场大家也是有目共睹 真心希望原能长远的走下去 继续带给旅行者们欢乐 但是对不起 我要走了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "他的进步有目共睹"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "2106600",
+          "sample": "小陈说她的时代到来了，那不是很正常的发言吗？成绩有目共睹"
+        }
+      ]
+    },
+    {
+      "term": "望周知",
+      "evidenceSamples": [
+        "评论区里端水的说什么印度也有高素质的人的，不好意思，你喜欢从巧克力味的shi和shi味的巧克力里面选一个吃是你的自由，但是我们有权利拒绝一切和shi有关的东西，望周知[辣眼睛]",
+        "任何人做这样的事情都是性骚扰。望周知",
+        "想要解决事，就得学会场控，保持理智的情况下，刻意去展现出发怒发狂的一面，对控制场面有奇效，望周知"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV16LL96dENE/",
+          "uid": "35988221",
+          "sample": "评论区里端水的说什么印度也有高素质的人的，不好意思，你喜欢从巧克力味的shi和shi味的巧克力里面选一个吃是你的自由，但是我们有权利拒绝一切和shi有关的东西，望周知[辣眼睛]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV11JLD6xEGJ/",
+          "uid": "580890081",
+          "sample": "任何人做这样的事情都是性骚扰。望周知"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "想要解决事，就得学会场控，保持理智的情况下，刻意去展现出发怒发狂的一面，对控制场面有奇效，望周知"
+        }
+      ]
+    },
+    {
+      "term": "本不该",
+      "evidenceSamples": [
+        "印度人口是吃了时代和科技的红利，他们本不该拥有如此庞大的人口，现在只是死回他们本该拥有的人口数量而已。[热]",
+        "全民健身已被jmz摘桃，ry真应该给王濛磕一个，把这个节目带到了本不该有的高度",
+        "有一部分中国人还是非常有素质的，这就本不该扔"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "印度人口是吃了时代和科技的红利，他们本不该拥有如此庞大的人口，现在只是死回他们本该拥有的人口数量而已。[热]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1MRVS6dERE/",
+          "uid": "BV1MRVS6dERE",
+          "sample": "全民健身已被jmz摘桃，ry真应该给王濛磕一个，把这个节目带到了本不该有的高度"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "有一部分中国人还是非常有素质的，这就本不该扔"
+        }
+      ]
+    },
+    {
+      "term": "本应",
+      "evidenceSamples": [
+        "我认为弱 智吧的人都是有真才实学的人 弱 智吧的人善于发现生活中不被人注意的问题与点子，这些在普通人眼中平常甚至荒谬的言论，如“为什么挂在天空中的星星不会掉下来”“为什么要叫红绿灯不叫绿红灯”等，这些儿童时期的人才会提出的问题中，包含着人类对自然和社会的探索精神与求知欲，它们随着人的成长和对世界认知程度的不断加深而逐渐消亡殆尽。这正是弱 智吧吧友的闪光点所在，他们将这种本应随着年龄增长而消亡的特质保留了下来，同时保留了儿童丰富的想象力与",
+        "中国社会的老师、家长都支持可怜之人必有可恨之处 可怜从来就不是可恨的前提条件，一个人是否犯错并不是他是否需要接受惩罚的原因。可怜之人必有可恨之处真是被滥用极了，别管古文里恨原本应该是啥意思，至少这么多年来老百姓理解的可恨就是那个可恨，这句话已经被滥用成歧视弱者嘲讽受害人的金科玉律了。无所谓，这里是踹拿，我感到无比自豪与骄傲",
+        "看到狄仁杰，我是很希望带一下阎立本的。不太明白狄仁杰名气那么大，阎立本本应更胜一筹，却没什么人提[思考]",
+        "游戏本应该就是玩家喜欢游戏而去看攻略，而不是不看攻略玩不好游戏。做游戏的一定要首先喜欢游戏，懂游戏[doge]",
+        "成本应该一到两块，这种应该都是装的维c"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7321194062",
+          "uid": "七月晚风凉🍀",
+          "sample": "我认为弱 智吧的人都是有真才实学的人 弱 智吧的人善于发现生活中不被人注意的问题与点子，这些在普通人眼中平常甚至荒谬的言论，如“为什么挂在天空中的星星不会掉下来”“为什么要叫红绿灯不叫绿红灯”等，这些儿童时期的人才会提出的问题中，包含着人类对自然和社会的探索精神与求知欲，它们随着人的成长和对世界认知程度的不断加深而逐渐消亡殆尽。这正是弱 智吧吧友的闪光点所在，他们将这种本应随着年龄增长而消亡的特质保留了下来，同时保留了儿童丰富的想象力与"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8458524994",
+          "uid": "贴吧用户_aUCXy3U",
+          "sample": "中国社会的老师、家长都支持可怜之人必有可恨之处 可怜从来就不是可恨的前提条件，一个人是否犯错并不是他是否需要接受惩罚的原因。可怜之人必有可恨之处真是被滥用极了，别管古文里恨原本应该是啥意思，至少这么多年来老百姓理解的可恨就是那个可恨，这句话已经被滥用成歧视弱者嘲讽受害人的金科玉律了。无所谓，这里是踹拿，我感到无比自豪与骄傲"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1D1GX6vErG/",
+          "uid": "BV1D1GX6vErG",
+          "sample": "看到狄仁杰，我是很希望带一下阎立本的。不太明白狄仁杰名气那么大，阎立本本应更胜一筹，却没什么人提[思考]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19hVn6UECe/",
+          "uid": "BV19hVn6UECe",
+          "sample": "游戏本应该就是玩家喜欢游戏而去看攻略，而不是不看攻略玩不好游戏。做游戏的一定要首先喜欢游戏，懂游戏[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hFGU6DEcM/",
+          "uid": "BV1hFGU6DEcM",
+          "sample": "成本应该一到两块，这种应该都是装的维c"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1701675619/",
+          "uid": "1464123289",
+          "sample": "脚本应该识别不了塞恩大招这种技能"
+        }
+      ]
+    },
+    {
+      "term": "本来就是",
+      "evidenceSamples": [
+        "情商高是能给出解决办法，他jkl就是个两边都不得罪的老好人。左手都气到开饭桌了，饭桌反呛韩服第一没游戏理解，他jkl还在和稀泥，结果被坑最惨的还不是他自己。",
+        "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些...",
+        "。可以这样说，现在的国产大爆发新势力的泛滥，就是源于当年花园宾馆（一汽大门旁边）各大汽车厂商的招聘摊（徐三搞得全体起立）。不签竞业协议这件事情简直就是故意放他们走。",
+        "食神里戴龙师傅就是本人出镜[滑稽]",
+        "回复 @游星栗子 :是的，所以后来很多up也解读过这一点，就是为什么周星驰的人缘不好。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "情商高是能给出解决办法，他jkl就是个两边都不得罪的老好人。左手都气到开饭桌了，饭桌反呛韩服第一没游戏理解，他jkl还在和稀泥，结果被坑最惨的还不是他自己。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "。可以这样说，现在的国产大爆发新势力的泛滥，就是源于当年花园宾馆（一汽大门旁边）各大汽车厂商的招聘摊（徐三搞得全体起立）。不签竞业协议这件事情简直就是故意放他们走。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "食神里戴龙师傅就是本人出镜[滑稽]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "回复 @游星栗子 :是的，所以后来很多up也解读过这一点，就是为什么周星驰的人缘不好。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @芝士脑袋一万年 :我军哥，我可爱他了，贼帅，就是和魏大勋一样不能开口[滑稽]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "别问我，我就是用小螺丝刀上去的，够不着[大哭]"
+        }
+      ]
+    },
+    {
+      "term": "本该",
+      "evidenceSamples": [
+        "印度人口是吃了时代和科技的红利，他们本不该拥有如此庞大的人口，现在只是死回他们本该拥有的人口数量而已。[热]",
+        "可是作为正面案例的新中式短袖的扣子也是便宜货诶，整个衣服因为一个本该横着缝的扣子被竖着缝而质感大打折扣",
+        "哪有力了？是得到什么惩罚了吗？？？不就只是拿回了本该拿回的。",
+        "哪一个才是真正的我？我自己也不知道，位移换位无敌阵高伤害高爆发。你本该是T零，却为什么是英雄碎片？",
+        "抱歉各位，为了恰饭，这集本该13号发的，但是周末广告不审核，拖到现在，恰个饭勿怪[抱拳]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "印度人口是吃了时代和科技的红利，他们本不该拥有如此庞大的人口，现在只是死回他们本该拥有的人口数量而已。[热]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PKZPYBEjD/",
+          "uid": "BV1PKZPYBEjD",
+          "sample": "可是作为正面案例的新中式短袖的扣子也是便宜货诶，整个衣服因为一个本该横着缝的扣子被竖着缝而质感大打折扣"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1crJK6MEC4/",
+          "uid": "BV1crJK6MEC4",
+          "sample": "哪有力了？是得到什么惩罚了吗？？？不就只是拿回了本该拿回的。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Mf421q7Qb/",
+          "uid": "BV1Mf421q7Qb",
+          "sample": "哪一个才是真正的我？我自己也不知道，位移换位无敌阵高伤害高爆发。你本该是T零，却为什么是英雄碎片？"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV15fJM6eEow/",
+          "uid": "456869188",
+          "sample": "抱歉各位，为了恰饭，这集本该13号发的，但是周末广告不审核，拖到现在，恰个饭勿怪[抱拳]"
+        }
+      ]
+    }
+  ]
+}

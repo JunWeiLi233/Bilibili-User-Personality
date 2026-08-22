@@ -1,0 +1,3623 @@
+{
+  "version": 2,
+  "ruleCount": 167,
+  "rules": [
+    {
+      "terms": [
+        "7秒焦虑"
+      ],
+      "conditions": [
+        {
+          "name": "negatedComfortContext",
+          "pattern": "(?:没有|没|无|不会).{0,8}7秒焦虑|7秒焦虑.{0,8}(?:没有|没|无|不会)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "criticalAnxietyContext",
+          "pattern": "(?:制造|贩卖|引发|搞|带来|故意|节奏).{0,16}7秒焦虑|7秒焦虑.{0,16}(?:节奏|焦虑|折磨|恶心|牛马|故意)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedComfortContext and not criticalAnxietyContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "爱咋咋地",
+        "爱咋咋的"
+      ],
+      "conditions": [
+        {
+          "name": "negatedDismissiveContext",
+          "pattern": "(?:做不到|不能|不敢|没法).{0,12}爱咋咋[地的]|爱咋咋[地的].{0,12}(?:做不到|不能|不敢|没法)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedDismissiveContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "恋丑癖"
+      ],
+      "conditions": [
+        {
+          "name": "negatedTasteContext",
+          "pattern": "(?:不是|真的不是|并非|没有).{0,8}恋丑癖",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directedTasteAttackContext",
+          "pattern": "(?:你|你们|粉丝|这).{0,18}恋丑癖|恋丑癖.{0,18}(?:吧|这都能|别吹|真恶心)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedTasteContext and not directedTasteAttackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "紧和"
+      ],
+      "conditions": [
+        {
+          "name": "_in_0",
+          "pattern": "赶紧和解",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "_in_0",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "脱子"
+      ],
+      "conditions": [
+        {
+          "name": "metaLabelQuestionContext",
+          "pattern": "脱子.{0,12}(?:什么时候|新黑词|什么意思|什么梗)|(?:什么时候|新黑词|什么意思|什么梗).{0,12}脱子",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directedNicknameAttackContext",
+          "pattern": "(?:你|他|粉丝|别吹|恶心).{0,16}脱子|脱子.{0,16}(?:粉丝|别吹|恶心|破防)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "metaLabelQuestionContext and not directedNicknameAttackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "桀桀桀"
+      ],
+      "conditions": [
+        {
+          "name": "laughExplanationContext",
+          "pattern": "(?:笑声|配音|不会笑|怎么笑|为什么要写成|写成桀桀桀|蟹老板).{0,18}桀桀桀|桀桀桀.{0,18}(?:笑声|配音|不会笑|怎么笑|为什么要写成|蟹老板)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileVillainLaughContext",
+          "pattern": "(?:你|你个|逃得出|手掌心|变成碎末|碎末|不能啦|魔头|反派).{0,24}桀桀桀|桀桀桀.{0,24}(?:你|逃得出|手掌心|变成碎末|碎末|不能啦|魔头|反派)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "laughExplanationContext and not hostileVillainLaughContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "五毒俱全"
+      ],
+      "conditions": [
+        {
+          "name": "gameMechanicContext",
+          "pattern": "五毒俱全.{0,12}(?:效果|正面|负面|都算|技能|加成)|(?:效果|正面|负面|技能|加成).{0,12}五毒俱全",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "attackContext",
+          "pattern": "(?:两公母|这些人|学个词|到处用|人|他|你|粉丝).{0,24}五毒俱全|五毒俱全.{0,24}(?:两公母|这些人|学个词|到处用|人|他|你|粉丝)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "gameMechanicContext and not attackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "100好评",
+        "百分百好评率"
+      ],
+      "conditions": [
+        {
+          "name": "literalCommerceReviewContext",
+          "pattern": "(?:闲鱼|评价\\d+|好评\\d+|差评\\d+|贩子|买过|卖过|卖家|商品|买东西).{0,36}(?:100%?好评|百分百好评率|百分百好评)|(?:100%?好评|百分百好评率|百分百好评).{0,36}(?:闲鱼|评价\\d+|好评\\d+|差评\\d+|贩子|买过|卖过|卖家|商品|买东西)|(?:我就是|我是|自己).{0,12}百分百好评",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "absolutistArgumentContext",
+          "pattern": "(?:逻辑|一点问题|不许提|这么绝对|也敢说|没水分|话术|结论).{0,36}(?:100好评|百分百好评率)|(?:100好评|百分百好评率).{0,36}(?:逻辑|一点问题|不许提|这么绝对|也敢说|没水分|话术|结论)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalCommerceReviewContext and not absolutistArgumentContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "差评连天"
+      ],
+      "conditions": [
+        {
+          "name": "literalCommerceComplaintContext",
+          "pattern": "(?:买|商品|商家|卖家|买家|闲鱼|评价).{0,36}差评连天|差评连天.{0,36}(?:买|商品|商家|卖家|买家|闲鱼|评价)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceContext",
+          "pattern": "(?:去看|记录|评论区|证据|来源|可以查).{0,36}差评连天|差评连天.{0,36}(?:证据|来源|可以查|记录)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalCommerceComplaintContext and not evidenceContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "并非偶遇"
+      ],
+      "conditions": [
+        {
+          "name": "bareLabelContext",
+          "type": "equals_or_regex",
+          "value": "并非偶遇",
+          "rawExpr": "/^[\\s\\p{Emoji_Presentation}\\p{Extended_Pictographic}\\[\\]\\w_-]*\\u5e76\\u975e\\u5076\\u9047[\\s\\p{Emoji_Presentation}\\p{Extended_Pictographic}\\[\\]\\w_-]*$/u.test(rawContextSample)"
+        },
+        {
+          "name": "targetedCoincidenceContext",
+          "pattern": "(?:终于|真正|一看|这|ta|TA|他|她|你|不是|绝对|刻意).{0,18}并非偶遇|并非偶遇.{0,18}(?:了|吧|啊|实锤|刻意|安排|真正|偶遇)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareLabelContext and not targetedCoincidenceContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "奥利给"
+      ],
+      "conditions": [
+        {
+          "name": "genericMemeOrNameContext",
+          "pattern": "(?:奥[利力]给视频|大号.{0,2}奥利给|小号ID|唯一关注|莱奥利给|奥利给我|奥力给$)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileOrScatologicalContext",
+          "pattern": "(?:胡歌|车里|丢掉|恶心|屎|粪).{0,24}奥[利力]给|奥[利力]给.{0,24}(?:盲盒|恶心|屎|粪|丢掉|骂|攻击|侮辱)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "genericMemeOrNameContext and not hostileOrScatologicalContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "梦男"
+      ],
+      "conditions": [
+        {
+          "name": "selfOrNeutralFandomContext",
+          "pattern": "(?:我也是|自己是|梦男还嗑cp的吗|梦男.*(?:吗|？|\\?))|(?:妙界梦男|梦女)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileFandomContext",
+          "pattern": "(?:不愧是|嘲|黑|控评|急|恶心|意淫|幻想).{0,18}梦男|梦男.{0,18}(?:不愧是|控评|急|恶心|意淫|幻想|破防)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "selfOrNeutralFandomContext and not hostileFandomContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "节奏狗"
+      ],
+      "conditions": [
+        {
+          "name": "rhythmGameOrTitleContext",
+          "pattern": "(?:节奏狗生|狗狗之歌|严判完美无瑕|节奏盒子|温达狗)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileBandwagonContext",
+          "pattern": "(?:正主下场|低创|带节奏|刷节奏|攻击|黑子|能不能似).{0,24}节奏狗|节奏狗.{0,24}(?:正主下场|低创|带节奏|刷节奏|攻击|黑子|能不能似)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "rhythmGameOrTitleContext and not hostileBandwagonContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "坤巴"
+      ],
+      "conditions": [
+        {
+          "name": "hostileSlurContext",
+          "pattern": "(?:你|他|这人|素质|真|傻|恶心|差|骂|滚).{0,12}坤巴|坤巴.{0,12}(?:差|傻|恶心|滚|玩意|东西)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "usernameOrMentionContext and not hostileSlurContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "参考文献"
+      ],
+      "conditions": [
+        {
+          "name": "literalCitationContext",
+          "pattern": "(?:参考文献).{0,24}(?:书写|格式|顺序编码|引用|编排|论文|国家标准|pdf|grok|文献|sci|查找|搜|找|库|真的)|(?:书写|格式|顺序编码|引用|编排|论文|国家标准|pdf|grok|文献|sci|查找|搜|找|库|真的).{0,24}参考文献",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "plagiarismJokeContext",
+          "pattern": "(?:抄|搬|洗稿|致敬|原作|来源|出处|原文).{0,18}参考文献|参考文献.{0,18}(?:抄|搬|洗稿|致敬|原作|来源|出处|原文|都?不放|没放|不列|不给)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "_in_2",
+          "type": "equals",
+          "value": "参考文献"
+        }
+      ],
+      "returnTrue": "(_in_2 or literalCitationContext) and not plagiarismJokeContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "布什戈门"
+      ],
+      "conditions": [
+        {
+          "name": "literalTheoryContext",
+          "pattern": "(?:bush-gorman|布什[-‐-―]?戈门).{0,32}(?:theory|function|curse|理论|函数|数学家|非线性|线性问题)|(?:theory|function|curse|理论|函数|数学家|非线性|线性问题).{0,32}(?:bush-gorman|布什[-‐-―]?戈门)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "colloquialHomophoneContext",
+          "pattern": "(?:不是哥们|哥们|啊|不是|离谱|什么).{0,18}布什戈门|布什戈门.{0,18}(?:啊|哥们|不是|离谱|什么)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "_in_2",
+          "type": "equals",
+          "value": "布什戈门"
+        }
+      ],
+      "returnTrue": "(_in_2 or literalTheoryContext) and not colloquialHomophoneContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "猪鼻"
+      ],
+      "conditions": [
+        {
+          "name": "literalAnimalContext",
+          "pattern": "(?:猪鼻(?:龟|蛇)|(?:养|育|爬宠|水族|缸|饲料|难养|为什么难养).{0,18}猪鼻|猪鼻.{0,18}(?:龟|蛇|爬宠|水族|缸|饲料|难养|育归))",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostilePigNoseContext",
+          "pattern": "(?:你|他|她|这人|粉丝|操作|发言|玩法|警|队友).{0,18}猪鼻|猪鼻.{0,18}(?:操作|发言|玩法|真恶心|太蠢|像个|警|队友|粉丝)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalAnimalContext and not hostilePigNoseContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "蒜茄脑袋",
+        "蒜茄脑瓜"
+      ],
+      "conditions": [
+        {
+          "name": "glossaryOrEtymologyContext",
+          "pattern": "(?:^|回复.*)是蒜茄脑瓜$|(?:东北|蒜泥茄子|加一起就是|是蒜茄脑瓜|很形象|形容|意思|黑称).{0,28}蒜茄脑(?:袋|瓜)|蒜茄脑(?:袋|瓜).{0,28}(?:东北|蒜泥茄子|加一起就是|很形象|形容|意思|黑称)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directedInsultContext",
+          "pattern": "(?:你|他|她|这人|粉丝|脑子|真|别|像).{0,18}蒜茄脑(?:袋|瓜)|蒜茄脑(?:袋|瓜).{0,18}(?:吧|了|脑子|真蠢|像|这人|粉丝)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "glossaryOrEtymologyContext and not directedInsultContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "大魔法师"
+      ],
+      "conditions": [
+        {
+          "name": "literalFantasyContext",
+          "pattern": "(?:欲神幻想|露妃|技能模组|群攻|魔科|胜利龙|link|魔法师套装|魔法师.{0,12}(?:套装|技能|模组|群攻|职业|游戏|动漫|电影|变成|魔科)|(?:前期|后期|买买|游戏|职业|角色|卡牌|装备|套装|技能|魔科|胜利龙|link).{0,18}魔法师)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "mediaTitleContext",
+          "pattern": "(?:男人单身30岁就会变成魔法师|单身30岁就会变成魔法师|《[^\\\\n》]*魔法师[^\\\\n》]*》|重看|点菜).{0,24}魔法师|魔法师.{0,24}(?:剧|番|男主|电影|动漫|续集|重看|点菜)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directedMockContext",
+          "pattern": "(?:你|你们|他|这人|老处男|单身狗|宅男|别装).{0,24}大?魔法师|大?魔法师.{0,24}(?:别装|懂什么|还教|单身|处男|没谈过|急了|破防)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(literalFantasyContext or mediaTitleContext) and not directedMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "带沟"
+      ],
+      "conditions": [
+        {
+          "name": "literalMedicalContext",
+          "pattern": "(?:声带沟|声门裂隙|喉镜|声带|小结|耳鼻喉|发声|闭合|声带沟.{0,18}(?:症状|手术|检查|治疗|闭合|发声)|(?:症状|手术|检查|治疗|闭合|发声).{0,18}声带沟)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "rhetoricContext",
+          "pattern": "(?:带沟|带沟).{0,18}(?:节奏|话题|舆论|立场|感觉|不是讨论)|(?:带节奏|引导|不是讨论|阴阳|拱火).{0,18}(?:带沟|带沟)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalMedicalContext and not rhetoricContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "病弯钩"
+      ],
+      "conditions": [
+        {
+          "name": "properNameRosterContext",
+          "pattern": "(?:天淫星\\s*)?病弯钩\\s*[一-鿿]{2,4}$|病弯钩[一-鿿]{2,4}$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileNicknameContext",
+          "pattern": "(?:黑称|骂|侮辱|这人|他|她|你).{0,18}病弯钩|病弯钩.{0,18}(?:黑称|骂|侮辱|真恶心|什么玩意)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "properNameRosterContext and not hostileNicknameContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "惨案"
+      ],
+      "conditions": [
+        {
+          "name": "bareLabelContext",
+          "type": "equals",
+          "value": "惨案"
+        },
+        {
+          "name": "literalTragedyContext",
+          "pattern": "(?:公益广告|一根烟|宿舍|智力有问题|酿成|事故|车祸|灾难|命案|火灾|地震|足坛|拜仁|德国|比分|惨败|打破).{0,24}惨案|惨案.{0,24}(?:公益广告|一根烟|宿舍|智力有问题|酿成|事故|车祸|灾难|命案|火灾|地震|足坛|拜仁|德国|比分|惨败|打破)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "mockingBadOutcomeContext",
+          "pattern": "(?:播放量|评论区|数据|热度|标题党|这波|节目效果|看笑|翻车|抽卡|战绩|票房|销量).{0,18}惨案|惨案(?:了|现场|级)|惨案.{0,18}(?:笑|播放量|数据|热度|评论区|翻车)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(bareLabelContext or literalTragedyContext) and not mockingBadOutcomeContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "典中典"
+      ],
+      "conditions": [
+        {
+          "name": "bareOrMetaClassicContext",
+          "type": "equals_or_regex",
+          "value": "典中典",
+          "rawExpr": "/(?:\\u4f18\\u79c0|\\u5408\\u8ba2\\u672c|\\u5408\\u96c6|\\u8865\\u5168|\\u7ea2\\u697c\\u68a6|\\u89e3\\u6897|\\u4ec0\\u4e48\\u60c5\\u51b5|\\u89c6\\u9891\\u6807\\u9898|\\u7eb8\\u624e\\u798f|\\u620f\\u5b8c\\u5e74).{0,24}\\u5178\\u4e2d\\u5178|\\u5178\\u4e2d\\u5178.{0,24}(?:\\u5408\\u8ba2\\u672c|\\u5408\\u96c6|\\u8865\\u5168|\\u89e3\\u6897|\\u4ec0\\u4e48\\u60c5\\u51b5|\\u4e4b|\\u7eb8\\u624e\\u798f|\\u90a3\\u548b\\u4e86)/u.test(cleanSample)"
+        },
+        {
+          "name": "mockingPatternContext",
+          "pattern": "(?:起手|老套路|又来|熟悉|经典|循环|复读|黑|小丑|又是).{0,18}典中典|典中典.{0,18}(?:起手|老套路|又来|熟悉|循环|复读|打汉字|小丑|黑)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareOrMetaClassicContext and not mockingPatternContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "传家宝了"
+      ],
+      "conditions": [
+        {
+          "name": "literalGameHeirloomContext",
+          "pattern": "(?:apex|Apex|重生|玩家|通传|专传|刀皮|爪刀|检视|英雄|赛季|枪|颜色|半价自选|圈钱|消费陷阱|皮肤|角色|传家宝.{0,16}(?:产量|设计|剧情|动作|检视|质感|颜色|自选)|(?:产量|设计|剧情|动作|检视|质感|颜色|自选).{0,16}传家宝)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "misreadOrProperNounContext",
+          "pattern": "(?:看成|看错|认成).{0,18}传家宝|高雄传家宝",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "metaphorContext",
+          "pattern": "(?:当|留着|藏着|祖传|永久|十年|一辈子|不改|不用).{0,12}传家宝了|传家宝了.{0,12}(?:是吧|不改|不用|留着)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "_in_3",
+          "type": "equals",
+          "value": "传家宝了"
+        }
+      ],
+      "returnTrue": "(_in_3 or literalGameHeirloomContext or misreadOrProperNounContext) and not metaphorContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "为发烧而生"
+      ],
+      "conditions": [
+        {
+          "name": "bareSloganContext",
+          "type": "equals",
+          "value": "为发烧而生"
+        },
+        {
+          "name": "usefulDesignContext",
+          "pattern": "为发烧而生.{0,24}(?:设计|思路|讲得|分析|优化)|(?:设计|思路|讲得|分析|优化).{0,24}为发烧而生",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareSloganContext and not usefulDesignContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "彳于"
+      ],
+      "conditions": [
+        {
+          "name": "titleOrCourseContext",
+          "pattern": "(?:《|「|“)?彳于法.{0,18}(?:教学|教程|已经被淘汰|懂的兄弟)|(?:教学|教程).{0,12}彳于法",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "approvalContext",
+          "pattern": "^(?:彳于|[彳于\\s]+)$/u.test(cleanSample) || /彳于.{0,8}(?:吧|可以|行|那就)|(?:可以|行|那就).{0,8}彳于",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "titleOrCourseContext and not approvalContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "模棱两可"
+      ],
+      "conditions": [
+        {
+          "name": "relationshipAmbiguityContext",
+          "pattern": "(?:擅长用)?模棱两可.{0,16}(?:态度|困住我|喜欢|感情|爱)|(?:态度|困住我|喜欢|感情|爱).{0,16}模棱两可",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "discussionEvasionContext",
+          "pattern": "(?:回答|回复|说法|表态|立场|证据|观点|问题|别).{0,18}模棱两可|模棱两可.{0,18}(?:回答|回复|说法|表态|立场|证据|观点|问题|含糊|回避|打太极)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "relationshipAmbiguityContext and not discussionEvasionContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "奶凶",
+        "奶凶奶凶"
+      ],
+      "conditions": [
+        {
+          "name": "resourceOrLiteralCuteContext",
+          "pattern": "(?:私拍|性爱|sm|调教|mp4|老师|作品|找不到|视频|电动车|头盔|停车|法外狂徒|小象|大象|车子|威慑力).{0,24}奶凶|奶凶.{0,24}(?:私拍|性爱|sm|调教|mp4|老师|作品|找不到|视频|电动车|头盔|停车|法外狂徒|小象|大象|车子|威慑力)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "softDiscussionContext",
+          "pattern": "(?:回复|语气|评论|说话|弹幕|互动|气氛|缓和).{0,18}奶凶|奶凶.{0,18}(?:回复|语气|评论|说话|弹幕|互动|气氛|缓和)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "resourceOrLiteralCuteContext and not softDiscussionContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "捏嫂"
+      ],
+      "conditions": [
+        {
+          "name": "fandomDramaContext",
+          "pattern": "(?:粉丝|黑子|招魂|不是给|不是捏嫂|洗|卖腐|拍杂志|所有瓜|素材一把|桃晚安|法罗|逃脱大师|纳西妲|原神).{0,28}捏嫂|捏嫂.{0,28}(?:粉丝|黑子|招魂|不是给|不是捏嫂|洗|卖腐|拍杂志|所有瓜|素材一把|桃晚安|法罗|逃脱大师|纳西妲|原神)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "collaborativeContext",
+          "pattern": "(?:补充|指路|给个说法|解释|讨论|说明|一起).{0,18}捏嫂|捏嫂.{0,18}(?:补充|指路|给个说法|解释|讨论|说明|一起)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "fandomDramaContext and not collaborativeContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "排长"
+      ],
+      "conditions": [
+        {
+          "name": "rankOrQueueContext",
+          "pattern": "(?:前排|排除一切困难|我渴了|我要当|成为|当).{0,18}排长|排长.{0,18}(?:我渴了|我要当|旅长|连长|营长|师长|成为|当)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "collaborativeContext",
+          "pattern": "(?:补充|指路|解释|讨论|说明|帮忙|统计).{0,18}排长|排长.{0,18}(?:补充|指路|解释|讨论|说明|帮忙|统计)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "rankOrQueueContext and not collaborativeContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "蒙鼓人"
+      ],
+      "conditions": [
+        {
+          "name": "explanationContext",
+          "pattern": "(?:解释|什么叫|讲|这个UP主|梗百科|如[:：]).{0,24}蒙鼓人|蒙鼓人.{0,24}(?:的梗|而不是蒙古人|什么梗|什么叫)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "thanksContext",
+          "pattern": "(?:谢谢|感谢|多谢).{0,8}蒙鼓人|蒙鼓人.{0,8}(?:谢谢|感谢|多谢)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "explanationContext and not thanksContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "这里有个老实人"
+      ],
+      "conditions": [
+        {
+          "name": "explanationContext",
+          "pattern": "(?:这个梗|前身|一般都是说|什么梗).{0,24}这里有个老实人|这里有个老实人.{0,24}(?:前身|什么梗|一般)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "playfulCalloutContext",
+          "pattern": "(?:快来看|快看|抓到|哈哈).{0,18}这里有个老实人|这里有个老实人.{0,18}(?:哈哈|了)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "explanationContext and not playfulCalloutContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "您配吗"
+      ],
+      "conditions": [
+        {
+          "name": "memeOriginContext",
+          "pattern": "(?:药水哥|因为|知道|火起来|名场面|之争).{0,24}您配吗|您配吗.{0,24}(?:药水哥|火起来|知道|名场面|之争)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directChallengeContext",
+          "pattern": "(?:你|你们|他|她|自己|真把自己|道德制高点|圣人).{0,36}您配吗|您配吗.{0,24}(?:站在|你|你们|他|她|配吗)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "memeOriginContext and not directChallengeContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "欧阳娜娜"
+      ],
+      "conditions": [
+        {
+          "name": "celebrityMentionContext",
+          "pattern": "欧阳娜娜",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceRequestContext",
+          "pattern": "(?:来源|证据|链接|原文|采访|谁说的|出处|贴).{0,24}欧阳娜娜|欧阳娜娜.{0,24}(?:来源|证据|链接|原文|采访|谁说的|出处|贴)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "celebrityMentionContext and not evidenceRequestContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "doge金箍"
+      ],
+      "conditions": [
+        {
+          "name": "_in_0",
+          "pattern": "\\[doge[_-]金箍\\]",
+          "caseInsensitive": true,
+          "target": "raw_sample"
+        },
+        {
+          "name": "_in_1",
+          "pattern": "doge金箍",
+          "caseInsensitive": true,
+          "target": "text_outside_emotes"
+        }
+      ],
+      "returnTrue": "_in_0 and not _in_1",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "塔菲"
+      ],
+      "conditions": [],
+      "returnTrue": "emoteOnlyContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "装什么",
+        "你装什么"
+      ],
+      "conditions": [
+        {
+          "name": "installSubstringContext",
+          "pattern": "(?:安装|手动安装|装失败|格式|vix|cad).{0,18}(?:装啥|装什么|怎么安)|(?:装啥|装什么).{0,18}(?:安装|怎么安|cad|vix)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "posturingContext",
+          "pattern": "(?:你|你们|营销号|粉丝|装啥|装什么).{0,24}(?:配|粉丝|可怜|钱收够|品味|审美)|(?:装啥|装什么).{0,24}(?:呢|在这|粉丝|可怜)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "installSubstringContext and not posturingContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "阿黑颜"
+      ],
+      "conditions": [
+        {
+          "name": "literalExpressionContext",
+          "pattern": "(?:表情|翻白眼|吐舌|斗鸡眼|脸|鬼脸|性快感|杯|定制|啥意思|什么意思).{0,24}阿黑颜|阿黑颜.{0,24}(?:表情|翻白眼|吐舌|斗鸡眼|脸|鬼脸|性快感|杯|定制|啥意思|什么意思)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileComparisonContext",
+          "pattern": "(?:你|你们|他|她|别把|说成|骂|侮辱|不尊重).{0,24}阿黑颜|阿黑颜.{0,24}(?:你|你们|他|她|说成|骂|侮辱|不尊重)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalExpressionContext and not hostileComparisonContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "优雅"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneContext",
+          "type": "equals",
+          "value": "优雅"
+        },
+        {
+          "name": "emoteOnlyContext",
+          "type": "complex",
+          "rawExpr": "/\\[\\u70ed\\u8bcd\\u7cfb\\u5217[_-]\\u4f18\\u96c5\\]/u.test(rawSample) && !textOutsideEmotes.includes('\\u4f18\\u96c5')"
+        },
+        {
+          "name": "hollowPraiseContext",
+          "pattern": "^优雅(?:[，,]\\s*)?(?:真是)?优雅(?:哈+)?$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "literalMotionContext",
+          "pattern": "(?:鞋|黑白色|猫爬架|踱步).{0,16}优雅|优雅.{0,16}(?:鞋|黑白色|猫爬架|踱步)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "literalFoodPraiseContext",
+          "pattern": "(?:荤素搭配|有汤|肉汤|泡饭|饭).{0,16}优雅|优雅.{0,16}(?:荤素|有汤|泡饭|饭)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "praiseContext",
+          "pattern": "(?:确实|真|很|太|非常).{0,8}优雅|优雅.{0,12}(?:可爱|帅气|气质|表达|说法)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(standaloneContext or emoteOnlyContext or hollowPraiseContext or literalMotionContext or literalFoodPraiseContext) and (not praiseContext or hollowPraiseContext or literalFoodPraiseContext)",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "刷好感"
+      ],
+      "conditions": [
+        {
+          "name": "gameAffinityContext",
+          "pattern": "(?:好感度|速刷|低耗油|主线|1-1|摩拉|攻略|萌新指南|新人指引|原神|碧蓝航线|异度神剑|剧透).{0,24}刷好感|刷好感.{0,24}(?:好感度|速刷|低耗油|主线|1-1|摩拉|攻略|萌新指南|新人指引|原神|碧蓝航线|异度神剑|剧透)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "curryingFavorContext",
+          "pattern": "(?:感觉|这是|一看|故意|装|舔|讨好|人设|粉丝|路人).{0,24}刷好感|刷好感.{0,24}(?:吧|呢|吃瓜|舔|讨好|人设|粉丝|路人)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "gameAffinityContext and not curryingFavorContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "硬擦"
+      ],
+      "conditions": [
+        {
+          "name": "literalLacquerContext",
+          "pattern": "(?:硬擦漆|推光漆|漆色|漆面|古琴|弦路|哑光|镜面|耐磨|划痕).{0,24}硬擦|硬擦.{0,24}(?:漆|推光|漆色|漆面|古琴|弦路|哑光|镜面|耐磨|划痕)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "forcedRhetoricContext",
+          "pattern": "(?:不会|没活|没理|输了|洗|圆|尬).{0,12}硬擦|硬擦.{0,12}(?:哈|尬|洗|圆|理由|逻辑|说法)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalLacquerContext and not forcedRhetoricContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "3pp大神"
+      ],
+      "conditions": [
+        {
+          "name": "literalGameSettingContext",
+          "pattern": "(?:暗黑2|暗黑破坏神|国服|掉落|符文|超市|1pp|3pp|5pp|8pp).{0,24}3pp|3pp.{0,24}(?:暗黑2|暗黑破坏神|国服|掉落|符文|超市|1pp|5pp|8pp|效率)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "fanPraiseContext",
+          "pattern": "3pp大神.{0,12}(?:都来了|来了|星星眼|牛|太强|厉害)|(?:星星眼|牛|太强|厉害).{0,12}3pp大神",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileContext",
+          "pattern": "(?:小丑|不配|菜|尬|黑|别吹|滚).{0,16}3pp大神|3pp大神.{0,16}(?:小丑|不配|菜|尬|黑|别吹|滚)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(literalGameSettingContext or fanPraiseContext) and not hostileContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "没救了"
+      ],
+      "conditions": [
+        {
+          "name": "despairContext",
+          "pattern": "(?:我们|我|这波|队友|社恐|市场|a股|提前|国家队|掉到|来了).{0,24}没救了|没救了.{0,24}(?:哭|ὢd|笑|崩|暴跌|股灾|料理节目|歌|本家|投稿|提前|游戏|队友)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "correctionContext",
+          "pattern": "(?:说错|看错|搞错|改|修正|更正|收回|道歉|承认|指正).{0,24}没救了|没救了.{0,24}(?:说错|看错|搞错|改|修正|更正|收回|道歉|承认|指正)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "despairContext and not correctionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "个签"
+      ],
+      "conditions": [
+        {
+          "name": "profileSignatureContext",
+          "pattern": "(?:我的个签|换个签|看我个签|个性签名|个签有链接|个签是|上上签|抽个签|签绘板)|Bilibili public video title:",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "negatedEvidenceContext",
+          "pattern": "(?:不是|没有|没)什么?证据|(?:不是|没有|没).{0,8}证据",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "discussionContext",
+          "pattern": "个签.{0,18}(?:证据|来源|原文|截图|贴出)|(?:证据|来源|原文|截图).{0,18}个签",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "profileSignatureContext and (not discussionContext or negatedEvidenceContext)",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "给筛子里灌了铅"
+      ],
+      "conditions": [
+        {
+          "name": "literalTitleContext",
+          "pattern": "Bilibili public video title:|《我们给筛子里灌了铅》",
+          "caseInsensitive": false,
+          "target": "raw_context_sample"
+        },
+        {
+          "name": "probabilityAttackContext",
+          "pattern": "(?:概率|暗改|操纵|黑幕|作假|骗|系统|官方).{0,24}(?:给筛子里灌了铅|灌铅筛子)|(?:给筛子里灌了铅|灌铅筛子).{0,24}(?:概率|暗改|操纵|黑幕|作假|骗|系统|官方)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalGameMechanicContext and not probabilityAttackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "指路"
+      ],
+      "conditions": [
+        {
+          "name": "emptySignpostContext",
+          "pattern": "指路[:：]?\\s*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "literalNavigationContext",
+          "pattern": "(?:北方人|北京|路上|指路牌|东南西北|路牌).{0,24}指路|指路.{0,24}(?:东南西北|指路牌|老一辈|路上|北京)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hasTargetContext",
+          "pattern": "指路.{0,24}(?:https?:\\/\\/|BV[0-9A-Za-z]+|av\\d+|链接|这里|上面|下面)|(?:https?:\\/\\/|BV[0-9A-Za-z]+|av\\d+|链接).{0,24}指路",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(emptySignpostContext or literalNavigationContext) and not hasTargetContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "油管"
+      ],
+      "conditions": [
+        {
+          "name": "platformComplaintContext",
+          "pattern": "(?:油管|推特).{0,24}(?:垃圾|反人类|社交软件)|(?:垃圾|反人类|社交软件).{0,24}(?:油管|推特)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "sourceContext",
+          "pattern": "油管.{0,18}(?:官网|视频|链接|原片|来源|下到|搜)|(?:官网|视频|链接|原片|来源|下到|搜).{0,18}油管",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "platformComplaintContext and not sourceContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "老厮"
+      ],
+      "conditions": [
+        {
+          "name": "properNamePraiseContext",
+          "pattern": "董老厮.{0,24}(?:逻辑|口才|表达|真强|不错|挺不错)|(?:逻辑|口才|表达|真强|不错|挺不错).{0,24}董老厮",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "sourceContext",
+          "pattern": "老厮.{0,18}(?:证据|来源|原文|链接|出处|数据)|(?:证据|来源|原文|链接|出处|数据).{0,18}老厮",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "properNamePraiseContext and not sourceContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "良作无人"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneLabelContext",
+          "type": "equals",
+          "value": "良作无人"
+        },
+        {
+          "name": "recommendationContext",
+          "pattern": "(?:良作无人.*(?:看|推|安利|可惜|值得)|(?:这片|这个|真是).*良作无人)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "standaloneLabelContext and not recommendationContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "六六六"
+      ],
+      "conditions": [
+        {
+          "name": "neutralPraiseContext",
+          "pattern": "^(?:哈+[\\s，,]*)?六六六(?:[!！。~\\s]|(?:\\[doge\\]))*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "sarcasticContext",
+          "pattern": "(?:这操作|这逻辑|你|你们).*(?:六六六|666).*?(?:证据|离谱|不看|无语)|(?:六六六|666).*?(?:证据|离谱|不看|无语)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "neutralPraiseContext and not sarcasticContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "对不起"
+      ],
+      "conditions": [
+        {
+          "name": "negatedApologyContext",
+          "pattern": "(?:从没有|没有|没)对不起",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "correctionApologyContext",
+          "pattern": "对不起.*(?:说错|搞错|看错|记错|收回|是我)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedApologyContext and not correctionApologyContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "我错了"
+      ],
+      "conditions": [
+        {
+          "name": "refusalContext",
+          "pattern": "(?:我错了又能怎么样|不可能给你道歉|不承认我有错)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "refusalContext and not correctionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "截图"
+      ],
+      "conditions": [
+        {
+          "name": "collectionOnlyContext",
+          "pattern": "(?:表情包|壁纸|头像|可爱).*截图(?:拿走|保存|留念)|截图(?:拿走|保存|留念)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "toolOnlyContext",
+          "pattern": "(?:截图\\+OCR|截图翻译|区域截图|截长图|屏幕截图|截图保存|截图教程|screenshots|工具.{0,12}截图|搭配.{0,12}也能截图)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceContext",
+          "pattern": "截图.*(?:证据|贴出来|发出来|来源|对照)|(?:证据|来源).*截图",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(collectionOnlyContext or toolOnlyContext) and not evidenceContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "浏览器搜"
+      ],
+      "conditions": [
+        {
+          "name": "genericSearchToolContext",
+          "pattern": "(?:浏览器搜索(?:Ttime|工具|插件|软件|免费获取|不花钱)|(?:免费获取|不花钱).{0,12}浏览器搜)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceSearchContext",
+          "pattern": "(?:原文|来源|证据|资料|数据|出处|信源|链接).{0,12}浏览器搜|浏览器搜.{0,12}(?:原文|来源|证据|资料|数据|出处|信源|链接)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "genericSearchToolContext and not evidenceSearchContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "科学上网"
+      ],
+      "conditions": [
+        {
+          "name": "toolHelpContext",
+          "pattern": "(?:国内有一些了|可以用app|工具|软件|教程).{0,18}科学上网|科学上网.{0,18}(?:可以用app|工具|软件|教程)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceEvasionContext",
+          "pattern": "(?:别|别只|只说|证据|链接|来源).{0,18}科学上网|科学上网.{0,18}(?:自己搜|证据|链接|来源)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "toolHelpContext and not evidenceEvasionContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "可以贴"
+      ],
+      "conditions": [
+        {
+          "name": "hostileDareContext",
+          "pattern": "(?:老傻子|有本事).*(?:发出来|贴出来|把.*图片发)|(?:你敢|你自己敢|你发的什么东西).{0,16}(?:发出来|公开发出来)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "genericDiscoveryContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /(?:\\u53ef\\u4ee5\\u53d1\\u73b0|\\u5c31\\u53ef\\u4ee5\\u53d1\\u73b0|\\u53ef\\u4ee5\\u770b\\u51fa|\\u53ef\\u4ee5\\u770b\\u5230)/u.test(cleanSample)"
+        },
+        {
+          "name": "genericAdviceContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /(?:\\u5efa\\u8bae\\u5927\\u5bb6|\\u706b\\u9505\\u5e95\\u6599|\\u5148\\u7092\\u5316\\u5f00|\\u518d\\u52a0\\u70ed\\u6c34)/u.test(cleanSample)"
+        },
+        {
+          "name": "loosePublishContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /(?:\\u83ab\\u540d\\u5176\\u5999\\u53d1\\u51fa\\u6765\\u4e86|\\u73b0\\u5728\\u624d\\u662f\\u5b8c\\u6574\\u7248|\\u8fd9\\u80fd\\u53d1\\u51fa\\u6765\\u5417|\\u8c03\\u8bd5.{0,18}\\u53d1\\u51fa\\u6765|\\u4e0d\\u8981\\u53d1\\u51fa\\u6765|\\u51fa\\u6765\\u7684\\u90a3\\u4e00\\u77ac\\u95f4|\\u53d1\\u51fa\\u6765.{0,18}(?:\\u5fae\\u535a\\u5347\\u5802|\\u8206\\u8bba|\\u5e72\\u4ec0\\u4e48))/u.test(cleanSample)"
+        },
+        {
+          "name": "looseCapabilityContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /\\u53ef\\u4ee5\\u53d1\\u6325/u.test(cleanSample)"
+        },
+        {
+          "name": "guruMonologueContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /(?:\\u6293\\u4f4f\\u8fd9\\u4e2a\\u98ce\\u53e3|\\u63d0\\u5347\\u8ba4\\u77e5|\\u7b2c\\u4e00\\u6027\\u539f\\u7406|\\u5e95\\u5c42\\u903b\\u8f91)/u.test(cleanSample)"
+        },
+        {
+          "name": "resourceShareContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /(?:\\u65b9\\u4fbf\\u5927\\u4f19\\u5b58|\\u53ef\\u4ee5\\u81ea\\u53d6|\\u770b\\u5230\\u7684\\u5c31\\u53ef\\u4ee5\\u81ea\\u53d6|\\u53d1\\u5230\\u4f60\\u7684\\u52a8\\u6001)/u.test(cleanSample)"
+        },
+        {
+          "name": "labelAttachmentContext",
+          "pattern": "可以贴上.{0,12}(?:头衔|标签|帽子|名号)|(?:头衔|标签|帽子|名号).{0,12}可以贴上",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "productLinkRequestContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /(?:\\u536b\\u8863|\\u5916\\u5957|\\u7c89\\u8272|\\u540c\\u6b3e|\\u8863\\u670d|\\u5546\\u54c1|\\u5e97\\u94fa).{0,18}(?:\\u53ef\\u4ee5\\u53d1|\\u53d1\\u6211).{0,8}\\u94fe\\u63a5|\\u53d1\\u6211\\u94fe\\u63a5.{0,18}(?:\\u536b\\u8863|\\u5916\\u5957|\\u7c89\\u8272|\\u540c\\u6b3e|\\u8863\\u670d|\\u5546\\u54c1|\\u5e97\\u94fa)/u.test(cleanSample)"
+        },
+        {
+          "name": "imagePostingHelpContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u53ef\\u4ee5\\u8d34') && /(?:\\u56fe\\u7247|\\u8868\\u60c5|\\u7167\\u7247).{0,8}(?:\\u600e\\u4e48|\\u5982\\u4f55).{0,8}\\u53d1\\u51fa\\u6765|\\u600e\\u4e48\\u53d1\\u51fa\\u6765.{0,8}(?:\\u56fe\\u7247|\\u8868\\u60c5|\\u7167\\u7247)?/u.test(cleanSample)"
+        },
+        {
+          "name": "cooperativeSourceContext",
+          "pattern": "(?:可以贴|建议贴|麻烦贴|可以发).*(?:来源|证据|截图|链接|原文|对照)|(?:评论|证据).{0,8}贴出来",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "productLinkRequestContext or imagePostingHelpContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "笑点解析"
+      ],
+      "conditions": [
+        {
+          "name": "explanationContext",
+          "pattern": "笑点解析.{0,48}(?:因为|所以|反话|自嘲|前面|这里|梗|意思|笑点)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "weakJokeLabelContext and not explanationContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "精选"
+      ],
+      "conditions": [
+        {
+          "name": "platformModerationContext",
+          "pattern": "(?:评论发不出去|up精选|开了精选|开精选.{0,12}(?:封|被封)|精选.{0,12}(?:视频会被封|被封)|评论区.{0,12}精选|评论.{0,12}是不是精选|要.{0,4}精选)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "selectiveEvidenceContext",
+          "pattern": "精选.{0,18}(?:证据|有利|反例)|(?:只放|只选|只挑|反例).{0,18}精选",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "platformModerationContext and not selectiveEvidenceContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "绝对不够的"
+      ],
+      "conditions": [
+        {
+          "name": "foodAmountContext",
+          "pattern": "(?:一碗饭|不够饱|饭).{0,18}绝对不够|绝对不够.{0,18}(?:饱|饭)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "argumentativeContext",
+          "pattern": "(?:你|耐力|证据|根据|不够).{0,18}绝对不够|绝对不够.{0,18}(?:证据|理由|数据|耐力)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "foodAmountContext and not argumentativeContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "绝对正确"
+      ],
+      "conditions": [
+        {
+          "name": "conceptReflectionContext",
+          "pattern": "(?:寻求|追求|存在|不存在|摆脱|反思|讨论|判断|悖论|世界上有).{0,18}绝对正确|绝对正确.{0,18}(?:妄念|概念|标准|边界|问题|不存在|存在吗|事情|悖论)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "assertionContext",
+          "pattern": "(?:说的|内容|这样|这么干|就得|必须).{0,18}绝对正确|绝对正确.{0,18}(?:，|。|！|但是|就得|必须|没毛病|对)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "conceptReflectionContext and not assertionContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "罗神伟大"
+      ],
+      "conditions": [
+        {
+          "name": "targetSpecificContext",
+          "pattern": "(?:罗神|罗辑|罗老师|罗翔)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "genericGreatnessContext",
+          "pattern": "伟大无需多言|无需多言",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "genericGreatnessContext and not targetSpecificContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "画饼",
+        "男的都爱画饼"
+      ],
+      "conditions": [
+        {
+          "name": "_in_0",
+          "type": "includes",
+          "value": "@",
+          "target": "raw_sample"
+        },
+        {
+          "name": "_in_1",
+          "type": "includes",
+          "value": "画饼",
+          "target": "text_without_mentions"
+        }
+      ],
+      "returnTrue": "_in_0 and not _in_1",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "tv呕吐"
+      ],
+      "conditions": [
+        {
+          "name": "_in_0",
+          "pattern": "\\[[^\\]]*tv[_-]?呕吐[^\\]]*\\]",
+          "caseInsensitive": true,
+          "target": "raw_sample"
+        }
+      ],
+      "returnTrue": "_in_0 and not textOutsideEmotes",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "已赞10请回下"
+      ],
+      "conditions": [
+        {
+          "name": "bareEngagementContext",
+          "pattern": "^已赞\\d+[，,]?\\s*请回下[.!！。]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "discussionRequestContext",
+          "pattern": "(?:证据|来源|补充|时间线|说清楚|链接)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareEngagementContext and not discussionRequestContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "上电视"
+      ],
+      "conditions": [
+        {
+          "name": "bareReactionContext",
+          "pattern": "^(?:卧槽|我|卧槽我)?上电视了[!！。]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "discussionContext",
+          "pattern": "(?:证据|链接|补上|来源|这条)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareReactionContext and not discussionContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "实名制"
+      ],
+      "conditions": [
+        {
+          "name": "stanceContext",
+          "pattern": "实名制.{0,12}(?:支持|反对|赞同|分析)|(?:支持|反对|赞同).{0,12}实名制",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalSystemContext and not stanceContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "我的问题"
+      ],
+      "conditions": [
+        {
+          "name": "gameDeathContext",
+          "pattern": "(?:星球轰炸|cs轨道|飞鹰风暴|打死我|砸死我).{0,36}我的问题|我的问题.{0,36}(?:星球轰炸|cs轨道|飞鹰风暴|打死我|砸死我)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "gameExplorationContext",
+          "pattern": "(?:探索密室|点蜡烛|挨个点).{0,36}我的问题|我的问题.{0,36}(?:探索密室|点蜡烛|挨个点)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "negatedSelfFaultContext",
+          "pattern": "(?:不是|不算|没算)我的问题|原来不是我的问题",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "correctionContext",
+          "pattern": "(?:可能是|确实是|前面|收回|说错|改|更正|道歉).{0,18}我的问题|我的问题.{0,18}(?:收回|更正|道歉|改)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedSelfFaultContext and not correctionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "扭矩不详遇强则强"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneMemeContext",
+          "pattern": "^扭矩不详[，,]?\\s*遇强则强[.!！。]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "usefulVehicleContext",
+          "pattern": "(?:车|实测|数据|参考|性能|对比).{0,24}(?:扭矩不详|遇强则强)|(?:扭矩不详|遇强则强).{0,24}(?:车|实测|数据|参考|性能|对比)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "standaloneMemeContext and not usefulVehicleContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "小某书"
+      ],
+      "conditions": [
+        {
+          "name": "platformAdOrTipContext",
+          "pattern": "(?:去小某书搜|小某书搜).{0,24}(?:福利|设置|参考|教程|同款|官方)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceEvasionContext",
+          "pattern": "(?:别|不要|只).{0,16}小某书.{0,24}(?:证据|来源|说清楚)|小某书.{0,24}(?:当证据|不算证据|证据在哪)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "platformAdOrTipContext and not evidenceEvasionContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "今日首绷了"
+      ],
+      "conditions": [
+        {
+          "name": "bareReactionContext",
+          "pattern": "^今日首绷(?:了|给你了)?[!！\\s]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "discussionContext",
+          "pattern": "(?:但|不过|确实|前面|讲清楚|说对|有道理|补充|证据|来源)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareReactionContext and not discussionContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "ai识片酱"
+      ],
+      "conditions": [
+        {
+          "name": "bareBotMentionContext",
+          "type": "complex",
+          "rawExpr": "/^@?AI\\u8bc6\\u7247\\u9171$/iu.test(String(sample || '').trim())"
+        },
+        {
+          "name": "requestContext",
+          "pattern": "(?:请|帮忙|识别|来源|片段|这段|这个)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareBotMentionContext and not requestContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "tv点赞"
+      ],
+      "conditions": [
+        {
+          "name": "weakPraiseEmoteContext",
+          "pattern": "\\[tv[_-]点赞\\]/iu.test(String(sample || '')) && /(?:有生活|厉害|不错|nice|成功人士|钛合金手机)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "usefulSupportContext",
+          "pattern": "(?:补充|有用|建议|置顶|证据|来源|资料)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "weakPraiseEmoteContext and not usefulSupportContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "野排"
+      ],
+      "conditions": [
+        {
+          "name": "literalQueueContext",
+          "pattern": "(?:不是野排|从不野排|朋友不是野排|好友|单三|三排|医生|雷斯|盒子|出心|老板|起枪|带包|打架|自己野排|穿55甲|带金蛋|这不就是).{0,36}野排|野排.{0,36}(?:不是|从不|好友|单三|三排|朋友|医生|雷斯|盒子|出心|有什么区别|什么区别|吗|我自己|穿55甲|带金蛋)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "coordinationContext",
+          "pattern": "野排.{0,24}(?:配合|沟通|指挥|队友愿意)|(?:队友|一起).{0,24}(?:配合|沟通|指挥).{0,12}野排",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalQueueContext and not coordinationContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "找个班上"
+      ],
+      "conditions": [
+        {
+          "name": "genericEmploymentContext",
+          "pattern": "(?:找\\d+的|前台被拒|进厂|服务员|摇奶茶|卡年龄|要经验|随便找个班上.*这个词)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "dismissiveEmploymentContext",
+          "pattern": "(?:没活|寂寞|太闲|闲的|发癫|别).{0,12}找个班上|找个班上.{0,12}(?:别|没活|寂寞|发癫|评论区|闭嘴|少说)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "genericEmploymentContext and not dismissiveEmploymentContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "皮套"
+      ],
+      "conditions": [
+        {
+          "name": "literalCostumeContext",
+          "pattern": "(?:奥特|艾斯|雷欧|奥兄|剧情|整套|好新|打磨|学校|女主播|赚钱|皮套人|晃悠|监视).{0,18}皮套|皮套.{0,18}(?:奥特|艾斯|雷欧|奥兄|剧情|整套|好新|打磨|学校|女主播|赚钱|皮套人|晃悠|监视)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperativeAssetContext",
+          "pattern": "皮套.{0,18}(?:素材|链接|可以贴|发出来|分享|参考)|(?:素材|链接|可以贴|发出来|分享|参考).{0,18}皮套",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalCostumeContext and not cooperativeAssetContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "模组"
+      ],
+      "conditions": [
+        {
+          "name": "literalGameModContext",
+          "pattern": "(?:有增强模组|增强模组)|(?:烦村|击杀计分|任务|破坏|惊变100天|搬运|重了|主播|我要|一键三连|送给我|三个模组).{0,18}模组|模组.{0,18}(?:烦村|击杀计分|任务|破坏|惊变100天|搬运|重了|主播|我要|一键三连|送给我|三个|增强)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "latestLiteralModContext",
+          "pattern": "(?:动作|战斗|坐下|角色|adobe|maximo|奎托斯|库洛|数值|融化|超导).{0,18}模组|模组.{0,18}(?:动作|战斗|坐下|角色|adobe|maximo|奎托斯|库洛|数值|融化|超导)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperativeModContext",
+          "pattern": "模组.{0,18}(?:链接|分享|发一下|可以贴|复现|怎么装)|(?:链接|分享|发一下|可以贴|复现|怎么装).{0,18}模组",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(literalGameModContext or latestLiteralModContext) and not cooperativeModContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "视频同款"
+      ],
+      "conditions": [
+        {
+          "name": "ecommerceContext",
+          "pattern": "视频同款[，,]?\\s*(?:立即)?购买",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "requestContext",
+          "pattern": "(?:求|链接|对照|参考|哪里).{0,18}视频同款|视频同款.{0,18}(?:求|链接|对照|参考|哪里)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "ecommerceContext and not requestContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "如果有"
+      ],
+      "conditions": [
+        {
+          "name": "genericWishContext",
+          "pattern": "如果有",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceOpennessContext",
+          "pattern": "如果有.{0,18}(?:证据|数据|来源|原文|截图|反例).{0,18}(?:改|收回|认|看)|如果有.{0,18}(?:我愿意改|可以改结论)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "genericWishContext and not evidenceOpennessContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "谁懂"
+      ],
+      "conditions": [
+        {
+          "name": "audienceCountContext",
+          "pattern": "^[0-9０-９]+人正在观看[，,]?谁懂$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "selfEmotionContext",
+          "pattern": "(?:谁懂啊|谁懂).{0,18}(?:我哭死|我的笑点|好好笑|太好哭|啊{2,}|一点进来|准备开始|选牌)|(?:啊{2,}).{0,8}谁懂",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evasionContext",
+          "pattern": "(?:别只说谁懂|谁懂.*(?:不解释|懂的都懂|证据贴出来|自己搜))",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(audienceCountContext or selfEmotionContext) and not evasionContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "链接"
+      ],
+      "conditions": [
+        {
+          "name": "shoppingLinkContext",
+          "pattern": "(?:裤子|衣服|鞋|店|商品|好好看|有无|求).{0,8}链接|链接.{0,8}(?:有无|求|买|店|商品)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceLinkContext",
+          "pattern": "(?:证据|来源|原文|资料|数据).*链接|链接.*(?:证据|来源|原文|资料|数据|贴出来)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "shoppingLinkContext and not evidenceLinkContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "知识增加"
+      ],
+      "conditions": [
+        {
+          "name": "emoteWrapperContext",
+          "type": "complex",
+          "rawExpr": "/\\[\\u70ed\\u8bcd\\u7cfb\\u5217[_-]\\u77e5\\u8bc6\\u589e\\u52a0\\]/u.test(String(sample || ''))"
+        },
+        {
+          "name": "learningContext",
+          "pattern": "(?:知识增加了|学到|科普|原来).*知识|知识增加.*(?:学到|科普)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "_in_2",
+          "type": "includes",
+          "value": "知识增加",
+          "target": "text_outside_emotes"
+        }
+      ],
+      "returnTrue": "emoteWrapperContext and not _in_2 and not learningContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "问老马本人"
+      ],
+      "conditions": [
+        {
+          "name": "unrelatedMemeTitleContext",
+          "type": "complex",
+          "rawExpr": "/all\\s+your\\s+base\\s+are\\s+belong\\s+to\\s+us|1998/i.test(rawContextSample) && !cleanSample.includes('\\u95ee\\u8001\\u9a6c')"
+        },
+        {
+          "name": "dismissiveAskContext",
+          "pattern": "(?:别问我|我哪知道|有问题).{0,18}问老马本人|问老马本人.{0,18}(?:去|别问我|我哪知道)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "unrelatedMemeTitleContext and not dismissiveAskContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "全都是对"
+      ],
+      "conditions": [
+        {
+          "name": "genericPraiseContext",
+          "pattern": "(?:哈+|太适合|贴合|演技|欣赏|语c|加油|中考|实验|练习).{0,18}(?:全都是对|完全是对)|(?:全都是对|完全是对).{0,18}(?:贴合|演技|欣赏|太适合|加油|中考|实验|练习|有帮助)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "gameTargetContext",
+          "pattern": "(?:行星护卫|受到伤害|伤害|对面).{0,18}(?:全是对面|全都是对面)|(?:全是对面|全都是对面).{0,18}(?:伤害|行星护卫)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "closedJudgmentContext",
+          "pattern": "(?:你|他|她|粉丝|觉得|没有反例|不接受|什么都).{0,18}全都是对|全都是对.{0,18}(?:反例|证据|不接受|自己|别人都错)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(genericPraiseContext or gameTargetContext) and not closedJudgmentContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "懂了吧"
+      ],
+      "conditions": [
+        {
+          "name": "explanatoryVideoContext",
+          "pattern": "(?:游戏|攻略|视频|做好|做不好|流量|一堆人喷).{0,24}懂了吧|懂了吧.{0,24}(?:doge|游戏|攻略|视频|做好|做不好|流量|一堆人喷)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "dismissiveEvasionContext",
+          "pattern": "(?:别问|自己想|证据不给|不解释|都说到这).{0,18}懂了吧|懂了吧.{0,18}(?:别问|自己想|不解释|证据不给)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "shortReactionContext",
+          "pattern": "^(?:你看[，,]?)?懂了吧(?:\\[doge\\])?$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(explanatoryVideoContext or shortReactionContext) and not dismissiveEvasionContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "贴吧"
+      ],
+      "conditions": [
+        {
+          "name": "genericPlatformContext",
+          "pattern": "贴吧",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evasionPlatformContext",
+          "pattern": "(?:贴吧见|去贴吧|贴吧挂|被贴吧挂|贴吧.*(?:证据|自己看|别问))",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "genericPlatformContext and not evasionPlatformContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "自己看"
+      ],
+      "conditions": [
+        {
+          "name": "narrationContext",
+          "pattern": "(?:过程中|施工|节目|拿着自己|自己看着|自己看到)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "dismissiveContext",
+          "pattern": "(?:别问我|证据|图里|自己去|自己看吧|你自己看)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "narrationContext and not dismissiveContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "没想到吧"
+      ],
+      "conditions": [
+        {
+          "name": "playfulRevealContext",
+          "pattern": "(?:哈+.*没想到吧.*(?:我拿|我也|跳了|很合理)|没想到吧.*(?:舞蹈|表演|拿剑))",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "rebuttalRevealContext",
+          "pattern": "(?:证据|贴出来|打脸|说我造谣|反转).*没想到吧|没想到吧.*(?:证据|打脸|造谣|反转)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "playfulRevealContext and not rebuttalRevealContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "脱单"
+      ],
+      "conditions": [
+        {
+          "name": "emoteSuffixContext",
+          "pattern": "\\[脱单(?:doge)?\\]/u.test(String(sample || '')) || /(?:脱单doge|脱单\\s*doge)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "relationshipContext",
+          "pattern": "(?:祝|早日|希望).{0,8}脱单|想(?:要)?脱单|脱单.*(?:祝|早日|成功|对象|恋爱)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "literalDatingToolContext",
+          "pattern": "(?:软件|app|应用|相亲|交友).{0,12}脱单|脱单.{0,12}(?:软件|app|应用|相亲|交友|没啥用|没什么用|没有用)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(emoteSuffixContext or literalDatingToolContext) and not relationshipContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "六扇门"
+      ],
+      "conditions": [
+        {
+          "name": "literalOfficeContext",
+          "pattern": "(?:报六扇门|六扇门).*(?:叼上|差点|当时)|(?:叼上|差点|当时).*六扇门",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperativeReportContext",
+          "pattern": "(?:bug|问题|建议|修).{0,8}(?:报六扇门|六扇门)|(?:报六扇门|六扇门).{0,8}(?:bug|问题|建议|修)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalOfficeContext and not cooperativeReportContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "怪我咯"
+      ],
+      "conditions": [
+        {
+          "name": "correctionContext",
+          "pattern": "怪我咯.{0,12}(?:看错|说错|搞错|收回|更正|前面)|(?:看错|说错|搞错|收回|更正).{0,12}怪我咯",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "reactionOnlyContext and not correctionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "妙啊",
+        "无语"
+      ],
+      "conditions": [],
+      "returnTrue": "emoteOnlyContext and not discourseContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "卡bug"
+      ],
+      "conditions": [
+        {
+          "name": "bareBugLabelContext",
+          "pattern": "^(卡bug|bug)$",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evidenceBugContext",
+          "pattern": "卡bug.*(?:证据|不是正常|漏洞|录屏|视频)|(?:证据|录屏|视频).*卡bug",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareBugLabelContext and not evidenceBugContext",
+      "family": "evidence"
+    },
+    {
+      "terms": [
+        "支持力"
+      ],
+      "conditions": [
+        {
+          "name": "_term_in_sample",
+          "type": "term_in_sample",
+          "term": "支持力"
+        }
+      ],
+      "returnTrue": "not _term_in_sample",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "支持一下up"
+      ],
+      "conditions": [
+        {
+          "name": "supportUpContext",
+          "pattern": "支持一下up|支持一下up主|支持up|支持up主",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "not supportUpContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "学习了"
+      ],
+      "conditions": [
+        {
+          "name": "futureStudyContext",
+          "pattern": "(?:我要|要开始|准备|该)学习了",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "literalCulturalLearningContext",
+          "pattern": "(?:日本|民族|国家|文明).{0,18}学习了.{0,18}(?:中华文化|文化|技术)|学习了.{0,18}(?:中华文化|文化|技术)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "learnedFromContext",
+          "pattern": "(?:讲清楚|学到|受教|谢谢|感谢|时间线|分析).{0,18}学习了|学习了.{0,18}(?:谢谢|受教|学到|讲清楚)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "literalSchoolStudyContext",
+          "pattern": "(?:爸爸|姑娘|孩子|一年级|成绩|读书|不爱读书|喜欢学习|爱学习).{0,36}学习|学习.{0,36}(?:成绩|好玩|不好|爸爸|姑娘|一年级|读书)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalCulturalLearningContext and not learnedFromContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "粥批"
+      ],
+      "conditions": [
+        {
+          "name": "usernameOnlyContext",
+          "type": "complex",
+          "rawExpr": "/@\\S*\\u7ca5\\u6279\\S*/u.test(String(sample || '')) && !String(sample || '').replace(/@\\S+/gu, '').includes('\\u7ca5\\u6279')"
+        }
+      ],
+      "returnTrue": "usernameOnlyContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "美哉",
+        "岂不美哉"
+      ],
+      "conditions": [
+        {
+          "name": "bareRhetoricalPhrase",
+          "pattern": "^(?:岂不)?美哉[\\s!！。？?]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "targetedSarcasmContext",
+          "pattern": "(?:扣帽子|造谣|装|洗|双标|话术|受害者|理中客|你|你们).{0,24}(?:岂不)?美哉|(?:岂不)?美哉.{0,24}(?:扣帽子|造谣|装|洗|双标|话术)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareRhetoricalPhrase and not targetedSarcasmContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "赛寄"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "暗门子"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "梗out了"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "搞错了"
+      ],
+      "conditions": [
+        {
+          "name": "rhetoricalAccusationContext",
+          "pattern": "(?:是不是|不是).{0,8}搞错了(?:什么|吧|啊)?|搞错了什么",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "selfCorrectionContext",
+          "pattern": "(?:我|前面|刚才|上面).{0,12}搞错了.{0,12}(?:更正|改|收回|重说|抱歉)|搞错了.{0,12}(?:更正|改|收回|重说|抱歉)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "rhetoricalAccusationContext and not selfCorrectionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "避重就轻"
+      ],
+      "conditions": [
+        {
+          "name": "metaQuestionContext",
+          "pattern": "^(?:为什么|怎么|什么)(?:叫|算|是).{0,8}避重就轻",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "evasionAccusationContext",
+          "pattern": "(?:他|你|他们|你们|水军|回答|说法|问题).{0,18}避重就轻|避重就轻.{0,18}(?:问题|不谈|不回答|转移|重点)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "metaQuestionContext and not evasionAccusationContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "规训顾客",
+        "好嘉伙"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "毫无吊用",
+        "好言难劝想死的鬼"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "毫无吊用",
+        "好言难劝想死的鬼"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "好时代来临力"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "荒野大迪客"
+      ],
+      "conditions": [
+        {
+          "name": "standalonePunContext",
+          "type": "complex",
+          "rawExpr": "/^\\u8352\\u91ce\\u5927\\u8fea\\u5ba2(?:[\\s!！。,.，]*|\\[[^\\]]+\\])*$/u.test(String(sample || '').trim())"
+        },
+        {
+          "name": "targetedCriticismContext",
+          "pattern": "(?:你|这|up|起名|取名|恶俗|下头|别).{0,18}荒野大迪客|荒野大迪客.{0,18}(?:恶俗|下头|别|太)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "standalonePunContext and not targetedCriticismContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "回字有四种写法"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneReferenceContext",
+          "pattern": "^(?:偷偷告诉你们)?回字有四种写法$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "standaloneReferenceContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "绷不住了"
+      ],
+      "conditions": [
+        {
+          "name": "targetedMockContext",
+          "pattern": "(?:你|你这|他|她|回应|他说|没用|后路|惹了一身骚|这张图).{0,30}(?:没绷住|绷不住)|(?:没绷住|绷不住).{0,30}(?:你|你这|他|她|回应|他说|没用|后路|惹了一身骚|这张图)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "looseReactionContext and not targetedMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "川建国"
+      ],
+      "conditions": [
+        {
+          "name": "metaNameDiscussionContext",
+          "pattern": "(?:建设国家的意思|什么意思|为数不多的搜到|搜到川建国|叫川建国)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "creatorTrafficContext",
+          "pattern": "(?:up主|\\bup\\b|涨了|涨粉|粉).{0,18}(?:川普|川建国)|(?:川普|川建国).{0,18}(?:up主|\\bup\\b|心尖宠|涨了|涨粉|粉)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "neutralTrumpQuestionContext",
+          "pattern": "(?:那是|这是).{0,4}特朗普(?:[？?]|哦呼)?",
+          "caseInsensitive": false,
+          "target": "context_sample"
+        },
+        {
+          "name": "satireContext",
+          "pattern": "(?:报告组织|打击完毕|心里没点b数|治不了|怪游戏|鬼畜之王|特朗普).{0,24}(?:川建国|川普)|(?:川建国|川普).{0,24}(?:报告组织|打击完毕|心里没点b数|治不了|怪游戏|鬼畜之王|特朗普)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(usernameMentionOnlyContext or metaNameDiscussionContext or creatorTrafficContext or neutralTrumpAliasContext or neutralTrumpQuestionContext or dialectChuanpuContext) and not satireContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "川普"
+      ],
+      "conditions": [
+        {
+          "name": "creatorTrafficContext",
+          "pattern": "(?:up主|\\bup\\b|涨了|涨粉|粉).{0,18}川普|川普.{0,18}(?:up主|\\bup\\b|心尖宠|涨了|涨粉|粉)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "neutralTrumpQuestionContext",
+          "pattern": "(?:那是|这是).{0,4}特朗普(?:[？?]|哦呼)?",
+          "caseInsensitive": false,
+          "target": "context_sample"
+        },
+        {
+          "name": "criticalTrumpContext",
+          "pattern": "川普.{0,24}(?:心里没点b数|治不了|怪游戏|离谱|荒谬)|(?:心里没点b数|治不了|怪游戏|离谱|荒谬).{0,24}川普",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(creatorTrafficContext or neutralTrumpAliasContext or neutralTrumpQuestionContext or dialectChuanpuContext) and not criticalTrumpContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "阿美莉卡"
+      ],
+      "conditions": [
+        {
+          "name": "literalNameContext",
+          "pattern": "(?:阿美莉卡|美利坚).{0,24}(?:翻译|趣闻|一期不落|祝福|真心)|(?:翻译|趣闻|一期不落|祝福|真心).{0,24}(?:阿美莉卡|美利坚)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "americaMockContext",
+          "pattern": "(?:阿美|阿美莉卡|美利坚).{0,20}(?:太荒谬|荒谬|笑话|太年轻)|(?:太荒谬|荒谬|笑话|太年轻).{0,20}(?:阿美|阿美莉卡|美利坚)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalNameContext and not americaMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "tv坏笑"
+      ],
+      "conditions": [
+        {
+          "name": "emoteContext",
+          "pattern": "\\[(?:tv_|[^\\]]*_)?坏笑\\]",
+          "caseInsensitive": false,
+          "target": "raw_sample"
+        },
+        {
+          "name": "expressionContext",
+          "pattern": "(?:我的坏笑|坏笑(?:怪怪的|也很怪)|改完之后的坏笑)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "looseBadContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('tv\\u574f\\u7b11') && !cleanSample.includes('tv_\\u574f\\u7b11') && /\\u975e\\u8822\\u65e2\\u574f|\\u574f\\[\\u7b11/u.test(cleanSample)"
+        },
+        {
+          "name": "attackEmoteContext",
+          "pattern": "(?:你|你这|他|她).{0,20}(?:tv_?坏笑|坏笑).{0,20}(?:阴阳|嘲讽|恶意)|(?:tv_?坏笑|坏笑).{0,20}(?:阴阳|嘲讽|恶意)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(emoteContext or expressionContext or looseBadContext) and not attackEmoteContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "我活到头了"
+      ],
+      "conditions": [
+        {
+          "name": "gameReactionContext",
+          "pattern": "(?:洛克王国|出大变|看见|鸭神|感觉).{0,30}我活到头了|我活到头了.{0,20}(?:笑哭|大变|鸭神)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperativeContext",
+          "pattern": "我活到头了.{0,24}(?:谢谢|讲清楚|明白|终于懂)|(?:谢谢|讲清楚|明白).{0,24}我活到头了",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "gameReactionContext and not cooperativeContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "全是粉丝"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneLabelContext",
+          "type": "equals",
+          "value": "全是粉丝"
+        },
+        {
+          "name": "factionAccusationContext",
+          "pattern": "全是粉丝.{0,16}(?:控评|洗|不看证据|围攻|护主)|(?:评论区|弹幕|这里).{0,10}全是粉丝",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "standaloneLabelContext and not factionAccusationContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "地图炮"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneLabelContext",
+          "pattern": "^地图炮[\\s，,。.!！?？]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "gameMechanicContext",
+          "pattern": "(?:伤害|清怪|怪|技能|金色|高斯|过百万|玩法|远程|攻速).{0,18}地图炮|地图炮.{0,24}(?:伤害|清怪|怪|技能|玩法|爽|累|里不是最高)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "groupAttackContext",
+          "pattern": "(?:别开|不要开|怕被|骂).{0,8}地图炮|地图炮.{0,18}(?:地域黑|种族|群体|全都|一棍子)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(standaloneLabelContext or gameMechanicContext) and not groupAttackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "行善积德"
+      ],
+      "conditions": [
+        {
+          "name": "utilityQuestionContext",
+          "pattern": "行善积德.{0,8}(?:有什么用|有啥用|没用)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directedMoralAttackContext",
+          "pattern": "(?:你|你们|嘴毒|缺德|报应|害人|先去).{0,18}行善积德|行善积德.{0,18}(?:别再|报应|害人|缺德)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "utilityQuestionContext or (genericMoralContext and not directedMoralAttackContext)",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "神仙下凡"
+      ],
+      "conditions": [
+        {
+          "name": "negatedDelusionContext",
+          "pattern": "(?:不要妄想|妄想|怕是当真|一介凡夫|神经病|开药|病情).{0,24}神仙下凡|神仙下凡.{0,48}(?:不要妄想|妄想|怕是当真|一介凡夫|神经病|开药|病情)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "standaloneQuestionContext",
+          "pattern": "^(?:什么|哪里|怎么)神仙下凡[?？!！。]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "praiseContext",
+          "pattern": "(?:真是|简直|操作|表现|太|完美).{0,12}神仙下凡|神仙下凡.{0,18}(?:没有失误|太强|完美|天秀)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(negatedDelusionContext or standaloneQuestionContext) and not praiseContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "懂的都懂"
+      ],
+      "conditions": [
+        {
+          "name": "exactOrShortFormContext",
+          "pattern": "懂的都懂/u.test(cleanSample) || /\\bdddd\\b",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "broadUnderstandSubstringContext",
+          "pattern": "(?:有没有懂的|看不懂的|一看就懂的|看懂的|链接.*懂的|懂的（|懂的\\(\\))",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "broadUnderstandSubstringContext and not exactEvasionContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "嗑瓜子"
+      ],
+      "conditions": [
+        {
+          "name": "emoteSuffixContext",
+          "type": "complex",
+          "rawExpr": "/\\[\\u55d1\\u74dc\\u5b50\\]/u.test(rawSample) && !rawSample.replace(/\\[[^\\]]+\\]/g, '').includes('\\u55d1\\u74dc\\u5b50')"
+        },
+        {
+          "name": "spectatorContext",
+          "pattern": "嗑瓜子.*(?:证据|反驳|别只|旁边)|(?:别只|旁边).*嗑瓜子",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "emoteSuffixContext and not spectatorContext",
+      "family": "evasion"
+    },
+    {
+      "terms": [
+        "吊打"
+      ],
+      "conditions": [
+        {
+          "name": "looseSynonymContext",
+          "type": "complex",
+          "rawExpr": "!cleanSample.includes('\\u540a\\u6253') && /(?:\\u6253\\u7206|\\u6253\\u7a7f|\\u7206\\u6740)/u.test(cleanSample)"
+        },
+        {
+          "name": "comparisonContext",
+          "pattern": "吊打.*(?:数据|对比|证据|别动不动)|(?:数据|对比|证据|别动不动).*吊打|(?:完爆|碾压).*(?:对面|对手|同类)|(?:对面|对手|同类).*(?:完爆|碾压)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "looseSynonymContext and not comparisonContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "异议"
+      ],
+      "conditions": [
+        {
+          "name": "looseStandaloneObjectionContext",
+          "pattern": "^异议(?:[!！。\\s]|\\[doge\\]|（幻听）)*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "neutralLegalOrPoliticalContext",
+          "pattern": "(?:五年级异议与反对|律师徽章|每个异议|合作协议|内部有异议|提出异议|异议权|异议人|异议书)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "disputeContext",
+          "pattern": "异议.{0,18}(?:证据|说法|反对|问题)|(?:证据|说法|反对|我有).{0,18}异议",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "_in_3",
+          "pattern": "(?:证据|说法|问题).{0,18}异议|异议.{0,18}(?:证据|说法|问题)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "neutralLegalOrPoliticalContext and not _in_3",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "忏悔"
+      ],
+      "conditions": [
+        {
+          "name": "narrativeConfessionContext",
+          "pattern": "(?:神父|杀人狂|听到).{0,24}忏悔|忏悔.{0,24}(?:神父|杀人狂)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "selfCorrectionContext",
+          "pattern": "(?:我|本人|公开|道歉).{0,12}忏悔|忏悔.{0,12}(?:道歉|改正|承认)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "narrativeConfessionContext and not selfCorrectionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "新闻学啊"
+      ],
+      "conditions": [
+        {
+          "name": "courseScoreContext",
+          "pattern": "新闻学(?:概论)?\\d+\\+*|新闻学(?:概论)?(?:考试|分数|专业)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "mediaSarcasmContext",
+          "pattern": "新闻学啊.{0,18}(?:标题党|立场|证据|春秋笔法)|(?:标题党|立场|证据|春秋笔法).{0,18}新闻学",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "courseScoreContext and not mediaSarcasmContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "不会真有人觉得这叫证据吧"
+      ],
+      "conditions": [],
+      "returnTrue": "not exactEvidenceMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "小受"
+      ],
+      "conditions": [
+        {
+          "name": "substringEducationContext",
+          "pattern": "(?:从小受到|小受到的教育|从小受教育)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "derogatoryLabelContext",
+          "pattern": "小受.{0,12}(?:这种词|骂人|标签|恶心|别拿)|(?:别拿|别用|骂).{0,12}小受",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "substringEducationContext and not derogatoryLabelContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "小孩射"
+      ],
+      "conditions": [
+        {
+          "name": "explanationListContext",
+          "pattern": "(?:不懂就问|什么意思|是什么梗|你们说的).{0,80}小孩射|小孩射.{0,30}(?:什么意思|是什么梗)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "noExactSurfaceContext",
+          "type": "not_includes",
+          "value": "小孩射"
+        },
+        {
+          "name": "metaNicknameContext",
+          "pattern": "(?:黑称|恶搞成|被喷成|哪个不来点黑称)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directNicknameUseContext",
+          "pattern": "(?:一诺.{0,4})?妖刀小孩射|一诺.{0,2}小孩射|小孩射.{0,2}(?:一诺|妖刀)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "attackContext",
+          "pattern": "小孩射.{0,12}(?:骂人|攻击|别|恶心|黑称|喷)|(?:骂人|攻击|一诺|妖刀).{0,12}小孩射|小孩射.{0,12}(?:一诺|妖刀)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "metaNicknameContext and not directNicknameUseContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "不是人了",
+        "不是人了呗"
+      ],
+      "conditions": [
+        {
+          "name": "bodyStateNarrativeContext",
+          "pattern": "(?:身体|肉身|机体|形态|躯体).{0,12}(?:不当人|不是人)|(?:不当人|不是人).{0,12}(?:身体|肉身|机体|形态|躯体)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "standaloneNotHumanContext",
+          "pattern": "^(?:不当人了|不是人了|真不是人)$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileNotHumanContext",
+          "pattern": "(?:你|你们|他|她|策划|up|粉|小团体|带节奏|转移伤害|真).{0,18}(?:不是人|不当人)|(?:不是人|不当人).{0,18}(?:你|你们|他|她|策划|up|粉|小团体|带节奏|离谱|真)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(bodyStateNarrativeContext or standaloneNotHumanContext) and not hostileNotHumanContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "想刀人"
+      ],
+      "conditions": [
+        {
+          "name": "selfCrisisContext",
+          "pattern": "(?:不知道我该怎么办|真不知道我该怎么办|焦虑).{0,48}想刀人|想刀人.{0,48}(?:焦虑|不知道我该怎么办)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "targetedFrustrationContext",
+          "pattern": "(?:你|他|她|这人|这操作|搞笑).{0,18}想刀人|想刀人.{0,18}(?:不满|搞笑|气死|无语)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "selfCrisisContext and not targetedFrustrationContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "一条龙"
+      ],
+      "conditions": [
+        {
+          "name": "literalPersonOrServiceContext",
+          "pattern": "一条龙的还是个|(?:维族大叔|洗剪吹|套餐|产业链).{0,12}一条龙|一条龙.{0,12}(?:维族大叔|洗剪吹|套餐|产业链)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperativeWorkflowContext",
+          "pattern": "(?:证据|链接|整理|教程|流程|资料).{0,12}一条龙|一条龙.{0,12}(?:贴|整理|教程|流程|帮|参考)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalPersonOrServiceContext and not cooperativeWorkflowContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "主包"
+      ],
+      "conditions": [
+        {
+          "name": "teasingAddressContext",
+          "pattern": "(?:^主包(?:是不|是不是|不是|有点)|主包是不有点|主包最开始说|这不是送分吗)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "requestContext",
+          "pattern": "主包.{0,18}(?:能不能|可以|求|链接|来源|讲一下|解释|谢谢|辛苦|限购|刷新|买)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "teasingAddressContext and not requestContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "记错了"
+      ],
+      "conditions": [
+        {
+          "name": "selfCorrectionContext",
+          "pattern": "(?:我|是我|自己|前面|刚才|之前).{0,8}记错了|记错了.{0,8}(?:收回|更正|改)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "_in_1",
+          "type": "includes",
+          "value": "记错了",
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "_in_1 and not selfCorrectionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "炼铜"
+      ],
+      "conditions": [
+        {
+          "name": "literalMetallurgyContext",
+          "pattern": "(?:转炉|冶金|铜矿|金属|工艺|系统).{0,10}炼铜|炼铜.{0,10}(?:转炉|冶金|铜矿|金属|工艺|系统|会了)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "predatorySlangContext",
+          "pattern": "(?:小孩|小孩子|儿童|未成年|恋童|猥亵|x暗示|刻脸上|自选套餐|子弹).{0,18}炼铜|炼铜.{0,18}(?:小孩|小孩子|儿童|未成年|恋童|猥亵|x暗示|刻脸上|自选套餐|子弹)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalMetallurgyContext and not predatorySlangContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "厉不厉害"
+      ],
+      "conditions": [],
+      "returnTrue": "usernameOnlyMentionContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "热乎",
+        "热乎的"
+      ],
+      "conditions": [
+        {
+          "name": "negatedFreshnessContext",
+          "pattern": "(?:并非|不是|不算|没有|没那么|已经不)热乎(?:的)?",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperativeFreshContext",
+          "pattern": "热乎(?:的)?.{0,12}(?:资料|消息|刚|发出来|参考|热评)|(?:资料|消息|刚|发出来|参考|热评).{0,12}热乎(?:的)?",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedFreshnessContext and not cooperativeFreshContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "插个眼"
+      ],
+      "conditions": [
+        {
+          "name": "bookmarkOnlyContext",
+          "pattern": "插个眼.{0,24}(?:后续|两周|每天|活着|继续)|^插个眼(?:[\\s，,].*)?$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "followupEvidenceContext",
+          "pattern": "插个眼.{0,24}(?:证据|链接|来源|补上|后续更新|资料)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bookmarkOnlyContext and not followupEvidenceContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "笑嘻了"
+      ],
+      "conditions": [
+        {
+          "name": "scoreReactionContext",
+          "pattern": "(?:\\d+比\\d+|脸色|揪心|不说话|看\\w{2,8}).{0,30}笑嘻了|笑嘻了.{0,30}(?:\\d+比\\d+|脸色|揪心|不说话)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "selfSabotageMockingContext",
+          "pattern": "(?:满分|答案|学霸|自己).{0,24}(?:改成了?零分|零分|改错|翻车).{0,18}笑嘻了|笑嘻了.{0,24}(?:零分|改错|翻车)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "standaloneContext",
+          "pattern": "^笑嘻了[.!！。\\s]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "positiveDiscussionContext",
+          "pattern": "(?:解释|补充|分析|说清楚|证据).{0,18}笑嘻了|笑嘻了.{0,18}(?:说明白|谢谢|学到)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(scoreReactionContext or selfSabotageMockingContext or standaloneContext) and not positiveDiscussionContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "开智了"
+      ],
+      "conditions": [
+        {
+          "name": "neutralAwakeningContext",
+          "pattern": "(?:突然开智了|他就已经开智了|女性对抗的声音|我没开智|承认自己).{0,40}",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directedMockContext",
+          "pattern": "(?:你|你们|这逻辑|当事人|那b|这b|终于).{0,18}开智了|开智了.{0,18}(?:会自己删|删|[？?]|这逻辑)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "neutralAwakeningContext and not directedMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "扣了几次帽子"
+      ],
+      "conditions": [
+        {
+          "name": "literalCountContext",
+          "pattern": "(?:问[:：]?|被)\\S{0,10}扣了几次帽子|扣了几次帽子[？?]|(?:奶酪|灰灰).{0,8}扣了几次帽子",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "labelingContext",
+          "pattern": "(?:你|你们|对方|给|扣帽子|不是讨论).{0,24}扣了几次帽子|扣了几次帽子.{0,24}(?:证据|不是讨论|扣帽子)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalCountContext and not labelingContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "妙啊妙啊"
+      ],
+      "conditions": [
+        {
+          "name": "emoteWrapperContext",
+          "pattern": "\\[妙啊\\]\\s*\\[妙啊\\]",
+          "caseInsensitive": false,
+          "target": "raw_sample"
+        },
+        {
+          "name": "playfulFictionContext",
+          "pattern": "(?:掌门|按在地上揍|配受|潜力|doge).{0,30}妙啊妙啊|妙啊妙啊.{0,30}(?:掌门|按在地上揍|配受|潜力|doge)",
+          "caseInsensitive": false,
+          "target": "context_sample"
+        },
+        {
+          "name": "sarcasticContext",
+          "pattern": "(?:你|你们|这逻辑|这说法|这操作|证据).{0,18}妙啊妙啊|妙啊妙啊.{0,18}(?:证据|逻辑|离谱|真是)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "_in_3",
+          "pattern": "(?:证据|逻辑|说法|操作|离谱)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "playfulFictionContext and not _in_3",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "清一色"
+      ],
+      "conditions": [
+        {
+          "name": "properNameContext",
+          "pattern": "清一色是女脱口秀演员|清一色是.{0,12}(?:演员|主播|up主|UP主|作者)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "absoluteContext",
+          "pattern": "清一色.{0,18}(?:都|全|骂|加油|下架|带节奏)|(?:评论区|弹幕|历史记录).{0,18}清一色",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "properNameContext and not absoluteContext",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "圈米不赖"
+      ],
+      "conditions": [
+        {
+          "name": "lacksExactTerm",
+          "type": "not_includes",
+          "value": "圈米不赖"
+        },
+        {
+          "name": "looseMonetizationContext",
+          "pattern": "圈米活动|各种圈米|圈米.{0,8}(?:活动|运营)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "standaloneContext",
+          "type": "equals",
+          "value": "圈米不赖"
+        },
+        {
+          "name": "sarcasticContext",
+          "pattern": "圈米不赖.{0,18}(?:被割|老玩家|又|这波|压榨)|(?:被割|老玩家|又|这波|压榨).{0,18}圈米不赖",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(lacksExactTerm and looseMonetizationContext) or (standaloneContext and not sarcasticContext)",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "龙哥的兄弟"
+      ],
+      "conditions": [
+        {
+          "name": "listOrExplanationContext",
+          "pattern": "(?:罗哥的不是啊|轩妹|啵|逗号|冒号).{0,24}龙哥的兄弟|龙哥的兄弟.{0,24}(?:罗哥的不是啊|轩妹|啵|逗号|冒号)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileNicknameContext",
+          "pattern": "(?:黑称|别再|复读|带节奏|攻击).{0,18}龙哥的兄弟|龙哥的兄弟.{0,18}(?:黑称|别再|复读|带节奏|攻击)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "listOrExplanationContext and not hostileNicknameContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "罗不泼"
+      ],
+      "conditions": [
+        {
+          "name": "explanationOrOriginContext",
+          "pattern": "罗不泼.{0,24}(?:指的是|像泼出去|能想出|请个高人)|(?:指的是|像泼出去|能想出|请个高人).{0,24}罗不泼",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileNicknameContext",
+          "pattern": "(?:黑称|别再|复读|带节奏|攻击).{0,18}罗不泼|罗不泼.{0,18}(?:黑称|别再|复读|带节奏|攻击)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "explanationOrOriginContext and not hostileNicknameContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "中系"
+      ],
+      "conditions": [
+        {
+          "name": "fandomClassificationContext",
+          "pattern": "(?:感觉.*中系|kangta系|司马男|两大分类|泰容|在玹)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "fandomClassificationContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "up好牛"
+      ],
+      "conditions": [
+        {
+          "name": "genericPraiseContext",
+          "pattern": "^哇\\s*up好牛(?:\\s*加油加油)?$",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "usefulCreatorContext",
+          "pattern": "(?:资料|整理|教程|分享|证据|来源|分析).{0,18}up好牛|up好牛.{0,18}(?:资料|整理|教程|分享|证据|来源|分析)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "genericPraiseContext and not usefulCreatorContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "团灭复仇者联盟"
+      ],
+      "conditions": [
+        {
+          "name": "plotSummaryContext",
+          "pattern": "(?:复仇者|美队|宝石|正片|剧情|主要原因|贪于享乐|知道自己这边的情况)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "plotSummaryContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "失踪人口回归",
+        "失踪人口回归了"
+      ],
+      "conditions": [
+        {
+          "name": "bareComebackContext",
+          "pattern": "^失踪人口回归(?:了)?$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "warmComebackContext",
+          "pattern": "(?:欢迎|终于|想你|好久不见|回来了).{0,18}失踪人口|失踪人口.{0,18}(?:欢迎|终于|想你|好久不见|回来了)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareComebackContext and not warmComebackContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "掉小珍珠"
+      ],
+      "conditions": [
+        {
+          "name": "bareCryContext",
+          "pattern": "^(?:掉小珍珠了?|掉小珍珠了?[，,]\\s*呜呜)(?:[.!！。~\\s]|\\[[^\\]]+\\])*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "latestBareCryContext",
+          "type": "equals",
+          "value": "掉小珍珠了，呜呜"
+        },
+        {
+          "name": "outfitCryContext",
+          "pattern": "(?:穿出来|这个不行).{0,18}掉小珍珠|掉小珍珠.{0,18}(?:tv_难过|穿)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "targetedMockContext",
+          "pattern": "(?:你|他|她|这就|这点|证据).{0,12}掉小珍珠|掉小珍珠.{0,12}(?:证据|别哭|装可怜)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(bareCryContext or latestBareCryContext or outfitCryContext) and not targetedMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "不可抵抗力"
+      ],
+      "conditions": [
+        {
+          "name": "literalForceMajeureContext",
+          "pattern": "(?:不可抗力因素|抵抗不了大象|不可抵抗力(?:。|$))",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "excuseMockContext",
+          "pattern": "(?:别|你|你们|所有失误).{0,18}(?:不可抵抗力|不可抗力)|(?:不可抵抗力|不可抗力).{0,18}(?:借口|失误|别)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalForceMajeureContext and not excuseMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "笑麻了"
+      ],
+      "conditions": [
+        {
+          "name": "bareLaughContext",
+          "pattern": "^笑麻了(?:[.!！。~\\s]|\\[[^\\]]+\\])*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "targetedMockContext",
+          "pattern": "笑麻了.{0,24}(?:就这|操作|证据|意识|吹)|(?:就这|操作|证据|意识|吹).{0,24}笑麻了",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "bareLaughContext and not targetedMockContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "轻快绷住",
+        "轻松绷住"
+      ],
+      "conditions": [
+        {
+          "name": "synonymListContext",
+          "pattern": "(?:轻快绷住|轻松绷住).{0,60}(?:松弛绷住|舒缓绷住|安逸绷住|自在绷住)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperativeContext",
+          "pattern": "(?:解释|讨论|情绪|继续|别吵).{0,18}(?:轻快绷住|轻松绷住)|(?:轻快绷住|轻松绷住).{0,18}(?:情绪|继续讨论|别吵)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(synonymListContext or standaloneContext) and not cooperativeContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "意满离"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneContext",
+          "type": "equals",
+          "value": "意满离"
+        },
+        {
+          "name": "appreciationContext",
+          "pattern": "意满离.{0,18}(?:感谢|资料|整理|学到)|(?:感谢|资料|整理|学到).{0,18}意满离",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "standaloneContext and not appreciationContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "下饭"
+      ],
+      "conditions": [
+        {
+          "name": "standaloneContext",
+          "pattern": "^(?:真)?下饭(?:就完事了)?[.!！。\\s]*$",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "literalFoodContext",
+          "pattern": "(?:小米椒|小米辣|生吃|一餐|胃|菊花|饭|菜|好吃).{0,18}下饭|下饭.{0,18}(?:小米椒|小米辣|生吃|一餐|胃|菊花|饭|菜|好吃)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "mediaContext",
+          "pattern": "(?:视频|操作|比赛|节目|弹幕).{0,18}下饭|下饭.{0,18}(?:视频|操作|比赛|节目|弹幕)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(literalFoodContext or standaloneContext) and not mediaContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "情绪价值"
+      ],
+      "conditions": [
+        {
+          "name": "hostileWorkValueContext",
+          "pattern": "(?:护航|老板|入职|要技术没技术|没情绪价值|放在脸上|放屁股上).{0,32}情绪价值|情绪价值.{0,32}(?:老板|入职|要求|没情绪价值|放在脸上|放屁股上)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "supportiveContext",
+          "pattern": "(?:谢谢|感谢|回复|安慰|确实|给了|提供).{0,18}情绪价值|情绪价值.{0,18}(?:帮助|支持|安慰)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "hostileWorkValueContext and not supportiveContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "神神"
+      ],
+      "conditions": [
+        {
+          "name": "praiseNameContext",
+          "pattern": "(?:^|[A-Za-z0-9])神神了$/u.test(cleanSample) || /(?:^|[A-Za-z0-9])神神了",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileLabelContext",
+          "pattern": "(?:别|你|你们|那套|话术|扣帽子|立场).{0,18}神神|神神.{0,18}(?:话术|扣帽子|立场|别)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "praiseNameContext and not hostileLabelContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "周处"
+      ],
+      "conditions": [
+        {
+          "name": "historicalOrMovieContext",
+          "pattern": "(?:周处除三害|恶霸叫周处|周处结局|参军|将军|贪嗔痴中周处|香港仔|邪教头子|纹身).{0,48}|(?:恶霸|猛虎|蟒蛇|三害|参军|将军|佛教|贪嗔痴|香港仔|邪教头子|纹身).{0,48}周处",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileMemeContext",
+          "pattern": "(?:逆天|美国分处|分处|原|玩家|群体|节奏).{0,18}周处|周处.{0,18}(?:多的是|分处|逆天|玩家|群体|节奏)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "historicalOrMovieContext and not hostileMemeContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "朱一龙"
+      ],
+      "conditions": [
+        {
+          "name": "defenseOrPraiseContext",
+          "pattern": "(?:朱一龙).{0,36}(?:还丑|都帅|美出圈|小公爷|你说他丑|审美|不搞笑|很好笑|不冲突)|(?:还丑|都帅|美出圈|小公爷|你说他丑|审美|那难怪觉得|不搞笑|很好笑|不冲突).{0,36}朱一龙",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "fanWarAttackContext",
+          "pattern": "(?:朱一龙粉丝|你家|群嘲|自作自受|带大名|辱骂).{0,36}(?:朱一龙|粉丝|你家)|(?:朱一龙).{0,36}(?:粉丝|群嘲|自作自受|辱骂)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "defenseOrPraiseContext and not fanWarAttackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "get到"
+      ],
+      "conditions": [
+        {
+          "name": "negatedGetContext",
+          "pattern": "get不到|(?:没|没有|不).{0,4}get到",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "positiveGetContext",
+          "pattern": "get到(?:了)?[，,]?.{0,12}(?:谢谢|明白|解释|香|懂)|(?:我|终于).{0,8}get到(?:了)?",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedGetContext and not positiveGetContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "联名款"
+      ],
+      "conditions": [
+        {
+          "name": "productContext",
+          "pattern": "(?:up主|车|机械师|Mmax2|明日香|电自|商品|手办|衣服).{0,18}联名款|联名款.{0,18}(?:up主|车|机械师|Mmax2|明日香|电自|商品|手办|衣服)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        },
+        {
+          "name": "cooperationContext",
+          "pattern": "联名款.{0,18}(?:资料|证据|可以贴|来源|整理)|(?:资料|证据|可以贴|来源|整理).{0,18}联名款",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "productContext and not cooperationContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "湿湿"
+      ],
+      "conditions": [
+        {
+          "name": "literalWetContext",
+          "pattern": "(?:我喜欢|好吃|鲍鱼|更好吃|湿湿的|湿湿了)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "hostileHomophoneContext",
+          "pattern": "(?:刘诗诗|谐音|恶意|调侃|调侃).{0,24}湿湿|湿湿.{0,24}(?:刘诗诗|谐音|恶意|调侃|调侃)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalWetContext and not hostileHomophoneContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "亡灵法师"
+      ],
+      "conditions": [
+        {
+          "name": "literalFantasyOrSourceContext",
+          "pattern": "(?:传奇|防御旗|只想用|脸模|声优|康斯坦丁|来源之一|原因不是因为|艾待).{0,36}亡灵法师|亡灵法师.{0,36}(?:传奇|防御旗|只想用|脸模|声优|康斯坦丁|来源之一|原因不是因为|艾待)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "resurrectionAttackContext",
+          "pattern": "(?:招魂|挖坟|翻旧账|坟|烂梗|考古|诈尸).{0,24}亡灵法师|亡灵法师.{0,24}(?:招魂|挖坟|翻旧账|坟|烂梗|考古|诈尸)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "literalFantasyOrSourceContext and not resurrectionAttackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "无敌之人"
+      ],
+      "conditions": [
+        {
+          "name": "bareLabelContext",
+          "type": "complex",
+          "rawExpr": "/^\\u65e0\\u654c\\u4e4b\\u4eba(?:[\\s!！。？?\\[\\]\\w\\u4e00-\\u9fa5_]*?)?$/u.test(cleanSample) && cleanSample.length <= 16"
+        },
+        {
+          "name": "positiveOrExplainerContext",
+          "pattern": "(?:人品很好|最大的尊重|更好的社会福利|公平的竞争环境|关心与关爱|良心发现).{0,48}无敌之人|无敌之人.{0,48}(?:人品很好|最大的尊重|更好的社会福利|公平的竞争环境|关心与关爱|良心发现)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "directedAttackContext",
+          "pattern": "(?:你是|谁跟你|人不要脸|威胁|惹不起|光脚|底线).{0,24}无敌之人|无敌之人.{0,24}(?:你是|谁跟你|人不要脸|威胁|惹不起|光脚|底线)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "(bareLabelContext or positiveOrExplainerContext) and not directedAttackContext",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "空耳"
+      ],
+      "conditions": [
+        {
+          "name": "clarificationRequestContext",
+          "pattern": "(?:字幕|听不清|口齿不清|求原句|原词|空耳).{0,18}(?:吧|求|请|原句|字幕)|(?:字幕|听不清|口齿不清).{0,18}空耳",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "weakNoteContext and not clarificationRequestContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "cos路易十六"
+      ],
+      "conditions": [
+        {
+          "name": "directCosContext",
+          "pattern": "(?:cos|cosp?lay|仿|妆造|扮).{0,12}(?:路易十六|国王)|(?:路易十六|国王).{0,12}(?:cos|cosp?lay|仿|妆造|扮)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "not directCosContext",
+      "family": "cooperation"
+    },
+    {
+      "terms": [
+        "糯了"
+      ],
+      "conditions": [
+        {
+          "name": "cowardiceContext",
+          "pattern": "糯了.{0,12}(?:不敢|找pp|有感觉)|(?:不敢|找pp|黑嗓).{0,18}糯了",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "correctionContext",
+          "pattern": "(?:前面|刚才|说重|收回|改口).{0,18}糯了|糯了.{0,18}(?:收回|改口|修正|重说)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "cowardiceContext and not correctionContext",
+      "family": "correction"
+    },
+    {
+      "terms": [
+        "嘴替"
+      ],
+      "conditions": [
+        {
+          "name": "negatedContext",
+          "pattern": "(?:不是.*嘴替|别嘴替|算什么嘴替)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "negatedContext",
+      "family": "cooperation"
+    }
+  ]
+}

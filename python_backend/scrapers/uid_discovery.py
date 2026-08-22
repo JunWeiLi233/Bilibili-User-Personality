@@ -1,0 +1,365 @@
+from __future__ import annotations
+
+import argparse
+import re
+from pathlib import Path
+from typing import Any
+
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
+
+
+def _int_or_zero(value: Any) -> int:
+    text = str(value if value is not None else "").strip()
+    match = re.match(r"^[+-]?\d+", text)
+    if not match:
+        return 0
+    try:
+        return int(match.group(0))
+    except ValueError:
+        return 0
+
+
+class UidDiscoveryPlanner:
+    """Build a dry-run plan for uidDiscoveryScrape.js UID discovery workflow."""
+
+    POPULAR_PAGES = 30
+    POPULAR_PAGE_SIZE = 20
+    RANKING_CATEGORIES = 94
+    REPLY_PAGES_PER_VIDEO = 2
+    REPLY_PAGE_SIZE = 20
+    DELAY_MS = 600
+    CURSOR_DELAY_MS = 200
+    SAVE_EVERY = 100
+    EMPTY_BACKOFF_THRESHOLD = 20
+    EMPTY_BACKOFF_MS = 15000
+    LOCK_RETRY_DELAY_MS = 5000
+    LOCK_RETRY_JITTER_MS = 2000
+    LOCK_MAX_RETRIES = 15
+    SAVE_EVERY_ANALYZED = 10
+
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        return cls().build_plan(
+            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
+            comments=payload.get("comments") if isinstance(payload.get("comments"), dict) else {},
+            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
+        )
+
+    def build_plan(self, progress: dict[str, Any] | None = None, comments: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
+        progress = progress or {}
+        comments = comments or {}
+        database = database or {}
+        phase = str(progress.get("phase") or "discovery")
+        scanned_bvids = progress.get("scannedBvids") if isinstance(progress.get("scannedBvids"), list) else []
+        processed_uids = progress.get("processedUids") if isinstance(progress.get("processedUids"), dict) else {}
+        uid_comments = comments if isinstance(comments, dict) else {}
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        pending_items = [(uid, entries) for uid, entries in uid_comments.items() if uid not in processed_uids]
+        skippable_no_text = sum(1 for _, entries in pending_items if not self._comment_text(entries).strip())
+        trainable = len(pending_items) - skippable_no_text
+        return {
+            "ok": True,
+            "resume": {
+                "phase": phase,
+                "skipDiscovery": phase == "analysis" and bool(uid_comments),
+                "scannedBvids": len(scanned_bvids),
+                "savedUidComments": len(uid_comments),
+            },
+            "sources": {
+                "popularPages": self.POPULAR_PAGES,
+                "popularPageSize": self.POPULAR_PAGE_SIZE,
+                "rankingCategories": self.RANKING_CATEGORIES,
+                "searchEnabled": True,
+            },
+            "scanning": {
+                "replyPagesPerVideo": self.REPLY_PAGES_PER_VIDEO,
+                "replyPageSize": self.REPLY_PAGE_SIZE,
+                "delayMs": self.DELAY_MS,
+                "cursorDelayMs": self.CURSOR_DELAY_MS,
+                "saveEvery": self.SAVE_EVERY,
+                "emptyBackoffThreshold": self.EMPTY_BACKOFF_THRESHOLD,
+                "emptyBackoffMs": self.EMPTY_BACKOFF_MS,
+            },
+            "analysis": {
+                "processed": len(processed_uids),
+                "pending": len(pending_items),
+                "skippableNoText": skippable_no_text,
+                "trainable": trainable,
+                "userDbUsers": len(users),
+            },
+            "stats": {
+                "videosScanned": _int_or_zero(stats.get("videosScanned")),
+                "uidsFound": _int_or_zero(stats.get("uidsFound")) or len(uid_comments),
+                "uidsAnalyzed": _int_or_zero(stats.get("uidsAnalyzed")),
+                "commentsCollected": _int_or_zero(stats.get("commentsCollected")),
+                "errors": _int_or_zero(stats.get("errors")),
+                "videoQueueSize": _int_or_zero(progress.get("videoQueueSize")),
+            },
+            "training": {
+                "multiagent": True,
+                "existingTermsOnly": False,
+                "saveEveryAnalyzed": self.SAVE_EVERY_ANALYZED,
+                "lockRetryDelayMs": self.LOCK_RETRY_DELAY_MS,
+                "lockRetryJitterMs": self.LOCK_RETRY_JITTER_MS,
+                "lockMaxRetries": self.LOCK_MAX_RETRIES,
+            },
+        }
+
+    def _comment_text(self, entries: Any) -> str:
+        if not isinstance(entries, list):
+            return ""
+        return "\n".join(str(entry.get("message") or "") for entry in entries if isinstance(entry, dict))
+
+
+class UidDiscoveryPlanSummary:
+    """Shape UID discovery dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("resume", "sources", "scanning", "analysis", "stats", "training")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
+class UidDiscoveryPlanContractComparator:
+    """Compare UID discovery plan payloads using the JS/Python summary contract."""
+
+    def __init__(self, summary: UidDiscoveryPlanSummary | None = None):
+        self.summary = summary or UidDiscoveryPlanSummary()
+
+    def compare(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> dict[str, Any]:
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
+class UidDiscoveryPlanRunner:
+    """Read a JS-compatible uidDiscoveryScrape payload and emit its dry-run plan."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return UidDiscoveryPlanner.build_plan_from_payload(payload)
+
+    def _read_payload(self) -> dict[str, Any]:
+        payload = JsonContractReader().read_value(self.payload_path, {})
+        return payload if isinstance(payload, dict) else {}
+
+
+class UidDiscoveryPlanPayloadContractComparator:
+    """Compare file-backed UID discovery dry-run plans against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = UidDiscoveryPlanSummary()
+        self.comparator = UidDiscoveryPlanContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = UidDiscoveryPlanRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        return safe_read_json_object(self.js_report_path)
+
+
+class UidDiscoveryPlanRequest:
+    """Scraper-layer request for UID discovery plan JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidDiscoveryPlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return UidDiscoveryPlanRunner(self.payload_path).run()
+
+
+class UidDiscoveryPlanCommandRequest:
+    """Argv-backed scraper-layer request for UID discovery plan contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a uidDiscoveryScrape.js-compatible dry-run plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID discovery plan report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidDiscoveryPlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+
+
+class UidDiscoveryProgressReporter:
+    """Summarize UID discovery progress payloads into the JS-compatible report shape."""
+
+    def build_report(self, progress: Any, uid_comments: Any, users: Any) -> dict[str, Any]:
+        progress_payload = progress if isinstance(progress, dict) else {}
+        comments = uid_comments if isinstance(uid_comments, dict) else {}
+        user_map = users if isinstance(users, dict) else {}
+        processed_uids = progress_payload.get("processedUids") if isinstance(progress_payload.get("processedUids"), dict) else {}
+        stats = progress_payload.get("stats") if isinstance(progress_payload.get("stats"), dict) else {}
+        scanned_bvids = progress_payload.get("scannedBvids") if isinstance(progress_payload.get("scannedBvids"), list) else []
+        comment_total = sum(len(entries) for entries in comments.values() if isinstance(entries, list))
+        uid_count = len(comments)
+        success_count = sum(1 for status in processed_uids.values() if status == "success")
+        error_count = sum(1 for status in processed_uids.values() if str(status).startswith("error"))
+        skipped_count = sum(1 for status in processed_uids.values() if status == "no_text")
+        videos_scanned = _int_or_zero(stats.get("videosScanned")) or len(scanned_bvids)
+        return {
+            "ok": True,
+            "phase": progress_payload.get("phase") or "discovery",
+            "discovery": {
+                "videosScanned": videos_scanned,
+                "videoQueueSize": _int_or_zero(progress_payload.get("videoQueueSize")),
+                "uidsDiscovered": _int_or_zero(stats.get("uidsFound")) or uid_count,
+                "commentsCollected": _int_or_zero(stats.get("commentsCollected")),
+            },
+            "analysis": {
+                "processed": len(processed_uids),
+                "success": success_count,
+                "errors": error_count,
+                "skipped": skipped_count,
+                "remaining": max(0, uid_count - len(processed_uids)),
+            },
+            "comments": {
+                "total": comment_total,
+                "averagePerUid": round(comment_total / uid_count, 2) if uid_count else 0,
+                "uidsWithComments": sum(1 for entries in comments.values() if isinstance(entries, list) and entries),
+            },
+            "stats": {
+                "videosScanned": videos_scanned,
+                "uidsFound": _int_or_zero(stats.get("uidsFound")) or uid_count,
+                "uidsAnalyzed": _int_or_zero(stats.get("uidsAnalyzed")) or success_count,
+                "commentsCollected": _int_or_zero(stats.get("commentsCollected")),
+                "errors": _int_or_zero(stats.get("errors")),
+            },
+            "userDb": {"users": len(user_map)},
+            "lastUpdated": progress_payload.get("lastUpdated") or None,
+        }
+
+
+class UidDiscoveryProgressRunner:
+    """Summarize uidDiscoveryScrape.js JSON artifacts without mutating scraper state."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        *,
+        progress_file: str = "uid-discovery-progress.json",
+        comments_file: str = "uid-discovery-comments.json",
+        user_db_file: str = "scraped-users-db.json",
+    ):
+        self.data_dir = Path(data_dir)
+        self.progress_path = self.data_dir / progress_file
+        self.comments_path = self.data_dir / comments_file
+        self.user_db_path = self.data_dir / user_db_file
+
+    def run(self) -> dict[str, Any]:
+        progress = self._read_json(self.progress_path, {})
+        uid_comments = self._read_json(self.comments_path, {})
+        user_db = self._read_json(self.user_db_path, {})
+        users = user_db.get("users") if isinstance(user_db, dict) and isinstance(user_db.get("users"), dict) else {}
+        return UidDiscoveryProgressReporter().build_report(progress, uid_comments, users)
+
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        payload = JsonContractReader().read_value(path, fallback)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class UidDiscoveryProgressSummary:
+    """Shape UID discovery progress reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("phase", "discovery", "analysis", "comments", "stats", "userDb")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
+class UidDiscoveryProgressContractComparator:
+    """Compare UID discovery progress reports using the JS/Python summary contract."""
+
+    def __init__(self, summary: UidDiscoveryProgressSummary | None = None):
+        self.summary = summary or UidDiscoveryProgressSummary()
+
+    def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
+        python_result = python_result if isinstance(python_result, dict) else {}
+        js_result = js_result if isinstance(js_result, dict) else {}
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
+class UidDiscoveryProgressPayloadContractComparator:
+    """Compare UID discovery summaries against saved JS-compatible JSON."""
+
+    def __init__(self, data_dir: str | Path, js_report_path: str | Path):
+        self.data_dir = Path(data_dir)
+        self.js_report_path = Path(js_report_path)
+        self.summary = UidDiscoveryProgressSummary()
+        self.comparator = UidDiscoveryProgressContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = UidDiscoveryProgressRunner(self.data_dir).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        return safe_read_json_object(self.js_report_path)
+
+
+class UidDiscoveryProgressRequest:
+    """Scraper-layer request for UID discovery progress JSON contract commands."""
+
+    def __init__(self, data_dir: str | Path, compare_js_report_path: str | Path | None = None):
+        self.data_dir = Path(data_dir)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidDiscoveryProgressPayloadContractComparator(self.data_dir, self.compare_js_report_path).compare()
+        return UidDiscoveryProgressRunner(self.data_dir).run()
+
+
+class UidDiscoveryProgressCommandRequest:
+    """Argv-backed scraper-layer request for UID discovery progress contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Summarize UID discovery scrape progress JSON.")
+        parser.add_argument("--data-dir", default="server/data")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID discovery progress report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidDiscoveryProgressRequest(args.data_dir, compare_js_report_path=args.compare_js_report or None).run()

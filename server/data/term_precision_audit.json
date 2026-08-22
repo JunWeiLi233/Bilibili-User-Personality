@@ -1,0 +1,3001 @@
+{
+  "generatedAt": "2026-06-28T15:53:06.978Z",
+  "totalTerms": 151,
+  "flaggedTerms": 35,
+  "criticalTerms": 35,
+  "dataSource": {
+    "scored": "D:\\Bilibili_User_Personality\\.claude\\random_sampling_eval\\scored",
+    "annotated": "D:\\Bilibili_User_Personality\\.claude\\random_sampling_eval\\annotated",
+    "dictionary": "D:\\Bilibili_User_Personality\\server\\data\\deepseekKeywordDictionary.entries"
+  },
+  "byFamily": {
+    "attack": {
+      "total": 95,
+      "flagged": 22,
+      "avgPrecision": 0.4192,
+      "sum": 39.828199999999995
+    },
+    "absolutes": {
+      "total": 23,
+      "flagged": 5,
+      "avgPrecision": 0.3152,
+      "sum": 7.249600000000001
+    },
+    "cooperation": {
+      "total": 26,
+      "flagged": 6,
+      "avgPrecision": 0.2828,
+      "sum": 7.352699999999999
+    },
+    "evasion": {
+      "total": 5,
+      "flagged": 2,
+      "avgPrecision": 0.3,
+      "sum": 1.5
+    },
+    "evidence": {
+      "total": 1,
+      "flagged": 0,
+      "avgPrecision": 0.4333,
+      "sum": 0.4333
+    },
+    "correction": {
+      "total": 1,
+      "flagged": 0,
+      "avgPrecision": 0.5,
+      "sum": 0.5
+    }
+  },
+  "flagged": [
+    {
+      "term": "幽默",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "不是人",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "肯定是",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "precision": 0,
+      "totalUsers": 3,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "这一块",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "绷",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 5,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "小号",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 3,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "可爱捏",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "阿婆主",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 4,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "神了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 4,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "人机",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "不一定",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "可能是",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 6,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "懂的",
+      "family": "evasion",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "再说吧",
+      "family": "evasion",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "坏笑",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "yyds",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "一句话",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "precision": 0,
+      "totalUsers": 3,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "惨案",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "知识增加",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "全部",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "precision": 0,
+      "totalUsers": 4,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "失踪人口",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "叼毛",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "我不信",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "无脑",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "芒果",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "何不食肉糜",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "你这种",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "绷不住",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "绷不住了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "总之",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "precision": 0,
+      "totalUsers": 3,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "破站",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "抽象",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 3,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "包的",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "手残",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 2,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    },
+    {
+      "term": "棒棒",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "precision": 0,
+      "totalUsers": 4,
+      "argumentativeUsers": 0,
+      "severity": "critical"
+    }
+  ],
+  "allTerms": [
+    {
+      "term": "幽默",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "不是人",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "肯定是",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 3,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "这一块",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "绷",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 5,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "小号",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "可爱捏",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "阿婆主",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 4,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "神了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "人机",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "不一定",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "可能是",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 6,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "懂的",
+      "family": "evasion",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "再说吧",
+      "family": "evasion",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "坏笑",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "yyds",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "一句话",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 3,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "惨案",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "知识增加",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "全部",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 4,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "失踪人口",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "叼毛",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "我不信",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "无脑",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "芒果",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "何不食肉糜",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "你这种",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "绷不住",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "绷不住了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "总之",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 3,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "破站",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "抽象",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "包的",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "手残",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "棒棒",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 0,
+      "precision": 0,
+      "flagged": true,
+      "flagSeverity": "critical",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "绝对",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 9,
+      "argumentativeUsers": 1,
+      "precision": 0.1111,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "麻了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 6,
+      "argumentativeUsers": 1,
+      "precision": 0.1667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "up主",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 6,
+      "argumentativeUsers": 1,
+      "precision": 0.1667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "硬币",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 11,
+      "argumentativeUsers": 2,
+      "precision": 0.1818,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "姐妹",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 5,
+      "argumentativeUsers": 1,
+      "precision": 0.2,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "逆天",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 5,
+      "argumentativeUsers": 1,
+      "precision": 0.2,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "不可能",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 5,
+      "argumentativeUsers": 1,
+      "precision": 0.2,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "好家伙",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 5,
+      "argumentativeUsers": 1,
+      "precision": 0.2,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "给心心",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 5,
+      "argumentativeUsers": 1,
+      "precision": 0.2,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "加油",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 5,
+      "argumentativeUsers": 1,
+      "precision": 0.2,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "星星眼",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 14,
+      "argumentativeUsers": 3,
+      "precision": 0.2143,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "nt",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 14,
+      "argumentativeUsers": 3,
+      "precision": 0.2143,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "确实",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 8,
+      "argumentativeUsers": 2,
+      "precision": 0.25,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "出生",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 1,
+      "precision": 0.25,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "哈哈哈",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 43,
+      "argumentativeUsers": 12,
+      "precision": 0.2791,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 11,
+        "missingCommitment": 2,
+        "missingIntelligibility": 2,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "跪",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 7,
+      "argumentativeUsers": 2,
+      "precision": 0.2857,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "应该是",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 14,
+      "argumentativeUsers": 4,
+      "precision": 0.2857,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "打call",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 20,
+      "argumentativeUsers": 6,
+      "precision": 0.3,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 4,
+        "missingCommitment": 0,
+        "missingIntelligibility": 2,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "经典",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 13,
+      "argumentativeUsers": 4,
+      "precision": 0.3077,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 4,
+        "missingCommitment": 1,
+        "missingIntelligibility": 3,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "笑死",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 22,
+      "argumentativeUsers": 7,
+      "precision": 0.3182,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 5,
+        "missingCommitment": 0,
+        "missingIntelligibility": 2,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "翻车",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "没有人",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "就是",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "是这样的",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "脑补",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "小白",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "笑死我了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 6,
+      "argumentativeUsers": 2,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "绝对不",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "前排",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "跑路",
+      "family": "evasion",
+      "expectedAxis": "missingCommitment",
+      "total": 3,
+      "argumentativeUsers": 1,
+      "precision": 0.3333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "纯",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 23,
+      "argumentativeUsers": 8,
+      "precision": 0.3478,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 6,
+        "missingCommitment": 2,
+        "missingIntelligibility": 1,
+        "otherReasons": 4
+      }
+    },
+    {
+      "term": "典",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 20,
+      "argumentativeUsers": 7,
+      "precision": 0.35,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 7,
+        "missingCommitment": 1,
+        "missingIntelligibility": 4,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "一定",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 20,
+      "argumentativeUsers": 7,
+      "precision": 0.35,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 7,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "吃瓜",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 14,
+      "argumentativeUsers": 5,
+      "precision": 0.3571,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 5,
+        "missingCommitment": 0,
+        "missingIntelligibility": 2,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "没人",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 11,
+      "argumentativeUsers": 4,
+      "precision": 0.3636,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "都是",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 46,
+      "argumentativeUsers": 17,
+      "precision": 0.3696,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 15,
+        "missingCommitment": 3,
+        "missingIntelligibility": 4,
+        "otherReasons": 6
+      }
+    },
+    {
+      "term": "笑哭",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 32,
+      "argumentativeUsers": 12,
+      "precision": 0.375,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 11,
+        "missingCommitment": 0,
+        "missingIntelligibility": 3,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "藏狐",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 8,
+      "argumentativeUsers": 3,
+      "precision": 0.375,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "肯定",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 20,
+      "argumentativeUsers": 8,
+      "precision": 0.4,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 7,
+        "missingCommitment": 0,
+        "missingIntelligibility": 2,
+        "otherReasons": 3
+      }
+    },
+    {
+      "term": "永远",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 5,
+      "argumentativeUsers": 2,
+      "precision": 0.4,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "0级",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 10,
+      "argumentativeUsers": 4,
+      "precision": 0.4,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 4,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "成分",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 5,
+      "argumentativeUsers": 2,
+      "precision": 0.4,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "装",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 49,
+      "argumentativeUsers": 20,
+      "precision": 0.4082,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 17,
+        "missingCommitment": 2,
+        "missingIntelligibility": 4,
+        "otherReasons": 6
+      }
+    },
+    {
+      "term": "滑稽",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 12,
+      "argumentativeUsers": 5,
+      "precision": 0.4167,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 4,
+        "missingCommitment": 0,
+        "missingIntelligibility": 2,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "离谱",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 7,
+      "argumentativeUsers": 3,
+      "precision": 0.4286,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 1,
+        "missingIntelligibility": 2,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "为什么",
+      "family": "evidence",
+      "expectedAxis": "missingIntelligibility",
+      "total": 30,
+      "argumentativeUsers": 13,
+      "precision": 0.4333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 11,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 4
+      }
+    },
+    {
+      "term": "没有",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 72,
+      "argumentativeUsers": 32,
+      "precision": 0.4444,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 25,
+        "missingCommitment": 3,
+        "missingIntelligibility": 7,
+        "otherReasons": 13
+      }
+    },
+    {
+      "term": "全是",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 9,
+      "argumentativeUsers": 4,
+      "precision": 0.4444,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 2,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "我觉得",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 17,
+      "argumentativeUsers": 8,
+      "precision": 0.4706,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 7,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "抠鼻",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "超模",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "对不起",
+      "family": "correction",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "智商",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 6,
+      "argumentativeUsers": 3,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "一眼",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 4,
+      "argumentativeUsers": 2,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "水鬼",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "老登",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "口嗨",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "虽然但是",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "从来",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 4,
+      "argumentativeUsers": 2,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "对线",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "复制",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 2,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "金坷垃",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "节奏",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 12,
+      "argumentativeUsers": 6,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 6,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "孝",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "标题党",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "这就是",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 10,
+      "argumentativeUsers": 5,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 5,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "想你了",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "支持",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 10,
+      "argumentativeUsers": 5,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "搞笑",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 6,
+      "argumentativeUsers": 3,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "确实是",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "你个",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "鬼子",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "不解释",
+      "family": "evasion",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "奥利给",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "被骂",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "有病",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "狗头",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 2,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "对对对",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 2,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "信仰",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "双标",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "意难平",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "肉眼可见",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "啊对对对",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "幻神",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "阴阳",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 1,
+      "precision": 0.5,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "赢",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 15,
+      "argumentativeUsers": 8,
+      "precision": 0.5333,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 5,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 4
+      }
+    },
+    {
+      "term": "垃圾",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 13,
+      "argumentativeUsers": 7,
+      "precision": 0.5385,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 6,
+        "missingCommitment": 1,
+        "missingIntelligibility": 2,
+        "otherReasons": 3
+      }
+    },
+    {
+      "term": "云",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 22,
+      "argumentativeUsers": 12,
+      "precision": 0.5455,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 11,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "根本",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 12,
+      "argumentativeUsers": 7,
+      "precision": 0.5833,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 7,
+        "missingCommitment": 1,
+        "missingIntelligibility": 2,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "所有",
+      "family": "absolutes",
+      "expectedAxis": "missingIntelligibility",
+      "total": 12,
+      "argumentativeUsers": 7,
+      "precision": 0.5833,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 6,
+        "missingCommitment": 2,
+        "missingIntelligibility": 1,
+        "otherReasons": 3
+      }
+    },
+    {
+      "term": "唐",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 5,
+      "argumentativeUsers": 3,
+      "precision": 0.6,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "买的",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 10,
+      "argumentativeUsers": 6,
+      "precision": 0.6,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 6,
+        "missingCommitment": 2,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "小丑",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 5,
+      "argumentativeUsers": 3,
+      "precision": 0.6,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "你懂",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "嗑瓜子",
+      "family": "evasion",
+      "expectedAxis": "missingCommitment",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "标准结局",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "我草",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "急了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "睿智",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "我感觉",
+      "family": "cooperation",
+      "expectedAxis": "missingCommitment",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "什么东西",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "神tm",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "背刺",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 2,
+      "precision": 0.6667,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "脑子",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 7,
+      "argumentativeUsers": 5,
+      "precision": 0.7143,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 4,
+        "missingCommitment": 1,
+        "missingIntelligibility": 3,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "流量",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 3,
+      "precision": 0.75,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "笑死了",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 4,
+      "argumentativeUsers": 3,
+      "precision": 0.75,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "什么玩意",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 3,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "营销号",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 2,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "蠢",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 3,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "阿三",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 2,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "硬的",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 3,
+      "argumentativeUsers": 3,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 3,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "白嫖",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 2,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "棒子",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 2,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 1
+      }
+    },
+    {
+      "term": "抖音",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 2,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0
+      }
+    },
+    {
+      "term": "早晚",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 2,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 2
+      }
+    },
+    {
+      "term": "扣帽子",
+      "family": "attack",
+      "expectedAxis": "toxicEmotions",
+      "total": 2,
+      "argumentativeUsers": 2,
+      "precision": 1,
+      "flagged": false,
+      "flagSeverity": "ok",
+      "perAxisHits": {
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 1
+      }
+    }
+  ],
+  "downweightFactors": {
+    "幽默": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "不是人": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "肯定是": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "absolutes"
+    },
+    "这一块": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "绷": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "小号": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "可爱捏": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "cooperation"
+    },
+    "阿婆主": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "cooperation"
+    },
+    "神了": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "人机": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "不一定": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "cooperation"
+    },
+    "可能是": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "cooperation"
+    },
+    "懂的": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "evasion"
+    },
+    "再说吧": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "evasion"
+    },
+    "坏笑": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "yyds": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "cooperation"
+    },
+    "一句话": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "absolutes"
+    },
+    "惨案": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "知识增加": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "cooperation"
+    },
+    "全部": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "absolutes"
+    },
+    "失踪人口": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "叼毛": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "我不信": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "无脑": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "芒果": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "何不食肉糜": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "你这种": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "绷不住": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "绷不住了": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "总之": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "absolutes"
+    },
+    "破站": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "抽象": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "包的": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "absolutes"
+    },
+    "手残": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    },
+    "棒棒": {
+      "method": "soft_downweight",
+      "precision": 0,
+      "factor": 0,
+      "family": "attack"
+    }
+  },
+  "recommendations": [
+    "Remove 35 terms with precision < 0.05 and < 5 occurrences",
+    "Downweight 0 terms with precision 0.05–0.10 by their precision factor",
+    "Apply term weights in headlessScorer.findLexiconMarks() by multiplying confidence by precision factor"
+  ]
+}

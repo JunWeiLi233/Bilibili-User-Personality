@@ -1,0 +1,914 @@
+import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
+import { coverageDeltaFromHarvest } from '../utils/coverageProgress.js';
+import { buildDictionaryCoverageAudit, selectExhaustedTerms } from '../services/keywordHarvest.js';
+
+const execFileAsync = promisify(execFile);
+
+const GENERATED_AT = '2026-06-23T00:00:00.000Z';
+const SUMMARY_KEYS = [
+  'maxCycles',
+  'roundsPerCycle',
+  'stopReason',
+  'finalOk',
+  'cyclesLength',
+  'coverageTerms',
+  'weakTerms',
+  'zeroEvidenceTerms',
+  'recommendedQueries',
+];
+
+export const DEFAULT_DICTIONARY = {
+  version: 1,
+  updatedAt: '2026-01-01T00:00:00.000Z',
+  entries: [],
+};
+
+export const WEAK_DICTIONARY = {
+  version: 1,
+  updatedAt: '2026-01-01T00:00:00.000Z',
+  entries: [
+    {
+      term: '百分百',
+      family: 'absolutes',
+      meaning: '缺少限定条件的强断言',
+      risk: 'medium',
+      confidence: 0.85,
+      evidenceCount: 0,
+      evidenceSamples: [],
+      evidenceSources: [],
+    },
+  ],
+};
+
+export const MOCK_CYCLE_PAYLOAD = {
+  generatedAt: GENERATED_AT,
+  maxCycles: 1,
+  roundsPerCycle: 1,
+  cycle: 1,
+  stopReason: 'coverage_gate_passed',
+  priorityQueries: [{ query: 'doge hot', term: 'doge' }],
+  beforeAudit: {
+    ok: false,
+    coverage: {
+      terms: 1,
+      weakTerms: 1,
+      zeroEvidenceTerms: 1,
+      unsourcedEvidenceTerms: 1,
+      totalEvidence: 0,
+      evidenceDeficit: 3,
+      coverageRatio: 0,
+    },
+  },
+  afterAudit: {
+    ok: true,
+    coverage: {
+      terms: 1,
+      weakTerms: 0,
+      zeroEvidenceTerms: 0,
+      unsourcedEvidenceTerms: 0,
+      totalEvidence: 3,
+      evidenceDeficit: 0,
+      coverageRatio: 1,
+    },
+  },
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge hot', 'doge comments'],
+        warnings: ['slow query'],
+        coverageProgress: { evidenceGained: 3, zeroEvidenceResolved: 1 },
+        trainingDiagnostics: { accepted: 2 },
+        queryDiagnostics: [{ query: 'doge hot', videos: 1 }],
+      },
+    ],
+  },
+};
+
+export const MOCK_NO_PROGRESS_CYCLE_PAYLOAD = {
+  generatedAt: GENERATED_AT,
+  maxCycles: 1,
+  roundsPerCycle: 1,
+  cycle: 1,
+  stopReason: 'no_coverage_progress',
+  priorityQueries: [{ query: 'doge retry', term: 'doge' }],
+  beforeAudit: {
+    ok: false,
+    coverage: {
+      terms: 1,
+      weakTerms: 1,
+      zeroEvidenceTerms: 0,
+      unsourcedEvidenceTerms: 0,
+      totalEvidence: 1,
+      evidenceDeficit: 2,
+      coverageRatio: 0.3333,
+    },
+  },
+  afterAudit: {
+    ok: false,
+    coverage: {
+      terms: 1,
+      weakTerms: 1,
+      zeroEvidenceTerms: 0,
+      unsourcedEvidenceTerms: 0,
+      totalEvidence: 1,
+      evidenceDeficit: 2,
+      coverageRatio: 0.3333,
+    },
+  },
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge retry'],
+        warnings: ['no fresh evidence'],
+        coverageProgress: { evidenceGained: 0, zeroEvidenceResolved: 0, weakTermsResolved: 0 },
+        trainingDiagnostics: { accepted: 0 },
+        queryDiagnostics: [{ query: 'doge retry', videos: 0 }],
+      },
+    ],
+  },
+};
+
+export const MOCK_MULTI_CYCLE_PAYLOAD = {
+  generatedAt: GENERATED_AT,
+  maxCycles: 2,
+  roundsPerCycle: 1,
+  stopReason: 'coverage_gate_passed',
+  cycles: [
+    {
+      cycle: 1,
+      priorityQueries: [{ query: 'doge hot', term: 'doge' }],
+      beforeAudit: {
+        ok: false,
+        coverage: {
+          terms: 1,
+          weakTerms: 1,
+          zeroEvidenceTerms: 1,
+          unsourcedEvidenceTerms: 1,
+          totalEvidence: 0,
+          evidenceDeficit: 3,
+          coverageRatio: 0,
+        },
+      },
+      afterAudit: {
+        ok: false,
+        coverage: {
+          terms: 1,
+          weakTerms: 1,
+          zeroEvidenceTerms: 0,
+          unsourcedEvidenceTerms: 0,
+          totalEvidence: 1,
+          evidenceDeficit: 2,
+          coverageRatio: 0.3333,
+        },
+      },
+      harvest: {
+        ok: true,
+        rounds: [
+          {
+            queries: ['doge hot'],
+            warnings: [],
+            coverageProgress: { evidenceGained: 1, zeroEvidenceResolved: 1 },
+            trainingDiagnostics: { accepted: 1 },
+            queryDiagnostics: [{ query: 'doge hot', videos: 1 }],
+          },
+        ],
+      },
+    },
+    {
+      cycle: 2,
+      priorityQueries: [{ query: 'doge source', term: 'doge' }],
+      beforeAudit: {
+        ok: false,
+        coverage: {
+          terms: 1,
+          weakTerms: 1,
+          zeroEvidenceTerms: 0,
+          unsourcedEvidenceTerms: 0,
+          totalEvidence: 1,
+          evidenceDeficit: 2,
+          coverageRatio: 0.3333,
+        },
+      },
+      afterAudit: {
+        ok: true,
+        coverage: {
+          terms: 1,
+          weakTerms: 0,
+          zeroEvidenceTerms: 0,
+          unsourcedEvidenceTerms: 0,
+          totalEvidence: 3,
+          evidenceDeficit: 0,
+          coverageRatio: 1,
+        },
+      },
+      harvest: {
+        ok: true,
+        rounds: [
+          {
+            queries: ['doge source'],
+            warnings: ['retry source'],
+            coverageProgress: { evidenceGained: 2, weakTermsResolved: 1 },
+            trainingDiagnostics: { accepted: 2 },
+            queryDiagnostics: [{ query: 'doge source', videos: 2 }],
+          },
+        ],
+      },
+    },
+  ],
+};
+
+export const FILE_BACKED_MOCK_HARVEST_PAYLOAD = {
+  afterDictionary: {
+    version: 1,
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    entries: [
+      {
+        term: 'doge',
+        family: 'meme',
+        evidenceCount: 3,
+        evidenceSamples: ['doge hot', 'doge reply', 'doge source'],
+        evidenceSources: ['Bilibili comments'],
+      },
+    ],
+  },
+  afterState: {
+    version: 1,
+    termAttempts: {
+      doge: { term: 'doge', attempts: 1, successfulAttempts: 1 },
+    },
+  },
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge 评论区 热评'],
+        warnings: [],
+        coverageProgress: { evidenceGained: 3, zeroEvidenceResolved: 1, weakTermsResolved: 1 },
+        trainingDiagnostics: { accepted: 3 },
+        queryDiagnostics: [{ query: 'doge 评论区 热评', videos: 1 }],
+      },
+    ],
+  },
+};
+
+export const FILE_BACKED_MOCK_HARVEST_DICTIONARY = {
+  version: 1,
+  updatedAt: '2026-01-01T00:00:00.000Z',
+  entries: [
+    {
+      term: 'doge',
+      family: 'meme',
+      evidenceCount: 0,
+      evidenceSamples: [],
+      evidenceSources: [],
+    },
+  ],
+};
+
+export const EXTERNAL_PRUNE_DICTIONARY = {
+  version: 1,
+  updatedAt: '2026-01-01T00:00:00.000Z',
+  entries: [
+    {
+      term: 'doge',
+      family: 'meme',
+      evidenceCount: 0,
+      evidenceSamples: [],
+      evidenceSources: [],
+    },
+    {
+      term: 'keep',
+      family: 'meme',
+      evidenceCount: 3,
+      evidenceSamples: ['a', 'b', 'c'],
+      evidenceSources: ['Bilibili comments'],
+    },
+  ],
+};
+
+export const EXTERNAL_PRUNE_STATE = {
+  termAttempts: {
+    doge: { attempts: 2 },
+  },
+};
+
+export const EXTERNAL_PRUNE_PAYLOAD = {
+  afterDictionary: EXTERNAL_PRUNE_DICTIONARY,
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge retry'],
+        warnings: [],
+        coverageProgress: { evidenceGained: 0 },
+        trainingDiagnostics: { accepted: 0 },
+        queryDiagnostics: [{ query: 'doge retry', videos: 0 }],
+      },
+    ],
+  },
+};
+
+export const COVERAGE_LOOP_COMMAND_FIXTURES = [
+  { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
+  { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
+  { name: 'python-deferred-live-contract', dictionary: WEAK_DICTIONARY, pythonOnly: true, maxCycles: 1 },
+  { name: 'mock-cycle-report', mockCyclePayload: MOCK_CYCLE_PAYLOAD },
+  { name: 'mock-no-progress-cycle', mockCyclePayload: MOCK_NO_PROGRESS_CYCLE_PAYLOAD },
+  { name: 'mock-multi-cycle-report', mockCyclePayload: MOCK_MULTI_CYCLE_PAYLOAD },
+  { name: 'file-backed-mock-harvest', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, mockHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
+  { name: 'external-harvest-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, externalHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
+  {
+    name: 'external-prune-command',
+    dictionary: EXTERNAL_PRUNE_DICTIONARY,
+    state: EXTERNAL_PRUNE_STATE,
+    externalHarvestPayload: EXTERNAL_PRUNE_PAYLOAD,
+    pruneExhaustedAfter: 2,
+  },
+  { name: 'js-harvest-adapter-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, jsHarvestAdapterPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
+  { name: 'external-harvest-preflight-contract', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, harvestPreflight: true },
+];
+
+function summarize(report = {}) {
+  const coverage = report.finalAudit?.coverage || {};
+  return {
+    maxCycles: Number(report.maxCycles || 0),
+    roundsPerCycle: Number(report.roundsPerCycle || 0),
+    stopReason: report.stopReason || '',
+    finalOk: report.finalOk === true,
+    cyclesLength: Array.isArray(report.cycles) ? report.cycles.length : 0,
+    coverageTerms: Number(coverage.terms || 0),
+    weakTerms: Number(coverage.weakTerms || 0),
+    zeroEvidenceTerms: Number(coverage.zeroEvidenceTerms || 0),
+    recommendedQueries: Array.isArray(report.finalAudit?.recommendedQueries) ? report.finalAudit.recommendedQueries : [],
+  };
+}
+
+export function compareCoverageHarvestLoopCommandObjects(pythonResult = {}, jsResult = {}) {
+  const python = summarize(pythonResult);
+  const js = summarize(jsResult);
+  const mismatches = SUMMARY_KEYS.filter((key) => JSON.stringify(python[key]) !== JSON.stringify(js[key])).map((key) => ({
+    key,
+    python: python[key],
+    js: js[key],
+  }));
+  return { ok: mismatches.length === 0, mismatches, python, js };
+}
+
+async function runJsCoverageLoopCommand({ dictionaryPath, statePath, reportPath }) {
+  await execFileAsync('node', ['server/scripts/runCoverageHarvestLoop.js'], {
+    cwd: process.cwd(),
+    env: {
+      ...process.env,
+      DEEPSEEK_KEYWORD_DICTIONARY_PATH: dictionaryPath,
+      BILIBILI_HARVEST_STATE_PATH: statePath,
+      BILIBILI_COVERAGE_LOOP_REPORT_PATH: reportPath,
+      BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '0',
+    },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(await readFile(reportPath, 'utf8'));
+}
+
+async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportPath, maxCycles = 0 }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--report',
+      reportPath,
+      '--max-cycles',
+      String(Number.isFinite(Number(maxCycles)) ? Number(maxCycles) : 0),
+      '--generated-at',
+      GENERATED_AT,
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
+async function runPythonCoverageLoopCommandComparison({ pythonReportPath, compareJsReportPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command_compare',
+      '--python-report',
+      pythonReportPath,
+      '--compare-js-report',
+      compareJsReportPath || jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
+function buildJsMockCycleReport(payload = {}) {
+  if (Array.isArray(payload.cycles)) {
+    const cycles = payload.cycles.map((cyclePayload, index) => buildJsMockCycle(cyclePayload, index + 1));
+    const finalAudit = payload.cycles.length ? payload.cycles[payload.cycles.length - 1]?.afterAudit || {} : {};
+    return {
+      generatedAt: payload.generatedAt || GENERATED_AT,
+      maxCycles: Number(payload.maxCycles || 1),
+      roundsPerCycle: Number(payload.roundsPerCycle || 1),
+      stopReason: payload.stopReason || (finalAudit.ok === true ? 'coverage_gate_passed' : ''),
+      finalOk: finalAudit.ok === true,
+      finalAudit,
+      cycles,
+    };
+  }
+  const afterAudit = payload.afterAudit && typeof payload.afterAudit === 'object' ? payload.afterAudit : {};
+  return {
+    generatedAt: payload.generatedAt || GENERATED_AT,
+    maxCycles: Number(payload.maxCycles || 1),
+    roundsPerCycle: Number(payload.roundsPerCycle || 1),
+    stopReason: payload.stopReason || (afterAudit.ok === true ? 'coverage_gate_passed' : ''),
+    finalOk: afterAudit.ok === true,
+    finalAudit: afterAudit,
+    cycles: [buildJsMockCycle(payload, 1)],
+  };
+}
+
+function buildJsMockCycle(payload = {}, fallbackCycle = 1) {
+  const beforeAudit = payload.beforeAudit && typeof payload.beforeAudit === 'object' ? payload.beforeAudit : {};
+  const afterAudit = payload.afterAudit && typeof payload.afterAudit === 'object' ? payload.afterAudit : {};
+  const beforeCoverage = beforeAudit.coverage && typeof beforeAudit.coverage === 'object' ? beforeAudit.coverage : {};
+  const afterCoverage = afterAudit.coverage && typeof afterAudit.coverage === 'object' ? afterAudit.coverage : {};
+  const rounds = Array.isArray(payload.harvest?.rounds) ? payload.harvest.rounds : [];
+  const harvest = {
+    ok: payload.harvest?.ok === true,
+    rounds: rounds.length,
+    queries: rounds.flatMap((round) => Array.isArray(round?.queries) ? round.queries : []),
+    warnings: rounds.flatMap((round) => Array.isArray(round?.warnings) ? round.warnings : []),
+    coverageProgress: rounds.map((round) => round?.coverageProgress),
+    trainingDiagnostics: rounds.map((round) => round?.trainingDiagnostics),
+    queryDiagnostics: rounds.map((round) => Array.isArray(round?.queryDiagnostics) ? round.queryDiagnostics : []),
+  };
+  return {
+    cycle: Number(payload.cycle || fallbackCycle),
+    priorityQueries: Array.isArray(payload.priorityQueries) ? payload.priorityQueries : [],
+    harvest,
+    coverageDelta: coverageDeltaFromHarvest(beforeCoverage, afterCoverage, harvest.coverageProgress),
+    coverageBefore: beforeCoverage,
+    coverageAfter: afterCoverage,
+  };
+}
+
+function priorityQueryItemsFromAudit(audit = {}, limit = 12) {
+  return (Array.isArray(audit.nextActions) ? audit.nextActions : [])
+    .flatMap((item) => {
+      const queries = [item.nextQuery, ...(Array.isArray(item.suggestedQueries) ? item.suggestedQueries : [])]
+        .map((query) => String(query || '').trim())
+        .filter(Boolean);
+      return queries.map((query) => ({ ...item, query, nextQuery: query }));
+    })
+    .slice(0, limit);
+}
+
+function buildJsFileBackedMockHarvestReport({ dictionary = DEFAULT_DICTIONARY, payload = {}, maxCycles = 1 } = {}) {
+  const beforeAudit = buildDictionaryCoverageAudit(dictionary);
+  const afterAudit = buildDictionaryCoverageAudit(
+    payload.afterDictionary && typeof payload.afterDictionary === 'object' ? payload.afterDictionary : dictionary,
+  );
+  const cycle = buildJsMockCycle(
+    {
+      cycle: payload.cycle || 1,
+      priorityQueries: priorityQueryItemsFromAudit(beforeAudit, 12),
+      harvest: payload.harvest,
+      beforeAudit,
+      afterAudit,
+    },
+    1,
+  );
+  return {
+    generatedAt: GENERATED_AT,
+    maxCycles: Number(maxCycles || 1),
+    roundsPerCycle: 1,
+    stopReason: payload.stopReason || (afterAudit.ok === true ? 'coverage_gate_passed' : ''),
+    finalOk: afterAudit.ok === true,
+    finalAudit: afterAudit,
+    cycles: [cycle],
+  };
+}
+
+function buildJsExternalPruneHarvestReport({
+  dictionary = DEFAULT_DICTIONARY,
+  state = {},
+  payload = {},
+  maxCycles = 1,
+  pruneExhaustedAfter = 0,
+  pruneIncludePartial = false,
+} = {}) {
+  const report = buildJsFileBackedMockHarvestReport({ dictionary, payload, maxCycles });
+  if (pruneExhaustedAfter <= 0) return report;
+  const afterDictionary = payload.afterDictionary && typeof payload.afterDictionary === 'object' ? payload.afterDictionary : dictionary;
+  const exhausted = selectExhaustedTerms(afterDictionary, state, {
+    targetEvidence: 3,
+    attemptThreshold: pruneExhaustedAfter,
+    requireZeroEvidence: !pruneIncludePartial,
+  });
+  if (!exhausted.length) return report;
+  const remove = new Set(exhausted.map((item) => item.term));
+  const prunedDictionary = {
+    ...afterDictionary,
+    entries: (Array.isArray(afterDictionary.entries) ? afterDictionary.entries : []).filter((entry) => !remove.has(String(entry?.term || '').trim())),
+  };
+  const finalAudit = buildDictionaryCoverageAudit(prunedDictionary);
+  return {
+    ...report,
+    stopReason: finalAudit.ok === true ? 'coverage_gate_passed' : report.stopReason,
+    finalOk: finalAudit.ok === true,
+    finalAudit,
+  };
+}
+
+async function runPythonMockCycleReport({ payload, payloadPath }) {
+  await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+  const reportPath = payloadPath.replace(/-payload\.json$/, '-report-python.json');
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.coverage_loop_command', '--mock-cycle-payload', payloadPath, '--report', reportPath, '--exit-zero'],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
+}
+
+async function runPythonMockHarvestReport({ dictionaryPath, reportPath, payload, payloadPath }) {
+  await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--report',
+      reportPath,
+      '--max-cycles',
+      '1',
+      '--generated-at',
+      GENERATED_AT,
+      '--mock-harvest-payload',
+      payloadPath,
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
+}
+
+async function runPythonExternalHarvestReport({
+  dictionaryPath,
+  statePath,
+  reportPath,
+  payload,
+  adapterPath,
+  pruneExhaustedAfter = 0,
+  pruneIncludePartial = false,
+}) {
+  await writeFile(adapterPath, [
+    'import json, sys',
+    'from pathlib import Path',
+    'request = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))',
+    'response_path = Path(sys.argv[2])',
+    'response = json.loads(response_path.read_text(encoding="utf-8"))',
+    'response["requestCycle"] = request.get("cycle")',
+    'print(json.dumps(response, ensure_ascii=False))',
+    '',
+  ].join('\n'), 'utf8');
+  const responsePath = adapterPath.replace(/\.py$/, '-response.json');
+  await writeFile(responsePath, JSON.stringify(payload, null, 2), 'utf8');
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--report',
+      reportPath,
+      '--max-cycles',
+      '1',
+      '--generated-at',
+      GENERATED_AT,
+      '--harvest-command-json',
+      JSON.stringify(['python', adapterPath, '{payload}', responsePath]),
+      ...(pruneExhaustedAfter > 0 ? ['--prune-exhausted-after', String(pruneExhaustedAfter)] : []),
+      ...(pruneIncludePartial ? ['--prune-include-partial'] : []),
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
+}
+
+async function runPythonJsHarvestAdapterReport({ dictionaryPath, statePath, reportPath, payload, mockResultPath }) {
+  await writeFile(mockResultPath, JSON.stringify({
+    ok: true,
+    afterDictionary: payload.afterDictionary,
+    harvest: payload.harvest,
+  }, null, 2), 'utf8');
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--report',
+      reportPath,
+      '--max-cycles',
+      '1',
+      '--generated-at',
+      GENERATED_AT,
+      '--harvest-command-json',
+      JSON.stringify(['node', 'server/scripts/runCoverageHarvestLoopJsAdapter.js', '{payload}', '--mock-result', mockResultPath]),
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
+}
+
+async function runPythonHarvestPreflightReport({ dictionaryPath, statePath, reportPath, mockResultPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--report',
+      reportPath,
+      '--harvest-command-json',
+      JSON.stringify(['node', 'server/scripts/runCoverageHarvestLoopJsAdapter.js', '{payload}', '--mock-result', mockResultPath]),
+      '--harvest-command-preflight',
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout) };
+}
+
+export async function compareCoverageHarvestLoopCommand({
+  dictionary = DEFAULT_DICTIONARY,
+  fixtures = null,
+  runJs = runJsCoverageLoopCommand,
+  runPython = runPythonCoverageLoopCommand,
+  runCompare = runPythonCoverageLoopCommandComparison,
+} = {}) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'coverage-loop-command-compare-'));
+  try {
+    const fixtureList = Array.isArray(fixtures) ? fixtures : dictionary === DEFAULT_DICTIONARY ? COVERAGE_LOOP_COMMAND_FIXTURES : [{ name: 'custom', dictionary }];
+    const results = [];
+    for (const [index, fixture] of fixtureList.entries()) {
+      const fixtureName = String(fixture?.name || `fixture-${index + 1}`);
+      const fixtureDictionary = fixture?.dictionary || DEFAULT_DICTIONARY;
+      const jsDictionaryPath = join(tempDir, `${fixtureName}-dictionary-js.json`);
+      const pythonDictionaryPath = join(tempDir, `${fixtureName}-dictionary-python.json`);
+      const jsStatePath = join(tempDir, `${fixtureName}-state-js.json`);
+      const pythonStatePath = join(tempDir, `${fixtureName}-state-python.json`);
+      const jsReportPath = join(tempDir, `${fixtureName}-report-js.json`);
+      const pythonReportPath = join(tempDir, `${fixtureName}-report-python.json`);
+      const compareReports = async ({ js, python }) => {
+        await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+        await writeFile(pythonReportPath, JSON.stringify(python || {}, null, 2), 'utf8');
+        return runCompare({
+          fixtureName,
+          js,
+          python,
+          jsReport: js,
+          pythonReport: python,
+          jsReportPath,
+          compareJsReportPath: jsReportPath,
+          pythonReportPath,
+        });
+      };
+      if (fixture?.mockCyclePayload) {
+        const payloadPath = join(tempDir, `${fixtureName}-payload.json`);
+        const js = buildJsMockCycleReport(fixture.mockCyclePayload);
+        const pythonRun = await runPythonMockCycleReport({ payload: fixture.mockCyclePayload, payloadPath });
+        const python = pythonRun.stdoutReport;
+        const comparison = await compareReports({ js, python });
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          pythonReportFile: pythonRun.fileReport,
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
+      await writeFile(jsDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
+      await writeFile(pythonDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
+      await writeFile(jsStatePath, JSON.stringify(fixture?.state || {}, null, 2), 'utf8');
+      await writeFile(pythonStatePath, JSON.stringify(fixture?.state || {}, null, 2), 'utf8');
+      if (fixture?.mockHarvestPayload) {
+        const payloadPath = join(tempDir, `${fixtureName}-payload.json`);
+        const js = buildJsFileBackedMockHarvestReport({
+          dictionary: fixtureDictionary,
+          payload: fixture.mockHarvestPayload,
+          maxCycles: fixture.maxCycles || 1,
+        });
+        const pythonRun = await runPythonMockHarvestReport({
+          dictionaryPath: pythonDictionaryPath,
+          reportPath: pythonReportPath,
+          payload: fixture.mockHarvestPayload,
+          payloadPath,
+        });
+        const python = pythonRun.stdoutReport;
+        const comparison = await compareReports({ js, python });
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          pythonReportFile: pythonRun.fileReport,
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
+      if (fixture?.externalHarvestPayload) {
+        const adapterPath = join(tempDir, `${fixtureName}-adapter.py`);
+        const js =
+          fixture.pruneExhaustedAfter > 0
+            ? buildJsExternalPruneHarvestReport({
+                dictionary: fixtureDictionary,
+                state: fixture.state || {},
+                payload: fixture.externalHarvestPayload,
+                maxCycles: fixture.maxCycles || 1,
+                pruneExhaustedAfter: fixture.pruneExhaustedAfter,
+                pruneIncludePartial: fixture.pruneIncludePartial === true,
+              })
+            : buildJsFileBackedMockHarvestReport({
+                dictionary: fixtureDictionary,
+                payload: fixture.externalHarvestPayload,
+                maxCycles: fixture.maxCycles || 1,
+              });
+        const pythonRun = await runPythonExternalHarvestReport({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          payload: fixture.externalHarvestPayload,
+          adapterPath,
+          pruneExhaustedAfter: fixture.pruneExhaustedAfter || 0,
+          pruneIncludePartial: fixture.pruneIncludePartial === true,
+        });
+        const python = pythonRun.stdoutReport;
+        const comparison = await compareReports({ js, python });
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          pythonReportFile: pythonRun.fileReport,
+          pythonDictionaryFile: JSON.parse(await readFile(pythonDictionaryPath, 'utf8')),
+          pythonStateFile: JSON.parse(await readFile(pythonStatePath, 'utf8')),
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
+      if (fixture?.jsHarvestAdapterPayload) {
+        const mockResultPath = join(tempDir, `${fixtureName}-adapter-result.json`);
+        const js = buildJsFileBackedMockHarvestReport({
+          dictionary: fixtureDictionary,
+          payload: fixture.jsHarvestAdapterPayload,
+          maxCycles: fixture.maxCycles || 1,
+        });
+        const pythonRun = await runPythonJsHarvestAdapterReport({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          payload: fixture.jsHarvestAdapterPayload,
+          mockResultPath,
+        });
+        const python = pythonRun.stdoutReport;
+        const comparison = await compareReports({ js, python });
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          pythonReportFile: pythonRun.fileReport,
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
+      if (fixture?.harvestPreflight) {
+        const mockResultPath = join(tempDir, `${fixtureName}-adapter-result.json`);
+        const pythonRun = await runPythonHarvestPreflightReport({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          mockResultPath,
+        });
+        results.push({
+          ok: pythonRun.stdoutReport.runtimeMode === 'external_harvest_preflight' && pythonRun.stdoutReport.willExecute === false,
+          fixture: fixtureName,
+          js: {},
+          python: pythonRun.stdoutReport,
+          mismatches: [],
+        });
+        continue;
+      }
+      if (fixture?.pythonOnly) {
+        const python = await runPython({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          maxCycles: fixture.maxCycles,
+        });
+        results.push({
+          ok: true,
+          fixture: fixtureName,
+          js: {},
+          python,
+          mismatches: [],
+        });
+        continue;
+      }
+      const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, reportPath: jsReportPath });
+      const python = await runPython({ dictionaryPath: pythonDictionaryPath, statePath: pythonStatePath, reportPath: pythonReportPath });
+      const comparison = await compareReports({ js, python });
+      results.push({
+        ok: comparison.ok,
+        fixture: fixtureName,
+        js,
+        python,
+        mismatches: comparison.mismatches,
+      });
+    }
+    const first = results[0] || {};
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ fixture: result.fixture, ...mismatch })));
+    return {
+      ok: results.every((result) => result.ok),
+      fixture: { tempDir },
+      js: first.js,
+      python: first.python,
+      results,
+      mismatches,
+    };
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
+async function main() {
+  const result = await compareCoverageHarvestLoopCommand();
+  console.log(JSON.stringify(result, null, 2));
+  if (!result.ok) process.exitCode = 1;
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

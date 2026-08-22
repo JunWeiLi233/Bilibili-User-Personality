@@ -1,0 +1,529 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "cooperation",
+  "shard": 21,
+  "shardCount": 42,
+  "evidence": [
+    {
+      "term": "我同意",
+      "evidenceSamples": [
+        "出发点就是错的 ai是基于人类现有的认知深度学习模仿的产物，而人类的创造力就是人的潜能开发，或者说人的创作是自发的，这些我们现在也没有掌握到底怎么回事的东西，可能就是所谓的灵魂。人类还没整明白的事 ai怎么学[doge]而且我觉得这个问题是无限趋近宇宙的终极问题，有可能无法找到答案，但我同意“音乐制作”完全可以交给ai 比如编曲 旋律歌词的写作，音乐工业链里百分之80的人都会失业，剩下极少数精通“旧音乐理论体系”的人可能去类似教师 音乐治疗这种需要人类存在去维持行业细分的领域。整个商业音乐行业会陷入繁荣的虚无主义，本不应该进入音乐行业的人都会被扫地出门。这样的局面其实对于真正的灵魂乐者倒是十分有利的，毕竟当浑水停止搅动，人们才能看到深处的真相",
+        "我同意[doge]",
+        "白居易：征求我同意了吗？尊重知识产权了吗？[doge]",
+        "这是为数不多的正常人我同意他的观点 00:43",
+        "BB：我同意了吗"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "出发点就是错的 ai是基于人类现有的认知深度学习模仿的产物，而人类的创造力就是人的潜能开发，或者说人的创作是自发的，这些我们现在也没有掌握到底怎么回事的东西，可能就是所谓的灵魂。人类还没整明白的事 ai怎么学[doge]而且我觉得这个问题是无限趋近宇宙的终极问题，有可能无法找到答案，但我同意“音乐制作”完全可以交给ai 比如编曲 旋律歌词的写作，音乐工业链里百分之80的人都会失业，剩下极少数精通“旧音乐理论体系”的人可能去类似教师 音乐治疗这种需要人类存在去维持行业细分的领域。整个商业音乐行业会陷入繁荣的虚无主义，本不应该进入音乐行业的人都会被扫地出门。这样的局面其实对于真正的灵魂乐者倒是十分有利的，毕竟当浑水停止搅动，人们才能看到深处的真相"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1XvZ6YWEf8/",
+          "uid": "BV1XvZ6YWEf8",
+          "sample": "我同意[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nA411e74s/",
+          "uid": "BV1nA411e74s",
+          "sample": "白居易：征求我同意了吗？尊重知识产权了吗？[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
+          "uid": "BV1LxZfYVEdT",
+          "sample": "这是为数不多的正常人我同意他的观点 00:43"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1mMJT6UExY/",
+          "uid": "BV1mMJT6UExY",
+          "sample": "BB：我同意了吗"
+        }
+      ]
+    },
+    {
+      "term": "我听着",
+      "evidenceSamples": [
+        "[笑哭][笑哭]算是知道为什么好多什么国风的歌，我听着那么难受了。每次我都在怀疑，这就是古风的？感觉不出来什么很大的区别。 原来没有自己的成熟理论，只是在套用国外的[无语]听的我难受死了",
+        "回复 @鸠见与乌鸦 :但我听着李达达像十一他爹，十一听着像炸哥郝翔海",
+        "应该不是你的问题，因为我听着也怪怪的[洛天依·收藏集表情包_盯]",
+        "前面一堆无脑吹的，我听着觉得高音特别不舒服[无语][无语][无语]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "[笑哭][笑哭]算是知道为什么好多什么国风的歌，我听着那么难受了。每次我都在怀疑，这就是古风的？感觉不出来什么很大的区别。 原来没有自己的成熟理论，只是在套用国外的[无语]听的我难受死了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1qjZpYCEGk/",
+          "uid": "BV1qjZpYCEGk",
+          "sample": "回复 @鸠见与乌鸦 :但我听着李达达像十一他爹，十一听着像炸哥郝翔海"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EyVH6fE5E/",
+          "uid": "BV1EyVH6fE5E",
+          "sample": "应该不是你的问题，因为我听着也怪怪的[洛天依·收藏集表情包_盯]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mK4y1x7Mb/",
+          "uid": "BV1mK4y1x7Mb",
+          "sample": "前面一堆无脑吹的，我听着觉得高音特别不舒服[无语][无语][无语]"
+        }
+      ]
+    },
+    {
+      "term": "我哭死",
+      "evidenceSamples": [
+        "帮助他/她人入眠从而获取成就感 她真的我哭死（感动）",
+        "星提真的有在好好努力呀，“部分人类女性会担心陌生异性凭空接触”所以有了异体吗，你真的，我哭死[委屈]",
+        "新版流沙！我哭死"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV17oj56EEMe/",
+          "uid": "BV17oj56EEMe",
+          "sample": "帮助他/她人入眠从而获取成就感 她真的我哭死（感动）"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1DujP66EB8/",
+          "uid": "2066272584",
+          "sample": "星提真的有在好好努力呀，“部分人类女性会担心陌生异性凭空接触”所以有了异体吗，你真的，我哭死[委屈]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tT2VYzENg/",
+          "uid": "BV1tT2VYzENg",
+          "sample": "新版流沙！我哭死"
+        }
+      ]
+    },
+    {
+      "term": "我喜欢你",
+      "evidenceSamples": [
+        "我也接一个《我喜欢你的信息素》",
+        "老大我喜欢你[喵桑 鱼来_舔][喵桑 鱼来_舔][喵桑 鱼来_舔]",
+        "我喜欢你的小兔牙",
+        "我喜欢你[打call]",
+        "我喜欢你"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tmZJYRECC/",
+          "uid": "BV1tmZJYRECC",
+          "sample": "我也接一个《我喜欢你的信息素》"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1ChLR6eEHJ/",
+          "uid": "396730783",
+          "sample": "老大我喜欢你[喵桑 鱼来_舔][喵桑 鱼来_舔][喵桑 鱼来_舔]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z7411f7wZ/",
+          "uid": "BV1z7411f7wZ",
+          "sample": "我喜欢你的小兔牙"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16tBkBmEQT/, https://www.bilibili.com/video/BV1yHqmBPEFw/, https://www.bilibili.com/video/BV153isBUErD/, https://www.bilibili.com/video/BV1dVvgeqERT/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av112870767529610",
+          "uid": "BV16tBkBmEQT,BV1yHqmBPEFw,BV153isBUErD,BV1dVvgeqERT",
+          "sample": "我喜欢你[打call]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16tBkBmEQT/, https://www.bilibili.com/video/BV1yHqmBPEFw/, https://www.bilibili.com/video/BV153isBUErD/, https://www.bilibili.com/video/BV1dVvgeqERT/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av112870767529610",
+          "uid": "BV16tBkBmEQT,BV1yHqmBPEFw,BV153isBUErD,BV1dVvgeqERT",
+          "sample": "我喜欢你"
+        }
+      ]
+    },
+    {
+      "term": "我嘞个豆",
+      "evidenceSamples": [
+        "我嘞个豆，战斗修女",
+        "我嘞个豆吴世勋这一下帅的我心颤",
+        "我嘞个豆"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1gCopYwE7B/",
+          "uid": "BV1gCopYwE7B",
+          "sample": "我嘞个豆，战斗修女"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV14F411o7KM/",
+          "uid": "BV14F411o7KM",
+          "sample": "我嘞个豆吴世勋这一下帅的我心颤"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "我嘞个豆"
+        }
+      ]
+    },
+    {
+      "term": "我想说",
+      "evidenceSamples": [
+        "回复 @正行舟也 :是的，泱泱大国，中华上下五千年，文化底蕴的深厚，我其实很能够理解up的想法，他是希望中国音乐能够走出国门，批判的是一些不好的现象，然后分析的是由这些现象带来的一些不好的影响，嗯，但我想说的是，其实我们还更多的是要提升自己的文化自信，这样才能够走出国门，其实吧，大俗大雅，审美的话多元化，就像曾经的科目三也能走出国门了，虽然很俗，但是他也能够传播，真正如果说我们自己的一些东西传播，还得是我们自己要提升自己的文化，如果你想音乐要走出国门，那么首先还是得拿出自己能够喜欢，然后外国人也喜欢的东西，这样才能够走出国门，我跟楼主的想法是一样的，咱们认为就是文化，因为我们的文化教育告诉我们，咱们中国文化是含蓄的认为孤芳自赏其实也是一种美，所以呢，咱们的价值观就会有一种就是说走出国门会是一种伪命题，但还是要需要像UP主这样的音乐人来提醒警告我们，万一真的有一天中国音乐落寞了，真正好的东西没有了，都是一些糟粕的时候，其实这种警醒也是非常有必要的。",
+        "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。",
+        "虽然有点严格，但我想说路上那么多人，而且有个老头口罩拉在下巴上，你以为你是偶像啊？这种纪律性，就算最后胜了，也是惨胜！而且伊朗数据明显搀水，这才几天就治愈了5.6百人，你们伊朗有特效药？我们深圳这都快50天了才治了接近400人，上海也差不多...",
+        "没觉得“审美倒退越来越烂”啊[笑哭] 你如果非要说以前有丽君宗盛咏麟学友有周林王陶，那我想说以前你没看到的是广大农村下沉市场的大量三俗音乐比如云南老山歌啊 所以我想说的是，一直都很烂啊，只是以前你不知道而已。你以为越来越烂，其实只是现在信息更发达了",
+        "大概从头看到尾了，虽然不懂音乐，可能也是搜索一些古典音乐数据推送到了，总体觉得up内心当中还是希望国产音乐能走上一条正确的路，文案也是真有种爱之深责之切的感觉。前几集感觉音乐的思想性、歌手的情感说的都非常好，包括观众审美等，短视频流量资本的时代，很多觉得好无聊的音乐真的不知道为什么莫名其妙的火，再比如一些歌曲的翻唱，追求完美的音轨，这些看都像是旋律上的毒品，我本质上一些莫名其妙的歌曲，办公室喝茶喜欢听《卡门》等等古典，但更多时听理查德克莱德曼通俗钢琴演奏，像贝多芬、肖邦的曲子除了高潮部分真觉得自己没有耐心听下去。我想说不仅仅是对音乐也好，对其他的一些事情而言，现在太过于浮躁、功利，所以这几期视频对于音乐的真正内核不怎么懂，也没有什么权利插嘴，但是分析的一些问题在对于其他事情确实能让自己反思。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @正行舟也 :是的，泱泱大国，中华上下五千年，文化底蕴的深厚，我其实很能够理解up的想法，他是希望中国音乐能够走出国门，批判的是一些不好的现象，然后分析的是由这些现象带来的一些不好的影响，嗯，但我想说的是，其实我们还更多的是要提升自己的文化自信，这样才能够走出国门，其实吧，大俗大雅，审美的话多元化，就像曾经的科目三也能走出国门了，虽然很俗，但是他也能够传播，真正如果说我们自己的一些东西传播，还得是我们自己要提升自己的文化，如果你想音乐要走出国门，那么首先还是得拿出自己能够喜欢，然后外国人也喜欢的东西，这样才能够走出国门，我跟楼主的想法是一样的，咱们认为就是文化，因为我们的文化教育告诉我们，咱们中国文化是含蓄的认为孤芳自赏其实也是一种美，所以呢，咱们的价值观就会有一种就是说走出国门会是一种伪命题，但还是要需要像UP主这样的音乐人来提醒警告我们，万一真的有一天中国音乐落寞了，真正好的东西没有了，都是一些糟粕的时候，其实这种警醒也是非常有必要的。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
+          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
+          "sample": "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EE411p7oT/, https://www.bilibili.com/video/BV1qM4y1u7FC/, https://www.bilibili.com/video/BV1rrh5zzE9h/, https://www.bilibili.com/video/BV1wi4y1w7Vo/, http://www.bilibili.com/video/av94236750, http://www.bilibili.com/video/av931249241, http://www.bilibili.com/video/av114966224969197, http://www.bilibili.com/video/av543281802",
+          "uid": "BV1EE411p7oT,BV1qM4y1u7FC,BV1rrh5zzE9h,BV1wi4y1w7Vo",
+          "sample": "虽然有点严格，但我想说路上那么多人，而且有个老头口罩拉在下巴上，你以为你是偶像啊？这种纪律性，就算最后胜了，也是惨胜！而且伊朗数据明显搀水，这才几天就治愈了5.6百人，你们伊朗有特效药？我们深圳这都快50天了才治了接近400人，上海也差不多..."
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "没觉得“审美倒退越来越烂”啊[笑哭] 你如果非要说以前有丽君宗盛咏麟学友有周林王陶，那我想说以前你没看到的是广大农村下沉市场的大量三俗音乐比如云南老山歌啊 所以我想说的是，一直都很烂啊，只是以前你不知道而已。你以为越来越烂，其实只是现在信息更发达了"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "大概从头看到尾了，虽然不懂音乐，可能也是搜索一些古典音乐数据推送到了，总体觉得up内心当中还是希望国产音乐能走上一条正确的路，文案也是真有种爱之深责之切的感觉。前几集感觉音乐的思想性、歌手的情感说的都非常好，包括观众审美等，短视频流量资本的时代，很多觉得好无聊的音乐真的不知道为什么莫名其妙的火，再比如一些歌曲的翻唱，追求完美的音轨，这些看都像是旋律上的毒品，我本质上一些莫名其妙的歌曲，办公室喝茶喜欢听《卡门》等等古典，但更多时听理查德克莱德曼通俗钢琴演奏，像贝多芬、肖邦的曲子除了高潮部分真觉得自己没有耐心听下去。我想说不仅仅是对音乐也好，对其他的一些事情而言，现在太过于浮躁、功利，所以这几期视频对于音乐的真正内核不怎么懂，也没有什么权利插嘴，但是分析的一些问题在对于其他事情确实能让自己反思。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "贴被举报删了随便玩不起了因为热度高了那就在发一遍只要有人看见你这头就可以一堆小号自导自演的你不累吗吧里狂发贴我想说没人在意你别作秀了你反不反同的随便凭你这张脸你自己好好想想吧而且据说你不光在这个吧你在哪个吧里都能和别人撕起来然后挨个小号跟人家骂即便别人和你讲道理你都不听直接骂那这还不能说明你这个人的问题是有多么大吗你自己多恶心人不知道吗不管三七二十一直接开始骂别人骂不过拉黑背后发贴阴阳你就是这么做事的？怎么不找自己女儿出来了找女儿出来帮你呀你教育孩子就是让孩子出来跟陌生人开视频对骂你这爹当的太优秀了因为自己一时的情绪化让无辜的孩子来骂人666就你这秃老胖还要拯救世界那我还真要好好等着呢看你怎么拯救这个世界你骂我也好随便怎么说我完全不在乎更不会被你影响到除非你是个帅哥那可能会影响我但就你这死样打击我不存在的"
+        }
+      ]
+    },
+    {
+      "term": "我想说的是",
+      "evidenceSamples": [
+        "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。",
+        "虽然有点严格，但我想说路上那么多人，而且有个老头口罩拉在下巴上，你以为你是偶像啊？这种纪律性，就算最后胜了，也是惨胜！而且伊朗数据明显搀水，这才几天就治愈了5.6百人，你们伊朗有特效药？我们深圳这都快50天了才治了接近400人，上海也差不多...",
+        "没觉得“审美倒退越来越烂”啊[笑哭] 你如果非要说以前有丽君宗盛咏麟学友有周林王陶，那我想说以前你没看到的是广大农村下沉市场的大量三俗音乐比如云南老山歌啊 所以我想说的是，一直都很烂啊，只是以前你不知道而已。你以为越来越烂，其实只是现在信息更发达了",
+        "回复 @正行舟也 :是的，泱泱大国，中华上下五千年，文化底蕴的深厚，我其实很能够理解up的想法，他是希望中国音乐能够走出国门，批判的是一些不好的现象，然后分析的是由这些现象带来的一些不好的影响，嗯，但我想说的是，其实我们还更多的是要提升自己的文化自信，这样才能够走出国门，其实吧，大俗大雅，审美的话多元化，就像曾经的科目三也能走出国门了，虽然很俗，但是他也能够传播，真正如果说我们自己的一些东西传播，还得是我们自己要提升自己的文化，如果你想音乐要走出国门，那么首先还是得拿出自己能够喜欢，然后外国人也喜欢的东西，这样才能够走出国门，我跟楼主的想法是一样的，咱们认为就是文化，因为我们的文化教育告诉我们，咱们中国文化是含蓄的认为孤芳自赏其实也是一种美，所以呢，咱们的价值观就会有一种就是说走出国门会是一种伪命题，但还是要需要像UP主这样的音乐人来提醒警告我们，万一真的有一天中国音乐落寞了，真正好的东西没有了，都是一些糟粕的时候，其实这种警醒也是非常有必要的。",
+        "大概从头看到尾了，虽然不懂音乐，可能也是搜索一些古典音乐数据推送到了，总体觉得up内心当中还是希望国产音乐能走上一条正确的路，文案也是真有种爱之深责之切的感觉。前几集感觉音乐的思想性、歌手的情感说的都非常好，包括观众审美等，短视频流量资本的时代，很多觉得好无聊的音乐真的不知道为什么莫名其妙的火，再比如一些歌曲的翻唱，追求完美的音轨，这些看都像是旋律上的毒品，我本质上一些莫名其妙的歌曲，办公室喝茶喜欢听《卡门》等等古典，但更多时听理查德克莱德曼通俗钢琴演奏，像贝多芬、肖邦的曲子除了高潮部分真觉得自己没有耐心听下去。我想说不仅仅是对音乐也好，对其他的一些事情而言，现在太过于浮躁、功利，所以这几期视频对于音乐的真正内核不怎么懂，也没有什么权利插嘴，但是分析的一些问题在对于其他事情确实能让自己反思。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
+          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
+          "sample": "最后我想说，不要人云亦云，要独立思考，自己判断，没有调查的人没有发言权。更别说网暴了，自诩正义，其实只是在伤害他人。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EE411p7oT/, https://www.bilibili.com/video/BV1qM4y1u7FC/, https://www.bilibili.com/video/BV1rrh5zzE9h/, https://www.bilibili.com/video/BV1wi4y1w7Vo/, http://www.bilibili.com/video/av94236750, http://www.bilibili.com/video/av931249241, http://www.bilibili.com/video/av114966224969197, http://www.bilibili.com/video/av543281802",
+          "uid": "BV1EE411p7oT,BV1qM4y1u7FC,BV1rrh5zzE9h,BV1wi4y1w7Vo",
+          "sample": "虽然有点严格，但我想说路上那么多人，而且有个老头口罩拉在下巴上，你以为你是偶像啊？这种纪律性，就算最后胜了，也是惨胜！而且伊朗数据明显搀水，这才几天就治愈了5.6百人，你们伊朗有特效药？我们深圳这都快50天了才治了接近400人，上海也差不多..."
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "没觉得“审美倒退越来越烂”啊[笑哭] 你如果非要说以前有丽君宗盛咏麟学友有周林王陶，那我想说以前你没看到的是广大农村下沉市场的大量三俗音乐比如云南老山歌啊 所以我想说的是，一直都很烂啊，只是以前你不知道而已。你以为越来越烂，其实只是现在信息更发达了"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @正行舟也 :是的，泱泱大国，中华上下五千年，文化底蕴的深厚，我其实很能够理解up的想法，他是希望中国音乐能够走出国门，批判的是一些不好的现象，然后分析的是由这些现象带来的一些不好的影响，嗯，但我想说的是，其实我们还更多的是要提升自己的文化自信，这样才能够走出国门，其实吧，大俗大雅，审美的话多元化，就像曾经的科目三也能走出国门了，虽然很俗，但是他也能够传播，真正如果说我们自己的一些东西传播，还得是我们自己要提升自己的文化，如果你想音乐要走出国门，那么首先还是得拿出自己能够喜欢，然后外国人也喜欢的东西，这样才能够走出国门，我跟楼主的想法是一样的，咱们认为就是文化，因为我们的文化教育告诉我们，咱们中国文化是含蓄的认为孤芳自赏其实也是一种美，所以呢，咱们的价值观就会有一种就是说走出国门会是一种伪命题，但还是要需要像UP主这样的音乐人来提醒警告我们，万一真的有一天中国音乐落寞了，真正好的东西没有了，都是一些糟粕的时候，其实这种警醒也是非常有必要的。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "大概从头看到尾了，虽然不懂音乐，可能也是搜索一些古典音乐数据推送到了，总体觉得up内心当中还是希望国产音乐能走上一条正确的路，文案也是真有种爱之深责之切的感觉。前几集感觉音乐的思想性、歌手的情感说的都非常好，包括观众审美等，短视频流量资本的时代，很多觉得好无聊的音乐真的不知道为什么莫名其妙的火，再比如一些歌曲的翻唱，追求完美的音轨，这些看都像是旋律上的毒品，我本质上一些莫名其妙的歌曲，办公室喝茶喜欢听《卡门》等等古典，但更多时听理查德克莱德曼通俗钢琴演奏，像贝多芬、肖邦的曲子除了高潮部分真觉得自己没有耐心听下去。我想说不仅仅是对音乐也好，对其他的一些事情而言，现在太过于浮躁、功利，所以这几期视频对于音乐的真正内核不怎么懂，也没有什么权利插嘴，但是分析的一些问题在对于其他事情确实能让自己反思。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "贴被举报删了随便玩不起了因为热度高了那就在发一遍只要有人看见你这头就可以一堆小号自导自演的你不累吗吧里狂发贴我想说没人在意你别作秀了你反不反同的随便凭你这张脸你自己好好想想吧而且据说你不光在这个吧你在哪个吧里都能和别人撕起来然后挨个小号跟人家骂即便别人和你讲道理你都不听直接骂那这还不能说明你这个人的问题是有多么大吗你自己多恶心人不知道吗不管三七二十一直接开始骂别人骂不过拉黑背后发贴阴阳你就是这么做事的？怎么不找自己女儿出来了找女儿出来帮你呀你教育孩子就是让孩子出来跟陌生人开视频对骂你这爹当的太优秀了因为自己一时的情绪化让无辜的孩子来骂人666就你这秃老胖还要拯救世界那我还真要好好等着呢看你怎么拯救这个世界你骂我也好随便怎么说我完全不在乎更不会被你影响到除非你是个帅哥那可能会影响我但就你这死样打击我不存在的"
+        }
+      ]
+    },
+    {
+      "term": "我感觉",
+      "evidenceSamples": [
+        "回复 @浅唱若曦 :买房结婚确实，趁年轻可以拼一把。不过我感觉也不是所有人都适合出去闯，反正看自己想要什么了",
+        "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，...",
+        "新疆话语序我感觉很有意思，比如说饺子填充了没有一天晚上你胃里吗？",
+        "我感觉他两独自相处兴奋度不够，拿观众play才兴奋[吃瓜]",
+        "回复 @大知闲闲-小知间间-枫 :我感觉是看面相。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "回复 @浅唱若曦 :买房结婚确实，趁年轻可以拼一把。不过我感觉也不是所有人都适合出去闯，反正看自己想要什么了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "新疆话语序我感觉很有意思，比如说饺子填充了没有一天晚上你胃里吗？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "我感觉他两独自相处兴奋度不够，拿观众play才兴奋[吃瓜]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "回复 @大知闲闲-小知间间-枫 :我感觉是看面相。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "“有人负重三十年，有人雀入樊笼，有人在黑暗中茕茕踽踽，走了很久很久。好在世间总有星辰开道，所以荆天棘地，也不枉此行。”读到这一段，我感觉整个人都升华了 [大哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "我也不理解，我的小鸟死的时候，压根没心情打开手机录像，这个时候谁有空一边打开手机录像一边对准宠物一边哭，我感觉这种戏真多"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1WzQUBrEvJ/, https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1SpKd64Etc/, https://www.bilibili.com/video/BV1YmTc6yEYh/, https://www.bilibili.com/video/BV1PR7L6YEZn/, https://www.bilibili.com/video/BV15g411T7Un/, https://www.bilibili.com/video/BV1Ysj268E9Z/, https://www.bilibili.com/video/BV1XnKZ6iEuM/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1WzDQBLE4c/, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116837002119636, http://www.bilibili.com/video/av116817154611231, http://www.bilibili.com/video/av116799353917939, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116833378110450, http://www.bilibili.com/video/av116804118645248, http://www.bilibili.com/video/av116815812432315, http://www.bilibili.com/video/av114154056784439, http://www.bilibili.com/video/av116815242138942, http://www.bilibili.com/video/av115143342039036, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1752242375, http://www.bilibili.com/video/av114376237388865, http://www.bilibili.com/video/av1356375505, http://www.bilibili.com/video/av322733546, http://www.bilibili.com/video/av116837438194655, http://www.bilibili.com/video/av114631251071713, http://www.bilibili.com/video/av115598625345626, http://www.bilibili.com/video/av116221999582821, http://www.bilibili.com/video/av116830827976733, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av1202383814, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116431563788655, http://www.bilibili.com/video/av116821734722420, http://www.bilibili.com/video/av116389117429362, http://www.bilibili.com/video/av116027971084189, http://www.bilibili.com/video/av272505999, http://www.bilibili.com/video/av447657707, http://www.bilibili.com/video/av116702650045483, http://www.bilibili.com/video/av116811332847509, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116811114743918, http://www.bilibili.com/video/av116492532194611, http://www.bilibili.com/video/av116821567013793, http://www.bilibili.com/video/av116567325149337, http://www.bilibili.com/video/av116821566950761, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av116833512330721, http://www.bilibili.com/video/av116826365298354, http://www.bilibili.com/video/av116357257496502, http://www.bilibili.com/video/av116821516623260, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116822137444285, http://www.bilibili.com/video/av116826918886295, http://www.bilibili.com/video/av116814738620771, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116839887673997, http://www.bilibili.com/video/av506673585, http://www.bilibili.com/video/av116837656430637, http://www.bilibili.com/video/av116390795215362, http://www.bilibili.com/video/av116352979371929, http://www.bilibili.com/video/av116834686735972, http://www.bilibili.com/video/av116839518574309, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116838461671853, http://www.bilibili.com/video/av116803061814470",
+          "uid": "BV1yZKo6HEWx,BV1WzQUBrEvJ,BV1Z1Kd66ExR,BV1dT41197yJ,BV1SpKd64Etc,BV1YmTc6yEYh,BV1PR7L6YEZn,BV15g411T7Un,BV1Ysj268E9Z,BV1XnKZ6iEuM,BV1nAKd6gEWn,BV1WzDQBLE4c",
+          "sample": "回复 @苹果味的跳绳 :只是诈骗吗，刚刚不小心手贱点了一个伪装成视频链接的，然后就在站内跳转，然后就出现了一个感觉是b站官网的网面，我感觉奇怪马上退了，有点怕有病毒之类的"
+        }
+      ]
+    },
+    {
+      "term": "我懂了",
+      "evidenceSamples": [
+        "我懂了，现在up也在骗弹幕（）",
+        "什么意思？没听懂，意思是有些听懂了，有些没听懂",
+        "回复 @Serendpiaty :我懂了，其实你也是黑粉，看到蔡徐坤的名声因为其他人的恶劣行为，稍稍有些好转，无法忍受蔡徐坤之流也能被认成正常明星，所以才来这样到处喷人，说出这种反智的话，委屈你了，继续加油，这样才能彻底败光昆昆的路人缘，我们一定要创造一个没有这种明星的网络环境[给心心]",
+        "我懂了，有两条尾巴的是猫又，那么绮良良是女孩子就是猫奴",
+        "哦，我懂了，动不动就刀司机跳车的玩意儿，会认为一个人会因为差评就捅人确实挺合理的，不能跟你们共情是我的错"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV11d6rB4Evy/",
+          "uid": "BV11d6rB4Evy",
+          "sample": "我懂了，现在up也在骗弹幕（）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1WvVW6CEvP/",
+          "uid": "BV1WvVW6CEvP",
+          "sample": "什么意思？没听懂，意思是有些听懂了，有些没听懂"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "18634108",
+          "sample": "回复 @Serendpiaty :我懂了，其实你也是黑粉，看到蔡徐坤的名声因为其他人的恶劣行为，稍稍有些好转，无法忍受蔡徐坤之流也能被认成正常明星，所以才来这样到处喷人，说出这种反智的话，委屈你了，继续加油，这样才能彻底败光昆昆的路人缘，我们一定要创造一个没有这种明星的网络环境[给心心]"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "我懂了，有两条尾巴的是猫又，那么绮良良是女孩子就是猫奴"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "哦，我懂了，动不动就刀司机跳车的玩意儿，会认为一个人会因为差评就捅人确实挺合理的，不能跟你们共情是我的错"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dz5Y6REFU/, https://www.bilibili.com/video/BV1ADKnzhE87/, https://www.bilibili.com/video/BV15d4y1g7eu/, https://www.bilibili.com/video/BV1fGJH6GEfr/, http://www.bilibili.com/video/av116576502160308, http://www.bilibili.com/video/av114743910078740, http://www.bilibili.com/video/av345679120, http://www.bilibili.com/video/av116741573187021",
+          "uid": "BV1dz5Y6REFU,BV1ADKnzhE87,BV15d4y1g7eu,BV1fGJH6GEfr",
+          "sample": "回复 @木木乃信仰 :我懂了主播是北大的[doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV14WL16EE8t/",
+          "uid": "262121704",
+          "sample": "回复 @黑稽佬_Official : 这下看懂了[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "我承认",
+      "evidenceSamples": [
+        "真的全是蔡徐坤的错吗？他有舞蹈实力吗？有。他有颜值吗？显而易见。他有音乐才能吗？也不能说没有。那我们来分析一下他为什么被黑成这样。 首先：个人风格。我承认，艺人自身的风格不应该成为一个黑点。但作为大多数观念相对传统的人来说，蔡徐坤的荧幕形象确实让我们看了难受。我自己清楚这其实是公司给他包装的人设，所以我从来没用这一点去黑他。但大多数人，尤其是没有意识到的人不会这么客气。其实，所谓的看不惯“娘炮”实则为看不惯“靠夸张的女性化舞台形象博得低龄粉丝喜爱”。其次：nc粉太多，才不配位。有点脑子的都能看出来吧，条条微博上亿转发量，可能吗？在流量当道的污浊环境下，蔡徐坤被包装的人设就是针对吸引低龄，尤其是女性粉丝的（非歧视）。他们的言论多数都不是很理智，导致蔡徐坤本身的形象被大幅拉低。第三：资本运作。请不要天真的认为网上所有针对蔡徐坤的舆论都是发起者的真心独白。公司为了更多流量故意制造艺人的负面评论是常规操作。等知名度提高了，不喜欢的人还是不会喜欢，nc粉也不可能退坑反而会极力维护偶像形象。那在不可能亏的前提下，提高知名度吸引一下潜在粉丝何乐而不为呢？以被黑最多的NBA事件为例，蔡徐坤这样的人设和能力，他真的会自己去找NBA求代言吗？我不太相信。我更相信这是公司和腐化的NBA内部的py交易。公司靠NBA来提升蔡徐坤知名度，NBA靠公司来吸引蔡徐坤粉丝群体。流量和资本才是硬道理。别的什么重要吗？能赚粉丝的钱吗？到头来想想，蔡徐坤也只不过是资本交易中一颗可怜的棋子而已。 说这么多，其实想告诉大家：吐槽和玩梗无可厚非，但请认清究竟是什么在污染我们的娱乐环境。是资本，是流量，是各大公司博人眼球的运作。我们不该把时间花在对艺人的人身攻击上，我们更应该去抵制那些批量化，商品化“偶像”的节目，抵制毫无营养的价值观输出。支持那些实力到位，不靠炒作的节目和艺人。改变大环境，是我们共同的责任。",
+        "“我承认我有赌的成分。”打牌被抓后老王忏悔道。",
+        "因为我从小喜欢机器人，加上那时候央视05~09年间，央视新闻就有对波士顿动力的机器人访谈，我也了解当年波士顿机器人叛变的视频是由Corridor Digital特效公司做出来恶搞的，人家早就澄清了，结果今年春节宇数机器人火了一把，我当年的辟谣就被骂惨了，骂了我几百楼，可我也没否定国内的实力，我是站在了中立的角度出发，并通过实事求是，发表了对波士顿动力和宇数的看法，我承认了波士顿在算法上的落后和工艺的先进，也表达了对宇数在算法上的超凡，但也指明了宇数机器人的高度不稳定性，因为事实就在那里，宇数的机器人还得依赖古早CMG技术和控制终端才能勉强活动，因为大量视频有目共睹，它无端倒地发癫都是很常见的，但波士顿动力10多年前就已经克服了（虽然克服了，但表现得不是很好，需要依赖识别码）总之我就是被骂惨了",
+        "1. 【动态站队】有一个最大的误解是，我发那条动态是在站队支持jp，并且无差别地对质疑者攻击。我很诚实的和大家分享当时的情景和动机：风向开始变化时，有很多人在私信中攻击我，说“余元公式你都不认识吗”、“无穷/2都看不出来你怎么当的清华博士”..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "649056249",
+          "sample": "真的全是蔡徐坤的错吗？他有舞蹈实力吗？有。他有颜值吗？显而易见。他有音乐才能吗？也不能说没有。那我们来分析一下他为什么被黑成这样。 首先：个人风格。我承认，艺人自身的风格不应该成为一个黑点。但作为大多数观念相对传统的人来说，蔡徐坤的荧幕形象确实让我们看了难受。我自己清楚这其实是公司给他包装的人设，所以我从来没用这一点去黑他。但大多数人，尤其是没有意识到的人不会这么客气。其实，所谓的看不惯“娘炮”实则为看不惯“靠夸张的女性化舞台形象博得低龄粉丝喜爱”。其次：nc粉太多，才不配位。有点脑子的都能看出来吧，条条微博上亿转发量，可能吗？在流量当道的污浊环境下，蔡徐坤被包装的人设就是针对吸引低龄，尤其是女性粉丝的（非歧视）。他们的言论多数都不是很理智，导致蔡徐坤本身的形象被大幅拉低。第三：资本运作。请不要天真的认为网上所有针对蔡徐坤的舆论都是发起者的真心独白。公司为了更多流量故意制造艺人的负面评论是常规操作。等知名度提高了，不喜欢的人还是不会喜欢，nc粉也不可能退坑反而会极力维护偶像形象。那在不可能亏的前提下，提高知名度吸引一下潜在粉丝何乐而不为呢？以被黑最多的NBA事件为例，蔡徐坤这样的人设和能力，他真的会自己去找NBA求代言吗？我不太相信。我更相信这是公司和腐化的NBA内部的py交易。公司靠NBA来提升蔡徐坤知名度，NBA靠公司来吸引蔡徐坤粉丝群体。流量和资本才是硬道理。别的什么重要吗？能赚粉丝的钱吗？到头来想想，蔡徐坤也只不过是资本交易中一颗可怜的棋子而已。 说这么多，其实想告诉大家：吐槽和玩梗无可厚非，但请认清究竟是什么在污染我们的娱乐环境。是资本，是流量，是各大公司博人眼球的运作。我们不该把时间花在对艺人的人身攻击上，我们更应该去抵制那些批量化，商品化“偶像”的节目，抵制毫无营养的价值观输出。支持那些实力到位，不靠炒作的节目和艺人。改变大环境，是我们共同的责任。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8653346385",
+          "uid": "Weiershier",
+          "sample": "“我承认我有赌的成分。”打牌被抓后老王忏悔道。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "因为我从小喜欢机器人，加上那时候央视05~09年间，央视新闻就有对波士顿动力的机器人访谈，我也了解当年波士顿机器人叛变的视频是由Corridor Digital特效公司做出来恶搞的，人家早就澄清了，结果今年春节宇数机器人火了一把，我当年的辟谣就被骂惨了，骂了我几百楼，可我也没否定国内的实力，我是站在了中立的角度出发，并通过实事求是，发表了对波士顿动力和宇数的看法，我承认了波士顿在算法上的落后和工艺的先进，也表达了对宇数在算法上的超凡，但也指明了宇数机器人的高度不稳定性，因为事实就在那里，宇数的机器人还得依赖古早CMG技术和控制终端才能勉强活动，因为大量视频有目共睹，它无端倒地发癫都是很常见的，但波士顿动力10多年前就已经克服了（虽然克服了，但表现得不是很好，需要依赖识别码）总之我就是被骂惨了"
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "1. 【动态站队】有一个最大的误解是，我发那条动态是在站队支持jp，并且无差别地对质疑者攻击。我很诚实的和大家分享当时的情景和动机：风向开始变化时，有很多人在私信中攻击我，说“余元公式你都不认识吗”、“无穷/2都看不出来你怎么当的清华博士”..."
+        }
+      ]
+    },
+    {
+      "term": "我接受",
+      "evidenceSamples": [
+        "某些男同性恋的审美也是找阳刚型的，（我接受男性打扮的好看一点，但是也不喜欢阴柔的打扮风格），那些娘化的受女生喜欢是因为她们想和对方当好姐妹（我不理解这种心理……）而且现实生活中的男同和耽美文字里的男同还是有很大差别的。",
+        "回复 @反扑闰土的猹 :我接受阁下的挑战",
+        "我接受≠我同意",
+        "《我接受不了》",
+        "《我接受的了》"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "某些男同性恋的审美也是找阳刚型的，（我接受男性打扮的好看一点，但是也不喜欢阴柔的打扮风格），那些娘化的受女生喜欢是因为她们想和对方当好姐妹（我不理解这种心理……）而且现实生活中的男同和耽美文字里的男同还是有很大差别的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vsV86yEZb/",
+          "uid": "BV1vsV86yEZb",
+          "sample": "回复 @反扑闰土的猹 :我接受阁下的挑战"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV119GD6HEMe/",
+          "uid": "BV119GD6HEMe",
+          "sample": "我接受≠我同意"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av459965532/",
+          "uid": "317999992",
+          "sample": "《我接受不了》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av459965532/",
+          "uid": "317999992",
+          "sample": "《我接受的了》"
+        }
+      ]
+    },
+    {
+      "term": "我支持",
+      "evidenceSamples": [
+        "[支持][支持][支持]",
+        "真的逆天，这个问题我记得在越水小姐姐出来的那集就探讨过，新一当时就支持了作为侦探的生命至上的理念（还有平次），用这个批判兰这不直接回旋镖到新一？还是说ca的c不发音[doge]",
+        "外接接口都支持热插拔，内机箱里边的都别热插板[笑哭]",
+        "支持 早日火！！",
+        "哈哈up，你要不说你是越南人，你这一口正宗的南充话，估计没任何一个南充人知道你是越南人[笑哭][支持]南充老乡给你点赞，你老公还是不错的，对你很好"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DK4y1z7Wn/, https://www.bilibili.com/video/BV1R6TyzEEVu/, https://www.bilibili.com/video/BV198mKYYEJh/, https://www.bilibili.com/video/BV1kzJMz4E7x/, http://www.bilibili.com/video/av881315845, http://www.bilibili.com/video/av114641669722772, http://www.bilibili.com/video/av113316756200983, http://www.bilibili.com/video/av114525386839868",
+          "uid": "BV1DK4y1z7Wn,BV1R6TyzEEVu,BV198mKYYEJh,BV1kzJMz4E7x",
+          "sample": "[支持][支持][支持]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "真的逆天，这个问题我记得在越水小姐姐出来的那集就探讨过，新一当时就支持了作为侦探的生命至上的理念（还有平次），用这个批判兰这不直接回旋镖到新一？还是说ca的c不发音[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "外接接口都支持热插拔，内机箱里边的都别热插板[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "支持 早日火！！"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "哈哈up，你要不说你是越南人，你这一口正宗的南充话，估计没任何一个南充人知道你是越南人[笑哭][支持]南充老乡给你点赞，你老公还是不错的，对你很好"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "二哥在哪里发财啊[支持][支持][支持][支持][爱心][爱心][爱心][爱心][爱心][爱心][爱心][保佑][保佑][保佑]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "王沥川up最大的功劳就是给新、兰、新兰粉创造了可以说话的b站环境。 和魔怔ca不要纠缠，那种爱而不自知，买包论，护身符论一出来就知道是二创同人吃多了脑子不好使。理中客可以先看它踩不踩小兰，如果落脚点是踩小兰90%是ca，不踩小兰客观看待双方..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "我不爱看，也不觉得好看。但是周末得陪着我家人去二刷，问就是(不知道为啥)要支持票房。"
+        }
+      ]
+    },
+    {
+      "term": "我明白",
+      "evidenceSamples": [
+        "我有一个特别好的朋友是他的粉丝，之前他被骂我还觉得没必要对他恶意这么大，现在我明白了为什么他被全网黑[捂脸]我以后该咋跟我朋友沟通[囧]",
+        "回复 @花枯发 :感谢它们让我明白了可怜之人必有可恨之处",
+        "这问题让我明白为什么基佬在唐山不会被打。基佬染艾原来是为了防身！",
+        "\u0000我从没奢望祥子小姐能喜欢自己。我明白的，所有人都喜欢一回家就主动扑过来的的萌萌的金毛小狗或者可爱电波系的企鹅，没有人会喜欢一个想把她监禁在阁楼里，一天25小时不断思念着她的重力系小姨",
+        "回复 @意大利主厨Bram :（机翻）我内心深处，我明白那面盾牌是为我准备的，感谢大家观看《盾之勇者成名录》的真人版，下次见。[tv_鬼脸]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "519116578",
+          "sample": "我有一个特别好的朋友是他的粉丝，之前他被骂我还觉得没必要对他恶意这么大，现在我明白了为什么他被全网黑[捂脸]我以后该咋跟我朋友沟通[囧]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "437693827",
+          "sample": "回复 @花枯发 :感谢它们让我明白了可怜之人必有可恨之处"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "这问题让我明白为什么基佬在唐山不会被打。基佬染艾原来是为了防身！"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "\u0000我从没奢望祥子小姐能喜欢自己。我明白的，所有人都喜欢一回家就主动扑过来的的萌萌的金毛小狗或者可爱电波系的企鹅，没有人会喜欢一个想把她监禁在阁楼里，一天25小时不断思念着她的重力系小姨"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "回复 @意大利主厨Bram :（机翻）我内心深处，我明白那面盾牌是为我准备的，感谢大家观看《盾之勇者成名录》的真人版，下次见。[tv_鬼脸]"
+        }
+      ]
+    },
+    {
+      "term": "我是觉得",
+      "evidenceSamples": [
+        "标准的稳健型帅哥，每个人审美不同，我是觉得挺帅的[笑哭]",
+        "我是觉得她还是更爱丈夫确实",
+        "我是觉得，私下两人关系也很好啊"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1i8ZJYTEXP/",
+          "uid": "BV1i8ZJYTEXP",
+          "sample": "标准的稳健型帅哥，每个人审美不同，我是觉得挺帅的[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "我是觉得她还是更爱丈夫确实"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "BV12Z421T7c6",
+          "sample": "我是觉得，私下两人关系也很好啊"
+        }
+      ]
+    }
+  ]
+}

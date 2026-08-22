@@ -1,0 +1,53 @@
+{
+  "harvestedAt": "2026-06-26T23:03:40.038Z",
+  "source": "multi-round deep scrape (seed_results + seed_results_deep + batch2 + batch3)",
+  "sourceFiles": 763,
+  "totalComments": 24825,
+  "totalDanmaku": 1036976,
+  "totalMessages": 1061801,
+  "dateRange": {
+    "oldest": "2013-02-17T08:04:18.000Z",
+    "newest": "2026-06-26T15:39:32.000Z"
+  },
+  "matchedTerms": 3,
+  "newEvidenceSamples": 11,
+  "byFamily": {
+    "absolutes": 1,
+    "cooperation": 1,
+    "evasion": 1
+  },
+  "entries": [
+    {
+      "term": "祖上三代",
+      "family": "absolutes",
+      "newSamples": 1,
+      "samples": [
+        "口口相传吧？很多祖上三代的故事，是一辈讲给下一辈，虽然可能越来越远离真相，但总归有源有据。另外可能还有今天早已失传的史料，毕竟那是两千多年前了。"
+      ]
+    },
+    {
+      "term": "知识增加",
+      "family": "cooperation",
+      "newSamples": 5,
+      "samples": [
+        "回复 @好好睡觉吧_ :[热词系列_知识增加]",
+        "怎么回事 为什么没有阿根廷的视频？ 是不让出吗？[热词系列_知识增加]",
+        "为什么他们这么幸福可以有这么文雅帅气的老师，而我上中学的时候都是已婚不幸福的人们在教我呢[热词系列_知识增加]",
+        "[热词系列_知识增加]",
+        "[热词系列_知识增加]＋1"
+      ]
+    },
+    {
+      "term": "懂的都懂",
+      "family": "evasion",
+      "newSamples": 5,
+      "samples": [
+        "回复 @建设_黄河路杜红根 :你拖到后面肯定不行，织田信长肯定要玩一下织田式，没操作好拖到了后面，其他的是海景房还行，但是毛利氏建了几个内陆城堡和城镇中心，而且一堆忍者和爆炸陷阱，懂的都懂的，游戏体验极差[笑哭]",
+        "这视频就是不对称战争！！！！（懂的都懂） 要都这样乌克兰早打到莫斯科了 还在这里BBB",
+        "懂的都懂，意面！！！doge",
+        "团座有的观点太有偏向性，懂的都懂",
+        "明史开口就是远迈汉唐，谁是最大明粉懂的都懂"
+      ]
+    }
+  ]
+}

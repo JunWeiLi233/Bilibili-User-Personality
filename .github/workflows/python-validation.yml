@@ -1,0 +1,86 @@
+name: Python Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Python contract tests
+        run: npm run python:test
+
+      - name: Compare Python and JS corpus contracts
+        run: npm run python:compare
+
+      - name: Regenerate JS coverage audit (same platform as comparison)
+        run: npm run dictionary:coverage
+
+      - name: Compare coverage audit contract
+        run: npm run python:coverage-compare
+
+      - name: Verify coverage loop harvest preflight
+        run: npm run python:coverage-loop-command-preflight
+
+      - name: Compare coverage loop command contract
+        run: npm run python:coverage-loop-command-compare
+
+      - name: Compare DeepSeek CLI dry-run contract
+        run: npm run python:deepseek-cli-compare
+
+      - name: Compare DeepSeek analysis validation contract
+        run: npm run python:deepseek-validation-compare
+
+      - name: Compare DeepSeek analysis normalization contract
+        run: npm run python:deepseek-normalization-compare
+
+      - name: Compare DeepSeek analyze fixture command
+        run: npm run python:deepseek-analyze-fixture-compare
+
+      - name: Compare DeepSeek mocked runtime command
+        run: npm run python:deepseek-mock-runtime-compare
+
+      - name: Verify DeepSeek live preflight
+        run: npm run python:deepseek-live-preflight
+
+      - name: Verify DeepSeek live validation gate
+        run: npm run python:deepseek-live-gate
+
+      - name: Verify DeepSeek Python-backed JS plan mode
+        run: npm run python:deepseek-cli-plan-js -- --text "satire [doge]" --uid 42 --multiagent
+
+      - name: Compare direct probe command contract
+        run: npm run python:direct-probe-command-compare
+
+      - name: Compare direct probe corpus update contract
+        run: npm run python:direct-probe-update-compare
+
+      - name: Verify random corpus sample
+        run: npm run python:verify-random -- --sample-size=25 --seed=20260623
+
+      - name: Run Node tests
+        run: npm test

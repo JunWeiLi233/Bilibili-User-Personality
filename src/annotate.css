@@ -1,0 +1,398 @@
+/* Annotation UI styles — Phase 0.2 baseline labeling tool.
+   Matches the main app design tokens: cream paper, ink text, green accent. */
+
+:root {
+  color: #171717;
+  background: #f4f1ea;
+  font-family:
+    "Aptos",
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background:
+    linear-gradient(90deg, rgba(23, 23, 23, 0.045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(23, 23, 23, 0.035) 1px, transparent 1px),
+    #f4f1ea;
+  background-size: 44px 44px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+kbd {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.82em;
+  background: rgba(23, 23, 23, 0.08);
+  border: 1px solid rgba(23, 23, 23, 0.2);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.annotate-container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px clamp(18px, 4vw, 54px) 40px;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Header */
+.annotate-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.annotate-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+}
+
+.annotate-phase {
+  font-size: 12px;
+  color: #2f5d50;
+  background: rgba(47, 93, 80, 0.12);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.annotate-annotator-select {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  align-items: center;
+}
+
+.annotator-chip {
+  border: 1px solid rgba(23, 23, 23, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 13px;
+  color: #171717;
+}
+
+.annotator-chip.active {
+  background: #2f5d50;
+  border-color: #2f5d50;
+  color: #fff;
+}
+
+.annotate-progress {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #555;
+}
+
+.progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(23, 23, 23, 0.1);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #2f5d50;
+  transition: width 0.25s ease;
+}
+
+.annotate-icon-btn {
+  border: 1px solid rgba(23, 23, 23, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  color: #171717;
+}
+
+/* Main layout */
+.annotate-main {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .annotate-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Comment card */
+.annotate-card {
+  background: #fff;
+  border: 1px solid rgba(23, 23, 23, 0.12);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(23, 23, 23, 0.06);
+  min-height: 220px;
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.comment-id {
+  font-family: "Consolas", "Courier New", monospace;
+}
+
+.shared-badge {
+  background: rgba(47, 93, 80, 0.12);
+  color: #2f5d50;
+  border-radius: 999px;
+  padding: 1px 10px;
+}
+
+.comment-context {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: rgba(47, 93, 80, 0.06);
+  border-radius: 8px;
+}
+
+.comment-text-display {
+  font-size: 16px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.comment-uid {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #999;
+}
+
+.annotate-loading {
+  color: #888;
+  padding: 40px 0;
+  text-align: center;
+}
+
+/* Labeling panel */
+.annotate-panel {
+  background: #fff;
+  border: 1px solid rgba(23, 23, 23, 0.12);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.label-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.label-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(23, 23, 23, 0.2);
+  background: #faf8f3;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  color: #171717;
+  transition: all 0.12s ease;
+}
+
+.label-btn.active {
+  background: #2f5d50;
+  border-color: #2f5d50;
+  color: #fff;
+}
+
+.risky-btn.active {
+  background: #b3402e;
+  border-color: #b3402e;
+}
+
+.axis-buttons .axis-btn.active {
+  background: #2f5d50;
+}
+
+.sentiment-positive.active {
+  background: #2f5d50;
+}
+
+.sentiment-negative.active {
+  background: #b3402e;
+}
+
+.sentiment-neutral.active {
+  background: #6b7280;
+}
+
+/* Actions */
+.label-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.annotate-btn {
+  border: 1px solid rgba(23, 23, 23, 0.2);
+  background: #faf8f3;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #171717;
+}
+
+.annotate-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.submit-btn {
+  background: #2f5d50;
+  border-color: #2f5d50;
+  color: #fff;
+  flex: 1;
+  justify-content: center;
+}
+
+.annotate-error {
+  color: #b3402e;
+  font-size: 13px;
+}
+
+/* Done screen */
+.annotate-done {
+  background: #fff;
+  border: 1px solid rgba(23, 23, 23, 0.12);
+  border-radius: 12px;
+  padding: 60px 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.annotate-stats-summary {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.kappa-status {
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-size: 13px;
+}
+
+.kappa-acceptable {
+  background: rgba(47, 93, 80, 0.12);
+  color: #2f5d50;
+}
+
+.kappa-marginal {
+  background: rgba(204, 145, 24, 0.14);
+  color: #9a6d00;
+}
+
+.kappa-halt {
+  background: rgba(179, 64, 46, 0.12);
+  color: #b3402e;
+}
+
+/* Footer stats */
+.annotate-footer {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #555;
+  background: #fff;
+  border: 1px solid rgba(23, 23, 23, 0.12);
+  border-radius: 10px;
+  padding: 12px 18px;
+}
+
+.annotate-categories {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.cat-chip {
+  background: rgba(23, 23, 23, 0.06);
+  border-radius: 999px;
+  padding: 3px 12px;
+  color: #555;
+}
+
+.cat-chip strong {
+  color: #171717;
+}
+
+.cat-safe {
+  background: rgba(47, 93, 80, 0.1);
+  color: #2f5d50;
+}
+
+/* Shortcut reference */
+.annotate-shortcuts {
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+  padding-bottom: 12px;
+}
+
+.annotate-shortcuts kbd {
+  margin: 0 2px;
+}

@@ -1,0 +1,2391 @@
+{
+  "generatedAt": "2026-06-29T04:24:57.556Z",
+  "totalTerms": 340,
+  "byFamily": {
+    "evidence": 116,
+    "cooperation": 105,
+    "correction": 119
+  },
+  "terms": [
+    {
+      "term": "出处",
+      "family": "evidence",
+      "meaning": "要求提供信息来源，质疑言论真实性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "证据呢",
+      "family": "evidence",
+      "meaning": "直接质疑对方缺乏证据，要求证明。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "链接发一下",
+      "family": "evidence",
+      "meaning": "要求提供原文链接或来源，核实信息。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "截图呢",
+      "family": "evidence",
+      "meaning": "要求提供截图作为证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别YY",
+      "family": "evidence",
+      "meaning": "指责对方凭空想象，要求事实依据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "拿出证据",
+      "family": "evidence",
+      "meaning": "直接要求对方提供证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你查证过吗",
+      "family": "evidence",
+      "meaning": "质疑对方是否经过事实核查。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有来源吗",
+      "family": "evidence",
+      "meaning": "要求提供信息来源。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "可靠吗",
+      "family": "evidence",
+      "meaning": "质疑信息或来源的可靠性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不要瞎说",
+      "family": "evidence",
+      "meaning": "指责对方在无证据情况下发言。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "你编的吧",
+      "family": "evidence",
+      "meaning": "怀疑对方编造信息，要求证据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "有依据吗",
+      "family": "evidence",
+      "meaning": "要求对方提供依据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "胡说八道",
+      "family": "evidence",
+      "meaning": "指责对方言论无事实基础。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "证据链呢",
+      "family": "evidence",
+      "meaning": "要求完整的证据链条。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "哪来的数据",
+      "family": "evidence",
+      "meaning": "质疑数据来源。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自行百度",
+      "family": "evidence",
+      "meaning": "反讽对方应该自己去查证。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查一下不难",
+      "family": "evidence",
+      "meaning": "建议对方自行核实信息。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "别道听途说",
+      "family": "evidence",
+      "meaning": "劝告不要传播未经证实的消息。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "核实一下",
+      "family": "evidence",
+      "meaning": "建议进行事实核查。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "断章取义",
+      "family": "evidence",
+      "meaning": "指责对方曲解原文，要求完整证据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "选择性失明",
+      "family": "evidence",
+      "meaning": "指责对方忽略不利证据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "带节奏",
+      "family": "evidence",
+      "meaning": "质疑对方通过不实信息引导舆论。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "吃瓜不信瓜",
+      "family": "evidence",
+      "meaning": "要求等待官方证据，不轻信传言。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "反转了",
+      "family": "evidence",
+      "meaning": "指出事件出现新证据推翻原有说法。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别急等实锤",
+      "family": "evidence",
+      "meaning": "建议等待确凿证据出现。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "没有实证",
+      "family": "evidence",
+      "meaning": "直接指出对方缺乏实证。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "立帖为证",
+      "family": "evidence",
+      "meaning": "为证明自己观点，要求对方将来验证。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "打脸了",
+      "family": "evidence",
+      "meaning": "指出对方被证据推翻。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "拿数据说话",
+      "family": "evidence",
+      "meaning": "要求对方用数据证明观点。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别主观臆断",
+      "family": "evidence",
+      "meaning": "劝告对方不要仅凭主观判断。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "真实来源",
+      "family": "evidence",
+      "meaning": "要求提供真实的来源。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "核实一下再发",
+      "family": "evidence",
+      "meaning": "建议发帖前先核实信息。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "造谣一张嘴",
+      "family": "evidence",
+      "meaning": "讽刺谣言易传但缺乏证据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "没证据说个啥",
+      "family": "evidence",
+      "meaning": "强烈质疑对方无证据发言。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "你亲眼所见",
+      "family": "evidence",
+      "meaning": "质疑对方是否亲眼见证，要求证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "口说无凭",
+      "family": "evidence",
+      "meaning": "等同于空口无凭，要求证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有内幕吗",
+      "family": "evidence",
+      "meaning": "质疑对方是否有内部消息，要求来源。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别信谣传谣",
+      "family": "evidence",
+      "meaning": "劝告不要传播未经证实的消息。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "证据不足",
+      "family": "evidence",
+      "meaning": "指出对方提供的证据不充分。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有图吗",
+      "family": "evidence",
+      "meaning": "要求提供图片证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "视频呢",
+      "family": "evidence",
+      "meaning": "要求提供视频证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "原文呢",
+      "family": "evidence",
+      "meaning": "要求提供原文文本。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "出处不明",
+      "family": "evidence",
+      "meaning": "指出信息来源不明确。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "编故事",
+      "family": "evidence",
+      "meaning": "指责对方捏造情节。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "胡编乱造",
+      "family": "evidence",
+      "meaning": "指责对方无根据编造。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "无中生有",
+      "family": "evidence",
+      "meaning": "指责对方凭空捏造。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "别扯淡",
+      "family": "evidence",
+      "meaning": "否定对方发言，要求事实。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "证据确凿",
+      "family": "evidence",
+      "meaning": "肯定对方证据充分。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "实锤了",
+      "family": "evidence",
+      "meaning": "确认已有确凿证据。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "官方通报",
+      "family": "evidence",
+      "meaning": "要求以官方发布为准。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "以事实为准",
+      "family": "evidence",
+      "meaning": "强调事实的重要性。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "不信谣",
+      "family": "evidence",
+      "meaning": "反对相信谣言。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "不传谣",
+      "family": "evidence",
+      "meaning": "反对传播谣言。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "真相是什么",
+      "family": "evidence",
+      "meaning": "探寻事实真相。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "等通报",
+      "family": "evidence",
+      "meaning": "等待官方或权威通报。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "别乱扣帽子",
+      "family": "evidence",
+      "meaning": "反对无证据的指责。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有理有据",
+      "family": "evidence",
+      "meaning": "称赞对方证据充分。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "没有依据",
+      "family": "evidence",
+      "meaning": "指出缺乏依据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你确定吗",
+      "family": "evidence",
+      "meaning": "质疑对方确定性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有证据吗",
+      "family": "evidence",
+      "meaning": "直接询问是否有证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "拿出实锤",
+      "family": "evidence",
+      "meaning": "要求确凿证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "求链接",
+      "family": "evidence",
+      "meaning": "请求提供链接。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "求出处",
+      "family": "evidence",
+      "meaning": "请求出处。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "求截图",
+      "family": "evidence",
+      "meaning": "请求截图。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "来源请求",
+      "family": "evidence",
+      "meaning": "正式要求提供来源。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "白纸黑字",
+      "family": "evidence",
+      "meaning": "要求书面证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "眼见为实",
+      "family": "evidence",
+      "meaning": "强调亲眼所见才可信。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "耳听为虚",
+      "family": "evidence",
+      "meaning": "与上句搭配，强调传闻不可靠。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "没图你说个啥",
+      "family": "evidence",
+      "meaning": "强烈要求图片证据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "没视频你说个啥",
+      "family": "evidence",
+      "meaning": "强烈要求视频证据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "先问是不是",
+      "family": "evidence",
+      "meaning": "要求先确认事实再讨论。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "再问为什么",
+      "family": "evidence",
+      "meaning": "承接上句，强调逻辑顺序。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查资料",
+      "family": "evidence",
+      "meaning": "建议对方去查资料。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "别信口开河",
+      "family": "evidence",
+      "meaning": "要求对方说话负责。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "说话要负责",
+      "family": "evidence",
+      "meaning": "强调言论要有证据。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "证据不足",
+      "family": "evidence",
+      "meaning": "评价证据不充分。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "举证责任",
+      "family": "evidence",
+      "meaning": "指出谁主张谁举证。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "谁主张谁举证",
+      "family": "evidence",
+      "meaning": "引用法律原则。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "你举证",
+      "family": "evidence",
+      "meaning": "要求对方举证。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "拿出干货",
+      "family": "evidence",
+      "meaning": "要求实质性的证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别整虚的",
+      "family": "evidence",
+      "meaning": "要求具体证据，不要空谈。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "事实胜于雄辩",
+      "family": "evidence",
+      "meaning": "强调事实重要性。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "别耍嘴皮子",
+      "family": "evidence",
+      "meaning": "要求对方拿出真凭实据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "真正证据",
+      "family": "evidence",
+      "meaning": "强调需要真实证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有效证据",
+      "family": "evidence",
+      "meaning": "指出证据需要有效性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "科学依据",
+      "family": "evidence",
+      "meaning": "要求科学证据。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "权威来源",
+      "family": "evidence",
+      "meaning": "要求权威的出处。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "官方数据",
+      "family": "evidence",
+      "meaning": "要求官方统计。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "统计数据",
+      "family": "evidence",
+      "meaning": "要求统计证据。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "实验数据",
+      "family": "evidence",
+      "meaning": "要求实验支持。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "研究论文",
+      "family": "evidence",
+      "meaning": "要求学术证据。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "参考文献",
+      "family": "evidence",
+      "meaning": "要求引用文献。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "引用了么",
+      "family": "evidence",
+      "meaning": "质疑对方是否引用。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "根据呢",
+      "family": "evidence",
+      "meaning": "问根据是什么。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "论据呢",
+      "family": "evidence",
+      "meaning": "要求论据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "推论有漏洞",
+      "family": "evidence",
+      "meaning": "指出逻辑漏洞。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "逻辑谬误",
+      "family": "evidence",
+      "meaning": "指出逻辑错误。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "因果不成立",
+      "family": "evidence",
+      "meaning": "质疑因果关系。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "相关不等于因果",
+      "family": "evidence",
+      "meaning": "指出相关关系非因果。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "样本量呢",
+      "family": "evidence",
+      "meaning": "质疑样本大小。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "代表性强吗",
+      "family": "evidence",
+      "meaning": "质疑样本代表性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "控制变量了吗",
+      "family": "evidence",
+      "meaning": "质疑实验设计。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "重复实验了么",
+      "family": "evidence",
+      "meaning": "要求可重复性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "同行评议过吗",
+      "family": "evidence",
+      "meaning": "要求学术评审。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "预印本不算",
+      "family": "evidence",
+      "meaning": "指出预印本未审查。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "野鸡期刊",
+      "family": "evidence",
+      "meaning": "质疑来源期刊的权威性。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "洗稿",
+      "family": "evidence",
+      "meaning": "指责抄袭或篡改来源。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "断章取义",
+      "family": "evidence",
+      "meaning": "指责引用不完整。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "偷换概念",
+      "family": "evidence",
+      "meaning": "指责逻辑错误。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "曲解原文",
+      "family": "evidence",
+      "meaning": "指责错误理解原文。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "以偏概全",
+      "family": "evidence",
+      "meaning": "指出证据片面。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "双标",
+      "family": "evidence",
+      "meaning": "指责标准不一致。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "预设立场",
+      "family": "evidence",
+      "meaning": "指责先有结论再找证据。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "屁股决定脑袋",
+      "family": "evidence",
+      "meaning": "指责立场决定观点。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "选择性引用",
+      "family": "evidence",
+      "meaning": "指责只引用有利证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "可证伪吗",
+      "family": "evidence",
+      "meaning": "要求可证伪性。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "不喜勿喷",
+      "family": "cooperation",
+      "meaning": "提前请求包容，降低攻击性",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "理性讨论",
+      "family": "cooperation",
+      "meaning": "倡导克制、逻辑清晰的交流",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "纯属猜测",
+      "family": "cooperation",
+      "meaning": "强调无事实依据，仅为推测",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "实事求是",
+      "family": "cooperation",
+      "meaning": "主张基于事实，拒绝情绪化",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "有一句说一句",
+      "family": "cooperation",
+      "meaning": "强调每句话都有依据，非空谈",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "从逻辑上来说",
+      "family": "cooperation",
+      "meaning": "引入逻辑推理框架",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "客观讲",
+      "family": "cooperation",
+      "meaning": "声明立场客观，避免偏见",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "有一说一确实",
+      "family": "cooperation",
+      "meaning": "强化赞同，同时保留客观姿态",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我理解你的意思",
+      "family": "cooperation",
+      "meaning": "表达同理心，缓和争论",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "不过话说回来",
+      "family": "cooperation",
+      "meaning": "转折让步，引入另一角度",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "当然了",
+      "family": "cooperation",
+      "meaning": "表示让步，承认部分合理性",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "仔细想想",
+      "family": "cooperation",
+      "meaning": "引导深入思考，非即兴回应",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "不能一概而论",
+      "family": "cooperation",
+      "meaning": "反对简单归纳，强调差异",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "各有各的看法",
+      "family": "cooperation",
+      "meaning": "承认多元观点，避免独断",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "没必要上纲上线",
+      "family": "cooperation",
+      "meaning": "劝诫不要过度解读",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我觉得可以理解",
+      "family": "cooperation",
+      "meaning": "表示认可对方的做法或想法",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "不讨论其他",
+      "family": "cooperation",
+      "meaning": "限定讨论范围，避免跑题",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "仅就事论事",
+      "family": "cooperation",
+      "meaning": "排除人身攻击，聚焦议题",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "前提是",
+      "family": "cooperation",
+      "meaning": "设置条件，明确讨论基础",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "换句话说",
+      "family": "cooperation",
+      "meaning": "重新表述，澄清原意",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我补充一下",
+      "family": "cooperation",
+      "meaning": "礼貌性地增加信息",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "请理性讨论",
+      "family": "cooperation",
+      "meaning": "直接呼吁克制",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不一定是这样",
+      "family": "cooperation",
+      "meaning": "委婉反驳，保留可能性",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "很有道理",
+      "family": "cooperation",
+      "meaning": "表达赞同并强调逻辑正确",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我也这么认为",
+      "family": "cooperation",
+      "meaning": "附和认同",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "但是呢",
+      "family": "cooperation",
+      "meaning": "转折词，引出不同意见",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "换个角度",
+      "family": "cooperation",
+      "meaning": "提示视角转换",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "补充一点",
+      "family": "cooperation",
+      "meaning": "温和地添加内容",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我保留意见",
+      "family": "cooperation",
+      "meaning": "尊重他人，不强行说服",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "姑且认为",
+      "family": "cooperation",
+      "meaning": "暂时接受假设，便于讨论",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "从某种意义来说",
+      "family": "cooperation",
+      "meaning": "限定条件，减少绝对化",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "如果非要这么说",
+      "family": "cooperation",
+      "meaning": "让步接受对方表述",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "那倒未必",
+      "family": "cooperation",
+      "meaning": "委婉否定，不直接反对",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "照你这么说",
+      "family": "cooperation",
+      "meaning": "假设对方逻辑成立，再推理",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不知各位怎么看",
+      "family": "cooperation",
+      "meaning": "询问他人意见，促进讨论",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我是这么想的",
+      "family": "cooperation",
+      "meaning": "表达个人观点，态度温和",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "可能我理解错了",
+      "family": "cooperation",
+      "meaning": "承认自身理解可能偏差",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "请指教",
+      "family": "cooperation",
+      "meaning": "谦虚请求对方说理",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "高见",
+      "family": "cooperation",
+      "meaning": "称赞对方观点，但可能带调侃",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "长见识了",
+      "family": "cooperation",
+      "meaning": "表示从对方处学到新知识",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "有话好好说",
+      "family": "cooperation",
+      "meaning": "劝诫语气平和",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "别激动",
+      "family": "cooperation",
+      "meaning": "安抚情绪",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "互相理解",
+      "family": "cooperation",
+      "meaning": "倡导共情",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "求同存异",
+      "family": "cooperation",
+      "meaning": "接受分歧，寻找共识",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "你说的不是没道理",
+      "family": "cooperation",
+      "meaning": "部分肯定对方",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我也来凑个热闹",
+      "family": "cooperation",
+      "meaning": "温和加入讨论，不带攻击",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "插个话",
+      "family": "cooperation",
+      "meaning": "礼貌打断，加入观点",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "没别的意思",
+      "family": "cooperation",
+      "meaning": "澄清发言无恶意",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不是抬杠",
+      "family": "cooperation",
+      "meaning": "声明并非为争辩",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "纯属个人意见",
+      "family": "cooperation",
+      "meaning": "强调主观性",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "各位轻喷",
+      "family": "cooperation",
+      "meaning": "请求网友宽容",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "玻璃心勿看",
+      "family": "cooperation",
+      "meaning": "预先警告内容可能刺激",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "先说好不吵架",
+      "family": "cooperation",
+      "meaning": "设定讨论规则",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我不是来引战的",
+      "family": "cooperation",
+      "meaning": "消除对方敌意",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "就事论事",
+      "family": "cooperation",
+      "meaning": "限定讨论于事件本身",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "有一句说一句",
+      "family": "cooperation",
+      "meaning": "强调诚实, 不夸大",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "实话实说",
+      "family": "cooperation",
+      "meaning": "表明说话直率",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "明人不说暗话",
+      "family": "cooperation",
+      "meaning": "提倡坦率交流",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "摆事实讲道理",
+      "family": "cooperation",
+      "meaning": "倡导用证据和逻辑",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "有数据支撑吗",
+      "family": "cooperation",
+      "meaning": "要求证据支持",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "出处呢",
+      "family": "cooperation",
+      "meaning": "询问信息来源",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别偷换概念",
+      "family": "cooperation",
+      "meaning": "指出逻辑谬误",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "不要混淆视听",
+      "family": "cooperation",
+      "meaning": "指责对方误导",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "说正经的",
+      "family": "cooperation",
+      "meaning": "切换回严肃话题",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "但说无妨",
+      "family": "cooperation",
+      "meaning": "鼓励对方畅所欲言",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "你继续",
+      "family": "cooperation",
+      "meaning": "表示愿意倾听",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "然后呢",
+      "family": "cooperation",
+      "meaning": "询问后续逻辑",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "所以呢",
+      "family": "cooperation",
+      "meaning": "要求结论",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "结论是啥",
+      "family": "cooperation",
+      "meaning": "直接提问结论",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "这个我不认同",
+      "family": "cooperation",
+      "meaning": "明确反对但不攻击",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我不同意",
+      "family": "cooperation",
+      "meaning": "表达反对",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "有不同意见",
+      "family": "cooperation",
+      "meaning": "宣布持有歧见",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我提出异议",
+      "family": "cooperation",
+      "meaning": "正式表达不同",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我认为不对",
+      "family": "cooperation",
+      "meaning": "否定对方观点",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "这样说不准确",
+      "family": "cooperation",
+      "meaning": "指出表达有误",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "更准确地说",
+      "family": "cooperation",
+      "meaning": "修正表述",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "严格来说",
+      "family": "cooperation",
+      "meaning": "精确限定",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "一般来讲",
+      "family": "cooperation",
+      "meaning": "概述普遍情况",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "未必",
+      "family": "cooperation",
+      "meaning": "表示不一定是",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不见得",
+      "family": "cooperation",
+      "meaning": "委婉否定",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "难说",
+      "family": "cooperation",
+      "meaning": "表达不确定",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "不好说",
+      "family": "cooperation",
+      "meaning": "表示复杂难判断",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "说不准",
+      "family": "cooperation",
+      "meaning": "可能性不确定",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "看情况",
+      "family": "cooperation",
+      "meaning": "依赖条件",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "分情况",
+      "family": "cooperation",
+      "meaning": "区分不同情境",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "因人而异",
+      "family": "cooperation",
+      "meaning": "强调个体差异",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "没有绝对",
+      "family": "cooperation",
+      "meaning": "反对绝对化",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "凡事无绝对",
+      "family": "cooperation",
+      "meaning": "普遍怀疑论",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "话不能这么说",
+      "family": "cooperation",
+      "meaning": "委婉反驳表达方式",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "话糙理不糙",
+      "family": "cooperation",
+      "meaning": "承认表达粗但道理对",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不偏不倚",
+      "family": "cooperation",
+      "meaning": "表明中立",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "公平地说",
+      "family": "cooperation",
+      "meaning": "主张公正",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "在某种程度上",
+      "family": "cooperation",
+      "meaning": "限定程度",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "从某个角度看",
+      "family": "cooperation",
+      "meaning": "视角限制",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "退一步说",
+      "family": "cooperation",
+      "meaning": "让步后提出新观点",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "退一万步说",
+      "family": "cooperation",
+      "meaning": "最大程度让步",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "跑题了",
+      "family": "cooperation",
+      "meaning": "提醒偏离主题",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "回归正题",
+      "family": "cooperation",
+      "meaning": "拉回主线",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "总之",
+      "family": "cooperation",
+      "meaning": "总结陈述",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "综上所述",
+      "family": "cooperation",
+      "meaning": "总结前述",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "所以我的观点是",
+      "family": "cooperation",
+      "meaning": "明确结论",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "同意楼上",
+      "family": "cooperation",
+      "meaning": "在论坛表示赞同前面回复",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我站你说的",
+      "family": "cooperation",
+      "meaning": "站队支持",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "顶一个",
+      "family": "cooperation",
+      "meaning": "支持楼主或前面发言",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "+1",
+      "family": "cooperation",
+      "meaning": "表示赞同",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "说重了",
+      "family": "correction",
+      "meaning": "承认自己言辞过激，表示歉意并试图缓和气氛",
+      "risk": "low",
+      "confidence": 0.85
+    },
+    {
+      "term": "我的锅",
+      "family": "correction",
+      "meaning": "网络用语，主动揽责，表示是自己的错误",
+      "risk": "low",
+      "confidence": 0.86
+    },
+    {
+      "term": "嘴太笨",
+      "family": "correction",
+      "meaning": "自嘲表达不好，间接承认对方正确",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "算我没说",
+      "family": "correction",
+      "meaning": "撤回言论，避免继续争论",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "我认输",
+      "family": "correction",
+      "meaning": "直接认输，停止争论",
+      "risk": "low",
+      "confidence": 0.81
+    },
+    {
+      "term": "大佬说的对",
+      "family": "correction",
+      "meaning": "恭维对方，全盘接受观点",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "原来如此",
+      "family": "correction",
+      "meaning": "承认恍然大悟，修正此前认知",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "学到了",
+      "family": "correction",
+      "meaning": "表达从对方言论中学到东西，谦虚接受",
+      "risk": "low",
+      "confidence": 0.84
+    },
+    {
+      "term": "是我肤浅了",
+      "family": "correction",
+      "meaning": "自认认知浅薄，推翻之前观点",
+      "risk": "low",
+      "confidence": 0.85
+    },
+    {
+      "term": "别生气了",
+      "family": "correction",
+      "meaning": "安抚对方情绪，间接认错",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "我不是那个意思",
+      "family": "correction",
+      "meaning": "澄清歧义，收回原有冒犯性",
+      "risk": "low",
+      "confidence": 0.88
+    },
+    {
+      "term": "重新说",
+      "family": "correction",
+      "meaning": "请求重述，暗示之前表述有误",
+      "risk": "low",
+      "confidence": 0.77
+    },
+    {
+      "term": "我语死早",
+      "family": "correction",
+      "meaning": "自嘲语言表达能力差，请求谅解",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "我说错了",
+      "family": "correction",
+      "meaning": "直接承认错误表达",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "抱歉",
+      "family": "correction",
+      "meaning": "简短道歉，表示歉意",
+      "risk": "low",
+      "confidence": 0.81
+    },
+    {
+      "term": "打扰了",
+      "family": "correction",
+      "meaning": "礼貌退场，表示自己多余",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "告辞",
+      "family": "correction",
+      "meaning": "主动结束对话，退出争论",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "我多嘴了",
+      "family": "correction",
+      "meaning": "承认自己不该插话，收回言论",
+      "risk": "low",
+      "confidence": 0.85
+    },
+    {
+      "term": "我多言了",
+      "family": "correction",
+      "meaning": "自认话多，表示歉意",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "我嘴贱",
+      "family": "correction",
+      "meaning": "粗俗自嘲，承认说了不当的话",
+      "risk": "medium",
+      "confidence": 0.87
+    },
+    {
+      "term": "你赢了",
+      "family": "correction",
+      "meaning": "认输，放弃争论",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "我格局小了",
+      "family": "correction",
+      "meaning": "自嘲视野狭窄，承认对方更开阔",
+      "risk": "low",
+      "confidence": 0.84
+    },
+    {
+      "term": "我小丑了",
+      "family": "correction",
+      "meaning": "自嘲变成小丑，承认自己可笑",
+      "risk": "medium",
+      "confidence": 0.86
+    },
+    {
+      "term": "我打脸",
+      "family": "correction",
+      "meaning": "自嘲被自己之前的言论打脸",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "我脸疼",
+      "family": "correction",
+      "meaning": "网络用语，自认被打脸",
+      "risk": "low",
+      "confidence": 0.84
+    },
+    {
+      "term": "我错了还不行吗",
+      "family": "correction",
+      "meaning": "带情绪认错，要求对方停止追究",
+      "risk": "medium",
+      "confidence": 0.88
+    },
+    {
+      "term": "别别别",
+      "family": "correction",
+      "meaning": "强烈阻止对方继续，隐含认错",
+      "risk": "low",
+      "confidence": 0.75
+    },
+    {
+      "term": "别这样",
+      "family": "correction",
+      "meaning": "请求对方停止施压，间接服软",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "我认栽",
+      "family": "correction",
+      "meaning": "承认失败，不再抵抗",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "我服了",
+      "family": "correction",
+      "meaning": "表示被说服，不再争论",
+      "risk": "low",
+      "confidence": 0.81
+    },
+    {
+      "term": "我输了",
+      "family": "correction",
+      "meaning": "直接认输",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "冷静一下",
+      "family": "correction",
+      "meaning": "建议双方冷静，隐含自己需要调整",
+      "risk": "low",
+      "confidence": 0.77
+    },
+    {
+      "term": "刚才激动了",
+      "family": "correction",
+      "meaning": "承认之前情绪失控，收回言论",
+      "risk": "low",
+      "confidence": 0.86
+    },
+    {
+      "term": "我反省",
+      "family": "correction",
+      "meaning": "表示将反思错误",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "我反思",
+      "family": "correction",
+      "meaning": "同我反省",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "我改",
+      "family": "correction",
+      "meaning": "承诺改变态度或言论",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "对不起",
+      "family": "correction",
+      "meaning": "正式道歉",
+      "risk": "medium",
+      "confidence": 0.87
+    },
+    {
+      "term": "下次注意",
+      "family": "correction",
+      "meaning": "承诺以后改进",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "我考虑欠妥",
+      "family": "correction",
+      "meaning": "承认思考不周",
+      "risk": "low",
+      "confidence": 0.85
+    },
+    {
+      "term": "说漏嘴了",
+      "family": "correction",
+      "meaning": "承认不小心说出不当内容",
+      "risk": "low",
+      "confidence": 0.84
+    },
+    {
+      "term": "失言了",
+      "family": "correction",
+      "meaning": "文言式承认说错话",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "口误",
+      "family": "correction",
+      "meaning": "强调只是口误，非本意",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "笔误",
+      "family": "correction",
+      "meaning": "强调打字错误",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "手滑了",
+      "family": "correction",
+      "meaning": "借口手滑，实为撤回言论",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "发错了",
+      "family": "correction",
+      "meaning": "声称错误发送",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "撤回",
+      "family": "correction",
+      "meaning": "要求删除或撤回",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "删了吧",
+      "family": "correction",
+      "meaning": "请求删除不当发言",
+      "risk": "low",
+      "confidence": 0.77
+    },
+    {
+      "term": "当我没说",
+      "family": "correction",
+      "meaning": "彻底撤回言论",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "算了算了",
+      "family": "correction",
+      "meaning": "放弃争论，息事宁人",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "算了",
+      "family": "correction",
+      "meaning": "同算了算了",
+      "risk": "low",
+      "confidence": 0.75
+    },
+    {
+      "term": "好吧",
+      "family": "correction",
+      "meaning": "勉强同意，终止辩论",
+      "risk": "low",
+      "confidence": 0.74
+    },
+    {
+      "term": "行吧",
+      "family": "correction",
+      "meaning": "同好吧，带无奈",
+      "risk": "low",
+      "confidence": 0.73
+    },
+    {
+      "term": "你说啥就是啥",
+      "family": "correction",
+      "meaning": "彻底服从，放弃争辩",
+      "risk": "medium",
+      "confidence": 0.87
+    },
+    {
+      "term": "你说的都对",
+      "family": "correction",
+      "meaning": "表面同意实际讽刺，但也可真同意",
+      "risk": "medium",
+      "confidence": 0.86
+    },
+    {
+      "term": "对对对",
+      "family": "correction",
+      "meaning": "快速同意，敷衍终止",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "是是是",
+      "family": "correction",
+      "meaning": "同对对对",
+      "risk": "low",
+      "confidence": 0.77
+    },
+    {
+      "term": "你厉害",
+      "family": "correction",
+      "meaning": "承认对方高明",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我甘拜下风",
+      "family": "correction",
+      "meaning": "正式认输",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "我投降",
+      "family": "correction",
+      "meaning": "夸张认输",
+      "risk": "low",
+      "confidence": 0.81
+    },
+    {
+      "term": "我认怂",
+      "family": "correction",
+      "meaning": "俗语认输",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我缩了",
+      "family": "correction",
+      "meaning": "网络用语，认怂",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我怂了",
+      "family": "correction",
+      "meaning": "同我缩了",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "我退下了",
+      "family": "correction",
+      "meaning": "礼貌退出争论",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "我潜水了",
+      "family": "correction",
+      "meaning": "表示不再发言",
+      "risk": "low",
+      "confidence": 0.74
+    },
+    {
+      "term": "不再回复",
+      "family": "correction",
+      "meaning": "声明停止争论",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "屏蔽了",
+      "family": "correction",
+      "mean": "表示将屏蔽对方，停止交流",
+      "risk": "medium",
+      "confidence": 0.82
+    },
+    {
+      "term": "黑名单见",
+      "family": "correction",
+      "meaning": "威胁拉黑，实际结束对话",
+      "risk": "high",
+      "confidence": 0.88
+    },
+    {
+      "term": "打住",
+      "family": "correction",
+      "meaning": "要求停止争论",
+      "risk": "low",
+      "confidence": 0.75
+    },
+    {
+      "term": "到此为止",
+      "family": "correction",
+      "meaning": "结束争论",
+      "risk": "low",
+      "confidence": 0.77
+    },
+    {
+      "term": "不说了",
+      "family": "correction",
+      "meaning": "停止发言",
+      "risk": "low",
+      "confidence": 0.74
+    },
+    {
+      "term": "勿回",
+      "family": "correction",
+      "meaning": "要求对方不要回复",
+      "risk": "medium",
+      "confidence": 0.81
+    },
+    {
+      "term": "告辞不送",
+      "family": "correction",
+      "meaning": "强势退出",
+      "risk": "medium",
+      "confidence": 0.86
+    },
+    {
+      "term": "你忙吧",
+      "family": "correction",
+      "meaning": "礼貌结束对话",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "我匿了",
+      "family": "correction",
+      "meaning": "网络用语，匿名退出",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我闪了",
+      "family": "correction",
+      "meaning": "立刻退出",
+      "risk": "low",
+      "confidence": 0.75
+    },
+    {
+      "term": "溜了溜了",
+      "family": "correction",
+      "meaning": "网络用语，逃跑退出",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "跑了",
+      "family": "correction",
+      "meaning": "退出争论",
+      "risk": "low",
+      "confidence": 0.73
+    },
+    {
+      "term": "告辞了",
+      "family": "correction",
+      "meaning": "正式告别",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "退群了",
+      "family": "correction",
+      "meaning": "表示退出聊天群组",
+      "risk": "medium",
+      "confidence": 0.84
+    },
+    {
+      "term": "取关了",
+      "family": "correction",
+      "meaning": "表示取消关注，作为抗议",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "拉黑了",
+      "family": "correction",
+      "meaning": "实际或威胁拉黑",
+      "risk": "high",
+      "confidence": 0.87
+    },
+    {
+      "term": "举报了",
+      "family": "correction",
+      "meaning": "声称举报，结束争论",
+      "risk": "high",
+      "confidence": 0.88
+    },
+    {
+      "term": "我删了",
+      "family": "correction",
+      "meaning": "删除自己言论",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "编辑了",
+      "family": "correction",
+      "meaning": "修改原评论以更正",
+      "risk": "low",
+      "confidence": 0.77
+    },
+    {
+      "term": "补个说明",
+      "family": "correction",
+      "meaning": "补充解释以修正误解",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "重说一遍",
+      "family": "correction",
+      "meaning": "要求自己重新表述",
+      "risk": "low",
+      "confidence": 0.75
+    },
+    {
+      "term": "换种说法",
+      "family": "correction",
+      "meaning": "调整表达以更准确",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "其实我想说",
+      "family": "correction",
+      "meaning": "引出修正后的真实意思",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "准确来说",
+      "family": "correction",
+      "meaning": "开启更精确陈述",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "严格来讲",
+      "family": "correction",
+      "meaning": "同准确来说",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "修改一下",
+      "family": "correction",
+      "meaning": "直接表示修改",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "别误会",
+      "family": "correction",
+      "meaning": "澄清以避免误解",
+      "risk": "low",
+      "confidence": 0.81
+    },
+    {
+      "term": "我解释一下",
+      "family": "correction",
+      "meaning": "主动解释以纠正",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "听我说",
+      "family": "correction",
+      "meaning": "请求对方重新倾听",
+      "risk": "low",
+      "confidence": 0.74
+    },
+    {
+      "term": "我换个角度",
+      "family": "correction",
+      "meaning": "转换立场修正观点",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "可能我表达有误",
+      "family": "correction",
+      "meaning": "委婉承认表达问题",
+      "risk": "low",
+      "confidence": 0.86
+    },
+    {
+      "term": "也许我没说清楚",
+      "family": "correction",
+      "meaning": "类似上条",
+      "risk": "low",
+      "confidence": 0.85
+    },
+    {
+      "term": "是我没说对",
+      "family": "correction",
+      "meaning": "直接纠错",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "理解错了",
+      "family": "correction",
+      "meaning": "同我误解了",
+      "risk": "low",
+      "confidence": 0.81
+    },
+    {
+      "term": "看错了",
+      "family": "correction",
+      "meaning": "承认误读他人言论",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "断章取义了",
+      "family": "correction",
+      "meaning": "承认自己切取错误",
+      "risk": "low",
+      "confidence": 0.88
+    },
+    {
+      "term": "抱歉断章取义",
+      "family": "correction",
+      "meaning": "正式道歉方式",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "是我咬文嚼字了",
+      "family": "correction",
+      "meaning": "承认过于抠字眼",
+      "risk": "low",
+      "confidence": 0.85
+    },
+    {
+      "term": "我钻牛角尖了",
+      "family": "correction",
+      "meaning": "承认过度执着",
+      "risk": "low",
+      "confidence": 0.84
+    },
+    {
+      "term": "我抬杠了",
+      "family": "correction",
+      "meaning": "承认自己在抬杠",
+      "risk": "medium",
+      "confidence": 0.87
+    },
+    {
+      "term": "我杠了",
+      "family": "correction",
+      "meaning": "网络说法，承认杠精行为",
+      "risk": "medium",
+      "confidence": 0.86
+    },
+    {
+      "term": "我错了认罚",
+      "family": "correction",
+      "meaning": "认错并接受惩罚",
+      "risk": "low",
+      "confidence": 0.83
+    },
+    {
+      "term": "自罚三杯",
+      "family": "correction",
+      "meaning": "幽默方式认错",
+      "risk": "low",
+      "confidence": 0.82
+    },
+    {
+      "term": "这波我的",
+      "family": "correction",
+      "meaning": "网络用语，承认这回合是我的错",
+      "risk": "low",
+      "confidence": 0.85
+    },
+    {
+      "term": "这波我亏了",
+      "family": "correction",
+      "meaning": "自嘲在争论中损失",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我破防了",
+      "family": "correction",
+      "meaning": "网络用语，承认被情绪击倒",
+      "risk": "medium",
+      "confidence": 0.89
+    },
+    {
+      "term": "我绷不住了",
+      "family": "correction",
+      "meaning": "承认情绪崩溃",
+      "risk": "medium",
+      "confidence": 0.88
+    },
+    {
+      "term": "我哭了",
+      "family": "correction",
+      "meaning": "夸张表达认输或感动",
+      "risk": "low",
+      "confidence": 0.76
+    },
+    {
+      "term": "我酸了",
+      "family": "correction",
+      "meaning": "承认嫉妒，间接认输",
+      "risk": "low",
+      "confidence": 0.78
+    },
+    {
+      "term": "我慕了",
+      "family": "correction",
+      "meaning": "同我酸了，更正面",
+      "risk": "low",
+      "confidence": 0.77
+    },
+    {
+      "term": "我服了U",
+      "family": "correction",
+      "meaning": "幽默认输",
+      "risk": "low",
+      "confidence": 0.84
+    },
+    {
+      "term": "下把一定",
+      "family": "correction",
+      "meaning": "承诺下次表现更好",
+      "risk": "low",
+      "confidence": 0.79
+    },
+    {
+      "term": "下次还敢",
+      "family": "correction",
+      "meaning": "反语，承认但坚持",
+      "risk": "medium",
+      "confidence": 0.85
+    },
+    {
+      "term": "我记住了",
+      "family": "correction",
+      "meaning": "表示接受对方意见",
+      "risk": "low",
+      "confidence": 0.8
+    }
+  ]
+}

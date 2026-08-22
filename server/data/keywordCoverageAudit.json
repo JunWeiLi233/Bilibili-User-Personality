@@ -1,0 +1,235 @@
+{
+  "ok": true,
+  "generatedAt": "2026-08-09T21:02:08.143880Z",
+  "targetEvidence": 3,
+  "minCoverageRatio": 1,
+  "requireComplete": true,
+  "requireSourceBackedEvidence": false,
+  "coverage": {
+    "complete": true,
+    "targetEvidence": 3,
+    "terms": 2742,
+    "totalEvidence": 13094,
+    "averageEvidence": 4.78,
+    "coverageRatio": 1.0,
+    "evidenceDeficit": 0,
+    "sourcedEvidenceTerms": 2742,
+    "sourceCoverageRatio": 1.0,
+    "unsourcedEvidenceTerms": 0,
+    "weakTerms": 0,
+    "zeroEvidenceTerms": 0,
+    "weakSamples": [],
+    "zeroEvidenceSamples": [],
+    "unsourcedEvidenceSamples": [],
+    "byFamily": {
+      "attack": {
+        "terms": 758,
+        "evidence": 3412,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 758
+      },
+      "absolutes": {
+        "terms": 484,
+        "evidence": 2450,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 484
+      },
+      "evidence": {
+        "terms": 225,
+        "evidence": 1071,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 225
+      },
+      "evasion": {
+        "terms": 254,
+        "evidence": 1159,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 254
+      },
+      "cooperation": {
+        "terms": 820,
+        "evidence": 4029,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 820
+      },
+      "correction": {
+        "terms": 201,
+        "evidence": 973,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 201
+      }
+    }
+  },
+  "termAttemptSummary": {
+    "attemptedTerms": 0,
+    "successfulTerms": 0,
+    "unattemptedTerms": 2742,
+    "unattemptedSamples": [
+      {
+        "term": "一丁点",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一切尽在掌握",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一劳永逸",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一定可以",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一棍子打死",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一次点亮",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一直如此",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一言难尽",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一贯",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "下面要是全是艾特人的",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "不争的事实",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "不可能好吃",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "不可能好吃了",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "丝毫没有",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "二话不说",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "人尽皆知",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "从不让人失望",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "从来没见过",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "从没见过",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "但是绝对不是假的",
+        "family": "absolutes",
+        "evidenceCount": 3
+      }
+    ],
+    "repeatedlyMissedTerms": [],
+    "exhaustedTerms": 0,
+    "exhaustedSamples": []
+  },
+  "actionSummary": {
+    "none": 2742
+  },
+  "familyGaps": [
+    {
+      "family": "absolutes",
+      "terms": 484,
+      "weak": 0,
+      "zero": 0,
+      "evidence": 2450,
+      "coverageRatio": 1.0
+    },
+    {
+      "family": "attack",
+      "terms": 758,
+      "weak": 0,
+      "zero": 0,
+      "evidence": 3412,
+      "coverageRatio": 1.0
+    },
+    {
+      "family": "cooperation",
+      "terms": 820,
+      "weak": 0,
+      "zero": 0,
+      "evidence": 4029,
+      "coverageRatio": 1.0
+    },
+    {
+      "family": "correction",
+      "terms": 201,
+      "weak": 0,
+      "zero": 0,
+      "evidence": 973,
+      "coverageRatio": 1.0
+    },
+    {
+      "family": "evasion",
+      "terms": 254,
+      "weak": 0,
+      "zero": 0,
+      "evidence": 1159,
+      "coverageRatio": 1.0
+    },
+    {
+      "family": "evidence",
+      "terms": 225,
+      "weak": 0,
+      "zero": 0,
+      "evidence": 1071,
+      "coverageRatio": 1.0
+    }
+  ],
+  "nextActions": [],
+  "recommendedQueries": [],
+  "failureReasons": []
+}

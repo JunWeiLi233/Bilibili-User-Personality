@@ -1,0 +1,418 @@
+{
+  "generatedAt": "2026-08-09T14:08:54.593Z",
+  "maxCycles": 1000,
+  "roundsPerCycle": 1,
+  "stopReason": "no_recommended_queries",
+  "finalOk": false,
+  "finalAudit": {
+    "ok": false,
+    "generatedAt": "2026-08-09T14:08:54.591Z",
+    "targetEvidence": 3,
+    "minCoverageRatio": 1,
+    "requireComplete": true,
+    "requireSourceBackedEvidence": true,
+    "requireCommentBackedEvidence": true,
+    "coverage": {
+      "complete": true,
+      "targetEvidence": 3,
+      "terms": 2749,
+      "totalEvidence": 12957,
+      "averageEvidence": 4.71,
+      "coverageRatio": 1,
+      "evidenceDeficit": 0,
+      "sourcedEvidenceTerms": 2749,
+      "sourceCoverageRatio": 1,
+      "unsourcedEvidenceTerms": 0,
+      "weakTerms": 0,
+      "zeroEvidenceTerms": 0,
+      "weakSamples": [],
+      "zeroEvidenceSamples": [],
+      "unsourcedEvidenceSamples": [],
+      "byFamily": {
+        "absolutes": {
+          "terms": 484,
+          "evidence": 2438,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 484
+        },
+        "attack": {
+          "terms": 762,
+          "evidence": 3396,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 762
+        },
+        "cooperation": {
+          "terms": 823,
+          "evidence": 4006,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 823
+        },
+        "correction": {
+          "terms": 201,
+          "evidence": 950,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 201
+        },
+        "evasion": {
+          "terms": 254,
+          "evidence": 1118,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 254
+        },
+        "evidence": {
+          "terms": 225,
+          "evidence": 1049,
+          "weak": 0,
+          "zero": 0,
+          "sourced": 225
+        }
+      }
+    },
+    "termAttemptSummary": {
+      "attemptedTerms": 1303,
+      "successfulTerms": 530,
+      "unattemptedTerms": 1446,
+      "unattemptedSamples": [
+        {
+          "term": "ai\u5408\u6210",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "ai\u751f\u6210",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u4e01\u70b9",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u5207\u5c3d\u5728\u638c\u63e1",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u52b3\u6c38\u9038",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u5b9a\u53ef\u4ee5",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u68cd\u5b50\u6253\u6b7b",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u6b21\u70b9\u4eae",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u76f4\u5982\u6b64",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u773cai",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u7b14\u5e26\u8fc7",
+          "family": "evasion",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u822c\u6765\u8bb2",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u8a00\u96be\u5c3d",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u8d2f",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e00\u8d77\u770b\u770b",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e07\u4e00\u662f\u4e1c\u98ce\u8c37\u65e9\u82d7\u5462",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e09\u4eba\u6210\u864e",
+          "family": "evidence",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e09\u89c2\u4e0d\u6b63",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e0b\u6b21\u4e00\u5b9a",
+          "family": "evasion",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e0b\u9762\u8981\u662f\u5168\u662f\u827e\u7279\u4eba\u7684",
+          "family": "absolutes",
+          "evidenceCount": 3
+        }
+      ],
+      "repeatedlyMissedTerms": [
+        {
+          "term": "\u90fd\u662f",
+          "family": "absolutes",
+          "attempts": 22,
+          "lastQuery": "mikufans\u7684\u80dc\u5229 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "100\u662f\u4e2d\u56fd\u7684",
+          "family": "absolutes",
+          "attempts": 19,
+          "lastQuery": "100\u662f\u4e2d\u56fd\u7684 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+          "lastError": "Bilibili harvest query \"100\u662f\u4e2d\u56fd\u7684 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4\" timed out after 300000ms"
+        },
+        {
+          "term": "\u54c8\u54c8\u54c8",
+          "family": "cooperation",
+          "attempts": 19,
+          "lastQuery": "\u7c73\u536b\u5175 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u9519\u7684\u90a3\u4e2a\u5c0f\u4e11",
+          "family": "correction",
+          "attempts": 19,
+          "lastQuery": "\u8d4c\u6027\u5f88\u5927 \u8bc4\u8bba\u533a \u70ed\u8bc4",
+          "lastError": ""
+        },
+        {
+          "term": "\u975ea\u5373",
+          "family": "absolutes",
+          "attempts": 19,
+          "lastQuery": "\u4e24\u79cd\u53ef \u975ea\u5373",
+          "lastError": "\u4e24\u79cd\u53ef \u975ea\u5373: Bilibili endpoint exhausted (WAF early-exit): /x/web-interface/nav"
+        },
+        {
+          "term": "\u975e\u5b98\u5ba3\u4e0d\u7ea6",
+          "family": "evasion",
+          "attempts": 18,
+          "lastQuery": "\u8ba4\u7531\u56de \u975e\u5b98\u5ba3\u4e0d\u7ea6",
+          "lastError": "\u8ba4\u7531\u56de \u975e\u5b98\u5ba3\u4e0d\u7ea6: Bilibili endpoint exhausted (WAF early-exit): /x/web-interface/nav"
+        },
+        {
+          "term": "\u80af\u5b9a\u662f\u554a",
+          "family": "absolutes",
+          "attempts": 16,
+          "lastQuery": "\u4e00\u822c\u90fd\u662f\u5168\u662f\u4f60\u7684\u9519 \u70ed\u8bc4",
+          "lastError": ""
+        },
+        {
+          "term": "\u6beb\u65e0\u529e\u6cd5",
+          "family": "absolutes",
+          "attempts": 15,
+          "lastQuery": "\u4e07\u4e00\u4e2d\u4e86\u5462 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u4f60\u4e0d\u5c31\u662f\u53ea\u5927\u72f8\u732b\u5417",
+          "family": "cooperation",
+          "attempts": 14,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u5927\u72f8\u732b",
+          "family": "cooperation",
+          "attempts": 14,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u5982\u679c",
+          "family": "cooperation",
+          "attempts": 14,
+          "lastQuery": "\u5403\u74dc \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6beb\u65e0",
+          "family": "absolutes",
+          "attempts": 14,
+          "lastQuery": "\u4e5f\u5c31\u8fd9\u610f\u601d\u4e86 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6ca1\u5f97\u5375\u7528",
+          "family": "absolutes",
+          "attempts": 14,
+          "lastQuery": "\u7231\u732b\u72d7\u80dc\u8fc7\u7231\u4eba \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u4e00\u770b\u5c31\u61c2\u4e00\u5b66\u5c31\u5e9f",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u7231\u732b\u72d7\u80dc\u8fc7\u7231\u4eba \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u5185\u5fc3\u6beb\u65e0\u6ce2\u5170",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u996d\u90fd\u61d2\u5f97\u5403 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u5185\u5fc3\u6beb\u65e0\u6ce2\u5170\u4e86",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u996d\u90fd\u61d2\u5f97\u5403 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u53cd\u5411\u6253\u5e7f",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u53cd\u5411\u6253\u5e7f \u8bc4\u8bba \u6897",
+          "lastError": "Bilibili harvest query \"\u53cd\u5411\u6253\u5e7f \u8bc4\u8bba \u6897\" timed out after 300000ms"
+        },
+        {
+          "term": "\u5973\u4eba\u4e0d\u80fd\u4e0a\u684c",
+          "family": "absolutes",
+          "attempts": 13,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6320\u644a",
+          "family": "attack",
+          "attempts": 13,
+          "lastQuery": "\u7c89\u5934 \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u6709\u7f18\u4eba\u62ff\u8d70\u5427",
+          "family": "cooperation",
+          "attempts": 13,
+          "lastQuery": "\u7231\u732b\u72d7\u80dc\u8fc7\u7231\u4eba \u8bc4\u8bba\u533a",
+          "lastError": ""
+        }
+      ],
+      "exhaustedTerms": 3,
+      "exhaustedSamples": [
+        {
+          "term": "ip\u5730\u5740",
+          "family": "evidence",
+          "evidenceCount": 3,
+          "attempts": 8,
+          "variantsTried": 6,
+          "lastQuery": "ip\u5730\u5740 \u8bc4\u8bba \u6897",
+          "lastError": "ip\u5730\u5740 \u8bc4\u8bba \u6897: fetch failed",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u4e0d\u662f\u6211\u7684\u9519",
+          "family": "evasion",
+          "evidenceCount": 3,
+          "attempts": 8,
+          "variantsTried": 6,
+          "lastQuery": "\u4e0d\u662f\u6211\u7684\u9519 \u8bc4\u8bba \u6897",
+          "lastError": "Bilibili harvest query \"\u4e0d\u662f\u6211\u7684\u9519 \u8bc4\u8bba \u6897\" timed out after 300000ms",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u5634\u74e2",
+          "family": "correction",
+          "evidenceCount": 3,
+          "attempts": 6,
+          "variantsTried": 6,
+          "lastQuery": "\u5634\u74e2 \u8bc4\u8bba \u6897",
+          "lastError": "\u5634\u74e2 \u8bc4\u8bba \u6897: fetch failed",
+          "suggestedQueries": []
+        }
+      ]
+    },
+    "actionSummary": {
+      "none": 2749
+    },
+    "familyGaps": [
+      {
+        "family": "absolutes",
+        "terms": 484,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 2438,
+        "coverageRatio": 1
+      },
+      {
+        "family": "attack",
+        "terms": 762,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 3396,
+        "coverageRatio": 1
+      },
+      {
+        "family": "cooperation",
+        "terms": 823,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 4006,
+        "coverageRatio": 1
+      },
+      {
+        "family": "correction",
+        "terms": 201,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 950,
+        "coverageRatio": 1
+      },
+      {
+        "family": "evasion",
+        "terms": 254,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 1118,
+        "coverageRatio": 1
+      },
+      {
+        "family": "evidence",
+        "terms": 225,
+        "weak": 0,
+        "zero": 0,
+        "evidence": 1049,
+        "coverageRatio": 1
+      }
+    ],
+    "nextActions": [],
+    "recommendedQueries": [],
+    "failureReasons": [
+      "3 exhausted term(s) need extra query templates"
+    ]
+  },
+  "cycles": []
+}

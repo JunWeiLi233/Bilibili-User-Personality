@@ -1,0 +1,783 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "absolutes",
+  "shard": 19,
+  "shardCount": 37,
+  "evidence": [
+    {
+      "term": "想都别想",
+      "evidenceSamples": [
+        "是不可能收费，想都别想，全世界都不同意，中国、欧洲 东南亚等等，除了美国和伊朗都不会同意收费",
+        "想都别想",
+        "肯定留着自己买豪宅，给别人分钱想都别想"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1n1jg6gELa/",
+          "uid": "BV1n1jg6gELa",
+          "sample": "是不可能收费，想都别想，全世界都不同意，中国、欧洲 东南亚等等，除了美国和伊朗都不会同意收费"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "想都别想"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1A7V36BEc9/",
+          "uid": "BV1A7V36BEc9",
+          "sample": "肯定留着自己买豪宅，给别人分钱想都别想"
+        }
+      ]
+    },
+    {
+      "term": "我们班全是",
+      "evidenceSamples": [
+        "弹幕都在刷6，我们班全是这种人？",
+        "评论区戾气好重，我们班全是这种人？",
+        "老师一问三不知，我们班全是这种人。",
+        "我们班全是这种人,我初一的,全班就我一个正常",
+        "我们班全是这样的人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "弹幕都在刷6，我们班全是这种人？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "评论区戾气好重，我们班全是这种人？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "老师一问三不知，我们班全是这种人。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV17cykBZE79",
+          "sample": "我们班全是这种人,我初一的,全班就我一个正常"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1PzJM67EDP",
+          "sample": "我们班全是这样的人"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这操作，我们班全是手残党吗？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "我们班全是卷王，期末考试人均95+。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "up主这水平，我们班全是大神好吧。"
+        }
+      ]
+    },
+    {
+      "term": "我们班全是这种人",
+      "evidenceSamples": [
+        "我们班全是这种人,我初一的,全班就我一个正常",
+        "我们班全是这样的人",
+        "弹幕都在刷6，我们班全是这种人？",
+        "评论区戾气好重，我们班全是这种人？",
+        "老师一问三不知，我们班全是这种人。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV17cykBZE79",
+          "sample": "我们班全是这种人,我初一的,全班就我一个正常"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1PzJM67EDP",
+          "sample": "我们班全是这样的人"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "弹幕都在刷6，我们班全是这种人？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "评论区戾气好重，我们班全是这种人？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "老师一问三不知，我们班全是这种人。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这操作，我们班全是手残党吗？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "我们班全是卷王，期末考试人均95+。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "up主这水平，我们班全是大神好吧。"
+        }
+      ]
+    },
+    {
+      "term": "我保证",
+      "evidenceSamples": [
+        "不拉腿好评，继续这样下去，我保证你会在你意想不到的时刻到达10万粉。",
+        "我保证不会畏罪自杀都说出来了，看来是真的什么思想准备都做了啊，这种情况下还想让秘书回去，真是心心念念为秘书考虑了",
+        "他应该庆幸中国是法治社会 在古代我保证他活不过3秒",
+        "大哥们，你们学点中文吧啊。你们学点中文之后，我保证你们会串皮"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VDZAYUEND/",
+          "uid": "BV1VDZAYUEND",
+          "sample": "不拉腿好评，继续这样下去，我保证你会在你意想不到的时刻到达10万粉。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1cT411A7Ti/",
+          "uid": "32177169",
+          "sample": "我保证不会畏罪自杀都说出来了，看来是真的什么思想准备都做了啊，这种情况下还想让秘书回去，真是心心念念为秘书考虑了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "他应该庆幸中国是法治社会 在古代我保证他活不过3秒"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "大哥们，你们学点中文吧啊。你们学点中文之后，我保证你们会串皮"
+        }
+      ]
+    },
+    {
+      "term": "我发誓",
+      "evidenceSamples": [
+        "哦，伙计！瞧瞧你这糟糕的一条评论！这简直就像是隔壁蔡徐坤女士打篮球一样糟糕！如果你再发这样糟糕的评论的话，我就会把隔壁蔡徐坤女士的篮球塞到你的嘴里。我发誓。",
+        "吉田，求你了卖我一份狒狒吧，一天，只玩一天也行求你了我在也不跑了哥，我真的太痒了，求你了，我听话，我以后再也不闹了，求你了哥，卖我一份吧，我现在身体痒的要死，求求你了，哥，你就最后再卖我一份吧我求求你了哥，你要什么我都给你，你再给我玩一天🤌就好，我现在身体里像是有火神在爬，太痒了 哥，给我点吧，最后一次，我发誓，真的是最后一次了",
+        "我发誓我长大后要当一个别人见了我得绕道走的人 于是我当了环卫工，路人见了地上的垃圾，纷纷绕道而行"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "443563940",
+          "sample": "哦，伙计！瞧瞧你这糟糕的一条评论！这简直就像是隔壁蔡徐坤女士打篮球一样糟糕！如果你再发这样糟糕的评论的话，我就会把隔壁蔡徐坤女士的篮球塞到你的嘴里。我发誓。"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "吉田，求你了卖我一份狒狒吧，一天，只玩一天也行求你了我在也不跑了哥，我真的太痒了，求你了，我听话，我以后再也不闹了，求你了哥，卖我一份吧，我现在身体痒的要死，求求你了，哥，你就最后再卖我一份吧我求求你了哥，你要什么我都给你，你再给我玩一天🤌就好，我现在身体里像是有火神在爬，太痒了 哥，给我点吧，最后一次，我发誓，真的是最后一次了"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8407672678",
+          "uid": "qfh57f666",
+          "sample": "我发誓我长大后要当一个别人见了我得绕道走的人 于是我当了环卫工，路人见了地上的垃圾，纷纷绕道而行"
+        }
+      ]
+    },
+    {
+      "term": "我命由我不由天",
+      "evidenceSamples": [
+        "魔童到死前都没什么求生欲，因为他要的本来就不多，他甚至不知道自己真的想要什么，他也认为自己不好，从让敖丙替自己和哥哥们说话到最后的就不能让我死的有点价值吗，哪吒的内心都是极度自卑的，所以他喊出的那句我命由我不由天，也就格外虚弱无力。",
+        "哪吒呢？哪吒只能喊一喊我命由我不由天，因为这个命运对他来说本身就不公平，他的出生是被设计的，灵珠身份也被剥夺，命运和周围人都在规训他做什么怎么走，朋友和朋友的家人胁迫他做出某些目标，直到最后家人也要用生命拉着他走向一条路。",
+        "我命由我不由天！",
+        "别忘了我命由我不由天",
+        "小黑鱼：我命由我不由天！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "魔童到死前都没什么求生欲，因为他要的本来就不多，他甚至不知道自己真的想要什么，他也认为自己不好，从让敖丙替自己和哥哥们说话到最后的就不能让我死的有点价值吗，哪吒的内心都是极度自卑的，所以他喊出的那句我命由我不由天，也就格外虚弱无力。"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "哪吒呢？哪吒只能喊一喊我命由我不由天，因为这个命运对他来说本身就不公平，他的出生是被设计的，灵珠身份也被剥夺，命运和周围人都在规训他做什么怎么走，朋友和朋友的家人胁迫他做出某些目标，直到最后家人也要用生命拉着他走向一条路。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1MyEg6ZEPL/",
+          "uid": "BV1MyEg6ZEPL",
+          "sample": "我命由我不由天！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1MyEg6ZEPL/",
+          "uid": "BV1MyEg6ZEPL",
+          "sample": "别忘了我命由我不由天"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "小黑鱼：我命由我不由天！"
+        }
+      ]
+    },
+    {
+      "term": "我宣布",
+      "evidenceSamples": [
+        "我宣布 这up是你儿[doge]",
+        "我宣布这就是heart attack的正版官方mv！！！（大叫）",
+        "我宣布个事，店长是我老婆"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1xw41147r1/",
+          "uid": "22462684",
+          "sample": "我宣布 这up是你儿[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV17BdpYrEg6/",
+          "uid": "BV17BdpYrEg6",
+          "sample": "我宣布这就是heart attack的正版官方mv！！！（大叫）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1FZ4y1d7e7/",
+          "uid": "BV1FZ4y1d7e7",
+          "sample": "我宣布个事，店长是我老婆"
+        }
+      ]
+    },
+    {
+      "term": "我敢说",
+      "evidenceSamples": [
+        "美女拍照吗？我敢说，至少有50个在天坛的摄影师问过你这句话[笑哭]",
+        "回复 @dddddssd :纯粹的神人，一辈子没吃过苦，顺顺利利，有车有房，家庭圆满，待遇好的一批，跟老婆都是工作少赚的多，就这种货完全不符合苏和美已知的任何一个蟠桃模板\\n\\n之前那些，要么那么家境贫苦，要么受尽欺辱，要么彻底失望，要么天生反骨，这货哪都不沾，在正式审之前，我敢说KGB里面没有一个人能想，到这货就是为了情绪价值\\n\\n都让他住豪华豪宅公寓了，都给他那么高的薪资了，结果他给你来一句，他没有情绪价值，这种人最阴了，一爆给你爆个大的，正常人根本想不通这些货为什么爆\\n\\n因为在正常人眼里，干这些事情造成的危害，还有被发现之后的后果，根本就不是什么情绪价值能够补平的，我宁愿相信这是被外星人催眠了，政审和心理检测还是太重要了",
+        "“业余爱好”？我敢说 这个眼镜绝壁连爱好都算不上，，刚开始吃的时候还问老板"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV17wVJ6DEKT/",
+          "uid": "BV17wVJ6DEKT",
+          "sample": "美女拍照吗？我敢说，至少有50个在天坛的摄影师问过你这句话[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV11NV86tEjW/",
+          "uid": "BV11NV86tEjW",
+          "sample": "回复 @dddddssd :纯粹的神人，一辈子没吃过苦，顺顺利利，有车有房，家庭圆满，待遇好的一批，跟老婆都是工作少赚的多，就这种货完全不符合苏和美已知的任何一个蟠桃模板\\n\\n之前那些，要么那么家境贫苦，要么受尽欺辱，要么彻底失望，要么天生反骨，这货哪都不沾，在正式审之前，我敢说KGB里面没有一个人能想，到这货就是为了情绪价值\\n\\n都让他住豪华豪宅公寓了，都给他那么高的薪资了，结果他给你来一句，他没有情绪价值，这种人最阴了，一爆给你爆个大的，正常人根本想不通这些货为什么爆\\n\\n因为在正常人眼里，干这些事情造成的危害，还有被发现之后的后果，根本就不是什么情绪价值能够补平的，我宁愿相信这是被外星人催眠了，政审和心理检测还是太重要了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "1598914156",
+          "sample": "“业余爱好”？我敢说 这个眼镜绝壁连爱好都算不上，，刚开始吃的时候还问老板"
+        }
+      ]
+    },
+    {
+      "term": "我确定",
+      "evidenceSamples": [
+        "就这三局打下来，我确定了几件事。\\n1 we确实有股冲劲，不赖[汤圆]\\n1 lng确实是涅槃大王[汤圆]\\n3亚运会领导确实有眼光[汤圆]",
+        "我买了9个电脑的散热风扇，一共140，大概15一把，然后有一个风扇有异响并且我确定了是风扇扇叶的问题，刮到了边上，塑料碰撞的声音，转速快起来了跟直升飞机起飞了似的，我和商家说了，拍了视频给商家了商家跟我说只赔4块钱，要么就退货退款。然后我还在他家买了个ARGB控制器，我买之前就问了支不支持一个软件OPENRGB的神光同步（风扇灯调色软件），商家说支持的，我买回来才发现只能用遥控器调色，商家又让我退货退款，9把风扇一共36根线我花了几个小时用扎带已经在后面理好了扎起来了，然后他让我退货退款，我跟他说给我赔一个风扇的钱就行，他不愿意，我一申请仅退款20元商家就驳回然后显示卖家协商让我退货退款，现在拼多多是已经不能仅退款了吗，有没有懂的老哥帮帮忙，我以前都没仅退款过，没经验[大哭]",
+        "我确定她是重庆人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV157V56NEVt/",
+          "uid": "BV157V56NEVt",
+          "sample": "就这三局打下来，我确定了几件事。\\n1 we确实有股冲劲，不赖[汤圆]\\n1 lng确实是涅槃大王[汤圆]\\n3亚运会领导确实有眼光[汤圆]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1PZy2YdEk6/",
+          "uid": "517400257",
+          "sample": "我买了9个电脑的散热风扇，一共140，大概15一把，然后有一个风扇有异响并且我确定了是风扇扇叶的问题，刮到了边上，塑料碰撞的声音，转速快起来了跟直升飞机起飞了似的，我和商家说了，拍了视频给商家了商家跟我说只赔4块钱，要么就退货退款。然后我还在他家买了个ARGB控制器，我买之前就问了支不支持一个软件OPENRGB的神光同步（风扇灯调色软件），商家说支持的，我买回来才发现只能用遥控器调色，商家又让我退货退款，9把风扇一共36根线我花了几个小时用扎带已经在后面理好了扎起来了，然后他让我退货退款，我跟他说给我赔一个风扇的钱就行，他不愿意，我一申请仅退款20元商家就驳回然后显示卖家协商让我退货退款，现在拼多多是已经不能仅退款了吗，有没有懂的老哥帮帮忙，我以前都没仅退款过，没经验[大哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1agVQ6eEh1/",
+          "uid": "BV1agVQ6eEh1",
+          "sample": "我确定她是重庆人"
+        }
+      ]
+    },
+    {
+      "term": "我绝对",
+      "evidenceSamples": [
+        "只能说不是每个人都是海公公每次我都觉得这小子绝对开挂了，但他确实技术就摆在那里，换成其他人，我绝对要举报他开挂",
+        "美丽+帅气的白子，这句我绝对认[蔚蓝档案静态_出击][蔚蓝档案静态_暴富]",
+        "……第三个……很萌，是因为我觉得第三个男生吧，放到漫画里，我绝对会推他233333",
+        "《我绝对不会再管你》",
+        "我绝对不是因为封面进来的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "只能说不是每个人都是海公公每次我都觉得这小子绝对开挂了，但他确实技术就摆在那里，换成其他人，我绝对要举报他开挂"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV11mZBYqEDT/",
+          "uid": "BV11mZBYqEDT",
+          "sample": "美丽+帅气的白子，这句我绝对认[蔚蓝档案静态_出击][蔚蓝档案静态_暴富]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L6ZvY1EMm/",
+          "uid": "BV1L6ZvY1EMm",
+          "sample": "……第三个……很萌，是因为我觉得第三个男生吧，放到漫画里，我绝对会推他233333"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1btcKzHEsk/",
+          "uid": "BV1btcKzHEsk",
+          "sample": "《我绝对不会再管你》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1u7PrzoE8T/",
+          "uid": "BV1u7PrzoE8T",
+          "sample": "我绝对不是因为封面进来的"
+        }
+      ]
+    },
+    {
+      "term": "我肯定",
+      "evidenceSamples": [
+        "回复 @ig-only-you :s赛历史最无可争议的fmvp，扛着fpx在前进，也就猴子猴孙在那岁月史书，殊不知没有tian,小组赛就滚回来了，而且他叠就一定是大锅",
+        "回复 @屉痒鳳 :再加上，不止大多数CP粉会不乐意，C这种行为多了之后，两方的唯粉肯定也不乐意。假设A的粉丝基数更大，那C这种行为直接会被A的唯粉打上B粉的标签，认为是B想蹭A的流量想疯了，因为A和B在镜头面前从来没同过框连这都要蹭。这种情...",
+        "经过一番试探，他还是没有办法确定是不是她，直到第二天，他在她家门口再见到她时，才能证实他前一天的猜测“果然是她”。虽然此时他对她的感觉还没到喜欢那个程度，但不能否认的是少时的季英英在杨静澜心里是一个特别的存在，而如今的季英英激起了杨静澜心中...",
+        "这就是老一辈观念的局限性，他们对职业的认知是静止的，是一种一成不变的期望，这种期望来源于世纪初的高速增长，他们或许自己就吃到了红利，并认为接下来的数十年世界依旧如此一成不变，和平、增长、稳中向好，电梯会一直上升，只要你牢牢坐稳不掉下去，你的...",
+        "他们生了孩子后，孩子性格一定会很成熟[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "回复 @ig-only-you :s赛历史最无可争议的fmvp，扛着fpx在前进，也就猴子猴孙在那岁月史书，殊不知没有tian,小组赛就滚回来了，而且他叠就一定是大锅"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @屉痒鳳 :再加上，不止大多数CP粉会不乐意，C这种行为多了之后，两方的唯粉肯定也不乐意。假设A的粉丝基数更大，那C这种行为直接会被A的唯粉打上B粉的标签，认为是B想蹭A的流量想疯了，因为A和B在镜头面前从来没同过框连这都要蹭。这种情..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "经过一番试探，他还是没有办法确定是不是她，直到第二天，他在她家门口再见到她时，才能证实他前一天的猜测“果然是她”。虽然此时他对她的感觉还没到喜欢那个程度，但不能否认的是少时的季英英在杨静澜心里是一个特别的存在，而如今的季英英激起了杨静澜心中..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "这就是老一辈观念的局限性，他们对职业的认知是静止的，是一种一成不变的期望，这种期望来源于世纪初的高速增长，他们或许自己就吃到了红利，并认为接下来的数十年世界依旧如此一成不变，和平、增长、稳中向好，电梯会一直上升，只要你牢牢坐稳不掉下去，你的..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "他们生了孩子后，孩子性格一定会很成熟[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @肯定是吴胖胖呀 :短短三个月这套流程居然有可能再来一遍我也没想到"
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "什么情况？自己的事儿都让人知道了？不对不对不对，肯定是乃琳网上冲浪又偷梗了，自己网线后面藏得好好的，怎么可能被人揪出来呢？冲琳老哥一面讪讪地笑着，一面安慰着自己。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "我觉得不至于难吃，黄磊做饭一看就不是生手，拿手菜肯定有几道，但为了节目效果，很多菜他肯定不会做，现学那种，估计味不咋样。"
+        }
+      ]
+    },
+    {
+      "term": "我赌上",
+      "evidenceSamples": [
+        "《我赌上我的老绷》",
+        "我赌上我的老绷",
+        "我赌上我的老牧师"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NeL46fERc/",
+          "uid": "BV1NeL46fERc",
+          "sample": "《我赌上我的老绷》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NeL46fERc/",
+          "uid": "BV1NeL46fERc",
+          "sample": "我赌上我的老绷"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NeL46fERc/",
+          "uid": "BV1NeL46fERc",
+          "sample": "我赌上我的老牧师"
+        }
+      ]
+    },
+    {
+      "term": "所有",
+      "evidenceSamples": [
+        "黄子韬爸爸人也挺好的，家庭氛围好，以前他爸爸去他一个带娃综艺，到了就开始给所有人做饭，他爸在家里包所有家务活的",
+        "· 但是请注意：如果你试图利用外国的婚姻文件在中国主张权益（例如，为所有“妻子”申请中国签证居留、分配遗产等），中国法律将只承认你在中国法律下的唯一合法配偶，其他关系不受法律承认和保护。如果你在国内已有配偶，又在国外结婚，则可能构成重婚罪。",
+        "是的，观众更想看主动找机会，而不是拖发育到后面打一波团，细看就会发现GG没有一条路是有进攻性的，这种选人能赢真的是对其他所有队伍的一种羞辱，现在受到惩罚也是应当的。",
+        "笑死😂:“所有我们不需要知道的瓜”",
+        "到这一步只能继续，因为他知道所有事所以就算他服软那些人也不可能留他性命的，况且他根本不会服软"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "黄子韬爸爸人也挺好的，家庭氛围好，以前他爸爸去他一个带娃综艺，到了就开始给所有人做饭，他爸在家里包所有家务活的"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "· 但是请注意：如果你试图利用外国的婚姻文件在中国主张权益（例如，为所有“妻子”申请中国签证居留、分配遗产等），中国法律将只承认你在中国法律下的唯一合法配偶，其他关系不受法律承认和保护。如果你在国内已有配偶，又在国外结婚，则可能构成重婚罪。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "是的，观众更想看主动找机会，而不是拖发育到后面打一波团，细看就会发现GG没有一条路是有进攻性的，这种选人能赢真的是对其他所有队伍的一种羞辱，现在受到惩罚也是应当的。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1J64y1q7ob/, https://www.bilibili.com/video/BV1ex4y1G7Dq/, https://www.bilibili.com/video/BV1DP411B7cp/, https://www.bilibili.com/video/BV1AZS3YqENp/, http://www.bilibili.com/video/av759838837, http://www.bilibili.com/video/av989989993, http://www.bilibili.com/video/av314717671, http://www.bilibili.com/video/av113395944653183",
+          "uid": "BV1J64y1q7ob,BV1ex4y1G7Dq,BV1DP411B7cp,BV1AZS3YqENp",
+          "sample": "笑死😂:“所有我们不需要知道的瓜”"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "到这一步只能继续，因为他知道所有事所以就算他服软那些人也不可能留他性命的，况且他根本不会服软"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "回复 @浅唱若曦 :买房结婚确实，趁年轻可以拼一把。不过我感觉也不是所有人都适合出去闯，反正看自己想要什么了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "灵珠被所有人喜欢，戏外的观众喜欢他的英俊温柔，戏里人们喜欢他灵珠的身份。"
+        }
+      ]
+    },
+    {
+      "term": "所有人",
+      "evidenceSamples": [
+        "到这一步只能继续，因为他知道所有事所以就算他服软那些人也不可能留他性命的，况且他根本不会服软",
+        "黄子韬爸爸人也挺好的，家庭氛围好，以前他爸爸去他一个带娃综艺，到了就开始给所有人做饭，他爸在家里包所有家务活的",
+        "· 但是请注意：如果你试图利用外国的婚姻文件在中国主张权益（例如，为所有“妻子”申请中国签证居留、分配遗产等），中国法律将只承认你在中国法律下的唯一合法配偶，其他关系不受法律承认和保护。如果你在国内已有配偶，又在国外结婚，则可能构成重婚罪。",
+        "是的，观众更想看主动找机会，而不是拖发育到后面打一波团，细看就会发现GG没有一条路是有进攻性的，这种选人能赢真的是对其他所有队伍的一种羞辱，现在受到惩罚也是应当的。",
+        "笑死😂:“所有我们不需要知道的瓜”"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "到这一步只能继续，因为他知道所有事所以就算他服软那些人也不可能留他性命的，况且他根本不会服软"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "黄子韬爸爸人也挺好的，家庭氛围好，以前他爸爸去他一个带娃综艺，到了就开始给所有人做饭，他爸在家里包所有家务活的"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "· 但是请注意：如果你试图利用外国的婚姻文件在中国主张权益（例如，为所有“妻子”申请中国签证居留、分配遗产等），中国法律将只承认你在中国法律下的唯一合法配偶，其他关系不受法律承认和保护。如果你在国内已有配偶，又在国外结婚，则可能构成重婚罪。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "是的，观众更想看主动找机会，而不是拖发育到后面打一波团，细看就会发现GG没有一条路是有进攻性的，这种选人能赢真的是对其他所有队伍的一种羞辱，现在受到惩罚也是应当的。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1J64y1q7ob/, https://www.bilibili.com/video/BV1ex4y1G7Dq/, https://www.bilibili.com/video/BV1DP411B7cp/, https://www.bilibili.com/video/BV1AZS3YqENp/, http://www.bilibili.com/video/av759838837, http://www.bilibili.com/video/av989989993, http://www.bilibili.com/video/av314717671, http://www.bilibili.com/video/av113395944653183",
+          "uid": "BV1J64y1q7ob,BV1ex4y1G7Dq,BV1DP411B7cp,BV1AZS3YqENp",
+          "sample": "笑死😂:“所有我们不需要知道的瓜”"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "回复 @浅唱若曦 :买房结婚确实，趁年轻可以拼一把。不过我感觉也不是所有人都适合出去闯，反正看自己想要什么了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "灵珠被所有人喜欢，戏外的观众喜欢他的英俊温柔，戏里人们喜欢他灵珠的身份。"
+        }
+      ]
+    },
+    {
+      "term": "所有人都",
+      "evidenceSamples": [
+        "黄子韬爸爸人也挺好的，家庭氛围好，以前他爸爸去他一个带娃综艺，到了就开始给所有人做饭，他爸在家里包所有家务活的",
+        "· 但是请注意：如果你试图利用外国的婚姻文件在中国主张权益（例如，为所有“妻子”申请中国签证居留、分配遗产等），中国法律将只承认你在中国法律下的唯一合法配偶，其他关系不受法律承认和保护。如果你在国内已有配偶，又在国外结婚，则可能构成重婚罪。",
+        "是的，观众更想看主动找机会，而不是拖发育到后面打一波团，细看就会发现GG没有一条路是有进攻性的，这种选人能赢真的是对其他所有队伍的一种羞辱，现在受到惩罚也是应当的。",
+        "笑死😂:“所有我们不需要知道的瓜”",
+        "到这一步只能继续，因为他知道所有事所以就算他服软那些人也不可能留他性命的，况且他根本不会服软"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "黄子韬爸爸人也挺好的，家庭氛围好，以前他爸爸去他一个带娃综艺，到了就开始给所有人做饭，他爸在家里包所有家务活的"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "· 但是请注意：如果你试图利用外国的婚姻文件在中国主张权益（例如，为所有“妻子”申请中国签证居留、分配遗产等），中国法律将只承认你在中国法律下的唯一合法配偶，其他关系不受法律承认和保护。如果你在国内已有配偶，又在国外结婚，则可能构成重婚罪。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "是的，观众更想看主动找机会，而不是拖发育到后面打一波团，细看就会发现GG没有一条路是有进攻性的，这种选人能赢真的是对其他所有队伍的一种羞辱，现在受到惩罚也是应当的。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1J64y1q7ob/, https://www.bilibili.com/video/BV1ex4y1G7Dq/, https://www.bilibili.com/video/BV1DP411B7cp/, https://www.bilibili.com/video/BV1AZS3YqENp/, http://www.bilibili.com/video/av759838837, http://www.bilibili.com/video/av989989993, http://www.bilibili.com/video/av314717671, http://www.bilibili.com/video/av113395944653183",
+          "uid": "BV1J64y1q7ob,BV1ex4y1G7Dq,BV1DP411B7cp,BV1AZS3YqENp",
+          "sample": "笑死😂:“所有我们不需要知道的瓜”"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "到这一步只能继续，因为他知道所有事所以就算他服软那些人也不可能留他性命的，况且他根本不会服软"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "回复 @浅唱若曦 :买房结婚确实，趁年轻可以拼一把。不过我感觉也不是所有人都适合出去闯，反正看自己想要什么了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "灵珠被所有人喜欢，戏外的观众喜欢他的英俊温柔，戏里人们喜欢他灵珠的身份。"
+        }
+      ]
+    },
+    {
+      "term": "打死",
+      "evidenceSamples": [
+        "笑死这主角跟弟弟在村里打架，把村（国）打毁灭了，主角还以为是伊芙丽特打死了弟弟，不知道是自己。序章结束直接做奴隶了",
+        "“顾客就是上帝” 尼采一拳打死了顾客",
+        "小明把人全部打死就收手了，身旁的人赞叹：“杀毕，罢武！”",
+        "3、郭恩志，中国人民志愿军一级战斗英雄。中国人民志愿军19兵团63军188师563团8连连长。在第五次战役铁原阻击战中，带领全连激战四天四夜，打退了敌人15次攻击，打死打伤美军800余人，而己方仅伤亡16人。",
+        "6、沈树根，中国人民志愿军一级战斗英雄。志愿军20军60师179团8连3排排长，1951年6月，在鹫峰阻击战中，敌人两个多营的13次冲锋全被沈树根带领全排战士击退，歼灭敌人300多名，单沈树根一个人就打死敌人近200名。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "笑死这主角跟弟弟在村里打架，把村（国）打毁灭了，主角还以为是伊芙丽特打死了弟弟，不知道是自己。序章结束直接做奴隶了"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8210502637",
+          "uid": "WARN🔥",
+          "sample": "“顾客就是上帝” 尼采一拳打死了顾客"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8527012885",
+          "uid": "贴吧用户_GVQa7R5",
+          "sample": "小明把人全部打死就收手了，身旁的人赞叹：“杀毕，罢武！”"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "3、郭恩志，中国人民志愿军一级战斗英雄。中国人民志愿军19兵团63军188师563团8连连长。在第五次战役铁原阻击战中，带领全连激战四天四夜，打退了敌人15次攻击，打死打伤美军800余人，而己方仅伤亡16人。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "6、沈树根，中国人民志愿军一级战斗英雄。志愿军20军60师179团8连3排排长，1951年6月，在鹫峰阻击战中，敌人两个多营的13次冲锋全被沈树根带领全排战士击退，歼灭敌人300多名，单沈树根一个人就打死敌人近200名。"
+        }
+      ]
+    },
+    {
+      "term": "打死不",
+      "evidenceSamples": [
+        "打死不冤，自找苦吃",
+        "不牵狗绳一律当作野狗，打死不用负责",
+        "回复 @凌军天下 :打死不去小儿科 这是一句学医的人大都知道的（我不是）玩笑，金眼科银外科打死不去小儿科，我觉得你应该误会了，这句话是儿科医生调侃自己的",
+        "打死不去小儿科，先不说医闹，小孩子知道啥，都说不出来哪儿不舒服[OK]儿科医生是最苦最累的医生之一",
+        "背景小知识：基督教徒自杀会下地狱，但是被警察打死不算自杀"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SWSnBcEAk/",
+          "uid": "BV1SWSnBcEAk",
+          "sample": "打死不冤，自找苦吃"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NFVD6pECL/",
+          "uid": "BV1NFVD6pECL",
+          "sample": "不牵狗绳一律当作野狗，打死不用负责"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AP4y187ed/",
+          "uid": "BV1AP4y187ed",
+          "sample": "回复 @凌军天下 :打死不去小儿科 这是一句学医的人大都知道的（我不是）玩笑，金眼科银外科打死不去小儿科，我觉得你应该误会了，这句话是儿科医生调侃自己的"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AP4y187ed/",
+          "uid": "BV1AP4y187ed",
+          "sample": "打死不去小儿科，先不说医闹，小孩子知道啥，都说不出来哪儿不舒服[OK]儿科医生是最苦最累的医生之一"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1rDV86oEd9/",
+          "uid": "BV1rDV86oEd9",
+          "sample": "背景小知识：基督教徒自杀会下地狱，但是被警察打死不算自杀"
+        }
+      ]
+    },
+    {
+      "term": "打死我",
+      "evidenceSamples": [
+        "我是标我是 我一拳打死我自己，我是强壮还是瘦弱？",
+        "我肠胃不好经常吃健胃消食片，到时候胃会不会长出肌肉一拳打死我",
+        "我先给自己签署一份谅解书，再开枪打死我自己 法院判决的时候会不会对我从轻发落？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8709207057",
+          "uid": "路dw",
+          "sample": "我是标我是 我一拳打死我自己，我是强壮还是瘦弱？"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8368043769",
+          "uid": "斯德咕尔摩",
+          "sample": "我肠胃不好经常吃健胃消食片，到时候胃会不会长出肌肉一拳打死我"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8692210297",
+          "uid": "橘子怎么是桔子",
+          "sample": "我先给自己签署一份谅解书，再开枪打死我自己 法院判决的时候会不会对我从轻发落？"
+        }
+      ]
+    },
+    {
+      "term": "扫码",
+      "evidenceSamples": [
+        "“这啥阴？”“打不到气不气[呲牙]”“这是什么扫码忍者😡”“压力这么大吗？老弟[喜欢]”“你a你雷霆呢😒”“通灵犬啊”“卡十秒！[星星眼]”“又投入了😭”",
+        "复活了[doge]，xdm不要觉得这种人不多，给你们分享一个我上个月前遇到的神人，那天晚上我在店里（喷射战士），来了一个人说要验卷，让他扫码死活扫不上一打开手机看是附近某塔的，跟他说店不一样验不了，神人发言： 你们不都是卖汉堡的有什么不一样的，赶紧给验完赶紧做[笑][笑][笑] 我听完[哦呼][哦呼][哦呼]",
+        "借楼科普，评论区五大典型诈骗套路 1. 病童筹款型 • 昵称：“祈求您救救我的孩子”等情感绑架词汇 • 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助 • 破绽：视频画质模糊、发布时间集中，评论区关闭互动 2. 外卖员求助型 • 昵称：随机变化，自称“外卖员孩子病重” • 手段：文案雷同，仅放支付码无具体证明 3. 求职被骗型 • 头像：固定使用哆啦A梦等卡通形象 • 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账 4. 家庭矛盾型 • 内容：伪造微信聊天记录，称“被父母拉黑要钱” • 目的：利用同情心索要红包/转账 5. 兼职诱导型 • 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群 • 风险：实为刷单诈骗或信息窃取 二、识别诈骗的三大核心逻辑 1. 账号异常 • 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作 • 真正求助者会主动提供正规平台链接及医院证明 2. 逃避正规渠道 • 拒用正规平台（需提交病历、身份证等严格审核） • 仅提供收款码/私信转账，资金流向无保障 3. 内容痕迹 • 视频/动态短期内密集发布，画质低清； • 关闭弹幕、精选评论，回避质疑 三、安全应对守则 两要 1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性） 2. 要保留证据：截图账号信息、聊天记录，向平台举报 两不要 1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗 2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费” 转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。",
+        "扫码给长崎素世小姐投票[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1zd5o6wEtX/",
+          "uid": "472730760",
+          "sample": "“这啥阴？”“打不到气不气[呲牙]”“这是什么扫码忍者😡”“压力这么大吗？老弟[喜欢]”“你a你雷霆呢😒”“通灵犬啊”“卡十秒！[星星眼]”“又投入了😭”"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1A6JM62ECv/",
+          "uid": "527446948",
+          "sample": "复活了[doge]，xdm不要觉得这种人不多，给你们分享一个我上个月前遇到的神人，那天晚上我在店里（喷射战士），来了一个人说要验卷，让他扫码死活扫不上一打开手机看是附近某塔的，跟他说店不一样验不了，神人发言： 你们不都是卖汉堡的有什么不一样的，赶紧给验完赶紧做[笑][笑][笑] 我听完[哦呼][哦呼][哦呼]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "285814498",
+          "sample": "借楼科普，评论区五大典型诈骗套路 1. 病童筹款型 • 昵称：“祈求您救救我的孩子”等情感绑架词汇 • 手段：发布孩子生病视频/动态，附收款码，拒绝通过正规平台求助 • 破绽：视频画质模糊、发布时间集中，评论区关闭互动 2. 外卖员求助型 • 昵称：随机变化，自称“外卖员孩子病重” • 手段：文案雷同，仅放支付码无具体证明 3. 求职被骗型 • 头像：固定使用哆啦A梦等卡通形象 • 话术：“失业，找工作被骗，求一顿饭钱”，引导扫码转账 4. 家庭矛盾型 • 内容：伪造微信聊天记录，称“被父母拉黑要钱” • 目的：利用同情心索要红包/转账 5. 兼职诱导型 • 话术：“高薪客服/兼职招募”，要求预付押金或扫码进群 • 风险：实为刷单诈骗或信息窃取 二、识别诈骗的三大核心逻辑 1. 账号异常 • 新注册小号（多为2、3级），批量发布同类内容，背后有团伙操作 • 真正求助者会主动提供正规平台链接及医院证明 2. 逃避正规渠道 • 拒用正规平台（需提交病历、身份证等严格审核） • 仅提供收款码/私信转账，资金流向无保障 3. 内容痕迹 • 视频/动态短期内密集发布，画质低清； • 关闭弹幕、精选评论，回避质疑 三、安全应对守则 两要 1. 要核实渠道：坚持通过正规平台捐赠（平台自动审核证明真实性） 2. 要保留证据：截图账号信息、聊天记录，向平台举报 两不要 1. 不要扫码付款：任何直接索要支付码/银行卡号均属诈骗 2. 不要脱离平台：兼职/客服需求需走官方认证流程，拒交“押金”“培训费” 转发提示：遇到可疑“求助”，务必冷处理并扩散此指南！真正的公益需透明流程，任何绕过监管的捐款都是诈骗温床。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16tBkBmEQT/, https://www.bilibili.com/video/BV1yHqmBPEFw/, https://www.bilibili.com/video/BV153isBUErD/, https://www.bilibili.com/video/BV1dVvgeqERT/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av112870767529610",
+          "uid": "BV16tBkBmEQT,BV1yHqmBPEFw,BV153isBUErD,BV1dVvgeqERT",
+          "sample": "扫码给长崎素世小姐投票[doge]"
+        }
+      ]
+    },
+    {
+      "term": "拉满",
+      "evidenceSamples": [
+        "没办法了，福利和制作组的肝拉满了实在是喷不动[笑哭]只能扣字眼了",
+        "本集音乐、剧情、细节、氛围、人物、主旨拉满，请谨慎观看",
+        "这兄弟天生格斗技能拉满啊",
+        "三体书就够无视女性角色塑造，刻板印象拉满了，你这跟人一个德行，一点不进步吗？",
+        "求生欲拉满的之一"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "没办法了，福利和制作组的肝拉满了实在是喷不动[笑哭]只能扣字眼了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ujTW6NEmB",
+          "sample": "本集音乐、剧情、细节、氛围、人物、主旨拉满，请谨慎观看"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1fXMK6zEdq",
+          "sample": "这兄弟天生格斗技能拉满啊"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1d2TZ6rEA1",
+          "sample": "三体书就够无视女性角色塑造，刻板印象拉满了，你这跟人一个德行，一点不进步吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1tfTv6NEEE",
+          "sample": "求生欲拉满的之一"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1tfTv6NEEE",
+          "sample": "这gi值拉满了…想吃但是怕"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1vLTX6tEDM",
+          "sample": "X Fold6这是纯粹把情绪价值给你全部拉满"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1omMF6SE1M",
+          "sample": "当讽刺喜剧看，从人物到服化道到剧情，所有讽刺全部拉满，这部能给9.5"
+        }
+      ]
+    },
+    {
+      "term": "指定",
+      "evidenceSamples": [
+        "回复 @不会玩游戏的小dfe : 你字多，跟你混，我指定有出息[doge][doge]",
+        "黑人到底是发明了足球或者蹴鞠这项运动呢？还是参与了最初游戏规则的指定呢？都没有吧。",
+        "为人慷忾的小明可在人被指定为杀的目标时摸一张牌并交给其一张牌 如果给出的是装备牌，其可使用之"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "1865658215",
+          "sample": "回复 @不会玩游戏的小dfe : 你字多，跟你混，我指定有出息[doge][doge]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "黑人到底是发明了足球或者蹴鞠这项运动呢？还是参与了最初游戏规则的指定呢？都没有吧。"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8405512715",
+          "uid": "贴吧用户_Q4CZa63",
+          "sample": "为人慷忾的小明可在人被指定为杀的目标时摸一张牌并交给其一张牌 如果给出的是装备牌，其可使用之"
+        }
+      ]
+    }
+  ]
+}

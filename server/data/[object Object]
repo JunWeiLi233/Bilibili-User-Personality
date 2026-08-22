@@ -1,0 +1,692 @@
+{
+  "搜一下": {
+    "family": "evasion",
+    "meaning": "简单粗暴要求搜索，回避论证",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查百度": {
+    "family": "evasion",
+    "meaning": "指定百度作为查证工具，转移举证",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "问度娘": {
+    "family": "evasion",
+    "meaning": "用昵称指代百度，幽默化回避",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "上网查": {
+    "family": "evasion",
+    "meaning": "泛指网络查询，不提供具体链接",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "百度去": {
+    "family": "evasion",
+    "meaning": "命令式语气，直接推卸责任",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "谷歌去": {
+    "family": "evasion",
+    "meaning": "同百度去，但用谷歌",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查一下": {
+    "family": "evasion",
+    "meaning": "模糊建议，逃避深入讨论",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "搜一搜": {
+    "family": "evasion",
+    "meaning": "建议简单搜索，不作解释",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己动手查": {
+    "family": "evasion",
+    "meaning": "强调主动查证，转移责任",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查资料吧": {
+    "family": "evasion",
+    "meaning": "带语气词建议，仍不提供具体内容",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "搜索一下": {
+    "family": "evasion",
+    "meaning": "通用建议，回避直接回答",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查知乎": {
+    "family": "evasion",
+    "meaning": "指定平台，转移举证义务",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查维基": {
+    "family": "evasion",
+    "meaning": "建议查维基百科，回避直接回答",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己查一下": {
+    "family": "evasion",
+    "meaning": "委婉但仍是转移责任",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查来源": {
+    "family": "evasion",
+    "meaning": "要求对方核实，但自己不提供",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查出处": {
+    "family": "evasion",
+    "meaning": "追问来源，但自己不负责查找",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "找找证据": {
+    "family": "evasion",
+    "meaning": "要求对方举证，自己旁观",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查数据": {
+    "family": "evasion",
+    "meaning": "建议查数据，回避观点交锋",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查文献": {
+    "family": "evasion",
+    "meaning": "学术化推诿，要求对方查论文",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己搜索": {
+    "family": "evasion",
+    "meaning": "命令式，完全拒绝参与",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "搜一下不难": {
+    "family": "evasion",
+    "meaning": "带有讽刺，认为对方懒",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "动手查查": {
+    "family": "evasion",
+    "meaning": "强调行动，转移举证",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查再说": {
+    "family": "evasion",
+    "meaning": "要求查清再讨论，暂停对话",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查证一下": {
+    "family": "evasion",
+    "meaning": "正式请求，但仍是转移",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "百度搜搜": {
+    "family": "evasion",
+    "meaning": "重复强调用百度",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "谷歌搜搜": {
+    "family": "evasion",
+    "meaning": "同百度搜索但用谷歌",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "必应一下": {
+    "family": "evasion",
+    "meaning": "用必应搜索，转移责任",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "搜狗一下": {
+    "family": "evasion",
+    "meaning": "用搜狗搜索，转移",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己找找": {
+    "family": "evasion",
+    "meaning": "委婉命令查找",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "问谷歌": {
+    "family": "evasion",
+    "meaning": "同问百度，用谷歌",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "百度一搜": {
+    "family": "evasion",
+    "meaning": "描述动作，暗示对方做",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查字典": {
+    "family": "evasion",
+    "meaning": "建议查词典，回避争议",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查词典": {
+    "family": "evasion",
+    "meaning": "同查字典，回归定义",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己查证": {
+    "family": "evasion",
+    "meaning": "正式要求，完全转移",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查新闻": {
+    "family": "evasion",
+    "meaning": "建议查新闻，不直接告知",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查报道": {
+    "family": "evasion",
+    "meaning": "同查新闻",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查论文": {
+    "family": "evasion",
+    "meaning": "学术推诿",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查百科": {
+    "family": "evasion",
+    "meaning": "建议查百科全书",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己查资料": {
+    "family": "evasion",
+    "meaning": "明确要求对方承担查证工作",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查官方": {
+    "family": "evasion",
+    "meaning": "建议查官方信息，避免主观解释",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查权威": {
+    "family": "evasion",
+    "meaning": "要求查权威来源",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "核实去": {
+    "family": "evasion",
+    "meaning": "命令式，推卸责任",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己核实": {
+    "family": "evasion",
+    "meaning": "要求自行确认",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "搜一下去": {
+    "family": "evasion",
+    "meaning": "命令式躲避",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "百度一下不就知道": {
+    "family": "evasion",
+    "meaning": "反问式，认为对方应该会查",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "问度娘去": {
+    "family": "evasion",
+    "meaning": "俏皮话，仍转移",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查百度百科": {
+    "family": "evasion",
+    "meaning": "指定百科，推脱",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查维基百科": {
+    "family": "evasion",
+    "meaning": "国际版百科推脱",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "找度娘": {
+    "family": "evasion",
+    "meaning": "同问度娘",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "上网查查": {
+    "family": "evasion",
+    "meaning": "通用建议",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己查去": {
+    "family": "evasion",
+    "meaning": "不耐烦命令",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己百度": {
+    "family": "evasion",
+    "meaning": "动词化百度，要求对方",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "自己谷歌": {
+    "family": "evasion",
+    "meaning": "同自己百度",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查数据库": {
+    "family": "evasion",
+    "meaning": "专业推诿",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查报告": {
+    "family": "evasion",
+    "meaning": "建议查报告，不提供",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查统计": {
+    "family": "evasion",
+    "meaning": "要求查统计数据",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查案例": {
+    "family": "evasion",
+    "meaning": "要求查案例，回避直接回答",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查法律": {
+    "family": "evasion",
+    "meaning": "建议查法律条文",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查规定": {
+    "family": "evasion",
+    "meaning": "同查法律",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查政策": {
+    "family": "evasion",
+    "meaning": "建议查政策文件",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查合同": {
+    "family": "evasion",
+    "meaning": "建议查合同细节",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "查查记录": {
+    "family": "evasion",
+    "meaning": "要求查历史记录",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "翻翻书": {
+    "family": "evasion",
+    "meaning": "建议翻书本，回避网络争论",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "翻翻教材": {
+    "family": "evasion",
+    "meaning": "同翻书，更正式",
+    "risk": "low",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "上课去": {
+    "family": "evasion",
+    "meaning": "讽刺对方缺乏知识，推脱教育责任",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "回去学习": {
+    "family": "evasion",
+    "meaning": "要求对方先学习，转移话题",
+    "risk": "high",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "补补课": {
+    "family": "evasion",
+    "meaning": "建议补充知识，回避争论",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "先考证": {
+    "family": "evasion",
+    "meaning": "要求核实，暂停辩论",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  },
+  "先查再说": {
+    "family": "evasion",
+    "meaning": "先查证再发言，转移当前责任",
+    "risk": "medium",
+    "confidence": 0.8,
+    "variants": [],
+    "evidenceSamples": [],
+    "evidenceSources": [],
+    "updatedAt": "2026-06-29T04:30:20.377Z"
+  }
+}

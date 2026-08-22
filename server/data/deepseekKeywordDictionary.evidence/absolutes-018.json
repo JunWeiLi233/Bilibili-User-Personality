@@ -1,0 +1,582 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "absolutes",
+  "shard": 18,
+  "shardCount": 37,
+  "evidence": [
+    {
+      "term": "必是",
+      "evidenceSamples": [
+        "回复 @音乐盒子Faeries :律师函也只是他维护自己吧，自己被恶意P图鬼畜换谁都受不了吧，还有打篮球确实比律师函更出圈点，只要提到黑梗必是打篮球",
+        "你的下一部战神何必是战神6",
+        "美国人十分努力 厕所隔板上都有洞想必是上厕所也要凿壁偷光",
+        "回复 @偏要执着 :，王八法海的故事格局略显小气，是民间演绎出的众多其中的一种版本，未必是最原始的版本"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "12267074",
+          "sample": "回复 @音乐盒子Faeries :律师函也只是他维护自己吧，自己被恶意P图鬼畜换谁都受不了吧，还有打篮球确实比律师函更出圈点，只要提到黑梗必是打篮球"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "你的下一部战神何必是战神6"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8030844038",
+          "uid": "WARN🔥",
+          "sample": "美国人十分努力 厕所隔板上都有洞想必是上厕所也要凿壁偷光"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12f4y137uo/, https://www.bilibili.com/video/BV1Ap4y1A7VE/, https://www.bilibili.com/video/BV1CN411K7ti/, https://www.bilibili.com/video/BV1A4bMebEts/, http://www.bilibili.com/video/av292368870, http://www.bilibili.com/video/av958895987, http://www.bilibili.com/video/av311609778, http://www.bilibili.com/video/av112778492775161",
+          "uid": "BV12f4y137uo,BV1Ap4y1A7VE,BV1CN411K7ti,BV1A4bMebEts",
+          "sample": "回复 @偏要执着 :，王八法海的故事格局略显小气，是民间演绎出的众多其中的一种版本，未必是最原始的版本"
+        }
+      ]
+    },
+    {
+      "term": "必杀",
+      "evidenceSamples": [
+        "真诚才是必杀技",
+        "这姐妹小红书必杀榜首了 如题",
+        "十六年老粉看得内心五味杂陈，真诚是最好的必杀技。希望厂长能够回来继续更新，越来越好。",
+        "这一招永远是最有效的必杀招[doge]",
+        "省流：真诚是必杀技"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1U44y1h749/",
+          "uid": "BV1U44y1h749",
+          "sample": "真诚才是必杀技"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "这姐妹小红书必杀榜首了 如题"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "十六年老粉看得内心五味杂陈，真诚是最好的必杀技。希望厂长能够回来继续更新，越来越好。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV14t411T7bb/",
+          "uid": "103396758",
+          "sample": "这一招永远是最有效的必杀招[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av115279908634685/",
+          "uid": "32712425653",
+          "sample": "省流：真诚是必杀技"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "双手拍球小娃娃必杀坤证"
+        }
+      ]
+    },
+    {
+      "term": "必杀技",
+      "evidenceSamples": [
+        "省流：真诚是必杀技",
+        "真诚才是必杀技",
+        "十六年老粉看得内心五味杂陈，真诚是最好的必杀技。希望厂长能够回来继续更新，越来越好。",
+        "这姐妹小红书必杀榜首了 如题",
+        "这一招永远是最有效的必杀招[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av115279908634685/",
+          "uid": "32712425653",
+          "sample": "省流：真诚是必杀技"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1U44y1h749/",
+          "uid": "BV1U44y1h749",
+          "sample": "真诚才是必杀技"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "十六年老粉看得内心五味杂陈，真诚是最好的必杀技。希望厂长能够回来继续更新，越来越好。"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "这姐妹小红书必杀榜首了 如题"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV14t411T7bb/",
+          "uid": "103396758",
+          "sample": "这一招永远是最有效的必杀招[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "双手拍球小娃娃必杀坤证"
+        }
+      ]
+    },
+    {
+      "term": "必然",
+      "evidenceSamples": [
+        "就像杨笠的“普信男”，这三个字被滥用是必然，因为一个男生一旦自信，就不再是一名合格的“供养者”了，自信的男生是不会一味的付出、放下尊严当舔狗的，所以某些女生自然会打击男生的自信：“如果你不奉献出你的一切，你就什么都不是”。",
+        "警铃啥呀。这句话想要表达的含义本就是不清晰的，什么叫民族的就是世界的？民族属于世界的一部分所以民族的就是世界的？那这不是废话吗？还是说它想表达民族文化要保留自己的特色才能为世界所接受？这当然也是错误的，无数民族的文化甚至民族本身在世界发展的浪潮里被抛弃被碾压，保留自己的特色跟走向世界没有必然关系。若是把这句话作为一种倡导，比如倡导走向世界的时候也不要让自己被同化，要保留自己的特色和气节，那这句话倒还算有积极意义，但是这就回到了视频里批判的内容了，我们的音乐文化上这种所谓的“保留自己的特色和气节”是贫瘠的，没有思想支撑的，是对前辈文化的拙劣模仿和对现代流行文化的拙劣缝合。",
+        "如果看过《诗云》的话，就能明白在巨量的数据可以战胜创造力，把所有的组合全部罗列出来，其中必然是有传世巨作的。",
+        "在阶级社会中，人们对真理的认识是受阶级的影响和制约的，人们总是站在一定的阶级立场上来观察客观事物、特别对于社会现象的观察更是如此。反动阶级站在反动立场上来观察社会问题，由于它们的根本利益，根本要求和社会发展客观必然趋势相反，它们不承认，也不..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "就像杨笠的“普信男”，这三个字被滥用是必然，因为一个男生一旦自信，就不再是一名合格的“供养者”了，自信的男生是不会一味的付出、放下尊严当舔狗的，所以某些女生自然会打击男生的自信：“如果你不奉献出你的一切，你就什么都不是”。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "警铃啥呀。这句话想要表达的含义本就是不清晰的，什么叫民族的就是世界的？民族属于世界的一部分所以民族的就是世界的？那这不是废话吗？还是说它想表达民族文化要保留自己的特色才能为世界所接受？这当然也是错误的，无数民族的文化甚至民族本身在世界发展的浪潮里被抛弃被碾压，保留自己的特色跟走向世界没有必然关系。若是把这句话作为一种倡导，比如倡导走向世界的时候也不要让自己被同化，要保留自己的特色和气节，那这句话倒还算有积极意义，但是这就回到了视频里批判的内容了，我们的音乐文化上这种所谓的“保留自己的特色和气节”是贫瘠的，没有思想支撑的，是对前辈文化的拙劣模仿和对现代流行文化的拙劣缝合。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "如果看过《诗云》的话，就能明白在巨量的数据可以战胜创造力，把所有的组合全部罗列出来，其中必然是有传世巨作的。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WATF6dERc/, https://www.bilibili.com/video/BV15qEqztEPH/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1EWeuztELy/, https://www.bilibili.com/video/BV16VTw6oEF3/, https://www.bilibili.com/video/BV13SLX6kEvp/, http://www.bilibili.com/video/av116838881038788, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116839669630900, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av116838763595343, http://www.bilibili.com/video/av116836834220796, http://www.bilibili.com/video/av116018106074435, http://www.bilibili.com/video/av116833176847118, http://www.bilibili.com/video/av116734778541191, http://www.bilibili.com/video/av116834250523470, http://www.bilibili.com/video/av116832136599724, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116832673466589, http://www.bilibili.com/video/av116838360947637, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av114506713792950, http://www.bilibili.com/video/av115059237919866, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116061391292085, http://www.bilibili.com/video/av1555838446, http://www.bilibili.com/video/av115121129068885",
+          "uid": "BV1WATF6dERc,BV15qEqztEPH,BV11KKX66Eeo,BV1EWeuztELy,BV16VTw6oEF3,BV13SLX6kEvp",
+          "sample": "在阶级社会中，人们对真理的认识是受阶级的影响和制约的，人们总是站在一定的阶级立场上来观察客观事物、特别对于社会现象的观察更是如此。反动阶级站在反动立场上来观察社会问题，由于它们的根本利益，根本要求和社会发展客观必然趋势相反，它们不承认，也不..."
+        }
+      ]
+    },
+    {
+      "term": "必然是",
+      "evidenceSamples": [
+        "如果看过《诗云》的话，就能明白在巨量的数据可以战胜创造力，把所有的组合全部罗列出来，其中必然是有传世巨作的。",
+        "就像杨笠的“普信男”，这三个字被滥用是必然，因为一个男生一旦自信，就不再是一名合格的“供养者”了，自信的男生是不会一味的付出、放下尊严当舔狗的，所以某些女生自然会打击男生的自信：“如果你不奉献出你的一切，你就什么都不是”。",
+        "警铃啥呀。这句话想要表达的含义本就是不清晰的，什么叫民族的就是世界的？民族属于世界的一部分所以民族的就是世界的？那这不是废话吗？还是说它想表达民族文化要保留自己的特色才能为世界所接受？这当然也是错误的，无数民族的文化甚至民族本身在世界发展的浪潮里被抛弃被碾压，保留自己的特色跟走向世界没有必然关系。若是把这句话作为一种倡导，比如倡导走向世界的时候也不要让自己被同化，要保留自己的特色和气节，那这句话倒还算有积极意义，但是这就回到了视频里批判的内容了，我们的音乐文化上这种所谓的“保留自己的特色和气节”是贫瘠的，没有思想支撑的，是对前辈文化的拙劣模仿和对现代流行文化的拙劣缝合。",
+        "在阶级社会中，人们对真理的认识是受阶级的影响和制约的，人们总是站在一定的阶级立场上来观察客观事物、特别对于社会现象的观察更是如此。反动阶级站在反动立场上来观察社会问题，由于它们的根本利益，根本要求和社会发展客观必然趋势相反，它们不承认，也不..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "如果看过《诗云》的话，就能明白在巨量的数据可以战胜创造力，把所有的组合全部罗列出来，其中必然是有传世巨作的。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "就像杨笠的“普信男”，这三个字被滥用是必然，因为一个男生一旦自信，就不再是一名合格的“供养者”了，自信的男生是不会一味的付出、放下尊严当舔狗的，所以某些女生自然会打击男生的自信：“如果你不奉献出你的一切，你就什么都不是”。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "警铃啥呀。这句话想要表达的含义本就是不清晰的，什么叫民族的就是世界的？民族属于世界的一部分所以民族的就是世界的？那这不是废话吗？还是说它想表达民族文化要保留自己的特色才能为世界所接受？这当然也是错误的，无数民族的文化甚至民族本身在世界发展的浪潮里被抛弃被碾压，保留自己的特色跟走向世界没有必然关系。若是把这句话作为一种倡导，比如倡导走向世界的时候也不要让自己被同化，要保留自己的特色和气节，那这句话倒还算有积极意义，但是这就回到了视频里批判的内容了，我们的音乐文化上这种所谓的“保留自己的特色和气节”是贫瘠的，没有思想支撑的，是对前辈文化的拙劣模仿和对现代流行文化的拙劣缝合。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WATF6dERc/, https://www.bilibili.com/video/BV15qEqztEPH/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1EWeuztELy/, https://www.bilibili.com/video/BV16VTw6oEF3/, https://www.bilibili.com/video/BV13SLX6kEvp/, http://www.bilibili.com/video/av116838881038788, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116839669630900, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av116838763595343, http://www.bilibili.com/video/av116836834220796, http://www.bilibili.com/video/av116018106074435, http://www.bilibili.com/video/av116833176847118, http://www.bilibili.com/video/av116734778541191, http://www.bilibili.com/video/av116834250523470, http://www.bilibili.com/video/av116832136599724, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116832673466589, http://www.bilibili.com/video/av116838360947637, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av114506713792950, http://www.bilibili.com/video/av115059237919866, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116061391292085, http://www.bilibili.com/video/av1555838446, http://www.bilibili.com/video/av115121129068885",
+          "uid": "BV1WATF6dERc,BV15qEqztEPH,BV11KKX66Eeo,BV1EWeuztELy,BV16VTw6oEF3,BV13SLX6kEvp",
+          "sample": "在阶级社会中，人们对真理的认识是受阶级的影响和制约的，人们总是站在一定的阶级立场上来观察客观事物、特别对于社会现象的观察更是如此。反动阶级站在反动立场上来观察社会问题，由于它们的根本利益，根本要求和社会发展客观必然趋势相反，它们不承认，也不..."
+        }
+      ]
+    },
+    {
+      "term": "必然的",
+      "evidenceSamples": [
+        "做梦呢~地球上其他国家都是虫豸而已，不带他们玩是必然的",
+        "当工人怎么啦？ 随着高等教育的普及化，脑体倒挂是必然的趋势，蓝领比白领赚钱多是很正常的",
+        "苏联的本质是披着社会主义皮的帝国主义，灭亡是必然的",
+        "因为的确不是主线，两国交恶是必然的，中国要保持主权，苏联要加深控制，交恶是迟早的事",
+        "解体是结局，是前面一堆错误必然的结局"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1pATC61EeH",
+          "sample": "做梦呢~地球上其他国家都是虫豸而已，不带他们玩是必然的"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JWTM65Ezt",
+          "sample": "当工人怎么啦？ 随着高等教育的普及化，脑体倒挂是必然的趋势，蓝领比白领赚钱多是很正常的"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kgTo67EgR",
+          "sample": "苏联的本质是披着社会主义皮的帝国主义，灭亡是必然的"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kgTo67EgR",
+          "sample": "因为的确不是主线，两国交恶是必然的，中国要保持主权，苏联要加深控制，交恶是迟早的事"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kgTo67EgR",
+          "sample": "解体是结局，是前面一堆错误必然的结局"
+        }
+      ]
+    },
+    {
+      "term": "必然结果",
+      "evidenceSamples": [
+        "对一个个体来说，音乐也许是不必要的，但是一个成熟的人是不能在中国现在的音乐市场里以交换价值代替价值无脑狂欢的。进一步来说，对一个民族一个文明来说，艺术审美可不是能缺少的东西。 关于我们民族，对艺术的工具化是从古至今几千年历史沿革导致的必然结果，我们没法以简单的“好”或“坏”来评价。 我从小学习古典乐，浅浅涉猎世界音乐，不敢说有审美有思想，但是也长期对我国音乐界现状反思求索。可是除了这个up，没有人敢于解答我的问题，在这里我获益良多。 确实，up所说在中国的社会向度里很多是否定性内容。但是我想，我们还是应该为这样的否定性内容留出一些可能，否则，当我们驶在文明单向度的快车道上，我们难以避开危险。",
+        "回复 @610025 :所有人都能进行艺术创作是好事。而某些作品爆红抢占资源也不是创作者的问题，而是消费市场下沉所带来的必然结果。",
+        "这就是电影工业化的必然结果"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "对一个个体来说，音乐也许是不必要的，但是一个成熟的人是不能在中国现在的音乐市场里以交换价值代替价值无脑狂欢的。进一步来说，对一个民族一个文明来说，艺术审美可不是能缺少的东西。 关于我们民族，对艺术的工具化是从古至今几千年历史沿革导致的必然结果，我们没法以简单的“好”或“坏”来评价。 我从小学习古典乐，浅浅涉猎世界音乐，不敢说有审美有思想，但是也长期对我国音乐界现状反思求索。可是除了这个up，没有人敢于解答我的问题，在这里我获益良多。 确实，up所说在中国的社会向度里很多是否定性内容。但是我想，我们还是应该为这样的否定性内容留出一些可能，否则，当我们驶在文明单向度的快车道上，我们难以避开危险。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1NL411E7jY/",
+          "uid": "180394531",
+          "sample": "回复 @610025 :所有人都能进行艺术创作是好事。而某些作品爆红抢占资源也不是创作者的问题，而是消费市场下沉所带来的必然结果。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "这就是电影工业化的必然结果"
+        }
+      ]
+    },
+    {
+      "term": "必然趋势",
+      "evidenceSamples": [
+        "在阶级社会中，人们对真理的认识是受阶级的影响和制约的，人们总是站在一定的阶级立场上来观察客观事物、特别对于社会现象的观察更是如此。反动阶级站在反动立场上来观察社会问题，由于它们的根本利益，根本要求和社会发展客观必然趋势相反，它们不承认，也不...",
+        "就像杨笠的“普信男”，这三个字被滥用是必然，因为一个男生一旦自信，就不再是一名合格的“供养者”了，自信的男生是不会一味的付出、放下尊严当舔狗的，所以某些女生自然会打击男生的自信：“如果你不奉献出你的一切，你就什么都不是”。",
+        "警铃啥呀。这句话想要表达的含义本就是不清晰的，什么叫民族的就是世界的？民族属于世界的一部分所以民族的就是世界的？那这不是废话吗？还是说它想表达民族文化要保留自己的特色才能为世界所接受？这当然也是错误的，无数民族的文化甚至民族本身在世界发展的浪潮里被抛弃被碾压，保留自己的特色跟走向世界没有必然关系。若是把这句话作为一种倡导，比如倡导走向世界的时候也不要让自己被同化，要保留自己的特色和气节，那这句话倒还算有积极意义，但是这就回到了视频里批判的内容了，我们的音乐文化上这种所谓的“保留自己的特色和气节”是贫瘠的，没有思想支撑的，是对前辈文化的拙劣模仿和对现代流行文化的拙劣缝合。",
+        "如果看过《诗云》的话，就能明白在巨量的数据可以战胜创造力，把所有的组合全部罗列出来，其中必然是有传世巨作的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WATF6dERc/, https://www.bilibili.com/video/BV15qEqztEPH/, https://www.bilibili.com/video/BV11KKX66Eeo/, https://www.bilibili.com/video/BV1EWeuztELy/, https://www.bilibili.com/video/BV16VTw6oEF3/, https://www.bilibili.com/video/BV13SLX6kEvp/, http://www.bilibili.com/video/av116838881038788, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116839669630900, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av116838763595343, http://www.bilibili.com/video/av116836834220796, http://www.bilibili.com/video/av116018106074435, http://www.bilibili.com/video/av116833176847118, http://www.bilibili.com/video/av116734778541191, http://www.bilibili.com/video/av116834250523470, http://www.bilibili.com/video/av116832136599724, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116832673466589, http://www.bilibili.com/video/av116838360947637, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av114506713792950, http://www.bilibili.com/video/av115059237919866, http://www.bilibili.com/video/av116764558237445, http://www.bilibili.com/video/av116061391292085, http://www.bilibili.com/video/av1555838446, http://www.bilibili.com/video/av115121129068885",
+          "uid": "BV1WATF6dERc,BV15qEqztEPH,BV11KKX66Eeo,BV1EWeuztELy,BV16VTw6oEF3,BV13SLX6kEvp",
+          "sample": "在阶级社会中，人们对真理的认识是受阶级的影响和制约的，人们总是站在一定的阶级立场上来观察客观事物、特别对于社会现象的观察更是如此。反动阶级站在反动立场上来观察社会问题，由于它们的根本利益，根本要求和社会发展客观必然趋势相反，它们不承认，也不..."
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "就像杨笠的“普信男”，这三个字被滥用是必然，因为一个男生一旦自信，就不再是一名合格的“供养者”了，自信的男生是不会一味的付出、放下尊严当舔狗的，所以某些女生自然会打击男生的自信：“如果你不奉献出你的一切，你就什么都不是”。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "警铃啥呀。这句话想要表达的含义本就是不清晰的，什么叫民族的就是世界的？民族属于世界的一部分所以民族的就是世界的？那这不是废话吗？还是说它想表达民族文化要保留自己的特色才能为世界所接受？这当然也是错误的，无数民族的文化甚至民族本身在世界发展的浪潮里被抛弃被碾压，保留自己的特色跟走向世界没有必然关系。若是把这句话作为一种倡导，比如倡导走向世界的时候也不要让自己被同化，要保留自己的特色和气节，那这句话倒还算有积极意义，但是这就回到了视频里批判的内容了，我们的音乐文化上这种所谓的“保留自己的特色和气节”是贫瘠的，没有思想支撑的，是对前辈文化的拙劣模仿和对现代流行文化的拙劣缝合。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "如果看过《诗云》的话，就能明白在巨量的数据可以战胜创造力，把所有的组合全部罗列出来，其中必然是有传世巨作的。"
+        }
+      ]
+    },
+    {
+      "term": "必输",
+      "evidenceSamples": [
+        "《白衣必输定律》",
+        "《五子棋必输阵法》",
+        "因为知道打官司必输啊 不如放弃挣扎 及时止损"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ZS4y1C7iY/",
+          "uid": "BV1ZS4y1C7iY",
+          "sample": "《白衣必输定律》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19Z2sBkE7t/",
+          "uid": "BV19Z2sBkE7t",
+          "sample": "《五子棋必输阵法》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "因为知道打官司必输啊 不如放弃挣扎 及时止损"
+        }
+      ]
+    },
+    {
+      "term": "必须",
+      "evidenceSamples": [
+        "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人...",
+        "玄骨广告必须第一",
+        "学棋真的很枯燥，我年轻时候很爱下棋，但是涉及到学习也没啥耐性。不管玩啥，想玩得好就必须耐心学习。。",
+        "这广告必须点赞！[打call][打call][打call][打call]",
+        "必须细[吃瓜]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1NwWtzFEBt/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av115394060881962",
+          "uid": "BV1NwWtzFEBt",
+          "sample": "玄骨广告必须第一"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DK4y1z7Wn/, https://www.bilibili.com/video/BV1R6TyzEEVu/, https://www.bilibili.com/video/BV198mKYYEJh/, https://www.bilibili.com/video/BV1kzJMz4E7x/, http://www.bilibili.com/video/av881315845, http://www.bilibili.com/video/av114641669722772, http://www.bilibili.com/video/av113316756200983, http://www.bilibili.com/video/av114525386839868",
+          "uid": "BV1DK4y1z7Wn,BV1R6TyzEEVu,BV198mKYYEJh,BV1kzJMz4E7x",
+          "sample": "学棋真的很枯燥，我年轻时候很爱下棋，但是涉及到学习也没啥耐性。不管玩啥，想玩得好就必须耐心学习。。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1CmTizrEPY/, https://www.bilibili.com/video/BV1Ev42117E2/, https://www.bilibili.com/video/BV1Sc411G7Uk/, https://www.bilibili.com/video/BV1hM4m1U7eB/, http://www.bilibili.com/video/av114653279556971, http://www.bilibili.com/video/av1450276530, http://www.bilibili.com/video/av271732132, http://www.bilibili.com/video/av1305487156",
+          "uid": "BV1CmTizrEPY,BV1Ev42117E2,BV1Sc411G7Uk,BV1hM4m1U7eB",
+          "sample": "这广告必须点赞！[打call][打call][打call][打call]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uE421P7Dz/, https://www.bilibili.com/video/BV1DLmBBkERg/, https://www.bilibili.com/video/BV1vG4y137S8/, https://www.bilibili.com/video/BV1u64y1w7AR/, http://www.bilibili.com/video/av1656139583, http://www.bilibili.com/video/av115719287084723, http://www.bilibili.com/video/av818595142, http://www.bilibili.com/video/av581755036",
+          "uid": "BV1uE421P7Dz,BV1DLmBBkERg,BV1vG4y137S8,BV1u64y1w7AR",
+          "sample": "必须细[吃瓜]"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "所以我也就不打击他了，人想花钱不是错事，他主要老和我汇报攒不住钱，说的都是亲戚送礼了给父母了，请客了等等，我看见他用花呗所以好心推荐一下，但又不知道如何说起，只能让他自己看，他不屑一顾也就不劝了，毕竟我以前也用花呗[大笑]回过头来看什么父母..."
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "虽然我离心流状态有点距离，但我大概知道避免什么能让人更加接近心流。首先，进入心流的那件事必须是这一段时间一个人所能接触到的事物当中是相对有吸引力的事情。但就单单这一点就很难很难了，因为大部分人想要进入心流状态的是学习的时候，而学习对于大部分..."
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "大家可以想一下曾经获得的心流体验是不是在日常生活中比较枯燥清淡的情况下才进入到心流的，在我个人的经验中是肯定的，我小时候有段时间电视都没得看，那只能去图书馆，那这样一下子就进入心流了。那反观现在为什么大家进入心流难了呢？不是年龄问题，其实大..."
+        }
+      ]
+    },
+    {
+      "term": "必须得",
+      "evidenceSamples": [
+        "就拿前两天今年格莱美颁发的史上的首张西班牙语年专DtMF来举例吧，他的制作人是来自加勒比海的波多黎各地区，将当地的各种文化元素以及他们对自己所处乡土的思考有机融入了自己的作品里面，并且在语言并非欧美市场主流英语的情况下还能够产生了极大的话题度和共鸣，这是一件很了不起的成就，也可以当做一个可以参考的范例样本。 我觉得中国的音乐真正能够出海和产生全球影响力的那一天虽然还很遥远，但是我们必须得从重新把自己认清楚开始，我们对自己的认知是什么，我们该进行怎样的独属于我们自己的表达，然后进行新的建构。我们已经迷失了很久了。",
+        "就必须得是最后一天呗！！",
+        "不让进那就是刷了刷哈德森里面有哈德森所以进不了必须得是单局没有哈德森才行",
+        "我现在就要看到这两人的b站账号或者是抖音和快手账号这俩抽象玩意我必须得去给他点赞",
+        "这种视频一定要留言！一定要超过15个字！不要问为什么，必须得听老一辈的忠告。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "就拿前两天今年格莱美颁发的史上的首张西班牙语年专DtMF来举例吧，他的制作人是来自加勒比海的波多黎各地区，将当地的各种文化元素以及他们对自己所处乡土的思考有机融入了自己的作品里面，并且在语言并非欧美市场主流英语的情况下还能够产生了极大的话题度和共鸣，这是一件很了不起的成就，也可以当做一个可以参考的范例样本。 我觉得中国的音乐真正能够出海和产生全球影响力的那一天虽然还很遥远，但是我们必须得从重新把自己认清楚开始，我们对自己的认知是什么，我们该进行怎样的独属于我们自己的表达，然后进行新的建构。我们已经迷失了很久了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1dtVn6DEM2/",
+          "uid": "BV1dtVn6DEM2",
+          "sample": "就必须得是最后一天呗！！"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1zVVE6WEXa/",
+          "uid": "BV1zVVE6WEXa",
+          "sample": "不让进那就是刷了刷哈德森里面有哈德森所以进不了必须得是单局没有哈德森才行"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hCooYFEZp/",
+          "uid": "BV1hCooYFEZp",
+          "sample": "我现在就要看到这两人的b站账号或者是抖音和快手账号这俩抽象玩意我必须得去给他点赞"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1X4Jg6PELH/",
+          "uid": "BV1X4Jg6PELH",
+          "sample": "这种视频一定要留言！一定要超过15个字！不要问为什么，必须得听老一辈的忠告。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12Z421T7c6/",
+          "uid": "BV12Z421T7c6",
+          "sample": "必须得好好整顿了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116656764361310/",
+          "uid": "38693308246",
+          "sample": "这几个必须得换啊"
+        }
+      ]
+    },
+    {
+      "term": "必须的",
+      "evidenceSamples": [
+        "回复 @巫喜悦 :必须的，纯种00后[墨镜]",
+        "必须的，想要什么跟姐说，咱主打的就是一个宠粉",
+        "生物把基础概念搞清楚 细碎知识也要重复记忆（最好买一本高三总复习的教辅上课上课直接在上面做补充天天翻看）重要的是每天多熟读课本！（甚至能知道哪句话旁有什么图画大致在哪本书那个章节 不是死记 就有空翻翻就ok 黑体字是重点）改错什么必须的就不用多说但不是生物的重点 生物重点是知识点！（遗传就得多刷题多改错除外） -来自23年湖北考生生物95全班第一[脱单doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vsV86yEZb/",
+          "uid": "BV1vsV86yEZb",
+          "sample": "回复 @巫喜悦 :必须的，纯种00后[墨镜]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1BqoQYZEwN/",
+          "uid": "BV1BqoQYZEwN",
+          "sample": "必须的，想要什么跟姐说，咱主打的就是一个宠粉"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1YC4y1o7E3/",
+          "uid": "BV1YC4y1o7E3",
+          "sample": "生物把基础概念搞清楚 细碎知识也要重复记忆（最好买一本高三总复习的教辅上课上课直接在上面做补充天天翻看）重要的是每天多熟读课本！（甚至能知道哪句话旁有什么图画大致在哪本书那个章节 不是死记 就有空翻翻就ok 黑体字是重点）改错什么必须的就不用多说但不是生物的重点 生物重点是知识点！（遗传就得多刷题多改错除外） -来自23年湖北考生生物95全班第一[脱单doge]"
+        }
+      ]
+    },
+    {
+      "term": "怎么都",
+      "evidenceSamples": [
+        "xdm 怎么都在评论行不行啊 豚豚主打的是腿 联动一次也不错",
+        "啊这，两个选项怎么都一样[滑稽]",
+        "《圣斗士星矢》里的人怎么都那么张狂 逢人就说自己是黄金圣斗士，我打上王者都不敢这么炫耀。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "xdm 怎么都在评论行不行啊 豚豚主打的是腿 联动一次也不错"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "475752526",
+          "sample": "啊这，两个选项怎么都一样[滑稽]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7660990452",
+          "uid": "亓虑3hmf7",
+          "sample": "《圣斗士星矢》里的人怎么都那么张狂 逢人就说自己是黄金圣斗士，我打上王者都不敢这么炫耀。"
+        }
+      ]
+    },
+    {
+      "term": "总是",
+      "evidenceSamples": [
+        "批评总是很容易，毕竟只需要动动嘴",
+        "“我的一些奶淇琳啊，特别可爱，表达对我的爱的时候总是奇奇怪怪的～”",
+        "仅粉丝可见马上又要说“她有三十万粉丝！所以仅粉丝可见也是网暴”了。。或者别的借口。一个总是可以找到无穷个借口合理化自己的行为的团体。。。",
+        "而且这种视频总拍摄的一种下雨的场景，对于无家可归的人来说，在这里面刻意躲避暴雨，可以安心惬意地吃饭看电视，有温暖的灯光伴随入眠，真的是梦寐以求的生活吧。毕竟放眼现实，总是被雨水淋湿，即使有帐篷也会被其他流浪汉偷走、破坏。国内这种视频播放量也...",
+        "明明好像文字没有那么撕心裂肺，但是总会感到难过，看到燕院长会难过，薄荷精也是，还有柯瑾、菲兹、雅克白、林原、辫子叔…很多地方他们好像轻描淡写地开了些玩笑，但是我总是感觉很难过，可能这就是意难平吧。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "批评总是很容易，毕竟只需要动动嘴"
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "“我的一些奶淇琳啊，特别可爱，表达对我的爱的时候总是奇奇怪怪的～”"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "仅粉丝可见马上又要说“她有三十万粉丝！所以仅粉丝可见也是网暴”了。。或者别的借口。一个总是可以找到无穷个借口合理化自己的行为的团体。。。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DK4y1z7Wn/, https://www.bilibili.com/video/BV1R6TyzEEVu/, https://www.bilibili.com/video/BV198mKYYEJh/, https://www.bilibili.com/video/BV1kzJMz4E7x/, http://www.bilibili.com/video/av881315845, http://www.bilibili.com/video/av114641669722772, http://www.bilibili.com/video/av113316756200983, http://www.bilibili.com/video/av114525386839868",
+          "uid": "BV1DK4y1z7Wn,BV1R6TyzEEVu,BV198mKYYEJh,BV1kzJMz4E7x",
+          "sample": "而且这种视频总拍摄的一种下雨的场景，对于无家可归的人来说，在这里面刻意躲避暴雨，可以安心惬意地吃饭看电视，有温暖的灯光伴随入眠，真的是梦寐以求的生活吧。毕竟放眼现实，总是被雨水淋湿，即使有帐篷也会被其他流浪汉偷走、破坏。国内这种视频播放量也..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "明明好像文字没有那么撕心裂肺，但是总会感到难过，看到燕院长会难过，薄荷精也是，还有柯瑾、菲兹、雅克白、林原、辫子叔…很多地方他们好像轻描淡写地开了些玩笑，但是我总是感觉很难过，可能这就是意难平吧。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1DuVB6oEqK/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV11b87zHES7/, https://www.bilibili.com/video/BV1UhxQzVEC1/, https://www.bilibili.com/video/BV1KBEm6tEpw/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av116797877526453, http://www.bilibili.com/video/av116114658958920, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116815090947597, http://www.bilibili.com/video/av116700368341722, http://www.bilibili.com/video/av116812507252608, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116816986770813, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av116825945873834, http://www.bilibili.com/video/av116815023838952, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116726440136064, http://www.bilibili.com/video/av116764692185541, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av585034028, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116805125275968, http://www.bilibili.com/video/av116724578124362, http://www.bilibili.com/video/av116774221647430, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av115172400171685, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114929449372370, http://www.bilibili.com/video/av116720064861381, http://www.bilibili.com/video/av922688107, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av114031130119231, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av1454637424, http://www.bilibili.com/video/av1700668450",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV1VrVL6qEHk,BV1AcYnezEkW,BV1Ra7L67ELc,BV1f4V16bEs8,BV1DuVB6oEqK,BV17R4y1Z7Zv,BV1yF7n6yEqz,BV11b87zHES7,BV1UhxQzVEC1,BV1KBEm6tEpw",
+          "sample": "仅粉丝可见马上又要说“她有三十万粉丝！所以仅粉丝可见也是网暴”了。。或者别的借口。一个总是可以找到无穷个借口合理化自己的行为的团体。。。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "院长和薄荷糖总是给我一种和剧情偏差一点点就会be的感觉，每次看都会感慨他们两个真的配啊，如果没有爆炸案他们两个人感觉会一个人过一辈子的感觉[委屈][委屈]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "长裤子又有粉丝要说为什么天天给穿裤子不给穿裙子，穿中裤说cody为什么给这样的裤子不显比例，穿裙子说裙子太短了，不满意的人总是在变，到底听谁的"
+        }
+      ]
+    },
+    {
+      "term": "总是不",
+      "evidenceSamples": [
+        "而且这种视频总拍摄的一种下雨的场景，对于无家可归的人来说，在这里面刻意躲避暴雨，可以安心惬意地吃饭看电视，有温暖的灯光伴随入眠，真的是梦寐以求的生活吧。毕竟放眼现实，总是被雨水淋湿，即使有帐篷也会被其他流浪汉偷走、破坏。国内这种视频播放量也...",
+        "“我的一些奶淇琳啊，特别可爱，表达对我的爱的时候总是奇奇怪怪的～”",
+        "批评总是很容易，毕竟只需要动动嘴",
+        "仅粉丝可见马上又要说“她有三十万粉丝！所以仅粉丝可见也是网暴”了。。或者别的借口。一个总是可以找到无穷个借口合理化自己的行为的团体。。。",
+        "明明好像文字没有那么撕心裂肺，但是总会感到难过，看到燕院长会难过，薄荷精也是，还有柯瑾、菲兹、雅克白、林原、辫子叔…很多地方他们好像轻描淡写地开了些玩笑，但是我总是感觉很难过，可能这就是意难平吧。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DK4y1z7Wn/, https://www.bilibili.com/video/BV1R6TyzEEVu/, https://www.bilibili.com/video/BV198mKYYEJh/, https://www.bilibili.com/video/BV1kzJMz4E7x/, http://www.bilibili.com/video/av881315845, http://www.bilibili.com/video/av114641669722772, http://www.bilibili.com/video/av113316756200983, http://www.bilibili.com/video/av114525386839868",
+          "uid": "BV1DK4y1z7Wn,BV1R6TyzEEVu,BV198mKYYEJh,BV1kzJMz4E7x",
+          "sample": "而且这种视频总拍摄的一种下雨的场景，对于无家可归的人来说，在这里面刻意躲避暴雨，可以安心惬意地吃饭看电视，有温暖的灯光伴随入眠，真的是梦寐以求的生活吧。毕竟放眼现实，总是被雨水淋湿，即使有帐篷也会被其他流浪汉偷走、破坏。国内这种视频播放量也..."
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "“我的一些奶淇琳啊，特别可爱，表达对我的爱的时候总是奇奇怪怪的～”"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "批评总是很容易，毕竟只需要动动嘴"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1mpn2z1EPo/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115292474706476, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116532596179561, http://www.bilibili.com/video/av116386030557725",
+          "uid": "BV1Bb41197ff,BV1mpn2z1EPo,BV1VrVL6qEHk,BV1cFTN6PE7q,BV1Ra7L67ELc,BV1f4V16bEs8",
+          "sample": "仅粉丝可见马上又要说“她有三十万粉丝！所以仅粉丝可见也是网暴”了。。或者别的借口。一个总是可以找到无穷个借口合理化自己的行为的团体。。。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "明明好像文字没有那么撕心裂肺，但是总会感到难过，看到燕院长会难过，薄荷精也是，还有柯瑾、菲兹、雅克白、林原、辫子叔…很多地方他们好像轻描淡写地开了些玩笑，但是我总是感觉很难过，可能这就是意难平吧。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bb41197ff/, https://www.bilibili.com/video/BV1cFTN6PE7q/, https://www.bilibili.com/video/BV1VrVL6qEHk/, https://www.bilibili.com/video/BV1AcYnezEkW/, https://www.bilibili.com/video/BV1Ra7L67ELc/, https://www.bilibili.com/video/BV1f4V16bEs8/, https://www.bilibili.com/video/BV1DuVB6oEqK/, https://www.bilibili.com/video/BV17R4y1Z7Zv/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV11b87zHES7/, https://www.bilibili.com/video/BV1UhxQzVEC1/, https://www.bilibili.com/video/BV1KBEm6tEpw/, http://www.bilibili.com/video/av224823020, http://www.bilibili.com/video/av116664699978788, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av116678255972801, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av115332505143663, http://www.bilibili.com/video/av116797877526453, http://www.bilibili.com/video/av116114658958920, http://www.bilibili.com/video/av116822321927860, http://www.bilibili.com/video/av116815090947597, http://www.bilibili.com/video/av116700368341722, http://www.bilibili.com/video/av116812507252608, http://www.bilibili.com/video/av348065917, http://www.bilibili.com/video/av116824452635556, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116826314970508, http://www.bilibili.com/video/av114158502677070, http://www.bilibili.com/video/av1653372292, http://www.bilibili.com/video/av674585938, http://www.bilibili.com/video/av116816986770813, http://www.bilibili.com/video/av116820694603494, http://www.bilibili.com/video/av116825945873834, http://www.bilibili.com/video/av116815023838952, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av947251044, http://www.bilibili.com/video/av116819956406164, http://www.bilibili.com/video/av115755995693471, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116726440136064, http://www.bilibili.com/video/av116764692185541, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av585034028, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116824972726777, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115256957342943, http://www.bilibili.com/video/av116805125275968, http://www.bilibili.com/video/av116724578124362, http://www.bilibili.com/video/av116774221647430, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av115172400171685, http://www.bilibili.com/video/av112938530637846, http://www.bilibili.com/video/av116684144908810, http://www.bilibili.com/video/av114929449372370, http://www.bilibili.com/video/av116720064861381, http://www.bilibili.com/video/av922688107, http://www.bilibili.com/video/av116837991843682, http://www.bilibili.com/video/av114031130119231, http://www.bilibili.com/video/av116198914137354, http://www.bilibili.com/video/av1454637424, http://www.bilibili.com/video/av1700668450",
+          "uid": "BV1Bb41197ff,BV1cFTN6PE7q,BV1VrVL6qEHk,BV1AcYnezEkW,BV1Ra7L67ELc,BV1f4V16bEs8,BV1DuVB6oEqK,BV17R4y1Z7Zv,BV1yF7n6yEqz,BV11b87zHES7,BV1UhxQzVEC1,BV1KBEm6tEpw",
+          "sample": "仅粉丝可见马上又要说“她有三十万粉丝！所以仅粉丝可见也是网暴”了。。或者别的借口。一个总是可以找到无穷个借口合理化自己的行为的团体。。。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "院长和薄荷糖总是给我一种和剧情偏差一点点就会be的感觉，每次看都会感慨他们两个真的配啊，如果没有爆炸案他们两个人感觉会一个人过一辈子的感觉[委屈][委屈]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "长裤子又有粉丝要说为什么天天给穿裤子不给穿裙子，穿中裤说cody为什么给这样的裤子不显比例，穿裙子说裙子太短了，不满意的人总是在变，到底听谁的"
+        }
+      ]
+    },
+    {
+      "term": "总算",
+      "evidenceSamples": [
+        "总算是知道为什么会有这么多路怒族了 毕竟开的是机动车嘛",
+        "林林总总算不算叠词词恶心心",
+        "寻了半天，祥林嫂总算找到了牵肠挂肚的阿毛"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8540970787",
+          "uid": "阿伟◎◆",
+          "sample": "总算是知道为什么会有这么多路怒族了 毕竟开的是机动车嘛"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7783886924",
+          "uid": "▫白芽乌椹▫",
+          "sample": "林林总总算不算叠词词恶心心"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8412075092",
+          "uid": "笺墨无颜",
+          "sample": "寻了半天，祥林嫂总算找到了牵肠挂肚的阿毛"
+        }
+      ]
+    }
+  ]
+}

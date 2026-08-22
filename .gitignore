@@ -1,0 +1,72 @@
+node_modules/
+dist/
+.omx/
+.deepseek/
+.ai-sync/
+.DS_Store
+*.log
+server/data/localKeywordDictionary.json
+server/data/deepseekKeywordDictionary.json
+server/data/keywordHarvestState.json
+server/data/keywordHarvestReport.json
+server/data/keywordCoverageAudit.json
+server/data/keywordCoverageActions.json
+server/data/keywordCoverageQueries.txt
+server/data/keywordCoverageLoopReport.json
+server/data/keywordCorpusMiningLoopReport.json
+server/data/pythonContractComparison.json
+server/data/randomVerificationReport.json
+server/data/keywordCoverageAudit.python.json
+server/data/keywordCoverageQueries.python.txt
+server/data/keywordCoverageActions.python.json
+server/data/termCooccurrence.json
+server/data/.keyword-harvest.lock/
+server/data/*.json.lock/
+set-deepseek-env.ps1
+.env
+*.env.local
+*.env.private
+run-bilibili-video.links.ps1
+server/data/scraper_link_memory.json
+
+# Catch agent-generated scripts that might accidentally hardcode secrets
+# Pattern: any file under .claude/ that has "key" or "secret" in its name
+# (expand_sparse_axes.py exposure — June 2026; file now cleaned but pattern kept)
+.claude/*secret*
+.claude/*credential*
+
+.claude/agent-locks/
+.claude/autoresearch/
+.claude/plans/
+__pycache__/
+.claude/__pycache__/
+.claude/corpus_harvest/
+.claude/annotation_data/
+.claude/task_output/
+.claude/*.py
+.claude/*.js
+.claude/*.mjs
+.claude/*.ps1
+.claude/*.json
+.claude/*.txt
+.claude/*.png
+
+# Keep essential .claude/ config files
+!.claude/settings.json
+!.claude/settings.local.json
+!.claude/.compact_state.json
+!.claude/.compact_state.md
+!.claude/CLAUDE.md
+!.claude/tasks/
+!.claude/hooks/
+!.claude/worktrees/
+
+# Autoresearch session output — never commit debug/fix/coverage run artifacts
+autoresearch/
+
+# Agent-generated screenshots and verification images
+*.png
+*.jpg
+!docs/stats/*.png
+!docs/stats/*.jpg
+set-decodo-env.ps1

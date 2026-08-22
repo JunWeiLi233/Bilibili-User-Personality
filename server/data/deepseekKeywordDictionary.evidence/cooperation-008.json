@@ -1,0 +1,931 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "cooperation",
+  "shard": 8,
+  "shardCount": 42,
+  "evidence": [
+    {
+      "term": "你牛",
+      "evidenceSamples": [
+        "我牛大了",
+        "我去，你牛大了死侍",
+        "你牛大了[笑哭]",
+        "1. 称赞别人：你好厉害啊，就你牛逼\\n2. 麻烦别人：你不是很行嘛，靠你了\\n3. 敢于承诺：包的，你以为我是你吗\\n4. 情绪稳定：对不起你在我心里没那么重要\\n5. 不去提醒：我又不是你妈，干嘛理你",
+        "你牛大了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1WFTC6mEjj",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZCTj6YEdy",
+          "sample": "我去，你牛大了死侍"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1zfVn68Ead/",
+          "uid": "BV1zfVn68Ead",
+          "sample": "你牛大了[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mpVM6iE7s/",
+          "uid": "BV1mpVM6iE7s",
+          "sample": "1. 称赞别人：你好厉害啊，就你牛逼\\n2. 麻烦别人：你不是很行嘛，靠你了\\n3. 敢于承诺：包的，你以为我是你吗\\n4. 情绪稳定：对不起你在我心里没那么重要\\n5. 不去提醒：我又不是你妈，干嘛理你"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1gJVY61EXG/",
+          "uid": "BV1gJVY61EXG",
+          "sample": "你牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV112Tf6hEzF",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV15B8Cz3Ef5",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1QuMu6iEaN",
+          "sample": "我牛大了"
+        }
+      ]
+    },
+    {
+      "term": "你牛大了",
+      "evidenceSamples": [
+        "我牛大了",
+        "你牛大了",
+        "我去，你牛大了死侍",
+        "你牛大了[笑哭]",
+        "1. 称赞别人：你好厉害啊，就你牛逼\\n2. 麻烦别人：你不是很行嘛，靠你了\\n3. 敢于承诺：包的，你以为我是你吗\\n4. 情绪稳定：对不起你在我心里没那么重要\\n5. 不去提醒：我又不是你妈，干嘛理你"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1WFTC6mEjj",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV16GTs6dEPU",
+          "sample": "你牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZCTj6YEdy",
+          "sample": "我去，你牛大了死侍"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1zfVn68Ead/",
+          "uid": "BV1zfVn68Ead",
+          "sample": "你牛大了[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mpVM6iE7s/",
+          "uid": "BV1mpVM6iE7s",
+          "sample": "1. 称赞别人：你好厉害啊，就你牛逼\\n2. 麻烦别人：你不是很行嘛，靠你了\\n3. 敢于承诺：包的，你以为我是你吗\\n4. 情绪稳定：对不起你在我心里没那么重要\\n5. 不去提醒：我又不是你妈，干嘛理你"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV112Tf6hEzF",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV15B8Cz3Ef5",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1QuMu6iEaN",
+          "sample": "我牛大了"
+        }
+      ]
+    },
+    {
+      "term": "你的意思是",
+      "evidenceSamples": [
+        "你的意思是口臭吗？",
+        "你的意思是你家狗倒插门",
+        "你的意思是 河里也有鲸鱼？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "你的意思是口臭吗？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1aL411e7Vb/",
+          "uid": "BV1aL411e7Vb",
+          "sample": "你的意思是你家狗倒插门"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116640591189695/",
+          "uid": "38665783107",
+          "sample": "你的意思是 河里也有鲸鱼？"
+        }
+      ]
+    },
+    {
+      "term": "你的意思是不是",
+      "evidenceSamples": [
+        "你的意思是口臭吗？",
+        "你的意思是你家狗倒插门",
+        "你的意思是 河里也有鲸鱼？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "你的意思是口臭吗？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1aL411e7Vb/",
+          "uid": "BV1aL411e7Vb",
+          "sample": "你的意思是你家狗倒插门"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116640591189695/",
+          "uid": "38665783107",
+          "sample": "你的意思是 河里也有鲸鱼？"
+        }
+      ]
+    },
+    {
+      "term": "你神了",
+      "evidenceSamples": [
+        "这也可以搞对立，前面的哥们你神了",
+        "风景也要比较？你神了",
+        "这个想你神了好吧"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV18qTs6zEsr",
+          "sample": "这也可以搞对立，前面的哥们你神了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1t6KD6zEAJ",
+          "sample": "风景也要比较？你神了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1i9TE6eEZT",
+          "sample": "这个想你神了好吧"
+        }
+      ]
+    },
+    {
+      "term": "你继续",
+      "evidenceSamples": [
+        "看来你的审美和主流大众审美不太一样 希望你继续保持",
+        "质量堪忧，帧数低以外，demo的内容没有诚意，小吉我还是希望你继续做ff14而不是ff16",
+        "哼，罚你继续保持",
+        "求你继续更青2好吗我会每一期都投币的",
+        "其实你继续做，继续更新，不管其他评论，一年内可以翻转，但这一年你最好不要接商单"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "看来你的审美和主流大众审美不太一样 希望你继续保持"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "质量堪忧，帧数低以外，demo的内容没有诚意，小吉我还是希望你继续做ff14而不是ff16"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ZAodYqEy2/",
+          "uid": "BV1ZAodYqEy2",
+          "sample": "哼，罚你继续保持"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18pZrYHEyt/",
+          "uid": "BV18pZrYHEyt",
+          "sample": "求你继续更青2好吗我会每一期都投币的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "其实你继续做，继续更新，不管其他评论，一年内可以翻转，但这一年你最好不要接商单"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1zRF5eaEPK/",
+          "uid": "1666295785",
+          "sample": "攻略： . . . . . . . . . . . . . . . esfj：委婉推辞 intp：你继续 estp：直接离开 entp+estp：加入演出 istj：扣问号 intj：你说的对 enfp：先去过年 entj：默默答应 infj：保持沉默 istp：大声喊话 esfp：掏右边口袋 isfp+estj：吃点东西 estj：外包工作 enfj：需要我做什么 infp：使用吸尘器 isfj+infp：拿手机 通关啦！"
+        }
+      ]
+    },
+    {
+      "term": "你觉得呢",
+      "evidenceSamples": [
+        "但最近6080抽中的挺多的，但你10次想出全国可能有那么十几个吧，所以送10抽除非有基础，不然不要想中，除非你觉得你是全国那几个幸运儿[吃瓜]",
+        "双赢啊，你觉得你赚了，他觉得他赚了。直到他卡里没钱为止",
+        "我买过很多科技号，没出现过问题，你觉得没意思是不是因为会被封？还是说会被找回？",
+        "回复 @AVC_dayo :完在哪里，客观指标又是什么，连一个双方都认可的基础都没，你觉得的那个根源大部分是工科出生，没办法消融实验人家只怕不太爱搭理你哦[呲牙]",
+        "下面开始孙吧不要笑挑战 每人发一张你觉得最绷不住的图，被逗笑的8u要在那一层，看看谁能坚持最久。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "但最近6080抽中的挺多的，但你10次想出全国可能有那么十几个吧，所以送10抽除非有基础，不然不要想中，除非你觉得你是全国那几个幸运儿[吃瓜]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uE421P7Dz/, https://www.bilibili.com/video/BV1DLmBBkERg/, https://www.bilibili.com/video/BV1vG4y137S8/, https://www.bilibili.com/video/BV1u64y1w7AR/, http://www.bilibili.com/video/av1656139583, http://www.bilibili.com/video/av115719287084723, http://www.bilibili.com/video/av818595142, http://www.bilibili.com/video/av581755036",
+          "uid": "BV1uE421P7Dz,BV1DLmBBkERg,BV1vG4y137S8,BV1u64y1w7AR",
+          "sample": "双赢啊，你觉得你赚了，他觉得他赚了。直到他卡里没钱为止"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uE421P7Dz/, https://www.bilibili.com/video/BV1DLmBBkERg/, https://www.bilibili.com/video/BV1vG4y137S8/, https://www.bilibili.com/video/BV1u64y1w7AR/, http://www.bilibili.com/video/av1656139583, http://www.bilibili.com/video/av115719287084723, http://www.bilibili.com/video/av818595142, http://www.bilibili.com/video/av581755036",
+          "uid": "BV1uE421P7Dz,BV1DLmBBkERg,BV1vG4y137S8,BV1u64y1w7AR",
+          "sample": "我买过很多科技号，没出现过问题，你觉得没意思是不是因为会被封？还是说会被找回？"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @AVC_dayo :完在哪里，客观指标又是什么，连一个双方都认可的基础都没，你觉得的那个根源大部分是工科出生，没办法消融实验人家只怕不太爱搭理你哦[呲牙]"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "下面开始孙吧不要笑挑战 每人发一张你觉得最绷不住的图，被逗笑的8u要在那一层，看看谁能坚持最久。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @樾殇438 : 这不是很明显吗,对于美国流媒体听众来说中国小众音乐就是比中国流行音乐更多人听啊,你觉得米哈游很大众么,想想会玩二次元游戏的洋人的画像"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1p3411e7Pk/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116820912637065",
+          "uid": "BV1PdEy6EEjj,BV1H3KD68EfL,BV1u37J6EEd9,BV1W7nLzUE3b,BV1p3411e7Pk,BV1dV7j6JE4M",
+          "sample": "我多说一句，你们别光听课，自己去拉一条广告，多拉几遍才有概念，想想人家素材咋拍的，镜头长度怎么控制的 等等……在这里光听老师说，你觉得你已经都会了，没用。"
+        }
+      ]
+    },
+    {
+      "term": "你解释",
+      "evidenceSamples": [
+        "回复 @加里陽子 :不可能，那你解释解释要真是早期版本为啥能兼容存档到十天后的正式版里？",
+        "伦伦。，你解释一下这是什么操作，，啊哈哈哈",
+        "up主，问个问题啊。 你解释了番的问题，能不能顺便说说日本小说，漫画怎么分类。我完全不了解小说，漫画的情况，只知道有哪些文库。 以此延伸，再问问，日本人除开实体书店，用什么软件看漫画，小说。",
+        "谁要你解释了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @加里陽子 :不可能，那你解释解释要真是早期版本为啥能兼容存档到十天后的正式版里？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
+          "uid": "96367415",
+          "sample": "伦伦。，你解释一下这是什么操作，，啊哈哈哈"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av212221990/",
+          "uid": "173558934",
+          "sample": "up主，问个问题啊。 你解释了番的问题，能不能顺便说说日本小说，漫画怎么分类。我完全不了解小说，漫画的情况，只知道有哪些文库。 以此延伸，再问问，日本人除开实体书店，用什么软件看漫画，小说。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "谁要你解释了"
+        }
+      ]
+    },
+    {
+      "term": "你说",
+      "evidenceSamples": [
+        "我觉得你说的对✓，太对了，这个才是杨静澜本来的打算",
+        "是因为你说话的时候靠耳朵的共鸣，来让你确认你说的是否正确，然而聋人听不到自己说的是什么，即使说得出口，也是因为不确定而在乌拉乌拉说一大堆听不懂的话",
+        "你说的是外乡人在屋顶看洗澡的那一章吗[doge]",
+        "回复 @QAQ神赐 :笑死，不会有新手来要“自抽号”吧，不都是玩过游戏的？不是新手谁把他当大号？另外我上面说过让你们把自抽号当大号玩？不会吧不会吧？不会真的有人200保证出什么东西吧？既然都没有你说这些有什么意义那还说什么？纯纯的为了黑而黑...",
+        "你说过，我们的足迹遍布洛星，当我继续踏上这条路的时候，看见花木葱茏、云满湛空，还有那些洋溢着幸福的笑脸，就会再次见到你。😫"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "我觉得你说的对✓，太对了，这个才是杨静澜本来的打算"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "是因为你说话的时候靠耳朵的共鸣，来让你确认你说的是否正确，然而聋人听不到自己说的是什么，即使说得出口，也是因为不确定而在乌拉乌拉说一大堆听不懂的话"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV14h4y1475H/, https://www.bilibili.com/video/BV1QRUoYGEBS/, https://www.bilibili.com/video/BV1TT411z7aH/, https://www.bilibili.com/video/BV1qs4y1W7Ji/, http://www.bilibili.com/video/av614113506, http://www.bilibili.com/video/av113508050016305, http://www.bilibili.com/video/av483988908, http://www.bilibili.com/video/av948846370",
+          "uid": "BV14h4y1475H,BV1QRUoYGEBS,BV1TT411z7aH,BV1qs4y1W7Ji",
+          "sample": "你说的是外乡人在屋顶看洗澡的那一章吗[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uE421P7Dz/, https://www.bilibili.com/video/BV1DLmBBkERg/, https://www.bilibili.com/video/BV1vG4y137S8/, https://www.bilibili.com/video/BV1u64y1w7AR/, http://www.bilibili.com/video/av1656139583, http://www.bilibili.com/video/av115719287084723, http://www.bilibili.com/video/av818595142, http://www.bilibili.com/video/av581755036",
+          "uid": "BV1uE421P7Dz,BV1DLmBBkERg,BV1vG4y137S8,BV1u64y1w7AR",
+          "sample": "回复 @QAQ神赐 :笑死，不会有新手来要“自抽号”吧，不都是玩过游戏的？不是新手谁把他当大号？另外我上面说过让你们把自抽号当大号玩？不会吧不会吧？不会真的有人200保证出什么东西吧？既然都没有你说这些有什么意义那还说什么？纯纯的为了黑而黑..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "你说过，我们的足迹遍布洛星，当我继续踏上这条路的时候，看见花木葱茏、云满湛空，还有那些洋溢着幸福的笑脸，就会再次见到你。😫"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "回复 @bili_58572586524 :而且说实话娇妻文偶尔看看也不错，起码这个作者文笔在线，就当换换口味了，但披着大女主写娇妻文是真不行，你说起这个我就想起来每个世界会蹲在旁边冷眼观察女主，发现女主好就开始后悔，然后在旁边勾唇笑，抿嘴..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "网络语言黑话5：如 YYDS（永远的神）、XSWL（笑死我了）、NSDD（你说得对）、YYSY（有一说一）等，很多来自于中文拼音首字母缩写。"
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "你说未来有多条路径"
+        }
+      ]
+    },
+    {
+      "term": "你说呢",
+      "evidenceSamples": [
+        "要拍视频。。。你说呢",
+        "狗子都没被束缚住，你说呢？[呲牙]",
+        "66你说呢哈哈哈",
+        "光辉天天去下你说呢"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AaVh6fETy/",
+          "uid": "BV1AaVh6fETy",
+          "sample": "要拍视频。。。你说呢"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1gs1TBJEdN/",
+          "uid": "65816903",
+          "sample": "狗子都没被束缚住，你说呢？[呲牙]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1aaEb6UEvh/",
+          "uid": "BV1aaEb6UEvh",
+          "sample": "66你说呢哈哈哈"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av876720416/",
+          "uid": "1353830685",
+          "sample": "光辉天天去下你说呢"
+        }
+      ]
+    },
+    {
+      "term": "你请",
+      "evidenceSamples": [
+        "回复 @蒋骧照明设计工作室 :我不信，除非你请我吃[doge]",
+        "第一个，他给你买就是随便买，然后轮到你请的时候他就会挑三拣四，找自己舍不得买的要[笑哭]",
+        "不是，你请神没有副作用的嘛"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1RV4y1D7Gr/",
+          "uid": "410113929",
+          "sample": "回复 @蒋骧照明设计工作室 :我不信，除非你请我吃[doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1C6e2z3Egk/",
+          "uid": "1168750654",
+          "sample": "第一个，他给你买就是随便买，然后轮到你请的时候他就会挑三拣四，找自己舍不得买的要[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1MyEg6ZEPL/",
+          "uid": "BV1MyEg6ZEPL",
+          "sample": "不是，你请神没有副作用的嘛"
+        }
+      ]
+    },
+    {
+      "term": "你这瓜保熟吗",
+      "evidenceSamples": [
+        "你这瓜保熟吗？",
+        "你这瓜保熟吗",
+        "哥们儿你这瓜保熟吗？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1f1AtzKEEc",
+          "sample": "你这瓜保熟吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1C4421U76U",
+          "sample": "你这瓜保熟吗"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1KTTS6TEmh",
+          "sample": "哥们儿你这瓜保熟吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ueTe6YEFt",
+          "sample": "你这瓜保熟吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1NfTk6EEpB",
+          "sample": "你这瓜保熟吗"
+        }
+      ]
+    },
+    {
+      "term": "佩服",
+      "evidenceSamples": [
+        "就凭他的粉丝，侮辱袁爷爷没得洗吧？流量造假没得洗吧？潘长江在节目上不认识cxk就被你们骂，这没得洗吧？你们癌坤也是挺厉害的，之前来攻打b站，结果连答题都答不过，然后就宣布全体退出b站，现在又卷土重来，居然还洗白成功了，别跟我说什么你们没有，当我看不见一开始洗白cxk的都是二级、三级号？你们抓那些前面跟风黑，后面跟风洗白的人的心理挺准啊，趁着现在xzf搞事情你们就大面积得洗，我真是佩服[嫌弃]",
+        "杨过对郭靖的武功佩服得四体投地。",
+        "其实挺佩服蔡徐坤的，在小破站哪有哪个明星这么火的啊，黑红也是红哈哈哈",
+        "什么人会一眼注意到衣服啊，那个腿上的肌肉我看了真的佩服up，天道酬勤啊这个平时的练习真的一分耕耘一分收获"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "298423223",
+          "sample": "就凭他的粉丝，侮辱袁爷爷没得洗吧？流量造假没得洗吧？潘长江在节目上不认识cxk就被你们骂，这没得洗吧？你们癌坤也是挺厉害的，之前来攻打b站，结果连答题都答不过，然后就宣布全体退出b站，现在又卷土重来，居然还洗白成功了，别跟我说什么你们没有，当我看不见一开始洗白cxk的都是二级、三级号？你们抓那些前面跟风黑，后面跟风洗白的人的心理挺准啊，趁着现在xzf搞事情你们就大面积得洗，我真是佩服[嫌弃]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8360543232",
+          "uid": "我很弱mx",
+          "sample": "杨过对郭靖的武功佩服得四体投地。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "497135266",
+          "sample": "其实挺佩服蔡徐坤的，在小破站哪有哪个明星这么火的啊，黑红也是红哈哈哈"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dz5Y6REFU/, https://www.bilibili.com/video/BV1ADKnzhE87/, https://www.bilibili.com/video/BV15d4y1g7eu/, https://www.bilibili.com/video/BV1fGJH6GEfr/, http://www.bilibili.com/video/av116576502160308, http://www.bilibili.com/video/av114743910078740, http://www.bilibili.com/video/av345679120, http://www.bilibili.com/video/av116741573187021",
+          "uid": "BV1dz5Y6REFU,BV1ADKnzhE87,BV15d4y1g7eu,BV1fGJH6GEfr",
+          "sample": "什么人会一眼注意到衣服啊，那个腿上的肌肉我看了真的佩服up，天道酬勤啊这个平时的练习真的一分耕耘一分收获"
+        }
+      ]
+    },
+    {
+      "term": "俺也一样",
+      "evidenceSamples": [
+        "回复 @菠萝炖姜 :俺也一样",
+        "俺也一样，能看到别人点赞通知，回复的评论看不到",
+        "俺也一样，真的无语了，还没有解释讲给别人听还被误会[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1YL4y1s7zU/",
+          "uid": "34580411",
+          "sample": "回复 @菠萝炖姜 :俺也一样"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1dX4y147tR/",
+          "uid": "291959004",
+          "sample": "俺也一样，能看到别人点赞通知，回复的评论看不到"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1VL411p7cj/",
+          "uid": "487506104",
+          "sample": "俺也一样，真的无语了，还没有解释讲给别人听还被误会[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "倘若",
+      "evidenceSamples": [
+        "接下来，倘若MIDI技术对我国断供，国内的MIDI音乐制作软件都没做出来的话，那就彻底暴露国人就音乐最为短板了😓😓",
+        "倘若当年考试我把所有做错的题都做对，那我就是全校第一",
+        "倘若我绷住了呢？",
+        "倘若我绷住了呢",
+        "倘若他是友情出演不走正式聘用流程呢[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "接下来，倘若MIDI技术对我国断供，国内的MIDI音乐制作软件都没做出来的话，那就彻底暴露国人就音乐最为短板了😓😓"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7863518324",
+          "uid": "幻骑◆MK",
+          "sample": "倘若当年考试我把所有做错的题都做对，那我就是全校第一"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19pVj6BEKo/",
+          "uid": "BV19pVj6BEKo",
+          "sample": "倘若我绷住了呢？"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV18EVh6BEt3/",
+          "uid": "BV18EVh6BEt3",
+          "sample": "倘若我绷住了呢"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1UmVV6REiz/",
+          "uid": "BV1UmVV6REiz",
+          "sample": "倘若他是友情出演不走正式聘用流程呢[doge]"
+        }
+      ]
+    },
+    {
+      "term": "假如",
+      "evidenceSamples": [
+        "各位若汁请听题 假如你娶了你姐夫的姐姐，你姐夫喊你什么称呼 #弱智#",
+        "假如我的梦想是“我没有实现梦想” 那么到底算是实现了还是没有实现",
+        "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8685568452",
+          "uid": "贴吧用户_aXWJ3EM",
+          "sample": "各位若汁请听题 假如你娶了你姐夫的姐姐，你姐夫喊你什么称呼 #弱智#"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8106243687",
+          "uid": "贴吧用户_QC71e6a",
+          "sample": "假如我的梦想是“我没有实现梦想” 那么到底算是实现了还是没有实现"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8687794647",
+          "uid": "坐忘道心",
+          "sample": "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。"
+        }
+      ]
+    },
+    {
+      "term": "假牙",
+      "evidenceSamples": [
+        "兄弟们一起假牙，这把稳了！",
+        "明天考试，大家一起假牙啊！",
+        "看到评论区都在刷一起假牙，我也来一个。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "兄弟们一起假牙，这把稳了！"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "明天考试，大家一起假牙啊！"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "看到评论区都在刷一起假牙，我也来一个。"
+        }
+      ]
+    },
+    {
+      "term": "假设",
+      "evidenceSamples": [
+        "回复 @屉痒鳳 :再加上，不止大多数CP粉会不乐意，C这种行为多了之后，两方的唯粉肯定也不乐意。假设A的粉丝基数更大，那C这种行为直接会被A的唯粉打上B粉的标签，认为是B想蹭A的流量想疯了，因为A和B在镜头面前从来没同过框连这都要蹭。这种情...",
+        "⬆️图可以看到，同传播艾滋的比例在快速增加——卫生与计hua生yu委员会图2⬆️2020年，北京新增艾滋病例中，68%的病例为同性传播！——北京卫生健康委图3⬆️中国疾病预防控制中心统计：男同性恋（艾滋易传播人群）有3000万【为什么有疾病预防控制中心来统计同性恋数量？你品，你细品】可能有人拿图1说，你看，异性传播了69%！这个数据我帮助大家来履一下：图3，3000万人假设男女传播概率一样（实际上不可能一样，男同传播概率是4倍于女同），那么这21.4%就有10.7%是男同传播的，3000万男同，传播了10.7%的中国艾滋。10.7%有多少呢？来看下图⬇️⬇️2020年新增是11.2万例，也就是男同传播了1.2万例在去年的1～10月，中国3000万男同，按照存量计算104.5万例，10.7%【别忘了，实际数据可能数倍于这个！】是男同传播的，也就是男同传播了10万+的艾滋！",
+        "这样的假设，现实中并不存在或极端罕见",
+        "问个时间问题 假设美国时刻为2023年12月31日下午六点。 那么中国时刻是 2023年12月31日上午六点，还是2024年1月1日上午六点？ #地理#",
+        "假设突然有个版本说 云上五骁白珩没死，其实是活的，只是忆者把云上五骁的记忆篡改了，然后出了个白珩自机。 那样没人会接受。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @屉痒鳳 :再加上，不止大多数CP粉会不乐意，C这种行为多了之后，两方的唯粉肯定也不乐意。假设A的粉丝基数更大，那C这种行为直接会被A的唯粉打上B粉的标签，认为是B想蹭A的流量想疯了，因为A和B在镜头面前从来没同过框连这都要蹭。这种情..."
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "⬆️图可以看到，同传播艾滋的比例在快速增加——卫生与计hua生yu委员会图2⬆️2020年，北京新增艾滋病例中，68%的病例为同性传播！——北京卫生健康委图3⬆️中国疾病预防控制中心统计：男同性恋（艾滋易传播人群）有3000万【为什么有疾病预防控制中心来统计同性恋数量？你品，你细品】可能有人拿图1说，你看，异性传播了69%！这个数据我帮助大家来履一下：图3，3000万人假设男女传播概率一样（实际上不可能一样，男同传播概率是4倍于女同），那么这21.4%就有10.7%是男同传播的，3000万男同，传播了10.7%的中国艾滋。10.7%有多少呢？来看下图⬇️⬇️2020年新增是11.2万例，也就是男同传播了1.2万例在去年的1～10月，中国3000万男同，按照存量计算104.5万例，10.7%【别忘了，实际数据可能数倍于这个！】是男同传播的，也就是男同传播了10万+的艾滋！"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "这样的假设，现实中并不存在或极端罕见"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8711696120",
+          "uid": "贴吧用户_J7N5DVW",
+          "sample": "问个时间问题 假设美国时刻为2023年12月31日下午六点。 那么中国时刻是 2023年12月31日上午六点，还是2024年1月1日上午六点？ #地理#"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1idKZ6kEwX/, https://www.bilibili.com/video/BV1xRKo6WE36/, https://www.bilibili.com/video/BV1FmEm6HEaz/, https://www.bilibili.com/video/BV1xsKQ6zEBA/, https://www.bilibili.com/video/BV1sSk6B8Efv/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116833227184706, http://www.bilibili.com/video/av115529922713807, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116810410235206, http://www.bilibili.com/video/av116818429675101, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116793549003302, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av116837471880832, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116837656434353, http://www.bilibili.com/video/av116818865817289",
+          "uid": "BV1Z1Kd66ExR,BV1idKZ6kEwX,BV1xRKo6WE36,BV1FmEm6HEaz,BV1xsKQ6zEBA,BV1sSk6B8Efv",
+          "sample": "假设突然有个版本说 云上五骁白珩没死，其实是活的，只是忆者把云上五骁的记忆篡改了，然后出了个白珩自机。 那样没人会接受。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "· 为什么不追溯：如果你的四个妻子都长期生活在非洲，婚姻关系仅在非洲被承认，这个行为及其产生的法律关系（家庭、财产、子女）完全被限制在外国。它没有破坏中国境内的一夫一妻制秩序（假设你在国内没有配偶），对中国社会没有产生直接的危害。因此，中国..."
+        }
+      ]
+    },
+    {
+      "term": "偷了",
+      "evidenceSamples": [
+        "我的狗被偷了，我就要去偷别人的，什么神仙人物",
+        "你的狗被偷了跟你偷狗有什么关系，说这些废话有啥用",
+        "什么鬼才逻辑，你的狗被偷了，你就可以偷别人的够？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "我的狗被偷了，我就要去偷别人的，什么神仙人物"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "你的狗被偷了跟你偷狗有什么关系，说这些废话有啥用"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Z3G96mEx1/",
+          "uid": "BV1Z3G96mEx1",
+          "sample": "什么鬼才逻辑，你的狗被偷了，你就可以偷别人的够？"
+        }
+      ]
+    },
+    {
+      "term": "催更",
+      "evidenceSamples": [
+        "回复 @尘彧 :我不催更，优质视频确实需要时间慢慢打磨，但是不喜欢那种失望的感觉，天天等结果什么也没有，还不如哪一天突然给我弹个更新通知有惊喜感",
+        "感谢金主妈妈催更",
+        "催更，关中王又来了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av116619082798184/",
+          "uid": "1954795",
+          "sample": "回复 @尘彧 :我不催更，优质视频确实需要时间慢慢打磨，但是不喜欢那种失望的感觉，天天等结果什么也没有，还不如哪一天突然给我弹个更新通知有惊喜感"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "感谢金主妈妈催更"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yrVj6xEh8/",
+          "uid": "BV1yrVj6xEh8",
+          "sample": "催更，关中王又来了"
+        }
+      ]
+    },
+    {
+      "term": "傲娇",
+      "evidenceSamples": [
+        "如果连我自己都不原谅自己，那么就没人能原谅我了[傲娇]",
+        "听说弹幕发送“下次一定”有愚人节彩蛋[傲娇][傲娇][傲娇]",
+        "回复 @黄焖火头鸭 : 坏猫！[傲娇]",
+        "回复 @赵老师硬笔书法 :老师你牙没龇出来[傲娇]",
+        "BYD有法师施法t1怎么赢[傲娇]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "如果连我自己都不原谅自己，那么就没人能原谅我了[傲娇]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av459965532/",
+          "uid": "677865752",
+          "sample": "听说弹幕发送“下次一定”有愚人节彩蛋[傲娇][傲娇][傲娇]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1EPEF6LEMQ/",
+          "uid": "179937453",
+          "sample": "回复 @黄焖火头鸭 : 坏猫！[傲娇]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1vP4y1g7ZQ/",
+          "uid": "507350210",
+          "sample": "回复 @赵老师硬笔书法 :老师你牙没龇出来[傲娇]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1J64y1q7ob/, https://www.bilibili.com/video/BV1ex4y1G7Dq/, https://www.bilibili.com/video/BV1DP411B7cp/, https://www.bilibili.com/video/BV1AZS3YqENp/, http://www.bilibili.com/video/av759838837, http://www.bilibili.com/video/av989989993, http://www.bilibili.com/video/av314717671, http://www.bilibili.com/video/av113395944653183",
+          "uid": "BV1J64y1q7ob,BV1ex4y1G7Dq,BV1DP411B7cp,BV1AZS3YqENp",
+          "sample": "BYD有法师施法t1怎么赢[傲娇]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "okok，我抽三个361了，看来好日子要来辣[傲娇]"
+        }
+      ]
+    },
+    {
+      "term": "兄dei",
+      "evidenceSamples": [
+        "{'text': '不是兄dei，咱可以找点好的[喜极而泣]', 'sample': '不是兄dei，咱可以找点好的[喜极而泣]'}",
+        "{'text': '兄dei你怎么那么爱杠我呀', 'sample': '兄dei你怎么那么爱杠我呀'}",
+        "兄dei，太简单了，宵夜时分~\\n必须补上[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU",
+          "uid": "2463842",
+          "sample": "不是兄dei，咱可以找点好的[喜极而泣]"
+        },
+        {
+          "source": "AICU",
+          "uid": "26139491",
+          "sample": "兄dei你怎么那么爱杠我呀"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1keZtYiEJU/",
+          "uid": "BV1keZtYiEJU",
+          "sample": "兄dei，太简单了，宵夜时分~\\n必须补上[doge]"
+        }
+      ]
+    },
+    {
+      "term": "兄弟",
+      "evidenceSamples": [
+        "把京介卖了（京介在绿龙青训都是为了和donk打兄弟cs的啊）",
+        "哪来的兄弟CS，这两个都不是同一期的，哥们纯靠编啊。营销了这么久不就是为了卖个好价钱吗？",
+        "兄弟你这评论也太搞了[嗑瓜子]",
+        "兄弟你的脚究竟经历了什么[喜极而泣]",
+        "回复 @花荣射雕 :早都调到15级了兄弟[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "把京介卖了（京介在绿龙青训都是为了和donk打兄弟cs的啊）"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "哪来的兄弟CS，这两个都不是同一期的，哥们纯靠编啊。营销了这么久不就是为了卖个好价钱吗？"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1unJK6QEbi/",
+          "uid": "401191131",
+          "sample": "兄弟你这评论也太搞了[嗑瓜子]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1fZ4y1T7Q2/",
+          "uid": "524284315",
+          "sample": "兄弟你的脚究竟经历了什么[喜极而泣]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av115338528233727/",
+          "uid": "34017635",
+          "sample": "回复 @花荣射雕 :早都调到15级了兄弟[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV14h4y1475H/, https://www.bilibili.com/video/BV1QRUoYGEBS/, https://www.bilibili.com/video/BV1TT411z7aH/, https://www.bilibili.com/video/BV1qs4y1W7Ji/, http://www.bilibili.com/video/av614113506, http://www.bilibili.com/video/av113508050016305, http://www.bilibili.com/video/av483988908, http://www.bilibili.com/video/av948846370",
+          "uid": "BV14h4y1475H,BV1QRUoYGEBS,BV1TT411z7aH,BV1qs4y1W7Ji",
+          "sample": "《百年孤独》很害怕，真的。兄弟们，那个描写，不是恐怖血腥，超级魔幻，还yellow"
+        }
+      ]
+    },
+    {
+      "term": "兄弟cs",
+      "evidenceSamples": [
+        "把京介卖了（京介在绿龙青训都是为了和donk打兄弟cs的啊）",
+        "哪来的兄弟CS，这两个都不是同一期的，哥们纯靠编啊。营销了这么久不就是为了卖个好价钱吗？",
+        "兄弟你这评论也太搞了[嗑瓜子]",
+        "兄弟你的脚究竟经历了什么[喜极而泣]",
+        "回复 @花荣射雕 :早都调到15级了兄弟[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "把京介卖了（京介在绿龙青训都是为了和donk打兄弟cs的啊）"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "哪来的兄弟CS，这两个都不是同一期的，哥们纯靠编啊。营销了这么久不就是为了卖个好价钱吗？"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1unJK6QEbi/",
+          "uid": "401191131",
+          "sample": "兄弟你这评论也太搞了[嗑瓜子]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1fZ4y1T7Q2/",
+          "uid": "524284315",
+          "sample": "兄弟你的脚究竟经历了什么[喜极而泣]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av115338528233727/",
+          "uid": "34017635",
+          "sample": "回复 @花荣射雕 :早都调到15级了兄弟[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV14h4y1475H/, https://www.bilibili.com/video/BV1QRUoYGEBS/, https://www.bilibili.com/video/BV1TT411z7aH/, https://www.bilibili.com/video/BV1qs4y1W7Ji/, http://www.bilibili.com/video/av614113506, http://www.bilibili.com/video/av113508050016305, http://www.bilibili.com/video/av483988908, http://www.bilibili.com/video/av948846370",
+          "uid": "BV14h4y1475H,BV1QRUoYGEBS,BV1TT411z7aH,BV1qs4y1W7Ji",
+          "sample": "《百年孤独》很害怕，真的。兄弟们，那个描写，不是恐怖血腥，超级魔幻，还yellow"
+        }
+      ]
+    },
+    {
+      "term": "充电",
+      "evidenceSamples": [
+        "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]",
+        "牛逼好用[脱单doge]，再次感谢up，像充电，奈何囊中羞涩，投两个币以示敬意",
+        "单位不给充电。每个月给报销油费，只能开汽油车，4500封顶，只要有票。一个月最多用1500的油。只能办卡充值。现在加油卡里的钱越来越多。我在想，等我退休了估计加油卡能再用几十年了。",
+        "up主再见啦，很抱歉做了这个决定，希望我们有缘再见吧。因为遇到了一些意料之外的事情，对我影响和打击比较大，所以和你正式道个别吧。真的挺舍不得你的，这么久了，能够认识你真的很开心。谢谢你带给我了许多欢乐和感动，谢谢你一直陪在我的身边，三连我留...",
+        "回复 @纪伯苍 :充电宝把手机充满了是这样的，要节制啊[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1NwWtzFEBt/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av115394060881962",
+          "uid": "BV1NwWtzFEBt",
+          "sample": "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1npVPzcENK/",
+          "uid": "274423628",
+          "sample": "牛逼好用[脱单doge]，再次感谢up，像充电，奈何囊中羞涩，投两个币以示敬意"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "单位不给充电。每个月给报销油费，只能开汽油车，4500封顶，只要有票。一个月最多用1500的油。只能办卡充值。现在加油卡里的钱越来越多。我在想，等我退休了估计加油卡能再用几十年了。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "up主再见啦，很抱歉做了这个决定，希望我们有缘再见吧。因为遇到了一些意料之外的事情，对我影响和打击比较大，所以和你正式道个别吧。真的挺舍不得你的，这么久了，能够认识你真的很开心。谢谢你带给我了许多欢乐和感动，谢谢你一直陪在我的身边，三连我留..."
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1vy1VYJESY/",
+          "uid": "430626798",
+          "sample": "回复 @纪伯苍 :充电宝把手机充满了是这样的，要节制啊[doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1xu4y1X7Uu/",
+          "uid": "472552883",
+          "sample": "回复 @_天道总司 :除了充电，玩原神这类游戏开高画质发热，日常看视频，看书，玩游戏几乎不热，到手两天感觉手机还行"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "上班八小时，正好把电充满。还是免费充电，一年就省出五六千元，很不错。"
+        }
+      ]
+    },
+    {
+      "term": "充电宝",
+      "evidenceSamples": [
+        "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]",
+        "up主再见啦，很抱歉做了这个决定，希望我们有缘再见吧。因为遇到了一些意料之外的事情，对我影响和打击比较大，所以和你正式道个别吧。真的挺舍不得你的，这么久了，能够认识你真的很开心。谢谢你带给我了许多欢乐和感动，谢谢你一直陪在我的身边，三连我留...",
+        "回复 @纪伯苍 :充电宝把手机充满了是这样的，要节制啊[doge]",
+        "回复 @_天道总司 :除了充电，玩原神这类游戏开高画质发热，日常看视频，看书，玩游戏几乎不热，到手两天感觉手机还行",
+        "牛逼好用[脱单doge]，再次感谢up，像充电，奈何囊中羞涩，投两个币以示敬意"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1NwWtzFEBt/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av115394060881962",
+          "uid": "BV1NwWtzFEBt",
+          "sample": "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "up主再见啦，很抱歉做了这个决定，希望我们有缘再见吧。因为遇到了一些意料之外的事情，对我影响和打击比较大，所以和你正式道个别吧。真的挺舍不得你的，这么久了，能够认识你真的很开心。谢谢你带给我了许多欢乐和感动，谢谢你一直陪在我的身边，三连我留..."
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1vy1VYJESY/",
+          "uid": "430626798",
+          "sample": "回复 @纪伯苍 :充电宝把手机充满了是这样的，要节制啊[doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1xu4y1X7Uu/",
+          "uid": "472552883",
+          "sample": "回复 @_天道总司 :除了充电，玩原神这类游戏开高画质发热，日常看视频，看书，玩游戏几乎不热，到手两天感觉手机还行"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1npVPzcENK/",
+          "uid": "274423628",
+          "sample": "牛逼好用[脱单doge]，再次感谢up，像充电，奈何囊中羞涩，投两个币以示敬意"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "单位不给充电。每个月给报销油费，只能开汽油车，4500封顶，只要有票。一个月最多用1500的油。只能办卡充值。现在加油卡里的钱越来越多。我在想，等我退休了估计加油卡能再用几十年了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "上班八小时，正好把电充满。还是免费充电，一年就省出五六千元，很不错。"
+        }
+      ]
+    }
+  ]
+}

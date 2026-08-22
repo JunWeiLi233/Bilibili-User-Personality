@@ -1,0 +1,802 @@
+{
+  "ok": false,
+  "generatedAt": "2026-06-25T08:15:35.764565Z",
+  "targetEvidence": 3,
+  "minCoverageRatio": 1,
+  "requireComplete": true,
+  "requireSourceBackedEvidence": false,
+  "coverage": {
+    "complete": false,
+    "targetEvidence": 3,
+    "terms": 1579,
+    "totalEvidence": 9092,
+    "averageEvidence": 5.76,
+    "coverageRatio": 0.9709,
+    "evidenceDeficit": 86,
+    "sourcedEvidenceTerms": 1579,
+    "sourceCoverageRatio": 1.0,
+    "unsourcedEvidenceTerms": 0,
+    "weakTerms": 46,
+    "zeroEvidenceTerms": 0,
+    "weakSamples": [
+      {
+        "term": "就是鬼畜标签",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "就算六个齐上也不是我对手",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "没有成为炒饭的资格",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "男的就是这样",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "男的就是这样爱推卸责任",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "缺点只有一个",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "缺点只有一个贵",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "茶庄10个有9个洗钱的",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "说八百遍了",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "谁都受不住",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "都说八百遍了",
+        "family": "absolutes",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "8打5的雷霆",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "一个多亿",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "侮辱乐手",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "分不清轻重",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "分不清轻重就乱套",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "基本没有音乐理解",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "就是要干你",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "换个地方再就业",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "有什么值得炫耀的",
+        "family": "attack",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      }
+    ],
+    "zeroEvidenceSamples": [],
+    "unsourcedEvidenceSamples": [],
+    "byFamily": {
+      "attack": {
+        "terms": 965,
+        "evidence": 5480,
+        "weak": 17,
+        "zero": 0,
+        "sourced": 965
+      },
+      "absolutes": {
+        "terms": 130,
+        "evidence": 729,
+        "weak": 12,
+        "zero": 0,
+        "sourced": 130
+      },
+      "evidence": {
+        "terms": 35,
+        "evidence": 210,
+        "weak": 1,
+        "zero": 0,
+        "sourced": 35
+      },
+      "evasion": {
+        "terms": 66,
+        "evidence": 362,
+        "weak": 3,
+        "zero": 0,
+        "sourced": 66
+      },
+      "cooperation": {
+        "terms": 350,
+        "evidence": 2104,
+        "weak": 12,
+        "zero": 0,
+        "sourced": 350
+      },
+      "correction": {
+        "terms": 33,
+        "evidence": 207,
+        "weak": 1,
+        "zero": 0,
+        "sourced": 33
+      }
+    }
+  },
+  "termAttemptSummary": {
+    "attemptedTerms": 0,
+    "successfulTerms": 0,
+    "unattemptedTerms": 1579,
+    "unattemptedSamples": [
+      {
+        "term": "就是鬼畜标签",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "就算六个齐上也不是我对手",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "没有成为炒饭的资格",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "男的就是这样",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "男的就是这样爱推卸责任",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "缺点只有一个",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "缺点只有一个贵",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "茶庄10个有9个洗钱的",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "说八百遍了",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "谁都受不住",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "都说八百遍了",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "8打5的雷霆",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "一个多亿",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "侮辱乐手",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "分不清轻重",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "分不清轻重就乱套",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "基本没有音乐理解",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "就是要干你",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "换个地方再就业",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "有什么值得炫耀的",
+        "family": "attack",
+        "evidenceCount": 1
+      }
+    ],
+    "repeatedlyMissedTerms": [],
+    "exhaustedTerms": 0,
+    "exhaustedSamples": []
+  },
+  "actionSummary": {
+    "harvest": 46,
+    "none": 1533
+  },
+  "familyGaps": [
+    {
+      "family": "attack",
+      "terms": 965,
+      "weak": 17,
+      "zero": 0,
+      "evidence": 5480,
+      "coverageRatio": 0.9824
+    },
+    {
+      "family": "absolutes",
+      "terms": 130,
+      "weak": 12,
+      "zero": 0,
+      "evidence": 729,
+      "coverageRatio": 0.9077
+    },
+    {
+      "family": "cooperation",
+      "terms": 350,
+      "weak": 12,
+      "zero": 0,
+      "evidence": 2104,
+      "coverageRatio": 0.9657
+    },
+    {
+      "family": "evasion",
+      "terms": 66,
+      "weak": 3,
+      "zero": 0,
+      "evidence": 362,
+      "coverageRatio": 0.9545
+    },
+    {
+      "family": "correction",
+      "terms": 33,
+      "weak": 1,
+      "zero": 0,
+      "evidence": 207,
+      "coverageRatio": 0.9697
+    },
+    {
+      "family": "evidence",
+      "terms": 35,
+      "weak": 1,
+      "zero": 0,
+      "evidence": 210,
+      "coverageRatio": 0.9714
+    }
+  ],
+  "nextActions": [
+    {
+      "term": "就是鬼畜标签",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "就是鬼畜标签",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "就是鬼畜标签 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "就算六个齐上也不是我对手",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "就算六个齐上也不是我对手",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "就算六个齐上也不是我对手 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "没有成为炒饭的资格",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "没有成为炒饭的资格",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "没有成为炒饭的资格 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "男的就是这样",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "男的就是这样",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "男的就是这样 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "男的就是这样爱推卸责任",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "男的就是这样爱推卸责任",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "男的就是这样爱推卸责任 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "缺点只有一个",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "缺点只有一个",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "缺点只有一个 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "缺点只有一个贵",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "缺点只有一个贵",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "缺点只有一个贵 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "茶庄10个有9个洗钱的",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "茶庄10个有9个洗钱的",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "茶庄10个有9个洗钱的 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "说八百遍了",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "说八百遍了",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "说八百遍了 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "谁都受不住",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "谁都受不住",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "谁都受不住 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "都说八百遍了",
+      "family": "absolutes",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "都说八百遍了",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "都说八百遍了 绝对化 评论 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "8打5的雷霆",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "8打5的雷霆",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "8打5的雷霆 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "一个多亿",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "一个多亿",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "一个多亿 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "侮辱乐手",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "侮辱乐手",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "侮辱乐手 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "分不清轻重",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "分不清轻重",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "分不清轻重 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "分不清轻重就乱套",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "分不清轻重就乱套",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "分不清轻重就乱套 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "基本没有音乐理解",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "基本没有音乐理解",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "基本没有音乐理解 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "就是要干你",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "就是要干你",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "就是要干你 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "换个地方再就业",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "换个地方再就业",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "换个地方再就业 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "有什么值得炫耀的",
+      "family": "attack",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 1,
+      "coverageEvidenceCount": 1,
+      "sourcedEvidence": true,
+      "recommendationGroup": "有什么值得炫耀的",
+      "targetEvidence": 3,
+      "evidenceNeeded": 2,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "有什么值得炫耀的 评论区 梗 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    }
+  ],
+  "recommendedQueries": [
+    "就是鬼畜标签 绝对化 评论 热评",
+    "就算六个齐上也不是我对手 绝对化 评论 热评",
+    "没有成为炒饭的资格 绝对化 评论 热评",
+    "男的就是这样 绝对化 评论 热评",
+    "男的就是这样爱推卸责任 绝对化 评论 热评",
+    "缺点只有一个 绝对化 评论 热评",
+    "缺点只有一个贵 绝对化 评论 热评",
+    "茶庄10个有9个洗钱的 绝对化 评论 热评",
+    "说八百遍了 绝对化 评论 热评",
+    "谁都受不住 绝对化 评论 热评",
+    "都说八百遍了 绝对化 评论 热评",
+    "8打5的雷霆 评论区 梗 热评",
+    "一个多亿 评论区 梗 热评",
+    "侮辱乐手 评论区 梗 热评",
+    "分不清轻重 评论区 梗 热评",
+    "分不清轻重就乱套 评论区 梗 热评",
+    "基本没有音乐理解 评论区 梗 热评",
+    "就是要干你 评论区 梗 热评",
+    "换个地方再就业 评论区 梗 热评",
+    "有什么值得炫耀的 评论区 梗 热评"
+  ],
+  "failureReasons": [
+    "coverage ratio 0.9709 is below 1",
+    "46 term(s) are below 3 evidence hit(s)"
+  ]
+}

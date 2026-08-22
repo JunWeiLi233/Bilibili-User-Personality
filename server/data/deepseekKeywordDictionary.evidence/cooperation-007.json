@@ -1,0 +1,726 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "cooperation",
+  "shard": 7,
+  "shardCount": 42,
+  "evidence": [
+    {
+      "term": "仔细想想",
+      "evidenceSamples": [
+        "仔细想想，音乐，影视，再到体育等等都不是这样吗？",
+        "仔细想想，玩到最后其实谁也没有拯救，仅仅感动了我自己",
+        "看到剪女主人的头发，突然想起来前年我家猫猫走的时候。我把她放进那个小小的盒子里，放进她的玩具，仔细想想她给我留下了这么多回忆，我却好像没什么可能给她的，最后剪了一大截头发绑在她手上，把一直带的手串留给她了，这是我唯一能留给她的东西了",
+        "看了很多评论 忍不住想感慨一下。大概是因为小宋小时候的唱功真的太优异，导致很多人都对小宋有相较于队友更严厉的评判标准和很高的期待。但大家仔细想想，小宋不管是处于变声期还是变声前都有着很多足够惊艳人的地方。二代第一个戏腔，一个人的阿卡贝拉，撕裂音怒音rap,b-box，独特的真假声转换和百万和音大户，从摇滚，民谣再唱到R&B。变声期中低音下拓，玩乐器的熟练度和舞蹈的飞速进步 每一处小细节都在表明着他是有天赋又异常勤奋努力的孩子。他所有的努力，都有迹可循。他是光速成长的，所以也很需要大家的鼓励和宽容。就像他说的“再多给我一点时间 我一定干到最好”[拥抱]你们看 现在的小宋照样惊艳了众人啊。“我依然还是那个他 forever young”多夸夸他吧 他真的很棒很棒 一直是我们的骄傲[爱心]",
+        "这个形容我笑疯了哈哈哈哈，仔细想想确实是这么一回事"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "仔细想想，音乐，影视，再到体育等等都不是这样吗？"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "仔细想想，玩到最后其实谁也没有拯救，仅仅感动了我自己"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1fnZbYAEr1/",
+          "uid": "BV1fnZbYAEr1",
+          "sample": "看到剪女主人的头发，突然想起来前年我家猫猫走的时候。我把她放进那个小小的盒子里，放进她的玩具，仔细想想她给我留下了这么多回忆，我却好像没什么可能给她的，最后剪了一大截头发绑在她手上，把一直带的手串留给她了，这是我唯一能留给她的东西了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H44y167rS/",
+          "uid": "BV1H44y167rS",
+          "sample": "看了很多评论 忍不住想感慨一下。大概是因为小宋小时候的唱功真的太优异，导致很多人都对小宋有相较于队友更严厉的评判标准和很高的期待。但大家仔细想想，小宋不管是处于变声期还是变声前都有着很多足够惊艳人的地方。二代第一个戏腔，一个人的阿卡贝拉，撕裂音怒音rap,b-box，独特的真假声转换和百万和音大户，从摇滚，民谣再唱到R&B。变声期中低音下拓，玩乐器的熟练度和舞蹈的飞速进步 每一处小细节都在表明着他是有天赋又异常勤奋努力的孩子。他所有的努力，都有迹可循。他是光速成长的，所以也很需要大家的鼓励和宽容。就像他说的“再多给我一点时间 我一定干到最好”[拥抱]你们看 现在的小宋照样惊艳了众人啊。“我依然还是那个他 forever young”多夸夸他吧 他真的很棒很棒 一直是我们的骄傲[爱心]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1buVS64Ed9/",
+          "uid": "BV1buVS64Ed9",
+          "sample": "这个形容我笑疯了哈哈哈哈，仔细想想确实是这么一回事"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "芭比知名度这么高，为啥少人喜欢，仔细想想？"
+        }
+      ]
+    },
+    {
+      "term": "他真的我哭死",
+      "evidenceSamples": [
+        "这个男主竟然不会放鸽子，他真的我哭死",
+        "沈玉他真的我哭死，他不会是重生在救女主啊",
+        "他甚至怀疑了别人，都没有怀疑过你，他真的我哭死"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ah411G7J5/",
+          "uid": "BV1Ah411G7J5",
+          "sample": "这个男主竟然不会放鸽子，他真的我哭死"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1E94y1J7xq/",
+          "uid": "BV1E94y1J7xq",
+          "sample": "沈玉他真的我哭死，他不会是重生在救女主啊"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1eMGm6xEfW/",
+          "uid": "BV1eMGm6xEfW",
+          "sample": "他甚至怀疑了别人，都没有怀疑过你，他真的我哭死"
+        }
+      ]
+    },
+    {
+      "term": "以及",
+      "evidenceSamples": [
+        "回复 @屉痒鳳 :我是娱乐圈路人粉，就我的观点来看，如果一对从未在镜头前有互动几乎可以推定是互不认识的男女明星A和B，在双方超话里出现了一个上蹿下跳强拉cp的高仿号C。磕CP不是不行，但是一般都默认圈地自萌，像文中男主这种操纵C号和自己互动...",
+        "该视频包含kg串子，和串子吻上的白解，恨敌但装敌厨的白解，用cp图当头像的白解，老熟人老套路，以及这条补档的评论，真是恨海情天啊[捂脸]",
+        "黑话产生于特定的社会群体中，作为交流信息的工具，得到了这一特定社会群体的普遍认同和遵循实用。一些具有秘密性质的社会政治组织、经济群团，以及以游艺竞技、职事行业和劳动生活为联系而形成的社会群体中，都会有隐语行话的存在。比如我国近代社会的“哥老...",
+        "综上所述，黄金在金融中具有避险、货币储备、投资组合多样化、对冲通货膨胀、交易和投机以及维护全球金融体系稳定性等多重作用。这些特性使得黄金成为金融市场中备受关注的重要资产。",
+        "展现社会百态：画中包含了男女老幼各种人物高达 500 多个，还有牛、骡、驴等动物，车、轿、大小船只等交通工具，以及建筑、桥梁、城楼等各种特色元素，全面地反映了当时社会各阶层人民的生活状况，如商业活动、民俗风情、交通运输等，是研究宋代社会的综..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @屉痒鳳 :我是娱乐圈路人粉，就我的观点来看，如果一对从未在镜头前有互动几乎可以推定是互不认识的男女明星A和B，在双方超话里出现了一个上蹿下跳强拉cp的高仿号C。磕CP不是不行，但是一般都默认圈地自萌，像文中男主这种操纵C号和自己互动..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "该视频包含kg串子，和串子吻上的白解，恨敌但装敌厨的白解，用cp图当头像的白解，老熟人老套路，以及这条补档的评论，真是恨海情天啊[捂脸]"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "黑话产生于特定的社会群体中，作为交流信息的工具，得到了这一特定社会群体的普遍认同和遵循实用。一些具有秘密性质的社会政治组织、经济群团，以及以游艺竞技、职事行业和劳动生活为联系而形成的社会群体中，都会有隐语行话的存在。比如我国近代社会的“哥老..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "综上所述，黄金在金融中具有避险、货币储备、投资组合多样化、对冲通货膨胀、交易和投机以及维护全球金融体系稳定性等多重作用。这些特性使得黄金成为金融市场中备受关注的重要资产。"
+        },
+        {
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "展现社会百态：画中包含了男女老幼各种人物高达 500 多个，还有牛、骡、驴等动物，车、轿、大小船只等交通工具，以及建筑、桥梁、城楼等各种特色元素，全面地反映了当时社会各阶层人民的生活状况，如商业活动、民俗风情、交通运输等，是研究宋代社会的综..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "该视频包含kg串子，和串子吻上的白解，恨敌但装敌厨的白解，用cp图当头像的白解，老熟人老套路，以及这条补档的评论，真是恨海情天啊[捂脸]"
+        },
+        {
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "总体而言，这个故事是一个充满了奇特想象、荒诞情节、角色形象扭曲以及逻辑混乱的故事，与《猎魔人》原本的故事体系有很大的差异。"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "总体而言，这个故事是一个充满了奇特想象、荒诞情节、角色形象扭曲以及逻辑混乱的故事，与《猎魔人》原本的故事体系有很大的差异。"
+        }
+      ]
+    },
+    {
+      "term": "优秀",
+      "evidenceSamples": [
+        "而敖丙也就成为了一个戏里戏外流于表面的虚伪角色，外表精致，灵珠直接代表着优秀的别人家的孩子，他有点像哆啦A梦里的出木英才，优秀到虚幻，脸谱化，更像是那个硬凑的红蓝cp，因为他是蓝，所以才重要才不可或缺，",
+        "优秀啊",
+        "优秀员工 100%",
+        "up主好优秀，好帅啊",
+        "恰恰相反，老外不懂歌词才能公平的打分，而且歌手评分重点是声乐技术，歌再优秀，无法展现出万妮达的高超技术就拿不到高分"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "而敖丙也就成为了一个戏里戏外流于表面的虚伪角色，外表精致，灵珠直接代表着优秀的别人家的孩子，他有点像哆啦A梦里的出木英才，优秀到虚幻，脸谱化，更像是那个硬凑的红蓝cp，因为他是蓝，所以才重要才不可或缺，"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "优秀啊"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "优秀员工 100%"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "up主好优秀，好帅啊"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Q9MF6yEZy",
+          "sample": "恰恰相反，老外不懂歌词才能公平的打分，而且歌手评分重点是声乐技术，歌再优秀，无法展现出万妮达的高超技术就拿不到高分"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "这次5.3纳塔主线剧情完结篇，我个人给到8分。比5.0(7.5分)和5.2(主线5分，流灰之城8分)好，不如5.1(九分优秀)。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "其实哪怕到志愿军那时候也没特别富，所以我们靠的就是优秀的战术和士气，以及党的领导！"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1d7TC6NEoM",
+          "sample": "不建议用王力宏的歌，配不上这么优秀的编曲"
+        }
+      ]
+    },
+    {
+      "term": "优秀优秀",
+      "evidenceSamples": [
+        "优秀啊",
+        "而敖丙也就成为了一个戏里戏外流于表面的虚伪角色，外表精致，灵珠直接代表着优秀的别人家的孩子，他有点像哆啦A梦里的出木英才，优秀到虚幻，脸谱化，更像是那个硬凑的红蓝cp，因为他是蓝，所以才重要才不可或缺，",
+        "优秀员工 100%",
+        "up主好优秀，好帅啊",
+        "恰恰相反，老外不懂歌词才能公平的打分，而且歌手评分重点是声乐技术，歌再优秀，无法展现出万妮达的高超技术就拿不到高分"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "优秀啊"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "而敖丙也就成为了一个戏里戏外流于表面的虚伪角色，外表精致，灵珠直接代表着优秀的别人家的孩子，他有点像哆啦A梦里的出木英才，优秀到虚幻，脸谱化，更像是那个硬凑的红蓝cp，因为他是蓝，所以才重要才不可或缺，"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "优秀员工 100%"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "up主好优秀，好帅啊"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Q9MF6yEZy",
+          "sample": "恰恰相反，老外不懂歌词才能公平的打分，而且歌手评分重点是声乐技术，歌再优秀，无法展现出万妮达的高超技术就拿不到高分"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "这次5.3纳塔主线剧情完结篇，我个人给到8分。比5.0(7.5分)和5.2(主线5分，流灰之城8分)好，不如5.1(九分优秀)。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "其实哪怕到志愿军那时候也没特别富，所以我们靠的就是优秀的战术和士气，以及党的领导！"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1d7TC6NEoM",
+          "sample": "不建议用王力宏的歌，配不上这么优秀的编曲"
+        }
+      ]
+    },
+    {
+      "term": "伪装成摄影师绷不住了",
+      "evidenceSamples": [
+        "伪装成摄影师绷不住了，这手抖得太明显了。",
+        "UP主本来想伪装成摄影师，结果绷不住了直接笑场。",
+        "伪装成摄影师绷不住了，摄像师才是本体吧。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "伪装成摄影师绷不住了，这手抖得太明显了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "UP主本来想伪装成摄影师，结果绷不住了直接笑场。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "伪装成摄影师绷不住了，摄像师才是本体吧。"
+        }
+      ]
+    },
+    {
+      "term": "但是",
+      "evidenceSamples": [
+        "回复 @艾利托斯 :对，风起地那个大树，但是神樱大祓的最终任务的那个湖底洞，里面晶金蝶也很多，还有孤云阁副本，一天去那随便能抓到十只左右，一天一刷新，我相信给50多级那种，手上没有什么脆弱树脂的人，一天绝对够用",
+        "有道理，其实中国的作词和作曲完全在两个层面，从作词来说，中文音乐的词在世界属于独一档，跟文化素质差的杠精没什么好说的，就算那bob dylan来比较，他在美帝能得文学奖，在国内真的就属于平庸的但是带有特定时代气息的作品而已，最有名的bitw在华人地区一线作词人的水平中最多算平庸之作，当然皿煮自由怪肯定不认可，不过这个根本无所谓。日本有很多不错的词，但是情绪和叙事范围比较狭窄，跟国内一线那几个还是有差距，但日本文学毕竟受到中文穿插很深，也确实学到了部分精髓。 至于作曲，国内作曲的逻辑性确实有问题，毕竟所谓琴棋书画，琴在第一，中国真正的音乐是很深奥的东西和大众层面脱离的相当大，这也是国内因为一直无法从上之下形成文化贯穿的原因之一，周杰伦是当代很好的贯穿者，另外香港的人山人海也做的相当不错，只是人山人海的受众就小了很多，基本都在粤语区。",
+        "事实认定的专业性：如何从纷繁复杂的证据中梳理出法律上认可的事实？哪些证据是合法有效的？证据的证明力如何？如何运用证据规则？这同样需要专业的训练和经验。法官虽然最终认定事实，但需要双方律师通过举证、质证、辩论来帮助法官更清晰地认识案情。",
+        "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不...",
+        "老一辈真的很在乎这个，我有个亲戚的同学来我家钓鱼的时候，也说过类似的话，月薪2万不如月薪2k有五险一金，他给他女儿用20万买了个护士岗位，每天累死累活，月薪1k7，虽然熬出头确实不错，但每个护士都这样想，她女儿都被夜班折腾的想辞职了，只是畏..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16njuzUEnF/, https://www.bilibili.com/video/BV1i54Az9EZj/, https://www.bilibili.com/video/BV1Ya411E75V/, https://www.bilibili.com/video/BV1NHcrzVEKy/, http://www.bilibili.com/video/av114566122116071, http://www.bilibili.com/video/av115355791919319, http://www.bilibili.com/video/av214368418, http://www.bilibili.com/video/av116214433062152",
+          "uid": "BV16njuzUEnF,BV1i54Az9EZj,BV1Ya411E75V,BV1NHcrzVEKy",
+          "sample": "回复 @艾利托斯 :对，风起地那个大树，但是神樱大祓的最终任务的那个湖底洞，里面晶金蝶也很多，还有孤云阁副本，一天去那随便能抓到十只左右，一天一刷新，我相信给50多级那种，手上没有什么脆弱树脂的人，一天绝对够用"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "有道理，其实中国的作词和作曲完全在两个层面，从作词来说，中文音乐的词在世界属于独一档，跟文化素质差的杠精没什么好说的，就算那bob dylan来比较，他在美帝能得文学奖，在国内真的就属于平庸的但是带有特定时代气息的作品而已，最有名的bitw在华人地区一线作词人的水平中最多算平庸之作，当然皿煮自由怪肯定不认可，不过这个根本无所谓。日本有很多不错的词，但是情绪和叙事范围比较狭窄，跟国内一线那几个还是有差距，但日本文学毕竟受到中文穿插很深，也确实学到了部分精髓。 至于作曲，国内作曲的逻辑性确实有问题，毕竟所谓琴棋书画，琴在第一，中国真正的音乐是很深奥的东西和大众层面脱离的相当大，这也是国内因为一直无法从上之下形成文化贯穿的原因之一，周杰伦是当代很好的贯穿者，另外香港的人山人海也做的相当不错，只是人山人海的受众就小了很多，基本都在粤语区。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "事实认定的专业性：如何从纷繁复杂的证据中梳理出法律上认可的事实？哪些证据是合法有效的？证据的证明力如何？如何运用证据规则？这同样需要专业的训练和经验。法官虽然最终认定事实，但需要双方律师通过举证、质证、辩论来帮助法官更清晰地认识案情。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "老一辈真的很在乎这个，我有个亲戚的同学来我家钓鱼的时候，也说过类似的话，月薪2万不如月薪2k有五险一金，他给他女儿用20万买了个护士岗位，每天累死累活，月薪1k7，虽然熬出头确实不错，但每个护士都这样想，她女儿都被夜班折腾的想辞职了，只是畏..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "我不爱看，也不觉得好看。但是周末得陪着我家人去二刷，问就是(不知道为啥)要支持票房。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "回复 @Br0chuRL_布洛修 :但是他太不吃晃了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1J64y1q7ob/, https://www.bilibili.com/video/BV1ex4y1G7Dq/, https://www.bilibili.com/video/BV1DP411B7cp/, https://www.bilibili.com/video/BV1AZS3YqENp/, http://www.bilibili.com/video/av759838837, http://www.bilibili.com/video/av989989993, http://www.bilibili.com/video/av314717671, http://www.bilibili.com/video/av113395944653183",
+          "uid": "BV1J64y1q7ob,BV1ex4y1G7Dq,BV1DP411B7cp,BV1AZS3YqENp",
+          "sample": "虽然更看好T1，但BLG还是加油吧！BLG要是能赢，我就卡莎/贾克斯二选一COS一个发动态和评论区里！[大哭][大哭][大哭]"
+        }
+      ]
+    },
+    {
+      "term": "但是呢",
+      "evidenceSamples": [
+        "记录一下🐭🐭当游戏直播的经历 🐭🐭因为要跟生活对线已经好久没来贴吧啦，这一次呢，主要是讲一下🐭🐭当游戏主播的经历哈，🐭🐭是在一个三四线小城市工作的，因为自己学历不高（破带专）加上家里也没啥关系，所以呢，就在boss直骗上，找的都是些垃圾工作吧，然后小城市呢，基本上就是电销啊，直播啥的，偶然的一次刷到了一个游戏主播，刚好呢🐭🐭也挺喜欢玩王者荣耀，对自己的技术有那么一点小自信，去面试了一下，老板的要求也不高（男生要求巅峰2100，女生要求巅峰1800段位男生80星，女生50星就行了）🐭🐭呢，是个女生，是QQ区的百星，所以呢，有点小自信。然后，直播平台是一个没有什么人气的小平台，但是呢，老板，那会忽悠我说的是这个平台，虽然没什么人，但是消费力很高，进来的人基本上都会消费一下，毕竟用户群体的年纪也是偏大的，感觉应该都在30岁左右。但其实刚开始来面试，看到公司长这样，我是有一点失望的，公司呢，就是一个小工作室没有前台啊，运营啥的（图片就是公司哈也是我的公会）都是各自在自己的房间里直播，那会面试的时候，老板还在直播带粉打游戏，跟老板面试完，然后大概就是没有底薪的，平台的分成是六四分，我四，工资就是全靠礼物提成嘛，然后还得分1/10给公司。然后🐭🐭呢，因为真没找到啥满意的工作，加上对直播行业还是有点小兴趣的，纠结之下还是来了。好了，接下来我就要讲一下我的直播经历了。",
+        "从小时候就特别想要剪短头发，但是我妈一直不愿意，直到上次才终于剪了短头发。但是呢，理发师还有我妈他们其实都不怎么想要我剪短头发，理发师说怕我剪了哭了，但是我想，你要是不剪，我可能才会哭吧（苦笑\\n并且后来来了一个顾客，他也说我的脸型不适合剪短头发。哎，我真的服了呀，为什么我剪一个头发，大家都这么在意呢？[笑哭]",
+        "本来想着随便绷一下 但是呢，现在我要认真了呀",
+        "该是蛇吃了壁虎，但是呢吞到中间时，壁虎的脚撑出来了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "记录一下🐭🐭当游戏直播的经历 🐭🐭因为要跟生活对线已经好久没来贴吧啦，这一次呢，主要是讲一下🐭🐭当游戏主播的经历哈，🐭🐭是在一个三四线小城市工作的，因为自己学历不高（破带专）加上家里也没啥关系，所以呢，就在boss直骗上，找的都是些垃圾工作吧，然后小城市呢，基本上就是电销啊，直播啥的，偶然的一次刷到了一个游戏主播，刚好呢🐭🐭也挺喜欢玩王者荣耀，对自己的技术有那么一点小自信，去面试了一下，老板的要求也不高（男生要求巅峰2100，女生要求巅峰1800段位男生80星，女生50星就行了）🐭🐭呢，是个女生，是QQ区的百星，所以呢，有点小自信。然后，直播平台是一个没有什么人气的小平台，但是呢，老板，那会忽悠我说的是这个平台，虽然没什么人，但是消费力很高，进来的人基本上都会消费一下，毕竟用户群体的年纪也是偏大的，感觉应该都在30岁左右。但其实刚开始来面试，看到公司长这样，我是有一点失望的，公司呢，就是一个小工作室没有前台啊，运营啥的（图片就是公司哈也是我的公会）都是各自在自己的房间里直播，那会面试的时候，老板还在直播带粉打游戏，跟老板面试完，然后大概就是没有底薪的，平台的分成是六四分，我四，工资就是全靠礼物提成嘛，然后还得分1/10给公司。然后🐭🐭呢，因为真没找到啥满意的工作，加上对直播行业还是有点小兴趣的，纠结之下还是来了。好了，接下来我就要讲一下我的直播经历了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1L3Vv6fEAF/",
+          "uid": "BV1L3Vv6fEAF",
+          "sample": "从小时候就特别想要剪短头发，但是我妈一直不愿意，直到上次才终于剪了短头发。但是呢，理发师还有我妈他们其实都不怎么想要我剪短头发，理发师说怕我剪了哭了，但是我想，你要是不剪，我可能才会哭吧（苦笑\\n并且后来来了一个顾客，他也说我的脸型不适合剪短头发。哎，我真的服了呀，为什么我剪一个头发，大家都这么在意呢？[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1R7RvBFE6R/",
+          "uid": "3706926747617566",
+          "sample": "本来想着随便绷一下 但是呢，现在我要认真了呀"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "BV1YKmPBQE6P",
+          "sample": "该是蛇吃了壁虎，但是呢吞到中间时，壁虎的脚撑出来了"
+        }
+      ]
+    },
+    {
+      "term": "但是有没有可能",
+      "evidenceSamples": [
+        "我现在理解了，他们那么多人无家可归，还有很多人可能会无家可归，这种看起来就低价的能有个安生地的东西莫名让人有安全感，打个不恰当的比喻不考虑科技发展，如果是古代那种社会条件，我也会痴迷看这种视频",
+        "那有没有可能不是老爷变动物而是老爷作为植物影响了原生动物，然后原生动物把那树吃了",
+        "救人踹门还被人拿来说没礼貌是真逆天，救人就是要争分夺秒啊，早一秒人就多一丝活命的可能性",
+        "话说有没有可能杰西卡再次出现？",
+        "孩子上幼儿园自己照顾自己，可能还会跟老师一起带其他小朋友[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DK4y1z7Wn/, https://www.bilibili.com/video/BV1R6TyzEEVu/, https://www.bilibili.com/video/BV198mKYYEJh/, https://www.bilibili.com/video/BV1kzJMz4E7x/, http://www.bilibili.com/video/av881315845, http://www.bilibili.com/video/av114641669722772, http://www.bilibili.com/video/av113316756200983, http://www.bilibili.com/video/av114525386839868",
+          "uid": "BV1DK4y1z7Wn,BV1R6TyzEEVu,BV198mKYYEJh,BV1kzJMz4E7x",
+          "sample": "我现在理解了，他们那么多人无家可归，还有很多人可能会无家可归，这种看起来就低价的能有个安生地的东西莫名让人有安全感，打个不恰当的比喻不考虑科技发展，如果是古代那种社会条件，我也会痴迷看这种视频"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XsT16ME1h",
+          "sample": "那有没有可能不是老爷变动物而是老爷作为植物影响了原生动物，然后原生动物把那树吃了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "救人踹门还被人拿来说没礼貌是真逆天，救人就是要争分夺秒啊，早一秒人就多一丝活命的可能性"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XsT16ME1h",
+          "sample": "话说有没有可能杰西卡再次出现？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "孩子上幼儿园自己照顾自己，可能还会跟老师一起带其他小朋友[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VPM86hEj4/, https://www.bilibili.com/video/BV1wQjt6FE6W/, http://www.bilibili.com/video/av98302086, http://www.bilibili.com/video/av672232546, http://www.bilibili.com/video/av116878139721925, http://www.bilibili.com/video/av116787324652398, http://www.bilibili.com/video/av116784254420405, http://www.bilibili.com/video/av116459061644484, http://www.bilibili.com/video/av116838679710593, http://www.bilibili.com/video/av116821483068199",
+          "uid": "BV1VPM86hEj4,BV1wQjt6FE6W",
+          "sample": "有没有可能，时间线够多我也可以当boss [doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @肯定是吴胖胖呀 :短短三个月这套流程居然有可能再来一遍我也没想到"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "可能是那段时间你换发型了或者是换洗发水之类的，有不同的外来因素出现了，排除这些可能就是身体原因了"
+        }
+      ]
+    },
+    {
+      "term": "体面",
+      "evidenceSamples": [
+        "有没有体面一点的赢法",
+        "就你丑态百出的样说是粉丝没说是宠物不已经是很体面的说法了吗",
+        "先生，这很体面",
+        "很体面了",
+        "《排面》（X）\n\n《社死的很体面》（✓）[脱单doge][保佑]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1ZBKQ6fEpN",
+          "sample": "有没有体面一点的赢法"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1iUTz6tE6t",
+          "sample": "就你丑态百出的样说是粉丝没说是宠物不已经是很体面的说法了吗"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1vYMA6dE8r",
+          "sample": "先生，这很体面"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kgTo67EgR",
+          "sample": "很体面了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1no4y1D7ix",
+          "sample": "《排面》（X）\n\n《社死的很体面》（✓）[脱单doge][保佑]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1no4y1D7ix",
+          "sample": "无趣（x）社死的很体面（√）"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZBKQ6fEpN",
+          "sample": "不太体面的躲法"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1iUTz6tE6t",
+          "sample": "民众体面人"
+        }
+      ]
+    },
+    {
+      "term": "你不对劲",
+      "evidenceSamples": [
+        "{'text': '你不对劲', 'sample': '你不对劲'}",
+        "{'text': '[doge]你不对劲', 'sample': '[doge]你不对劲'}",
+        "{'text': '回复 @潇十一郎不xiao : [深海晨光_你不对劲]你又是[米诺高分少女-表情包_问号]人美歌甜的女孩子值得被看见[米诺高分少女-表情包_嘚瑟]', 'sample': '回复 @潇十一郎不xiao : [深海晨光_你不对劲]你又是[米诺高分少女-表情包_问号]人美歌甜的女孩子值得被看见[米诺高分少女-表情包_嘚瑟]'}",
+        "门票？天哪，这个用词就很不对劲",
+        "一听这个“啊”的语气 就已经感觉这学生不对劲"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1MGVf6jEcL/",
+          "uid": "BV1MGVf6jEcL",
+          "sample": "门票？天哪，这个用词就很不对劲"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "一听这个“啊”的语气 就已经感觉这学生不对劲"
+        },
+        {
+          "source": "AICU",
+          "uid": "96793524",
+          "sample": "你不对劲"
+        },
+        {
+          "source": "AICU",
+          "uid": "6470593",
+          "sample": "[doge]你不对劲"
+        },
+        {
+          "source": "AICU",
+          "uid": "1913460",
+          "sample": "回复 @潇十一郎不xiao : [深海晨光_你不对劲]你又是[米诺高分少女-表情包_问号]人美歌甜的女孩子值得被看见[米诺高分少女-表情包_嘚瑟]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1hm41127sN/",
+          "uid": "389225130",
+          "sample": "刚开始看他视频的时候我也觉得解气，也学到了一些如果发生事故后的处理方式，但是后来我也觉得不对劲了，他真的就是在主动的去制造交通事故，后来就再也没有去看过，以至于现在开车在路上如果需要变道都小心翼翼的，生怕遇到他的粉丝🙄"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av459965532/",
+          "uid": "317999992",
+          "sample": "不对劲，大家快跑"
+        }
+      ]
+    },
+    {
+      "term": "你们觉得呢",
+      "evidenceSamples": [
+        "你们觉得很难看，而我觉得神了",
+        "鲲粉们你们觉得一个发律师函告B站的人在B站能洗白吗[奸笑]",
+        "大家觉得上一本难吗 你们觉得上一本难吗？",
+        "二游中有很多的反派。比如有着宏大理想的反派，比如多托雷，来古士，不需要洗白就很棒的反派；也有那种立场不同的反派，都是为了同一个目标，但手段不一样，比如愚人众；还有那种有苦衷的反派，最后洗白，比如散兵；还有为了创造完美世界的反派，比如星期日；也有那种过去十分悲惨，所做的一切都是为了报复整个世界。很多反派都是宏大叙事。\\n\\n所以我就想到了一种反派（暂时叫B），内容围绕“爱”。这个反派可以是游戏中的某些危险的敌对势力化身，类似原神的深渊，崩铁里的孽物，绝区零里的空洞\\n，它对人类的文化好奇，来到世界研究人类的文化，但它的本能还是没有改变，对世界充满威胁\\n\\n而他（我们称为A），在社会中属于边缘人，没什么特长，能力，长相也马马虎怒。他无法融入别人的圈子，一直觉得很孤独，没有家人，朋友。并且他内心十分敏感自卑。\\n\\n最终男主因为一系列问题遇到B，并且对B产生了好感。\\n反派B意外发现A是世界上唯一接纳他的人。最后两人同居，相爱。后来的爱越来越极端。B为了A心甘情愿扫除一切障碍，到做后甚至是打算把全世界改造成只有两人的世界\\n\\n她并非是纯粹的怪物，她孤独、好奇、渴望爱, 行为基于生存本能与对男主的依恋。她孤独、好奇、渴望爱, 行为基于生存本能与对男主的依恋。甚至为男主改造她人的身体，她是天真的毁灭者\\nA被世界遗弃,躲在角落里,对人类既好奇又恐惧，她想一张白纸，学习人类情感，从懵懂讨好，到嫉妒占有。\\n\\n她和B接触后，第一次感受到了没有利益的被接纳，于是拼命地维持这段关系。为了男主,她学会撒谎、改造人体。 杀人、甚至准备牺牲自己\\n\\n从“想成为人类了”到“想和男主一起”到 “男主的世界就是我的世界”\\n她不是恶，而是被爱催生出来的排她性。或者说她的“恶”” 其实是一种不谙世事的天真。很难用单纯的 “喜欢”或“厌恶”来概括，因为B和A的爱情本来就是两个畸形的融合。对B而言，A不仅是恋人，而是她与这个世界的唯一连接点。\\n没有A，她依然是那个被遗弃在废墟中的异形。\\nB爱A，不是因为她选择了爱，而是因为他是她唯一可以爱的人。这份爱不健康、不道德、不理性。\\n但它比绝大多数人类之爱更纯粹一纯粹到只有两个人，没有世界。\\n当然最后没有洗白，直接也是两人都被主角团消灭了\\n反正就是反宏大叙事，有人为了大爱牺牲小爱，这个反派为了小爱牺牲大爱\\n你们觉得怎么样\\n\\n当然这我是刚刚想到的，是临时写出来的，写得如果不好请别喷哈",
+        "你们觉得这个[脸红][脸红][脸红]怎么样"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "你们觉得很难看，而我觉得神了"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "367411912",
+          "sample": "鲲粉们你们觉得一个发律师函告B站的人在B站能洗白吗[奸笑]"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "大家觉得上一本难吗 你们觉得上一本难吗？"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FVVE6WEb3/",
+          "uid": "BV1FVVE6WEb3",
+          "sample": "二游中有很多的反派。比如有着宏大理想的反派，比如多托雷，来古士，不需要洗白就很棒的反派；也有那种立场不同的反派，都是为了同一个目标，但手段不一样，比如愚人众；还有那种有苦衷的反派，最后洗白，比如散兵；还有为了创造完美世界的反派，比如星期日；也有那种过去十分悲惨，所做的一切都是为了报复整个世界。很多反派都是宏大叙事。\\n\\n所以我就想到了一种反派（暂时叫B），内容围绕“爱”。这个反派可以是游戏中的某些危险的敌对势力化身，类似原神的深渊，崩铁里的孽物，绝区零里的空洞\\n，它对人类的文化好奇，来到世界研究人类的文化，但它的本能还是没有改变，对世界充满威胁\\n\\n而他（我们称为A），在社会中属于边缘人，没什么特长，能力，长相也马马虎怒。他无法融入别人的圈子，一直觉得很孤独，没有家人，朋友。并且他内心十分敏感自卑。\\n\\n最终男主因为一系列问题遇到B，并且对B产生了好感。\\n反派B意外发现A是世界上唯一接纳他的人。最后两人同居，相爱。后来的爱越来越极端。B为了A心甘情愿扫除一切障碍，到做后甚至是打算把全世界改造成只有两人的世界\\n\\n她并非是纯粹的怪物，她孤独、好奇、渴望爱, 行为基于生存本能与对男主的依恋。她孤独、好奇、渴望爱, 行为基于生存本能与对男主的依恋。甚至为男主改造她人的身体，她是天真的毁灭者\\nA被世界遗弃,躲在角落里,对人类既好奇又恐惧，她想一张白纸，学习人类情感，从懵懂讨好，到嫉妒占有。\\n\\n她和B接触后，第一次感受到了没有利益的被接纳，于是拼命地维持这段关系。为了男主,她学会撒谎、改造人体。 杀人、甚至准备牺牲自己\\n\\n从“想成为人类了”到“想和男主一起”到 “男主的世界就是我的世界”\\n她不是恶，而是被爱催生出来的排她性。或者说她的“恶”” 其实是一种不谙世事的天真。很难用单纯的 “喜欢”或“厌恶”来概括，因为B和A的爱情本来就是两个畸形的融合。对B而言，A不仅是恋人，而是她与这个世界的唯一连接点。\\n没有A，她依然是那个被遗弃在废墟中的异形。\\nB爱A，不是因为她选择了爱，而是因为他是她唯一可以爱的人。这份爱不健康、不道德、不理性。\\n但它比绝大多数人类之爱更纯粹一纯粹到只有两个人，没有世界。\\n当然最后没有洗白，直接也是两人都被主角团消灭了\\n反正就是反宏大叙事，有人为了大爱牺牲小爱，这个反派为了小爱牺牲大爱\\n你们觉得怎么样\\n\\n当然这我是刚刚想到的，是临时写出来的，写得如果不好请别喷哈"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV188ZCYsEKr/",
+          "uid": "BV188ZCYsEKr",
+          "sample": "你们觉得这个[脸红][脸红][脸红]怎么样"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19Z2sBkE7t/",
+          "uid": "BV19Z2sBkE7t",
+          "sample": "你们觉得我会死吗？"
+        }
+      ]
+    },
+    {
+      "term": "你强",
+      "evidenceSamples": [
+        "我们男性应该好好学学法律，省的女犬发情腻上你，你不愿意就诬告你强奸?",
+        "你不会是怕将来你妻子告你强奸罪吧！你放心这项罪名很难取证的，女的一告就众叛亲离被人嘲笑，女的还怎么在家里呆下去，还不如直接告离婚",
+        "硬实力提升了，软实力自然就提升了，美国和日本的音乐都是在它们经济最辉煌的时代崛起的，你强了，自然有大把慕强的人模仿你，不是说美国和日本的音乐不好，而是说只有国家硬实力上来了，才会有国外的人关注你，才会有发展起来的土壤，不然你作曲再好，别人不听，你有啥办法？ 所以别着急，再过20年，我们的音乐、影视、动漫等各种文化产业会如现在的美剧、日漫一样，在全世界流行。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "我们男性应该好好学学法律，省的女犬发情腻上你，你不愿意就诬告你强奸?"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "你不会是怕将来你妻子告你强奸罪吧！你放心这项罪名很难取证的，女的一告就众叛亲离被人嘲笑，女的还怎么在家里呆下去，还不如直接告离婚"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "硬实力提升了，软实力自然就提升了，美国和日本的音乐都是在它们经济最辉煌的时代崛起的，你强了，自然有大把慕强的人模仿你，不是说美国和日本的音乐不好，而是说只有国家硬实力上来了，才会有国外的人关注你，才会有发展起来的土壤，不然你作曲再好，别人不听，你有啥办法？ 所以别着急，再过20年，我们的音乐、影视、动漫等各种文化产业会如现在的美剧、日漫一样，在全世界流行。"
+        }
+      ]
+    },
+    {
+      "term": "你怎么似了",
+      "evidenceSamples": [
+        "兄弟，你怎么似了",
+        "欸你怎么似了",
+        "诶，你怎么似了？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Xi421a7YF/",
+          "uid": "3546909287385537",
+          "sample": "兄弟，你怎么似了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV16741127uX/",
+          "uid": "BV16741127uX",
+          "sample": "欸你怎么似了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nM4m1k7bx/",
+          "uid": "BV1nM4m1k7bx",
+          "sample": "诶，你怎么似了？"
+        }
+      ]
+    },
+    {
+      "term": "你想想啊",
+      "evidenceSamples": [
+        "你认为的同性阵营不一定是站在你的利益上考虑，同性也存在竞争关系，我看到有人说权人大部分都是已婚人士(数据不保真)，你想想他们的目的，想从中得到什么就明白了。",
+        "中国现在这个烂环境暂时是不可能出现什么类似B榜的权威性榜单了，你想想现在火的都是什么歌就知道了，99.9%都是芭乐抒情歌而且还有很多制作很烂的，除芭乐外我几乎没见过在中国真的现象级爆火过什么rnb，jazz，funk，rock，hiphop，edm，中国本土艺人专辑主打歌都不怎么敢选芭乐以外的歌，因为大部分听众只喜欢芭乐[藏狐]",
+        "建议对理客中进行成分分析这就好比你在实验室做实验，你用GC/MS去定量测产物含量一样理客中和网左大概率重合的其实而且你想想，理客中这么愿意拉偏架，是不是符合网左只会哔哔赖赖从不认真动手的标准特征",
+        "一个原因就是片场暴君，另一个原因就是他总拿身边人的事出来恶搞。你想想，你好心好意来帮他拍电影，结果他电影里却在拿你的事开涮，你能开心的起来嘛？[吃瓜]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "你认为的同性阵营不一定是站在你的利益上考虑，同性也存在竞争关系，我看到有人说权人大部分都是已婚人士(数据不保真)，你想想他们的目的，想从中得到什么就明白了。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "中国现在这个烂环境暂时是不可能出现什么类似B榜的权威性榜单了，你想想现在火的都是什么歌就知道了，99.9%都是芭乐抒情歌而且还有很多制作很烂的，除芭乐外我几乎没见过在中国真的现象级爆火过什么rnb，jazz，funk，rock，hiphop，edm，中国本土艺人专辑主打歌都不怎么敢选芭乐以外的歌，因为大部分听众只喜欢芭乐[藏狐]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "建议对理客中进行成分分析这就好比你在实验室做实验，你用GC/MS去定量测产物含量一样理客中和网左大概率重合的其实而且你想想，理客中这么愿意拉偏架，是不是符合网左只会哔哔赖赖从不认真动手的标准特征"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "一个原因就是片场暴君，另一个原因就是他总拿身边人的事出来恶搞。你想想，你好心好意来帮他拍电影，结果他电影里却在拿你的事开涮，你能开心的起来嘛？[吃瓜]"
+        }
+      ]
+    },
+    {
+      "term": "你所有的黑屁都饱含着爱意",
+      "evidenceSamples": [
+        "“你所有的黑屁都饱含着爱意！”甜腻的嗓音再一次响了起来。",
+        "哪敢上去啊？这远远看着都觉得心里有愧呢。平时高雅二创不会做，逆天发情又拉不下脸，只能一转黑屁妄想让乃琳能看自己一眼，嘴硬说这是扭曲的爱维持一下面子。现在正主就在眼前，别说讲话了，腿一软都想跪了！",
+        "哆哆嗦嗦地走到了台上，一路上的AU的眼神又是羡慕又是祝贺，看到乃琳还是那样一脸温柔地笑着，心跳居然放缓一些了。确实，现实生活谁认识我啊？只要保持镇定，谁知道我黑屁过乃琳啊，搞不好这香顶边还得跟我讲两句油腻情话呢。想到这，冲琳老哥不由得挺了挺..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "“你所有的黑屁都饱含着爱意！”甜腻的嗓音再一次响了起来。"
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "哪敢上去啊？这远远看着都觉得心里有愧呢。平时高雅二创不会做，逆天发情又拉不下脸，只能一转黑屁妄想让乃琳能看自己一眼，嘴硬说这是扭曲的爱维持一下面子。现在正主就在眼前，别说讲话了，腿一软都想跪了！"
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "哆哆嗦嗦地走到了台上，一路上的AU的眼神又是羡慕又是祝贺，看到乃琳还是那样一脸温柔地笑着，心跳居然放缓一些了。确实，现实生活谁认识我啊？只要保持镇定，谁知道我黑屁过乃琳啊，搞不好这香顶边还得跟我讲两句油腻情话呢。想到这，冲琳老哥不由得挺了挺..."
+        }
+      ]
+    },
+    {
+      "term": "你是对的",
+      "evidenceSamples": [
+        "回复 @虚轴i-Axis :你是对的",
+        "不这还是 你是对的 吗",
+        "老板发给你是因为你跟他都是傻子，而不是证明你是对的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV11mZBYqEDT/",
+          "uid": "BV11mZBYqEDT",
+          "sample": "回复 @虚轴i-Axis :你是对的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13W4y1W7Fg/",
+          "uid": "BV13W4y1W7Fg",
+          "sample": "不这还是 你是对的 吗"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "1598914156",
+          "sample": "老板发给你是因为你跟他都是傻子，而不是证明你是对的"
+        }
+      ]
+    },
+    {
+      "term": "你是说",
+      "evidenceSamples": [
+        "你是说羊哥那一趴有指压板，那他为什么没反应啊？",
+        "技术？你是说轮毂吗",
+        "你是说狗不闻你pp?",
+        "不是，你是说有一位古代状元级别的人给我写段子，并且有一位工部尚书剪视频吗🥲"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1U44y1h749/",
+          "uid": "BV1U44y1h749",
+          "sample": "你是说羊哥那一趴有指压板，那他为什么没反应啊？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av115279908634685/",
+          "uid": "32712425653",
+          "sample": "技术？你是说轮毂吗"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yuCvBLEex/",
+          "uid": "BV1yuCvBLEex",
+          "sample": "你是说狗不闻你pp?"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dz5Y6REFU/, https://www.bilibili.com/video/BV1ADKnzhE87/, https://www.bilibili.com/video/BV15d4y1g7eu/, https://www.bilibili.com/video/BV1fGJH6GEfr/, http://www.bilibili.com/video/av116576502160308, http://www.bilibili.com/video/av114743910078740, http://www.bilibili.com/video/av345679120, http://www.bilibili.com/video/av116741573187021",
+          "uid": "BV1dz5Y6REFU,BV1ADKnzhE87,BV15d4y1g7eu,BV1fGJH6GEfr",
+          "sample": "不是，你是说有一位古代状元级别的人给我写段子，并且有一位工部尚书剪视频吗🥲"
+        }
+      ]
+    },
+    {
+      "term": "你有毒吧",
+      "evidenceSamples": [
+        "猴哥 你有毒",
+        "什么，人有毒抗？！",
+        "有害不等于有毒啊，什么up啊，这水平",
+        "好像不可以。嗯，用玩具做饭，嗯，说不定会溶解什么有毒物质跑到食物里呢？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1wWM8zZEZP/",
+          "uid": "BV1wWM8zZEZP",
+          "sample": "猴哥 你有毒"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1YKmPBQE6P/",
+          "uid": "BV1YKmPBQE6P",
+          "sample": "什么，人有毒抗？！"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1BY4y1y7dt/",
+          "uid": "BV1BY4y1y7dt",
+          "sample": "有害不等于有毒啊，什么up啊，这水平"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "好像不可以。嗯，用玩具做饭，嗯，说不定会溶解什么有毒物质跑到食物里呢？"
+        }
+      ]
+    }
+  ]
+}

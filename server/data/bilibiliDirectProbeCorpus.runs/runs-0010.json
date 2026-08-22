@@ -1,0 +1,1956 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-19T06:57:07.861Z",
+  "shard": 10,
+  "shardCount": 11,
+  "runs": [
+    {
+      "at": "2026-06-19T00:01:23.849Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 评论区"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 视频"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1T44y147Zp",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV1T44y147Zp",
+          "aid": 976161545,
+          "title": "如何更新哔哩哔哩缓存视频的<em class=\"keyword\">弹幕</em>"
+        },
+        {
+          "key": "bvid:BV1z9jA6DEag",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 评论区",
+          "bvid": "BV1z9jA6DEag",
+          "aid": 116770497109867,
+          "title": "[ Murder ! Karmatic Time Trio VS Dusted Karmas ]Encounter1 Causal Insanity"
+        },
+        {
+          "key": "bvid:BV1wWrSBLE7i",
+          "term": "查查资料",
+          "query": "查查资料 视频",
+          "bvid": "BV1wWrSBLE7i",
+          "aid": 115910329245014,
+          "title": "<em class=\"keyword\">视频</em>加载中，速速查收惊喜！"
+        },
+        {
+          "key": "bvid:BV1EMFYe2E98",
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站",
+          "bvid": "BV1EMFYe2E98",
+          "aid": 113910132774574,
+          "title": "合集，但里面视频的分p点不动"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 29,
+      "commentsAdded": 24
+    },
+    {
+      "at": "2026-06-19T00:11:19.017Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 弹幕"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 评论区"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Q3411c7ji",
+          "term": "超绝无语",
+          "query": "超绝无语 弹幕",
+          "bvid": "BV1Q3411c7ji",
+          "aid": 512777080,
+          "title": "【<em class=\"keyword\">弹幕</em>助力】<em class=\"keyword\">弹幕</em>应援100万！"
+        },
+        {
+          "key": "bvid:BV1e94y1A7dg",
+          "term": "都是同一批",
+          "query": "都是同一批 评论区",
+          "bvid": "BV1e94y1A7dg",
+          "aid": 367393753,
+          "title": "造神毁神，现在把他捧得越高，未来摔他的时候就有多狠，而可笑的是，捧和摔的或许是<em class=\"keyword\">同一批</em>人~  #荒诞短剧 #董宇辉 #如何看待董宇辉小作文风波"
+        },
+        {
+          "key": "bvid:BV1R7wsesERQ",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站",
+          "bvid": "BV1R7wsesERQ",
+          "aid": 113860690320035,
+          "title": "<em class=\"keyword\">B站</em>甚至有Lv8？！"
+        },
+        {
+          "key": "bvid:BV1GM411h7HH",
+          "term": "分不清轻重",
+          "query": "分不清轻重 弹幕",
+          "bvid": "BV1GM411h7HH",
+          "aid": 522598508,
+          "title": "如何彻底关掉<em class=\"keyword\">弹幕</em>"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 916,
+      "commentsAdded": 355
+    },
+    {
+      "at": "2026-06-19T00:19:52.581Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站评论"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1RrLr6JEkr",
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站评论",
+          "bvid": "BV1RrLr6JEkr",
+          "aid": 116601953192773,
+          "title": "对我视频<em class=\"keyword\">评论</em>区的一则声明 是时候管管这群人了"
+        },
+        {
+          "key": "bvid:BV1mhjc6ZEXY",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 回复",
+          "bvid": "BV1mhjc6ZEXY",
+          "aid": 116770178335037,
+          "title": "睁开你的狗眼～"
+        },
+        {
+          "key": "bvid:BV1SaaszJE74",
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕",
+          "bvid": "BV1SaaszJE74",
+          "aid": 115130071254663,
+          "title": "钱小佳伤心后，喝酒后被狠狠打了几巴掌。<em class=\"keyword\">被打</em>醒了，笑死我了"
+        },
+        {
+          "key": "bvid:BV1DZxceVEaJ",
+          "term": "抛开其他",
+          "query": "抛开其他 B站",
+          "bvid": "BV1DZxceVEaJ",
+          "aid": 113210489377854,
+          "title": "如果你被一个UP主拉黑，你会受到哪些限制？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 101,
+      "commentsAdded": 88
+    },
+    {
+      "at": "2026-06-19T00:27:39.152Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 回复"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vxGx6eEZ1",
+          "term": "这还用说",
+          "query": "这还用说 回复",
+          "bvid": "BV1vxGx6eEZ1",
+          "aid": 116634098337959,
+          "title": "都叫麻麻了那<em class=\"keyword\">还说</em>啥了，给你用"
+        },
+        {
+          "key": "bvid:BV1vBLj6LEEu",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1vBLj6LEEu",
+          "aid": 116587944221974,
+          "title": "25-26季后赛次轮G5 湖人VS<em class=\"keyword\">雷霆</em> SGA内外兼修 詹姆斯仍能打出高水平比赛！"
+        },
+        {
+          "key": "bvid:BV1z3411y7uX",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1z3411y7uX",
+          "aid": 420793894,
+          "title": "<em class=\"keyword\">哔哩哔哩</em>最新获取全弹幕方式（全教程）"
+        },
+        {
+          "key": "bvid:BV1pFaRz9EDx",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1pFaRz9EDx",
+          "aid": 115166880535952,
+          "title": "天喔<em class=\"keyword\">茶庄</em> 蜂蜜柚子茶 凉茶0脂肪果味饮料小包便携饮品250ml_16整箱装"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 40,
+      "commentsAdded": 19
+    },
+    {
+      "at": "2026-06-19T00:35:37.993Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1pcuAzQEHQ",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1pcuAzQEHQ",
+          "aid": 114845345121751,
+          "title": "网络上的逆天梗图鉴赏"
+        },
+        {
+          "key": "bvid:BV1MnkTB3EqU",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1MnkTB3EqU",
+          "aid": 115903232542804,
+          "title": "起不来的还是<em class=\"keyword\">同一批</em>人"
+        },
+        {
+          "key": "bvid:BV1eMGm6xEfW",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1eMGm6xEfW",
+          "aid": 116645943050902,
+          "title": "老公把车砰砰砰了..."
+        },
+        {
+          "key": "bvid:BV1jvVL6rE46",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1jvVL6rE46",
+          "aid": 116664498652944,
+          "title": "Proxy <em class=\"keyword\">attack</em>-blood debt Ust"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 687,
+      "commentsAdded": 459
+    },
+    {
+      "at": "2026-06-19T00:43:13.651Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1iC4y167Xv",
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕",
+          "bvid": "BV1iC4y167Xv",
+          "aid": 794457967,
+          "title": "明明提到她是那么温柔，嘴上却是<em class=\"keyword\">不饶人</em>"
+        },
+        {
+          "key": "bvid:BV1er4y1g7Ue",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论",
+          "bvid": "BV1er4y1g7Ue",
+          "aid": 770319104,
+          "title": "【<em class=\"keyword\">b站</em>特色】咱们的狗子表情包被删除了"
+        },
+        {
+          "key": "bvid:BV1Udt9zQEEb",
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站弹幕",
+          "bvid": "BV1Udt9zQEEb",
+          "aid": 115014526637543,
+          "title": "<em class=\"keyword\">B站弹幕</em>点赞bug"
+        },
+        {
+          "key": "bvid:BV1Aa4y1i7mA",
+          "term": "抛开其他",
+          "query": "抛开其他 评论回复",
+          "bvid": "BV1Aa4y1i7mA",
+          "aid": 668037496,
+          "title": "教程:<em class=\"keyword\">回复</em>拉黑你的人"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 89,
+      "commentsAdded": 76
+    },
+    {
+      "at": "2026-06-19T00:50:37.575Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 B站评论"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 回复区"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 B站"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV15g411T7Un",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV15g411T7Un",
+          "aid": 506673585,
+          "title": "【教学】如何把视频链接分享到<em class=\"keyword\">评论</em>区"
+        },
+        {
+          "key": "bvid:BV13XEt6jELL",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 B站评论",
+          "bvid": "BV13XEt6jELL",
+          "aid": 116708958345290,
+          "title": "这个更新好<em class=\"keyword\">雷霆</em>"
+        },
+        {
+          "key": "bvid:BV1PCFpzpE4x",
+          "term": "查查资料",
+          "query": "查查资料 回复区",
+          "bvid": "BV1PCFpzpE4x",
+          "aid": 116027920816006,
+          "title": "绝区零2.6新增成就：精选后的新世界+精选帖核心受众——Fairy精选/绳网成就/绳匠业务"
+        },
+        {
+          "key": "bvid:BV1cz2FBSEMq",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 B站",
+          "bvid": "BV1cz2FBSEMq",
+          "aid": 115501871209059,
+          "title": "内行人打死都不喝，茶圈公认的4大垃圾茶！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 79,
+      "commentsAdded": 68
+    },
+    {
+      "at": "2026-06-19T00:58:17.587Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 B站弹幕"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 B站评论"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站弹幕"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1iUjh6ZE7P",
+          "term": "超绝无语",
+          "query": "超绝无语 B站弹幕",
+          "bvid": "BV1iUjh6ZE7P",
+          "aid": 116772225157729,
+          "title": "<em class=\"keyword\">弹幕</em>还没做好。"
+        },
+        {
+          "key": "bvid:BV1Uz9kBNEVq",
+          "term": "都是同一批",
+          "query": "都是同一批 B站评论",
+          "bvid": "BV1Uz9kBNEVq",
+          "aid": 116481945902369,
+          "title": "<em class=\"keyword\">B站</em>新版本bug，无法删除<em class=\"keyword\">评论</em>"
+        },
+        {
+          "key": "bvid:BV1LN411a7ZY",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站弹幕",
+          "bvid": "BV1LN411a7ZY",
+          "aid": 489413583,
+          "title": "见识一下<em class=\"keyword\">B站</em>曾经的辉煌吧！目前全站还原度最高！【炮姐/AMV】我永远都会守护在你身边 全<em class=\"keyword\">弹幕</em>装填"
+        },
+        {
+          "key": "bvid:BV1xb411d7fd",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论回复",
+          "bvid": "BV1xb411d7fd",
+          "aid": 226257935,
+          "title": "［倪海厦］如果有人向你问鼎<em class=\"keyword\">轻重</em>，请小心此人。当你的话没人听，又该如何应对？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1237,
+      "commentsAdded": 294
+    },
+    {
+      "at": "2026-06-19T01:06:02.004Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 弹幕"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 回复区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV14WL16EE8t",
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站弹幕",
+          "bvid": "BV14WL16EE8t",
+          "aid": 116606164339854,
+          "title": "以防你不知道，网页版<em class=\"keyword\">B站弹幕</em>数量显示被删除了"
+        },
+        {
+          "key": "bvid:BV1sm41197Nj",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 弹幕",
+          "bvid": "BV1sm41197Nj",
+          "aid": 1900180041,
+          "title": "【B站<em class=\"keyword\">弹幕</em>附】狗.眼.①.瞎"
+        },
+        {
+          "key": "bvid:BV1494y1e72C",
+          "term": "价格被打下来",
+          "query": "价格被打下来 回复区",
+          "bvid": "BV1494y1e72C",
+          "aid": 361686295,
+          "title": "网约车预估<em class=\"keyword\">价格</em>和实际<em class=\"keyword\">价格</em>不一样，用这招轻松退回！"
+        },
+        {
+          "key": "bvid:BV1eCE8zgECV",
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕",
+          "bvid": "BV1eCE8zgECV",
+          "aid": 114519900686046,
+          "title": "关于<em class=\"keyword\">b站</em>无法自动播放合集内分p的解决办法"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 95,
+      "commentsAdded": 80
+    },
+    {
+      "at": "2026-06-19T01:16:13.970Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 解说评论"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站弹幕"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1sGja6GENL",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV1sGja6GENL",
+          "aid": 116771906391498,
+          "title": "我提一嘴我可能被海子姐认知了，在我之前没有<em class=\"keyword\">弹幕说</em>好听来着，反正我这边显示的这样的"
+        },
+        {
+          "key": "bvid:BV1zyjh6hEd2",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 解说评论",
+          "bvid": "BV1zyjh6hEd2",
+          "aid": 116772543927994,
+          "title": "[纳拉莫核电站]<em class=\"keyword\">雷霆8</em>nec要做抢点和空袭？？？下版本更新内容"
+        },
+        {
+          "key": "bvid:BV1MkNjz4EAv",
+          "term": "查查资料",
+          "query": "查查资料 B站弹幕",
+          "bvid": "BV1MkNjz4EAv",
+          "aid": 114703024000779,
+          "title": "[<em class=\"keyword\">B站</em>UP主教程]查看和管理自己视频里的<em class=\"keyword\">弹幕</em>(手机平板)"
+        },
+        {
+          "key": "bvid:BV1cdL2zxEXR",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 评论",
+          "bvid": "BV1cdL2zxEXR",
+          "aid": 114415160531156,
+          "title": "制茶与评茶 茶叶风味科学【含资料】【浙江大学】【国家级精品课】【全59讲】"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 23,
+      "commentsAdded": 21
+    },
+    {
+      "at": "2026-06-19T01:24:01.350Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 视频评论"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 弹幕"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站评论"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1UVyTYpEU9",
+          "term": "超绝无语",
+          "query": "超绝无语 视频评论",
+          "bvid": "BV1UVyTYpEU9",
+          "aid": 113323114761997,
+          "title": "盘点那些令人<em class=\"keyword\">无语</em>的瞬间"
+        },
+        {
+          "key": "bvid:BV13b411k7ip",
+          "term": "都是同一批",
+          "query": "都是同一批 弹幕",
+          "bvid": "BV13b411k7ip",
+          "aid": 42263395,
+          "title": "怎么才能发多行<em class=\"keyword\">弹幕</em>，好羡慕别人可以发100行啊！<em class=\"keyword\">弹幕</em>多行简便方法"
+        },
+        {
+          "key": "bvid:BV1Xi421a7YF",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站评论",
+          "bvid": "BV1Xi421a7YF",
+          "aid": 1455989967,
+          "title": "大型纪录片《<em class=\"keyword\">B站</em>第20000000000条弹幕诞生》"
+        },
+        {
+          "key": "bvid:BV1RGLo6sEWZ",
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站弹幕",
+          "bvid": "BV1RGLo6sEWZ",
+          "aid": 116766638346713,
+          "title": "LoveManiac0.3.4纯好奇就玩了一下，<em class=\"keyword\">弹幕</em>挺简单，但手感太差（无伤）"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1948,
+      "commentsAdded": 389
+    },
+    {
+      "at": "2026-06-19T01:31:56.854Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "得理不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV16Qjv6GEwM",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV16Qjv6GEwM",
+          "aid": 116773802220131,
+          "title": "我道歉了还得理<em class=\"keyword\">不饶人</em>？主动挑事还说我精神胜利？"
+        },
+        {
+          "key": "bvid:BV1PiV26GEVE",
+          "term": "德里不饶人",
+          "query": "得理不饶人 评论回复",
+          "bvid": "BV1PiV26GEVE",
+          "aid": 116683658299487,
+          "title": "骂人是错误行为，他就要明白"
+        },
+        {
+          "key": "bvid:BV15JNdz1E9P",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV15JNdz1E9P",
+          "aid": 114710540256783,
+          "title": "狗：狗：【白给梗科普】狗：是什么梗？"
+        },
+        {
+          "key": "bvid:BV1bKja6jEEx",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1bKja6jEEx",
+          "aid": 116772241939974,
+          "title": "看<em class=\"keyword\">评论区</em>，肯定又有人来骂我说我想恰饭，眼镜就是越便宜质量越好……"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 50,
+      "commentsAdded": 44
+    },
+    {
+      "at": "2026-06-19T01:39:52.905Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1F2uyzAEhm",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV1F2uyzAEhm",
+          "aid": 114855445074105,
+          "title": "继<em class=\"keyword\">评论</em>折叠后，又一新隐藏<em class=\"keyword\">评论</em>方式"
+        },
+        {
+          "key": "bvid:BV1S8jv64E5L",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1S8jv64E5L",
+          "aid": 116774104205120,
+          "title": "362w白龙带281紫鼠过雷巫，这个boss攻击欲望太<em class=\"keyword\">雷霆</em>了，对我这个喜欢耗的太难了"
+        },
+        {
+          "key": "bvid:BV1hmxKexEjq",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1hmxKexEjq",
+          "aid": 113213492499359,
+          "title": "<em class=\"keyword\">B站评论</em>区蓝色链接是怎么做的?教你三端如何操作"
+        },
+        {
+          "key": "bvid:BV1dj421m7vH",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1dj421m7vH",
+          "aid": 1651289322,
+          "title": "【我的世界】呓语·东竹<em class=\"keyword\">茶庄</em>：一<em class=\"keyword\">个有</em>一点不一样的大型科技魔法服务器宣传片[180+模组][独家魔改][MC服务器推荐][六年老服]"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 148,
+      "commentsAdded": 88
+    },
+    {
+      "at": "2026-06-19T01:47:35.711Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1cnmnBjEkd",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1cnmnBjEkd",
+          "aid": 115689255864383,
+          "title": "人类炫压抑视频集锦#69"
+        },
+        {
+          "key": "bvid:BV1hgji6FEWo",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1hgji6FEWo",
+          "aid": 116773869329022,
+          "title": "算是<em class=\"keyword\">互动</em>吗？！"
+        },
+        {
+          "key": "bvid:BV1XvSFYXEqA",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1XvSFYXEqA",
+          "aid": 113508704389812,
+          "title": "《陆总合集》持续更新  已和小说进度同步《雪城三活宝》《领走女主》，穿越成为小说反派，本想苟到大结局......陆总，反派系统《舔狗反派只想苟 女主不按套路走》"
+        },
+        {
+          "key": "bvid:BV1Ac7X6NEam",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1Ac7X6NEam",
+          "aid": 116686476873667,
+          "title": "穿过最弹的乒乓球鞋，来自361度家的乒羽鞋Swift <em class=\"keyword\">Attack</em> 够弹 够缓震"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 500,
+      "commentsAdded": 292
+    },
+    {
+      "at": "2026-06-19T01:55:45.425Z",
+      "actions": [
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1694y1f7pV",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1694y1f7pV",
+          "aid": 340168662,
+          "title": "up主“艾玛的书房”，删除的“皮肤饥渴，肢体接触”视频中我认为的<em class=\"keyword\">争议</em>片段，应该就是这里导致<em class=\"keyword\">评论区</em>吵起来了吧"
+        },
+        {
+          "key": "bvid:BV1tmZJYRECC",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论",
+          "bvid": "BV1tmZJYRECC",
+          "aid": 114256431285849,
+          "title": "我爷爷每天在家里滑狗······"
+        },
+        {
+          "key": "bvid:BV117411u7EM",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV117411u7EM",
+          "aid": 91481119,
+          "title": "手机怎么发各种<em class=\"keyword\">弹幕</em>?教你发各种骚<em class=\"keyword\">弹幕</em>"
+        },
+        {
+          "key": "bvid:BV13TzbYuEPv",
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复区",
+          "bvid": "BV13TzbYuEPv",
+          "aid": 113559874832821,
+          "title": "从<em class=\"keyword\">德里</em>到新<em class=\"keyword\">德里</em>，印度当年为什么要迁都？【百国千城】"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 2774,
+      "commentsAdded": 1881
+    },
+    {
+      "at": "2026-06-19T02:08:15.931Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV18uRwB4EVW",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV18uRwB4EVW",
+          "aid": 116510869751398,
+          "title": "大狗大狗大狗大狗大狗大狗大狗教教教"
+        },
+        {
+          "key": "bvid:BV1yBjY6VEhg",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1yBjY6VEhg",
+          "aid": 116773382789729,
+          "title": "二狗学长深夜发视频，失去理智神志不清，<em class=\"keyword\">评论区</em>里人间清醒。狗哥起来数钱！"
+        },
+        {
+          "key": "bvid:BV1tmja6EEKk",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1tmja6EEKk",
+          "aid": 116771789016378,
+          "title": "给点评论和<em class=\"keyword\">弹幕</em>吧"
+        },
+        {
+          "key": "bvid:BV1AAjA6dEVk",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1AAjA6dEVk",
+          "aid": 116771050752604,
+          "title": "癌-我最大胆尝试的一次歌切，用声音当刑具，溃烂后的回响"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 60,
+      "commentsAdded": 47
+    },
+    {
+      "at": "2026-06-19T02:18:27.944Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1H8LX6tEyL",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1H8LX6tEyL",
+          "aid": 116764776209970,
+          "title": "蛋仔派对：蛋仔最新bug！超绝<em class=\"keyword\">雷霆</em>大摩托、超大字幕和超大蛋仔！"
+        },
+        {
+          "key": "bvid:BV1hbCpYeEv4",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1hbCpYeEv4",
+          "aid": 113724559986677,
+          "title": "<em class=\"keyword\">b站评论</em>屏蔽过滤器2.0"
+        },
+        {
+          "key": "bvid:BV13S4y1G7b3",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV13S4y1G7b3",
+          "aid": 681372660,
+          "title": "为什么<em class=\"keyword\">回复</em>了一个<em class=\"keyword\">评论</em>？播放量突然降低了？新手看过来不要踩坑了"
+        },
+        {
+          "key": "bvid:BV1FpZtBsE1A",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1FpZtBsE1A",
+          "aid": 116075232564640,
+          "title": "《<em class=\"keyword\">轻重</em>有别》"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 56,
+      "commentsAdded": 50
+    },
+    {
+      "at": "2026-06-19T02:27:42.928Z",
+      "actions": [
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1uud8YyEP8",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1uud8YyEP8",
+          "aid": 114324278351082,
+          "title": "学会5个品茶暗号，你也是真正的高手！"
+        },
+        {
+          "key": "bvid:BV1jp4y1R7cu",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1jp4y1R7cu",
+          "aid": 965546832,
+          "title": "[<em class=\"keyword\">互动</em>视频] 你像纸嫁衣当中的那位角色？"
+        },
+        {
+          "key": "bvid:BV1RPLX65Ea8",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1RPLX65Ea8",
+          "aid": 116764994180860,
+          "title": "这期艺术成分很高‼️"
+        },
+        {
+          "key": "bvid:BV1oYijBhEBo",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV1oYijBhEBo",
+          "aid": 115835620300190,
+          "title": "给紧弱玩家的5个建议"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 227,
+      "commentsAdded": 160
+    },
+    {
+      "at": "2026-06-19T02:36:01.850Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Ab4y137Ct",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论",
+          "bvid": "BV1Ab4y137Ct",
+          "aid": 620989752,
+          "title": "找<em class=\"keyword\">B站</em>宠物up买狗，两年时间不见狗也没退钱"
+        },
+        {
+          "key": "bvid:BV1Grja6pEwU",
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站评论",
+          "bvid": "BV1Grja6pEwU",
+          "aid": 116771587627768,
+          "title": "6.18硬件<em class=\"keyword\">价格</em>（最拉618当天，毫无好价）"
+        },
+        {
+          "key": "bvid:BV1okZUYDEz5",
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕",
+          "bvid": "BV1okZUYDEz5",
+          "aid": 114274617786405,
+          "title": "云视听可以看<em class=\"keyword\">弹幕</em>了？Σ( ° △ °|||)︴"
+        },
+        {
+          "key": "bvid:BV1XfV26xEyV",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV1XfV26xEyV",
+          "aid": 116685554123924,
+          "title": "<em class=\"keyword\">b站</em>你到底更新了什么，你怎么把发<em class=\"keyword\">评论</em>的给改了，我用不惯啊"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 224,
+      "commentsAdded": 186
+    },
+    {
+      "at": "2026-06-19T02:48:24.324Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 教程 评论区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 吐槽 评论"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 争议"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5 雷霆 裁判"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vXVqzUEgH",
+          "term": "查查资料",
+          "query": "查查资料 教程 评论区",
+          "bvid": "BV1vXVqzUEgH",
+          "aid": 114454016559538,
+          "title": "从零带你玩转<em class=\"keyword\">查查</em>（第一期）"
+        },
+        {
+          "key": "bvid:BV1GBja6sESh",
+          "term": "超绝无语",
+          "query": "超绝无语 吐槽 评论",
+          "bvid": "BV1GBja6sESh",
+          "aid": 116771688284485,
+          "title": "看直播能看就看，不能看就滚！路人粉也要战斗了！弹幕刷频让正主网络断案当判官！贴脸影响他们的在我看来就是辱追！"
+        },
+        {
+          "key": "bvid:BV123jF6XEkA",
+          "term": "分不清轻重",
+          "query": "分不清轻重 争议",
+          "bvid": "BV123jF6XEkA",
+          "aid": 116768634896658,
+          "title": "“不蹭流不舔人”的UP主，应该不在意这点争吵热度吧？"
+        },
+        {
+          "key": "bvid:BV1hREr6HEsA",
+          "term": "8打5的雷霆",
+          "query": "8打5 雷霆 裁判",
+          "bvid": "BV1hREr6HEsA",
+          "aid": 116734560307864,
+          "title": "世界杯首战巴西<em class=\"keyword\">裁判</em>因英语水平有限艰难宣布裁决，南非球员听后一脸困惑！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 63,
+      "commentsAdded": 34
+    },
+    {
+      "at": "2026-06-19T02:57:41.049Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕 评论"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV138tnzhEM8",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV138tnzhEM8",
+          "aid": 114975687316706,
+          "title": "你能帮忙找到我的狗吗（原视频）（审核大大让我过吧）"
+        },
+        {
+          "key": "bvid:BV1HdV86sEwc",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1HdV86sEwc",
+          "aid": 116657435645362,
+          "title": "拼多多，低估机会还是价值陷阱"
+        },
+        {
+          "key": "bvid:BV14P546xEhx",
+          "term": "这还用说",
+          "query": "这还用说 弹幕 评论",
+          "bvid": "BV14P546xEhx",
+          "aid": 116555396489006,
+          "title": "F瑜0511<em class=\"keyword\">弹幕说</em>我是男主的炮灰前妻1"
+        },
+        {
+          "key": "bvid:BV18QLX6GE8y",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV18QLX6GE8y",
+          "aid": 116764474084906,
+          "title": "【第489集】仗节死义，正在今日！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 307,
+      "commentsAdded": 279
+    },
+    {
+      "at": "2026-06-19T03:06:55.562Z",
+      "actions": [
+        {
+          "term": "毫无音乐理解",
+          "query": "毫无音乐理解 热评"
+        },
+        {
+          "term": "换个地方再就业",
+          "query": "换个地方再就业 争议 评论区"
+        },
+        {
+          "term": "基本没有音乐理解",
+          "query": "基本没有音乐理解 争议 评论区"
+        },
+        {
+          "term": "就是鬼畜标签",
+          "query": "就是鬼畜标签 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1dfFceHEGo",
+          "term": "毫无音乐理解",
+          "query": "毫无音乐理解 热评",
+          "bvid": "BV1dfFceHEGo",
+          "aid": 113891275183268,
+          "title": "让TA们<em class=\"keyword\">毫无</em>保留地爱上你/你是TA们内心位置的第一/无可救药地爱你"
+        },
+        {
+          "key": "bvid:BV1QJ4m1x7yg",
+          "term": "换个地方再就业",
+          "query": "换个地方再就业 争议 评论区",
+          "bvid": "BV1QJ4m1x7yg",
+          "aid": 1250634227,
+          "title": "那些明明很无聊却被<em class=\"keyword\">再就业</em>男团玩出花来的游戏之桌面“小偷”"
+        },
+        {
+          "key": "bvid:BV15ija6dEEd",
+          "term": "基本没有音乐理解",
+          "query": "基本没有音乐理解 争议 评论区",
+          "bvid": "BV15ija6dEEd",
+          "aid": 116771637959449,
+          "title": "这些术曲为啥被骂?鉴定术力口近期<em class=\"keyword\">争议</em>歌曲!"
+        },
+        {
+          "key": "bvid:BV1yY4y1E7dS",
+          "term": "就是鬼畜标签",
+          "query": "就是鬼畜标签 争议 评论区",
+          "bvid": "BV1yY4y1E7dS",
+          "aid": 643109235,
+          "title": "<em class=\"keyword\">鬼畜</em>读音不够用？两分钟学会如何拼字！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 369,
+      "commentsAdded": 290
+    },
+    {
+      "at": "2026-06-19T03:15:30.545Z",
+      "actions": [
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区"
+        },
+        {
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1BexrzhEsG",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1BexrzhEsG",
+          "aid": 115341514507627,
+          "title": "“那么多的优质<em class=\"keyword\">弹幕</em>一个不读？”"
+        },
+        {
+          "key": "bvid:BV1KDja6jEV3",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1KDja6jEV3",
+          "aid": 116771822505630,
+          "title": "雷总微博<em class=\"keyword\">评论区</em>刷屏股票行情变化，已被干沉默"
+        },
+        {
+          "key": "bvid:BV1Y4jA6gEy2",
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区",
+          "bvid": "BV1Y4jA6gEy2",
+          "aid": 116770866338592,
+          "title": "你能打开<em class=\"keyword\">评论区</em>向我输"
+        },
+        {
+          "key": "bvid:BV1okLX6EEA1",
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区",
+          "bvid": "BV1okLX6EEA1",
+          "aid": 116764373489357,
+          "title": "真是个难缠的<em class=\"keyword\">对手</em>  (#｀-_ゝ-)"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 71,
+      "commentsAdded": 54
+    },
+    {
+      "at": "2026-06-19T03:28:05.439Z",
+      "actions": [
+        {
+          "term": "来电了",
+          "query": "来电了 互动"
+        },
+        {
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Va4y157pD",
+          "term": "来电了",
+          "query": "来电了 互动",
+          "bvid": "BV1Va4y157pD",
+          "aid": 655587930,
+          "title": "【转载】【反XG的人必看！】OPPO A1K+2台小米11 Miui 假<em class=\"keyword\">来电</em>"
+        },
+        {
+          "key": "bvid:BV1v5SZYpEsa",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "bvid": "BV1v5SZYpEsa",
+          "aid": 113407688707964,
+          "title": "这tm怎么过的审？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 95,
+      "commentsAdded": 64
+    },
+    {
+      "at": "2026-06-19T03:41:06.021Z",
+      "actions": [
+        {
+          "term": "来电了",
+          "query": "来电了 互动"
+        },
+        {
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1uFVp6UEaR",
+          "term": "来电了",
+          "query": "来电了 互动",
+          "bvid": "BV1uFVp6UEaR",
+          "aid": 116651697639308,
+          "title": "本视频虚拟电话号码"
+        },
+        {
+          "key": "bvid:BV1WzQUBrEvJ",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "bvid": "BV1WzQUBrEvJ",
+          "aid": 116289997637848,
+          "title": "警惕最近<em class=\"keyword\">评论</em>区出现的大量片哥！不要点进链接！"
+        },
+        {
+          "key": "bvid:BV1xbjM6VEv7",
+          "term": "价格被打下来",
+          "query": "价格被打下来 评论",
+          "bvid": "BV1xbjM6VEv7",
+          "aid": 116757024997962,
+          "title": "男人一份烧鹅卖15元被质疑<em class=\"keyword\">价格</em>低用料差  #厨房总监我不干了转身去卖低价盒饭"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 12,
+      "commentsAdded": 9
+    },
+    {
+      "at": "2026-06-19T03:47:07.505Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1pe4y1i7x4",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1pe4y1i7x4",
+          "aid": 561758239,
+          "title": "迷你世界1218：王叔告诉我们一个秘密，我和狗蛋就去寻宝了"
+        },
+        {
+          "key": "bvid:BV1bbVZ62Edu",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1bbVZ62Edu",
+          "aid": 116674162529894,
+          "title": "<em class=\"keyword\">弹幕</em>说他爱我，可我看不到"
+        },
+        {
+          "key": "bvid:BV1NaJK65EDZ",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1NaJK65EDZ",
+          "aid": 116749122935037,
+          "title": "废话最有用的一次"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 148,
+      "commentsAdded": 126
+    },
+    {
+      "at": "2026-06-19T04:01:41.687Z",
+      "actions": [
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1xyjj6NEW5",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1xyjj6NEW5",
+          "aid": 116762410485531,
+          "title": "网店卖棉被遭遇仅退款，60岁女店主跨3000公里寻人：要追查薅羊毛的团伙，不然生意都做不成，顾客：仅退款的行为不对，我道歉"
+        },
+        {
+          "key": "bvid:BV1Kf4y1t7Np",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1Kf4y1t7Np",
+          "aid": 289624803,
+          "title": "如何观看<em class=\"keyword\">B站</em>排行榜？（教程）"
+        },
+        {
+          "key": "bvid:BV1qpEk6AEUE",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1qpEk6AEUE",
+          "aid": 116734459709595,
+          "title": "拼尽全力，无法绷住！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 159,
+      "commentsAdded": 129
+    },
+    {
+      "at": "2026-06-19T04:09:25.149Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vZjY68Etk",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1vZjY68Etk",
+          "aid": 116772963358284,
+          "title": "[老哥<em class=\"keyword\">切片</em>]6月18日<em class=\"keyword\">直播</em>三个小时，精剪其中高能瞬间10分钟多"
+        },
+        {
+          "key": "bvid:BV1c4EZ61EMn",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1c4EZ61EMn",
+          "aid": 116726507246675,
+          "title": "才发现将军风格二段<em class=\"keyword\">互动</em>是这样的。"
+        },
+        {
+          "key": "bvid:BV1krLf6VELW",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1krLf6VELW",
+          "aid": 116768970381938,
+          "title": "这TM唱一下给<em class=\"keyword\">八百</em>！？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 22,
+      "commentsAdded": 15
+    },
+    {
+      "at": "2026-06-19T04:16:56.027Z",
+      "actions": [
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1jSUSYYEtm",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1jSUSYYEtm",
+          "aid": 113519341079191,
+          "title": "测一把不知名玻片清弓，<em class=\"keyword\">轻重</em>箭测速"
+        },
+        {
+          "key": "bvid:BV1r1jv6jEHN",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV1r1jv6jEHN",
+          "aid": 116774137761468,
+          "title": "吓哭了！6月19号清雨小号又被封了！全网怒喷五月食伍不装了，起号成功！清雨已10倍赔偿！现在清雨风评反转，网友深扒：1亿哈弗币只值几百块！"
+        },
+        {
+          "key": "bvid:BV1w5QCBWELu",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1w5QCBWELu",
+          "aid": 116287111955892,
+          "title": "北京顾客来店买了十斤咱家经典花茶"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 32,
+      "commentsAdded": 31
+    },
+    {
+      "at": "2026-06-19T04:24:46.514Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论区"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1xm4y1A7LR",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV1xm4y1A7LR",
+          "aid": 689011212,
+          "title": "<em class=\"keyword\">B站评论</em>区怎么搞蓝字传送门，怎么搞空降时间，希望这个视频可以帮到你！"
+        },
+        {
+          "key": "bvid:BV1KFVE6AEHE",
+          "term": "抛开其他",
+          "query": "抛开其他 评论区",
+          "bvid": "BV1KFVE6AEHE",
+          "aid": 116667149453567,
+          "title": "<em class=\"keyword\">评论区</em>距离离婚就只差认识了 #搞笑 #抽象 #万万没想到 #"
+        },
+        {
+          "key": "bvid:BV1WH4y127oq",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复",
+          "bvid": "BV1WH4y127oq",
+          "aid": 963708245,
+          "title": "狗狗走失后 最有可能的四个去处"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 685,
+      "commentsAdded": 311
+    },
+    {
+      "at": "2026-06-19T04:36:05.628Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1knjF62EWG",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1knjF62EWG",
+          "aid": 116768869777685,
+          "title": "<em class=\"keyword\">评论</em>区里的逆天发言"
+        },
+        {
+          "key": "bvid:BV1w65X6oEpb",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1w65X6oEpb",
+          "aid": 116572878340499,
+          "title": "［游戏推荐221］《与连的<em class=\"keyword\">互动</em>》自购分享喵"
+        },
+        {
+          "key": "bvid:BV1BvUhB6Emt",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1BvUhB6Emt",
+          "aid": 115614463164712,
+          "title": "《里语无奈》劝分闺蜜<em class=\"keyword\">八百遍</em>，最后喝上了她的喜酒。婚礼当日，我和男方军师坐在主桌拿着手机对账。发现每当他们俩闹分手，霍霍的都是我们两个。聊天记录惊人的相似。分手了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 10,
+      "commentsAdded": 10
+    },
+    {
+      "at": "2026-06-19T04:39:28.717Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "宠物繁殖 狗去哪里了"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 绿鬣蜥 变色龙"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1kgoJBiE8W",
+          "term": "狗去哪里了",
+          "query": "宠物繁殖 狗去哪里了",
+          "bvid": "BV1kgoJBiE8W",
+          "aid": 116462215761022,
+          "title": "今天给大家介绍迷你世界里的14种动物怎么驯服和<em class=\"keyword\">繁殖</em>"
+        },
+        {
+          "key": "bvid:BV1pjf3B7EtZ",
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来",
+          "bvid": "BV1pjf3B7EtZ",
+          "aid": 116103233671533,
+          "title": "第二次<em class=\"keyword\">鸦片战争</em>八里桥战役 3万清军全军覆没"
+        },
+        {
+          "key": "bvid:BV1pDjj6cEqD",
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频",
+          "bvid": "BV1pDjj6cEqD",
+          "aid": 116762343375346,
+          "title": "为什么你的游戏点子很好，但就是做不出来？"
+        },
+        {
+          "key": "bvid:BV1SJ411n7Kh",
+          "term": "查查资料",
+          "query": "查查资料 绿鬣蜥 变色龙",
+          "bvid": "BV1SJ411n7Kh",
+          "aid": 83212369,
+          "title": "【哞哞张大宝】<em class=\"keyword\">绿鬣蜥</em>入门饲养指南！！爬宠星人集合"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 87,
+      "commentsAdded": 78
+    },
+    {
+      "at": "2026-06-19T04:48:28.321Z",
+      "actions": [
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄 洗钱 过审"
+        },
+        {
+          "term": "都是同一批",
+          "query": "同一批 换个地方再就业"
+        },
+        {
+          "term": "基本没有音乐理解",
+          "query": "音乐理解 乐手 鼓手"
+        },
+        {
+          "term": "就算六个齐上也不是我对手",
+          "query": "六个齐上 不是我对手"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1ys4y1U7FS",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄 洗钱 过审",
+          "bvid": "BV1ys4y1U7FS",
+          "aid": 994472879,
+          "title": "揭秘：如何利用一场艺术拍卖<em class=\"keyword\">洗钱</em>？"
+        },
+        {
+          "key": "bvid:BV1MCZ4YrEzM",
+          "term": "都是同一批",
+          "query": "同一批 换个地方再就业",
+          "bvid": "BV1MCZ4YrEzM",
+          "aid": 114260474597951,
+          "title": "搞群像追的就是这份不需要客套的家属感"
+        },
+        {
+          "key": "bvid:BV1va4y1H76t",
+          "term": "基本没有音乐理解",
+          "query": "音乐理解 乐手 鼓手",
+          "bvid": "BV1va4y1H76t",
+          "aid": 670656906,
+          "title": "【入门<em class=\"keyword\">乐手</em>101】为不是<em class=\"keyword\">鼓手</em>的<em class=\"keyword\">乐手</em>准备的<em class=\"keyword\">鼓手</em>入门"
+        },
+        {
+          "key": "bvid:BV1d5jc6zEss",
+          "term": "就算六个齐上也不是我对手",
+          "query": "六个齐上 不是我对手",
+          "bvid": "BV1d5jc6zEss",
+          "aid": 116770362885579,
+          "title": "当所有老友同时上线凑齐五黑"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 74,
+      "commentsAdded": 41
+    },
+    {
+      "at": "2026-06-19T04:57:25.237Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "缺点只有一个贵 狗去哪里了 狗舍 德牧"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来 评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频 有质量"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说吗 回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV19V4y1Y7VL",
+          "term": "狗去哪里了",
+          "query": "缺点只有一个贵 狗去哪里了 狗舍 德牧",
+          "bvid": "BV19V4y1Y7VL",
+          "aid": 872344666,
+          "title": "小狗多大月龄入手养最合适，看完这个视频，解答你所有的疑惑！"
+        },
+        {
+          "key": "bvid:BV16iC3BzEeG",
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来 评论",
+          "bvid": "BV16iC3BzEeG",
+          "aid": 115549099004633,
+          "title": "<em class=\"keyword\">鸦片战争</em>【波兰球之战】"
+        },
+        {
+          "key": "bvid:BV1S4jc6hETn",
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频 有质量",
+          "bvid": "BV1S4jc6hETn",
+          "aid": 116769960234241,
+          "title": "没出处决自己做呗"
+        },
+        {
+          "key": "bvid:BV13Mz6YME7d",
+          "term": "这还用说",
+          "query": "这还用说吗 回复",
+          "bvid": "BV13Mz6YME7d",
+          "aid": 113565528819175,
+          "title": "好了 不准说了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 63,
+      "commentsAdded": 37
+    },
+    {
+      "at": "2026-06-19T05:01:23.139Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗舍 德牧 狗去哪里了 评论区"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "鸦片战争 鸦片出产国 价格被打下来 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他因素 张远 体寒 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1YL4y1s7zU",
+          "term": "狗去哪里了",
+          "query": "狗舍 德牧 狗去哪里了 评论区",
+          "bvid": "BV1YL4y1s7zU",
+          "aid": 851403904,
+          "title": "如何寻找城市里的正规犬舍？cku犬舍宠爱王国app犬舍搜索方法"
+        },
+        {
+          "key": "bvid:BV1Vs4y1h7NN",
+          "term": "价格被打下来",
+          "query": "鸦片战争 鸦片出产国 价格被打下来 评论区",
+          "bvid": "BV1Vs4y1h7NN",
+          "aid": 949638480,
+          "title": "第1课 <em class=\"keyword\">鸦片战争</em> 思维导图"
+        },
+        {
+          "key": "bvid:BV1sh4y1i7uz",
+          "term": "抛开其他",
+          "query": "抛开其他因素 张远 体寒 评论区",
+          "bvid": "BV1sh4y1i7uz",
+          "aid": 662556819,
+          "title": "《青春无恙》--<em class=\"keyword\">张远</em>【Hi-Res无损音质】亲吻骄傲的热浪 拥抱落泪的星光 在一个淡而无味的晚上 一碗平常 满心渴望"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 33,
+      "commentsAdded": 19
+    },
+    {
+      "at": "2026-06-19T05:20:39.040Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Laf1BNEon",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1Laf1BNEon",
+          "aid": 116124423296837,
+          "title": "【汪好不是狗】新作上线，快来看看！"
+        },
+        {
+          "key": "bvid:BV1PaxezSE5K",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1PaxezSE5K",
+          "aid": 115337471203273,
+          "title": "狗都不……去！去的就是cpsp！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 7,
+      "commentsAdded": 5
+    }
+  ]
+}

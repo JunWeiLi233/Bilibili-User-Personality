@@ -1,0 +1,922 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "attack",
+  "shard": 17,
+  "shardCount": 34,
+  "evidence": [
+    {
+      "term": "扣帽子",
+      "evidenceSamples": [
+        "不出意外，你要被扣帽子了",
+        "虽然我不想扣帽子，但是我看到了那群把苦难娱乐化，把严肃事情娱乐，把娱乐事情严肃化人的影子，虽然我明白现在经济下行需要精神娱乐，但也不是叫这群人无限制的放低底线来达成他们所谓的快乐啊，我都怀疑这群人真的知道自己为什么笑吗",
+        "感觉这打法还是老一辈那套，说到底还是扣帽子侮辱人，毕竟怎么样才算装逼也没个统一标准。大兜帽盖忽的你头上，叫人生闷气，解释成本还高，太权威了",
+        "对呀，你一上来就说别人是什么日记的后代日志的后代，你又没有什么证据你就一上来就给别人扣帽子，这样子真的很不礼貌的[笑哭][笑哭]",
+        "很简单，那群东西建正都搬不出什么新词儿。你把牢A，斩杀线屏蔽，能减少一半；把扣帽子，帽子工厂，人民屏蔽，有减少一半；误闯天家，想吃紫蛋屏蔽，还能减少一半[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
+          "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
+          "sample": "不出意外，你要被扣帽子了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H9V86REtp/",
+          "uid": "BV1H9V86REtp",
+          "sample": "虽然我不想扣帽子，但是我看到了那群把苦难娱乐化，把严肃事情娱乐，把娱乐事情严肃化人的影子，虽然我明白现在经济下行需要精神娱乐，但也不是叫这群人无限制的放低底线来达成他们所谓的快乐啊，我都怀疑这群人真的知道自己为什么笑吗"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H9V86REtp/",
+          "uid": "BV1H9V86REtp",
+          "sample": "感觉这打法还是老一辈那套，说到底还是扣帽子侮辱人，毕竟怎么样才算装逼也没个统一标准。大兜帽盖忽的你头上，叫人生闷气，解释成本还高，太权威了"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1AWwNeSEZF/",
+          "uid": "3493272248911956",
+          "sample": "对呀，你一上来就说别人是什么日记的后代日志的后代，你又没有什么证据你就一上来就给别人扣帽子，这样子真的很不礼貌的[笑哭][笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1wmSSBMEQE/",
+          "uid": "592465435",
+          "sample": "很简单，那群东西建正都搬不出什么新词儿。你把牢A，斩杀线屏蔽，能减少一半；把扣帽子，帽子工厂，人民屏蔽，有减少一半；误闯天家，想吃紫蛋屏蔽，还能减少一半[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1VpJG6yEfK/",
+          "uid": "690185338",
+          "sample": "回复 @你叫什么啊w :我说好多 好多≠全部，如果是借鉴或有出处就标出来呗，不敢吗？ [星星眼]看给你应激成什么了，全篇不是给我扣帽子就是胡扯，是抄诗表自己的作者本人来了吗？[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "扫墓",
+      "evidenceSamples": [
+        "哈哈哈哈哈，扫墓",
+        "扫墓",
+        "漂泊佩恩扫墓额。。不知道第几天了[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CF41177Js/",
+          "uid": "BV1CF41177Js",
+          "sample": "哈哈哈哈哈，扫墓"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1GAbUz2E9f/",
+          "uid": "BV1GAbUz2E9f",
+          "sample": "扫墓"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kiVG6VEQN/",
+          "uid": "BV1kiVG6VEQN",
+          "sample": "漂泊佩恩扫墓额。。不知道第几天了[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "扯淡",
+      "evidenceSamples": [
+        "这里就是扯淡，量的位置不一样罢了",
+        "修复又不是改造！谁修复文物能修成不一样的？扯淡呢",
+        "扯淡，大气层是假的吗",
+        "纯属扯淡！",
+        "仔细看那个纯扯淡，用电脑看都没看清"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1AeMw6TEXg",
+          "sample": "这里就是扯淡，量的位置不一样罢了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1AeMw6TEXg",
+          "sample": "修复又不是改造！谁修复文物能修成不一样的？扯淡呢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pATC61EeH",
+          "sample": "扯淡，大气层是假的吗"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1tfTv6NEEE",
+          "sample": "纯属扯淡！"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SnTz62Eg4",
+          "sample": "仔细看那个纯扯淡，用电脑看都没看清"
+        }
+      ]
+    },
+    {
+      "term": "扯淡呢",
+      "evidenceSamples": [
+        "这里就是扯淡，量的位置不一样罢了",
+        "修复又不是改造！谁修复文物能修成不一样的？扯淡呢",
+        "扯淡，大气层是假的吗",
+        "纯属扯淡！",
+        "仔细看那个纯扯淡，用电脑看都没看清"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1AeMw6TEXg",
+          "sample": "这里就是扯淡，量的位置不一样罢了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1AeMw6TEXg",
+          "sample": "修复又不是改造！谁修复文物能修成不一样的？扯淡呢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pATC61EeH",
+          "sample": "扯淡，大气层是假的吗"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1tfTv6NEEE",
+          "sample": "纯属扯淡！"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SnTz62Eg4",
+          "sample": "仔细看那个纯扯淡，用电脑看都没看清"
+        }
+      ]
+    },
+    {
+      "term": "找存在",
+      "evidenceSamples": [
+        "我是越来越铁我家只因哥了，它唱跳篮球不仅优秀，而且每天都有新歌，还有啊我劝那些虚假的粉坤坤言论者管好你们自己，不要给我们家只因哥招黑了，管不好自己上网就那几句话，剪视频的还稀碎，咦咦咦[再见]还有啊，我作为两年半的铁粉，我的忠实评论总有一些人看不惯会说我，我觉得这不好别在我评论区找存在感好不好？喜欢它就喜欢，别招黑了[再见][翻白眼]",
+        "一群18码的，报你风的时间啊，不用刷存在感知道吗，乐",
+        "刷时间的这么想找存在感吗？",
+        "日本现在能做啥呢你说。。。没存在感是应该的。。。",
+        "弹幕是哪来的，刷时间是因为现实生活没人在意所以特意刷时间展示存在感吗"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "3461566691281262",
+          "sample": "我是越来越铁我家只因哥了，它唱跳篮球不仅优秀，而且每天都有新歌，还有啊我劝那些虚假的粉坤坤言论者管好你们自己，不要给我们家只因哥招黑了，管不好自己上网就那几句话，剪视频的还稀碎，咦咦咦[再见]还有啊，我作为两年半的铁粉，我的忠实评论总有一些人看不惯会说我，我觉得这不好别在我评论区找存在感好不好？喜欢它就喜欢，别招黑了[再见][翻白眼]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "一群18码的，报你风的时间啊，不用刷存在感知道吗，乐"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "刷时间的这么想找存在感吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1iUTz6tE6t",
+          "sample": "日本现在能做啥呢你说。。。没存在感是应该的。。。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "弹幕是哪来的，刷时间是因为现实生活没人在意所以特意刷时间展示存在感吗"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "那些发不喜欢的人，发弹幕找存在感？就像我也不喜欢王国之泪一样，是不是也要去那边发太普通了，我不喜欢之类的，萝卜青菜各有所爱，有的人喜欢玩法，喜欢开放世界，对画面，剧情可以有所割舍，我喜欢画面好，战斗爽快的线性游戏有啥问题，一天到处刷，烦的一批"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "279033042",
+          "sample": "你坤人好那就人好，可叫我们别玩这个梗又是什么操作，想要帮他辩护去找你的那些姐妹去，别来这视频底下找存在感"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @屉痒鳳 :我是娱乐圈路人粉，就我的观点来看，如果一对从未在镜头前有互动几乎可以推定是互不认识的男女明星A和B，在双方超话里出现了一个上蹿下跳强拉cp的高仿号C。磕CP不是不行，但是一般都默认圈地自萌，像文中男主这种操纵C号和自己互动..."
+        }
+      ]
+    },
+    {
+      "term": "找存在感",
+      "evidenceSamples": [
+        "弹幕是哪来的，刷时间是因为现实生活没人在意所以特意刷时间展示存在感吗",
+        "那些发不喜欢的人，发弹幕找存在感？就像我也不喜欢王国之泪一样，是不是也要去那边发太普通了，我不喜欢之类的，萝卜青菜各有所爱，有的人喜欢玩法，喜欢开放世界，对画面，剧情可以有所割舍，我喜欢画面好，战斗爽快的线性游戏有啥问题，一天到处刷，烦的一批",
+        "一群18码的，报你风的时间啊，不用刷存在感知道吗，乐",
+        "日本现在能做啥呢你说。。。没存在感是应该的。。。",
+        "我是越来越铁我家只因哥了，它唱跳篮球不仅优秀，而且每天都有新歌，还有啊我劝那些虚假的粉坤坤言论者管好你们自己，不要给我们家只因哥招黑了，管不好自己上网就那几句话，剪视频的还稀碎，咦咦咦[再见]还有啊，我作为两年半的铁粉，我的忠实评论总有一些人看不惯会说我，我觉得这不好别在我评论区找存在感好不好？喜欢它就喜欢，别招黑了[再见][翻白眼]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "弹幕是哪来的，刷时间是因为现实生活没人在意所以特意刷时间展示存在感吗"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "那些发不喜欢的人，发弹幕找存在感？就像我也不喜欢王国之泪一样，是不是也要去那边发太普通了，我不喜欢之类的，萝卜青菜各有所爱，有的人喜欢玩法，喜欢开放世界，对画面，剧情可以有所割舍，我喜欢画面好，战斗爽快的线性游戏有啥问题，一天到处刷，烦的一批"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "一群18码的，报你风的时间啊，不用刷存在感知道吗，乐"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1iUTz6tE6t",
+          "sample": "日本现在能做啥呢你说。。。没存在感是应该的。。。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "3461566691281262",
+          "sample": "我是越来越铁我家只因哥了，它唱跳篮球不仅优秀，而且每天都有新歌，还有啊我劝那些虚假的粉坤坤言论者管好你们自己，不要给我们家只因哥招黑了，管不好自己上网就那几句话，剪视频的还稀碎，咦咦咦[再见]还有啊，我作为两年半的铁粉，我的忠实评论总有一些人看不惯会说我，我觉得这不好别在我评论区找存在感好不好？喜欢它就喜欢，别招黑了[再见][翻白眼]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "刷时间的这么想找存在感吗？"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "279033042",
+          "sample": "你坤人好那就人好，可叫我们别玩这个梗又是什么操作，想要帮他辩护去找你的那些姐妹去，别来这视频底下找存在感"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "回复 @屉痒鳳 :我是娱乐圈路人粉，就我的观点来看，如果一对从未在镜头前有互动几乎可以推定是互不认识的男女明星A和B，在双方超话里出现了一个上蹿下跳强拉cp的高仿号C。磕CP不是不行，但是一般都默认圈地自萌，像文中男主这种操纵C号和自己互动..."
+        }
+      ]
+    },
+    {
+      "term": "抄作业",
+      "evidenceSamples": [
+        "回复 @独钓_一江秋 :艺术的本质tm是一种特殊的社会意识形态，是创作者本身同社会风俗和时代精神的综合体现，一个垃圾的艺术氛围本身也映射的是垃圾的社会意识你不明白？为什么抵制抄袭？抵制的是音乐圈爱抄袭吗？是整个文艺界的疯狂抄袭啊！现在国内的风气就是不论影视、游戏、音乐、通俗文学都tm在抄袭，抄的热火朝天，抄的毫无廉耻心，甚至光明正大的说我就是缝[笑哭] 你觉得只会抄作业的人会明白这个式子的原理吗？一个只会抄作业的病人拿什么去创新？别在这搞笑给只会抄袭的狗洗地了，读书都是白读了吗《拿来主义》这篇文章都白学了[捂脸]",
+        "本质上是中国教育系统把有创造力的年轻人筛选去理工政法等正式职业道路去了。 走艺术类道路的大多是被筛选过的“差生”，别指望连数学都搞不明白的人能搞懂乐理，人家会抄作业已经不错了。",
+        "回复 @因梦前行 :我们高中班群名字叫做飞哥叫你抄作业，飞哥是我们班主任他不在群里哈哈哈",
+        "但凡一个正常人，就算是车厂把智驾吹上天，都是会小心使用智驾的。你把自己的生命和同车乘客的生命交给智能驾驶，那就是对自己对他人的不负责任，那智驾再牛逼，也不能当复活甲后悔药使用啊，哪个车厂敢保证智驾百分百不出问题？那车厂卖车的，肯定都是往好的，大的方向宣传，未必车还没发售，在发布会上就明说，我们智驾不如其他家的，做商人的肯定不会这么说，但是作为买家，你可以信一部分，但是不能全信。举个例子，上学你抄作业抄试卷，别人说我这个全对，随便你抄，但是你敢全抄吗，就算是全对你也不敢全抄吧，你起码也得故意错一些，全抄你自己也知道老师是看得出来其中的问题的。所以说开车还是自己掌握车，智能驾驶只能是辅助。",
+        "抄作业怎么了，嘻嘻"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @独钓_一江秋 :艺术的本质tm是一种特殊的社会意识形态，是创作者本身同社会风俗和时代精神的综合体现，一个垃圾的艺术氛围本身也映射的是垃圾的社会意识你不明白？为什么抵制抄袭？抵制的是音乐圈爱抄袭吗？是整个文艺界的疯狂抄袭啊！现在国内的风气就是不论影视、游戏、音乐、通俗文学都tm在抄袭，抄的热火朝天，抄的毫无廉耻心，甚至光明正大的说我就是缝[笑哭] 你觉得只会抄作业的人会明白这个式子的原理吗？一个只会抄作业的病人拿什么去创新？别在这搞笑给只会抄袭的狗洗地了，读书都是白读了吗《拿来主义》这篇文章都白学了[捂脸]"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "本质上是中国教育系统把有创造力的年轻人筛选去理工政法等正式职业道路去了。 走艺术类道路的大多是被筛选过的“差生”，别指望连数学都搞不明白的人能搞懂乐理，人家会抄作业已经不错了。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV197411v7PA/",
+          "uid": "BV197411v7PA",
+          "sample": "回复 @因梦前行 :我们高中班群名字叫做飞哥叫你抄作业，飞哥是我们班主任他不在群里哈哈哈"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
+          "uid": "BV1LxZfYVEdT",
+          "sample": "但凡一个正常人，就算是车厂把智驾吹上天，都是会小心使用智驾的。你把自己的生命和同车乘客的生命交给智能驾驶，那就是对自己对他人的不负责任，那智驾再牛逼，也不能当复活甲后悔药使用啊，哪个车厂敢保证智驾百分百不出问题？那车厂卖车的，肯定都是往好的，大的方向宣传，未必车还没发售，在发布会上就明说，我们智驾不如其他家的，做商人的肯定不会这么说，但是作为买家，你可以信一部分，但是不能全信。举个例子，上学你抄作业抄试卷，别人说我这个全对，随便你抄，但是你敢全抄吗，就算是全对你也不敢全抄吧，你起码也得故意错一些，全抄你自己也知道老师是看得出来其中的问题的。所以说开车还是自己掌握车，智能驾驶只能是辅助。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "抄作业怎么了，嘻嘻"
+        }
+      ]
+    },
+    {
+      "term": "抖音",
+      "evidenceSamples": [
+        "抖音那边的他们宁愿相信虚构神话，也不相信科学实践，龙雅说过那个鸡冠蛇[doge]",
+        "回复 @特土遁 :艹 [辣眼睛] 咱也不知道谁拿我奶手机发抖音 每次回家打开她抖音里面全是这些",
+        "-在微博、抖音等平台发布求助信息，附上证据并@相关部门及媒体。类似湖南株洲少年身亡事件的曝光可推动警方和监管部门重视。",
+        "回复 @牛逼轰轰の虎P :b站攻击力一般，抖音还行，快手很强[吃瓜]",
+        "这是抖音 抖音哪有那么多认真的，对于他们来说 刷刷人机评论就是很快乐的[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16njuzUEnF/, https://www.bilibili.com/video/BV1i54Az9EZj/, https://www.bilibili.com/video/BV1Ya411E75V/, https://www.bilibili.com/video/BV1NHcrzVEKy/, http://www.bilibili.com/video/av114566122116071, http://www.bilibili.com/video/av115355791919319, http://www.bilibili.com/video/av214368418, http://www.bilibili.com/video/av116214433062152",
+          "uid": "BV16njuzUEnF,BV1i54Az9EZj,BV1Ya411E75V,BV1NHcrzVEKy",
+          "sample": "抖音那边的他们宁愿相信虚构神话，也不相信科学实践，龙雅说过那个鸡冠蛇[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "回复 @特土遁 :艹 [辣眼睛] 咱也不知道谁拿我奶手机发抖音 每次回家打开她抖音里面全是这些"
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "-在微博、抖音等平台发布求助信息，附上证据并@相关部门及媒体。类似湖南株洲少年身亡事件的曝光可推动警方和监管部门重视。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1LN411a7ZY/",
+          "uid": "1431982420",
+          "sample": "回复 @牛逼轰轰の虎P :b站攻击力一般，抖音还行，快手很强[吃瓜]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Bfi1YoEfm/",
+          "uid": "2086705634",
+          "sample": "这是抖音 抖音哪有那么多认真的，对于他们来说 刷刷人机评论就是很快乐的[doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Bfi1YoEfm/",
+          "uid": "5434784",
+          "sample": "在B站养成的习惯点进来先看评论在根据评论内容决定看不看视频[笑哭]防止封面党，标题党，可惜抖音做不到点开自动暂停[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "去年七月抖音就取消了语音评论，每个经典抖音语音评论视频我都看过（我也是为了语音评论去下了抖音，它取消后我就卸了），但每次看到B站转载的我都会点进来看，真的很爱听各地方言哈哈哈哈哈"
+        }
+      ]
+    },
+    {
+      "term": "护主",
+      "evidenceSamples": [
+        "不让发弹幕就滚去别的平台，别搞护主那套",
+        "边牧怂啊，不护主",
+        "我看你是忘了护主神兽了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "不让发弹幕就滚去别的平台，别搞护主那套"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV143kkBNEjk/",
+          "uid": "BV143kkBNEjk",
+          "sample": "边牧怂啊，不护主"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV18Mjw6YEvv/",
+          "uid": "590615591",
+          "sample": "我看你是忘了护主神兽了"
+        }
+      ]
+    },
+    {
+      "term": "护主心切",
+      "evidenceSamples": [
+        "不让发弹幕就滚去别的平台，别搞护主那套",
+        "边牧怂啊，不护主",
+        "我看你是忘了护主神兽了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "不让发弹幕就滚去别的平台，别搞护主那套"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV143kkBNEjk/",
+          "uid": "BV143kkBNEjk",
+          "sample": "边牧怂啊，不护主"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV18Mjw6YEvv/",
+          "uid": "590615591",
+          "sample": "我看你是忘了护主神兽了"
+        }
+      ]
+    },
+    {
+      "term": "护主狗",
+      "evidenceSamples": [
+        "不让发弹幕就滚去别的平台，别搞护主那套",
+        "边牧怂啊，不护主",
+        "我看你是忘了护主神兽了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "不让发弹幕就滚去别的平台，别搞护主那套"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV143kkBNEjk/",
+          "uid": "BV143kkBNEjk",
+          "sample": "边牧怂啊，不护主"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV18Mjw6YEvv/",
+          "uid": "590615591",
+          "sample": "我看你是忘了护主神兽了"
+        }
+      ]
+    },
+    {
+      "term": "报应",
+      "evidenceSamples": [
+        "百因必有果你的报应就是我",
+        "报应啊！福田孝行。",
+        "这不是罪有应得大快人心，报应不爽吗",
+        "循环报应不爽了",
+        "这就是渣男的报应啊"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV17sTf62Ecb",
+          "sample": "百因必有果你的报应就是我"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XtTs61EDv",
+          "sample": "报应啊！福田孝行。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kFMw68EME",
+          "sample": "这不是罪有应得大快人心，报应不爽吗"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1eUT56HEz6",
+          "sample": "循环报应不爽了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1eUT56HEz6",
+          "sample": "这就是渣男的报应啊"
+        }
+      ]
+    },
+    {
+      "term": "报应不爽",
+      "evidenceSamples": [
+        "百因必有果你的报应就是我",
+        "报应啊！福田孝行。",
+        "这不是罪有应得大快人心，报应不爽吗",
+        "循环报应不爽了",
+        "这就是渣男的报应啊"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV17sTf62Ecb",
+          "sample": "百因必有果你的报应就是我"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XtTs61EDv",
+          "sample": "报应啊！福田孝行。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kFMw68EME",
+          "sample": "这不是罪有应得大快人心，报应不爽吗"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1eUT56HEz6",
+          "sample": "循环报应不爽了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1eUT56HEz6",
+          "sample": "这就是渣男的报应啊"
+        }
+      ]
+    },
+    {
+      "term": "披皮",
+      "evidenceSamples": [
+        "这评论区怎么这么多披皮黑啊，装粉丝装得也太假了。",
+        "那个骂得最狠的一看就是披皮黑，真粉会这样说话？",
+        "别理那个披皮黑，故意带节奏的，举报就完事了。",
+        "不止给女明星造谣，男明星也造，披皮黑，长期黑，莫名其妙[无语][呆]",
+        "前方孙楠粉丝及披皮黑领地"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这评论区怎么这么多披皮黑啊，装粉丝装得也太假了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "那个骂得最狠的一看就是披皮黑，真粉会这样说话？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "别理那个披皮黑，故意带节奏的，举报就完事了。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1we75zMEyu/",
+          "uid": "3546726344427617",
+          "sample": "不止给女明星造谣，男明星也造，披皮黑，长期黑，莫名其妙[无语][呆]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
+          "uid": "1591706674",
+          "sample": "前方孙楠粉丝及披皮黑领地"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "小心披皮黑，故意引战呢。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这人发言可疑，怕不是披皮。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "批皮装粉丝，一眼就看穿了。"
+        }
+      ]
+    },
+    {
+      "term": "披皮黑",
+      "evidenceSamples": [
+        "这评论区怎么这么多披皮黑啊，装粉丝装得也太假了。",
+        "那个骂得最狠的一看就是披皮黑，真粉会这样说话？",
+        "别理那个披皮黑，故意带节奏的，举报就完事了。",
+        "不止给女明星造谣，男明星也造，披皮黑，长期黑，莫名其妙[无语][呆]",
+        "前方孙楠粉丝及披皮黑领地"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这评论区怎么这么多披皮黑啊，装粉丝装得也太假了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "那个骂得最狠的一看就是披皮黑，真粉会这样说话？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "别理那个披皮黑，故意带节奏的，举报就完事了。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1we75zMEyu/",
+          "uid": "3546726344427617",
+          "sample": "不止给女明星造谣，男明星也造，披皮黑，长期黑，莫名其妙[无语][呆]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
+          "uid": "1591706674",
+          "sample": "前方孙楠粉丝及披皮黑领地"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "小心披皮黑，故意引战呢。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这人发言可疑，怕不是披皮。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "批皮装粉丝，一眼就看穿了。"
+        }
+      ]
+    },
+    {
+      "term": "披麻袋笑了",
+      "evidenceSamples": [
+        "666气笑了",
+        "一位在25岁之前考取哈佛学位流利沟通五种语言并全球巡演为盲人谋福利的聋哑人轻轻的笑了笑博主的愚蠢",
+        "披麻袋笑了都",
+        "看视频没笑到你这笑了",
+        "“你的？少让我发笑了！这些不也是你从那些『无辜』的家伙那夺来的吗？我只不过是对你做了同样的事情，哈哈哈哈哈！”"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16tBkBmEQT/, https://www.bilibili.com/video/BV1yHqmBPEFw/, https://www.bilibili.com/video/BV153isBUErD/, https://www.bilibili.com/video/BV1dVvgeqERT/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av112870767529610",
+          "uid": "BV16tBkBmEQT,BV1yHqmBPEFw,BV153isBUErD,BV1dVvgeqERT",
+          "sample": "666气笑了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "一位在25岁之前考取哈佛学位流利沟通五种语言并全球巡演为盲人谋福利的聋哑人轻轻的笑了笑博主的愚蠢"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "披麻袋笑了都"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "看视频没笑到你这笑了"
+        },
+        {
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "“你的？少让我发笑了！这些不也是你从那些『无辜』的家伙那夺来的吗？我只不过是对你做了同样的事情，哈哈哈哈哈！”"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Xu411Z7S1/",
+          "uid": "441642523",
+          "sample": "本来没笑，看到你的评论笑了[呲牙]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Bp4y1T7df/",
+          "uid": "386189189",
+          "sample": "回复 @太阴赤子 :前面确实，后面开始笑了[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1g9Jp6PEqT/",
+          "uid": "517662088",
+          "sample": "回复 @本质的必然_ :我本来不想笑的，但看到你的评论，我笑了[喜极而泣]"
+        }
+      ]
+    },
+    {
+      "term": "抬杠",
+      "evidenceSamples": [
+        "只有一部分，知乎这话题底下大部分都是和男生抬杠的，装理中客的。",
+        "av84160760[滑稽]\\n\\n根据我对B战群众的了解，这个视频的评论区一定会有人说“王一博是谁？”“肖战是谁？”“我不玩王者荣耀”这种抬杠的话，所以我希望大家尽量不要说这种话，不要成为那个你自己也很讨厌的杠精。\\n\\n顺便问一下，王一博是谁？？？",
+        "这么大的领导搁这抬杠呢？",
+        "还对面有坦克，你怎么爱抬杠怎么不去工地搬砖"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "只有一部分，知乎这话题底下大部分都是和男生抬杠的，装理中客的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV197411v7PA/",
+          "uid": "BV197411v7PA",
+          "sample": "av84160760[滑稽]\\n\\n根据我对B战群众的了解，这个视频的评论区一定会有人说“王一博是谁？”“肖战是谁？”“我不玩王者荣耀”这种抬杠的话，所以我希望大家尽量不要说这种话，不要成为那个你自己也很讨厌的杠精。\\n\\n顺便问一下，王一博是谁？？？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1cT411A7Ti/",
+          "uid": "BV1cT411A7Ti",
+          "sample": "这么大的领导搁这抬杠呢？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1801196154/",
+          "uid": "1451380945",
+          "sample": "还对面有坦克，你怎么爱抬杠怎么不去工地搬砖"
+        }
+      ]
+    },
+    {
+      "term": "抱团",
+      "evidenceSamples": [
+        "他们是最该去信宗教的那群人，自己限定规则，不光要自己遵守，还要去要求别人去遵守，不理会对方世界的规则，一旦违反，那就是异教徒。\\n本质是恶心的小团体抱团，结果结成更恶心的大团体，偏偏又有执行力。像有的村子人真的很好，但有的村子你连靠都不想靠近。这种只能看本身的道德，以及还处在全世界围绕着自己转的想法里。及自己的想法就是正确。",
+        "看这里俩ID又是波刚搁这编恐婚故事抱团取暖了",
+        "相比之下，模糊的声音、迟疑的声音、中间的声音比较难以形成观念共同体，因为你缺乏激情，缺乏“布道”精神，懒得行动，也不抱团，那就等于拱手把世界交给了极端的人。】",
+        "孙吧爱情故事 记录一下两个阴暗鼠鼠抱团取暖又互相折磨的爱情",
+        "监狱服刑人员算不算少数民族？ 住在远离其他人的地方，穿着传统服饰，有自己的文化和生活规律，抱团工作，普通人不敢随意去少民区域"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1GUV766ERo/",
+          "uid": "BV1GUV766ERo",
+          "sample": "他们是最该去信宗教的那群人，自己限定规则，不光要自己遵守，还要去要求别人去遵守，不理会对方世界的规则，一旦违反，那就是异教徒。\\n本质是恶心的小团体抱团，结果结成更恶心的大团体，偏偏又有执行力。像有的村子人真的很好，但有的村子你连靠都不想靠近。这种只能看本身的道德，以及还处在全世界围绕着自己转的想法里。及自己的想法就是正确。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12b421q7nS/",
+          "uid": "BV12b421q7nS",
+          "sample": "看这里俩ID又是波刚搁这编恐婚故事抱团取暖了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
+          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
+          "sample": "相比之下，模糊的声音、迟疑的声音、中间的声音比较难以形成观念共同体，因为你缺乏激情，缺乏“布道”精神，懒得行动，也不抱团，那就等于拱手把世界交给了极端的人。】"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "孙吧爱情故事 记录一下两个阴暗鼠鼠抱团取暖又互相折磨的爱情"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8510840317",
+          "uid": "NHK的阴谋º",
+          "sample": "监狱服刑人员算不算少数民族？ 住在远离其他人的地方，穿着传统服饰，有自己的文化和生活规律，抱团工作，普通人不敢随意去少民区域"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1MQVS6ZEov/",
+          "uid": "BV1MQVS6ZEov",
+          "sample": "建议下一集剧情：\\n脱缰凯司马一鹰眼三人继续抱团，赵德柱和赵男越走越近，赵男继续挑拨离间激化矛盾，导致赵德柱和脱缰凯爆发冲突，赵德柱撂下狠话“回宿舍收拾你”，未完待续；\\n第三集剧情：\\n赵德柱一回宿舍立刻滑跪发表声明说之前都是演的，司马一站出来解释说都是和赵德柱商量好的，故意演给赵男看，发现赵男确实居心叵测但是还不知道他具体有什么计划，于是赵德柱继续演戏假装和三人彻底决裂，继续卧底研究赵男葫芦里卖的什么药。\\n再下一集还没想好[doge_金箍]这是我能想到的最低血压的剧情了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Rzj36AE5G/",
+          "uid": "BV1Rzj36AE5G",
+          "sample": "抱团不香么"
+        }
+      ]
+    },
+    {
+      "term": "抱团取暖",
+      "evidenceSamples": [
+        "看这里俩ID又是波刚搁这编恐婚故事抱团取暖了",
+        "相比之下，模糊的声音、迟疑的声音、中间的声音比较难以形成观念共同体，因为你缺乏激情，缺乏“布道”精神，懒得行动，也不抱团，那就等于拱手把世界交给了极端的人。】",
+        "孙吧爱情故事 记录一下两个阴暗鼠鼠抱团取暖又互相折磨的爱情",
+        "监狱服刑人员算不算少数民族？ 住在远离其他人的地方，穿着传统服饰，有自己的文化和生活规律，抱团工作，普通人不敢随意去少民区域",
+        "建议下一集剧情：\\n脱缰凯司马一鹰眼三人继续抱团，赵德柱和赵男越走越近，赵男继续挑拨离间激化矛盾，导致赵德柱和脱缰凯爆发冲突，赵德柱撂下狠话“回宿舍收拾你”，未完待续；\\n第三集剧情：\\n赵德柱一回宿舍立刻滑跪发表声明说之前都是演的，司马一站出来解释说都是和赵德柱商量好的，故意演给赵男看，发现赵男确实居心叵测但是还不知道他具体有什么计划，于是赵德柱继续演戏假装和三人彻底决裂，继续卧底研究赵男葫芦里卖的什么药。\\n再下一集还没想好[doge_金箍]这是我能想到的最低血压的剧情了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV12b421q7nS/",
+          "uid": "BV12b421q7nS",
+          "sample": "看这里俩ID又是波刚搁这编恐婚故事抱团取暖了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d1T56WEDn/, https://www.bilibili.com/video/BV1Jh4y177Tq/, https://www.bilibili.com/video/BV1NW4y1c7Zp/, https://www.bilibili.com/video/BV18SGa6GEWk/, https://www.bilibili.com/video/BV1ri421Y7HH/, https://www.bilibili.com/video/BV1tt9fB2EEQ/, http://www.bilibili.com/video/av116831381750725, http://www.bilibili.com/video/av966718633, http://www.bilibili.com/video/av1456145308, http://www.bilibili.com/video/av116816919664710, http://www.bilibili.com/video/av245295404, http://www.bilibili.com/video/av116817406200648, http://www.bilibili.com/video/av754073174, http://www.bilibili.com/video/av116620978555112, http://www.bilibili.com/video/av114132867088419, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av568153626, http://www.bilibili.com/video/av672720156, http://www.bilibili.com/video/av114792866059629, http://www.bilibili.com/video/av116728067529354, http://www.bilibili.com/video/av116840256772343, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av114867222614655, http://www.bilibili.com/video/av113961353612013, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av972313781, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av116510550917169, http://www.bilibili.com/video/av116828193952229, http://www.bilibili.com/video/av644775116",
+          "uid": "BV1d1T56WEDn,BV1Jh4y177Tq,BV1NW4y1c7Zp,BV18SGa6GEWk,BV1ri421Y7HH,BV1tt9fB2EEQ",
+          "sample": "相比之下，模糊的声音、迟疑的声音、中间的声音比较难以形成观念共同体，因为你缺乏激情，缺乏“布道”精神，懒得行动，也不抱团，那就等于拱手把世界交给了极端的人。】"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "孙吧爱情故事 记录一下两个阴暗鼠鼠抱团取暖又互相折磨的爱情"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8510840317",
+          "uid": "NHK的阴谋º",
+          "sample": "监狱服刑人员算不算少数民族？ 住在远离其他人的地方，穿着传统服饰，有自己的文化和生活规律，抱团工作，普通人不敢随意去少民区域"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1MQVS6ZEov/",
+          "uid": "BV1MQVS6ZEov",
+          "sample": "建议下一集剧情：\\n脱缰凯司马一鹰眼三人继续抱团，赵德柱和赵男越走越近，赵男继续挑拨离间激化矛盾，导致赵德柱和脱缰凯爆发冲突，赵德柱撂下狠话“回宿舍收拾你”，未完待续；\\n第三集剧情：\\n赵德柱一回宿舍立刻滑跪发表声明说之前都是演的，司马一站出来解释说都是和赵德柱商量好的，故意演给赵男看，发现赵男确实居心叵测但是还不知道他具体有什么计划，于是赵德柱继续演戏假装和三人彻底决裂，继续卧底研究赵男葫芦里卖的什么药。\\n再下一集还没想好[doge_金箍]这是我能想到的最低血压的剧情了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1GUV766ERo/",
+          "uid": "BV1GUV766ERo",
+          "sample": "他们是最该去信宗教的那群人，自己限定规则，不光要自己遵守，还要去要求别人去遵守，不理会对方世界的规则，一旦违反，那就是异教徒。\\n本质是恶心的小团体抱团，结果结成更恶心的大团体，偏偏又有执行力。像有的村子人真的很好，但有的村子你连靠都不想靠近。这种只能看本身的道德，以及还处在全世界围绕着自己转的想法里。及自己的想法就是正确。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Rzj36AE5G/",
+          "uid": "BV1Rzj36AE5G",
+          "sample": "抱团不香么"
+        }
+      ]
+    },
+    {
+      "term": "抱走",
+      "evidenceSamples": [
+        "老虎生产前和后脾气都非常不稳定，见谁都会轰走的（包括孩子它爹）。生产前后必须留够虎妈独处的时间。不过我记得以前看过一个苏门答腊虎的纪录片，老虎刚生完孩子，第二天就当着虎妈面抱走虎仔做检查，非常逆天了，当事人自己也不建议这么做。只不过当事人跟那只虎妈关系是真够硬啊，应该是从小带大每天不离那种，当面抱走孩子虎妈也没怎么样。",
+        "好可爱[doge]七七我抱走了",
+        "直接抱走[鸣潮·共鸣与群星_对的][鸣潮·共鸣与群星_对的][鸣潮·共鸣与群星_对的]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16kZtYcEuP/",
+          "uid": "BV16kZtYcEuP",
+          "sample": "老虎生产前和后脾气都非常不稳定，见谁都会轰走的（包括孩子它爹）。生产前后必须留够虎妈独处的时间。不过我记得以前看过一个苏门答腊虎的纪录片，老虎刚生完孩子，第二天就当着虎妈面抱走虎仔做检查，非常逆天了，当事人自己也不建议这么做。只不过当事人跟那只虎妈关系是真够硬啊，应该是从小带大每天不离那种，当面抱走孩子虎妈也没怎么样。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1f6ZtYaEqG/",
+          "uid": "BV1f6ZtYaEqG",
+          "sample": "好可爱[doge]七七我抱走了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1EyVH6fE5E/",
+          "uid": "BV1EyVH6fE5E",
+          "sample": "直接抱走[鸣潮·共鸣与群星_对的][鸣潮·共鸣与群星_对的][鸣潮·共鸣与群星_对的]"
+        }
+      ]
+    },
+    {
+      "term": "抽象",
+      "evidenceSamples": [
+        "回复 @破站的一只插座 :太牛了[笑哭]我甚至想破脑袋都想不出某些抽象的答案",
+        "现在的印度抽象的很…也不奢望他们能有什么好的了",
+        "好抽象的表达（）",
+        "条文并非“说明书”：法律条文往往是高度概括和抽象的，包含大量的法律概念、原则、例外情形和解释空间。同一个事实，适用哪条法律？如何解释？是否存在例外？是否存在上位法或下位法的冲突？这些都需要专业的法律知识和技能进行分析和论证。",
+        "从哲学的角度来看，时间被定义为物质存在和运动的持续性和顺序性。它是我们用来测度事件发生顺序和间隔的工具，具有一维性，即只能向前流逝，无法倒流。时间被认为是物质运动和变化的度量，无论是天体的运行还是微观粒子的振动，都以时间作为其变化的记录。这..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV16NqmYvEkq/",
+          "uid": "23112052",
+          "sample": "回复 @破站的一只插座 :太牛了[笑哭]我甚至想破脑袋都想不出某些抽象的答案"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "现在的印度抽象的很…也不奢望他们能有什么好的了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av115369515747804/",
+          "uid": "33054065548",
+          "sample": "好抽象的表达（）"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "条文并非“说明书”：法律条文往往是高度概括和抽象的，包含大量的法律概念、原则、例外情形和解释空间。同一个事实，适用哪条法律？如何解释？是否存在例外？是否存在上位法或下位法的冲突？这些都需要专业的法律知识和技能进行分析和论证。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "从哲学的角度来看，时间被定义为物质存在和运动的持续性和顺序性。它是我们用来测度事件发生顺序和间隔的工具，具有一维性，即只能向前流逝，无法倒流。时间被认为是物质运动和变化的度量，无论是天体的运行还是微观粒子的振动，都以时间作为其变化的记录。这..."
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1kyBCBdEDg/",
+          "uid": "BV1kyBCBdEDg",
+          "sample": "UP主可能是在玩抽象（难绷）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1LcSUBDEVE/",
+          "uid": "BV1LcSUBDEVE",
+          "sample": "每次刷到抽象视频就能在评论区看到卡兹尼跟以撒米感觉好无助（）"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1kyBCBdEDg/",
+          "uid": "3546609518381800",
+          "sample": "回复 @爆炸罐头鱼 :说好听点是抽象，其实这个都算是纯恶意走黑红了()"
+        }
+      ]
+    },
+    {
+      "term": "抽象的",
+      "evidenceSamples": [
+        "条文并非“说明书”：法律条文往往是高度概括和抽象的，包含大量的法律概念、原则、例外情形和解释空间。同一个事实，适用哪条法律？如何解释？是否存在例外？是否存在上位法或下位法的冲突？这些都需要专业的法律知识和技能进行分析和论证。",
+        "从哲学的角度来看，时间被定义为物质存在和运动的持续性和顺序性。它是我们用来测度事件发生顺序和间隔的工具，具有一维性，即只能向前流逝，无法倒流。时间被认为是物质运动和变化的度量，无论是天体的运行还是微观粒子的振动，都以时间作为其变化的记录。这...",
+        "回复 @破站的一只插座 :太牛了[笑哭]我甚至想破脑袋都想不出某些抽象的答案",
+        "现在的印度抽象的很…也不奢望他们能有什么好的了",
+        "好抽象的表达（）"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "条文并非“说明书”：法律条文往往是高度概括和抽象的，包含大量的法律概念、原则、例外情形和解释空间。同一个事实，适用哪条法律？如何解释？是否存在例外？是否存在上位法或下位法的冲突？这些都需要专业的法律知识和技能进行分析和论证。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "从哲学的角度来看，时间被定义为物质存在和运动的持续性和顺序性。它是我们用来测度事件发生顺序和间隔的工具，具有一维性，即只能向前流逝，无法倒流。时间被认为是物质运动和变化的度量，无论是天体的运行还是微观粒子的振动，都以时间作为其变化的记录。这..."
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV16NqmYvEkq/",
+          "uid": "23112052",
+          "sample": "回复 @破站的一只插座 :太牛了[笑哭]我甚至想破脑袋都想不出某些抽象的答案"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "现在的印度抽象的很…也不奢望他们能有什么好的了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av115369515747804/",
+          "uid": "33054065548",
+          "sample": "好抽象的表达（）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1kyBCBdEDg/",
+          "uid": "BV1kyBCBdEDg",
+          "sample": "UP主可能是在玩抽象（难绷）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1LcSUBDEVE/",
+          "uid": "BV1LcSUBDEVE",
+          "sample": "每次刷到抽象视频就能在评论区看到卡兹尼跟以撒米感觉好无助（）"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1kyBCBdEDg/",
+          "uid": "3546609518381800",
+          "sample": "回复 @爆炸罐头鱼 :说好听点是抽象，其实这个都算是纯恶意走黑红了()"
+        }
+      ]
+    },
+    {
+      "term": "拉了",
+      "evidenceSamples": [
+        "前面说热感应器的弹幕给我笑拉了",
+        "什么样的歌手有什么样的粉丝，太拉了",
+        "这期视频拉了，居然没有人在开头说这期关闭弹幕食用。。。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "前面说热感应器的弹幕给我笑拉了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
+          "uid": "1591706674",
+          "sample": "什么样的歌手有什么样的粉丝，太拉了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663559131570/",
+          "uid": "38724765203",
+          "sample": "这期视频拉了，居然没有人在开头说这期关闭弹幕食用。。。"
+        }
+      ]
+    }
+  ]
+}

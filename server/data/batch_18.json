@@ -1,0 +1,848 @@
+{
+  "batch": 18,
+  "generatedAt": "2026-06-29T05:20:25.602Z",
+  "totalTerms": 119,
+  "byFamily": {
+    "attack": 17,
+    "absolutes": 17,
+    "evidence": 21,
+    "evasion": 26,
+    "cooperation": 20,
+    "correction": 18
+  },
+  "terms": [
+    {
+      "term": "冲塔",
+      "family": "attack",
+      "meaning": "指冒险攻击官方或权威，带自嘲或讽刺",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "滑坡",
+      "family": "attack",
+      "meaning": "指滑坡谬误，讽刺对方逻辑推导极端",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "打拳",
+      "family": "attack",
+      "meaning": "指激进女权或性别对立，具攻击性",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "帽子戏法",
+      "family": "attack",
+      "meaning": "讽刺对方连续扣帽子，带戏谑",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "岁月静好",
+      "family": "attack",
+      "meaning": "讽刺对方装作安逸无视问题，常用于对立",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "大v",
+      "family": "attack",
+      "meaning": "指知名用户，带讽刺其有影响力却乱带节奏",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "粉头",
+      "family": "attack",
+      "meaning": "指粉丝领袖，带贬义，暗示煽动粉丝",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "直钩",
+      "family": "attack",
+      "meaning": "指极其明显的钓鱼，讽刺对方上钩",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "鱼钩",
+      "family": "attack",
+      "meaning": "同钓鱼，指诱饵",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自爆",
+      "family": "attack",
+      "meaning": "指自己暴露黑料，常用于骂人蠢",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自挂",
+      "family": "attack",
+      "meaning": "指自己挂自己出丑，讽刺",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "虚空打靶",
+      "family": "attack",
+      "meaning": "指攻击不存在的对象，讽刺对方盲目",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "无效输出",
+      "family": "attack",
+      "meaning": "指说了等于没说，讽刺对方发言无用",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "优越感",
+      "family": "attack",
+      "meaning": "指责对方显摆优越，常见于对立",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我即世界",
+      "family": "attack",
+      "meaning": "讽刺对方以自我为中心，无视他人",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "尬吹",
+      "family": "attack",
+      "meaning": "讽刺对方强行吹捧，尴尬且无脑",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "硬黑",
+      "family": "attack",
+      "meaning": "指责对方无理由乱黑",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "纯属扯淡",
+      "family": "absolutes",
+      "meaning": "完全否定某观点，毫无回旋余地。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "没人",
+      "family": "absolutes",
+      "meaning": "否定所有人的存在或行为，常用于反驳。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "打死我也不信",
+      "family": "absolutes",
+      "meaning": "极度否定，表达坚决不信。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "任何时候都",
+      "family": "absolutes",
+      "meaning": "时间上的全称量化。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "没一个好东西",
+      "family": "absolutes",
+      "meaning": "全称贬低某群体。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "无脑喷",
+      "family": "absolutes",
+      "meaning": "全称指责对方不思考就发言。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "百分百肯定",
+      "family": "absolutes",
+      "meaning": "数字化的绝对确信。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无逻辑",
+      "family": "absolutes",
+      "meaning": "全盘否定对方的推理。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "此生必看",
+      "family": "absolutes",
+      "meaning": "推荐语气绝对化。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "一生推",
+      "family": "absolutes",
+      "meaning": "日语化表达，表示永远推荐。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "到死都",
+      "family": "absolutes",
+      "meaning": "极端时间范围的全称。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "满满都是",
+      "family": "absolutes",
+      "meaning": "夸张频率，表示充满。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对良心",
+      "family": "absolutes",
+      "meaning": "褒义绝对化评价。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "从来不虚",
+      "family": "absolutes",
+      "meaning": "表达从不害怕。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "浑身都是",
+      "family": "absolutes",
+      "meaning": "全称量词，强调遍布。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "万年不变",
+      "family": "absolutes",
+      "meaning": "夸张时间长度表示不变。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对顶",
+      "family": "absolutes",
+      "meaning": "网络用语，表示绝对支持或优秀。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "转发了辟谣",
+      "family": "evidence",
+      "meaning": "引用辟谣信息来反驳谣言",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "查证过",
+      "family": "evidence",
+      "meaning": "说明自己已核实过信息",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "论文链接",
+      "family": "evidence",
+      "meaning": "要求对方提供学术论文链接作为依据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "目击者称",
+      "family": "evidence",
+      "meaning": "引用目击者的说法作为证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "权威认证",
+      "family": "evidence",
+      "meaning": "强调需要权威机构认证",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "置顶辟谣",
+      "family": "evidence",
+      "meaning": "指出辟谣信息被置顶",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "假消息",
+      "family": "evidence",
+      "meaning": "直接指出对方发布的是假消息",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "不信谣不传谣",
+      "family": "evidence",
+      "meaning": "倡导不轻信和不传播谣言",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "带脑子",
+      "family": "evidence",
+      "meaning": "讽刺对方缺乏独立思考，轻信谣言",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "你亲眼所见？",
+      "family": "evidence",
+      "meaning": "质疑对方是否亲眼目睹",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "合同呢",
+      "family": "evidence",
+      "meaning": "要求对方出示合同等书面证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "转账记录",
+      "family": "evidence",
+      "meaning": "要求对方提供转账记录作为证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "录音呢",
+      "family": "evidence",
+      "meaning": "要求对方提供录音证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "没监控吗",
+      "family": "evidence",
+      "meaning": "质疑为何没有监控录像",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "研究发现",
+      "family": "evidence",
+      "meaning": "引用研究成果作为证据",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "媒体报道",
+      "family": "evidence",
+      "meaning": "引用媒体报道作为证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "政府公告",
+      "family": "evidence",
+      "meaning": "引用政府公告作为权威证据",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "专家说",
+      "family": "evidence",
+      "meaning": "引用专家意见作为证据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你连百度都不会",
+      "family": "evidence",
+      "meaning": "讽刺对方不自行搜索证据",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "理性分析",
+      "family": "evidence",
+      "meaning": "主张基于证据理性分析",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "信源可靠",
+      "family": "evidence",
+      "meaning": "评估信息来源可靠",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我被人误导了",
+      "family": "evasion",
+      "meaning": "说话者将错误归咎于他人的误导，暗示自身无过，实则推卸举证责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我信息有误",
+      "family": "evasion",
+      "meaning": "承认信息错误，但归因于外部信息源，回避自身求证责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我看了假消息",
+      "family": "evasion",
+      "meaning": "将错误言论推给虚假信息，暗示自己也是受害者，转移举证。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我没仔细看",
+      "family": "evasion",
+      "meaning": "承认粗心，但暗示非本意，降低言论的严肃性以推卸责任。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我一时冲动",
+      "family": "evasion",
+      "meaning": "将不当言论归因于情绪失控，暗示并非真实想法，回避责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我情绪上头",
+      "family": "evasion",
+      "meaning": "同上，强调情绪影响，推卸理性判断的责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我没忍住",
+      "family": "evasion",
+      "meaning": "暗示控制力弱但非本意，将错误归因于一时冲动。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我开个玩笑",
+      "family": "evasion",
+      "meaning": "将冒犯言论定性为玩笑，逃避真实意图的举证责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我调侃而已",
+      "family": "evasion",
+      "meaning": "同上，用调侃掩饰攻击性，拒绝进一步解释。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我话没说完",
+      "family": "evasion",
+      "meaning": "暗示被断章取义，转移举证到对方解读方式。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我表达不当",
+      "family": "evasion",
+      "meaning": "承认表达技术问题，但回避内容本身错误，推卸语义责任。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我用词不当",
+      "family": "evasion",
+      "meaning": "同上，将问题归咎于措辞而非观点，降低严重性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我措辞不好",
+      "family": "evasion",
+      "meaning": "与'用词不当'类似，轻描淡写，转移举证。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我知识浅薄",
+      "family": "evasion",
+      "meaning": "同上，用知识缺乏解释失误，推卸学习责任。",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我见识少",
+      "family": "evasion",
+      "meaning": "与'孤陋寡闻'类似，低调推卸举证责任。",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我手误",
+      "family": "evasion",
+      "meaning": "将言论错误归为打字失误，拒绝解释内容。",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我发错了",
+      "family": "evasion",
+      "meaning": "归因于发送错误，暗示非本意，拒绝解释。",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我复制错了",
+      "family": "evasion",
+      "meaning": "与'发错了'类似，用操作错误推卸内容责任。",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "我误以为",
+      "family": "evasion",
+      "meaning": "承认误解，但暗示对方或情境导致，转移举证。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我不知情",
+      "family": "evasion",
+      "meaning": "以不知情为由开脱，暗示责任不在己，转移举证。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我被带偏了",
+      "family": "evasion",
+      "meaning": "将错误归咎于他人或讨论氛围，暗示自身被动。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我中计了",
+      "family": "evasion",
+      "meaning": "声称被设计，暗示受害者身份，拒绝承担言论责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我被利用了",
+      "family": "evasion",
+      "meaning": "同上，用被利用解释错误，推卸主动责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我学习到了",
+      "family": "evasion",
+      "meaning": "讽刺性接受批评，实则不认错，回避实质举证。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我闭麦了",
+      "family": "evasion",
+      "meaning": "主动放弃讨论，拒绝举证或解释，终止责任。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我道歉但",
+      "family": "evasion",
+      "meaning": "以道歉开头但后续转折，保留辩解空间，推卸根本责任。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "我来说一句",
+      "family": "cooperation",
+      "meaning": "引入个人发言，表达想要参与讨论的意愿，条件化地开启对话。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我觉得吧",
+      "family": "cooperation",
+      "meaning": "弱化断言语气，表明这是个人主观看法，为讨论留出余地。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我个人观点",
+      "family": "cooperation",
+      "meaning": "限定立场为个人，避免绝对化，促进合作性对话。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我赞同你的观点",
+      "family": "cooperation",
+      "meaning": "直接表达同意，强化合作氛围。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我也不完全同意",
+      "family": "cooperation",
+      "meaning": "部分同意，以退为进，保留讨论余地。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "但我的看法是",
+      "family": "cooperation",
+      "meaning": "转折引入个人观点，维持对话平衡。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "允许我说一句",
+      "family": "cooperation",
+      "meaning": "请求发言权，尊重他人，为合作铺垫。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "请让我说完",
+      "family": "cooperation",
+      "meaning": "维护自己表达完整性，避免打断，促进有序讨论。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "先声明一下",
+      "family": "cooperation",
+      "meaning": "提前限定条件，避免后续误解。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我再补充一点",
+      "family": "cooperation",
+      "meaning": "在已有讨论基础上追加信息，体现合作精神。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我代表个人",
+      "family": "cooperation",
+      "meaning": "立场声明，避免代表他人，减少争议。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "只是我个人感觉",
+      "family": "cooperation",
+      "meaning": "弱化主观性，避免绝对化判断。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我也说一句",
+      "family": "cooperation",
+      "meaning": "简单加入对话，表明参与意愿。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "从我的经验看",
+      "family": "cooperation",
+      "meaning": "基于个人经验讨论，为观点提供条件基础。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我觉得可以",
+      "family": "cooperation",
+      "meaning": "表达有限度同意，留有商量余地。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我倾向于认为",
+      "family": "cooperation",
+      "meaning": "表达偏好而非绝对立场，鼓励讨论。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "如果非要我说",
+      "family": "cooperation",
+      "meaning": "条件式发言，暗示被迫表态但保持合作。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "假如是你",
+      "family": "cooperation",
+      "meaning": "设身处地假设，促进换位思考。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "直白点",
+      "family": "cooperation",
+      "meaning": "呼吁直接坦诚，减少迂回。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我反对",
+      "family": "cooperation",
+      "meaning": "直接表达不同意见，但仍保持对话可能。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "对不起我说错了",
+      "family": "correction",
+      "meaning": "道歉并明确承认言语错误，请求谅解。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "是我冲动了",
+      "family": "correction",
+      "meaning": "承认情绪失控导致不当言论，表达后悔。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我不该这么讲",
+      "family": "correction",
+      "meaning": "自我否定先前说法，表示言有不妥。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "是我理解错了",
+      "family": "correction",
+      "meaning": "承认由于误解导致错误判断或言论。",
+      "risk": "positive",
+      "confidence": 0.9
+    },
+    {
+      "term": "我错了我说得不对",
+      "family": "correction",
+      "meaning": "强烈认错，双重否定强调错误。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "请原谅我的言辞",
+      "family": "correction",
+      "meaning": "礼貌请求对方宽恕自己的不当言语。",
+      "risk": "positive",
+      "confidence": 0.9
+    },
+    {
+      "term": "我刚才说得不妥",
+      "family": "correction",
+      "meaning": "承认刚才的话不合适，表达歉意。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我重新表达",
+      "family": "correction",
+      "meaning": "打算换个说法更清晰地表达原意。",
+      "risk": "positive",
+      "confidence": 0.9
+    },
+    {
+      "term": "是我冒犯了",
+      "family": "correction",
+      "meaning": "承认言行失当，冒犯他人，表达歉意。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我欠抽",
+      "family": "correction",
+      "meaning": "极度自责，承认该受惩罚，常用于网络调侃式道歉。",
+      "risk": "high",
+      "confidence": 0.9
+    },
+    {
+      "term": "我不该妄下结论",
+      "family": "correction",
+      "meaning": "承认草率判断，表达纠正意愿。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我收回发言",
+      "family": "correction",
+      "meaning": "正式撤回之前的发言，表示无效。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我删掉重说",
+      "family": "correction",
+      "meaning": "删除错误言论并准备重新表达。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我错了不该乱评价",
+      "family": "correction",
+      "meaning": "承认随意评价的错误，表达反省。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "是我太片面",
+      "family": "correction",
+      "meaning": "承认看问题或言论有失偏颇。",
+      "risk": "positive",
+      "confidence": 0.9
+    },
+    {
+      "term": "是我偏激了",
+      "family": "correction",
+      "meaning": "承认言论过于极端，表达改正态度。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我收回不当言论",
+      "family": "correction",
+      "meaning": "明确收回不恰当的言论，表示歉意。",
+      "risk": "medium",
+      "confidence": 0.9
+    },
+    {
+      "term": "我道歉认错",
+      "family": "correction",
+      "meaning": "双重表态，既道歉又认错，态度诚恳。",
+      "risk": "positive",
+      "confidence": 0.9
+    }
+  ]
+}

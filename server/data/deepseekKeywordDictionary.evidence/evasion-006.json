@@ -1,0 +1,866 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "evasion",
+  "shard": 6,
+  "shardCount": 13,
+  "evidence": [
+    {
+      "term": "忠言逆耳",
+      "evidenceSamples": [
+        "我指出她胸小的毛病反被她踢裆,忠言逆耳啊",
+        "《忠言逆耳利于行》",
+        "忠言逆耳"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/1172889671",
+          "uid": "贴吧用户_0GSZ82P",
+          "sample": "我指出她胸小的毛病反被她踢裆,忠言逆耳啊"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yg4y1Y7L9/",
+          "uid": "BV1yg4y1Y7L9",
+          "sample": "《忠言逆耳利于行》"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1KKJN6VEJS/",
+          "uid": "BV1KKJN6VEJS",
+          "sample": "忠言逆耳"
+        }
+      ]
+    },
+    {
+      "term": "急急急",
+      "evidenceSamples": [
+        "急急急!! 这种怎么!!😱",
+        "急急急，打完战斗demo像是小说断章一样",
+        "几你太美，几你太美急急急急急急急急急急急急"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "急急急!! 这种怎么!!😱"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "急急急，打完战斗demo像是小说断章一样"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "253069453",
+          "sample": "几你太美，几你太美急急急急急急急急急急急急"
+        }
+      ]
+    },
+    {
+      "term": "怪别人",
+      "evidenceSamples": [
+        "每日一遍，癌鲲嘴脏，就别怪别人嘴鲲鲲",
+        "自己作死，还怪别人，普通车普通路开到250照样噶",
+        "回复 @逆天改命傻强 :蒋生够意思了，道友把社团财务搞得一塌糊涂的时候他个人给他资助了三千万，结果道友扭头就拿这救命钱去跟山鸡赌擂台赛输得血本无归，就这蒋生也没追究钱的事只是撸了他的龙头，讲真他后来居然怪蒋生没拉他一把是真的好笑，我寻思他嗨粉的时候太子去拉他都拉不动你还怪别人不救你，笑死",
+        "自己翻车怪别人？？",
+        "自己抓不住机会，别怪别人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "436704726",
+          "sample": "每日一遍，癌鲲嘴脏，就别怪别人嘴鲲鲲"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LxZfYVEdT/",
+          "uid": "BV1LxZfYVEdT",
+          "sample": "自己作死，还怪别人，普通车普通路开到250照样噶"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Hh4y1k7Xz/",
+          "uid": "776147",
+          "sample": "回复 @逆天改命傻强 :蒋生够意思了，道友把社团财务搞得一塌糊涂的时候他个人给他资助了三千万，结果道友扭头就拿这救命钱去跟山鸡赌擂台赛输得血本无归，就这蒋生也没追究钱的事只是撸了他的龙头，讲真他后来居然怪蒋生没拉他一把是真的好笑，我寻思他嗨粉的时候太子去拉他都拉不动你还怪别人不救你，笑死"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
+          "uid": "1591706674",
+          "sample": "自己翻车怪别人？？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
+          "uid": "1591706674",
+          "sample": "自己抓不住机会，别怪别人"
+        }
+      ]
+    },
+    {
+      "term": "怪我咯",
+      "evidenceSamples": [
+        "我买了个纯色灰色的卫衣，被我一个同学说跟风[怪我咯][怪我咯][怪我咯][怪我咯]我心里的想说，那卫衣买啥色不是跟风？",
+        "笑yue了[喜极而泣]就算我们不知道顶流本人是谁有什么作品，也必须对黑料了如指掌，还得精细到发型不然就等着被骂一整天吧[怪我咯]",
+        "看完这个视频，我还是想不通，这个怎么就是黑梗了[怪我咯]不知道是不是我理解有问题。因头发丝颜色灰色不可以用被骂好久，今天还有人骂女明星，真的服气。",
+        "说点难听的吧。我个人认为有的人近亲结婚并不是因为什么“真爱”，纯粹是自己没能力，别人接受不能，只能选择内部消化。这样的人呢，结婚就是为了繁衍，你怎么指望他们不生孩子[怪我咯]",
+        "什么明日香人间体啊，我是不是经历了某次人类补完计划了[怪我咯]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "我买了个纯色灰色的卫衣，被我一个同学说跟风[怪我咯][怪我咯][怪我咯][怪我咯]我心里的想说，那卫衣买啥色不是跟风？"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "18719572",
+          "sample": "笑yue了[喜极而泣]就算我们不知道顶流本人是谁有什么作品，也必须对黑料了如指掌，还得精细到发型不然就等着被骂一整天吧[怪我咯]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "407595952",
+          "sample": "看完这个视频，我还是想不通，这个怎么就是黑梗了[怪我咯]不知道是不是我理解有问题。因头发丝颜色灰色不可以用被骂好久，今天还有人骂女明星，真的服气。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1iK4y1M7jy/",
+          "uid": "BV1iK4y1M7jy",
+          "sample": "说点难听的吧。我个人认为有的人近亲结婚并不是因为什么“真爱”，纯粹是自己没能力，别人接受不能，只能选择内部消化。这样的人呢，结婚就是为了繁衍，你怎么指望他们不生孩子[怪我咯]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1pHZhYGEjk/",
+          "uid": "BV1pHZhYGEjk",
+          "sample": "什么明日香人间体啊，我是不是经历了某次人类补完计划了[怪我咯]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1jgVc6aEaW/",
+          "uid": "BV1jgVc6aEaW",
+          "sample": "这问题其实都很多年了，为什么没有发展出租赁衣服的业务[怪我咯]"
+        }
+      ]
+    },
+    {
+      "term": "懂得都懂",
+      "evidenceSamples": [
+        "你们慢慢玩梗，坤慢慢拿奖，等你们玩够了，再后头看看坤的奖项，再看看在你们玩梗的这段时间里坤拿了多少奖，越红才越会被黑，小黑子们，坤坤永远是最棒的我希望你真的是ikun,而不是在这里伪装碟中谍，爱蔡徐坤不是爱在短视频发他视频，这样也可能会招黑，爱他爱在心动的那首歌，爱在为之动容的颜值，爱在每一个爱的瞬间，真爱粉永远都在。其实我感觉cxk其实也没犯什么错对吧，黑的话黑一段时间就够了，如果一直揪着一点不放我就觉得有点过分了虽然说他的表情包我觉得也很好笑，但我不会拿他的表情包去黑他我爱的男孩子左脸有痣右脸有疤左脸是浴火重生右脸却是满目星辰，184的身高撑起了ikun的整个青春，他爱惨了我们，我们也爱惨了他，他说过，与其说时间过得很快，但是我觉得我们的故事是forever! 他还说过，他要爱ikun一辈子，爱蔡徐坤从来不是单恋，他是我唯- -一个拿命来爱的人，他是我唯- -一个爱到骨子里的人，他真的值得，陪他走会娱乐圈，我就不追星了啦!我的眼睛很小，只容得下蔡徐坤，我的心很小，只容得下蔡徐坤，蔡徐坤值得蔡徐坤值得如果你不喜欢，就不要伤害。你黑蔡徐坤，我们只解释不回黑，不是因为我们不敢，而是他告诉我们，无论这个世界怎么样，我们都要漂亮，但是我们跟你好好说话，你不要以为我们好说话，爱坤不惹事，但也不怕事蔡虚坤发烧1000度坚持上台，双腿粉碎性骨折仍练习踢踏舞，每日练习365个小时，大小便失禁仍不去医院，累得高位截瘫还练舞，喉咙肿大30多倍坚持练发音，有全国300亿粉丝却不骄傲，每个2月29、30日慈善义演，将获得的20万亿美元捐给瑞士上不起学的孩子，为了慈善事业每天献出两大桶血，这些你们这些小黑子能做到吗?关于这个事，我简单说两句，你明白就行，总而言之，这个事呢，现在就是这个情况，具体的呢，大家也都看得到，也得出来说那么几句，可能，你听的不是很明白，但是意思就是那么个意思，不知道的你也不用去猜，这种事情见得多了，我只想说懂得都懂，不懂的我也不多解释，毕竟自己知道就好，细细品吧。你们也别来问我怎么了，利益牵扯太大，说了对你我都没好处，当不知道就行了，其余的我只能说这里面水很深，牵扯到很多东西。详细情况你们自己是很难找的，网上大部分已经删除干净了，所以我只能说懂得都懂。懂的人已经基本都获利上岸什么的了，不懂的人永远不懂坤坤下的蛋有多好吃",
+        "arcxingye.github.io/r18懂得都懂[脱单doge]",
+        "开团了738874545懂得都懂"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "523458639",
+          "sample": "你们慢慢玩梗，坤慢慢拿奖，等你们玩够了，再后头看看坤的奖项，再看看在你们玩梗的这段时间里坤拿了多少奖，越红才越会被黑，小黑子们，坤坤永远是最棒的我希望你真的是ikun,而不是在这里伪装碟中谍，爱蔡徐坤不是爱在短视频发他视频，这样也可能会招黑，爱他爱在心动的那首歌，爱在为之动容的颜值，爱在每一个爱的瞬间，真爱粉永远都在。其实我感觉cxk其实也没犯什么错对吧，黑的话黑一段时间就够了，如果一直揪着一点不放我就觉得有点过分了虽然说他的表情包我觉得也很好笑，但我不会拿他的表情包去黑他我爱的男孩子左脸有痣右脸有疤左脸是浴火重生右脸却是满目星辰，184的身高撑起了ikun的整个青春，他爱惨了我们，我们也爱惨了他，他说过，与其说时间过得很快，但是我觉得我们的故事是forever! 他还说过，他要爱ikun一辈子，爱蔡徐坤从来不是单恋，他是我唯- -一个拿命来爱的人，他是我唯- -一个爱到骨子里的人，他真的值得，陪他走会娱乐圈，我就不追星了啦!我的眼睛很小，只容得下蔡徐坤，我的心很小，只容得下蔡徐坤，蔡徐坤值得蔡徐坤值得如果你不喜欢，就不要伤害。你黑蔡徐坤，我们只解释不回黑，不是因为我们不敢，而是他告诉我们，无论这个世界怎么样，我们都要漂亮，但是我们跟你好好说话，你不要以为我们好说话，爱坤不惹事，但也不怕事蔡虚坤发烧1000度坚持上台，双腿粉碎性骨折仍练习踢踏舞，每日练习365个小时，大小便失禁仍不去医院，累得高位截瘫还练舞，喉咙肿大30多倍坚持练发音，有全国300亿粉丝却不骄傲，每个2月29、30日慈善义演，将获得的20万亿美元捐给瑞士上不起学的孩子，为了慈善事业每天献出两大桶血，这些你们这些小黑子能做到吗?关于这个事，我简单说两句，你明白就行，总而言之，这个事呢，现在就是这个情况，具体的呢，大家也都看得到，也得出来说那么几句，可能，你听的不是很明白，但是意思就是那么个意思，不知道的你也不用去猜，这种事情见得多了，我只想说懂得都懂，不懂的我也不多解释，毕竟自己知道就好，细细品吧。你们也别来问我怎么了，利益牵扯太大，说了对你我都没好处，当不知道就行了，其余的我只能说这里面水很深，牵扯到很多东西。详细情况你们自己是很难找的，网上大部分已经删除干净了，所以我只能说懂得都懂。懂的人已经基本都获利上岸什么的了，不懂的人永远不懂坤坤下的蛋有多好吃"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "2042742944",
+          "sample": "arcxingye.github.io/r18懂得都懂[脱单doge]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "22975717",
+          "sample": "开团了738874545懂得都懂"
+        }
+      ]
+    },
+    {
+      "term": "懒得理",
+      "evidenceSamples": [
+        "说实话都懒得理他，表面上他在嫌弃，内心随时在嫉妒爆炸",
+        "懒得理他",
+        "哈哈[笑哭]龙雅放弃抖音吧。看抖音还有十几米的蛇[笑哭]看龙雅都懒得理了。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "说实话都懒得理他，表面上他在嫌弃，内心随时在嫉妒爆炸"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1K69rYKEx5/",
+          "uid": "BV1K69rYKEx5",
+          "sample": "懒得理他"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AF4m1V7vA/",
+          "uid": "BV1AF4m1V7vA",
+          "sample": "哈哈[笑哭]龙雅放弃抖音吧。看抖音还有十几米的蛇[笑哭]看龙雅都懒得理了。"
+        }
+      ]
+    },
+    {
+      "term": "懒得说",
+      "evidenceSamples": [
+        "图放这里了，我也懒得说了[辣眼睛]",
+        "《懒得说话》",
+        "回复 @哦俩 :没错，真的不敢搜新兰当时，全是骂的，回击一下又一大堆逆天回复，搞得都懒得说了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1XbsmzNEFz/",
+          "uid": "3546383669791105",
+          "sample": "图放这里了，我也懒得说了[辣眼睛]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1E94y1J7xq/",
+          "uid": "BV1E94y1J7xq",
+          "sample": "《懒得说话》"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "回复 @哦俩 :没错，真的不敢搜新兰当时，全是骂的，回击一下又一大堆逆天回复，搞得都懒得说了"
+        }
+      ]
+    },
+    {
+      "term": "懒得说话",
+      "evidenceSamples": [
+        "《懒得说话》",
+        "图放这里了，我也懒得说了[辣眼睛]",
+        "回复 @哦俩 :没错，真的不敢搜新兰当时，全是骂的，回击一下又一大堆逆天回复，搞得都懒得说了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1E94y1J7xq/",
+          "uid": "BV1E94y1J7xq",
+          "sample": "《懒得说话》"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1XbsmzNEFz/",
+          "uid": "3546383669791105",
+          "sample": "图放这里了，我也懒得说了[辣眼睛]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "回复 @哦俩 :没错，真的不敢搜新兰当时，全是骂的，回击一下又一大堆逆天回复，搞得都懒得说了"
+        }
+      ]
+    },
+    {
+      "term": "我不告诉你",
+      "evidenceSamples": [
+        "我不告诉你我不知道",
+        "说实话 目前看到的视频只有up是从传送点教你怎么跑过去的，别的好多都是站在神瞳面前了，开个地图标个位置，根本不告诉你怎么跑过去[无语]",
+        "我是东北的。我能听懂就不告诉你们。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1cT411A7Ti/",
+          "uid": "BV1cT411A7Ti",
+          "sample": "我不告诉你我不知道"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1NV411p7wp/",
+          "uid": "BV1NV411p7wp",
+          "sample": "说实话 目前看到的视频只有up是从传送点教你怎么跑过去的，别的好多都是站在神瞳面前了，开个地图标个位置，根本不告诉你怎么跑过去[无语]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV19ykxBiEnB/",
+          "uid": "BV19ykxBiEnB",
+          "sample": "我是东北的。我能听懂就不告诉你们。"
+        }
+      ]
+    },
+    {
+      "term": "我不太清楚",
+      "evidenceSamples": [
+        "{'text': '我是美国大学的学生啊！我不太清楚国内的...', 'sample': '我是美国大学的学生啊！我不太清楚国内的...'}",
+        "{'text': '回复 @铃音01 :误封我记得可以申诉的，具体流程我不太清楚我看贴吧有人发帖申诉成功的', 'sample': '回复 @铃音01 :误封我记得可以申诉的，具体流程我不太清楚我看贴吧有人发帖申诉成功的'}",
+        "{'text': '日本对这种家里蹲是不是有基本补助啊，我不太清楚 毕竟他们那边家里蹲挺严重的', 'sample': '日本对这种家里蹲是不是有基本补助啊，我不太清楚 毕竟他们那边家里蹲挺严重的'}",
+        "{'text': '谢谢昭昭的科普[星星眼]emm我25岁以前一直都很不顺，特别是异性方面的，就今天看了下日柱上有童子煞，然后看到昭昭这一个视频之后我自己搜到了一个叫做星座网的网站，上面有专门测是否童子命的功能，把八字填入他显示是第一类童子...  [思考]首先我不太清楚这个网站的结果是否有严格的依据，不过看童子命的描述...有点像真童子。月柱还有寡宿...[呆]估计这一世与结婚无缘了，比较奇怪的是四柱共有三柱有太极贵人不知道是不是我很喜欢看玄学内容的原因。', 'sample': '谢谢昭昭的科普[星星眼]emm我25岁以前一直都很不顺，特别是异性方面的，就今天看了下日柱上有童子煞，然后看到昭昭这一个视频之后我自己搜到了一个叫做星座网的网站，上面有专门测是否童子命的功能，把八字填入他显示是第一类童子...  [思考]首先我不太清楚这个网站的结果是否有严格的依据，不过看童子命的描述...有点像真童子。月柱还有寡宿...[呆]估计这一世与结婚无缘了，比较奇怪的是四柱共有三柱有太极贵人不知道是不是我很喜欢看玄学内容的原因。'}",
+        "{'text': '这几周你的视频，已经不是水的程度了，一周就更新个两分钟的视频，具体原因我不太清楚，但是这几周很失望', 'sample': '这几周你的视频，已经不是水的程度了，一周就更新个两分钟的视频，具体原因我不太清楚，但是这几周很失望'}"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU",
+          "uid": "5294454",
+          "sample": "我是美国大学的学生啊！我不太清楚国内的..."
+        },
+        {
+          "source": "AICU",
+          "uid": "41780744",
+          "sample": "回复 @铃音01 :误封我记得可以申诉的，具体流程我不太清楚我看贴吧有人发帖申诉成功的"
+        },
+        {
+          "source": "AICU",
+          "uid": "43423925",
+          "sample": "日本对这种家里蹲是不是有基本补助啊，我不太清楚 毕竟他们那边家里蹲挺严重的"
+        },
+        {
+          "source": "AICU",
+          "uid": "1674328",
+          "sample": "谢谢昭昭的科普[星星眼]emm我25岁以前一直都很不顺，特别是异性方面的，就今天看了下日柱上有童子煞，然后看到昭昭这一个视频之后我自己搜到了一个叫做星座网的网站，上面有专门测是否童子命的功能，把八字填入他显示是第一类童子...  [思考]首先我不太清楚这个网站的结果是否有严格的依据，不过看童子命的描述...有点像真童子。月柱还有寡宿...[呆]估计这一世与结婚无缘了，比较奇怪的是四柱共有三柱有太极贵人不知道是不是我很喜欢看玄学内容的原因。"
+        },
+        {
+          "source": "AICU",
+          "uid": "38513452",
+          "sample": "这几周你的视频，已经不是水的程度了，一周就更新个两分钟的视频，具体原因我不太清楚，但是这几周很失望"
+        }
+      ]
+    },
+    {
+      "term": "我不好说",
+      "evidenceSamples": [
+        "回复 @拉黑我的家伙屙不出 :emm…我不好说，反正我身边都是神人",
+        "首先，我痛恨偷狗的行为，我个人希望偷狗人能够被重罚。\\n但那个人其实说的没错，但不是完全没错\\n根据情况，嫌疑人可能会被定占有脱离物侵占罪而不是盗窃罪\\n主人不在身边且无明显宠物狗特征（例如项圈）的话，一般会被认为是占有脱离物，主观上无盗窃意愿的话确实会被算作“抽象的事实认识错误”，就是指嫌疑人心里所想和其实际所为的是两种不同的罪名（占有脱离物侵占和盗窃）。\\n遗憾的是，如果嫌疑人已经既遂，那其实大概率会按两个罪名里罚则里较轻的那边定罪。\\n另外，刑事上确实会根据主观的意愿来判断，只是如何客观印证主观意识是一个难点。通常来说会根据其所为客观事实来判断。这个事情嫌疑人究竟有没有认识到他在盗窃我不好说，需要合议庭讨论决定。\\n那个人说的还有一点不对，就是一般来说，涉及盗窃的涉案金额一般不会被主观认识过多左右，其客观价值所占的比重会更高一些（",
+        "视频都过一半了觉得不好还不走，什么成分我不好说",
+        "马斯克：我不好说"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1bWVH6VE8p/",
+          "uid": "BV1bWVH6VE8p",
+          "sample": "回复 @拉黑我的家伙屙不出 :emm…我不好说，反正我身边都是神人"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1cJV36TEnR/",
+          "uid": "BV1cJV36TEnR",
+          "sample": "首先，我痛恨偷狗的行为，我个人希望偷狗人能够被重罚。\\n但那个人其实说的没错，但不是完全没错\\n根据情况，嫌疑人可能会被定占有脱离物侵占罪而不是盗窃罪\\n主人不在身边且无明显宠物狗特征（例如项圈）的话，一般会被认为是占有脱离物，主观上无盗窃意愿的话确实会被算作“抽象的事实认识错误”，就是指嫌疑人心里所想和其实际所为的是两种不同的罪名（占有脱离物侵占和盗窃）。\\n遗憾的是，如果嫌疑人已经既遂，那其实大概率会按两个罪名里罚则里较轻的那边定罪。\\n另外，刑事上确实会根据主观的意愿来判断，只是如何客观印证主观意识是一个难点。通常来说会根据其所为客观事实来判断。这个事情嫌疑人究竟有没有认识到他在盗窃我不好说，需要合议庭讨论决定。\\n那个人说的还有一点不对，就是一般来说，涉及盗窃的涉案金额一般不会被主观认识过多左右，其客观价值所占的比重会更高一些（"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "视频都过一半了觉得不好还不走，什么成分我不好说"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1b24y1R7G5/",
+          "uid": "BV1b24y1R7G5",
+          "sample": "马斯克：我不好说"
+        }
+      ]
+    },
+    {
+      "term": "我不懂",
+      "evidenceSamples": [
+        "其实，我个人一直看不懂林俊杰的歌词。导致他的歌我也不怎么听。我自己的问题啊，你反对就是你对。",
+        "我真不行了，我昨天晚上一直搁那头晕想吐，然后然后我就去睡了个觉，然后我一觉醒来，我大半夜起来喝个水，我人都是飘的，结果我现在睡饱了之后，我t妈的感觉自我状态良好[笑哭][笑哭][笑哭]我搞不懂，应该是病毒给我救活了还是怎么的？反正我现在感觉...",
+        "我不懂啊，三角洲弄个古董进去有什么值得炫耀的。。。。对面燕云摊位全是字画，房间里全是古董[doge][doge][doge]怎么说",
+        "回复 @玩手机的屑资源君 :反讽听不懂吗[笑哭]",
+        "捂挡派看着不膈应人吗 鸡你太美再配一个打桩机岂不更妙 ，回头看看以前的明星，好多舞蹈都捂裆，也许这就是艺术吧，我不懂。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "其实，我个人一直看不懂林俊杰的歌词。导致他的歌我也不怎么听。我自己的问题啊，你反对就是你对。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我真不行了，我昨天晚上一直搁那头晕想吐，然后然后我就去睡了个觉，然后我一觉醒来，我大半夜起来喝个水，我人都是飘的，结果我现在睡饱了之后，我t妈的感觉自我状态良好[笑哭][笑哭][笑哭]我搞不懂，应该是病毒给我救活了还是怎么的？反正我现在感觉..."
+        },
+        {
+          "source": "Popular video comments UID 2335630 (1 comments from 1 videos)",
+          "uid": "2335630",
+          "sample": "我不懂啊，三角洲弄个古董进去有什么值得炫耀的。。。。对面燕云摊位全是字画，房间里全是古董[doge][doge][doge]怎么说"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1rnKNexEBT/",
+          "uid": "860959",
+          "sample": "回复 @玩手机的屑资源君 :反讽听不懂吗[笑哭]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "439921505",
+          "sample": "捂挡派看着不膈应人吗 鸡你太美再配一个打桩机岂不更妙 ，回头看看以前的明星，好多舞蹈都捂裆，也许这就是艺术吧，我不懂。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12f4y137uo/, https://www.bilibili.com/video/BV1Ap4y1A7VE/, https://www.bilibili.com/video/BV1CN411K7ti/, https://www.bilibili.com/video/BV1A4bMebEts/, http://www.bilibili.com/video/av292368870, http://www.bilibili.com/video/av958895987, http://www.bilibili.com/video/av311609778, http://www.bilibili.com/video/av112778492775161",
+          "uid": "BV12f4y137uo,BV1Ap4y1A7VE,BV1CN411K7ti,BV1A4bMebEts",
+          "sample": "我去电影院看得，这电影太惊艳了。法海人设其实很不好把握。白蛇这个故事起源的民间传说和现在浪漫演绎的不一样，最早的版本好像是，书生不知道自己老婆是妖，而白蛇不懂人间事理还经常给他“丢脸”，所以白蛇被收是符合“顺应天道”和“社会阶级意识”的。后..."
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV14EVS6nEhu/",
+          "uid": "BV14EVS6nEhu",
+          "sample": "虽然我不懂球，但是巴佩待过的皇马巴黎两个队伍这五年拿了四个欧冠，我不知道有什么好喷的[疑惑][疑惑]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "这最后一个说的是啥语我好像听不懂[笑哭]"
+        }
+      ]
+    },
+    {
+      "term": "我不懂但我大受震撼",
+      "evidenceSamples": [
+        "回复 @韩茜茜本人 :同。虽然没完全看懂，但是大受震撼",
+        "看不懂，但大受震撼",
+        "有血缘关系，生孩子是会出畸形肿的，是会有基因病的。我不理解，我大受震撼"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "454983616",
+          "sample": "回复 @韩茜茜本人 :同。虽然没完全看懂，但是大受震撼"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av319218604/",
+          "uid": "1287199456",
+          "sample": "看不懂，但大受震撼"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CgnezKEHN/",
+          "uid": "BV1CgnezKEHN",
+          "sample": "有血缘关系，生孩子是会出畸形肿的，是会有基因病的。我不理解，我大受震撼"
+        }
+      ]
+    },
+    {
+      "term": "我不懂你在说什么",
+      "evidenceSamples": [
+        "你听听你在说什么",
+        "你在说什么？？？？？",
+        "你在说什么？我听不懂！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1z2jg6zEB6/",
+          "uid": "BV1z2jg6zEB6",
+          "sample": "你听听你在说什么"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
+          "uid": "96367415",
+          "sample": "你在说什么？？？？？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV17vJn6BE7P/",
+          "uid": "BV17vJn6BE7P",
+          "sample": "你在说什么？我听不懂！"
+        }
+      ]
+    },
+    {
+      "term": "我不李姐",
+      "evidenceSamples": [
+        "我靠，我居然也有亲身经历，我第一个工作离职之后我妈说可以花30w给我找个3k的工作，好像是去做什么会计，可是我是学小语种的[笑哭]我妈说小姑娘赚点钱就行，我是真不理解，平时挺这种事都当笑话听，直到发生在自己身上",
+        "这其实还可以就是我不理解为什么两个人没在一起",
+        "我不理解我真的不理解，如果弹幕随机强制屏蔽b站还有什么存在意义？",
+        "我也是，现在这段时间发评论都提示网络有问题，我不理解，这绝对不是网络的问题",
+        "其实我很不理解，为什么有些人在亲人或者自己的爱宠死亡的时候都要把相机打开，调整好机位，在那边哭着告别，包括某些中的大的博主"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "我靠，我居然也有亲身经历，我第一个工作离职之后我妈说可以花30w给我找个3k的工作，好像是去做什么会计，可是我是学小语种的[笑哭]我妈说小姑娘赚点钱就行，我是真不理解，平时挺这种事都当笑话听，直到发生在自己身上"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114482437162385/",
+          "uid": "29886186076",
+          "sample": "这其实还可以就是我不理解为什么两个人没在一起"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1434GeMETg/",
+          "uid": "3546833936714379",
+          "sample": "我不理解我真的不理解，如果弹幕随机强制屏蔽b站还有什么存在意义？"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV11f4y1Y7Lr/",
+          "uid": "602237660",
+          "sample": "我也是，现在这段时间发评论都提示网络有问题，我不理解，这绝对不是网络的问题"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "其实我很不理解，为什么有些人在亲人或者自己的爱宠死亡的时候都要把相机打开，调整好机位，在那边哭着告别，包括某些中的大的博主"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "我也不理解，我的小鸟死的时候，压根没心情打开手机录像，这个时候谁有空一边打开手机录像一边对准宠物一边哭，我感觉这种戏真多"
+        }
+      ]
+    },
+    {
+      "term": "我不清楚",
+      "evidenceSamples": [
+        "我不清楚自己有沒有聽說過卡呂冬死神，但我知道狡兔屋死神正在誕生中[滑稽]",
+        "救命，太魅了！！！姐姐喝没喝中药我不清楚，但我指定喝的不是[嘟嘟]姐姐贴贴~[保卫萝卜_哇]",
+        "感觉第一块目标是全熟，考到5分时，串上目标7分熟的，目标全熟的烤到7分时，串上目标5分熟的，然后依次推这样拿下来时全部的正好都达到目标并且同时下架（我不清楚熟度进展速度，也不会烤肉只能猜测的说一下[笑哭]）",
+        "我这个情况持续几年了，我估计我是被永封了，我不清楚我很久以前在直播间发过什么不好的言论还是什么导致我直播间发消息只有我自己能看见，要不是现在这个号六级了还有一大堆东西，我早换号了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1UmVV6REiz/",
+          "uid": "BV1UmVV6REiz",
+          "sample": "我不清楚自己有沒有聽說過卡呂冬死神，但我知道狡兔屋死神正在誕生中[滑稽]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV19jZaYeEU3/",
+          "uid": "BV19jZaYeEU3",
+          "sample": "救命，太魅了！！！姐姐喝没喝中药我不清楚，但我指定喝的不是[嘟嘟]姐姐贴贴~[保卫萝卜_哇]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vMVh6LEBT/",
+          "uid": "BV1vMVh6LEBT",
+          "sample": "感觉第一块目标是全熟，考到5分时，串上目标7分熟的，目标全熟的烤到7分时，串上目标5分熟的，然后依次推这样拿下来时全部的正好都达到目标并且同时下架（我不清楚熟度进展速度，也不会烤肉只能猜测的说一下[笑哭]）"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1FFWeeLEFs/",
+          "uid": "36718356",
+          "sample": "我这个情况持续几年了，我估计我是被永封了，我不清楚我很久以前在直播间发过什么不好的言论还是什么导致我直播间发消息只有我自己能看见，要不是现在这个号六级了还有一大堆东西，我早换号了"
+        }
+      ]
+    },
+    {
+      "term": "我不理解",
+      "evidenceSamples": [
+        "这其实还可以就是我不理解为什么两个人没在一起",
+        "我不理解我真的不理解，如果弹幕随机强制屏蔽b站还有什么存在意义？",
+        "我也是，现在这段时间发评论都提示网络有问题，我不理解，这绝对不是网络的问题"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114482437162385/",
+          "uid": "29886186076",
+          "sample": "这其实还可以就是我不理解为什么两个人没在一起"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1434GeMETg/",
+          "uid": "3546833936714379",
+          "sample": "我不理解我真的不理解，如果弹幕随机强制屏蔽b站还有什么存在意义？"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV11f4y1Y7Lr/",
+          "uid": "602237660",
+          "sample": "我也是，现在这段时间发评论都提示网络有问题，我不理解，这绝对不是网络的问题"
+        }
+      ]
+    },
+    {
+      "term": "我不知道",
+      "evidenceSamples": [
+        "回复 @小可乐想吸猪 :有的不混内娱不知道这个就特别容易骗到路人",
+        "是的，不知道为什么会取消这个，这个才对味",
+        "回复 @bili_29599123596 :不知道，应该类似监制吧",
+        "[笑哭]我都不知道祖上在哪",
+        "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "回复 @小可乐想吸猪 :有的不混内娱不知道这个就特别容易骗到路人"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "是的，不知道为什么会取消这个，这个才对味"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "回复 @bili_29599123596 :不知道，应该类似监制吧"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "[笑哭]我都不知道祖上在哪"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "我刷到过原视频，底下的都说营养是够的，但是吧，我又觉得吃饭得讲究个色香味口感啥的，然后我又不知道那么大的小孩在不在乎这个，这一碗食给我我是会食欲减退，可能小孩分辨不了这个？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "回复 @泪落情伤 :大号给小号买推流了估计，不过他不知道这种东西传播到一定程度就算侵权了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "评论区真多嘉豪啊 不知道的还以为606遍地走呢[藏狐]"
+        }
+      ]
+    },
+    {
+      "term": "我不管",
+      "evidenceSamples": [
+        "我不管，黛米是我的，都不许抢[星星眼][打call]",
+        "这道门是拉开的[doge]\\n我不管，我不管[doge]\\n推不开就是我的错[doge]",
+        "日常怎么样我不管，但空弦肉鸽超大杯吧",
+        "什么馅儿的？我不管，但问题是要蘸糖",
+        "竟然是教堂，我不管什么了，我要入职!"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ZXZnYgE2M/",
+          "uid": "BV1ZXZnYgE2M",
+          "sample": "我不管，黛米是我的，都不许抢[星星眼][打call]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1yL411P7TY/",
+          "uid": "BV1yL411P7TY",
+          "sample": "这道门是拉开的[doge]\\n我不管，我不管[doge]\\n推不开就是我的错[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mxVg6GEQE/",
+          "uid": "BV1mxVg6GEQE",
+          "sample": "日常怎么样我不管，但空弦肉鸽超大杯吧"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1PtVh6aENM/",
+          "uid": "BV1PtVh6aENM",
+          "sample": "什么馅儿的？我不管，但问题是要蘸糖"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1C34y1v7kt/",
+          "uid": "BV1C34y1v7kt",
+          "sample": "竟然是教堂，我不管什么了，我要入职!"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1UX4y1i7hp/",
+          "uid": "176141944",
+          "sample": "我不管是什么时候的事儿，反正惹我和我的网友就不行"
+        }
+      ]
+    },
+    {
+      "term": "我不管了",
+      "evidenceSamples": [
+        "我不管，黛米是我的，都不许抢[星星眼][打call]",
+        "这道门是拉开的[doge]\\n我不管，我不管[doge]\\n推不开就是我的错[doge]",
+        "日常怎么样我不管，但空弦肉鸽超大杯吧",
+        "什么馅儿的？我不管，但问题是要蘸糖",
+        "竟然是教堂，我不管什么了，我要入职!"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1ZXZnYgE2M/",
+          "uid": "BV1ZXZnYgE2M",
+          "sample": "我不管，黛米是我的，都不许抢[星星眼][打call]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1yL411P7TY/",
+          "uid": "BV1yL411P7TY",
+          "sample": "这道门是拉开的[doge]\\n我不管，我不管[doge]\\n推不开就是我的错[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mxVg6GEQE/",
+          "uid": "BV1mxVg6GEQE",
+          "sample": "日常怎么样我不管，但空弦肉鸽超大杯吧"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1PtVh6aENM/",
+          "uid": "BV1PtVh6aENM",
+          "sample": "什么馅儿的？我不管，但问题是要蘸糖"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1C34y1v7kt/",
+          "uid": "BV1C34y1v7kt",
+          "sample": "竟然是教堂，我不管什么了，我要入职!"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1UX4y1i7hp/",
+          "uid": "176141944",
+          "sample": "我不管是什么时候的事儿，反正惹我和我的网友就不行"
+        }
+      ]
+    },
+    {
+      "term": "我不背这个锅",
+      "evidenceSamples": [
+        "12年的，我不背这个锅",
+        "我2016年的，我不背这个锅",
+        "我不背这个锅，我算是10后比较单纯的了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1XgtdzcEHR/",
+          "uid": "BV1XgtdzcEHR",
+          "sample": "12年的，我不背这个锅"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1XgtdzcEHR/",
+          "uid": "BV1XgtdzcEHR",
+          "sample": "我2016年的，我不背这个锅"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1XgtdzcEHR/",
+          "uid": "BV1XgtdzcEHR",
+          "sample": "我不背这个锅，我算是10后比较单纯的了"
+        }
+      ]
+    },
+    {
+      "term": "我不背锅",
+      "evidenceSamples": [
+        "我不背锅，天天为了中考忙都忙死了，10年不背锅",
+        "我不背锅",
+        "我不背锅哈"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1DdebzTEcv/",
+          "uid": "BV1DdebzTEcv",
+          "sample": "我不背锅，天天为了中考忙都忙死了，10年不背锅"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1h7jgzzEn6/",
+          "uid": "BV1h7jgzzEn6",
+          "sample": "我不背锅"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1DdebzTEcv/",
+          "uid": "BV1DdebzTEcv",
+          "sample": "我不背锅哈"
+        }
+      ]
+    },
+    {
+      "term": "我不能说",
+      "evidenceSamples": [
+        "两年之后的我在这，我看到了很多，很多很多，二级号，三级号，我不能说都是水军，因为我一个四级号不配，呵呵，评论区完全tm不一样了，好家伙，小蔡，真有意思，有了肖战忘了蔡呗，今天晚上真的恶心到我了",
+        "我有一个新闻笑话，但我不能说出来。",
+        "三观是有顺序的，世界观，人生观，价值观。但是很多人的三观顺序是错的，太多人把价值观放在第一位，并把价值观错误的作为自身人生观的底色，而世界观则往往并不在意。\n我不能说这种想法一定有错，毕竟总有人说人不为己天诛地灭，但身为共产主义的我肯定是不认可这种想法的，一些人认为的所谓大局观不过是坑自己的想法在我看来就是三观顺序不一致造成的。\n三观不一致，必然导致了对同一件事情的看法不一致。因为你看到的重点不一..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "413267176",
+          "sample": "两年之后的我在这，我看到了很多，很多很多，二级号，三级号，我不能说都是水军，因为我一个四级号不配，呵呵，评论区完全tm不一样了，好家伙，小蔡，真有意思，有了肖战忘了蔡呗，今天晚上真的恶心到我了"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8685996623",
+          "uid": "空在孁",
+          "sample": "我有一个新闻笑话，但我不能说出来。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV14B2QB3EhU",
+          "sample": "三观是有顺序的，世界观，人生观，价值观。但是很多人的三观顺序是错的，太多人把价值观放在第一位，并把价值观错误的作为自身人生观的底色，而世界观则往往并不在意。\n我不能说这种想法一定有错，毕竟总有人说人不为己天诛地灭，但身为共产主义的我肯定是不"
+        }
+      ]
+    },
+    {
+      "term": "我不记得了",
+      "evidenceSamples": [
+        "回复 @山寨的价值原本是0 :小昔涟好像写过一些吧，我不记得在哪看过了，反正印象中有一篇是把阿雅和猫猫的位置调换过来了，这东西只能说是昔涟的小爱好，不会放到公共场合上吧？",
+        "这里的情节应该致敬了a神的某个电音作品的MV，但是我不记得那个作品的名字了。",
+        "我不记得，我不记得了",
+        "我不记得，我不 记得了，困难总是好多"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FKV56kEFy/",
+          "uid": "BV1FKV56kEFy",
+          "sample": "回复 @山寨的价值原本是0 :小昔涟好像写过一些吧，我不记得在哪看过了，反正印象中有一篇是把阿雅和猫猫的位置调换过来了，这东西只能说是昔涟的小爱好，不会放到公共场合上吧？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1dwFSeREkQ/",
+          "uid": "BV1dwFSeREkQ",
+          "sample": "这里的情节应该致敬了a神的某个电音作品的MV，但是我不记得那个作品的名字了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18w411P7yw/, https://www.bilibili.com/video/BV1yQJx6wEVy/, https://www.bilibili.com/video/BV1kwTF64Efp/, https://www.bilibili.com/video/BV1ntTg6JEua/, https://www.bilibili.com/video/BV1Z7411r7CF/, https://www.bilibili.com/video/BV16tXpYqEhD/, https://www.bilibili.com/video/BV1hSTY6YEdw/, https://www.bilibili.com/video/BV1qfTp62ERT/, http://www.bilibili.com/video/av278769231",
+          "uid": "BV18w411P7yw,BV1yQJx6wEVy,BV1kwTF64Efp,BV1ntTg6JEua,BV1Z7411r7CF,BV16tXpYqEhD,BV1hSTY6YEdw,BV1qfTp62ERT",
+          "sample": "我不记得，我不记得了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18w411P7yw/, https://www.bilibili.com/video/BV1yQJx6wEVy/, https://www.bilibili.com/video/BV1kwTF64Efp/, https://www.bilibili.com/video/BV1ntTg6JEua/, https://www.bilibili.com/video/BV1Z7411r7CF/, https://www.bilibili.com/video/BV16tXpYqEhD/, https://www.bilibili.com/video/BV1hSTY6YEdw/, https://www.bilibili.com/video/BV1qfTp62ERT/, http://www.bilibili.com/video/av278769231",
+          "uid": "BV18w411P7yw,BV1yQJx6wEVy,BV1kwTF64Efp,BV1ntTg6JEua,BV1Z7411r7CF,BV16tXpYqEhD,BV1hSTY6YEdw,BV1qfTp62ERT",
+          "sample": "我不记得，我不 记得了，困难总是好多"
+        }
+      ]
+    },
+    {
+      "term": "我不评价",
+      "evidenceSamples": [
+        "{'text': '回复 @火畜终结者 :番薯?我不评价 但我建议你去看看更专业的科普[嗑瓜子]', 'sample': '回复 @火畜终结者 :番薯?我不评价 但我建议你去看看更专业的科普[嗑瓜子]'}",
+        "{'text': '碰子演技路粉，个人感觉他们床戏放剧情是合理的，脱离剧情外可能没那么幻梦，二个人Rps 我不评价', 'sample': '碰子演技路粉，个人感觉他们床戏放剧情是合理的，脱离剧情外可能没那么幻梦，二个人Rps 我不评价'}",
+        "呜呜呜为什么不评价别人的评论了[委屈]没有以前有趣了。还是喜欢以前那个有攻击性的up欸",
+        "不好讲，有时候确实话嘈理不嘈，极狐后处理的烂，人设小崩是真，歌太赶，演员演技，剧情安排不好也是真，up个人行为不评价没见过，我是没见他有广告之类的，确实没什么钱的，我觉得挺收敛了[笑哭]",
+        "评价作品不评价整体评价什么？三集就封神？你的神是厕所神吗"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1A6JM62ECv/",
+          "uid": "3493077169736266",
+          "sample": "呜呜呜为什么不评价别人的评论了[委屈]没有以前有趣了。还是喜欢以前那个有攻击性的up欸"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1AWwNeSEZF/",
+          "uid": "380386341",
+          "sample": "不好讲，有时候确实话嘈理不嘈，极狐后处理的烂，人设小崩是真，歌太赶，演员演技，剧情安排不好也是真，up个人行为不评价没见过，我是没见他有广告之类的，确实没什么钱的，我觉得挺收敛了[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114482437162385/",
+          "uid": "29886186076",
+          "sample": "评价作品不评价整体评价什么？三集就封神？你的神是厕所神吗"
+        },
+        {
+          "source": "AICU",
+          "uid": "29947900",
+          "sample": "回复 @火畜终结者 :番薯?我不评价 但我建议你去看看更专业的科普[嗑瓜子]"
+        },
+        {
+          "source": "AICU",
+          "uid": "178179554",
+          "sample": "碰子演技路粉，个人感觉他们床戏放剧情是合理的，脱离剧情外可能没那么幻梦，二个人Rps 我不评价"
+        }
+      ]
+    },
+    {
+      "term": "我不说",
+      "evidenceSamples": [
+        "马上就有一个人要被捅几万刀了😭😭是谁我不说😰😰",
+        "曾经有人自制投转载 是谁我不说",
+        "简介：曾经有人自制投转载 是谁我不说",
+        "谁的一辈子，我不说，你也应该知道"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1FX4y1g7u8/",
+          "uid": "BV1FX4y1g7u8",
+          "sample": "马上就有一个人要被捅几万刀了😭😭是谁我不说😰😰"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VNVS6cEoh/",
+          "uid": "BV1VNVS6cEoh",
+          "sample": "曾经有人自制投转载 是谁我不说"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1VNVS6cEoh/",
+          "uid": "BV1VNVS6cEoh",
+          "sample": "简介：曾经有人自制投转载 是谁我不说"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116662133131390/",
+          "uid": "38716770150",
+          "sample": "谁的一辈子，我不说，你也应该知道"
+        }
+      ]
+    },
+    {
+      "term": "我不配",
+      "evidenceSamples": [
+        "对不住了我的云缨宝宝，我坚持不住了[大哭][大哭]没能给最爱的你一个小国标是我不配呜呜呜呜呜呜",
+        "极阴：所以我不配出场是吗？",
+        "我不配看电影"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1B3ZnYuEDP/",
+          "uid": "BV1B3ZnYuEDP",
+          "sample": "对不住了我的云缨宝宝，我坚持不住了[大哭][大哭]没能给最爱的你一个小国标是我不配呜呜呜呜呜呜"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1S9FczNELe/",
+          "uid": "BV1S9FczNELe",
+          "sample": "极阴：所以我不配出场是吗？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "我不配看电影"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,560 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "cooperation",
+  "shard": 22,
+  "shardCount": 42,
+  "evidence": [
+    {
+      "term": "我来说句公道话",
+      "evidenceSamples": [
+        "这我就要说句公道话了，人家一年能亏500万你能吗？",
+        "up低估阿三了，这里要说句公道话，阿三踩个凳子真能配个新种doge",
+        "其他up说过公道话，泰迪之所以评价差，因为养的人多，很多都不管不教导致的。",
+        "说句公道话，没很出彩"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1PZdXYgE2A/",
+          "uid": "BV1PZdXYgE2A",
+          "sample": "这我就要说句公道话了，人家一年能亏500万你能吗？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV17vJn6BE7P/",
+          "uid": "BV17vJn6BE7P",
+          "sample": "up低估阿三了，这里要说句公道话，阿三踩个凳子真能配个新种doge"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV143kkBNEjk/",
+          "uid": "7769191",
+          "sample": "其他up说过公道话，泰迪之所以评价差，因为养的人多，很多都不管不教导致的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nEZbYiEv1/",
+          "uid": "BV1nEZbYiEv1",
+          "sample": "说句公道话，没很出彩"
+        }
+      ]
+    },
+    {
+      "term": "我牛大了",
+      "evidenceSamples": [
+        "我牛大了",
+        "你牛大了",
+        "我去，你牛大了死侍",
+        "你牛大了[笑哭]",
+        "1. 称赞别人：你好厉害啊，就你牛逼\\n2. 麻烦别人：你不是很行嘛，靠你了\\n3. 敢于承诺：包的，你以为我是你吗\\n4. 情绪稳定：对不起你在我心里没那么重要\\n5. 不去提醒：我又不是你妈，干嘛理你"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1WFTC6mEjj",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV16GTs6dEPU",
+          "sample": "你牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZCTj6YEdy",
+          "sample": "我去，你牛大了死侍"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1zfVn68Ead/",
+          "uid": "BV1zfVn68Ead",
+          "sample": "你牛大了[笑哭]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1mpVM6iE7s/",
+          "uid": "BV1mpVM6iE7s",
+          "sample": "1. 称赞别人：你好厉害啊，就你牛逼\\n2. 麻烦别人：你不是很行嘛，靠你了\\n3. 敢于承诺：包的，你以为我是你吗\\n4. 情绪稳定：对不起你在我心里没那么重要\\n5. 不去提醒：我又不是你妈，干嘛理你"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV112Tf6hEzF",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV15B8Cz3Ef5",
+          "sample": "我牛大了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1QuMu6iEaN",
+          "sample": "我牛大了"
+        }
+      ]
+    },
+    {
+      "term": "我猜",
+      "evidenceSamples": [
+        "回复 @kkoooooooooooooo :可能是为了保护电池，提高寿命，我猜的",
+        "网上很多人的思维跟二极管一样，所以我猜测他们都是硅基生物",
+        "我猜一下，安娜贝拉就是贝尼迪塔，主角他妈就是游戏开头那个坏女人。",
+        "我发现B站别人回复你 系统会选择性提醒你。也就是有的回复你永远都不会知道[星星眼]我猜是这种狗屎机制是为了避免吵架。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @kkoooooooooooooo :可能是为了保护电池，提高寿命，我猜的"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7224062846",
+          "uid": "蝙蝠贯日",
+          "sample": "网上很多人的思维跟二极管一样，所以我猜测他们都是硅基生物"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "我猜一下，安娜贝拉就是贝尼迪塔，主角他妈就是游戏开头那个坏女人。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1UkTL65Efc/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1WuiFeWEMa/, https://www.bilibili.com/video/BV1fg4y1r791/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av112903734692424, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116729762024741, http://www.bilibili.com/video/av115039860168683, http://www.bilibili.com/video/av116791703510621, http://www.bilibili.com/video/av116805729257399, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116839401129981, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av476046989, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av114861719752596, http://www.bilibili.com/video/av115783527046852, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av835254755, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1UkTL65Efc,BV1jjswz2EQF,BV1WuiFeWEMa,BV1fg4y1r791",
+          "sample": "我发现B站别人回复你 系统会选择性提醒你。也就是有的回复你永远都不会知道[星星眼]我猜是这种狗屎机制是为了避免吵架。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
+          "sample": "我发现B站别人回复你 系统会选择性提醒你。也就是有的回复你永远都不会知道[星星眼]我猜是这种狗屎机制是为了避免吵架。"
+        }
+      ]
+    },
+    {
+      "term": "我猜测",
+      "evidenceSamples": [
+        "网上很多人的思维跟二极管一样，所以我猜测他们都是硅基生物",
+        "回复 @kkoooooooooooooo :可能是为了保护电池，提高寿命，我猜的",
+        "我猜一下，安娜贝拉就是贝尼迪塔，主角他妈就是游戏开头那个坏女人。",
+        "我发现B站别人回复你 系统会选择性提醒你。也就是有的回复你永远都不会知道[星星眼]我猜是这种狗屎机制是为了避免吵架。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7224062846",
+          "uid": "蝙蝠贯日",
+          "sample": "网上很多人的思维跟二极管一样，所以我猜测他们都是硅基生物"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "回复 @kkoooooooooooooo :可能是为了保护电池，提高寿命，我猜的"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "我猜一下，安娜贝拉就是贝尼迪塔，主角他妈就是游戏开头那个坏女人。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1UkTL65Efc/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1WuiFeWEMa/, https://www.bilibili.com/video/BV1fg4y1r791/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av112903734692424, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116729762024741, http://www.bilibili.com/video/av115039860168683, http://www.bilibili.com/video/av116791703510621, http://www.bilibili.com/video/av116805729257399, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116839401129981, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av476046989, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av114861719752596, http://www.bilibili.com/video/av115783527046852, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av835254755, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1UkTL65Efc,BV1jjswz2EQF,BV1WuiFeWEMa,BV1fg4y1r791",
+          "sample": "我发现B站别人回复你 系统会选择性提醒你。也就是有的回复你永远都不会知道[星星眼]我猜是这种狗屎机制是为了避免吵架。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
+          "sample": "我发现B站别人回复你 系统会选择性提醒你。也就是有的回复你永远都不会知道[星星眼]我猜是这种狗屎机制是为了避免吵架。"
+        }
+      ]
+    },
+    {
+      "term": "我理解",
+      "evidenceSamples": [
+        "说白了 蔡徐坤这种流量小鲜肉为了恰饭我理解反正我又不看 那你接篮球单子能不能不要跳舞 freestyle？？？还是被安排 这不就是铁憨憨 篮球插花一整套动作都不流畅 点球又不会 人设没看过之前 就反正一个男团偶像也没有在意 到时知道后对现在女生喜欢的偶像心太产生变化 是不是现在都很喜欢男孩子女性美是吗 那我真的无话可说了 说真的男性版芭蕾舞都可以把蔡徐坤下去 一个半吊子真的没什么厉害 希望ikun有点脑子 而且一个MV里面全是特效 实在大制作 我觉得有钱还不如把自己弄的体面一点 实在觉得他没有什么本事啊┐（─__─）┌",
+        "看完这个视频，我还是想不通，这个怎么就是黑梗了[怪我咯]不知道是不是我理解有问题。因头发丝颜色灰色不可以用被骂好久，今天还有人骂女明星，真的服气。",
+        "b站微博化不可避，@陈睿 睿总能不能不要把那些微博饭圈邪教徒引流到b站来了，我理解你对恰钱的需要，他们的臭气让人作呕，只会加剧我们这些普通用户对b站的厌恶度，我可不想让b站成为下一个粪坑[吐]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "21106557",
+          "sample": "说白了 蔡徐坤这种流量小鲜肉为了恰饭我理解反正我又不看 那你接篮球单子能不能不要跳舞 freestyle？？？还是被安排 这不就是铁憨憨 篮球插花一整套动作都不流畅 点球又不会 人设没看过之前 就反正一个男团偶像也没有在意 到时知道后对现在女生喜欢的偶像心太产生变化 是不是现在都很喜欢男孩子女性美是吗 那我真的无话可说了 说真的男性版芭蕾舞都可以把蔡徐坤下去 一个半吊子真的没什么厉害 希望ikun有点脑子 而且一个MV里面全是特效 实在大制作 我觉得有钱还不如把自己弄的体面一点 实在觉得他没有什么本事啊┐（─__─）┌"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "407595952",
+          "sample": "看完这个视频，我还是想不通，这个怎么就是黑梗了[怪我咯]不知道是不是我理解有问题。因头发丝颜色灰色不可以用被骂好久，今天还有人骂女明星，真的服气。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "229852478",
+          "sample": "b站微博化不可避，@陈睿 睿总能不能不要把那些微博饭圈邪教徒引流到b站来了，我理解你对恰钱的需要，他们的臭气让人作呕，只会加剧我们这些普通用户对b站的厌恶度，我可不想让b站成为下一个粪坑[吐]"
+        }
+      ]
+    },
+    {
+      "term": "我理解你",
+      "evidenceSamples": [
+        "b站微博化不可避，@陈睿 睿总能不能不要把那些微博饭圈邪教徒引流到b站来了，我理解你对恰钱的需要，他们的臭气让人作呕，只会加剧我们这些普通用户对b站的厌恶度，我可不想让b站成为下一个粪坑[吐]",
+        "说白了 蔡徐坤这种流量小鲜肉为了恰饭我理解反正我又不看 那你接篮球单子能不能不要跳舞 freestyle？？？还是被安排 这不就是铁憨憨 篮球插花一整套动作都不流畅 点球又不会 人设没看过之前 就反正一个男团偶像也没有在意 到时知道后对现在女生喜欢的偶像心太产生变化 是不是现在都很喜欢男孩子女性美是吗 那我真的无话可说了 说真的男性版芭蕾舞都可以把蔡徐坤下去 一个半吊子真的没什么厉害 希望ikun有点脑子 而且一个MV里面全是特效 实在大制作 我觉得有钱还不如把自己弄的体面一点 实在觉得他没有什么本事啊┐（─__─）┌",
+        "看完这个视频，我还是想不通，这个怎么就是黑梗了[怪我咯]不知道是不是我理解有问题。因头发丝颜色灰色不可以用被骂好久，今天还有人骂女明星，真的服气。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "229852478",
+          "sample": "b站微博化不可避，@陈睿 睿总能不能不要把那些微博饭圈邪教徒引流到b站来了，我理解你对恰钱的需要，他们的臭气让人作呕，只会加剧我们这些普通用户对b站的厌恶度，我可不想让b站成为下一个粪坑[吐]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "21106557",
+          "sample": "说白了 蔡徐坤这种流量小鲜肉为了恰饭我理解反正我又不看 那你接篮球单子能不能不要跳舞 freestyle？？？还是被安排 这不就是铁憨憨 篮球插花一整套动作都不流畅 点球又不会 人设没看过之前 就反正一个男团偶像也没有在意 到时知道后对现在女生喜欢的偶像心太产生变化 是不是现在都很喜欢男孩子女性美是吗 那我真的无话可说了 说真的男性版芭蕾舞都可以把蔡徐坤下去 一个半吊子真的没什么厉害 希望ikun有点脑子 而且一个MV里面全是特效 实在大制作 我觉得有钱还不如把自己弄的体面一点 实在觉得他没有什么本事啊┐（─__─）┌"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "407595952",
+          "sample": "看完这个视频，我还是想不通，这个怎么就是黑梗了[怪我咯]不知道是不是我理解有问题。因头发丝颜色灰色不可以用被骂好久，今天还有人骂女明星，真的服气。"
+        }
+      ]
+    },
+    {
+      "term": "我的嘴替",
+      "evidenceSamples": [
+        "{'text': '唉，宽叔就是我的嘴替！小黑啊，大白来了，你得小心了哦[doge]', 'sample': '唉，宽叔就是我的嘴替！小黑啊，大白来了，你得小心了哦[doge]'}",
+        "点了，看了几集都是你说的这个现象，嘴替。瓜皮讲得很好可能正是因为说到点上了才吸引来不少不正常的东西…看着看着就飘过神人发言，而且这些弹幕故意避开这么明显地探讨女性主义话题的剧集内容而依旧宣传着厌女逻辑，感觉是生怕女性能看到真正有营养的内容所以要疯狂弹幕带偏节奏[笑哭]",
+        "评论区一堆嘴替，师傅了",
+        "动画区最后的嘴替了属于是[藏狐]，但感觉瓶皇比几年前刚多了",
+        "{'text': '我的互联网嘴替', 'sample': '我的互联网嘴替'}"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "413405657",
+          "sample": "点了，看了几集都是你说的这个现象，嘴替。瓜皮讲得很好可能正是因为说到点上了才吸引来不少不正常的东西…看着看着就飘过神人发言，而且这些弹幕故意避开这么明显地探讨女性主义话题的剧集内容而依旧宣传着厌女逻辑，感觉是生怕女性能看到真正有营养的内容所以要疯狂弹幕带偏节奏[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "1598914156",
+          "sample": "评论区一堆嘴替，师傅了"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av114160968932429/",
+          "uid": "23238409",
+          "sample": "动画区最后的嘴替了属于是[藏狐]，但感觉瓶皇比几年前刚多了"
+        },
+        {
+          "source": "AICU",
+          "uid": "109617380",
+          "sample": "唉，宽叔就是我的嘴替！小黑啊，大白来了，你得小心了哦[doge]"
+        },
+        {
+          "source": "AICU",
+          "uid": "388914237",
+          "sample": "我的互联网嘴替"
+        },
+        {
+          "source": "AICU",
+          "uid": "10404276",
+          "sample": "您真是我的互联网嘴替，描述这些没有美商还自己以为是的人描述的太精准了[支持]"
+        },
+        {
+          "source": "AICU",
+          "uid": "279403809",
+          "sample": "互联网嘴替了你这个评价。但除了哥仨小周小汪还是能看得下去的"
+        }
+      ]
+    },
+    {
+      "term": "我自己觉得",
+      "evidenceSamples": [
+        "我大概是近视了 我大概是近视了，因为上面骂我鼠目寸光。 不过我自己觉得我是瞎了，毕竟眼前一片黑暗。",
+        "我去……还是北极熊宝宝可爱，我自己觉得比潘达都可爱",
+        "丝瓜也可以按照狗蛋这样弄，不过广东这边吃丝瓜常见是煮汤，口感偏软，味道清甜，和扇贝我自己觉得蛮搭的"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8699822589",
+          "uid": "大海系",
+          "sample": "我大概是近视了 我大概是近视了，因为上面骂我鼠目寸光。 不过我自己觉得我是瞎了，毕竟眼前一片黑暗。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nKZnYkEnp/",
+          "uid": "BV1nKZnYkEnp",
+          "sample": "我去……还是北极熊宝宝可爱，我自己觉得比潘达都可爱"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "丝瓜也可以按照狗蛋这样弄，不过广东这边吃丝瓜常见是煮汤，口感偏软，味道清甜，和扇贝我自己觉得蛮搭的"
+        }
+      ]
+    },
+    {
+      "term": "我觉得",
+      "evidenceSamples": [
+        "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有",
+        "回复 @flmttm :我觉得灰色卫衣叠穿很好看",
+        "普通老百姓一个，没资格评价这首歌唱的怎么样，但看了歌词，感情充沛激励人心，我觉得很好！",
+        "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不...",
+        "虽然我和up可能一样大都是18的，但我觉得她气场比我高一个辈分"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "回复 @flmttm :我觉得灰色卫衣叠穿很好看"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "普通老百姓一个，没资格评价这首歌唱的怎么样，但看了歌词，感情充沛激励人心，我觉得很好！"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "虽然我和up可能一样大都是18的，但我觉得她气场比我高一个辈分"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "我觉得你说的对✓，太对了，这个才是杨静澜本来的打算"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12f4y137uo/, https://www.bilibili.com/video/BV1Ap4y1A7VE/, https://www.bilibili.com/video/BV1CN411K7ti/, https://www.bilibili.com/video/BV1A4bMebEts/, http://www.bilibili.com/video/av292368870, http://www.bilibili.com/video/av958895987, http://www.bilibili.com/video/av311609778, http://www.bilibili.com/video/av112778492775161",
+          "uid": "BV12f4y137uo,BV1Ap4y1A7VE,BV1CN411K7ti,BV1A4bMebEts",
+          "sample": "第一句那个“我喜欢的人光芒万丈，我不能一身戾气”我觉得还好，这句话常见于饭圈，经常能看到有粉丝用这句话来告诫？或者激励自己，每次两方撕的时候格外常见，基本上搬出这句话就会有很多人克制一下那些脏话。光芒万丈纯属是因为偶像在台上各种聚光灯闪光灯..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "我觉得不至于难吃，黄磊做饭一看就不是生手，拿手菜肯定有几道，但为了节目效果，很多菜他肯定不会做，现学那种，估计味不咋样。"
+        }
+      ]
+    },
+    {
+      "term": "我觉得可以",
+      "evidenceSamples": [
+        "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有",
+        "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不...",
+        "我觉得你说的对✓，太对了，这个才是杨静澜本来的打算",
+        "回复 @flmttm :我觉得灰色卫衣叠穿很好看",
+        "普通老百姓一个，没资格评价这首歌唱的怎么样，但看了歌词，感情充沛激励人心，我觉得很好！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "我觉得你说的对✓，太对了，这个才是杨静澜本来的打算"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "回复 @flmttm :我觉得灰色卫衣叠穿很好看"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "普通老百姓一个，没资格评价这首歌唱的怎么样，但看了歌词，感情充沛激励人心，我觉得很好！"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "虽然我和up可能一样大都是18的，但我觉得她气场比我高一个辈分"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12f4y137uo/, https://www.bilibili.com/video/BV1Ap4y1A7VE/, https://www.bilibili.com/video/BV1CN411K7ti/, https://www.bilibili.com/video/BV1A4bMebEts/, http://www.bilibili.com/video/av292368870, http://www.bilibili.com/video/av958895987, http://www.bilibili.com/video/av311609778, http://www.bilibili.com/video/av112778492775161",
+          "uid": "BV12f4y137uo,BV1Ap4y1A7VE,BV1CN411K7ti,BV1A4bMebEts",
+          "sample": "第一句那个“我喜欢的人光芒万丈，我不能一身戾气”我觉得还好，这句话常见于饭圈，经常能看到有粉丝用这句话来告诫？或者激励自己，每次两方撕的时候格外常见，基本上搬出这句话就会有很多人克制一下那些脏话。光芒万丈纯属是因为偶像在台上各种聚光灯闪光灯..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "我觉得不至于难吃，黄磊做饭一看就不是生手，拿手菜肯定有几道，但为了节目效果，很多菜他肯定不会做，现学那种，估计味不咋样。"
+        }
+      ]
+    },
+    {
+      "term": "我觉得吧",
+      "evidenceSamples": [
+        "回复 @flmttm :我觉得灰色卫衣叠穿很好看",
+        "普通老百姓一个，没资格评价这首歌唱的怎么样，但看了歌词，感情充沛激励人心，我觉得很好！",
+        "虽然我和up可能一样大都是18的，但我觉得她气场比我高一个辈分",
+        "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有",
+        "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "回复 @flmttm :我觉得灰色卫衣叠穿很好看"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "普通老百姓一个，没资格评价这首歌唱的怎么样，但看了歌词，感情充沛激励人心，我觉得很好！"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "虽然我和up可能一样大都是18的，但我觉得她气场比我高一个辈分"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "有没有人觉得三郎一上来就摘英英头花那一段有点奇怪？我第一次看的时候还以为他是纨绔子弟形象的所以一上来就摘英英头花，斗嘴斗不过就抓人上马恐吓，甚至还带一点“调戏”，但看完整部剧之后，我觉得三郎也不是那种孟浪性子，否则他的江湖朋友见到英英时也不..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wp4y1N7fU/, https://www.bilibili.com/video/BV114421Z7y4/, https://www.bilibili.com/video/BV1UvrkY5EY5/, https://www.bilibili.com/video/BV1hZ4y1474g/, http://www.bilibili.com/video/av960331826, http://www.bilibili.com/video/av1756408787, http://www.bilibili.com/video/av113798967001345, http://www.bilibili.com/video/av384629709",
+          "uid": "BV1wp4y1N7fU,BV114421Z7y4,BV1UvrkY5EY5,BV1hZ4y1474g",
+          "sample": "我觉得你说的对✓，太对了，这个才是杨静澜本来的打算"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12f4y137uo/, https://www.bilibili.com/video/BV1Ap4y1A7VE/, https://www.bilibili.com/video/BV1CN411K7ti/, https://www.bilibili.com/video/BV1A4bMebEts/, http://www.bilibili.com/video/av292368870, http://www.bilibili.com/video/av958895987, http://www.bilibili.com/video/av311609778, http://www.bilibili.com/video/av112778492775161",
+          "uid": "BV12f4y137uo,BV1Ap4y1A7VE,BV1CN411K7ti,BV1A4bMebEts",
+          "sample": "第一句那个“我喜欢的人光芒万丈，我不能一身戾气”我觉得还好，这句话常见于饭圈，经常能看到有粉丝用这句话来告诫？或者激励自己，每次两方撕的时候格外常见，基本上搬出这句话就会有很多人克制一下那些脏话。光芒万丈纯属是因为偶像在台上各种聚光灯闪光灯..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "MV里面姐开朗地穿牛仔长裤做这个动作就很好看来着，我觉得是舞台造型的问题"
+        }
+      ]
+    },
+    {
+      "term": "我认为",
+      "evidenceSamples": [
+        "回复 @芙兰-Ria- : 我也同意,娱乐产业是短板,但是说到底还是投入和产出问题.其实即使是西方擅长的交响乐,2000年之后也没有什么世界级耳熟能详妇孺皆知的作品了,也开始走老大师的作品复刻.另外我不认为ai音乐不行,就像我认为 只因你太美 和 周杰伦的音乐 一样让我愉悦.",
+        "看看我吧！记得当初它家人肉路人，就因为路人转发了蔡徐坤的“染黑发当700万粉丝福利怎么样”并评论这个星球居然有人染头发是给别人的福利，神他妈神经病，它粉丝疯狂人肉路人p遗照等并艾特路人学校，要求学校处理[微笑][微笑][微笑]事情闹上了热搜，当晚，蔡徐坤一句话没说而是把自己微博背景换成了kun&amp;ikun…后来人肉事件严重了，癌鲲遭到了网民反扑，这家不得不买了热搜“蔡徐坤粉丝行为准则”道歉，微博现在去搜，都还有痕迹。我认为蔡徐坤一点不比它粉丝优秀，它会被全网黑，是自己人品不行，业务不行，德不配位，硬碰遭雷劈，外加饭随爱豆[滑稽]",
+        "我爱听纯音乐，被朋友亲人们冠以“装B犯”的称号 为何如此呢？来源于游戏 个人自幼丧父无母，几乎是各类电子游戏陪伴长大 从和我差不多大的仙剑开始，到金庸 台湾的各类电子音乐涌入了我的生活 再到现在游戏里的配乐，他们几乎无一例外都是纯音乐 还有我自己找到的，独立制作人，他们所创作的纯音乐 纯音乐于我而言是一种洁净感 没有普通歌曲带来的“我讲述了一个故事，你要听故事” 而是通过聆听，得知里面的故事 虽然很多人听了感觉一头雾水，什么玩意乱七八糟的 但音乐人，或者说更感性的人，都会从中听出属于自己的理解 这是我认为纯音乐的独特之处 我不渴求所有人有与我一样的审美 但事实上是，当今互联网社会，一首口水歌，能被大家熟知 不论他好与坏，在短视频内对你疯狂洗脑，久而久之却认为这是音乐 那不过就是个数来宝，还错当成说唱，愚昧至极[辣眼睛]",
+        "1. 【动态站队】有一个最大的误解是，我发那条动态是在站队支持jp，并且无差别地对质疑者攻击。我很诚实的和大家分享当时的情景和动机：风向开始变化时，有很多人在私信中攻击我，说“余元公式你都不认识吗”、“无穷/2都看不出来你怎么当的清华博士”...",
+        "我认为比江南好，up怎么看“圈圈圆圆圈圈”“风到这里就是黏”？？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @芙兰-Ria- : 我也同意,娱乐产业是短板,但是说到底还是投入和产出问题.其实即使是西方擅长的交响乐,2000年之后也没有什么世界级耳熟能详妇孺皆知的作品了,也开始走老大师的作品复刻.另外我不认为ai音乐不行,就像我认为 只因你太美 和 周杰伦的音乐 一样让我愉悦."
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "25863160",
+          "sample": "看看我吧！记得当初它家人肉路人，就因为路人转发了蔡徐坤的“染黑发当700万粉丝福利怎么样”并评论这个星球居然有人染头发是给别人的福利，神他妈神经病，它粉丝疯狂人肉路人p遗照等并艾特路人学校，要求学校处理[微笑][微笑][微笑]事情闹上了热搜，当晚，蔡徐坤一句话没说而是把自己微博背景换成了kun&amp;ikun…后来人肉事件严重了，癌鲲遭到了网民反扑，这家不得不买了热搜“蔡徐坤粉丝行为准则”道歉，微博现在去搜，都还有痕迹。我认为蔡徐坤一点不比它粉丝优秀，它会被全网黑，是自己人品不行，业务不行，德不配位，硬碰遭雷劈，外加饭随爱豆[滑稽]"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我爱听纯音乐，被朋友亲人们冠以“装B犯”的称号 为何如此呢？来源于游戏 个人自幼丧父无母，几乎是各类电子游戏陪伴长大 从和我差不多大的仙剑开始，到金庸 台湾的各类电子音乐涌入了我的生活 再到现在游戏里的配乐，他们几乎无一例外都是纯音乐 还有我自己找到的，独立制作人，他们所创作的纯音乐 纯音乐于我而言是一种洁净感 没有普通歌曲带来的“我讲述了一个故事，你要听故事” 而是通过聆听，得知里面的故事 虽然很多人听了感觉一头雾水，什么玩意乱七八糟的 但音乐人，或者说更感性的人，都会从中听出属于自己的理解 这是我认为纯音乐的独特之处 我不渴求所有人有与我一样的审美 但事实上是，当今互联网社会，一首口水歌，能被大家熟知 不论他好与坏，在短视频内对你疯狂洗脑，久而久之却认为这是音乐 那不过就是个数来宝，还错当成说唱，愚昧至极[辣眼睛]"
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "1. 【动态站队】有一个最大的误解是，我发那条动态是在站队支持jp，并且无差别地对质疑者攻击。我很诚实的和大家分享当时的情景和动机：风向开始变化时，有很多人在私信中攻击我，说“余元公式你都不认识吗”、“无穷/2都看不出来你怎么当的清华博士”..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "我认为比江南好，up怎么看“圈圈圆圆圈圈”“风到这里就是黏”？？"
+        }
+      ]
+    },
+    {
+      "term": "我认可",
+      "evidenceSamples": [
+        "我认可up批评的一些乐坛乱象。但仍然没有触及到问题的根本。 为什么中国的艺术、文化之类的文科领域始终达不到所谓发达国家的高度呢？ 这一点我想借用作家边芹的观点：“因为中国丧失了定义美的话语权”。谁来定义美好，谁又来诠释低俗？很显然，目前世界文化体系仍然是依西方文化体系马首是瞻。 在这样的体系之下，国内的大量文化工作者不仅没有跳出这种桎梏反而争先恐后的去充当西方体系的扩音器，拼了命去融合进对方的体系，并且抨击任何反对的人。如果一直保持这样的环境，那国内的文化产业就永远也不可能有领导世界的机会：连世界艺术的皇冠都是别人打造定义的，那你又该如何戴上它加冕成王呢？ 其实说到这里就不得不说西方文化对于国内审美的侵略，说句难听的，就连up也是被西方文化牵着鼻子走。毕竟连你的审美都是对方来定义的，就算审美在高级也不过是对欧美乐理教科书的崇拜和重复罢了。 那如何才能摆脱这种局面呢，我想其实我们已经走在正确的道路上了。从古至今，文化强盛的国家和文明都一定是军事、经济、综合国力及其强盛的。当年被喷成蛮子的英国佬，国立强盛到日不落之后就能摇身一变成为近代文明的代言人。又在说美洲拓荒的罪犯流放徒之国在工业革命两次大战之后成为领导世界至今的文明灯塔。软实力是源生于硬实力的，话语权不是靠别人施舍而是自己争夺的。短期内文化的话语权还能被长期以来的优势卡在他们手里，但军事和经济上的差距在不断缩小追平直到反超的越来越大，这方面是他们无法掩盖无法忽视的。 我自开始了解世界直到现在都十分坚信中华文明是世界最灿烂的文化，最大的底气就是因为我知道中国人的历史比任何国家和文明都更加恢弘。古老的民族最强的地方就是失败了不会消亡而是重新站起来。等到我们打出自己的翻身仗后，文化领域的话语权慢慢就会易手，到那时还会存在审美倒退的问题吗？连审美权都在我手上，自有大儒为我辩经。",
+        "怕虫子放嘴里吗，你的热爱我认可了[支持]",
+        "我认可他作为我的老婆身份（扭）",
+        "这攻击力我认可了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我认可up批评的一些乐坛乱象。但仍然没有触及到问题的根本。 为什么中国的艺术、文化之类的文科领域始终达不到所谓发达国家的高度呢？ 这一点我想借用作家边芹的观点：“因为中国丧失了定义美的话语权”。谁来定义美好，谁又来诠释低俗？很显然，目前世界文化体系仍然是依西方文化体系马首是瞻。 在这样的体系之下，国内的大量文化工作者不仅没有跳出这种桎梏反而争先恐后的去充当西方体系的扩音器，拼了命去融合进对方的体系，并且抨击任何反对的人。如果一直保持这样的环境，那国内的文化产业就永远也不可能有领导世界的机会：连世界艺术的皇冠都是别人打造定义的，那你又该如何戴上它加冕成王呢？ 其实说到这里就不得不说西方文化对于国内审美的侵略，说句难听的，就连up也是被西方文化牵着鼻子走。毕竟连你的审美都是对方来定义的，就算审美在高级也不过是对欧美乐理教科书的崇拜和重复罢了。 那如何才能摆脱这种局面呢，我想其实我们已经走在正确的道路上了。从古至今，文化强盛的国家和文明都一定是军事、经济、综合国力及其强盛的。当年被喷成蛮子的英国佬，国立强盛到日不落之后就能摇身一变成为近代文明的代言人。又在说美洲拓荒的罪犯流放徒之国在工业革命两次大战之后成为领导世界至今的文明灯塔。软实力是源生于硬实力的，话语权不是靠别人施舍而是自己争夺的。短期内文化的话语权还能被长期以来的优势卡在他们手里，但军事和经济上的差距在不断缩小追平直到反超的越来越大，这方面是他们无法掩盖无法忽视的。 我自开始了解世界直到现在都十分坚信中华文明是世界最灿烂的文化，最大的底气就是因为我知道中国人的历史比任何国家和文明都更加恢弘。古老的民族最强的地方就是失败了不会消亡而是重新站起来。等到我们打出自己的翻身仗后，文化领域的话语权慢慢就会易手，到那时还会存在审美倒退的问题吗？连审美权都在我手上，自有大儒为我辩经。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1PqZnYHEhR/",
+          "uid": "BV1PqZnYHEhR",
+          "sample": "怕虫子放嘴里吗，你的热爱我认可了[支持]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1FZ4y1d7e7/",
+          "uid": "BV1FZ4y1d7e7",
+          "sample": "我认可他作为我的老婆身份（扭）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1cicdeDETK/",
+          "uid": "BV1cicdeDETK",
+          "sample": "这攻击力我认可了"
+        }
+      ]
+    },
+    {
+      "term": "我认同",
+      "evidenceSamples": [
+        "回复 @听说要答题？ :韩国那边不提20s的kpop, 12年江南style，09年的nobody算是比较火的。此外10s中国很多电视真人秀都是有韩国的&#34;原来版本&#34;的。部分中国男女偶像会去韩国公司研修。那应该还不能算是韩国&#34;举国之力发展kpop&#34;的时代，毕竟那个时候kpop还是个萌芽概念。印度有些影视还算出圈的，像是贫民窟的百万富翁，三傻大闹宝莱坞之类的。像是瑜伽这类的也算文化输出吧。我们在互联网上用在东北玩泥巴之类的印度神曲印度小曲恶搞印度的时候，另一边印度人会用什么，有用什么我们的文化符号来恶搞反击我们吗？墨西哥是当成拉丁美洲的文娱代表拿出来说的。拉美裔，西裔的文化影响力可能会算到美国头上，但也有其独特性所在。 个人认为软实力客观上应该是兼顾艺术造诣，作品工业化，还有即刻流行程度的；主观上是自我认同，自我展示，他人关注，他人认可的过程。这是偏离了up主的音乐美育的议题的。中国的文化软实力说好不算好，说糟也不算太糟。短剧，网文，二游，meme这些可能还算发达；但是影视、音乐就有点难说了。个人认为当下中国是比不上80年到00年的文化影响力的，但硬实力肯定是显著提升的。硬实力或许有利于&#34;自我认同&#34;，但话反过来说连自我认同都需要靠硬实力来撑门面的话本身就是一种自我不认同。此外硬实力上升必然带来威胁性，同时提升一定程度上带来了自恋化的自我表达。这都不利于他人关注和他人认同的。",
+        "虽然我认同中国乐坛审美差，但是你的世界等于欧美也太狭隘了。",
+        "中国现在普遍音乐审美低下我认同，但这家伙最大的问题是就把欧美体系等同于世界音乐体系。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @听说要答题？ :韩国那边不提20s的kpop, 12年江南style，09年的nobody算是比较火的。此外10s中国很多电视真人秀都是有韩国的&#34;原来版本&#34;的。部分中国男女偶像会去韩国公司研修。那应该还不能算是韩国&#34;举国之力发展kpop&#34;的时代，毕竟那个时候kpop还是个萌芽概念。印度有些影视还算出圈的，像是贫民窟的百万富翁，三傻大闹宝莱坞之类的。像是瑜伽这类的也算文化输出吧。我们在互联网上用在东北玩泥巴之类的印度神曲印度小曲恶搞印度的时候，另一边印度人会用什么，有用什么我们的文化符号来恶搞反击我们吗？墨西哥是当成拉丁美洲的文娱代表拿出来说的。拉美裔，西裔的文化影响力可能会算到美国头上，但也有其独特性所在。 个人认为软实力客观上应该是兼顾艺术造诣，作品工业化，还有即刻流行程度的；主观上是自我认同，自我展示，他人关注，他人认可的过程。这是偏离了up主的音乐美育的议题的。中国的文化软实力说好不算好，说糟也不算太糟。短剧，网文，二游，meme这些可能还算发达；但是影视、音乐就有点难说了。个人认为当下中国是比不上80年到00年的文化影响力的，但硬实力肯定是显著提升的。硬实力或许有利于&#34;自我认同&#34;，但话反过来说连自我认同都需要靠硬实力来撑门面的话本身就是一种自我不认同。此外硬实力上升必然带来威胁性，同时提升一定程度上带来了自恋化的自我表达。这都不利于他人关注和他人认同的。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "虽然我认同中国乐坛审美差，但是你的世界等于欧美也太狭隘了。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "中国现在普遍音乐审美低下我认同，但这家伙最大的问题是就把欧美体系等同于世界音乐体系。"
+        }
+      ]
+    },
+    {
+      "term": "我话说完谁赞成谁反对",
+      "evidenceSamples": [
+        "我话说完谁赞成谁反对？这个新功能真的超好用",
+        "宣布这集是神回，我话说完谁赞成谁反对",
+        "我话说完谁赞成谁反对？不赞成的自己面壁"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "我话说完谁赞成谁反对？这个新功能真的超好用"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "宣布这集是神回，我话说完谁赞成谁反对"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "我话说完谁赞成谁反对？不赞成的自己面壁"
+        }
+      ]
+    }
+  ]
+}

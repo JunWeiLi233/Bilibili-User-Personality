@@ -1,0 +1,442 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "attack",
+  "shard": 24,
+  "shardCount": 34,
+  "evidence": [
+    {
+      "term": "真爱",
+      "evidenceSamples": [
+        "是啊卡尔一直滥交，还说什么为了真爱出轨",
+        "大概是没有真爱过吧，曾经差点喜当爹，九年了我也没说过她什么坏话",
+        "所以说。发弹幕的，那都是真爱，或者是素质特高的观众，当真是千里挑一。",
+        "我去电影院看得，这电影太惊艳了。法海人设其实很不好把握。白蛇这个故事起源的民间传说和现在浪漫演绎的不一样，最早的版本好像是，书生不知道自己老婆是妖，而白蛇不懂人间事理还经常给他“丢脸”，所以白蛇被收是符合“顺应天道”和“社会阶级意识”的。后..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "是啊卡尔一直滥交，还说什么为了真爱出轨"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yx4y1r7gi/",
+          "uid": "BV1yx4y1r7gi",
+          "sample": "大概是没有真爱过吧，曾经差点喜当爹，九年了我也没说过她什么坏话"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV11d6rB4Evy/",
+          "uid": "BV11d6rB4Evy",
+          "sample": "所以说。发弹幕的，那都是真爱，或者是素质特高的观众，当真是千里挑一。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12f4y137uo/, https://www.bilibili.com/video/BV1Ap4y1A7VE/, https://www.bilibili.com/video/BV1CN411K7ti/, https://www.bilibili.com/video/BV1A4bMebEts/, http://www.bilibili.com/video/av292368870, http://www.bilibili.com/video/av958895987, http://www.bilibili.com/video/av311609778, http://www.bilibili.com/video/av112778492775161",
+          "uid": "BV12f4y137uo,BV1Ap4y1A7VE,BV1CN411K7ti,BV1A4bMebEts",
+          "sample": "我去电影院看得，这电影太惊艳了。法海人设其实很不好把握。白蛇这个故事起源的民间传说和现在浪漫演绎的不一样，最早的版本好像是，书生不知道自己老婆是妖，而白蛇不懂人间事理还经常给他“丢脸”，所以白蛇被收是符合“顺应天道”和“社会阶级意识”的。后..."
+        }
+      ]
+    },
+    {
+      "term": "真的会谢",
+      "evidenceSamples": [
+        "gh：我真的会谢",
+        "导师：我真的会谢",
+        "老奶奶：我真的会谢",
+        "请各位听之前麻烦看一看评论区up的话，以免产生不必要的误会谢谢。",
+        "你砸钉子会谢锤子吗？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1sXTL6BEgk",
+          "sample": "gh：我真的会谢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1564y1M787",
+          "sample": "导师：我真的会谢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1w8411b7Ya",
+          "sample": "老奶奶：我真的会谢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV11x411H7UY",
+          "sample": "请各位听之前麻烦看一看评论区up的话，以免产生不必要的误会谢谢。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1MbT86nEZC",
+          "sample": "你砸钉子会谢锤子吗？"
+        }
+      ]
+    },
+    {
+      "term": "瞎鸡脖",
+      "evidenceSamples": [
+        "这剪辑也太瞎鸡脖了吧，剧情都乱了。",
+        "别瞎鸡脖改设定啊，原著党表示受不了。",
+        "有些人就是瞎鸡脖喷，连内容都没看完。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这剪辑也太瞎鸡脖了吧，剧情都乱了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "别瞎鸡脖改设定啊，原著党表示受不了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "有些人就是瞎鸡脖喷，连内容都没看完。"
+        }
+      ]
+    },
+    {
+      "term": "破防",
+      "evidenceSamples": [
+        "看来是真给米默整破防了",
+        "别家破防的声音太吵了[doge]我还是喜欢檀健次的歌声和小炭火的欢呼声，破防的声音再多也没用[呲牙]",
+        "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽",
+        "如何评价小明剑魔 知乎发不出去，来贴吧试试先说结论啊，男人可以穷可以各种各样的缺点，但真的就是不能窝囊，小明剑魔可怜，倒霉，但是不值得同情，好似，他能有今天这个下场，是自己活该，咎由自取，天天打个LOL讲大道理，坑队友骂队友喷队友摆烂挂机，人家也会骂你，对不对？下次打LOL还摆烂不还骂人不，真的是首先，从最近的暴雷事情说起，小明剑魔龟完了，真的龟完了，我嘞个龟龟，长这么大还真没见过这么龟的玩意国服龙龟，简称剑龟，贱贱的小乌龟，一个人，一个男人，一个堂堂正正的男子汉大丈夫，没有一点家庭地位，对老婆卑躬屈膝，马首是瞻，没一点点的尊严，关键用正常人的逻辑来理解的话，他老婆既然是没有工作没有收入的无业游民，在丈夫的包养下，是不是应该成为家庭主妇为男方排忧解难，相互扶持，然而却倒过来了，小明剑魔天天累死累活赚那么多钱，还跟上供一样伺候着这个小仙女，老祖宗一样，他的老婆标准的傅首尔长相，我只能说长得真挺别扭的，但是人家集美底子很好呢，瘦下来肯定是美美哒，他的老婆不能说无所事事，只能说啥事不干天天就是吃喝玩乐花花花，天天健身一整天，实际上就是找男模找COSER什么的，女性不可被定义是吧，自己出去找男人玩出去麦，试问这种人谁吃的消啊，引用狂魔哥的一句话，你爸妈中年人天天出去长时间健身必出轨，魔子说的还是有点道理的，不过小明剑魔这个事情还是太离谱了，小明剑魔应该还是个大虚鬼，阳气都快被吸干了一样，但是不管怎么样，小明剑魔还在为他的老婆洗白，哎呀她不一样，哎呀那都是我闹着玩说的那都是气话，哎呀其实她很关心我的，哎呀她会做家务的会做饭给我吃的，哎呀你们能不能别骂了，离婚是不可能离的……然后又开始扯一些大道理呢哈哈哈真的笑死我了，又开始讲大道理了呢，真把自己当个人物了第二，小明剑魔的智商，能力其实是不高的，毕竟小明剑魔只是个中专，天天讲大道理本身就是很错误的，人都不应该夸夸其谈比较好，更何况他水平低下，但他运气确实比较好，火了几个大梗，小明剑魔的受众（不是指抽象梗，而是指信奉他大道理的那些人）是很多生活不如意的，这样才会相信他的那些无稽之谈，大家也看到小明剑魔现在回旋镖来了，天天说彩礼说结婚说房子说社会高谈阔论夸夸其谈，现在自己才是那个最龟的，最小丑的，但他的受众既然是这些人，所以就反转了对吧，他现在卖卖惨然后离婚，还能捞回来一些钱，但是他还是转移矛盾到社会上，是别人的问题，对男性不公平，完全不想想自己是什么样的眼光找到了这样的老婆，但他还是给老婆洗白，还是尝试妥协，这真的是正常人都不能理解的逻辑，或者说是个人都不能理解，为了这种女人真的值得吗，小明剑魔你不是很牛吗，之前不是高高在上指点江山吗，不是很意气风发吗，跟弹幕对线不是很凶吗，不是很拽吗，不是天天讲大道理吗，不是天天骂队友坑队友喷队友摆烂挂机吗，原来这么怕这么样的老婆啊哈哈哈哈哈哈哈，没用的玩意，现在直播间哭唧唧了，被弹幕喷到精神恍惚了，你的锐气呢，哈哈哈，你不是人间清醒哥吗，不是觉得彩礼结婚是很畸形坑人的吗，怎么自己结婚然后乖乖上交所有收入当龟男啊，好难猜啊最后，小明剑魔的游戏水平，只能说韩服钻一闹麻了真的，天天那么多游戏理解啊什么的，天天谈职业比赛啊什么的，还说什么国人队没了韩援就是一坨，国服就是烂，我真的请问一下你有什么资格在这里说这说那啊，要技术没技术要心态没心态，天天就一张嘴吧啦吧啦的，搞笑呢，玩LOL的看他直播能看得下去的真是神人了分几点来说，第一点，最典型的MVP老黑局，众所周知英雄联盟奎桑提是一个功能性英雄，黑皮肤英雄就没有弱的，是吧首先奎桑提这英雄就强，一直削还是一直强，奎桑提可以赖线，但说真的剑魔也就没弱过，现在剑魔偏弱也是赢线不赢团，这英雄打团没别的英雄厉害，但是对线，真的没打过剑魔的可以去打两把，同等水平下，短手打剑魔不被抽陀螺？长手打剑魔不是被三段q直接残血了？老黑是不是短手，0/3打不过又怎么了，人家打团有作用啊，你剑魔没把对面打炸线那也没资格压力队友啊对不对，凭啥压力队友，我真的就问下凭啥？小明剑魔真的就是一条，人家老黑对线抗压就能被骂躺赢狗，MOBA游戏不说要你评分多高，相对来讲别人评分比你高那就认对不对，你比对面评分高你MVP那就凡尔赛也行啊，说对面菜说什么都没事，自己又没那个水平，喜欢叫叫叫第二点剑魔打鳄鱼，这也是他最破防的，什么鳄鱼是动物保护动物都说出来了，各种各样的急眼，对此我只能说剑魔打不过鳄鱼，真的入土吧，就是技不如人，剑魔不是石头人狗头这种英雄，战士英雄是有上限的，不是坦克英雄弱势英雄通常只是抗压对不对，战士打战士打不过就是自己菜，就这么简单啊对不对，剑魔本来就手长伤害高还有还有机制，本身就是个对线英雄打不过别人就是菜，剑魔打鳄鱼不能抽陀螺甚至连均势都做不到就是菜，剑魔就是数值怪啊，鳄鱼还强啊，鳄鱼是万金油上单，但是这英雄后期没用啊，后期就超级兵，这英雄25分钟没三件套有啥用你告诉我最后，讲讲他坑队友骂队友喷队友摆烂挂机，他还有种天天骂国服环境啊，真不是哥们哪来的脸，英雄联盟国服环境现在差到爆就是因为有小明剑魔这种玩意在，而且还不少，小明剑魔就是纯纯的菜➕少爷➕压力怪，动不动就摆烂挂机，别人哄着他玩还不屑一顾，哎呀老子不差这这一把分啊就是不想让你赢啊，哎呀反正不是我的号啊，这种是最气人的真的，别人求着你玩啊，玩个游戏真把自己当个人物了，我打LOL碰到这种人我都会问候他，不惯着，对线打不过就怪打野不来抓不来帮，打野来了打不过就是打野水平差距，对线均势或者小优打不过团就骂队友送喷队友坑，队友优势自己躺赢就是作用比天打，在他的三观逻辑里，反正都是别人错都是别人不好都是别人的问题都是全世界的问题太不公平了太畸形了，从来不反思自己，我的老婆是完全没问题的她不一样，都是网友的问题都是你们造谣，这种人真的就是……跟他讲道理也完全没得讲再讲讲韩服，小明剑魔很喜欢拿韩服说事，其实我说真的，他很崇洋媚外，骨头是软的，包括他吹苹果骂华为小米也是一样的性质，韩服，试问他韩服什么段位，韩服钻一，闹麻了真的是，天天评价这个那个，职业什么的，国人队没韩援就屁用没有啥也打不过？什么道理，自己什么水平天天说这说那，他打个韩服不也是被暴打吗？打不过就狐狸在送小炮在送，打不过就是队友的问题，打不过也是压力队友，这跟国服有什么区别？这就是你对韩服这种高端优质对局的态度？唉，真的是，自己玩的什么样子真的是没点数，其实说实话现在韩服的水平确实高点，但环境也好不到哪里去，别的主播打韩服高分局也都是很多玩不来的骂人的挂机的摆烂的，只不过比国服好一些罢了，殊不知国服LOL环境败坏的原因很大一部分就是小明剑魔这种人的这类行为，动不动摆烂挂机喷人坑人骂人总结一下，玩游戏别摆烂挂机喷队友骂人，有话好好说，小明剑魔到今天这个地步，咎由自取，活该",
+        "通关demo我破防了，真不愧是“本作拥有很黑暗的剧情”上来兄弟手足相残刀了我的约书亚，se你是真的没有心"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "看来是真给米默整破防了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sSBqYUEFS/, https://www.bilibili.com/video/BV1LrdpYzE8L/, https://www.bilibili.com/video/BV1tiE46MEv2/, https://www.bilibili.com/video/BV1oCUsY8E16/, http://www.bilibili.com/video/av113527528424307, http://www.bilibili.com/video/av114303021616054, http://www.bilibili.com/video/av116707448332166, http://www.bilibili.com/video/av113505164331544",
+          "uid": "BV1sSBqYUEFS,BV1LrdpYzE8L,BV1tiE46MEv2,BV1oCUsY8E16",
+          "sample": "别家破防的声音太吵了[doge]我还是喜欢檀健次的歌声和小炭火的欢呼声，破防的声音再多也没用[呲牙]"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "说分割家产，必须平分管你男人娶不娶老婆，然后我说那女厕管你要干嘛比男厕多一平方厘米就是不公平女拳破防了，温和女拳在给我科普，再nm科普也违背了你要的绝对公平，魔怔女拳要拆男厕小便池，我说小便池关你女厕屁事，只要面积多多占你一平方厘米，你管别人装什么，真nm管的宽"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "如何评价小明剑魔 知乎发不出去，来贴吧试试先说结论啊，男人可以穷可以各种各样的缺点，但真的就是不能窝囊，小明剑魔可怜，倒霉，但是不值得同情，好似，他能有今天这个下场，是自己活该，咎由自取，天天打个LOL讲大道理，坑队友骂队友喷队友摆烂挂机，人家也会骂你，对不对？下次打LOL还摆烂不还骂人不，真的是首先，从最近的暴雷事情说起，小明剑魔龟完了，真的龟完了，我嘞个龟龟，长这么大还真没见过这么龟的玩意国服龙龟，简称剑龟，贱贱的小乌龟，一个人，一个男人，一个堂堂正正的男子汉大丈夫，没有一点家庭地位，对老婆卑躬屈膝，马首是瞻，没一点点的尊严，关键用正常人的逻辑来理解的话，他老婆既然是没有工作没有收入的无业游民，在丈夫的包养下，是不是应该成为家庭主妇为男方排忧解难，相互扶持，然而却倒过来了，小明剑魔天天累死累活赚那么多钱，还跟上供一样伺候着这个小仙女，老祖宗一样，他的老婆标准的傅首尔长相，我只能说长得真挺别扭的，但是人家集美底子很好呢，瘦下来肯定是美美哒，他的老婆不能说无所事事，只能说啥事不干天天就是吃喝玩乐花花花，天天健身一整天，实际上就是找男模找COSER什么的，女性不可被定义是吧，自己出去找男人玩出去麦，试问这种人谁吃的消啊，引用狂魔哥的一句话，你爸妈中年人天天出去长时间健身必出轨，魔子说的还是有点道理的，不过小明剑魔这个事情还是太离谱了，小明剑魔应该还是个大虚鬼，阳气都快被吸干了一样，但是不管怎么样，小明剑魔还在为他的老婆洗白，哎呀她不一样，哎呀那都是我闹着玩说的那都是气话，哎呀其实她很关心我的，哎呀她会做家务的会做饭给我吃的，哎呀你们能不能别骂了，离婚是不可能离的……然后又开始扯一些大道理呢哈哈哈真的笑死我了，又开始讲大道理了呢，真把自己当个人物了第二，小明剑魔的智商，能力其实是不高的，毕竟小明剑魔只是个中专，天天讲大道理本身就是很错误的，人都不应该夸夸其谈比较好，更何况他水平低下，但他运气确实比较好，火了几个大梗，小明剑魔的受众（不是指抽象梗，而是指信奉他大道理的那些人）是很多生活不如意的，这样才会相信他的那些无稽之谈，大家也看到小明剑魔现在回旋镖来了，天天说彩礼说结婚说房子说社会高谈阔论夸夸其谈，现在自己才是那个最龟的，最小丑的，但他的受众既然是这些人，所以就反转了对吧，他现在卖卖惨然后离婚，还能捞回来一些钱，但是他还是转移矛盾到社会上，是别人的问题，对男性不公平，完全不想想自己是什么样的眼光找到了这样的老婆，但他还是给老婆洗白，还是尝试妥协，这真的是正常人都不能理解的逻辑，或者说是个人都不能理解，为了这种女人真的值得吗，小明剑魔你不是很牛吗，之前不是高高在上指点江山吗，不是很意气风发吗，跟弹幕对线不是很凶吗，不是很拽吗，不是天天讲大道理吗，不是天天骂队友坑队友喷队友摆烂挂机吗，原来这么怕这么样的老婆啊哈哈哈哈哈哈哈，没用的玩意，现在直播间哭唧唧了，被弹幕喷到精神恍惚了，你的锐气呢，哈哈哈，你不是人间清醒哥吗，不是觉得彩礼结婚是很畸形坑人的吗，怎么自己结婚然后乖乖上交所有收入当龟男啊，好难猜啊最后，小明剑魔的游戏水平，只能说韩服钻一闹麻了真的，天天那么多游戏理解啊什么的，天天谈职业比赛啊什么的，还说什么国人队没了韩援就是一坨，国服就是烂，我真的请问一下你有什么资格在这里说这说那啊，要技术没技术要心态没心态，天天就一张嘴吧啦吧啦的，搞笑呢，玩LOL的看他直播能看得下去的真是神人了分几点来说，第一点，最典型的MVP老黑局，众所周知英雄联盟奎桑提是一个功能性英雄，黑皮肤英雄就没有弱的，是吧首先奎桑提这英雄就强，一直削还是一直强，奎桑提可以赖线，但说真的剑魔也就没弱过，现在剑魔偏弱也是赢线不赢团，这英雄打团没别的英雄厉害，但是对线，真的没打过剑魔的可以去打两把，同等水平下，短手打剑魔不被抽陀螺？长手打剑魔不是被三段q直接残血了？老黑是不是短手，0/3打不过又怎么了，人家打团有作用啊，你剑魔没把对面打炸线那也没资格压力队友啊对不对，凭啥压力队友，我真的就问下凭啥？小明剑魔真的就是一条，人家老黑对线抗压就能被骂躺赢狗，MOBA游戏不说要你评分多高，相对来讲别人评分比你高那就认对不对，你比对面评分高你MVP那就凡尔赛也行啊，说对面菜说什么都没事，自己又没那个水平，喜欢叫叫叫第二点剑魔打鳄鱼，这也是他最破防的，什么鳄鱼是动物保护动物都说出来了，各种各样的急眼，对此我只能说剑魔打不过鳄鱼，真的入土吧，就是技不如人，剑魔不是石头人狗头这种英雄，战士英雄是有上限的，不是坦克英雄弱势英雄通常只是抗压对不对，战士打战士打不过就是自己菜，就这么简单啊对不对，剑魔本来就手长伤害高还有还有机制，本身就是个对线英雄打不过别人就是菜，剑魔打鳄鱼不能抽陀螺甚至连均势都做不到就是菜，剑魔就是数值怪啊，鳄鱼还强啊，鳄鱼是万金油上单，但是这英雄后期没用啊，后期就超级兵，这英雄25分钟没三件套有啥用你告诉我最后，讲讲他坑队友骂队友喷队友摆烂挂机，他还有种天天骂国服环境啊，真不是哥们哪来的脸，英雄联盟国服环境现在差到爆就是因为有小明剑魔这种玩意在，而且还不少，小明剑魔就是纯纯的菜➕少爷➕压力怪，动不动就摆烂挂机，别人哄着他玩还不屑一顾，哎呀老子不差这这一把分啊就是不想让你赢啊，哎呀反正不是我的号啊，这种是最气人的真的，别人求着你玩啊，玩个游戏真把自己当个人物了，我打LOL碰到这种人我都会问候他，不惯着，对线打不过就怪打野不来抓不来帮，打野来了打不过就是打野水平差距，对线均势或者小优打不过团就骂队友送喷队友坑，队友优势自己躺赢就是作用比天打，在他的三观逻辑里，反正都是别人错都是别人不好都是别人的问题都是全世界的问题太不公平了太畸形了，从来不反思自己，我的老婆是完全没问题的她不一样，都是网友的问题都是你们造谣，这种人真的就是……跟他讲道理也完全没得讲再讲讲韩服，小明剑魔很喜欢拿韩服说事，其实我说真的，他很崇洋媚外，骨头是软的，包括他吹苹果骂华为小米也是一样的性质，韩服，试问他韩服什么段位，韩服钻一，闹麻了真的是，天天评价这个那个，职业什么的，国人队没韩援就屁用没有啥也打不过？什么道理，自己什么水平天天说这说那，他打个韩服不也是被暴打吗？打不过就狐狸在送小炮在送，打不过就是队友的问题，打不过也是压力队友，这跟国服有什么区别？这就是你对韩服这种高端优质对局的态度？唉，真的是，自己玩的什么样子真的是没点数，其实说实话现在韩服的水平确实高点，但环境也好不到哪里去，别的主播打韩服高分局也都是很多玩不来的骂人的挂机的摆烂的，只不过比国服好一些罢了，殊不知国服LOL环境败坏的原因很大一部分就是小明剑魔这种人的这类行为，动不动摆烂挂机喷人坑人骂人总结一下，玩游戏别摆烂挂机喷队友骂人，有话好好说，小明剑魔到今天这个地步，咎由自取，活该"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "通关demo我破防了，真不愧是“本作拥有很黑暗的剧情”上来兄弟手足相残刀了我的约书亚，se你是真的没有心"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "B站有7.0二十多万播放量的职场霸凌视频，被nj破防拿身份证举了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV15u7W6TExb/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1i7NpetEhd/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV1bXKf6YEod/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116652737824287, http://www.bilibili.com/video/av116698069864739, http://www.bilibili.com/video/av114052084798274, http://www.bilibili.com/video/av1001282424, http://www.bilibili.com/video/av114923493396003, http://www.bilibili.com/video/av116742177164233, http://www.bilibili.com/video/av115094319071448, http://www.bilibili.com/video/av112912408511183, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116092798240853, http://www.bilibili.com/video/av114827292907700, http://www.bilibili.com/video/av116782912247024, http://www.bilibili.com/video/av1355764750, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av619420176, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av115860987450392, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116822942883165, http://www.bilibili.com/video/av113958182721133, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av113018541180502, http://www.bilibili.com/video/av116720165521615",
+          "uid": "BV1h7jgzzEn6,BV15u7W6TExb,BV16VTw6oEwv,BV1i7NpetEhd,BV1PETM6UEcg,BV1bXKf6YEod",
+          "sample": "B站有7.0二十多万播放量的职场霸凌视频，被nj破防拿身份证举了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1STE26fEoV/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV18gLt6PE79/, https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1KBc7z5Ese/, https://www.bilibili.com/video/BV12L7h65EnU/, https://www.bilibili.com/video/BV1nXgVzDErP/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1aXt2zrERA/, https://www.bilibili.com/video/BV1zG7n6iExr/, https://www.bilibili.com/video/BV1K5o5BbEBv/, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116809890007152, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116820509983609, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av114758892129884, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116817389425929, http://www.bilibili.com/video/av116837387868380, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av1001282424, http://www.bilibili.com/video/av296487174, http://www.bilibili.com/video/av116556419893495, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116813027412052, http://www.bilibili.com/video/av116754743362704, http://www.bilibili.com/video/av115815269531963, http://www.bilibili.com/video/av116820409324029, http://www.bilibili.com/video/av116827036320830, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116772309046331, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av115087524236017, http://www.bilibili.com/video/av116736288429664, http://www.bilibili.com/video/av116610828341593, http://www.bilibili.com/video/av116063723327506, http://www.bilibili.com/video/av114890408790151, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116459078421319, http://www.bilibili.com/video/av1106042428, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av1553251362, http://www.bilibili.com/video/av116141821401035, http://www.bilibili.com/video/av116175224772702",
+          "uid": "BV1h7jgzzEn6,BV1STE26fEoV,BV1PETM6UEcg,BV18gLt6PE79,BV1mqTF6YEig,BV1KBc7z5Ese,BV12L7h65EnU,BV1nXgVzDErP,BV16VTw6oEwv,BV1aXt2zrERA,BV1zG7n6iExr,BV1K5o5BbEBv",
+          "sample": "B站有7.0二十多万播放量的职场霸凌视频，被nj破防拿身份证举了"
+        }
+      ]
+    },
+    {
+      "term": "祖安",
+      "evidenceSamples": [
+        "祖安本来就是嘲讽嘴臭的人，然后却转变祖安自以为荣，还成了热潮，说这个不对是没错的，但反祖安就更6，前几天还在祖安人，现在就反祖安然后重新再次骂人，我在一个up一个祖安视频看见一群人在骂那up，骂人原因因为他祖安骂人所以他们就骂人，那时笑死我了[笑哭]还有说影响小孩，那我建议开青少年模式[口罩]",
+        "我觉得反祖安 是因为知道祖安行为是不对的。不管是针对自己还是别人嘴臭骂脏话本身就不是值得提倡的行为。结果祖安梗突然火了，是个人都想要对线口嗨，好像还觉得很有意思，毫不顾忌。这才是真正有问题 很多时候嘴臭是打游戏心情差忍不了，但打完是知道自己做错了事情不该骂。问题本质要搞清楚[无语]",
+        "祖安人来反对祖安了[doge]",
+        "网络热词本来就没啥固定意思，人家用说自己是祖安人，多少都是自嘲，就和b站上面说死宅一样，这词最开始不是嘲讽二刺螈?后面又开始泛用乐，意思又中性了起来，反正我觉得你们这群反祖安的也挺nt的，杠精的演化分支一样，真香这个梗最开始就是用来表示被打脸后用来掩饰面子的，现在有些人乱立flag不也是为了故意来一句真香?\\n真的别一天反反反，上个网和你吗打仗一样\\n锤人与反锤人，祖安与反祖安，我觉得都挺nt的，不针对任何人，针对所有人"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "祖安本来就是嘲讽嘴臭的人，然后却转变祖安自以为荣，还成了热潮，说这个不对是没错的，但反祖安就更6，前几天还在祖安人，现在就反祖安然后重新再次骂人，我在一个up一个祖安视频看见一群人在骂那up，骂人原因因为他祖安骂人所以他们就骂人，那时笑死我了[笑哭]还有说影响小孩，那我建议开青少年模式[口罩]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "我觉得反祖安 是因为知道祖安行为是不对的。不管是针对自己还是别人嘴臭骂脏话本身就不是值得提倡的行为。结果祖安梗突然火了，是个人都想要对线口嗨，好像还觉得很有意思，毫不顾忌。这才是真正有问题 很多时候嘴臭是打游戏心情差忍不了，但打完是知道自己做错了事情不该骂。问题本质要搞清楚[无语]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "祖安人来反对祖安了[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "网络热词本来就没啥固定意思，人家用说自己是祖安人，多少都是自嘲，就和b站上面说死宅一样，这词最开始不是嘲讽二刺螈?后面又开始泛用乐，意思又中性了起来，反正我觉得你们这群反祖安的也挺nt的，杠精的演化分支一样，真香这个梗最开始就是用来表示被打脸后用来掩饰面子的，现在有些人乱立flag不也是为了故意来一句真香?\\n真的别一天反反反，上个网和你吗打仗一样\\n锤人与反锤人，祖安与反祖安，我觉得都挺nt的，不针对任何人，针对所有人"
+        }
+      ]
+    },
+    {
+      "term": "祖安人",
+      "evidenceSamples": [
+        "祖安本来就是嘲讽嘴臭的人，然后却转变祖安自以为荣，还成了热潮，说这个不对是没错的，但反祖安就更6，前几天还在祖安人，现在就反祖安然后重新再次骂人，我在一个up一个祖安视频看见一群人在骂那up，骂人原因因为他祖安骂人所以他们就骂人，那时笑死我了[笑哭]还有说影响小孩，那我建议开青少年模式[口罩]",
+        "祖安人来反对祖安了[doge]",
+        "网络热词本来就没啥固定意思，人家用说自己是祖安人，多少都是自嘲，就和b站上面说死宅一样，这词最开始不是嘲讽二刺螈?后面又开始泛用乐，意思又中性了起来，反正我觉得你们这群反祖安的也挺nt的，杠精的演化分支一样，真香这个梗最开始就是用来表示被打脸后用来掩饰面子的，现在有些人乱立flag不也是为了故意来一句真香?\\n真的别一天反反反，上个网和你吗打仗一样\\n锤人与反锤人，祖安与反祖安，我觉得都挺nt的，不针对任何人，针对所有人",
+        "我觉得反祖安 是因为知道祖安行为是不对的。不管是针对自己还是别人嘴臭骂脏话本身就不是值得提倡的行为。结果祖安梗突然火了，是个人都想要对线口嗨，好像还觉得很有意思，毫不顾忌。这才是真正有问题 很多时候嘴臭是打游戏心情差忍不了，但打完是知道自己做错了事情不该骂。问题本质要搞清楚[无语]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "祖安本来就是嘲讽嘴臭的人，然后却转变祖安自以为荣，还成了热潮，说这个不对是没错的，但反祖安就更6，前几天还在祖安人，现在就反祖安然后重新再次骂人，我在一个up一个祖安视频看见一群人在骂那up，骂人原因因为他祖安骂人所以他们就骂人，那时笑死我了[笑哭]还有说影响小孩，那我建议开青少年模式[口罩]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "祖安人来反对祖安了[doge]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "网络热词本来就没啥固定意思，人家用说自己是祖安人，多少都是自嘲，就和b站上面说死宅一样，这词最开始不是嘲讽二刺螈?后面又开始泛用乐，意思又中性了起来，反正我觉得你们这群反祖安的也挺nt的，杠精的演化分支一样，真香这个梗最开始就是用来表示被打脸后用来掩饰面子的，现在有些人乱立flag不也是为了故意来一句真香?\\n真的别一天反反反，上个网和你吗打仗一样\\n锤人与反锤人，祖安与反祖安，我觉得都挺nt的，不针对任何人，针对所有人"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1k7411R7kj/",
+          "uid": "BV1k7411R7kj",
+          "sample": "我觉得反祖安 是因为知道祖安行为是不对的。不管是针对自己还是别人嘴臭骂脏话本身就不是值得提倡的行为。结果祖安梗突然火了，是个人都想要对线口嗨，好像还觉得很有意思，毫不顾忌。这才是真正有问题 很多时候嘴臭是打游戏心情差忍不了，但打完是知道自己做错了事情不该骂。问题本质要搞清楚[无语]"
+        }
+      ]
+    },
+    {
+      "term": "神人",
+      "evidenceSamples": [
+        "复活了[doge]，xdm不要觉得这种人不多，给你们分享一个我上个月前遇到的神人，那天晚上我在店里（喷射战士），来了一个人说要验卷，让他扫码死活扫不上一打开手机看是附近某塔的，跟他说店不一样验不了，神人发言： 你们不都是卖汉堡的有什么不一样的，赶紧给验完赶紧做[笑][笑][笑] 我听完[哦呼][哦呼][哦呼]",
+        "神人局来了[笑哭]",
+        "看完了，只能说“神人弹幕”"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1A6JM62ECv/",
+          "uid": "527446948",
+          "sample": "复活了[doge]，xdm不要觉得这种人不多，给你们分享一个我上个月前遇到的神人，那天晚上我在店里（喷射战士），来了一个人说要验卷，让他扫码死活扫不上一打开手机看是附近某塔的，跟他说店不一样验不了，神人发言： 你们不都是卖汉堡的有什么不一样的，赶紧给验完赶紧做[笑][笑][笑] 我听完[哦呼][哦呼][哦呼]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1p1ChBNESh/",
+          "uid": "1982170692",
+          "sample": "神人局来了[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1bbVZ62Edu/",
+          "uid": "BV1bbVZ62Edu",
+          "sample": "看完了，只能说“神人弹幕”"
+        }
+      ]
+    },
+    {
+      "term": "神游",
+      "evidenceSamples": [
+        "二创神游玩家出图就是快[笑哭]",
+        "八字神游我们来了",
+        "神游五套，金丹泼水"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1gbLQ6uESA/",
+          "uid": "1769177795",
+          "sample": "二创神游玩家出图就是快[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1GAbUz2E9f/",
+          "uid": "BV1GAbUz2E9f",
+          "sample": "八字神游我们来了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av115369515747804/",
+          "uid": "33054065548",
+          "sample": "神游五套，金丹泼水"
+        }
+      ]
+    },
+    {
+      "term": "神神",
+      "evidenceSamples": [
+        "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有",
+        "然后是犯下愤怒之罪的赤石英雄海月9，丈着自己身为特摄老前辈的资历处处打压神，神对于他这样的藐视，选择原谅他的行为，然而换来的却是得寸进尺，把神当球踢，于是神忍无可忍，又降下了穿越时间的神罚，让其弟弟染上了黑暗零食，最后被死在自己面前，并且让...",
+        "然后犯下傲慢之罪的苦涩加布熟假，刚出场就学笑川打老奶奶，而后更是对神不敬，冒犯神，神不是不想降下神罚，奈何神的新信徒海月9先下手，这样的角色注定走不长，事实也确实如此，最后被神亲自消灭",
+        "因为神灵不死，所以神神们只好灵活就业 🤣",
+        "我发表了一篇文章，有人说我极左，有人说我极右，有人骂我是兔兔 我发表了一篇文章，有人说我极左，有人说我极右，有人骂我是兔兔，有人骂我是神神，请问我是不是神经分裂症"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我已经好几年没发过烧了，就连疫情那几年都没事[doge]我觉得自己天神神力，冬天穿一件睡衣就能四处行走，感冒都没有"
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "然后是犯下愤怒之罪的赤石英雄海月9，丈着自己身为特摄老前辈的资历处处打压神，神对于他这样的藐视，选择原谅他的行为，然而换来的却是得寸进尺，把神当球踢，于是神忍无可忍，又降下了穿越时间的神罚，让其弟弟染上了黑暗零食，最后被死在自己面前，并且让..."
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "然后犯下傲慢之罪的苦涩加布熟假，刚出场就学笑川打老奶奶，而后更是对神不敬，冒犯神，神不是不想降下神罚，奈何神的新信徒海月9先下手，这样的角色注定走不长，事实也确实如此，最后被神亲自消灭"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8401769894",
+          "uid": "笺墨无颜",
+          "sample": "因为神灵不死，所以神神们只好灵活就业 🤣"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7720697902",
+          "uid": "星空先行者🌌",
+          "sample": "我发表了一篇文章，有人说我极左，有人说我极右，有人骂我是兔兔 我发表了一篇文章，有人说我极左，有人说我极右，有人骂我是兔兔，有人骂我是神神，请问我是不是神经分裂症"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1TeZnYWEvP/",
+          "uid": "BV1TeZnYWEvP",
+          "sample": "回复 @死在终点前的骨头 :我服了，这年头，这个大数据算法真的神神经经的。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1hFZbYUEbJ/",
+          "uid": "BV1hFZbYUEbJ",
+          "sample": "我看到这一支舞，让我想到了原水神神芙卡洛斯。"
+        }
+      ]
+    },
+    {
+      "term": "神罚",
+      "evidenceSamples": [
+        "首先是犯下暴食之罪的生真，直到20集之前都在神推心置腹下竟敢隐瞒自己的身世，以此来质疑神的全知全能，整料神早就知道了他的小心思，正如圣经中说写，神是不可质疑的，于是神降下了他那穿越时间空间的神罚，结果用力过猛，让其眼睁睁的看到自己的老妈成了...",
+        "然后是犯下愤怒之罪的赤石英雄海月9，丈着自己身为特摄老前辈的资历处处打压神，神对于他这样的藐视，选择原谅他的行为，然而换来的却是得寸进尺，把神当球踢，于是神忍无可忍，又降下了穿越时间的神罚，让其弟弟染上了黑暗零食，最后被死在自己面前，并且让...",
+        "然后是犯下僭越之罪大哥兰戈斯托马克.身为神庇佑的家族的长子过了这么多集也不向神敬拜，反而自己关注自己的家族产业，这显然是无视了神的权威，于是神降下了神罚，然其永远比观众少看一集，成了搞笑人物"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "首先是犯下暴食之罪的生真，直到20集之前都在神推心置腹下竟敢隐瞒自己的身世，以此来质疑神的全知全能，整料神早就知道了他的小心思，正如圣经中说写，神是不可质疑的，于是神降下了他那穿越时间空间的神罚，结果用力过猛，让其眼睁睁的看到自己的老妈成了..."
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "然后是犯下愤怒之罪的赤石英雄海月9，丈着自己身为特摄老前辈的资历处处打压神，神对于他这样的藐视，选择原谅他的行为，然而换来的却是得寸进尺，把神当球踢，于是神忍无可忍，又降下了穿越时间的神罚，让其弟弟染上了黑暗零食，最后被死在自己面前，并且让..."
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "然后是犯下僭越之罪大哥兰戈斯托马克.身为神庇佑的家族的长子过了这么多集也不向神敬拜，反而自己关注自己的家族产业，这显然是无视了神的权威，于是神降下了神罚，然其永远比观众少看一集，成了搞笑人物"
+        }
+      ]
+    },
+    {
+      "term": "离谱",
+      "evidenceSamples": [
+        "这个还好，画画那个更是离谱，抄其他不说了，抄画是真的牛逼[doge]",
+        "回复 @是苍苍还是云山呀 :关键是这个短裤跟这个裙子就是短的离谱啊，要显腿长也没有这种短法吧，内裤都比舒华那个短裤长，还有雨琦和面姐的那个裙子做蹲下来的那个动作，完全就是把打底裤露出来啊，那为什么不直接配裤子？还有cube出的那个中裤，你要...",
+        "你说的三种我都见过，因为我常常对线，现在发现了第四种更离谱的，就是回复、艾特、（可能私信也是）这个用户的信息全都是仅自己可见或者秒删，怎么规避用词都没用，换小号也没用",
+        "离谱…男的脸丑可以说审美差异，731几个意思？？？这游戏有日资？",
+        "回复 @提钱退休就是爽 :哈哈他是真离谱，估计还是家里条件太好了，这话跟“何不食肉糜”有啥区别，家庭的熏陶，学校的教育，自己的运气和一时迸发的兴趣，每一项都与音乐审美的提高息息相关。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "这个还好，画画那个更是离谱，抄其他不说了，抄画是真的牛逼[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1RF4m1V7bt/, https://www.bilibili.com/video/BV1qZ4y1x7UM/, https://www.bilibili.com/video/BV1Y6WUeVEpj/, https://www.bilibili.com/video/BV1Lzj4zbEEV/, http://www.bilibili.com/video/av1201585140, http://www.bilibili.com/video/av370302045, http://www.bilibili.com/video/av113009598923647, http://www.bilibili.com/video/av114561474626022",
+          "uid": "BV1RF4m1V7bt,BV1qZ4y1x7UM,BV1Y6WUeVEpj,BV1Lzj4zbEEV",
+          "sample": "回复 @是苍苍还是云山呀 :关键是这个短裤跟这个裙子就是短的离谱啊，要显腿长也没有这种短法吧，内裤都比舒华那个短裤长，还有雨琦和面姐的那个裙子做蹲下来的那个动作，完全就是把打底裤露出来啊，那为什么不直接配裤子？还有cube出的那个中裤，你要..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
+          "sample": "你说的三种我都见过，因为我常常对线，现在发现了第四种更离谱的，就是回复、艾特、（可能私信也是）这个用户的信息全都是仅自己可见或者秒删，怎么规避用词都没用，换小号也没用"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1UkTL65Efc/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1WuiFeWEMa/, https://www.bilibili.com/video/BV1fg4y1r791/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av112903734692424, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av116729762024741, http://www.bilibili.com/video/av115039860168683, http://www.bilibili.com/video/av116791703510621, http://www.bilibili.com/video/av116805729257399, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116839401129981, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116821483064676, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av476046989, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av114861719752596, http://www.bilibili.com/video/av115783527046852, http://www.bilibili.com/video/av116804219313739, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av616009621, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av835254755, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1UkTL65Efc,BV1jjswz2EQF,BV1WuiFeWEMa,BV1fg4y1r791",
+          "sample": "离谱…男的脸丑可以说审美差异，731几个意思？？？这游戏有日资？"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @提钱退休就是爽 :哈哈他是真离谱，估计还是家里条件太好了，这话跟“何不食肉糜”有啥区别，家庭的熏陶，学校的教育，自己的运气和一时迸发的兴趣，每一项都与音乐审美的提高息息相关。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1xngWzpELD/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1kN4y1S7Co/, https://www.bilibili.com/video/BV1d5KZ66E5S/, https://www.bilibili.com/video/BV1oK42187FH/, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116837723540279, http://www.bilibili.com/video/av116837085874587, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837018896668, http://www.bilibili.com/video/av114866903911224, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av114897287384432, http://www.bilibili.com/video/av1701038722, http://www.bilibili.com/video/av116788448795500, http://www.bilibili.com/video/av116827992688457, http://www.bilibili.com/video/av116832790910414, http://www.bilibili.com/video/av116062314044702, http://www.bilibili.com/video/av115036420839274, http://www.bilibili.com/video/av116816617671581, http://www.bilibili.com/video/av93798357, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av479962724, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av875568244, http://www.bilibili.com/video/av573656080, http://www.bilibili.com/video/av745230601",
+          "uid": "BV1mqTF6YEig,BV1xngWzpELD,BV1yZKo6HEWx,BV1kN4y1S7Co,BV1d5KZ66E5S,BV1oK42187FH",
+          "sample": "离谱…男的脸丑可以说审美差异，731几个意思？？？这游戏有日资？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1STE26fEoV/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV18gLt6PE79/, https://www.bilibili.com/video/BV1mqTF6YEig/, https://www.bilibili.com/video/BV1KBc7z5Ese/, https://www.bilibili.com/video/BV12L7h65EnU/, https://www.bilibili.com/video/BV1nXgVzDErP/, https://www.bilibili.com/video/BV16VTw6oEwv/, https://www.bilibili.com/video/BV1aXt2zrERA/, https://www.bilibili.com/video/BV1zG7n6iExr/, https://www.bilibili.com/video/BV1K5o5BbEBv/, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116838579182123, http://www.bilibili.com/video/av116809890007152, http://www.bilibili.com/video/av116839669630753, http://www.bilibili.com/video/av116820509983609, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116830760868668, http://www.bilibili.com/video/av114758892129884, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av116831599790468, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116817389425929, http://www.bilibili.com/video/av116837387868380, http://www.bilibili.com/video/av116816936436498, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av116752109276559, http://www.bilibili.com/video/av1001282424, http://www.bilibili.com/video/av296487174, http://www.bilibili.com/video/av116556419893495, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116797156100934, http://www.bilibili.com/video/av116831247534326, http://www.bilibili.com/video/av116695486302372, http://www.bilibili.com/video/av112689942630351, http://www.bilibili.com/video/av116810041133598, http://www.bilibili.com/video/av116813027412052, http://www.bilibili.com/video/av116754743362704, http://www.bilibili.com/video/av115815269531963, http://www.bilibili.com/video/av116820409324029, http://www.bilibili.com/video/av116827036320830, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av114188164794007, http://www.bilibili.com/video/av116759776461313, http://www.bilibili.com/video/av116833629766648, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116635927123304, http://www.bilibili.com/video/av116772309046331, http://www.bilibili.com/video/av116719595101074, http://www.bilibili.com/video/av116817221652850, http://www.bilibili.com/video/av115087524236017, http://www.bilibili.com/video/av116736288429664, http://www.bilibili.com/video/av116610828341593, http://www.bilibili.com/video/av116063723327506, http://www.bilibili.com/video/av114890408790151, http://www.bilibili.com/video/av114993387406954, http://www.bilibili.com/video/av116459078421319, http://www.bilibili.com/video/av1106042428, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av1553251362, http://www.bilibili.com/video/av116141821401035, http://www.bilibili.com/video/av116175224772702",
+          "uid": "BV1h7jgzzEn6,BV1STE26fEoV,BV1PETM6UEcg,BV18gLt6PE79,BV1mqTF6YEig,BV1KBc7z5Ese,BV12L7h65EnU,BV1nXgVzDErP,BV16VTw6oEwv,BV1aXt2zrERA,BV1zG7n6iExr,BV1K5o5BbEBv",
+          "sample": "离谱…男的脸丑可以说审美差异，731几个意思？？？这游戏有日资？"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "278759095",
+          "sample": "回复 @白猫没我胖 :比烂属实离谱"
+        }
+      ]
+    },
+    {
+      "term": "秀存在感",
+      "evidenceSamples": [
+        "日本现在能做啥呢你说。。。没存在感是应该的。。。",
+        "刷时间的这么想找存在感吗？",
+        "弹幕是哪来的，刷时间是因为现实生活没人在意所以特意刷时间展示存在感吗",
+        "那些发不喜欢的人，发弹幕找存在感？就像我也不喜欢王国之泪一样，是不是也要去那边发太普通了，我不喜欢之类的，萝卜青菜各有所爱，有的人喜欢玩法，喜欢开放世界，对画面，剧情可以有所割舍，我喜欢画面好，战斗爽快的线性游戏有啥问题，一天到处刷，烦的一批",
+        "我是越来越铁我家只因哥了，它唱跳篮球不仅优秀，而且每天都有新歌，还有啊我劝那些虚假的粉坤坤言论者管好你们自己，不要给我们家只因哥招黑了，管不好自己上网就那几句话，剪视频的还稀碎，咦咦咦[再见]还有啊，我作为两年半的铁粉，我的忠实评论总有一些人看不惯会说我，我觉得这不好别在我评论区找存在感好不好？喜欢它就喜欢，别招黑了[再见][翻白眼]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1iUTz6tE6t",
+          "sample": "日本现在能做啥呢你说。。。没存在感是应该的。。。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "刷时间的这么想找存在感吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "弹幕是哪来的，刷时间是因为现实生活没人在意所以特意刷时间展示存在感吗"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "那些发不喜欢的人，发弹幕找存在感？就像我也不喜欢王国之泪一样，是不是也要去那边发太普通了，我不喜欢之类的，萝卜青菜各有所爱，有的人喜欢玩法，喜欢开放世界，对画面，剧情可以有所割舍，我喜欢画面好，战斗爽快的线性游戏有啥问题，一天到处刷，烦的一批"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "3461566691281262",
+          "sample": "我是越来越铁我家只因哥了，它唱跳篮球不仅优秀，而且每天都有新歌，还有啊我劝那些虚假的粉坤坤言论者管好你们自己，不要给我们家只因哥招黑了，管不好自己上网就那几句话，剪视频的还稀碎，咦咦咦[再见]还有啊，我作为两年半的铁粉，我的忠实评论总有一些人看不惯会说我，我觉得这不好别在我评论区找存在感好不好？喜欢它就喜欢，别招黑了[再见][翻白眼]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1K1Tf6AEhN",
+          "sample": "一群18码的，报你风的时间啊，不用刷存在感知道吗，乐"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "279033042",
+          "sample": "你坤人好那就人好，可叫我们别玩这个梗又是什么操作，想要帮他辩护去找你的那些姐妹去，别来这视频底下找存在感"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1YATy6eEE5",
+          "sample": "手游别来找存在感好吗"
+        }
+      ]
+    }
+  ]
+}

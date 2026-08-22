@@ -1,0 +1,50 @@
+{
+  "computedAt": "2026-07-01T21:55:22.089Z",
+  "n": 100,
+  "aucRoc": 0.6590909090909088,
+  "precisionRecallF1": {
+    "precision": 0,
+    "recall": 0,
+    "f1": 0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 34,
+    "threshold": 50
+  },
+  "perAxis": {
+    "toxicEmotions": {
+      "n": 100,
+      "brier": 0.2750319999999997,
+      "ece": 0.416
+    },
+    "missingCommitment": {
+      "n": 100,
+      "brier": 0.06500599999999995,
+      "ece": 0.2242000000000001
+    },
+    "missingIntelligibility": {
+      "n": 100,
+      "brier": 0.18030000000000002,
+      "ece": 0.4049999999999998
+    },
+    "otherReasons": {
+      "n": 100,
+      "brier": 0.05499999999999992,
+      "ece": 1.942890293094024e-16
+    }
+  },
+  "bootstrap95CI": {
+    "aucRoc": {
+      "ci95_low": 0.5493333333333335,
+      "ci95_high": 0.7723809523809521,
+      "median": 0.6659007352941176,
+      "n_resamples": 1000
+    },
+    "f1": {
+      "ci95_low": 0,
+      "ci95_high": 0,
+      "median": 0,
+      "n_resamples": 1000
+    }
+  }
+}

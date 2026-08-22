@@ -1,0 +1,1086 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "attack",
+  "shard": 16,
+  "shardCount": 34,
+  "evidence": [
+    {
+      "term": "感恩",
+      "evidenceSamples": [
+        "今年是2019年的最后一天，也是鸡有史以来被赞美最多的一年，鸡从古至今对人类做出了很大贡献，我们要学会感恩，今天我在这里再真心的赞美鸡一句：鸡 你 太 美 ！ 希望明年还能听到这样赞美鸡的声音[doge]",
+        "我从小接受感恩式教育，长大后却不知道感恩",
+        "欧美指责我们吃狗肉，咱们给狗设立一个感恩节吧?",
+        "把你腿打断再给你一根拐杖 然后告诉你要学会感恩 这不是我说的 是鲁迅说的[OK]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "73869648",
+          "sample": "今年是2019年的最后一天，也是鸡有史以来被赞美最多的一年，鸡从古至今对人类做出了很大贡献，我们要学会感恩，今天我在这里再真心的赞美鸡一句：鸡 你 太 美 ！ 希望明年还能听到这样赞美鸡的声音[doge]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8554985170",
+          "uid": "祈不祲º",
+          "sample": "我从小接受感恩式教育，长大后却不知道感恩"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7895406335",
+          "uid": "SH夏福",
+          "sample": "欧美指责我们吃狗肉，咱们给狗设立一个感恩节吧?"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1uhTF6qEPk/, https://www.bilibili.com/video/BV1MhKZ6fEHs/, https://www.bilibili.com/video/BV15u7W6TExb/, https://www.bilibili.com/video/BV1RtE96tE93/, https://www.bilibili.com/video/BV15KjKzhENw/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116833227115485, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116837740189721, http://www.bilibili.com/video/av116814587760905, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av114563957658167, http://www.bilibili.com/video/av116812087890021, http://www.bilibili.com/video/av112834327348881, http://www.bilibili.com/video/av116822103891240, http://www.bilibili.com/video/av114920070910078, http://www.bilibili.com/video/av466576236, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116810410235206, http://www.bilibili.com/video/av116525851808121, http://www.bilibili.com/video/av112996227482644, http://www.bilibili.com/video/av776779095, http://www.bilibili.com/video/av114182829643950, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av115860987450392, http://www.bilibili.com/video/av116826684005008, http://www.bilibili.com/video/av112930662122741, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av116838646155470, http://www.bilibili.com/video/av116822942883165, http://www.bilibili.com/video/av116635927059326, http://www.bilibili.com/video/av116720165521615, http://www.bilibili.com/video/av116809890007152",
+          "uid": "BV1h7jgzzEn6,BV1uhTF6qEPk,BV1MhKZ6fEHs,BV15u7W6TExb,BV1RtE96tE93,BV15KjKzhENw",
+          "sample": "把你腿打断再给你一根拐杖 然后告诉你要学会感恩 这不是我说的 是鲁迅说的[OK]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1H3KD68EfL/, https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1W7nLzUE3b/, https://www.bilibili.com/video/BV1RtE96tE93/, https://www.bilibili.com/video/BV1dV7j6JE4M/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av114353135162228, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av1302081719, http://www.bilibili.com/video/av115310963198001, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av116831885072158, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av116816684849879, http://www.bilibili.com/video/av116498957927106, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116740616885936",
+          "uid": "BV1XXKQ6JELs,BV1H3KD68EfL,BV1Z1Kd66ExR,BV1W7nLzUE3b,BV1RtE96tE93,BV1dV7j6JE4M",
+          "sample": "把你腿打断再给你一根拐杖 然后告诉你要学会感恩 这不是我说的 是鲁迅说的[OK]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1WzQUBrEvJ/, https://www.bilibili.com/video/BV1Z1Kd66ExR/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1RtE96tE93/, https://www.bilibili.com/video/BV1bXKf6YEod/, https://www.bilibili.com/video/BV1yZKo6HEWx/, https://www.bilibili.com/video/BV1PdEy6EEjj/, https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV1u37J6EEd9/, https://www.bilibili.com/video/BV1nAKd6gEWn/, https://www.bilibili.com/video/BV1LcSUBDEVE/, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116836750331276, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116837908028760, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116835072611649, http://www.bilibili.com/video/av116771637959449, http://www.bilibili.com/video/av116828177177168, http://www.bilibili.com/video/av116831784343784, http://www.bilibili.com/video/av116785965700225, http://www.bilibili.com/video/av116713706230179, http://www.bilibili.com/video/av116774188091385, http://www.bilibili.com/video/av116737076888203, http://www.bilibili.com/video/av422946522, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av115853169264939, http://www.bilibili.com/video/av114353135162228, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av115811863890393, http://www.bilibili.com/video/av116557174804470, http://www.bilibili.com/video/av116729762024741, http://www.bilibili.com/video/av115343762661052, http://www.bilibili.com/video/av116691895846916, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av116646228268496, http://www.bilibili.com/video/av116090600496484, http://www.bilibili.com/video/av114182829643950, http://www.bilibili.com/video/av116782912247024, http://www.bilibili.com/video/av116196900930149, http://www.bilibili.com/video/av115309201595911, http://www.bilibili.com/video/av116027971084189, http://www.bilibili.com/video/av116770211894318, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av1302081719, http://www.bilibili.com/video/av115310963198001, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116837404641375, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av116481627002677, http://www.bilibili.com/video/av116289997637848, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av116838797152695, http://www.bilibili.com/video/av116819302028559, http://www.bilibili.com/video/av116351586868579, http://www.bilibili.com/video/av116390795215362, http://www.bilibili.com/video/av116837656430637, http://www.bilibili.com/video/av115325676880917, http://www.bilibili.com/video/av116837220157688, http://www.bilibili.com/video/av116352979371929",
+          "uid": "BV1XXKQ6JELs,BV1WzQUBrEvJ,BV1Z1Kd66ExR,BV1dT41197yJ,BV1RtE96tE93,BV1bXKf6YEod,BV1yZKo6HEWx,BV1PdEy6EEjj,BV1PETM6UEcg,BV1u37J6EEd9,BV1nAKd6gEWn,BV1LcSUBDEVE",
+          "sample": "把你腿打断再给你一根拐杖 然后告诉你要学会感恩 这不是我说的 是鲁迅说的[OK]"
+        }
+      ]
+    },
+    {
+      "term": "憨批",
+      "evidenceSamples": [
+        "又是一个憨批 哎",
+        "你才是憨批吧，说句鸡你太美戳中你的G点了？",
+        "敌方小学生癌鲲:整天鸡你太美鸡你太美，你怎么不去买只鸡，抱到床上，然后天天对它说鸡你实在是太美，然后看看它是不是啄死你个憨批！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "401232230",
+          "sample": "又是一个憨批 哎"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "399230512",
+          "sample": "你才是憨批吧，说句鸡你太美戳中你的G点了？"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "50728537",
+          "sample": "敌方小学生癌鲲:整天鸡你太美鸡你太美，你怎么不去买只鸡，抱到床上，然后天天对它说鸡你实在是太美，然后看看它是不是啄死你个憨批！"
+        }
+      ]
+    },
+    {
+      "term": "懂个屁",
+      "evidenceSamples": [
+        "你懂个屁的狗，狗什么行为完全看主人",
+        "候鸟懂个屁的茶，拿保温杯泡",
+        "本来看懂了，你一解说，懂个屁"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV143kkBNEjk/",
+          "uid": "BV143kkBNEjk",
+          "sample": "你懂个屁的狗，狗什么行为完全看主人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sZ4y1Z7xQ/",
+          "uid": "BV1sZ4y1Z7xQ",
+          "sample": "候鸟懂个屁的茶，拿保温杯泡"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uw411Z7jE/",
+          "uid": "BV1uw411Z7jE",
+          "sample": "本来看懂了，你一解说，懂个屁"
+        }
+      ]
+    },
+    {
+      "term": "懂哥",
+      "evidenceSamples": [
+        "感觉弹幕锤石懂哥好多啊",
+        "有没有懂哥，likejennie属于什么舞种，想学这种",
+        "靠谱，基本功还是很重要的，标准拿法估计评论区很多懂哥都不知道。",
+        "BV1Bg411N715 直播唱了，我没做后期。那几百条说声卡战士、后期厉害，修的都失真了 的弹幕懂哥……",
+        "前面懂哥觉得自己懂麻了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "感觉弹幕锤石懂哥好多啊"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1pWoBYcEaU/",
+          "uid": "BV1pWoBYcEaU",
+          "sample": "有没有懂哥，likejennie属于什么舞种，想学这种"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV173ZFYUEUc/",
+          "uid": "BV173ZFYUEUc",
+          "sample": "靠谱，基本功还是很重要的，标准拿法估计评论区很多懂哥都不知道。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1vQ4y1v7Gk/",
+          "uid": "BV1vQ4y1v7Gk",
+          "sample": "BV1Bg411N715 直播唱了，我没做后期。那几百条说声卡战士、后期厉害，修的都失真了 的弹幕懂哥……"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1vdL46CEqG/",
+          "uid": "BV1vdL46CEqG",
+          "sample": "前面懂哥觉得自己懂麻了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "弹幕一堆懂哥别叫了，闹腾"
+        }
+      ]
+    },
+    {
+      "term": "懂王",
+      "evidenceSamples": [
+        "既然活人印在美元上有法律问题\\n那为什么不把懂王崩了呢\\n这不就两难自解了嘛[滑稽]",
+        "回复 @星海追光人 : 还是分人的，就像学生写作文，有些人文思泉涌，有些人吭哧瘪肚字数都凑不满。懂王不当POTUS都是整活王。[辣眼睛]",
+        "多亏有懂王 时政素材天天有 评论天天发",
+        "只是想把懂子注意力移到我们身上罢了 他也不想想懂王搞得定我们还需要捏你这种软柿子？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kYVg6qEDx/",
+          "uid": "BV1kYVg6qEDx",
+          "sample": "既然活人印在美元上有法律问题\\n那为什么不把懂王崩了呢\\n这不就两难自解了嘛[滑稽]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1GyVS6YEQ8/",
+          "uid": "BV1GyVS6YEQ8",
+          "sample": "回复 @星海追光人 : 还是分人的，就像学生写作文，有些人文思泉涌，有些人吭哧瘪肚字数都凑不满。懂王不当POTUS都是整活王。[辣眼睛]"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1GyVS6YEQ8/",
+          "uid": "BV1GyVS6YEQ8",
+          "sample": "多亏有懂王 时政素材天天有 评论天天发"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EE411p7oT/, https://www.bilibili.com/video/BV1qM4y1u7FC/, https://www.bilibili.com/video/BV1rrh5zzE9h/, https://www.bilibili.com/video/BV1wi4y1w7Vo/, http://www.bilibili.com/video/av94236750, http://www.bilibili.com/video/av931249241, http://www.bilibili.com/video/av114966224969197, http://www.bilibili.com/video/av543281802",
+          "uid": "BV1EE411p7oT,BV1qM4y1u7FC,BV1rrh5zzE9h,BV1wi4y1w7Vo",
+          "sample": "只是想把懂子注意力移到我们身上罢了 他也不想想懂王搞得定我们还需要捏你这种软柿子？"
+        }
+      ]
+    },
+    {
+      "term": "戏精",
+      "evidenceSamples": [
+        "戏精运气好的话十个月就能成为戏子",
+        "戏精宁大人哈哈哈",
+        "哈哈哈哈哈哈戏精宁大人",
+        "ndr真的有点戏精啊。。。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8383326413",
+          "uid": "rainssong",
+          "sample": "戏精运气好的话十个月就能成为戏子"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
+          "uid": "96367415",
+          "sample": "戏精宁大人哈哈哈"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
+          "uid": "96367415",
+          "sample": "哈哈哈哈哈哈戏精宁大人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av55043025/",
+          "uid": "96367415",
+          "sample": "ndr真的有点戏精啊。。。"
+        }
+      ]
+    },
+    {
+      "term": "成分",
+      "evidenceSamples": [
+        "为什么食品级卫生纸没有营养成分表",
+        "为什么市面上的纸巾包装袋上都没有标示营养成分表",
+        "正常人还是占大多数的，那些热评是什么成分大家都懂吧",
+        "这个人什么成分不用我多说了吧 食人族化学老师决定跳过这道题",
+        "春药（如含性激素的丙酸睾酮、致幻剂或麻醉成分）主要作用是**刺激性欲或短暂提升性反应**，例如通过激素干扰生理状态、麻醉局部神经延长勃起时间等。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8219232320",
+          "uid": "奇怪的map",
+          "sample": "为什么食品级卫生纸没有营养成分表"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8708823396",
+          "uid": "懿嫕燚",
+          "sample": "为什么市面上的纸巾包装袋上都没有标示营养成分表"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "正常人还是占大多数的，那些热评是什么成分大家都懂吧"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8682776899",
+          "uid": "贴吧用户_5NJyW8b",
+          "sample": "这个人什么成分不用我多说了吧 食人族化学老师决定跳过这道题"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "春药（如含性激素的丙酸睾酮、致幻剂或麻醉成分）主要作用是**刺激性欲或短暂提升性反应**，例如通过激素干扰生理状态、麻醉局部神经延长勃起时间等。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "市面非法春药常添加**局部麻醉剂（如利多卡因）或致幻成分**，宣称可让人“任人摆布”。但实际效果因人而异："
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PETM6UEcg/, https://www.bilibili.com/video/BV16pKo6LE2g/, https://www.bilibili.com/video/BV1XXKQ6JELs/, https://www.bilibili.com/video/BV1yF7n6yEqz/, https://www.bilibili.com/video/BV1pH7J6rEDF/, https://www.bilibili.com/video/BV1cijb6FEnA/, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av116834737069001, http://www.bilibili.com/video/av116819251759545, http://www.bilibili.com/video/av116839568967831, http://www.bilibili.com/video/av116725097958260, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116822556806637, http://www.bilibili.com/video/av1606357934, http://www.bilibili.com/video/av114003279944728, http://www.bilibili.com/video/av116837874402218, http://www.bilibili.com/video/av116838847548828, http://www.bilibili.com/video/av116815493596364, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av1902285813, http://www.bilibili.com/video/av1951371661, http://www.bilibili.com/video/av114248713769107, http://www.bilibili.com/video/av1755750707, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116815342603026, http://www.bilibili.com/video/av114359326086794, http://www.bilibili.com/video/av116820191222420, http://www.bilibili.com/video/av116836079240203, http://www.bilibili.com/video/av116820912637065, http://www.bilibili.com/video/av116786838178564, http://www.bilibili.com/video/av116828529494506, http://www.bilibili.com/video/av116757645756455, http://www.bilibili.com/video/av116822321927860",
+          "uid": "BV1PETM6UEcg,BV16pKo6LE2g,BV1XXKQ6JELs,BV1yF7n6yEqz,BV1pH7J6rEDF,BV1cijb6FEnA",
+          "sample": "单论演技，个人认为两位主演演技都差不多，单批判一个人可能还是有刻板印象成分。"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "454688971",
+          "sample": "饭圈mg什么成分？差不多得了"
+        }
+      ]
+    },
+    {
+      "term": "成分复杂",
+      "evidenceSamples": [
+        "“ 成分复杂！” “ 成分复杂！”青龙Ⅱ星将捕获的人类从[混合物]重新分类为[杂质]。",
+        "我们是成分复杂的多元小群，包括但不限于二次元嘉心糖纯良路人抗蛆孙吧",
+        "还有成分复杂，到处口嗨的（水军）",
+        "成分复杂",
+        "视频成分复杂"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8297506730",
+          "uid": "自然景观龙井茶",
+          "sample": "“ 成分复杂！” “ 成分复杂！”青龙Ⅱ星将捕获的人类从[混合物]重新分类为[杂质]。"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "我们是成分复杂的多元小群，包括但不限于二次元嘉心糖纯良路人抗蛆孙吧"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1rnKNexEBT/",
+          "uid": "BV1rnKNexEBT",
+          "sample": "还有成分复杂，到处口嗨的（水军）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1kLqnBWE6E/",
+          "uid": "BV1kLqnBWE6E",
+          "sample": "成分复杂"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1uN411873z/",
+          "uid": "BV1uN411873z",
+          "sample": "视频成分复杂"
+        }
+      ]
+    },
+    {
+      "term": "成分拉满",
+      "evidenceSamples": [
+        "看他关注列表，成分拉满了。",
+        "这评论成分拉满了，真难绷。",
+        "开局一张图，成分拉满了属于是。",
+        "瓦/三角洲+恶心夹子音+压力队友+密闭空间抽烟，成分拉满了有没有懂的[支持][支持][支持]，有的全家4万的还开挂",
+        "这up主成分拉满，什么梗都玩。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "看他关注列表，成分拉满了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这评论成分拉满了，真难绷。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "开局一张图，成分拉满了属于是。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV17fTe6jE9L",
+          "sample": "瓦/三角洲+恶心夹子音+压力队友+密闭空间抽烟，成分拉满了有没有懂的[支持][支持][支持]，有的全家4万的还开挂"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这up主成分拉满，什么梗都玩。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "你这一套发言，成分拉满啊。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "成分拉满的动态，小心被出警。"
+        }
+      ]
+    },
+    {
+      "term": "成分拉满了",
+      "evidenceSamples": [
+        "瓦/三角洲+恶心夹子音+压力队友+密闭空间抽烟，成分拉满了有没有懂的[支持][支持][支持]，有的全家4万的还开挂",
+        "看他关注列表，成分拉满了。",
+        "这评论成分拉满了，真难绷。",
+        "开局一张图，成分拉满了属于是。",
+        "这up主成分拉满，什么梗都玩。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV17fTe6jE9L",
+          "sample": "瓦/三角洲+恶心夹子音+压力队友+密闭空间抽烟，成分拉满了有没有懂的[支持][支持][支持]，有的全家4万的还开挂"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "看他关注列表，成分拉满了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这评论成分拉满了，真难绷。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "开局一张图，成分拉满了属于是。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这up主成分拉满，什么梗都玩。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "你这一套发言，成分拉满啊。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "成分拉满的动态，小心被出警。"
+        }
+      ]
+    },
+    {
+      "term": "我也可以谈我也可以爱国",
+      "evidenceSamples": [
+        "赚钱嘛不寒碜，我也可以谈我也可以爱国。",
+        "昨天骂今天夸，我也可以谈我也可以爱国。",
+        "立场随便切，我也可以谈我也可以爱国。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "赚钱嘛不寒碜，我也可以谈我也可以爱国。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "昨天骂今天夸，我也可以谈我也可以爱国。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "立场随便切，我也可以谈我也可以爱国。"
+        }
+      ]
+    },
+    {
+      "term": "我吐了",
+      "evidenceSamples": [
+        "我这辈子只喜欢蔡徐坤一个明星，因为他救过我的命，那是2019年的一个晚上，我吃了一包过期的辣条，到医院医生说送来的太晚了，就在弥留之际我看了一眼电视，当时就看到蔡徐坤在跳舞，我吐了~[滑稽][滑稽][滑稽]",
+        "失恋的我叼着烟饶了操场一圈，操场也陪我吐了个烟圈",
+        "我这辈子只喜欢蔡徐坤一个明星，因为他救过我的命，那是2018年的一个晚上，我吃了一包过期的辣条，到医院医生说送来的太晚了，就在弥留之际我看了一眼电视，当时就看到蔡徐坤在跳舞，我吐了~"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "171265872",
+          "sample": "我这辈子只喜欢蔡徐坤一个明星，因为他救过我的命，那是2019年的一个晚上，我吃了一包过期的辣条，到医院医生说送来的太晚了，就在弥留之际我看了一眼电视，当时就看到蔡徐坤在跳舞，我吐了~[滑稽][滑稽][滑稽]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8120619682",
+          "uid": "一筹一画",
+          "sample": "失恋的我叼着烟饶了操场一圈，操场也陪我吐了个烟圈"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "348593729",
+          "sample": "我这辈子只喜欢蔡徐坤一个明星，因为他救过我的命，那是2018年的一个晚上，我吃了一包过期的辣条，到医院医生说送来的太晚了，就在弥留之际我看了一眼电视，当时就看到蔡徐坤在跳舞，我吐了~"
+        }
+      ]
+    },
+    {
+      "term": "我有一计",
+      "evidenceSamples": [
+        "主包主包，我有一计 这是我们日本股东最坚固的盾，日本人自己知道他们造出来过这台车吗？😅 五式试制[doge]",
+        "我有一计 定可生擒诸葛村夫",
+        "我有一计"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1x3Ey6EERS/",
+          "uid": "525707323",
+          "sample": "主包主包，我有一计 这是我们日本股东最坚固的盾，日本人自己知道他们造出来过这台车吗？😅 五式试制[doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1iT421U7gi/",
+          "uid": "BV1iT421U7gi",
+          "sample": "我有一计 定可生擒诸葛村夫"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18cPyzNE9D/",
+          "uid": "BV18cPyzNE9D",
+          "sample": "我有一计"
+        }
+      ]
+    },
+    {
+      "term": "我真服了",
+      "evidenceSamples": [
+        "我真服了[笑哭]打球受伤，肋骨骨折，结果翻到你这个视频，整个人笑一下，身体就抽一下，痛得我眼泪不断地流，同事还问我什么事让我喜极而泣[喜极而泣]",
+        "我真服了我听个歌能听哭是为什么",
+        "我真服了这男的到现在怎么都没付出什么实质性代价"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1SEGm6UEFb/",
+          "uid": "129335156",
+          "sample": "我真服了[笑哭]打球受伤，肋骨骨折，结果翻到你这个视频，整个人笑一下，身体就抽一下，痛得我眼泪不断地流，同事还问我什么事让我喜极而泣[喜极而泣]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yg4y1Y7L9/",
+          "uid": "BV1yg4y1Y7L9",
+          "sample": "我真服了我听个歌能听哭是为什么"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1m7KJzPEGg/",
+          "uid": "BV1m7KJzPEGg",
+          "sample": "我真服了这男的到现在怎么都没付出什么实质性代价"
+        }
+      ]
+    },
+    {
+      "term": "我笑死",
+      "evidenceSamples": [
+        "《我能感觉到穷是挺哭的》给我笑死了",
+        "感觉高斯的表情在说 《哦哟 又搞我是吧》我笑死了",
+        "便宜“好用”别给我笑死，真有那样的配方没有副作用还会没专研？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1tsZNY5ETg/",
+          "uid": "BV1tsZNY5ETg",
+          "sample": "《我能感觉到穷是挺哭的》给我笑死了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1U44y1h749/",
+          "uid": "BV1U44y1h749",
+          "sample": "感觉高斯的表情在说 《哦哟 又搞我是吧》我笑死了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1GCkmYMEd3/",
+          "uid": "BV1GCkmYMEd3",
+          "sample": "便宜“好用”别给我笑死，真有那样的配方没有副作用还会没专研？"
+        }
+      ]
+    },
+    {
+      "term": "我管你这那的",
+      "evidenceSamples": [
+        "我管你这那的",
+        "我管你这那的，好看就行了",
+        "厨师：我管你这那的，看我随手一抓"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV148sge8E8T",
+          "sample": "我管你这那的"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1nFTt6aESr",
+          "sample": "我管你这那的，好看就行了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1y8Tj6GEoM",
+          "sample": "厨师：我管你这那的，看我随手一抓"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1kjMA6qEoz",
+          "sample": "我管你这那的"
+        }
+      ]
+    },
+    {
+      "term": "我蚌埠住了",
+      "evidenceSamples": [
+        "看到郝哥好像被劈了我蚌埠住了",
+        "这飞盘重新出来的这一刻，我蚌埠住了",
+        "刚刚的我笑的多开心，现在的我蚌埠住了",
+        "全程绷住结果到这笑声蚌埠住了",
+        "登录游戏那皮肤蚌埠住了[吃瓜]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CqJJ67EkF/",
+          "uid": "BV1CqJJ67EkF",
+          "sample": "看到郝哥好像被劈了我蚌埠住了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Ej411R7an/",
+          "uid": "BV1Ej411R7an",
+          "sample": "这飞盘重新出来的这一刻，我蚌埠住了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CF41177Js/",
+          "uid": "BV1CF41177Js",
+          "sample": "刚刚的我笑的多开心，现在的我蚌埠住了"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1voJJ6eEfj/",
+          "uid": "BV1voJJ6eEfj",
+          "sample": "全程绷住结果到这笑声蚌埠住了"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1MNhizyEBq/",
+          "uid": "18234719",
+          "sample": "登录游戏那皮肤蚌埠住了[吃瓜]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "回复 @旖旎仙人 :蚌埠住了"
+        }
+      ]
+    },
+    {
+      "term": "我请问了",
+      "evidenceSamples": [
+        "何意味？",
+        "恋爱剧一直刷友谊的何意味呢",
+        "？何意味",
+        "几秒钟的事情，最后在他老婆肚子怀着，你何意味呢？你是你爸肚子十月怀胎的？医学奇迹",
+        "何意味呢"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EM4y1A7UN/, https://www.bilibili.com/video/BV1kaKHzaEL3/, https://www.bilibili.com/video/BV1rdy8BYE2s/, https://www.bilibili.com/video/BV1Rtq6YiEMT/, http://www.bilibili.com/video/av934772048, http://www.bilibili.com/video/av114743725524550, http://www.bilibili.com/video/av115462159669361, http://www.bilibili.com/video/av113628627865608",
+          "uid": "BV1EM4y1A7UN,BV1kaKHzaEL3,BV1rdy8BYE2s,BV1Rtq6YiEMT",
+          "sample": "何意味？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1uGMRzGEUy",
+          "sample": "恋爱剧一直刷友谊的何意味呢"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cnTQ6KE19/, https://www.bilibili.com/video/BV1GKM86FEQW/, https://www.bilibili.com/video/BV1WxM86jEUq/, https://www.bilibili.com/video/BV1NUTS6uErn/, http://www.bilibili.com/video/av116872452245211, http://www.bilibili.com/video/av116878190052544, http://www.bilibili.com/video/av116877972020845, http://www.bilibili.com/video/av116871311461803",
+          "uid": "BV1cnTQ6KE19,BV1GKM86FEQW,BV1WxM86jEUq,BV1NUTS6uErn",
+          "sample": "？何意味"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1fXMK6zEdq",
+          "sample": "几秒钟的事情，最后在他老婆肚子怀着，你何意味呢？你是你爸肚子十月怀胎的？医学奇迹"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1Q9MF6yEZy",
+          "sample": "何意味呢"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SQMT6FEdq",
+          "sample": "这个守鹤何意味呢？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1AhMF6hEec",
+          "sample": "何意味呢，枪管的好你有意见"
+        }
+      ]
+    },
+    {
+      "term": "战忽局",
+      "evidenceSamples": [
+        "回复 @战忽局内部督查组 :她自己还说那种话",
+        "回复 @战忽局内部督查组 :【我啥都不说就录屏转发 能让我过审不？-哔哩哔哩】 https://b23.tv/u1nA90G",
+        "美国也有战忽局吗？"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Yv411K7PY/",
+          "uid": "BV1Yv411K7PY",
+          "sample": "回复 @战忽局内部督查组 :她自己还说那种话"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Yv411K7PY/",
+          "uid": "BV1Yv411K7PY",
+          "sample": "回复 @战忽局内部督查组 :【我啥都不说就录屏转发 能让我过审不？-哔哩哔哩】 https://b23.tv/u1nA90G"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1juYLzMEHc/",
+          "uid": "BV1juYLzMEHc",
+          "sample": "美国也有战忽局吗？"
+        }
+      ]
+    },
+    {
+      "term": "战术后仰",
+      "evidenceSamples": [
+        "车轮战术后仰跳投必不可缺",
+        "战术后仰",
+        "什么叫歌神啊（战术后仰）",
+        "原来这个是店主啊（战术后仰"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7710435891",
+          "uid": "雷霸天☜",
+          "sample": "车轮战术后仰跳投必不可缺"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "667183109",
+          "sample": "战术后仰"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1V3ERzuEhg/",
+          "uid": "BV1V3ERzuEhg",
+          "sample": "什么叫歌神啊（战术后仰）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1FZ4y1d7e7/",
+          "uid": "BV1FZ4y1d7e7",
+          "sample": "原来这个是店主啊（战术后仰"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av459965532/",
+          "uid": "317999992",
+          "sample": "战术后仰"
+        }
+      ]
+    },
+    {
+      "term": "战狼",
+      "evidenceSamples": [
+        "老公很能打，我叫他战狼 他说我能说会道，所以经常叫我口豹",
+        "印度战狼是这样的",
+        "呃呃，战狼视频？",
+        "冲系战狼和军马发挥依旧"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8706656592",
+          "uid": "伟大亚亚罗国王",
+          "sample": "老公很能打，我叫他战狼 他说我能说会道，所以经常叫我口豹"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "印度战狼是这样的"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV18EGm6UEqa/",
+          "uid": "BV18EGm6UEqa",
+          "sample": "呃呃，战狼视频？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1QzEd6ZEsu/",
+          "uid": "BV1QzEd6ZEsu",
+          "sample": "冲系战狼和军马发挥依旧"
+        }
+      ]
+    },
+    {
+      "term": "户子",
+      "evidenceSamples": [
+        "是只有无职的事嘛，他再爆点那事可以上升到跟户子差不多了",
+        "户子原来粉丝这么少吗之前那都能刷到他的切片是为啥",
+        "户子并非塌房",
+        "户子是走错片场了吧",
+        "户子是真冤"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV16RWXzfEhr",
+          "sample": "是只有无职的事嘛，他再爆点那事可以上升到跟户子差不多了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子原来粉丝这么少吗之前那都能刷到他的切片是为啥"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子并非塌房"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子是走错片场了吧"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子是真冤"
+        }
+      ]
+    },
+    {
+      "term": "户子的一个总",
+      "evidenceSamples": [
+        "是只有无职的事嘛，他再爆点那事可以上升到跟户子差不多了",
+        "户子原来粉丝这么少吗之前那都能刷到他的切片是为啥",
+        "户子并非塌房",
+        "户子是走错片场了吧",
+        "户子是真冤"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV16RWXzfEhr",
+          "sample": "是只有无职的事嘛，他再爆点那事可以上升到跟户子差不多了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子原来粉丝这么少吗之前那都能刷到他的切片是为啥"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子并非塌房"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子是走错片场了吧"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1pxmmBoEmb",
+          "sample": "户子是真冤"
+        }
+      ]
+    },
+    {
+      "term": "手残",
+      "evidenceSamples": [
+        "刚看视频才想买呢 忽然想起我是手残党",
+        "交作业！\\n但是我根据自己的实际条件改了一丢丢，我内双又没有双眼皮贴所以眼妆不明显[酸了]，然后也没有很像视频里的睫毛，所以就用已经有的随便充当一下，手残党左眼化的稍微还能看一点右眼直接[跪了]，没画过这么深颜色的眼妆所以有点脏(在努力补救了)，也没有合适的眼珠子就只能拿我的小眼睛暂时用一下了[热]\\n不过画完个人感觉成长了好多，谢谢教程！",
+        "这作感觉真是高低手咸宜，几个官方外挂太照顾手残玩家了，而闪避拼招和泰坦能力又让大神有了炫技的可能，期待正式版和主角一起踏入这场难忘的冒险。",
+        "所以奉劝看到这个评论的手残党，先杀火牛再刷钱。顺序搞错了，一战回到解放前。",
+        "已经玩了几关了。目前感觉这游戏最大的两个缺点，一没有地图导致容易把自己绕晕，二一些过程动画不能跳过，本人又有些手残，这导致我得一遍遍的看一些boss变身动画，心态要崩了。另外再说两个优点，一这游戏我目前没有遇到什么bug，二这游戏的优化简直神了，我的电脑挺旧的了，把画质调到最低居然也能玩而且一点也不卡！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Ct411p79i/",
+          "uid": "BV1Ct411p79i",
+          "sample": "刚看视频才想买呢 忽然想起我是手残党"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1XjZ8YdE5F/",
+          "uid": "BV1XjZ8YdE5F",
+          "sample": "交作业！\\n但是我根据自己的实际条件改了一丢丢，我内双又没有双眼皮贴所以眼妆不明显[酸了]，然后也没有很像视频里的睫毛，所以就用已经有的随便充当一下，手残党左眼化的稍微还能看一点右眼直接[跪了]，没画过这么深颜色的眼妆所以有点脏(在努力补救了)，也没有合适的眼珠子就只能拿我的小眼睛暂时用一下了[热]\\n不过画完个人感觉成长了好多，谢谢教程！"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "这作感觉真是高低手咸宜，几个官方外挂太照顾手残玩家了，而闪避拼招和泰坦能力又让大神有了炫技的可能，期待正式版和主角一起踏入这场难忘的冒险。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Db411s7Ri/",
+          "uid": "BV1Db411s7Ri",
+          "sample": "所以奉劝看到这个评论的手残党，先杀火牛再刷钱。顺序搞错了，一战回到解放前。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AE4m1d7XT/",
+          "uid": "BV1AE4m1d7XT",
+          "sample": "已经玩了几关了。目前感觉这游戏最大的两个缺点，一没有地图导致容易把自己绕晕，二一些过程动画不能跳过，本人又有些手残，这导致我得一遍遍的看一些boss变身动画，心态要崩了。另外再说两个优点，一这游戏我目前没有遇到什么bug，二这游戏的优化简直神了，我的电脑挺旧的了，把画质调到最低居然也能玩而且一点也不卡！"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Ct411p79i/",
+          "uid": "BV1Ct411p79i",
+          "sample": "极限手残，古达50次[doge][doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1gKLD6KEm8/",
+          "uid": "3546814405937621",
+          "sample": "回复 @手残中的手残玩家 :已经是……早年了?"
+        }
+      ]
+    },
+    {
+      "term": "手残党",
+      "evidenceSamples": [
+        "所以奉劝看到这个评论的手残党，先杀火牛再刷钱。顺序搞错了，一战回到解放前。",
+        "刚看视频才想买呢 忽然想起我是手残党",
+        "交作业！\\n但是我根据自己的实际条件改了一丢丢，我内双又没有双眼皮贴所以眼妆不明显[酸了]，然后也没有很像视频里的睫毛，所以就用已经有的随便充当一下，手残党左眼化的稍微还能看一点右眼直接[跪了]，没画过这么深颜色的眼妆所以有点脏(在努力补救了)，也没有合适的眼珠子就只能拿我的小眼睛暂时用一下了[热]\\n不过画完个人感觉成长了好多，谢谢教程！",
+        "这作感觉真是高低手咸宜，几个官方外挂太照顾手残玩家了，而闪避拼招和泰坦能力又让大神有了炫技的可能，期待正式版和主角一起踏入这场难忘的冒险。",
+        "已经玩了几关了。目前感觉这游戏最大的两个缺点，一没有地图导致容易把自己绕晕，二一些过程动画不能跳过，本人又有些手残，这导致我得一遍遍的看一些boss变身动画，心态要崩了。另外再说两个优点，一这游戏我目前没有遇到什么bug，二这游戏的优化简直神了，我的电脑挺旧的了，把画质调到最低居然也能玩而且一点也不卡！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Db411s7Ri/",
+          "uid": "BV1Db411s7Ri",
+          "sample": "所以奉劝看到这个评论的手残党，先杀火牛再刷钱。顺序搞错了，一战回到解放前。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Ct411p79i/",
+          "uid": "BV1Ct411p79i",
+          "sample": "刚看视频才想买呢 忽然想起我是手残党"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1XjZ8YdE5F/",
+          "uid": "BV1XjZ8YdE5F",
+          "sample": "交作业！\\n但是我根据自己的实际条件改了一丢丢，我内双又没有双眼皮贴所以眼妆不明显[酸了]，然后也没有很像视频里的睫毛，所以就用已经有的随便充当一下，手残党左眼化的稍微还能看一点右眼直接[跪了]，没画过这么深颜色的眼妆所以有点脏(在努力补救了)，也没有合适的眼珠子就只能拿我的小眼睛暂时用一下了[热]\\n不过画完个人感觉成长了好多，谢谢教程！"
+        },
+        {
+          "source": "Hugging Face dataset: Midsummra/bilibilicomment/bilibili.csv",
+          "uid": "",
+          "sample": "这作感觉真是高低手咸宜，几个官方外挂太照顾手残玩家了，而闪避拼招和泰坦能力又让大神有了炫技的可能，期待正式版和主角一起踏入这场难忘的冒险。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AE4m1d7XT/",
+          "uid": "BV1AE4m1d7XT",
+          "sample": "已经玩了几关了。目前感觉这游戏最大的两个缺点，一没有地图导致容易把自己绕晕，二一些过程动画不能跳过，本人又有些手残，这导致我得一遍遍的看一些boss变身动画，心态要崩了。另外再说两个优点，一这游戏我目前没有遇到什么bug，二这游戏的优化简直神了，我的电脑挺旧的了，把画质调到最低居然也能玩而且一点也不卡！"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Ct411p79i/",
+          "uid": "BV1Ct411p79i",
+          "sample": "极限手残，古达50次[doge][doge]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1gKLD6KEm8/",
+          "uid": "3546814405937621",
+          "sample": "回复 @手残中的手残玩家 :已经是……早年了?"
+        }
+      ]
+    },
+    {
+      "term": "扎古嘴",
+      "evidenceSamples": [
+        "这嘴型也太经典扎古嘴了，笑死。",
+        "看着弹幕里说经典扎古嘴，我回不去了。",
+        "UP主这表情简直是经典扎古嘴的完美复刻。",
+        "经典扎古嘴",
+        "这up主的嘴型好像扎古嘴。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这嘴型也太经典扎古嘴了，笑死。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "看着弹幕里说经典扎古嘴，我回不去了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "UP主这表情简直是经典扎古嘴的完美复刻。"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1FRQQYUEAV",
+          "sample": "经典扎古嘴"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这up主的嘴型好像扎古嘴。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "弹幕说扎古嘴，我回不去了。"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "扎古嘴这梗太损了哈哈哈哈。"
+        }
+      ]
+    },
+    {
+      "term": "扑街",
+      "evidenceSamples": [
+        "这电影首日票房就拉胯，大扑街预定",
+        "up主转型失败，新视频大扑街",
+        "这游戏优化烂得一批，大扑街无疑"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这电影首日票房就拉胯，大扑街预定"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "up主转型失败，新视频大扑街"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这游戏优化烂得一批，大扑街无疑"
+        }
+      ]
+    },
+    {
+      "term": "打太极",
+      "evidenceSamples": [
+        "我发现了太极服装设计的用意 太极有黑有白，而小区里打太极的都穿白衣服，说明世界是其实是黑的",
+        "你说了那么长，但是这一版曲调改的就是奇沈的版本，这是清清楚楚毋庸置疑需要标明的。以前的东西淹没在历史里了就不追究了，现在明明可以追究也要打太极嘛？不会吧？不会是你的逻辑吧？",
+        "银行销户真的烦，柜员打太极",
+        "打太极"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8691449164",
+          "uid": "贴吧用户_G9MUKJ8",
+          "sample": "我发现了太极服装设计的用意 太极有黑有白，而小区里打太极的都穿白衣服，说明世界是其实是黑的"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1nA411e74s/",
+          "uid": "BV1nA411e74s",
+          "sample": "你说了那么长，但是这一版曲调改的就是奇沈的版本，这是清清楚楚毋庸置疑需要标明的。以前的东西淹没在历史里了就不追究了，现在明明可以追究也要打太极嘛？不会吧？不会是你的逻辑吧？"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1fK4y1A7bQ/",
+          "uid": "BV1fK4y1A7bQ",
+          "sample": "银行销户真的烦，柜员打太极"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "打太极"
+        }
+      ]
+    },
+    {
+      "term": "打拳",
+      "evidenceSamples": [
+        "锅明明那么重，而家长却经常甩锅，力气那么大为什么不让他们打拳击",
+        "人家发个表白墙碍着打拳什么事了？现在大学里男生果然变态很多呀，还偷拍别人，建议报警",
+        "鼠鼠被偷家了，我妈彻底被洗脑，天天打拳 鼠鼠毕业两年，做游戏开发，房租至少2k-4k，为了省💰就和父母住。我妈从之前就满嘴伪史论，说金字塔那些全是假的，工业革命理论基础是《永乐大典》和《天工开物》。现在天天逼我听这些：铿锵玫瑰应该同工同酬，凭什么就男足💰多（实际上铿锵玫瑰就一坨，男足U14都踢不过）；沃森和克里克偷了富兰克林女士的研究，世界上第一个程序员是女性；根据研究，普遍男性薪资比女性高20%，从小就这样。还羡慕希拉里、哈里斯这些，说真羡慕它们能掌👊还说我们三姐妹真傻，当年没要一分钱彩礼，但鼠鼠爹是农村出来的，90年代上个带专都要每家每户借钱，别说5w，2k拿出来都能把吸干了，当年结婚也是公司办的集体婚礼鼠鼠本来在小红薯和视频号等野区鲨的飞起，结果一回城发现泉水已经被对面偷了，水晶已经变成摆设了。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8531101167",
+          "uid": "大诗人卢梭",
+          "sample": "锅明明那么重，而家长却经常甩锅，力气那么大为什么不让他们打拳击"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "人家发个表白墙碍着打拳什么事了？现在大学里男生果然变态很多呀，还偷拍别人，建议报警"
+        },
+        {
+          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
+          "uid": "",
+          "sample": "鼠鼠被偷家了，我妈彻底被洗脑，天天打拳 鼠鼠毕业两年，做游戏开发，房租至少2k-4k，为了省💰就和父母住。我妈从之前就满嘴伪史论，说金字塔那些全是假的，工业革命理论基础是《永乐大典》和《天工开物》。现在天天逼我听这些：铿锵玫瑰应该同工同酬，凭什么就男足💰多（实际上铿锵玫瑰就一坨，男足U14都踢不过）；沃森和克里克偷了富兰克林女士的研究，世界上第一个程序员是女性；根据研究，普遍男性薪资比女性高20%，从小就这样。还羡慕希拉里、哈里斯这些，说真羡慕它们能掌👊还说我们三姐妹真傻，当年没要一分钱彩礼，但鼠鼠爹是农村出来的，90年代上个带专都要每家每户借钱，别说5w，2k拿出来都能把吸干了，当年结婚也是公司办的集体婚礼鼠鼠本来在小红薯和视频号等野区鲨的飞起，结果一回城发现泉水已经被对面偷了，水晶已经变成摆设了。"
+        }
+      ]
+    },
+    {
+      "term": "打脸",
+      "evidenceSamples": [
+        "我就想回来看打脸👀",
+        "哪里拉黑了呢？哈哈哈，打脸",
+        "人类是绝对的m。最好的证据是把打脸称为赏耳光"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "27712792",
+          "sample": "我就想回来看打脸👀"
+        },
+        {
+          "source": "Hugging Face dataset: JunyuLu/ToxiCN/ToxiCN_1.0.csv",
+          "uid": "",
+          "sample": "哪里拉黑了呢？哈哈哈，打脸"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8535936156",
+          "uid": "贴吧用户_Qy4y7Q1",
+          "sample": "人类是绝对的m。最好的证据是把打脸称为赏耳光"
+        }
+      ]
+    },
+    {
+      "term": "扣帽",
+      "evidenceSamples": [
+        "不出意外，你要被扣帽子了",
+        "虽然我不想扣帽子，但是我看到了那群把苦难娱乐化，把严肃事情娱乐，把娱乐事情严肃化人的影子，虽然我明白现在经济下行需要精神娱乐，但也不是叫这群人无限制的放低底线来达成他们所谓的快乐啊，我都怀疑这群人真的知道自己为什么笑吗",
+        "感觉这打法还是老一辈那套，说到底还是扣帽子侮辱人，毕竟怎么样才算装逼也没个统一标准。大兜帽盖忽的你头上，叫人生闷气，解释成本还高，太权威了",
+        "对呀，你一上来就说别人是什么日记的后代日志的后代，你又没有什么证据你就一上来就给别人扣帽子，这样子真的很不礼貌的[笑哭][笑哭]",
+        "很简单，那群东西建正都搬不出什么新词儿。你把牢A，斩杀线屏蔽，能减少一半；把扣帽子，帽子工厂，人民屏蔽，有减少一半；误闯天家，想吃紫蛋屏蔽，还能减少一半[笑哭]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Vv4y1H7g3/, https://www.bilibili.com/video/BV1ue4y157eC/, https://www.bilibili.com/video/BV1bPAKzREjK/, https://www.bilibili.com/video/BV1nN4y1X7kp/, https://www.bilibili.com/video/BV1zFsMeGEXb/, https://www.bilibili.com/video/BV1Kj97YeEAp/, http://www.bilibili.com/video/av569793840, http://www.bilibili.com/video/av116268237589317, http://www.bilibili.com/video/av113038371849401, http://www.bilibili.com/video/av241222599, http://www.bilibili.com/video/av1352866938, http://www.bilibili.com/video/av649335379, http://www.bilibili.com/video/av651910560, http://www.bilibili.com/video/av875695028, http://www.bilibili.com/video/av1954055634, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116453156062342, http://www.bilibili.com/video/av622717580, http://www.bilibili.com/video/av113616313390937, http://www.bilibili.com/video/av734554955, http://www.bilibili.com/video/av112971934076701, http://www.bilibili.com/video/av751534748, http://www.bilibili.com/video/av966901362, http://www.bilibili.com/video/av113591835499581, http://www.bilibili.com/video/av1402458098, http://www.bilibili.com/video/av1550804731, http://www.bilibili.com/video/av1750564193, http://www.bilibili.com/video/av912031300, http://www.bilibili.com/video/av416908938, http://www.bilibili.com/video/av872965635, http://www.bilibili.com/video/av114101325929151, http://www.bilibili.com/video/av1605323288, http://www.bilibili.com/video/av1950090655, http://www.bilibili.com/video/av115478265733099",
+          "uid": "BV1Vv4y1H7g3,BV1ue4y157eC,BV1bPAKzREjK,BV1nN4y1X7kp,BV1zFsMeGEXb,BV1Kj97YeEAp",
+          "sample": "不出意外，你要被扣帽子了"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H9V86REtp/",
+          "uid": "BV1H9V86REtp",
+          "sample": "虽然我不想扣帽子，但是我看到了那群把苦难娱乐化，把严肃事情娱乐，把娱乐事情严肃化人的影子，虽然我明白现在经济下行需要精神娱乐，但也不是叫这群人无限制的放低底线来达成他们所谓的快乐啊，我都怀疑这群人真的知道自己为什么笑吗"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1H9V86REtp/",
+          "uid": "BV1H9V86REtp",
+          "sample": "感觉这打法还是老一辈那套，说到底还是扣帽子侮辱人，毕竟怎么样才算装逼也没个统一标准。大兜帽盖忽的你头上，叫人生闷气，解释成本还高，太权威了"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1AWwNeSEZF/",
+          "uid": "3493272248911956",
+          "sample": "对呀，你一上来就说别人是什么日记的后代日志的后代，你又没有什么证据你就一上来就给别人扣帽子，这样子真的很不礼貌的[笑哭][笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1wmSSBMEQE/",
+          "uid": "592465435",
+          "sample": "很简单，那群东西建正都搬不出什么新词儿。你把牢A，斩杀线屏蔽，能减少一半；把扣帽子，帽子工厂，人民屏蔽，有减少一半；误闯天家，想吃紫蛋屏蔽，还能减少一半[笑哭]"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1VpJG6yEfK/",
+          "uid": "690185338",
+          "sample": "回复 @你叫什么啊w :我说好多 好多≠全部，如果是借鉴或有出处就标出来呗，不敢吗？ [星星眼]看给你应激成什么了，全篇不是给我扣帽子就是胡扯，是抄诗表自己的作者本人来了吗？[笑哭]"
+        }
+      ]
+    }
+  ]
+}

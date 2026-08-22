@@ -1,0 +1,56 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the sections below.
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: What happened? What did you expect to happen?
+      placeholder: A clear and concise description of the bug.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Run '...'
+        2. Call endpoint '...'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: What does your setup look like?
+      placeholder: |
+        - OS: Windows 11 / macOS 14 / Ubuntu 24.04
+        - Node version: (node --version)
+        - Python version: (python --version)
+        - Branch/commit: main @ abc1234
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or output
+      description: Paste any error messages, stack traces, or terminal output.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I have checked the README and CLAUDE.md for setup instructions
+          required: true
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I am not reporting a rate-limiting or scraping-pacing issue (these are intentional design choices)
+          required: false

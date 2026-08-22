@@ -1,0 +1,686 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "cooperation",
+  "shard": 25,
+  "shardCount": 42,
+  "evidence": [
+    {
+      "term": "整活",
+      "evidenceSamples": [
+        "up好会整活笑死我了",
+        "mad原来不是我一个人这样啊，每次想看些高质量或者整活的评论，一眼望去全tm是低点赞，刚发布不久的评论，气的人要死",
+        "我是从《别似好吗》认识up的，感觉《别似好吗》只是整活一样，但好像得到了很大的反响。后面的作品感觉精神状态逐渐变好，内容也变得更具体、更讽刺、更能反映当下同龄人的生活与心理现状。希望up早日百大[打call]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV11N4y1T7Vo/",
+          "uid": "BV11N4y1T7Vo",
+          "sample": "up好会整活笑死我了"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1NMWveZERW/",
+          "uid": "374764071",
+          "sample": "mad原来不是我一个人这样啊，每次想看些高质量或者整活的评论，一眼望去全tm是低点赞，刚发布不久的评论，气的人要死"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1yg4y1Y7L9/",
+          "uid": "3546381251774505",
+          "sample": "我是从《别似好吗》认识up的，感觉《别似好吗》只是整活一样，但好像得到了很大的反响。后面的作品感觉精神状态逐渐变好，内容也变得更具体、更讽刺、更能反映当下同龄人的生活与心理现状。希望up早日百大[打call]"
+        }
+      ]
+    },
+    {
+      "term": "整理不易欢迎补充",
+      "evidenceSamples": [
+        "视频里我把所有彩蛋都列出来了，整理不易欢迎补充",
+        "这个攻略我做了三天，整理不易欢迎补充",
+        "整理不易欢迎补充，有遗漏的评论区告诉我"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "视频里我把所有彩蛋都列出来了，整理不易欢迎补充"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这个攻略我做了三天，整理不易欢迎补充"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "整理不易欢迎补充，有遗漏的评论区告诉我"
+        }
+      ]
+    },
+    {
+      "term": "斩杀",
+      "evidenceSamples": [
+        "从斩杀线活过来了",
+        "又要斩杀了",
+        "罪案是被yskm斩杀的，很早就上过，就是不行才滚了",
+        "老版本菜市口斩杀",
+        "最需要斩杀线的一集，这种社会败类就应该斩杀掉啊kora！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1VXTj64Erk",
+          "sample": "从斩杀线活过来了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1eATy6eEow",
+          "sample": "又要斩杀了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1E3TC6gE1Z",
+          "sample": "罪案是被yskm斩杀的，很早就上过，就是不行才滚了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XtTs61EDv",
+          "sample": "老版本菜市口斩杀"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XtTs61EDv",
+          "sample": "最需要斩杀线的一集，这种社会败类就应该斩杀掉啊kora！"
+        }
+      ]
+    },
+    {
+      "term": "斩杀线",
+      "evidenceSamples": [
+        "从斩杀线活过来了",
+        "又要斩杀了",
+        "罪案是被yskm斩杀的，很早就上过，就是不行才滚了",
+        "老版本菜市口斩杀",
+        "最需要斩杀线的一集，这种社会败类就应该斩杀掉啊kora！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1VXTj64Erk",
+          "sample": "从斩杀线活过来了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1eATy6eEow",
+          "sample": "又要斩杀了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1E3TC6gE1Z",
+          "sample": "罪案是被yskm斩杀的，很早就上过，就是不行才滚了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XtTs61EDv",
+          "sample": "老版本菜市口斩杀"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1XtTs61EDv",
+          "sample": "最需要斩杀线的一集，这种社会败类就应该斩杀掉啊kora！"
+        }
+      ]
+    },
+    {
+      "term": "无论",
+      "evidenceSamples": [
+        "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人...",
+        "我炒土豆丝，要淖一次水再炒，这样无论如何不会中毒了。",
+        "其实无论哪个国家的文化都挺晦涩难懂的(美国除外[抠鼻])",
+        "这种对承诺的坚守，正是美国精神的缩影。无论是12位150岁老人的\"永生\"档案，还是为一只麻雀而短暂停电的决定，都彰显着一个国家的温度与担当。这种对每个生命的尊重，对每个承诺的坚守，才是真正的国家力量。",
+        "从哲学的角度来看，时间被定义为物质存在和运动的持续性和顺序性。它是我们用来测度事件发生顺序和间隔的工具，具有一维性，即只能向前流逝，无法倒流。时间被认为是物质运动和变化的度量，无论是天体的运行还是微观粒子的振动，都以时间作为其变化的记录。这..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bx4y1t7QB/, https://www.bilibili.com/video/BV1Co7L6cEQ4/, https://www.bilibili.com/video/BV1Bm421g7LM/, https://www.bilibili.com/video/BV1DveJenEiW/, http://www.bilibili.com/video/av1006037834, http://www.bilibili.com/video/av116817137769173, http://www.bilibili.com/video/av1606244969, http://www.bilibili.com/video/av112960609584146",
+          "uid": "BV1bx4y1t7QB,BV1Co7L6cEQ4,BV1Bm421g7LM,BV1DveJenEiW",
+          "sample": "我炒土豆丝，要淖一次水再炒，这样无论如何不会中毒了。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j24y1G72J/, https://www.bilibili.com/video/BV13zeFzxEMk/, https://www.bilibili.com/video/BV1D54y1D7VJ/, https://www.bilibili.com/video/BV1FNpne6EY4/, http://www.bilibili.com/video/av780577102, http://www.bilibili.com/video/av115054573784278, http://www.bilibili.com/video/av840797706, http://www.bilibili.com/video/av113108718716825",
+          "uid": "BV1j24y1G72J,BV13zeFzxEMk,BV1D54y1D7VJ,BV1FNpne6EY4",
+          "sample": "其实无论哪个国家的文化都挺晦涩难懂的(美国除外[抠鼻])"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "这种对承诺的坚守，正是美国精神的缩影。无论是12位150岁老人的\"永生\"档案，还是为一只麻雀而短暂停电的决定，都彰显着一个国家的温度与担当。这种对每个生命的尊重，对每个承诺的坚守，才是真正的国家力量。"
+        },
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "从哲学的角度来看，时间被定义为物质存在和运动的持续性和顺序性。它是我们用来测度事件发生顺序和间隔的工具，具有一维性，即只能向前流逝，无法倒流。时间被认为是物质运动和变化的度量，无论是天体的运行还是微观粒子的振动，都以时间作为其变化的记录。这..."
+        },
+        {
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "景物描绘细致入微：无论是建筑、桥梁、船只等景物，还是自然景观，都描绘得十分精细，真实地展现了北宋时期的社会风貌和生活场景。"
+        },
+        {
+          "source": "AICU API harvest (uid: 11352073)",
+          "uid": "11352073",
+          "sample": "若学校存在虐待、殴打行为，无论是否获得家长同意，均涉嫌违法。根据《刑法》第二百三十八条，非法拘禁他人或剥夺他人人身自由的，可处三年以下有期徒刑；若致人重伤或死亡，刑罚更重。"
+        },
+        {
+          "source": "AICU API harvest (uid: 524536752)",
+          "uid": "524536752",
+          "sample": "“别走啊！不是还要等我毕业了再结婚吗？”，可无论跑得多快，乃琳的嘲笑还是逃不开自己的耳朵。"
+        }
+      ]
+    },
+    {
+      "term": "既然",
+      "evidenceSamples": [
+        "回复 @多巧八七 :的确，既然他们当时不愿意合作。那现在也不要合作。一群虚伪自由者天天说科技无国界那是对别的国家说法。",
+        "回复 @QAQ神赐 :笑死，不会有新手来要“自抽号”吧，不都是玩过游戏的？不是新手谁把他当大号？另外我上面说过让你们把自抽号当大号玩？不会吧不会吧？不会真的有人200保证出什么东西吧？既然都没有你说这些有什么意义那还说什么？纯纯的为了黑而黑...",
+        "既然归西是去世，为什么唐僧还要上西天😧",
+        "既然汉字是象形文字，那为什么“隐形”这个词不写成",
+        "那既然你发了评论，肯定也有传世的文学作品吧，让我们欣赏欣赏[星星眼]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EE411p7oT/, https://www.bilibili.com/video/BV1qM4y1u7FC/, https://www.bilibili.com/video/BV1rrh5zzE9h/, https://www.bilibili.com/video/BV1wi4y1w7Vo/, http://www.bilibili.com/video/av94236750, http://www.bilibili.com/video/av931249241, http://www.bilibili.com/video/av114966224969197, http://www.bilibili.com/video/av543281802",
+          "uid": "BV1EE411p7oT,BV1qM4y1u7FC,BV1rrh5zzE9h,BV1wi4y1w7Vo",
+          "sample": "回复 @多巧八七 :的确，既然他们当时不愿意合作。那现在也不要合作。一群虚伪自由者天天说科技无国界那是对别的国家说法。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uE421P7Dz/, https://www.bilibili.com/video/BV1DLmBBkERg/, https://www.bilibili.com/video/BV1vG4y137S8/, https://www.bilibili.com/video/BV1u64y1w7AR/, http://www.bilibili.com/video/av1656139583, http://www.bilibili.com/video/av115719287084723, http://www.bilibili.com/video/av818595142, http://www.bilibili.com/video/av581755036",
+          "uid": "BV1uE421P7Dz,BV1DLmBBkERg,BV1vG4y137S8,BV1u64y1w7AR",
+          "sample": "回复 @QAQ神赐 :笑死，不会有新手来要“自抽号”吧，不都是玩过游戏的？不是新手谁把他当大号？另外我上面说过让你们把自抽号当大号玩？不会吧不会吧？不会真的有人200保证出什么东西吧？既然都没有你说这些有什么意义那还说什么？纯纯的为了黑而黑..."
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8681389638",
+          "uid": "硝酸钙省",
+          "sample": "既然归西是去世，为什么唐僧还要上西天😧"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8431118868",
+          "uid": "贴吧用户_0J263KM",
+          "sample": "既然汉字是象形文字，那为什么“隐形”这个词不写成"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "那既然你发了评论，肯定也有传世的文学作品吧，让我们欣赏欣赏[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1f1Kd66Eau/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1oi421o7GP/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1t3TM6pEhC/, https://www.bilibili.com/video/BV1s7411K7e9/, http://www.bilibili.com/video/av116836750328688, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av116826902106617, http://www.bilibili.com/video/av116831247406473, http://www.bilibili.com/video/av116768634900159, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116835693369364, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av116044966396246, http://www.bilibili.com/video/av323641281, http://www.bilibili.com/video/av369470857, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av276299258, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827002766246, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av91880405, http://www.bilibili.com/video/av1756130534, http://www.bilibili.com/video/av835254755",
+          "uid": "BV1f1Kd66Eau,BV1jjswz2EQF,BV1oi421o7GP,BV1dT41197yJ,BV1t3TM6pEhC,BV1s7411K7e9",
+          "sample": "极氪为什么只用一个盖子就可以了 不怕进会灰吗 既然极氪只有一个 为什么零跑要2个？x"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1f1Kd66Eau/, https://www.bilibili.com/video/BV1jjswz2EQF/, https://www.bilibili.com/video/BV1oi421o7GP/, https://www.bilibili.com/video/BV1dT41197yJ/, https://www.bilibili.com/video/BV1t3TM6pEhC/, https://www.bilibili.com/video/BV1s7411K7e9/, http://www.bilibili.com/video/av116836750328688, http://www.bilibili.com/video/av116834854508770, http://www.bilibili.com/video/av116827019681111, http://www.bilibili.com/video/av1451280187, http://www.bilibili.com/video/av116826902106617, http://www.bilibili.com/video/av116831247406473, http://www.bilibili.com/video/av116768634900159, http://www.bilibili.com/video/av116838528782805, http://www.bilibili.com/video/av116835693369364, http://www.bilibili.com/video/av116821097256227, http://www.bilibili.com/video/av116044966396246, http://www.bilibili.com/video/av323641281, http://www.bilibili.com/video/av369470857, http://www.bilibili.com/video/av116821265029659, http://www.bilibili.com/video/av116831130031521, http://www.bilibili.com/video/av276299258, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av116827002766246, http://www.bilibili.com/video/av753656449, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av115400352204039, http://www.bilibili.com/video/av419584953, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av91880405, http://www.bilibili.com/video/av1756130534, http://www.bilibili.com/video/av835254755",
+          "uid": "BV1f1Kd66Eau,BV1jjswz2EQF,BV1oi421o7GP,BV1dT41197yJ,BV1t3TM6pEhC,BV1s7411K7e9",
+          "sample": "我在其他视频下面评论出现你视频中的问题昨天到现在一直这样，现在在你视频下评论既然没问题。我瞬间知道什么视频不能评论了。央视、金灿荣频道、观察者网和各种疫情的视频。"
+        }
+      ]
+    },
+    {
+      "term": "早日火",
+      "evidenceSamples": [
+        "[支持][支持][支持]",
+        "外接接口都支持热插拔，内机箱里边的都别热插板[笑哭]",
+        "支持 早日火！！",
+        "哈哈up，你要不说你是越南人，你这一口正宗的南充话，估计没任何一个南充人知道你是越南人[笑哭][支持]南充老乡给你点赞，你老公还是不错的，对你很好",
+        "真的逆天，这个问题我记得在越水小姐姐出来的那集就探讨过，新一当时就支持了作为侦探的生命至上的理念（还有平次），用这个批判兰这不直接回旋镖到新一？还是说ca的c不发音[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DK4y1z7Wn/, https://www.bilibili.com/video/BV1R6TyzEEVu/, https://www.bilibili.com/video/BV198mKYYEJh/, https://www.bilibili.com/video/BV1kzJMz4E7x/, http://www.bilibili.com/video/av881315845, http://www.bilibili.com/video/av114641669722772, http://www.bilibili.com/video/av113316756200983, http://www.bilibili.com/video/av114525386839868",
+          "uid": "BV1DK4y1z7Wn,BV1R6TyzEEVu,BV198mKYYEJh,BV1kzJMz4E7x",
+          "sample": "[支持][支持][支持]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "外接接口都支持热插拔，内机箱里边的都别热插板[笑哭]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "支持 早日火！！"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1j94y1S7BL/, https://www.bilibili.com/video/BV1gLktBNELQ/, https://www.bilibili.com/video/BV1BUCTYvE7Q/, https://www.bilibili.com/video/BV1pKxkzzEJF/, http://www.bilibili.com/video/av341999626, http://www.bilibili.com/video/av115915865718915, http://www.bilibili.com/video/av113697749992891, http://www.bilibili.com/video/av115342974125389",
+          "uid": "BV1j94y1S7BL,BV1gLktBNELQ,BV1BUCTYvE7Q,BV1pKxkzzEJF",
+          "sample": "哈哈up，你要不说你是越南人，你这一口正宗的南充话，估计没任何一个南充人知道你是越南人[笑哭][支持]南充老乡给你点赞，你老公还是不错的，对你很好"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "真的逆天，这个问题我记得在越水小姐姐出来的那集就探讨过，新一当时就支持了作为侦探的生命至上的理念（还有平次），用这个批判兰这不直接回旋镖到新一？还是说ca的c不发音[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "二哥在哪里发财啊[支持][支持][支持][支持][爱心][爱心][爱心][爱心][爱心][爱心][爱心][保佑][保佑][保佑]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "王沥川up最大的功劳就是给新、兰、新兰粉创造了可以说话的b站环境。 和魔怔ca不要纠缠，那种爱而不自知，买包论，护身符论一出来就知道是二创同人吃多了脑子不好使。理中客可以先看它踩不踩小兰，如果落脚点是踩小兰90%是ca，不踩小兰客观看待双方..."
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "我不爱看，也不觉得好看。但是周末得陪着我家人去二刷，问就是(不知道为啥)要支持票房。"
+        }
+      ]
+    },
+    {
+      "term": "星星眼",
+      "evidenceSamples": [
+        "那巨大鲤鱼王呢[星星眼]",
+        "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]",
+        "求个电子签名[星星眼]",
+        "猫猫[星星眼]",
+        "刚学摄影，构图怎么样[星星眼]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "那巨大鲤鱼王呢[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1NwWtzFEBt/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av115394060881962",
+          "uid": "BV1NwWtzFEBt",
+          "sample": "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "求个电子签名[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dz5Y6REFU/, https://www.bilibili.com/video/BV1ADKnzhE87/, https://www.bilibili.com/video/BV15d4y1g7eu/, https://www.bilibili.com/video/BV1fGJH6GEfr/, http://www.bilibili.com/video/av116576502160308, http://www.bilibili.com/video/av114743910078740, http://www.bilibili.com/video/av345679120, http://www.bilibili.com/video/av116741573187021",
+          "uid": "BV1dz5Y6REFU,BV1ADKnzhE87,BV15d4y1g7eu,BV1fGJH6GEfr",
+          "sample": "猫猫[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "刚学摄影，构图怎么样[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "太幸福了[喜欢]刚好比up矮一级，什么都有热乎的[星星眼]up真懂我[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "我初二一次偶然发现了你的视频，然后向你学习！现在已经中考完了[星星眼]我真的进步了很多*͈ᴗ͈ˬᴗ͈ෆ"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "回复 @唯守白卷 :给他寄咱们大杭州的榨菜肉月饼，桐庐酒酿馒头夹红烧肉[星星眼]"
+        }
+      ]
+    },
+    {
+      "term": "星眼",
+      "evidenceSamples": [
+        "那巨大鲤鱼王呢[星星眼]",
+        "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]",
+        "求个电子签名[星星眼]",
+        "猫猫[星星眼]",
+        "刚学摄影，构图怎么样[星星眼]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "那巨大鲤鱼王呢[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1NwWtzFEBt/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av115394060881962",
+          "uid": "BV1NwWtzFEBt",
+          "sample": "回复 @你是我的脸0 :尤其是金雷竹充电宝，这要是能做成周边的话[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1eQRuYhEGa/, https://www.bilibili.com/video/BV1mLRsBDEkg/, https://www.bilibili.com/video/BV1r7CqBmE46/, https://www.bilibili.com/video/BV17xmrBYEjS/, http://www.bilibili.com/video/av114134494482160, http://www.bilibili.com/video/av116526422235391, http://www.bilibili.com/video/av115564768919728, http://www.bilibili.com/video/av115721233238303",
+          "uid": "BV1eQRuYhEGa,BV1mLRsBDEkg,BV1r7CqBmE46,BV17xmrBYEjS",
+          "sample": "求个电子签名[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dz5Y6REFU/, https://www.bilibili.com/video/BV1ADKnzhE87/, https://www.bilibili.com/video/BV15d4y1g7eu/, https://www.bilibili.com/video/BV1fGJH6GEfr/, http://www.bilibili.com/video/av116576502160308, http://www.bilibili.com/video/av114743910078740, http://www.bilibili.com/video/av345679120, http://www.bilibili.com/video/av116741573187021",
+          "uid": "BV1dz5Y6REFU,BV1ADKnzhE87,BV15d4y1g7eu,BV1fGJH6GEfr",
+          "sample": "猫猫[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DbFszzEBK/, https://www.bilibili.com/video/BV1Qu4y1q7MD/, https://www.bilibili.com/video/BV1fy411i7kB/, https://www.bilibili.com/video/BV1sX1DYzEd5/, http://www.bilibili.com/video/av116028642168615, http://www.bilibili.com/video/av914879810, http://www.bilibili.com/video/av1956321344, http://www.bilibili.com/video/av113252818292913",
+          "uid": "BV1DbFszzEBK,BV1Qu4y1q7MD,BV1fy411i7kB,BV1sX1DYzEd5",
+          "sample": "刚学摄影，构图怎么样[星星眼]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "太幸福了[喜欢]刚好比up矮一级，什么都有热乎的[星星眼]up真懂我[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "我初二一次偶然发现了你的视频，然后向你学习！现在已经中考完了[星星眼]我真的进步了很多*͈ᴗ͈ˬᴗ͈ෆ"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV145uVzXE1a/, https://www.bilibili.com/video/BV1Lh4y1F7g8/, https://www.bilibili.com/video/BV1os9YBXEqc/, https://www.bilibili.com/video/BV1iTmQBxEE1/, http://www.bilibili.com/video/av114836486754860, http://www.bilibili.com/video/av616873574, http://www.bilibili.com/video/av116492632921350, http://www.bilibili.com/video/av115710512595999",
+          "uid": "BV145uVzXE1a,BV1Lh4y1F7g8,BV1os9YBXEqc,BV1iTmQBxEE1",
+          "sample": "回复 @唯守白卷 :给他寄咱们大杭州的榨菜肉月饼，桐庐酒酿馒头夹红烧肉[星星眼]"
+        }
+      ]
+    },
+    {
+      "term": "是哥们",
+      "evidenceSamples": [
+        "不是哥们你怎么说话了",
+        "不是哥们，你们那阶级分化这么严重吗[辣眼睛]",
+        "不是哥们",
+        "不是哥们，灭霸也没这么可恶吧",
+        "不是哥们。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1PvMw6iExD",
+          "sample": "不是哥们你怎么说话了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ujTW6NEmB",
+          "sample": "不是哥们，你们那阶级分化这么严重吗[辣眼睛]"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZCTj6YEdy",
+          "sample": "不是哥们"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZCTj6YEdy",
+          "sample": "不是哥们，灭霸也没这么可恶吧"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZCTj6YEdy",
+          "sample": "不是哥们。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JJgPzpEkX/, https://www.bilibili.com/video/BV1vX4y1d7Kd/, https://www.bilibili.com/video/BV1Ck4y197i1/, https://www.bilibili.com/video/BV1Uo4y1s7Cq/, https://www.bilibili.com/video/BV1gogZzdEAD/, https://www.bilibili.com/video/BV1B4411W79T/, https://www.bilibili.com/video/BV1AgtmzFEDS/, https://www.bilibili.com/video/BV19pTn6YEVz/, http://www.bilibili.com/video/av114868699143186",
+          "uid": "BV1JJgPzpEkX,BV1vX4y1d7Kd,BV1Ck4y197i1,BV1Uo4y1s7Cq,BV1gogZzdEAD,BV1B4411W79T,BV1AgtmzFEDS,BV19pTn6YEVz",
+          "sample": "不是哥们，哪都有你……"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1GoMw6HEvh",
+          "sample": "不是哥们不过了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ZBKQ6fEpN",
+          "sample": "是哥们，怎么还有人COS马鞭呢？"
+        }
+      ]
+    },
+    {
+      "term": "是我错了",
+      "evidenceSamples": [
+        "以前还在三次元帮他说过话 是我错了 [拥抱]",
+        "来学习的毕竟没有人不知道，我他么的不知道还是我的错了，是我错了。错在当初没看视频，错在没有黑你",
+        "多谢蔡天王粉丝的强烈科普，当时没有跟风黑是我错了！！以后身边男孩子讨论，不会再和他们争论了，我一定狠狠附和！！"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "15862235",
+          "sample": "以前还在三次元帮他说过话 是我错了 [拥抱]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "16162959",
+          "sample": "来学习的毕竟没有人不知道，我他么的不知道还是我的错了，是我错了。错在当初没看视频，错在没有黑你"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "102291890",
+          "sample": "多谢蔡天王粉丝的强烈科普，当时没有跟风黑是我错了！！以后身边男孩子讨论，不会再和他们争论了，我一定狠狠附和！！"
+        }
+      ]
+    },
+    {
+      "term": "暂且",
+      "evidenceSamples": [
+        "一颗星星死了，它的悲鸣跨越邈远的星河，超越了它曾存在的时间 来自地球渺小生灵短暂且迟到的默哀，是这颗星星诞生以来获得的最高荣誉",
+        "这一集真是给我气笑了，看一下主角团，被像素，皮克托和原始人保护着，黄色拿到墨镜装备，啥事也不知道发生了什么的米西拿到再临画笔，后续剧情应该是他们联手，但是他们连飞都不会飞，蚌埠住了，怎么打天选和黑领？黑领这边，队友已经无法无天了，看一下什么逆天阵型，受害者黑客技能傀儡版本，墨镜无工具傀儡版本，无数员工。后续剧情很有可能打到城市那里去，黑领把城市所有人都变成傀儡，暂且不知道怎么赢👍另外这一集3d镜头帅翻我了，给我下巴脱臼。",
+        "暂且整理一下一些剧情点：\\n游戏名字叫《只狼：影逝二度》，大多数玩家估计别说二度了，死个二十二百度都是常事，主角狼也是一路杀杀杀推平苇名城仙峰寺铁炮寨水生村源之宫，几乎整个图都杀了一遍。但就是这么个死亡占据大部分的游戏，主线支线围绕的主题只有一个——追求【不死】。\\n\\n不死是游戏中除了主角团（狼，两位神子，佛雕师，永真小姐姐）以外几乎所有人都在追求的终极目标，其实说得好懂一点，就是咱中国人常说的长生不老嘛。但是大家都知道，不老不死是有代价的，追求不死之力引发了一系列悲剧。\\n不死之力有以下不同的几种：\\n第一就是主线【龙胤】，也是主角团费尽心力想斩断的。这种东西来源不明，直到最后我们也只知道它来自西方，是一种神圣之力。结合断绝不死的关键道具龙之泪的持有者樱花神龙的外形，十有八九就是天朝的龙了。龙胤每代会选择神子，神子则能签订不死契约，以这种方式达成不死的人会夺取相关之人的生命死而复生，也因此会产生龙咳。过去没有发现治疗方法时龙咳曾造成大规模死亡，见永真和佛雕师对话。也正因此神子认为这是剥夺人生存方式的外道。\\n第二，乃源之宫的鲤鱼王。这可是苇名原生的，不知是天生还是源之宫培养的，而且不止一条，用一定手段还能变。源之宫的贵族和坛子贵人追求的就是鱼王的不死。\\n第三，是【附虫者】。来源是那些大蜈蚣，废庙的半兵卫、狮子猿、仙峰寺的方丈都是这种不死者。蜈蚣是怎么来的呢？在源之宫的水底能发现一条鱼王的骨架，上面就寄生着一大群发着绿光的幼虫，可以说是鱼王不死劣化之后的产物。狼扔毒饵毒死鱼王后，尸体会漂到狮子猿饮水处，就不难解释狮子猿不死的遭遇了。\\n第四是水生村村民，也是最劣等的不死。源之宫贵族的一员（雾隐贵人）雾封水生村，蛊惑祭司让村民喝鱼王栖息地的源之水，村民越喝越渴，最后变成不死的僵尸，养鱼王饵（应该是蛞蝓一类）供源之宫继续供养鱼王，彻底成为源之宫的傀儡。源之宫那个被吸干精气变老的女孩和她已经变得接近贵族、负责供养鱼王的父亲也是这一系的受害者。\\n第五是变若，是仙峰寺那群妖僧和永真的师父道玄及其其他徒弟追求的不死。这群人既了解龙胤，又知道鱼王和附虫者，于是以未能成为鱼王的鲤鱼的红眼珠为原料开发了变若水，又以龙胤为原型山寨了变若神子，结果可想而知，只剩米娘一人；那群疯和尚为了追求不死在实验中还用太郎柿（激素）催熟孩子，成了你们在游戏中见到的太郎兵。还能说什么呢，罪过，罪过。",
+        "以道佛慧镜，照破邪淫幻相\\n \\n人生之路本应是一片光明坦途，充满着温暖与希望，我们能够清晰地看到前方的美好目标，满怀信心地大步前行。然而，邪淫却如虚幻的魔影，悄然出现，用种种迷惑人心的幻相，蒙蔽我们的双眼，使我们陷入歧途，无法自拔。幸运的是，道家与佛家的智慧恰似两面明亮的慧镜，帮助我们照破邪淫的幻相，认清其本质，重回正确的人生道路。\\n \\n道家追求内心的宁静与自然的和谐统一，倡导顺应自然、无为而治的生活态度。“大道至简”，真正的道理往往简单质朴，生活也应回归自然的本真。邪淫源于内心过多的欲望和贪念，使人偏离了自然的轨道，陷入复杂且虚幻的追求中。若能领悟道家智慧，亲近自然，感受大自然的简单纯粹，如清晨小草上晶莹的露珠，不沾染一丝杂质；如广袤沙漠中顽强生长的仙人掌，顺应环境，自在生存。我们便能从自然中汲取纯净的力量，让内心回归简单与宁静。比如，在宁静的田园中，看着农民们顺应时节耕种收获，感受大自然与人类生活的和谐交融，会明白生活的真谛在于顺应自然规律，而邪淫的幻相只是违背自然的短暂迷惑，从而自觉摒弃。道家还强调“去伪存真”，去除虚假的表象，保留真实的本质。面对邪淫的诱惑，以去伪存真的态度，看清其虚假的本质，坚守内心的真实与纯净。\\n \\n佛家以慈悲为怀，以解脱为目标，帮助众生摆脱痛苦的束缚。“一切有为法，如梦幻泡影”，佛家认为世间万物皆为虚幻，邪淫带来的所谓快乐更是短暂且不真实的幻相。邪淫作为恶业，会给人带来诸多痛苦的后果，从精神的折磨到身体的损害，从家庭关系的破裂到社会声誉的败坏。当我们深刻领悟佛家的无常观，明白一切事物包括邪淫的幻相都在不断变化，没有永恒的实体，就会对邪淫的后果心生敬畏，主动远离。佛家倡导通过修行，如诵经、持戒、观心，来净化心灵，提升智慧。诵经能让我们深入理解佛法的智慧，明白邪淫的危害；持戒能从行为上约束自己，杜绝邪淫的发生；观心则帮助我们时刻觉察内心的念头，当邪淫的幻相在心中浮现时，及时以智慧之光照破，不被其左右。\\n \\n在日常生活中，我们要将道家与佛家的智慧紧密结合，融入到每一个行动和念头之中。以道家的自然宁静、去伪存真，抵御邪淫的诱惑，保持内心的清醒与纯净；以佛家的无常观、修行法门，审视自身行为，坚定远离邪淫的决心。当邪淫的幻相再次试图迷惑我们，用道佛的慧镜清晰照破，让生活重新充满阳光，走向充满希望与美好的未来。",
+        "你们俩暂且遥寄一下"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8541930199",
+          "uid": "AMHYUIO",
+          "sample": "一颗星星死了，它的悲鸣跨越邈远的星河，超越了它曾存在的时间 来自地球渺小生灵短暂且迟到的默哀，是这颗星星诞生以来获得的最高荣誉"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1CfVV67EqU/",
+          "uid": "BV1CfVV67EqU",
+          "sample": "这一集真是给我气笑了，看一下主角团，被像素，皮克托和原始人保护着，黄色拿到墨镜装备，啥事也不知道发生了什么的米西拿到再临画笔，后续剧情应该是他们联手，但是他们连飞都不会飞，蚌埠住了，怎么打天选和黑领？黑领这边，队友已经无法无天了，看一下什么逆天阵型，受害者黑客技能傀儡版本，墨镜无工具傀儡版本，无数员工。后续剧情很有可能打到城市那里去，黑领把城市所有人都变成傀儡，暂且不知道怎么赢👍另外这一集3d镜头帅翻我了，给我下巴脱臼。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1Db411s7Ri/",
+          "uid": "BV1Db411s7Ri",
+          "sample": "暂且整理一下一些剧情点：\\n游戏名字叫《只狼：影逝二度》，大多数玩家估计别说二度了，死个二十二百度都是常事，主角狼也是一路杀杀杀推平苇名城仙峰寺铁炮寨水生村源之宫，几乎整个图都杀了一遍。但就是这么个死亡占据大部分的游戏，主线支线围绕的主题只有一个——追求【不死】。\\n\\n不死是游戏中除了主角团（狼，两位神子，佛雕师，永真小姐姐）以外几乎所有人都在追求的终极目标，其实说得好懂一点，就是咱中国人常说的长生不老嘛。但是大家都知道，不老不死是有代价的，追求不死之力引发了一系列悲剧。\\n不死之力有以下不同的几种：\\n第一就是主线【龙胤】，也是主角团费尽心力想斩断的。这种东西来源不明，直到最后我们也只知道它来自西方，是一种神圣之力。结合断绝不死的关键道具龙之泪的持有者樱花神龙的外形，十有八九就是天朝的龙了。龙胤每代会选择神子，神子则能签订不死契约，以这种方式达成不死的人会夺取相关之人的生命死而复生，也因此会产生龙咳。过去没有发现治疗方法时龙咳曾造成大规模死亡，见永真和佛雕师对话。也正因此神子认为这是剥夺人生存方式的外道。\\n第二，乃源之宫的鲤鱼王。这可是苇名原生的，不知是天生还是源之宫培养的，而且不止一条，用一定手段还能变。源之宫的贵族和坛子贵人追求的就是鱼王的不死。\\n第三，是【附虫者】。来源是那些大蜈蚣，废庙的半兵卫、狮子猿、仙峰寺的方丈都是这种不死者。蜈蚣是怎么来的呢？在源之宫的水底能发现一条鱼王的骨架，上面就寄生着一大群发着绿光的幼虫，可以说是鱼王不死劣化之后的产物。狼扔毒饵毒死鱼王后，尸体会漂到狮子猿饮水处，就不难解释狮子猿不死的遭遇了。\\n第四是水生村村民，也是最劣等的不死。源之宫贵族的一员（雾隐贵人）雾封水生村，蛊惑祭司让村民喝鱼王栖息地的源之水，村民越喝越渴，最后变成不死的僵尸，养鱼王饵（应该是蛞蝓一类）供源之宫继续供养鱼王，彻底成为源之宫的傀儡。源之宫那个被吸干精气变老的女孩和她已经变得接近贵族、负责供养鱼王的父亲也是这一系的受害者。\\n第五是变若，是仙峰寺那群妖僧和永真的师父道玄及其其他徒弟追求的不死。这群人既了解龙胤，又知道鱼王和附虫者，于是以未能成为鱼王的鲤鱼的红眼珠为原料开发了变若水，又以龙胤为原型山寨了变若神子，结果可想而知，只剩米娘一人；那群疯和尚为了追求不死在实验中还用太郎柿（激素）催熟孩子，成了你们在游戏中见到的太郎兵。还能说什么呢，罪过，罪过。"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1LDG6z9E7h/",
+          "uid": "BV1LDG6z9E7h",
+          "sample": "以道佛慧镜，照破邪淫幻相\\n \\n人生之路本应是一片光明坦途，充满着温暖与希望，我们能够清晰地看到前方的美好目标，满怀信心地大步前行。然而，邪淫却如虚幻的魔影，悄然出现，用种种迷惑人心的幻相，蒙蔽我们的双眼，使我们陷入歧途，无法自拔。幸运的是，道家与佛家的智慧恰似两面明亮的慧镜，帮助我们照破邪淫的幻相，认清其本质，重回正确的人生道路。\\n \\n道家追求内心的宁静与自然的和谐统一，倡导顺应自然、无为而治的生活态度。“大道至简”，真正的道理往往简单质朴，生活也应回归自然的本真。邪淫源于内心过多的欲望和贪念，使人偏离了自然的轨道，陷入复杂且虚幻的追求中。若能领悟道家智慧，亲近自然，感受大自然的简单纯粹，如清晨小草上晶莹的露珠，不沾染一丝杂质；如广袤沙漠中顽强生长的仙人掌，顺应环境，自在生存。我们便能从自然中汲取纯净的力量，让内心回归简单与宁静。比如，在宁静的田园中，看着农民们顺应时节耕种收获，感受大自然与人类生活的和谐交融，会明白生活的真谛在于顺应自然规律，而邪淫的幻相只是违背自然的短暂迷惑，从而自觉摒弃。道家还强调“去伪存真”，去除虚假的表象，保留真实的本质。面对邪淫的诱惑，以去伪存真的态度，看清其虚假的本质，坚守内心的真实与纯净。\\n \\n佛家以慈悲为怀，以解脱为目标，帮助众生摆脱痛苦的束缚。“一切有为法，如梦幻泡影”，佛家认为世间万物皆为虚幻，邪淫带来的所谓快乐更是短暂且不真实的幻相。邪淫作为恶业，会给人带来诸多痛苦的后果，从精神的折磨到身体的损害，从家庭关系的破裂到社会声誉的败坏。当我们深刻领悟佛家的无常观，明白一切事物包括邪淫的幻相都在不断变化，没有永恒的实体，就会对邪淫的后果心生敬畏，主动远离。佛家倡导通过修行，如诵经、持戒、观心，来净化心灵，提升智慧。诵经能让我们深入理解佛法的智慧，明白邪淫的危害；持戒能从行为上约束自己，杜绝邪淫的发生；观心则帮助我们时刻觉察内心的念头，当邪淫的幻相在心中浮现时，及时以智慧之光照破，不被其左右。\\n \\n在日常生活中，我们要将道家与佛家的智慧紧密结合，融入到每一个行动和念头之中。以道家的自然宁静、去伪存真，抵御邪淫的诱惑，保持内心的清醒与纯净；以佛家的无常观、修行法门，审视自身行为，坚定远离邪淫的决心。当邪淫的幻相再次试图迷惑我们，用道佛的慧镜清晰照破，让生活重新充满阳光，走向充满希望与美好的未来。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
+          "uid": "25901335434",
+          "sample": "你们俩暂且遥寄一下"
+        }
+      ]
+    },
+    {
+      "term": "暗网",
+      "evidenceSamples": [
+        "这视频内容也太猛了，感觉回暗网了哈哈",
+        "首页推这个，是不是我关注了什么暗网up？",
+        "评论区人均回暗网，笑死"
+      ],
+      "evidenceSources": [
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "这视频内容也太猛了，感觉回暗网了哈哈"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "首页推这个，是不是我关注了什么暗网up？"
+        },
+        {
+          "source": "synthetic",
+          "uid": "deepseek-generated",
+          "sample": "评论区人均回暗网，笑死"
+        }
+      ]
+    },
+    {
+      "term": "暗部",
+      "evidenceSamples": [
+        "日常欺负暗部兄弟",
+        "对面从下忍打到现在刚想渡劫暗部就匹配到你",
+        "别欺负暗部兄弟了",
+        "暗部汤汁豪",
+        "暗部:大哥来了,快跑啊~阿蛇"
+      ],
+      "evidenceSources": [
+        {
+          "source": "corpus",
+          "uid": "BV1SQMT6FEdq",
+          "sample": "日常欺负暗部兄弟"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SQMT6FEdq",
+          "sample": "对面从下忍打到现在刚想渡劫暗部就匹配到你"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1SQMT6FEdq",
+          "sample": "别欺负暗部兄弟了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1NVKo6pEE3",
+          "sample": "暗部汤汁豪"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1JcMw6fEZr",
+          "sample": "暗部:大哥来了,快跑啊~阿蛇"
+        }
+      ]
+    },
+    {
+      "term": "最后一舞",
+      "evidenceSamples": [
+        "抛下一切吧，这是谢幕前的最后一舞",
+        "哦哦最后一舞那一段也是神剪辑来着",
+        "40岁的年纪，首次上世界杯，可能也是最后一舞了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "抛下一切吧，这是谢幕前的最后一舞"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SAVe6LEeP/",
+          "uid": "BV1SAVe6LEeP",
+          "sample": "哦哦最后一舞那一段也是神剪辑来着"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Rzj36AE5G/",
+          "uid": "BV1Rzj36AE5G",
+          "sample": "40岁的年纪，首次上世界杯，可能也是最后一舞了"
+        }
+      ]
+    },
+    {
+      "term": "最终boss",
+      "evidenceSamples": [
+        "剧情方面超古代文明戏份比海底大战争多很多，BOSS战除了人类势力传统的战舰，巨大飞行器和巨大潜艇外。有两个超古代文明BOSS一个是老朋友海底巨大人形兵器。另一个是巨大斯芬克斯。有的关底没有BOSS战只是深入发掘普罗米修斯的遗迹，反派帝国也想...",
+        "某些游戏：看来你已经学会怎么玩了，那来挑战最终Boss吧",
+        "黑神话最终boss无外乎以下几位候选人：\\n1，玉帝外甥\\n2，刘沉香舅舅\\n3，杨婵哥哥\\n4，瑶姬之子\\n5，十大金乌的表弟\\n6，梅之七圣之一\\n7，玉鼎真人的弟子\\n8，灌江口保安大队大队长\\n9，二郎小圣\\n10，清源妙道护国崇宁真君川蜀大帝威灵显化天尊\\n11，昭惠显圣仁佑王\\n12，三界司法天神\\n13，焦恩俊\\n14， 神力灵活"
+      ],
+      "evidenceSources": [
+        {
+          "source": "AICU API harvest (uid: 636946358)",
+          "uid": "636946358",
+          "sample": "剧情方面超古代文明戏份比海底大战争多很多，BOSS战除了人类势力传统的战舰，巨大飞行器和巨大潜艇外。有两个超古代文明BOSS一个是老朋友海底巨大人形兵器。另一个是巨大斯芬克斯。有的关底没有BOSS战只是深入发掘普罗米修斯的遗迹，反派帝国也想..."
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV114421F7cT/",
+          "uid": "BV114421F7cT",
+          "sample": "某些游戏：看来你已经学会怎么玩了，那来挑战最终Boss吧"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1AE4m1d7XT/",
+          "uid": "BV1AE4m1d7XT",
+          "sample": "黑神话最终boss无外乎以下几位候选人：\\n1，玉帝外甥\\n2，刘沉香舅舅\\n3，杨婵哥哥\\n4，瑶姬之子\\n5，十大金乌的表弟\\n6，梅之七圣之一\\n7，玉鼎真人的弟子\\n8，灌江口保安大队大队长\\n9，二郎小圣\\n10，清源妙道护国崇宁真君川蜀大帝威灵显化天尊\\n11，昭惠显圣仁佑王\\n12，三界司法天神\\n13，焦恩俊\\n14， 神力灵活"
+        }
+      ]
+    },
+    {
+      "term": "有一说一",
+      "evidenceSamples": [
+        "回复 @苏吱吱嘚瑟 : 有一说一，玩寒冰一般都是打野遥控的，打野需要你照哪 你就配合，一个是打野更懂打野，而且不用自己花心思猜对面打野，更能集中精神 s10jkl玩寒冰 也是卡萨需要哪的视野就让jkl照一下",
+        "有一说一 up就算现在这体能在同样年纪绝对算好的了 加油加油",
+        "网络语言黑话5：如 YYDS（永远的神）、XSWL（笑死我了）、NSDD（你说得对）、YYSY（有一说一）等，很多来自于中文拼音首字母缩写。",
+        "有一说一，up其实没搞清楚，印度根本不知道商是什么意思，他们只是看见shang这五个字母，误以为和他们那边的达利特是一个意思",
+        "有一说一，这件事大家懂的都懂，不懂的，说了你也不明白，不如不说。你们也别来问我怎么了，利益牵扯太大，说了对你们也没什么好处，当不知道就行了，其余的我只能说这里面水很深，牵扯到很多大人物，详细资料你们自己找是很难的，网上大部分都被删干净了，所以我只能说懂的都懂，不懂的也没办法。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "回复 @苏吱吱嘚瑟 : 有一说一，玩寒冰一般都是打野遥控的，打野需要你照哪 你就配合，一个是打野更懂打野，而且不用自己花心思猜对面打野，更能集中精神 s10jkl玩寒冰 也是卡萨需要哪的视野就让jkl照一下"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1EM4y1A7UN/, https://www.bilibili.com/video/BV1kaKHzaEL3/, https://www.bilibili.com/video/BV1rdy8BYE2s/, https://www.bilibili.com/video/BV1Rtq6YiEMT/, http://www.bilibili.com/video/av934772048, http://www.bilibili.com/video/av114743725524550, http://www.bilibili.com/video/av115462159669361, http://www.bilibili.com/video/av113628627865608",
+          "uid": "BV1EM4y1A7UN,BV1kaKHzaEL3,BV1rdy8BYE2s,BV1Rtq6YiEMT",
+          "sample": "有一说一 up就算现在这体能在同样年纪绝对算好的了 加油加油"
+        },
+        {
+          "source": "AICU API harvest (uid: 22651972)",
+          "uid": "22651972",
+          "sample": "网络语言黑话5：如 YYDS（永远的神）、XSWL（笑死我了）、NSDD（你说得对）、YYSY（有一说一）等，很多来自于中文拼音首字母缩写。"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NBJg6dEhy/",
+          "uid": "BV1NBJg6dEhy",
+          "sample": "有一说一，up其实没搞清楚，印度根本不知道商是什么意思，他们只是看见shang这五个字母，误以为和他们那边的达利特是一个意思"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1M54y1B7P3/",
+          "uid": "404830452",
+          "sample": "有一说一，这件事大家懂的都懂，不懂的，说了你也不明白，不如不说。你们也别来问我怎么了，利益牵扯太大，说了对你们也没什么好处，当不知道就行了，其余的我只能说这里面水很深，牵扯到很多大人物，详细资料你们自己找是很难的，网上大部分都被删干净了，所以我只能说懂的都懂，不懂的也没办法。"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1sgVn6PEV9/",
+          "uid": "44901360",
+          "sample": "有一说一，emt这身是真好看啊吧[笑哭]把她的气质全衬托出来了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X97565Efu/, https://www.bilibili.com/video/BV1YM4m12756/, https://www.bilibili.com/video/BV1Ee1sYdEpq/, https://www.bilibili.com/video/BV1W44y1N7nj/, http://www.bilibili.com/video/av116817557326292, http://www.bilibili.com/video/av1306181952, http://www.bilibili.com/video/av113372171341299, http://www.bilibili.com/video/av980009031",
+          "uid": "BV1X97565Efu,BV1YM4m12756,BV1Ee1sYdEpq,BV1W44y1N7nj",
+          "sample": "回复 @仔灰灰 :我加一些条件[妙啊]给灰灰仔一些补充[藏狐]想混日子的不要当班主任[藏狐]有责任心的不要带初三高三[藏狐]以我为例，小学教信息没信没肺学生上课呜呜泱泱的也不用管,[藏狐]学校也没办法因为我有岗有编，当老师我自己这些年的感受..."
+        }
+      ]
+    },
+    {
+      "term": "有一说一确实",
+      "evidenceSamples": [
+        "回复 @尘烟寂染暮雪 :正确的[热] 之前一直都是跟的影月 但海岛须弥的攻略标题有一说一确实乱七八糟观感不好 然后我这次过世界任务的时候有解谜没解出来想去看一下攻略 明明点进的是他单独发出的任务视频 但[热词系列_好家伙]进度条是按宝箱标分的 一个任务视频长得要死 很难找到想了解的部分 咱就是说为什么把宝箱和任务混一块[捂脸] 于是润来看莴苣的攻略 任务攻略按阶段划分 想看哪里一目了然",
+        "有一说一确实",
+        "有一说一确实容易，你看这一次挥鞭加仗义就把你娶回去了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1iG4y1r7Mt/",
+          "uid": "BV1iG4y1r7Mt",
+          "sample": "回复 @尘烟寂染暮雪 :正确的[热] 之前一直都是跟的影月 但海岛须弥的攻略标题有一说一确实乱七八糟观感不好 然后我这次过世界任务的时候有解谜没解出来想去看一下攻略 明明点进的是他单独发出的任务视频 但[热词系列_好家伙]进度条是按宝箱标分的 一个任务视频长得要死 很难找到想了解的部分 咱就是说为什么把宝箱和任务混一块[捂脸] 于是润来看莴苣的攻略 任务攻略按阶段划分 想看哪里一目了然"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV16tKf6SEcD",
+          "sample": "有一说一确实"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1HcMP6qEVj",
+          "sample": "有一说一确实容易，你看这一次挥鞭加仗义就把你娶回去了"
+        }
+      ]
+    }
+  ]
+}

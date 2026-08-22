@@ -1,0 +1,522 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T18:09:20.494Z",
+  "family": "absolutes",
+  "shard": 10,
+  "shardCount": 37,
+  "evidence": [
+    {
+      "term": "全然",
+      "evidenceSamples": [
+        "回复 @全然不信帕派瑞斯 :UT入",
+        "所谓爱情完全看个人的价值追求，全然是一场生意",
+        "这就是信息茧房，社交媒体为了流量数据，不惜给评论区都进行推送，全然不顾长此以往会增强被划分群体观点的极端化和对立。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1WUQgYrEXV/",
+          "uid": "BV1WUQgYrEXV",
+          "sample": "回复 @全然不信帕派瑞斯 :UT入"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1UTJT6JESc/",
+          "uid": "BV1UTJT6JESc",
+          "sample": "所谓爱情完全看个人的价值追求，全然是一场生意"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XWKZ6eE5d/, https://www.bilibili.com/video/BV1orKQ6ZEqm/, https://www.bilibili.com/video/BV138TF6MEvD/, https://www.bilibili.com/video/BV1ShTu6tEAY/, https://www.bilibili.com/video/BV1CLEG6xEzA/, https://www.bilibili.com/video/BV1Su4y1k7Sd/, http://www.bilibili.com/video/av116837824206333, http://www.bilibili.com/video/av116838662936346, http://www.bilibili.com/video/av116714712927492, http://www.bilibili.com/video/av113037969195553, http://www.bilibili.com/video/av112930662122741, http://www.bilibili.com/video/av115273231241797, http://www.bilibili.com/video/av479018786, http://www.bilibili.com/video/av643459458, http://www.bilibili.com/video/av113958182721133, http://www.bilibili.com/video/av114052084798274, http://www.bilibili.com/video/av116804689072153, http://www.bilibili.com/video/av116832035932385, http://www.bilibili.com/video/av116618864696314, http://www.bilibili.com/video/av116835156497760, http://www.bilibili.com/video/av116838293903940, http://www.bilibili.com/video/av116836196683195, http://www.bilibili.com/video/av116826851776167, http://www.bilibili.com/video/av116837673075458, http://www.bilibili.com/video/av116481073354187, http://www.bilibili.com/video/av116839032095496, http://www.bilibili.com/video/av116832069556939, http://www.bilibili.com/video/av116826331677769, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av116837840919478, http://www.bilibili.com/video/av116832975651913, http://www.bilibili.com/video/av116811248967460, http://www.bilibili.com/video/av116828445611869, http://www.bilibili.com/video/av915851253, http://www.bilibili.com/video/av115121129068885",
+          "uid": "BV1XWKZ6eE5d,BV1orKQ6ZEqm,BV138TF6MEvD,BV1ShTu6tEAY,BV1CLEG6xEzA,BV1Su4y1k7Sd",
+          "sample": "这就是信息茧房，社交媒体为了流量数据，不惜给评论区都进行推送，全然不顾长此以往会增强被划分群体观点的极端化和对立。"
+        }
+      ]
+    },
+    {
+      "term": "全盘",
+      "evidenceSamples": [
+        "回复 @桦音小男仆 :“文化输出”被某些人利用当流量密码没错，这点确实令人生厌。但传统文化的新形势，其实一直有在探索，这几年不乏优秀的作品，没必要全盘否定。且本子的文化输出，大部分题材和内核也并非其传统文化。我觉得zz口的严肃和民间文化的繁荣发展不冲突，症结不在这里，当然，不是说gov不需要激励、引导和监管",
+        "全盘西化没什么不好，日本就全盘西化，反而保留了自己的特色，我们中体西用，最终只能排西又失去自己的东西",
+        "我还以为否定的是近一二十年的浮燥氛围、浮夸心态以及音阀的垄断呢，结果是全盘否定？ 抱歉了，以俺的浅薄审美，只顾自己好不好听，从来不在乎外国结构体系是否接纳，总之收集了不少，大概是你口中的“俗”属于是、[滑稽]",
+        "在我对蔡徐坤没有感觉，有一丝丝讨厌的时候，看这些视频很开心；2020的青春有你让我觉得他还行，然后看这个视频没有以前的心境了。就是那种看到过一个人不好对他全盘否定然后看到他好的一面，发现这个明星还凑活，以前有点刻板印象了。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @桦音小男仆 :“文化输出”被某些人利用当流量密码没错，这点确实令人生厌。但传统文化的新形势，其实一直有在探索，这几年不乏优秀的作品，没必要全盘否定。且本子的文化输出，大部分题材和内核也并非其传统文化。我觉得zz口的严肃和民间文化的繁荣发展不冲突，症结不在这里，当然，不是说gov不需要激励、引导和监管"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "全盘西化没什么不好，日本就全盘西化，反而保留了自己的特色，我们中体西用，最终只能排西又失去自己的东西"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我还以为否定的是近一二十年的浮燥氛围、浮夸心态以及音阀的垄断呢，结果是全盘否定？ 抱歉了，以俺的浅薄审美，只顾自己好不好听，从来不在乎外国结构体系是否接纳，总之收集了不少，大概是你口中的“俗”属于是、[滑稽]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "51955220",
+          "sample": "在我对蔡徐坤没有感觉，有一丝丝讨厌的时候，看这些视频很开心；2020的青春有你让我觉得他还行，然后看这个视频没有以前的心境了。就是那种看到过一个人不好对他全盘否定然后看到他好的一面，发现这个明星还凑活，以前有点刻板印象了。"
+        }
+      ]
+    },
+    {
+      "term": "全盘否定",
+      "evidenceSamples": [
+        "回复 @桦音小男仆 :“文化输出”被某些人利用当流量密码没错，这点确实令人生厌。但传统文化的新形势，其实一直有在探索，这几年不乏优秀的作品，没必要全盘否定。且本子的文化输出，大部分题材和内核也并非其传统文化。我觉得zz口的严肃和民间文化的繁荣发展不冲突，症结不在这里，当然，不是说gov不需要激励、引导和监管",
+        "我还以为否定的是近一二十年的浮燥氛围、浮夸心态以及音阀的垄断呢，结果是全盘否定？ 抱歉了，以俺的浅薄审美，只顾自己好不好听，从来不在乎外国结构体系是否接纳，总之收集了不少，大概是你口中的“俗”属于是、[滑稽]",
+        "在我对蔡徐坤没有感觉，有一丝丝讨厌的时候，看这些视频很开心；2020的青春有你让我觉得他还行，然后看这个视频没有以前的心境了。就是那种看到过一个人不好对他全盘否定然后看到他好的一面，发现这个明星还凑活，以前有点刻板印象了。",
+        "全盘西化没什么不好，日本就全盘西化，反而保留了自己的特色，我们中体西用，最终只能排西又失去自己的东西"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "回复 @桦音小男仆 :“文化输出”被某些人利用当流量密码没错，这点确实令人生厌。但传统文化的新形势，其实一直有在探索，这几年不乏优秀的作品，没必要全盘否定。且本子的文化输出，大部分题材和内核也并非其传统文化。我觉得zz口的严肃和民间文化的繁荣发展不冲突，症结不在这里，当然，不是说gov不需要激励、引导和监管"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "我还以为否定的是近一二十年的浮燥氛围、浮夸心态以及音阀的垄断呢，结果是全盘否定？ 抱歉了，以俺的浅薄审美，只顾自己好不好听，从来不在乎外国结构体系是否接纳，总之收集了不少，大概是你口中的“俗”属于是、[滑稽]"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "51955220",
+          "sample": "在我对蔡徐坤没有感觉，有一丝丝讨厌的时候，看这些视频很开心；2020的青春有你让我觉得他还行，然后看这个视频没有以前的心境了。就是那种看到过一个人不好对他全盘否定然后看到他好的一面，发现这个明星还凑活，以前有点刻板印象了。"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "全盘西化没什么不好，日本就全盘西化，反而保留了自己的特色，我们中体西用，最终只能排西又失去自己的东西"
+        }
+      ]
+    },
+    {
+      "term": "全网最",
+      "evidenceSamples": [
+        "全网最平和弹幕",
+        "全网最尊重奈t奈w的up主👍",
+        "全网最会比喻的up",
+        "就这还全网最贵，你搞笑那[再见]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1sCVt69Egy/",
+          "uid": "BV1sCVt69Egy",
+          "sample": "全网最平和弹幕"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1AWwNeSEZF/",
+          "uid": "1387566143",
+          "sample": "全网最尊重奈t奈w的up主👍"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV17vJn6BE7P/",
+          "uid": "BV17vJn6BE7P",
+          "sample": "全网最会比喻的up"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1uE421P7Dz/, https://www.bilibili.com/video/BV1DLmBBkERg/, https://www.bilibili.com/video/BV1vG4y137S8/, https://www.bilibili.com/video/BV1u64y1w7AR/, http://www.bilibili.com/video/av1656139583, http://www.bilibili.com/video/av115719287084723, http://www.bilibili.com/video/av818595142, http://www.bilibili.com/video/av581755036",
+          "uid": "BV1uE421P7Dz,BV1DLmBBkERg,BV1vG4y137S8,BV1u64y1w7AR",
+          "sample": "就这还全网最贵，你搞笑那[再见]"
+        }
+      ]
+    },
+    {
+      "term": "全能",
+      "evidenceSamples": [
+        "真的是搞不懂，你们这些键盘侠和作者就不能靠自己实力变火吗？要去恶搞别人，才能让自己变得很火吗？扒他们的黑料，戳他们的痛处 我喜欢蔡徐坤，也不是很久 我也不是特别的爱他，去为他疯狂 但是也基本上没必要去这样子对别人骂别人吧 对他们也要有一些基本的尊重 尊重都没有，那何必说别人要尊重你呢？你骂别人，只是因为你嫉妒他。看不了他的好 看不到他的温柔，他的善良。他背后付出了多少？你们根本就不知道。哎我就搞不懂 为什么要骂蔡徐坤啊 就因为打篮球吗 仅仅因为这个吗 他人品也挺好的呀！真无语，最起码的尊重都没有吗？？真是，中国人和中国人之间连这点尊重都没有，你们还是人吗？？说这几个字觉得自己很牛逼吗？他上台领奖的时候怎么不说了？现场被人约戏怎么不说了？觉得玩梗很厉害吗？？我的爱豆，他18岁出道.20岁拥有千万粉丝.演唱会门票3秒卖光.他的歌能做到比人还火.唱跳rap全能创作型歌手.但这只是一个开头.所有的事都要从一朵惊艳世俗的“蓝玫瑰”说起.P遗照 “菜虚鲲” 侮辱籃球 被冤枉数据造假 激光笔照眼睛差点失明",
+        "很遗憾，Ai可以取代平庸的音乐人，普通音乐爱好者完全能自由创作自娱自乐[OK]",
+        "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。",
+        "首先是犯下暴食之罪的生真，直到20集之前都在神推心置腹下竟敢隐瞒自己的身世，以此来质疑神的全知全能，整料神早就知道了他的小心思，正如圣经中说写，神是不可质疑的，于是神降下了他那穿越时间空间的神罚，结果用力过猛，让其眼睁睁的看到自己的老妈成了...",
+        "自我攻击的幅度减轻，全能自恋的完美主义也能有意识的去控制了。尽量让自己不要过度沉迷在二元世界，忽视现实世界的肉体(比如，吃饭，睡觉，比如活动。。嗯我一定会做到的，管理好自己的身体。。)"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "643302435",
+          "sample": "真的是搞不懂，你们这些键盘侠和作者就不能靠自己实力变火吗？要去恶搞别人，才能让自己变得很火吗？扒他们的黑料，戳他们的痛处 我喜欢蔡徐坤，也不是很久 我也不是特别的爱他，去为他疯狂 但是也基本上没必要去这样子对别人骂别人吧 对他们也要有一些基本的尊重 尊重都没有，那何必说别人要尊重你呢？你骂别人，只是因为你嫉妒他。看不了他的好 看不到他的温柔，他的善良。他背后付出了多少？你们根本就不知道。哎我就搞不懂 为什么要骂蔡徐坤啊 就因为打篮球吗 仅仅因为这个吗 他人品也挺好的呀！真无语，最起码的尊重都没有吗？？真是，中国人和中国人之间连这点尊重都没有，你们还是人吗？？说这几个字觉得自己很牛逼吗？他上台领奖的时候怎么不说了？现场被人约戏怎么不说了？觉得玩梗很厉害吗？？我的爱豆，他18岁出道.20岁拥有千万粉丝.演唱会门票3秒卖光.他的歌能做到比人还火.唱跳rap全能创作型歌手.但这只是一个开头.所有的事都要从一朵惊艳世俗的“蓝玫瑰”说起.P遗照 “菜虚鲲” 侮辱籃球 被冤枉数据造假 激光笔照眼睛差点失明"
+        },
+        {
+          "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+          "uid": "",
+          "sample": "很遗憾，Ai可以取代平庸的音乐人，普通音乐爱好者完全能自由创作自娱自乐[OK]"
+        },
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8687794647",
+          "uid": "坐忘道心",
+          "sample": "我们每个人都不是自由的 假如世界上有一个全知全能的上帝，它可以预知每个人的未来（且必定不会改变），那是不是说明我们每个人的未来都是已定的，我们不是自由的。"
+        },
+        {
+          "source": "AICU API harvest (uid: 97149918)",
+          "uid": "97149918",
+          "sample": "首先是犯下暴食之罪的生真，直到20集之前都在神推心置腹下竟敢隐瞒自己的身世，以此来质疑神的全知全能，整料神早就知道了他的小心思，正如圣经中说写，神是不可质疑的，于是神降下了他那穿越时间空间的神罚，结果用力过猛，让其眼睁睁的看到自己的老妈成了..."
+        },
+        {
+          "source": "AICU API harvest (uid: 23594080)",
+          "uid": "23594080",
+          "sample": "自我攻击的幅度减轻，全能自恋的完美主义也能有意识的去控制了。尽量让自己不要过度沉迷在二元世界，忽视现实世界的肉体(比如，吃饭，睡觉，比如活动。。嗯我一定会做到的，管理好自己的身体。。)"
+        }
+      ]
+    },
+    {
+      "term": "全身",
+      "evidenceSamples": [
+        "科普下伊莉雅的设定 凛天生七十条魔术回路，五元素使，可以说已经是天之骄子了，而伊莉雅则更离谱，全身上下七成都是魔术回路，加上爱因兹贝伦在她身上花费了十年的时间进行调试，而创造出来的最高杰作，拿b叔来举例，原本b叔的十二试炼的复活是不会随着时间恢复而是真正的死一次少一条，因为要想恢复b叔复活能力的魔力量，对于一般魔术师而言，基本上等于花费一生都收集不起来的量，而伊莉雅直接能让b叔一天恢复一次，同时伊莉雅也是蘑菇钦定的冬木圣杯战争最强御主，没有之一（并不是说战斗力，而是御主的资质无人能出其右），但其代价也是十分惨痛，原本并非人工生命体，而是由母体降生的伊莉雅寿命并不像其他人工生命体一样短暂，但为了圣杯战争的准备，伊莉雅的寿命仅仅只能维持到五战结束后一年，十年前，因为切嗣的背叛，让爱因兹贝伦不再相信外人而是只相信自己的力量，对尚且年幼的伊利亚，他们告知她的父亲背叛了家族，她的母亲客死他乡，而她将会成为他们家族最后的希望，伊莉雅一直在等待切嗣能来救她，希望她的英雄能完成约定，然而，十年的苦等从希望变成了绝望，绝望中也孕育了对切嗣抛弃自己的仇恨，这也成为了支持伊莉雅在爱因兹贝伦调试中坚持下来的动力，即使让伊利亚付出一切也要来到冬木找切嗣复仇，而命运讽刺的是，当伊莉雅抵达冬木后，切嗣已经去世多年，无处发泄的怒火让她把目光对准了切嗣的养子卫宫士郎，亲切地问候他大哥哥的同时却想着怎么送这个少年各种充满创意的dead end。 在呆毛线，伊莉雅放弃了寻仇，在一切结束之后，静静地度过了自己最后一年的生命。 在ubw线，未对士郎产生过多的接触，就死于闪闪之手。 在hf线，从樱的手中抢走了红a的灵魂，得知了士郎的末路，也得知了切嗣到死为止不断想要带回自己而闯入爱因兹贝伦的真相，彻底放下了过去解开心结，不再将士郎当作是切嗣的替代品和替罪羊，也真正开始对士郎敞开心扉，因此，为了这个自己曾经恨过爱过的少年，自己唯一的家人，牺牲自己，第一次也是最后一次展示了魔法的奇迹， 帘幕垂下，黄金的时代已然落幕， 星辰自天际陨落，苍穹化为虚无关闭 通往根源的小径被满是我们的罪孽覆盖 最后，我，满怀欢喜.....",
+        "@永久: 普通人：没绷住\\n我：轻快绷住，松弛绷住，舒缓绷住，安逸绷住，自在绷住，悠闲绷住，悠然绷住，闲适绷住，惬意绷住，舒畅绷住，畅快绷住，舒坦绷住，放松绷住，从容绷住，淡定绷住，坦然绷住，轻便绷住，轻巧绷住，轻盈绷住，轻捷绷住，轻闲绷住，清闲绷住，闲散绷住，怡然绷住，怡悦绷住，欢畅绷住，松快绷住，松爽绷住，宽心绷住，省心绷住，省力绷住，省事绷住，无碍绷住，绷住，无忧绷住，悠然绷住，神怡绷住，心宽绷住，心静绷住，淡然绷住，恬淡绷住，轻缓绷住，安稳绷住，安然绷住，悠然绷住，轻松绷住\\n就很....你们懂吧\\n那如果我绷住了呢(没有面瘫)(没有植物人)(没有抑郁)(有嘴)(全程看完)(没有停止时间)(笑点非常低)(非常不严肃)(全身上下非常完好)(没有的疾病)(家人没有死)(是正常人类)(没安装任何东西)(会笑)(没有被灵魂附身)(没带任何)(真人没笑)(没有困在任何)(没有请任何东西)(全世界都让我笑)(没打任何东西)(没吃任何东西)(没喝任何东西)(没有注射任何东西)(没有看任何东西)\\n每个人一生绷住的次数都是有限的，如果绷的次数超过上线，你就会变成绷绷炸弹",
+        "确实，新的很多技能全身近战，黑客甚至加点单分子线，那黑客的意义是什么",
+        "全身g点懂得都懂",
+        "你可以怀疑意大利的战斗力，但不可以怀疑他的站队能力（指两次世界大战全身而退）"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Bk4y137rP/",
+          "uid": "396497162",
+          "sample": "科普下伊莉雅的设定 凛天生七十条魔术回路，五元素使，可以说已经是天之骄子了，而伊莉雅则更离谱，全身上下七成都是魔术回路，加上爱因兹贝伦在她身上花费了十年的时间进行调试，而创造出来的最高杰作，拿b叔来举例，原本b叔的十二试炼的复活是不会随着时间恢复而是真正的死一次少一条，因为要想恢复b叔复活能力的魔力量，对于一般魔术师而言，基本上等于花费一生都收集不起来的量，而伊莉雅直接能让b叔一天恢复一次，同时伊莉雅也是蘑菇钦定的冬木圣杯战争最强御主，没有之一（并不是说战斗力，而是御主的资质无人能出其右），但其代价也是十分惨痛，原本并非人工生命体，而是由母体降生的伊莉雅寿命并不像其他人工生命体一样短暂，但为了圣杯战争的准备，伊莉雅的寿命仅仅只能维持到五战结束后一年，十年前，因为切嗣的背叛，让爱因兹贝伦不再相信外人而是只相信自己的力量，对尚且年幼的伊利亚，他们告知她的父亲背叛了家族，她的母亲客死他乡，而她将会成为他们家族最后的希望，伊莉雅一直在等待切嗣能来救她，希望她的英雄能完成约定，然而，十年的苦等从希望变成了绝望，绝望中也孕育了对切嗣抛弃自己的仇恨，这也成为了支持伊莉雅在爱因兹贝伦调试中坚持下来的动力，即使让伊利亚付出一切也要来到冬木找切嗣复仇，而命运讽刺的是，当伊莉雅抵达冬木后，切嗣已经去世多年，无处发泄的怒火让她把目光对准了切嗣的养子卫宫士郎，亲切地问候他大哥哥的同时却想着怎么送这个少年各种充满创意的dead end。 在呆毛线，伊莉雅放弃了寻仇，在一切结束之后，静静地度过了自己最后一年的生命。 在ubw线，未对士郎产生过多的接触，就死于闪闪之手。 在hf线，从樱的手中抢走了红a的灵魂，得知了士郎的末路，也得知了切嗣到死为止不断想要带回自己而闯入爱因兹贝伦的真相，彻底放下了过去解开心结，不再将士郎当作是切嗣的替代品和替罪羊，也真正开始对士郎敞开心扉，因此，为了这个自己曾经恨过爱过的少年，自己唯一的家人，牺牲自己，第一次也是最后一次展示了魔法的奇迹， 帘幕垂下，黄金的时代已然落幕， 星辰自天际陨落，苍穹化为虚无关闭 通往根源的小径被满是我们的罪孽覆盖 最后，我，满怀欢喜....."
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kZGD6UECM/",
+          "uid": "BV1kZGD6UECM",
+          "sample": "@永久: 普通人：没绷住\\n我：轻快绷住，松弛绷住，舒缓绷住，安逸绷住，自在绷住，悠闲绷住，悠然绷住，闲适绷住，惬意绷住，舒畅绷住，畅快绷住，舒坦绷住，放松绷住，从容绷住，淡定绷住，坦然绷住，轻便绷住，轻巧绷住，轻盈绷住，轻捷绷住，轻闲绷住，清闲绷住，闲散绷住，怡然绷住，怡悦绷住，欢畅绷住，松快绷住，松爽绷住，宽心绷住，省心绷住，省力绷住，省事绷住，无碍绷住，绷住，无忧绷住，悠然绷住，神怡绷住，心宽绷住，心静绷住，淡然绷住，恬淡绷住，轻缓绷住，安稳绷住，安然绷住，悠然绷住，轻松绷住\\n就很....你们懂吧\\n那如果我绷住了呢(没有面瘫)(没有植物人)(没有抑郁)(有嘴)(全程看完)(没有停止时间)(笑点非常低)(非常不严肃)(全身上下非常完好)(没有的疾病)(家人没有死)(是正常人类)(没安装任何东西)(会笑)(没有被灵魂附身)(没带任何)(真人没笑)(没有困在任何)(没有请任何东西)(全世界都让我笑)(没打任何东西)(没吃任何东西)(没喝任何东西)(没有注射任何东西)(没有看任何东西)\\n每个人一生绷住的次数都是有限的，如果绷的次数超过上线，你就会变成绷绷炸弹"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Fh4y1Y7E6/",
+          "uid": "BV1Fh4y1Y7E6",
+          "sample": "确实，新的很多技能全身近战，黑客甚至加点单分子线，那黑客的意义是什么"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "全身g点懂得都懂"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bx4y1t7QB/, https://www.bilibili.com/video/BV1Co7L6cEQ4/, https://www.bilibili.com/video/BV1Bm421g7LM/, https://www.bilibili.com/video/BV1DveJenEiW/, http://www.bilibili.com/video/av1006037834, http://www.bilibili.com/video/av116817137769173, http://www.bilibili.com/video/av1606244969, http://www.bilibili.com/video/av112960609584146",
+          "uid": "BV1bx4y1t7QB,BV1Co7L6cEQ4,BV1Bm421g7LM,BV1DveJenEiW",
+          "sample": "你可以怀疑意大利的战斗力，但不可以怀疑他的站队能力（指两次世界大战全身而退）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CgnezKEHN/",
+          "uid": "BV1CgnezKEHN",
+          "sample": "全球首富豪加上他全身上下的集团的都没这么多钱"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "看懂歌词能让他全身起鸡皮"
+        }
+      ]
+    },
+    {
+      "term": "全身上下",
+      "evidenceSamples": [
+        "@永久: 普通人：没绷住\\n我：轻快绷住，松弛绷住，舒缓绷住，安逸绷住，自在绷住，悠闲绷住，悠然绷住，闲适绷住，惬意绷住，舒畅绷住，畅快绷住，舒坦绷住，放松绷住，从容绷住，淡定绷住，坦然绷住，轻便绷住，轻巧绷住，轻盈绷住，轻捷绷住，轻闲绷住，清闲绷住，闲散绷住，怡然绷住，怡悦绷住，欢畅绷住，松快绷住，松爽绷住，宽心绷住，省心绷住，省力绷住，省事绷住，无碍绷住，绷住，无忧绷住，悠然绷住，神怡绷住，心宽绷住，心静绷住，淡然绷住，恬淡绷住，轻缓绷住，安稳绷住，安然绷住，悠然绷住，轻松绷住\\n就很....你们懂吧\\n那如果我绷住了呢(没有面瘫)(没有植物人)(没有抑郁)(有嘴)(全程看完)(没有停止时间)(笑点非常低)(非常不严肃)(全身上下非常完好)(没有的疾病)(家人没有死)(是正常人类)(没安装任何东西)(会笑)(没有被灵魂附身)(没带任何)(真人没笑)(没有困在任何)(没有请任何东西)(全世界都让我笑)(没打任何东西)(没吃任何东西)(没喝任何东西)(没有注射任何东西)(没有看任何东西)\\n每个人一生绷住的次数都是有限的，如果绷的次数超过上线，你就会变成绷绷炸弹",
+        "确实，新的很多技能全身近战，黑客甚至加点单分子线，那黑客的意义是什么",
+        "全身g点懂得都懂",
+        "你可以怀疑意大利的战斗力，但不可以怀疑他的站队能力（指两次世界大战全身而退）",
+        "全球首富豪加上他全身上下的集团的都没这么多钱"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1kZGD6UECM/",
+          "uid": "BV1kZGD6UECM",
+          "sample": "@永久: 普通人：没绷住\\n我：轻快绷住，松弛绷住，舒缓绷住，安逸绷住，自在绷住，悠闲绷住，悠然绷住，闲适绷住，惬意绷住，舒畅绷住，畅快绷住，舒坦绷住，放松绷住，从容绷住，淡定绷住，坦然绷住，轻便绷住，轻巧绷住，轻盈绷住，轻捷绷住，轻闲绷住，清闲绷住，闲散绷住，怡然绷住，怡悦绷住，欢畅绷住，松快绷住，松爽绷住，宽心绷住，省心绷住，省力绷住，省事绷住，无碍绷住，绷住，无忧绷住，悠然绷住，神怡绷住，心宽绷住，心静绷住，淡然绷住，恬淡绷住，轻缓绷住，安稳绷住，安然绷住，悠然绷住，轻松绷住\\n就很....你们懂吧\\n那如果我绷住了呢(没有面瘫)(没有植物人)(没有抑郁)(有嘴)(全程看完)(没有停止时间)(笑点非常低)(非常不严肃)(全身上下非常完好)(没有的疾病)(家人没有死)(是正常人类)(没安装任何东西)(会笑)(没有被灵魂附身)(没带任何)(真人没笑)(没有困在任何)(没有请任何东西)(全世界都让我笑)(没打任何东西)(没吃任何东西)(没喝任何东西)(没有注射任何东西)(没有看任何东西)\\n每个人一生绷住的次数都是有限的，如果绷的次数超过上线，你就会变成绷绷炸弹"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1Fh4y1Y7E6/",
+          "uid": "BV1Fh4y1Y7E6",
+          "sample": "确实，新的很多技能全身近战，黑客甚至加点单分子线，那黑客的意义是什么"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "全身g点懂得都懂"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bx4y1t7QB/, https://www.bilibili.com/video/BV1Co7L6cEQ4/, https://www.bilibili.com/video/BV1Bm421g7LM/, https://www.bilibili.com/video/BV1DveJenEiW/, http://www.bilibili.com/video/av1006037834, http://www.bilibili.com/video/av116817137769173, http://www.bilibili.com/video/av1606244969, http://www.bilibili.com/video/av112960609584146",
+          "uid": "BV1bx4y1t7QB,BV1Co7L6cEQ4,BV1Bm421g7LM,BV1DveJenEiW",
+          "sample": "你可以怀疑意大利的战斗力，但不可以怀疑他的站队能力（指两次世界大战全身而退）"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CgnezKEHN/",
+          "uid": "BV1CgnezKEHN",
+          "sample": "全球首富豪加上他全身上下的集团的都没这么多钱"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Bk4y137rP/",
+          "uid": "396497162",
+          "sample": "科普下伊莉雅的设定 凛天生七十条魔术回路，五元素使，可以说已经是天之骄子了，而伊莉雅则更离谱，全身上下七成都是魔术回路，加上爱因兹贝伦在她身上花费了十年的时间进行调试，而创造出来的最高杰作，拿b叔来举例，原本b叔的十二试炼的复活是不会随着时间恢复而是真正的死一次少一条，因为要想恢复b叔复活能力的魔力量，对于一般魔术师而言，基本上等于花费一生都收集不起来的量，而伊莉雅直接能让b叔一天恢复一次，同时伊莉雅也是蘑菇钦定的冬木圣杯战争最强御主，没有之一（并不是说战斗力，而是御主的资质无人能出其右），但其代价也是十分惨痛，原本并非人工生命体，而是由母体降生的伊莉雅寿命并不像其他人工生命体一样短暂，但为了圣杯战争的准备，伊莉雅的寿命仅仅只能维持到五战结束后一年，十年前，因为切嗣的背叛，让爱因兹贝伦不再相信外人而是只相信自己的力量，对尚且年幼的伊利亚，他们告知她的父亲背叛了家族，她的母亲客死他乡，而她将会成为他们家族最后的希望，伊莉雅一直在等待切嗣能来救她，希望她的英雄能完成约定，然而，十年的苦等从希望变成了绝望，绝望中也孕育了对切嗣抛弃自己的仇恨，这也成为了支持伊莉雅在爱因兹贝伦调试中坚持下来的动力，即使让伊利亚付出一切也要来到冬木找切嗣复仇，而命运讽刺的是，当伊莉雅抵达冬木后，切嗣已经去世多年，无处发泄的怒火让她把目光对准了切嗣的养子卫宫士郎，亲切地问候他大哥哥的同时却想着怎么送这个少年各种充满创意的dead end。 在呆毛线，伊莉雅放弃了寻仇，在一切结束之后，静静地度过了自己最后一年的生命。 在ubw线，未对士郎产生过多的接触，就死于闪闪之手。 在hf线，从樱的手中抢走了红a的灵魂，得知了士郎的末路，也得知了切嗣到死为止不断想要带回自己而闯入爱因兹贝伦的真相，彻底放下了过去解开心结，不再将士郎当作是切嗣的替代品和替罪羊，也真正开始对士郎敞开心扉，因此，为了这个自己曾经恨过爱过的少年，自己唯一的家人，牺牲自己，第一次也是最后一次展示了魔法的奇迹， 帘幕垂下，黄金的时代已然落幕， 星辰自天际陨落，苍穹化为虚无关闭 通往根源的小径被满是我们的罪孽覆盖 最后，我，满怀欢喜....."
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "38708512571",
+          "sample": "看懂歌词能让他全身起鸡皮"
+        }
+      ]
+    },
+    {
+      "term": "全部",
+      "evidenceSamples": [
+        "哈？我拍视频从来都是原相机[呲牙]",
+        "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人...",
+        "小兰原话：“那个女孩听到你的电话她哭了，其实真正应该哭的是我吧！到底是怎么回事你给我说清楚！”她根本自始至终都是想找工藤新一问清楚他明明说自己在办案，结果却莫名其妙冒出一个女朋友还哭了这件事的原因。",
+        "回复 @苏吱吱嘚瑟 : 有一说一，玩寒冰一般都是打野遥控的，打野需要你照哪 你就配合，一个是打野更懂打野，而且不用自己花心思猜对面打野，更能集中精神 s10jkl玩寒冰 也是卡萨需要哪的视野就让jkl照一下",
+        "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16tBkBmEQT/, https://www.bilibili.com/video/BV1yHqmBPEFw/, https://www.bilibili.com/video/BV153isBUErD/, https://www.bilibili.com/video/BV1dVvgeqERT/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av112870767529610",
+          "uid": "BV16tBkBmEQT,BV1yHqmBPEFw,BV153isBUErD,BV1dVvgeqERT",
+          "sample": "哈？我拍视频从来都是原相机[呲牙]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "小兰原话：“那个女孩听到你的电话她哭了，其实真正应该哭的是我吧！到底是怎么回事你给我说清楚！”她根本自始至终都是想找工藤新一问清楚他明明说自己在办案，结果却莫名其妙冒出一个女朋友还哭了这件事的原因。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "回复 @苏吱吱嘚瑟 : 有一说一，玩寒冰一般都是打野遥控的，打野需要你照哪 你就配合，一个是打野更懂打野，而且不用自己花心思猜对面打野，更能集中精神 s10jkl玩寒冰 也是卡萨需要哪的视野就让jkl照一下"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "何止，眼部打底高光眼尾眼影画轮廓全都齐活了，就妆最浓的一次呗[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我来澄清一下，我们广东人从小都是骑蟑螂上学"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TH1BYGEfc/, https://www.bilibili.com/video/BV1PkmyBJEJU/, https://www.bilibili.com/video/BV1tT4y1c7MT/, https://www.bilibili.com/video/BV1wSfbYuEKF/, http://www.bilibili.com/video/av113260703516396, http://www.bilibili.com/video/av115723380790702, http://www.bilibili.com/video/av927248704, http://www.bilibili.com/video/av113870924419351",
+          "uid": "BV1TH1BYGEfc,BV1PkmyBJEJU,BV1tT4y1c7MT,BV1wSfbYuEKF",
+          "sample": "回复 @闻人不语呀 :后面基本都是重复的了"
+        }
+      ]
+    },
+    {
+      "term": "全部拉满",
+      "evidenceSamples": [
+        "没办法了，福利和制作组的肝拉满了实在是喷不动[笑哭]只能扣字眼了",
+        "本集音乐、剧情、细节、氛围、人物、主旨拉满，请谨慎观看",
+        "这兄弟天生格斗技能拉满啊",
+        "三体书就够无视女性角色塑造，刻板印象拉满了，你这跟人一个德行，一点不进步吗？",
+        "求生欲拉满的之一"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tKCKYLEs7/, https://www.bilibili.com/video/BV1c8411u7xt/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1Hf42127zf/, http://www.bilibili.com/video/av113696659473822, http://www.bilibili.com/video/av223993594, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av1204789722",
+          "uid": "BV1tKCKYLEs7,BV1c8411u7xt,BV1nKwxzwEoF,BV1Hf42127zf",
+          "sample": "没办法了，福利和制作组的肝拉满了实在是喷不动[笑哭]只能扣字眼了"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1ujTW6NEmB",
+          "sample": "本集音乐、剧情、细节、氛围、人物、主旨拉满，请谨慎观看"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1fXMK6zEdq",
+          "sample": "这兄弟天生格斗技能拉满啊"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1d2TZ6rEA1",
+          "sample": "三体书就够无视女性角色塑造，刻板印象拉满了，你这跟人一个德行，一点不进步吗？"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1tfTv6NEEE",
+          "sample": "求生欲拉满的之一"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1tfTv6NEEE",
+          "sample": "这gi值拉满了…想吃但是怕"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1vLTX6tEDM",
+          "sample": "X Fold6这是纯粹把情绪价值给你全部拉满"
+        },
+        {
+          "source": "corpus",
+          "uid": "BV1omMF6SE1M",
+          "sample": "当讽刺喜剧看，从人物到服化道到剧情，所有讽刺全部拉满，这部能给9.5"
+        }
+      ]
+    },
+    {
+      "term": "全部是",
+      "evidenceSamples": [
+        "都全部是昂贵食材了，你换个原料来呈现‘宫廷’的贵都没豆腐割裂",
+        "说的全部是城区内养狗，别扯农村",
+        "现在全部是讨好观众的东西了，讨好市场"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
+          "uid": "31520653556",
+          "sample": "都全部是昂贵食材了，你换个原料来呈现‘宫廷’的贵都没豆腐割裂"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1NFVD6pECL/",
+          "uid": "BV1NFVD6pECL",
+          "sample": "说的全部是城区内养狗，别扯农村"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
+          "uid": "1463089419",
+          "sample": "现在全部是讨好观众的东西了，讨好市场"
+        }
+      ]
+    },
+    {
+      "term": "全部都是",
+      "evidenceSamples": [
+        "何止，眼部打底高光眼尾眼影画轮廓全都齐活了，就妆最浓的一次呗[doge]",
+        "哈？我拍视频从来都是原相机[呲牙]",
+        "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人...",
+        "小兰原话：“那个女孩听到你的电话她哭了，其实真正应该哭的是我吧！到底是怎么回事你给我说清楚！”她根本自始至终都是想找工藤新一问清楚他明明说自己在办案，结果却莫名其妙冒出一个女朋友还哭了这件事的原因。",
+        "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "何止，眼部打底高光眼尾眼影画轮廓全都齐活了，就妆最浓的一次呗[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16tBkBmEQT/, https://www.bilibili.com/video/BV1yHqmBPEFw/, https://www.bilibili.com/video/BV153isBUErD/, https://www.bilibili.com/video/BV1dVvgeqERT/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av112870767529610",
+          "uid": "BV16tBkBmEQT,BV1yHqmBPEFw,BV153isBUErD,BV1dVvgeqERT",
+          "sample": "哈？我拍视频从来都是原相机[呲牙]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "小兰原话：“那个女孩听到你的电话她哭了，其实真正应该哭的是我吧！到底是怎么回事你给我说清楚！”她根本自始至终都是想找工藤新一问清楚他明明说自己在办案，结果却莫名其妙冒出一个女朋友还哭了这件事的原因。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "回复 @苏吱吱嘚瑟 : 有一说一，玩寒冰一般都是打野遥控的，打野需要你照哪 你就配合，一个是打野更懂打野，而且不用自己花心思猜对面打野，更能集中精神 s10jkl玩寒冰 也是卡萨需要哪的视野就让jkl照一下"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我来澄清一下，我们广东人从小都是骑蟑螂上学"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        }
+      ]
+    },
+    {
+      "term": "全都",
+      "evidenceSamples": [
+        "回复 @苏吱吱嘚瑟 : 有一说一，玩寒冰一般都是打野遥控的，打野需要你照哪 你就配合，一个是打野更懂打野，而且不用自己花心思猜对面打野，更能集中精神 s10jkl玩寒冰 也是卡萨需要哪的视野就让jkl照一下",
+        "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些...",
+        "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人...",
+        "哈？我拍视频从来都是原相机[呲牙]",
+        "小兰原话：“那个女孩听到你的电话她哭了，其实真正应该哭的是我吧！到底是怎么回事你给我说清楚！”她根本自始至终都是想找工藤新一问清楚他明明说自己在办案，结果却莫名其妙冒出一个女朋友还哭了这件事的原因。"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mY411477x/, https://www.bilibili.com/video/BV1Fv411e7N7/, https://www.bilibili.com/video/BV1aBSeYUEW4/, https://www.bilibili.com/video/BV1BH4y1w72M/, http://www.bilibili.com/video/av253546400, http://www.bilibili.com/video/av246421920, http://www.bilibili.com/video/av113394602477615, http://www.bilibili.com/video/av1056028341",
+          "uid": "BV1mY411477x,BV1Fv411e7N7,BV1aBSeYUEW4,BV1BH4y1w72M",
+          "sample": "回复 @苏吱吱嘚瑟 : 有一说一，玩寒冰一般都是打野遥控的，打野需要你照哪 你就配合，一个是打野更懂打野，而且不用自己花心思猜对面打野，更能集中精神 s10jkl玩寒冰 也是卡萨需要哪的视野就让jkl照一下"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "国内汽车专业排名第一的是吉林大学，清华只能排第二。吉林大学这汽车类最高院校之所以在吉林长春，就是做一汽配套院校。毕业生基本上也都输入给了一汽，很多人都是在一汽的岗位上读研读博，一汽对他们也很宽松，甚至毕业了两三年都算是应届生。基本上除了某些..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "关于发动机。上世纪末一汽与奥地利avl搭上线帮忙搞重型柴油机，一汽提出买你的东西可以，但必须要我方人员参与研发（AVL有多重要建议去搜索一下）AVL那边常驻一汽一个数百人的研发团队持续了20多年这些人才流动。所以国内搞发动机可以说是那一批人..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16tBkBmEQT/, https://www.bilibili.com/video/BV1yHqmBPEFw/, https://www.bilibili.com/video/BV153isBUErD/, https://www.bilibili.com/video/BV1dVvgeqERT/, http://www.bilibili.com/video/av115790640584908, http://www.bilibili.com/video/av115756851332837, http://www.bilibili.com/video/av115841676876378, http://www.bilibili.com/video/av112870767529610",
+          "uid": "BV16tBkBmEQT,BV1yHqmBPEFw,BV153isBUErD,BV1dVvgeqERT",
+          "sample": "哈？我拍视频从来都是原相机[呲牙]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1314y197Bx/, https://www.bilibili.com/video/BV1nogNeiEYc/, https://www.bilibili.com/video/BV1nKwxzwEoF/, https://www.bilibili.com/video/BV1b14y1d7v7/, http://www.bilibili.com/video/av785991580, http://www.bilibili.com/video/av112642614168514, http://www.bilibili.com/video/av116226915306701, http://www.bilibili.com/video/av785879710",
+          "uid": "BV1314y197Bx,BV1nogNeiEYc,BV1nKwxzwEoF,BV1b14y1d7v7",
+          "sample": "小兰原话：“那个女孩听到你的电话她哭了，其实真正应该哭的是我吧！到底是怎么回事你给我说清楚！”她根本自始至终都是想找工藤新一问清楚他明明说自己在办案，结果却莫名其妙冒出一个女朋友还哭了这件事的原因。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Xr421g7ui/, https://www.bilibili.com/video/BV17avFeyEoy/, https://www.bilibili.com/video/BV1KW4y1x7DW/, https://www.bilibili.com/video/BV1BL4bezEmg/, http://www.bilibili.com/video/av1403646930, http://www.bilibili.com/video/av112864442452598, http://www.bilibili.com/video/av945191706, http://www.bilibili.com/video/av113129321140177",
+          "uid": "BV1Xr421g7ui,BV17avFeyEoy,BV1KW4y1x7DW,BV1BL4bezEmg",
+          "sample": "何止，眼部打底高光眼尾眼影画轮廓全都齐活了，就妆最浓的一次呗[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我来澄清一下，我们广东人从小都是骑蟑螂上学"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hN411m7Jd/, https://www.bilibili.com/video/BV1dbZDBmExz/, https://www.bilibili.com/video/BV1Vt42187mW/, https://www.bilibili.com/video/BV1au4y1w73F/, http://www.bilibili.com/video/av488157415, http://www.bilibili.com/video/av116090784975011, http://www.bilibili.com/video/av1801181172, http://www.bilibili.com/video/av921291713",
+          "uid": "BV1hN411m7Jd,BV1dbZDBmExz,BV1Vt42187mW,BV1au4y1w73F",
+          "sample": "我是不会与既得利益者共情的（担了主角的名衔，享了主角的镜头量，业务能力却配不上，身在福中不知福的人呐），不是所有的观众都只看脸的，以前看宝莲灯，我感觉所有角色都是主角，我能记住好多演员（我喜欢群像剧）。现在我看剧，谁出彩谁就是我心中的主角，..."
+        }
+      ]
+    },
+    {
+      "term": "全都不",
+      "evidenceSamples": [
+        "海滩外写着“地雷勿进”,跑了两步发现里面全是不听话的地雷",
+        "回复 @Karl_SC :[笑哭]工作两年了都……你怕不是没住过贫民窟，这种地方各种神经事都能碰见。找物业有什么用？一年物业费几百物业大妈都嫌弃这地方穷，有事全都不管，和稀泥了事。\\n再说想让贫民窟的老头老太太闭嘴怎么可能呢，我可是见过一个小伙子因为阻止大爷推电动车回家充电被大爷打出单元门，大爷喊“你还手啊你还手打死我我老命一条你得赔我命”叫了警察大爷依旧吼得震天响……",
+        "怎么到这里就全都不背锅了？评价是全都玩原神玩的（）",
+        "全都不抛开更喜欢了[大猫咪miratsu_炯炯有神]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8518848998",
+          "uid": "🌌UFO",
+          "sample": "海滩外写着“地雷勿进”,跑了两步发现里面全是不听话的地雷"
+        },
+        {
+          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1bWVH6VE8p/",
+          "uid": "BV1bWVH6VE8p",
+          "sample": "回复 @Karl_SC :[笑哭]工作两年了都……你怕不是没住过贫民窟，这种地方各种神经事都能碰见。找物业有什么用？一年物业费几百物业大妈都嫌弃这地方穷，有事全都不管，和稀泥了事。\\n再说想让贫民窟的老头老太太闭嘴怎么可能呢，我可是见过一个小伙子因为阻止大爷推电动车回家充电被大爷打出单元门，大爷喊“你还手啊你还手打死我我老命一条你得赔我命”叫了警察大爷依旧吼得震天响……"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1CgnezKEHN/",
+          "uid": "BV1CgnezKEHN",
+          "sample": "怎么到这里就全都不背锅了？评价是全都玩原神玩的（）"
+        },
+        {
+          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1MsrZB2EPQ/",
+          "uid": "3546659170552182",
+          "sample": "全都不抛开更喜欢了[大猫咪miratsu_炯炯有神]"
+        }
+      ]
+    }
+  ]
+}
