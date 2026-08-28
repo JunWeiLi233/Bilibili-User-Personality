@@ -36,4 +36,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Refresh README stats graph
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           file_pattern: README.md docs/stats/corpus-keyword-stats.svg docs/stats/corpus-keyword-stats.json docs/stats/corpus-growth-timeline.svg docs/stats/corpus-growth-timeline.json
