@@ -214,12 +214,12 @@
   "dependencies": {
     "@hono/node-server": "^2.0.8",
     "@phosphor-icons/react": "^2.1.10",
-    "@vitejs/plugin-react": "^6.0.3",
+    "@vitejs/plugin-react": "^6.1.1",
     "hono": "^4.12.30",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "undici": "^8.10.0",
-    "vite": "^8.1.4"
+    "vite": "^8.2.2"
   },
   "devDependencies": {
     "eslint": "^8.57.1"
